@@ -26,6 +26,9 @@
 *.a
 *.lib
 
+#Visual Sutdio
+.vs/
+
 # Executables
 *.exe
 *.out
