@@ -28,6 +28,9 @@
 
 #Visual Sutdio
 .vs/
+x64/
+Debug/
+Release/
 
 # Executables
 *.exe
