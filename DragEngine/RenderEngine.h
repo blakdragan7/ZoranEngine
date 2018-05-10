@@ -1,10 +1,9 @@
 #pragma once
 #include "PlatformTypes.h"
-
 /*
 	RenderEngine, this is an abstract base class that allows common functionality across different render types such as OpenGL vs DirectX
 */
-class RenderEngine
+class DRAGENGINE_EXPORT RenderEngine
 {
 public:
 	RenderEngine();

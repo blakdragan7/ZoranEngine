@@ -4,3 +4,5 @@
 #include <Windows.h>
 
 #endif
+
+#include <memory>

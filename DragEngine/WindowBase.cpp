@@ -3,13 +3,14 @@
 #include "WindowBase.h"
 #include "RenderEngine.h"
 
-WindowBase::WindowBase(std::shared_ptr<RenderEngine> const&engine)
+WindowBase::WindowBase(RenderEngine* engine)
 {
 	this->engine = engine;
 }
 
 WindowBase::~WindowBase()
 {
+	if (engine)delete engine;
 }
 
 void WindowBase::MainDraw()

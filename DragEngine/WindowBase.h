@@ -4,15 +4,14 @@
 	WindowBase is an abstract base class that defines functions that all windows should have
 */
 
-#include <memory>
 class RenderEngine;
-class WindowBase
+class DRAGENGINE_EXPORT WindowBase
 {
 private:
-	std::shared_ptr<RenderEngine> engine;
+	RenderEngine* engine;
 
 public:
-	WindowBase(std::shared_ptr<RenderEngine> const&engine);
+	WindowBase(RenderEngine* engine);
 	virtual ~WindowBase();
 
 	virtual void MakeFullScreen() = 0;
