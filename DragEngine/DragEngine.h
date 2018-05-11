@@ -12,5 +12,6 @@ public:
 	~DragEngine();
 
 	int MainLoop();
+	bool Init();
 };
 

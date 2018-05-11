@@ -4,6 +4,6 @@
 int main(int argc, char* argv[])
 {
 	DragEngine engine;
-
+	engine.Init();
 	engine.MainLoop();
 }

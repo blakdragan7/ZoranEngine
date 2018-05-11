@@ -58,7 +58,7 @@ void OpenGLRenderEngine::InitEngine(WindowHandle handle)
 	GLenum res = glewInit();
 	if (res != GLEW_OK)
 	{
-		std::cerr << "Could no Init Glew ! " << res << std::endl;
+		std::cerr << "Could not Init Glew ! " << res << std::endl;
 		exit(0);
 	}
 #endif
@@ -74,6 +74,7 @@ void OpenGLRenderEngine::EnableAlpha()
 
 void OpenGLRenderEngine::ClearBuffers()
 {
+	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 }
 
 void OpenGLRenderEngine::DrawAll()

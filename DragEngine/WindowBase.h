@@ -7,18 +7,21 @@
 class RenderEngine;
 class DRAGENGINE_EXPORT WindowBase
 {
-private:
-	RenderEngine* engine;
+protected:
+	RenderEngine* renderEngine;
+	WindowHandle windowHandle;
 
 public:
 	WindowBase(RenderEngine* engine);
 	virtual ~WindowBase();
 
+	virtual void MakeWindow(const char* title,int x,int y,int w,int h) = 0;
 	virtual void MakeFullScreen() = 0;
-	virtual void SetPosition() = 0;
+	virtual void SetPosition(int x, int y) = 0;
+	virtual void SetSize(int w,int h) = 0;
 	virtual void MakeActive() = 0;
 	virtual void GetPosition() = 0;
-	virtual WindowHandle GetHandle() = 0;
+	virtual inline WindowHandle GetHandle() { return windowHandle; }
 	virtual void SwapBuffers() = 0;
 	virtual void MainDraw();
 };

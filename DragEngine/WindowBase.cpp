@@ -5,18 +5,18 @@
 
 WindowBase::WindowBase(RenderEngine* engine)
 {
-	this->engine = engine;
+	this->renderEngine = engine;
 }
 
 WindowBase::~WindowBase()
 {
-	if (engine)delete engine;
+	if (renderEngine)delete renderEngine;
 }
 
 void WindowBase::MainDraw()
 {
-	engine->ClearBuffers();
-	engine->DrawAll();
+	renderEngine->ClearBuffers();
+	renderEngine->DrawAll();
 
 	SwapBuffers();
 }
