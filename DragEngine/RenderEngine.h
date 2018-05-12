@@ -15,5 +15,6 @@ public:
 	virtual void EnableAlpha() = 0;
 	virtual void ClearBuffers() = 0;
 	virtual void DrawAll() = 0;
+	virtual void Resize(int w, int h) = 0;
 };
 

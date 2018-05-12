@@ -14,5 +14,6 @@ public:
 	virtual void EnableAlpha()override;
 	virtual void ClearBuffers()override;
 	virtual void DrawAll()override;
+	virtual void Resize(int x, int y)override;
 };
 

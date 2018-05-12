@@ -8,9 +8,14 @@ class DRAGENGINE_EXPORT Vector2D
 private:
 	//unsigned long long _IITD;
 public:
-	t x;
-	t y;
-
+	union {
+		t x;
+		t w;
+	};
+	union {
+		t y;
+		t h;
+	};
 
 	Vector2D(void) : x(0), y(0) { /*_IITD = IITD++;*/ }
 	Vector2D(t x_,t y_):x(x_),y(y_) { /*_IITD = IITD++;*/ }
@@ -226,5 +231,6 @@ public:
 };
 
 typedef Vector2D<int>		Vec2I;
+typedef Vector2D<long>		Vec2L;
 typedef Vector2D<float>		Vec2F;
 typedef Vector2D<double>	Vec2D;

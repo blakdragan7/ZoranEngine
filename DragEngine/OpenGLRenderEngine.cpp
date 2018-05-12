@@ -80,3 +80,8 @@ void OpenGLRenderEngine::ClearBuffers()
 void OpenGLRenderEngine::DrawAll()
 {
 }
+
+void OpenGLRenderEngine::Resize(int x, int y)
+{
+	glViewport(0, 0, x, y);
+}

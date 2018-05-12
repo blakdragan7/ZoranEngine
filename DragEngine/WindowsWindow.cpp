@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "WindowsWindow.h"
+#include "RenderEngine.h"
 #include <iostream>
 
 static LRESULT CALLBACK wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -33,7 +34,7 @@ bool WindowsWindow::MakeWindow(const char* title,int x, int y, int w, int h)
 	}
 
 	// Create main application window
-	windowHandle = CreateWindow(title, title, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, w, h, NULL, NULL, GetModuleHandle(NULL), NULL);
+	windowHandle = CreateWindow(title, title, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, w, h, NULL, NULL, GetModuleHandle(NULL), (LPVOID)this);
 
 	if (!windowHandle)
 	{
@@ -41,16 +42,14 @@ bool WindowsWindow::MakeWindow(const char* title,int x, int y, int w, int h)
 		return false;
 	}
 
+	position.x = x;
+	position.y = y;
+	size.w = w;
+	size.h = h;
+
 	hwnd = (HWND)windowHandle;
 
 	ShowWindow(hwnd, 1);
-
-	SetWindowLong(hwnd, GWLP_USERDATA, (LONG)this);
-
-	position.x = x;
-	position.y = y;
-	size.x = w;
-	size.y = h;
 
 	dc = GetDC(hwnd);
 
@@ -62,7 +61,7 @@ void WindowsWindow::SetWindowFullScreen(bool isFullScreen_)
 
 	// Save current window state if not already fullscreen.
 	if (!isFullScreen) {
-		// Save current window information.  We force the window into restored mode
+		// Save current window information.  We force the window longo restored mode
 		// before going fullscreen because Windows doesn't seem to hide the
 		// taskbar if the window is in the maximized state.
 		
@@ -72,12 +71,11 @@ void WindowsWindow::SetWindowFullScreen(bool isFullScreen_)
 		windowEXStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
 
 		GetWindowRect(hwnd, &windowRect);
-		SetSizeAndPositionByRect(windowRect);
 	}
 
-	isFullScreen = isFullScreen_;
-
 	if (isFullScreen_) {
+		isFullScreen = isFullScreen_;
+
 		// Set new window style and size.
 		SetWindowLong(hwnd, GWL_STYLE,
 			windowStyle & ~(WS_CAPTION | WS_THICKFRAME));
@@ -99,33 +97,37 @@ void WindowsWindow::SetWindowFullScreen(bool isFullScreen_)
 		
 	}
 	else {
-		// Reset original window style and size.  The multiple window size/moves
-		// here are ugly, but if SetWindowPos() doesn't redraw, the taskbar won't be
-		// repainted.  Better-looking methods welcome.
 		SetWindowLong(hwnd, GWL_STYLE, windowStyle);
 		SetWindowLong(hwnd, GWL_EXSTYLE, windowEXStyle);
 
-		
 		if (isMaximized) ::SendMessage(hwnd, WM_SYSCOMMAND, SC_MAXIMIZE, 0);
+		else
+		{
+			SetSizeAndPositionByRect(windowRect);
+		}
+
+		isFullScreen = isFullScreen_;
 	}
 }
 
 void WindowsWindow::SetSizeAndPositionByRect(RECT rect)
 {
-	size.y = rect.bottom - rect.top;
-	size.x = rect.right - rect.left;
-	size.y = rect.top;
-	size.x = rect.left;
+	size.h = rect.bottom - rect.top;
+	size.w = rect.right - rect.left;
+	position.y = rect.top;
+	position.x = rect.left;
+
+	SetWindowPos(hwnd, NULL, position.x, position.y, size.x, size.y, SWP_NOZORDER | SWP_SHOWWINDOW);
 }
 
-void WindowsWindow::SetPosition(int x, int y)
+void WindowsWindow::SetPosition(long x, long y)
 {
 	SetWindowPos(hwnd, NULL, x, y, size.x, size.y, SWP_NOZORDER | SWP_NOSIZE | SWP_SHOWWINDOW);
 	position.x = x;
 	position.y = y;
 }
 
-void WindowsWindow::SetSize(int x, int y)
+void WindowsWindow::SetSize(long x, long y)
 {
 	SetWindowPos(hwnd, NULL, position.x, position.y, x, y, SWP_NOZORDER | SWP_SHOWWINDOW | SWP_NOMOVE);
 	size.x = x;
@@ -145,51 +147,90 @@ void WindowsWindow::SwapBuffers()
 static LRESULT CALLBACK wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 
+	WindowsWindow *pThis = 0;
+
 	if (uMsg == WM_NCCREATE)
 	{
-		return TRUE;
+		pThis = static_cast<WindowsWindow*>(reinterpret_cast<CREATESTRUCT*>(lParam)->lpCreateParams);
+
+		SetLastError(0);
+		if (!SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pThis)))
+		{
+			if (GetLastError() != 0)
+				return FALSE;
+		}
 	}
-	if (uMsg == WM_CREATE)
+	else
 	{
-		return TRUE;
+		pThis = reinterpret_cast<WindowsWindow*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
 	}
-	if (uMsg == WM_QUIT)
-	{
-		exit(0);
-	}
-	if (uMsg == WM_CLOSE)
-	{
-		exit(0);
-	}
-	if (uMsg == WM_SIZE)
+
+	if (pThis)
 	{
 
-	}
-	if (uMsg == WM_KEYDOWN)
-	{
+		if (uMsg == WM_CREATE)
+		{
+			return TRUE;
+		}
+		if (uMsg == WM_QUIT)
+		{
+			exit(0);
+		}
+		if (uMsg == WM_CLOSE)
+		{
+			exit(0);
+		}
+		if (uMsg == WM_SIZE)
+		{
 
-	}
-	if (uMsg == WM_LBUTTONDOWN)
-	{
+			long width = LOWORD(lParam);
+			long height = HIWORD(lParam);
 
-	}
-	if (uMsg == WM_RBUTTONDOWN)
-	{
+			pThis->Resize(Vec2L(width, height));
+			
+		}
+		if (uMsg == WM_MOVE)
+		{
 
-	}
-	if (uMsg == WM_LBUTTONUP)
-	{
+			long x = LOWORD(lParam);
+			long y = HIWORD(lParam);
 
-	}
-	if (uMsg == WM_RBUTTONUP)
-	{
+			pThis->SetWindowPosNoExecute(x, y);
+			
+		}
+		if (uMsg == WM_KEYDOWN)
+		{
+
+		}
+		if (uMsg == WM_KEYUP)
+		{
+			pThis->SetWindowFullScreen(!pThis->IsFullScreen());
+		}
+		if (uMsg == WM_LBUTTONDOWN)
+		{
+
+		}
+		if (uMsg == WM_RBUTTONDOWN)
+		{
+
+		}
+		if (uMsg == WM_LBUTTONUP)
+		{
+
+		}
+		if (uMsg == WM_RBUTTONUP)
+		{
 
 
-	}
-	if (uMsg == WM_MOUSEMOVE)
-	{
+		}
+		if (uMsg == WM_MOUSEMOVE)
+		{
 
+		}
 	}
+
+
+	
 
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }

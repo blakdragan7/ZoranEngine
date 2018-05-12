@@ -15,9 +15,25 @@ WindowBase::~WindowBase()
 	if (renderEngine)delete renderEngine;
 }
 
-void WindowBase::MakeWindow(const char * title, Vec2I position, Vec2I size)
+void WindowBase::Resize(Vec2L size)
 {
-	this->MakeWindow(title,position.x, position.y,size.x,size.y);
+	SetWindowSizeNoExecute(size.w,size.h);
+	renderEngine->Resize(size.w, size.h);
+}
+
+void WindowBase::SetPosition(Vec2L position)
+{
+	this->SetPosition(position.x,position.y);
+}
+
+void WindowBase::SetSize(Vec2L size)
+{
+	this->SetSize(size.w, size.h);
+}
+
+void WindowBase::MakeWindow(const char * title, Vec2L position, Vec2L size)
+{
+	this->MakeWindow(title,position.x, position.y,size.w,size.h);
 }
 
 void WindowBase::MainDraw()
