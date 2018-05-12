@@ -5,9 +5,10 @@
 #endif
 #include "Vector2D.hpp"
 #include <math.h>
+#include "PlatformTypes.h"
 
 template <class t>
-class Vector3D
+class DRAGENGINE_EXPORT Vector3D
 {
 public:
 	t	x,y,z;

@@ -42,6 +42,7 @@ bool DragEngine::Init()
 	OpenGLRenderEngine* renderEngine = new OpenGLRenderEngine();
 	WindowsWindow* window = new WindowsWindow(renderEngine);
 	window->MakeWindow("test", 0, 0, 1920, 1080);
+	window->SetWindowFullScreen(true);
 	renderEngine->InitEngine(window->GetHandle());
 
 	mainWindow = window;

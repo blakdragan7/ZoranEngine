@@ -3,6 +3,7 @@
 #include "RenderEngine.h"
 class DRAGENGINE_EXPORT OpenGLRenderEngine : public RenderEngine
 {
+
 public:
 	OpenGLRenderEngine();
 	~OpenGLRenderEngine();

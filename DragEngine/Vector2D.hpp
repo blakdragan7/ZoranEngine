@@ -1,9 +1,9 @@
 #pragma once
-
+#include "PlatformTypes.h"
 static unsigned long long IITD = 0;
 
 template <class t>
-class Vector2D
+class DRAGENGINE_EXPORT Vector2D
 {
 private:
 	//unsigned long long _IITD;
