@@ -11,7 +11,10 @@ private:
 
 private:
 	void SetSizeAndPositionByRect(RECT rect);
+	unsigned ConvertWPARAMToKey(WPARAM key);
+
 public:
+
 	WindowsWindow(RenderEngine* engine);
 	~WindowsWindow();
 

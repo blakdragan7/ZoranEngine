@@ -48,6 +48,9 @@
     <ClInclude Include="WindowsWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CommomTypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DragEngine.cpp">
@@ -67,6 +70,9 @@
     </ClCompile>
     <ClCompile Include="WindowsWindow.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CommonTypes.cpp">
+      <Filter>Header Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
