@@ -105,6 +105,11 @@ public:
 		z /= scalor;
 	}
 
+	Vector3D operator-()
+	{
+		return Vector3D(-x, -y, -z);
+	}
+
 	Vector3D operator+(Vector3D &other)
 	{
 		Vector3D ret;

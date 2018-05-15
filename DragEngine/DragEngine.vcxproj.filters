@@ -51,6 +51,12 @@
     <ClInclude Include="CommomTypes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Quaternion.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="MathLib.h">
+      <Filter>Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DragEngine.cpp">
@@ -73,6 +79,12 @@
     </ClCompile>
     <ClCompile Include="CommonTypes.cpp">
       <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Quaternion.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="MathLib.cpp">
+      <Filter>Math</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

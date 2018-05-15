@@ -65,7 +65,7 @@ void DragEngine::KeyEvent(KeyEventType type, unsigned key)
 		std::cout << key << " ";
 		break;
 	case KEY_UP:
-		if (key == F11_Key)mainWindow->SetWindowFullScreen(!mainWindow->IsFullScreen());
+		if (key == Key_F11)mainWindow->SetWindowFullScreen(!mainWindow->IsFullScreen());
 		break;
 	}
 }

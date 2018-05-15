@@ -21,9 +21,11 @@
   <ItemGroup>
     <ClInclude Include="CommomTypes.h" />
     <ClInclude Include="DragEngine.h" />
+    <ClInclude Include="MathLib.h" />
     <ClInclude Include="Matrix.hpp" />
     <ClInclude Include="OpenGLRenderEngine.h" />
     <ClInclude Include="PlatformTypes.h" />
+    <ClInclude Include="Quaternion.h" />
     <ClInclude Include="RenderEngine.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Vector2D.hpp" />
@@ -34,7 +36,9 @@
   <ItemGroup>
     <ClCompile Include="CommonTypes.cpp" />
     <ClCompile Include="DragEngine.cpp" />
+    <ClCompile Include="MathLib.cpp" />
     <ClCompile Include="OpenGLRenderEngine.cpp" />
+    <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="RenderEngine.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

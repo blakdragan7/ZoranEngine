@@ -6,7 +6,7 @@
 
 #define M_PI 3.14159265359f
 
-template<class t>
+template<typename t,unsigned int x,unsigned int y>
 class Matrix
 {
 private:
@@ -15,15 +15,15 @@ private:
 	int rows,cols;
 
 public:
-	static Matrix GLIdentityMatrix()
+	static Matrix<double,4,4> GLIdentityMatrix()
 	{
-		Matrix mat(4,4);
+		Matrix mat;
 		mat.makeIdentity();
 		return mat;
 	}
-	static Matrix MatrixFromVector(Vector3D<t> vector)
+	static Matrix<t,4,1> MatrixFromVector(Vector3D<t> vector)
 	{
-		Matrix mat = Matrix(4, 1);
+		Matrix mat;
 		mat.c_array[0] = vector.x;
 		mat.c_array[1] = vector.y;
 		mat.c_array[2] = vector.z;
@@ -95,7 +95,7 @@ public:
 	}
 	static Matrix GLRotationMatrix(float angle,Vector3D<t> vectors)
 	{
-		MatrixF mat = MatrixF(4,4);
+		Matrix mat = Matrix(4,4);
 		if(vectors.x != 0.0)
 		{
 			float newAngle = angle * vectors.x;
@@ -106,7 +106,7 @@ public:
 				0.0,sin(newAngle),cos(newAngle),0.0,
 				0.0,0.0,0.0,1.0
 			};
-			MatrixF rotX = Matrix<float>::MatrixFromArray(4,4,matVal);
+			Matrix rotX = Matrix<float>::MatrixFromArray(4,4,matVal);
 			mat *= rotX;
 		}
 		if(vectors.y != 0.0)
@@ -119,7 +119,7 @@ public:
 				-sin(newAngle),0.0,cos(newAngle),0.0,
 				0.0,0.0,0.0,1.0
 			};
-			MatrixF rotY = Matrix<float>::MatrixFromArray(4,4,matVal);
+			Matrix rotY = Matrix<float>::MatrixFromArray(4,4,matVal);
 			mat *= rotY;
 		}
 		if(vectors.z != 0.0)
@@ -132,7 +132,7 @@ public:
 				0.0,0.0,1.0,0.0,
 				0.0,0.0,0.0,1.0
 			};
-			MatrixF rotZ = Matrix<float>::MatrixFromArray(4,4,matVal);
+			Matrix rotZ = Matrix<float>::MatrixFromArray(4,4,matVal);
 			mat *= rotZ;
 		}
 		return mat;
@@ -154,34 +154,27 @@ public:
 
 	Matrix(void)
 	{
-		rows = 0;
-		cols = 0;
-		array_size = 0;
-	}
-
-	Matrix(int rows_,int cols_)
-	{
-		rows = rows_;
-		cols = cols_;
+		rows = x;
+		cols = y;
 		array_size = rows*cols;
 		c_array.resize(array_size);
 		makeIdentity();
+	}
+
+	Matrix(t* c_array)
+	{
+		rows = x;
+		cols = y;
+		array_size = rows*cols;
+		this->c_array.resize(array_size);
+		memcpy(&this->c_array[0], c_array, sizeof(t)*array_size);
 	}
 
 	~Matrix(void){}
 
-	int getSize()const{return array_size;}
-	int getRows()const{return rows;}
-	int getCols()const{return cols;}
-
-	void resize(int rows_,int cols_)
-	{
-		rows = rows_;
-		cols = cols_;
-		array_size = rows*cols;
-		c_array.resize(array_size);
-		makeIdentity();
-	}
+	inline int getSize()const{return array_size;}
+	inline int getRows()const{return rows;}
+	inline int getCols()const{return cols;}
 
 	Vector3D<t> getScale()
 	{
@@ -423,18 +416,14 @@ public:
 	}
 };
 
-typedef Matrix<double> MatrixD;
-typedef Matrix<float>  MatrixF;
-typedef Matrix<int>    MatrixI;
+typedef Matrix<double,4,4> Mat4D;
+typedef Matrix<float,4,4>  Mat4F;
+typedef Matrix<int,4,4>    Mat4I;
 
-#define Mat4D MatrixD(4,4)
-#define Mat3D MatrixD(3,3)
-#define Mat2D MatrixD(2,2)
+typedef Matrix<double, 3, 3> Mat3D;
+typedef Matrix<float, 3, 3>  Mat3F;
+typedef Matrix<int, 3, 3>    Mat3I;
 
-#define Mat4F MatrixF(4,4)
-#define Mat3F MatrixF(3,3)
-#define Mat2F MatrixF(2,2)
-
-#define Mat4I MatrixI(4,4)
-#define Mat3I MatrixI(3,3)
-#define Mat2I MatrixI(2,2)
+typedef Matrix<double, 2, 2> Mat2D;
+typedef Matrix<float, 2, 2>  Mat2F;
+typedef Matrix<int, 2, 2>    Mat2I;
