@@ -35,21 +35,21 @@ Quaternion::~Quaternion()
 
 }
 
-Vector3D Quaternion::Complex()const 
+Vector3D Quaternion::GetComplex()const 
 { 
 	return Vector3D(vals[0], vals[1], vals[2]); 
 }
-Quaternion Quaternion::Conjugate()const 
+Quaternion Quaternion::GetConjugate()const
 { 
-	return Quaternion(-Complex(), W()); 
+	return Quaternion(-GetComplex(), W()); 
 };
-double Quaternion::Magnitude() const 
+double Quaternion::GetMagnitude() const
 { 
 	return sqrt(vals[0] * vals[0] + vals[1] * vals[1] + vals[2] * vals[2] + vals[3] * vals[3]); 
 }
-Quaternion Quaternion::Inverse() 
+Quaternion Quaternion::GetInverse()
 { 
-	return Conjugate() / Magnitude(); 
+	return GetConjugate() / GetMagnitude();
 }
 
 Quaternion Quaternion::operator*(const Quaternion& rhs) const {
@@ -57,12 +57,12 @@ Quaternion Quaternion::operator*(const Quaternion& rhs) const {
 }
 
 Quaternion Quaternion::operator*(double s) const {
-	return Quaternion(Complex()*s, W()*s);
+	return Quaternion(GetComplex()*s, W()*s);
 }
 
 Quaternion operator*(double s, const Quaternion & q)
 {
-	return Quaternion(q.Complex()*s,q.W()*s);
+	return Quaternion(q.GetComplex()*s,q.W()*s);
 }
 
 Quaternion Quaternion::operator-(const Quaternion& rhs) const {
@@ -75,7 +75,7 @@ Quaternion Quaternion::operator-() const {
 
 Quaternion Quaternion::operator/(double s) const {
 	if (s == 0) throw std::invalid_argument("Quaternion operator/: Can not Devide by 0 ! ");
-	return Quaternion(Complex() / s, W() / s);
+	return Quaternion(GetComplex() / s, W() / s);
 }
 
 Quaternion Quaternion::Product(const Quaternion& rhs) const {
@@ -85,7 +85,7 @@ Quaternion Quaternion::Product(const Quaternion& rhs) const {
 		W()*rhs.W() - X()*rhs.X() - Y()*rhs.Y() - Z()*rhs.Z());
 }
 
-Mat4D Quaternion::Matrix() const {
+Mat4D Quaternion::AsMatrix() const {
 	double m[16] = {
 		W(), -Z(),  Y(), X(),
 		Z(),  W(), -X(), Y(),
@@ -96,7 +96,7 @@ Mat4D Quaternion::Matrix() const {
 	return mat;
 }
 
-Mat4D Quaternion::RightMatrix() const {
+Mat4D Quaternion::AsRightMatrix() const {
 	double m[16] = {
 		+W(), -Z(),  Y(), -X(),
 		+Z(),  W(), -X(), -Y(),
@@ -107,7 +107,7 @@ Mat4D Quaternion::RightMatrix() const {
 	return mat;
 }
 
-Mat3D Quaternion::RotationMatrix() const {
+Mat3D Quaternion::AsRotationMatrix() const {
 	double m[9] = {
 		1 - 2 * Y()*Y() - 2 * Z()*Z(), 2 * X()*Y() - 2 * Z()*W(), 2 * X()*Z() + 2 * Y()*W(),
 		2 * X()*Y() + 2 * Z()*W(), 1 - 2 * X()*X() - 2 * Z()*Z(), 2 * Y()*Z() - 2 * X()*W(),
@@ -117,27 +117,30 @@ Mat3D Quaternion::RotationMatrix() const {
 	return mat;
 }
 
-void Quaternion::ScaledAxis(Vector3D& w) {
+Quaternion Quaternion::FromScaledAxis(Vector3D& w) {
 	double theta = w.getMagnitude();
+	Quaternion quat;
 	if (theta > 0.0001) {
 		double s = sin(theta / 2.0);
 		Vector3D W(w / theta * s);
-		vals[0] = W.x;
-		vals[1] = W.y;
-		vals[2] = W.z;
-		vals[3] = cos(theta / 2.0);
+		quat.vals[0] = W.x;
+		quat.vals[1] = W.y;
+		quat.vals[2] = W.z;
+		quat.vals[3] = cos(theta / 2.0);
 	}
 	else {
-		vals[0] = vals[1] = vals[2] = 0;
-		vals[3] = 1.0;
+		quat.vals[0] = quat.vals[1] = quat.vals[2] = 0;
+		quat.vals[3] = 1.0;
 	}
+
+	return quat;
 }
 
 Vector3D Quaternion::RotatedVector(const Vector3D& v) const {
-	return (((*this) * Quaternion(v, 0)) * Conjugate()).Complex();
+	return (((*this) * Quaternion(v, 0)) * GetConjugate()).GetComplex();
 }
 
-void Quaternion::Euler(const Vector3D& euler) {
+Quaternion Quaternion::FromEuler(const Vector3D& euler) {
 	double c1 = cos(euler.z * 0.5);
 	double c2 = cos(euler.y * 0.5);
 	double c3 = cos(euler.x * 0.5);
@@ -145,13 +148,17 @@ void Quaternion::Euler(const Vector3D& euler) {
 	double s2 = sin(euler.y * 0.5);
 	double s3 = sin(euler.x * 0.5);
 
-	vals[0] = c1*c2*s3 - s1*s2*c3;
-	vals[1] = c1*s2*c3 + s1*c2*s3;
-	vals[2] = s1*c2*c3 - c1*s2*s3;
-	vals[3] = c1*c2*c3 + s1*s2*s3;
+	Quaternion quat;
+
+	quat.vals[0] = c1*c2*s3 - s1*s2*c3;
+	quat.vals[1] = c1*s2*c3 + s1*c2*s3;
+	quat.vals[2] = s1*c2*c3 - c1*s2*s3;
+	quat.vals[3] = c1*c2*c3 + s1*s2*s3;
+
+	return quat;
 }
 
-Vector3D Quaternion::Euler(void) const {
+Vector3D Quaternion::AsEuler(void) const {
 	Vector3D euler;
 	const static double PI_OVER_2 = M_PI * 0.5;
 	const static double EPSILON = 1e-10;

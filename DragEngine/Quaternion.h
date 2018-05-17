@@ -14,20 +14,22 @@ public:
 	Quaternion(Vector3D complex,double w);
 	~Quaternion();
 
-	Vector3D Complex() const;
-	Quaternion Conjugate()const;
-	Quaternion Inverse();
+	Vector3D GetComplex() const;
+	Quaternion GetConjugate()const;
+	Quaternion GetInverse();
 
 	Quaternion Product(const Quaternion& rhs) const;
-	double Magnitude() const;
+	double GetMagnitude() const;
 
-	Mat4D Matrix() const;
-	Mat4D RightMatrix() const;
-	Mat3D RotationMatrix() const;
-	void ScaledAxis(Vector3D& w);
+	Mat4D AsMatrix() const;
+	Mat4D AsRightMatrix() const;
+	Mat3D AsRotationMatrix() const;
 	Vector3D RotatedVector(const Vector3D& v) const;
-	void Euler(const Vector3D& euler);
-	Vector3D Euler(void) const;
+
+	static Quaternion FromScaledAxis(Vector3D& w);
+	static Quaternion FromEuler(const Vector3D& euler);
+
+	Vector3D AsEuler(void) const;
 	// scaled linear interp
 	Quaternion Slerp(const Quaternion& q1, double t);
 	static Quaternion Slerp(const Quaternion& q0, const Quaternion& q1, double t);
