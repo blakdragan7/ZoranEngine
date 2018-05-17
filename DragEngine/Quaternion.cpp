@@ -14,7 +14,7 @@ Quaternion::Quaternion(const double* array)
 	memcpy(vals, array, sizeof(vals));
 }
 
-Quaternion::Quaternion(Vec3D complex, double w)
+Quaternion::Quaternion(Vector3D complex, double w)
 {
 	vals[0] = complex.x;
 	vals[1] = complex.y;
@@ -35,9 +35,9 @@ Quaternion::~Quaternion()
 
 }
 
-Vec3D Quaternion::Complex()const 
+Vector3D Quaternion::Complex()const 
 { 
-	return Vec3D(vals[0], vals[1], vals[2]); 
+	return Vector3D(vals[0], vals[1], vals[2]); 
 }
 Quaternion Quaternion::Conjugate()const 
 { 
@@ -117,11 +117,11 @@ Mat3D Quaternion::RotationMatrix() const {
 	return mat;
 }
 
-void Quaternion::ScaledAxis(Vec3D& w) {
+void Quaternion::ScaledAxis(Vector3D& w) {
 	double theta = w.getMagnitude();
 	if (theta > 0.0001) {
 		double s = sin(theta / 2.0);
-		Vec3D W(w / theta * s);
+		Vector3D W(w / theta * s);
 		vals[0] = W.x;
 		vals[1] = W.y;
 		vals[2] = W.z;
@@ -133,11 +133,11 @@ void Quaternion::ScaledAxis(Vec3D& w) {
 	}
 }
 
-Vec3D Quaternion::RotatedVector(const Vec3D& v) const {
+Vector3D Quaternion::RotatedVector(const Vector3D& v) const {
 	return (((*this) * Quaternion(v, 0)) * Conjugate()).Complex();
 }
 
-void Quaternion::Euler(const Vec3D& euler) {
+void Quaternion::Euler(const Vector3D& euler) {
 	double c1 = cos(euler.z * 0.5);
 	double c2 = cos(euler.y * 0.5);
 	double c3 = cos(euler.x * 0.5);
@@ -151,8 +151,8 @@ void Quaternion::Euler(const Vec3D& euler) {
 	vals[3] = c1*c2*c3 + s1*s2*s3;
 }
 
-Vec3D Quaternion::Euler(void) const {
-	Vec3D euler;
+Vector3D Quaternion::Euler(void) const {
+	Vector3D euler;
 	const static double PI_OVER_2 = M_PI * 0.5;
 	const static double EPSILON = 1e-10;
 	double sqw, sqx, sqy, sqz;

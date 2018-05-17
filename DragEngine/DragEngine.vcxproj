@@ -27,9 +27,10 @@
     <ClInclude Include="PlatformTypes.h" />
     <ClInclude Include="Quaternion.h" />
     <ClInclude Include="RenderEngine.h" />
+    <ClInclude Include="SceneObject.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="Vector2D.hpp" />
-    <ClInclude Include="Vector3D.hpp" />
+    <ClInclude Include="Vector2.h" />
+    <ClInclude Include="Vector3.h" />
     <ClInclude Include="WindowBase.h" />
     <ClInclude Include="WindowsWindow.h" />
   </ItemGroup>
@@ -40,9 +41,12 @@
     <ClCompile Include="OpenGLRenderEngine.cpp" />
     <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="RenderEngine.cpp" />
+    <ClCompile Include="SceneObject.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Vector2.cpp" />
+    <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="WindowBase.cpp" />
     <ClCompile Include="WindowsWindow.cpp" />
   </ItemGroup>

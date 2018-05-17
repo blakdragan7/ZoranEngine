@@ -86,3 +86,13 @@ void OpenGLRenderEngine::Resize(int x, int y)
 {
 	glViewport(0, 0, x, y);
 }
+
+void OpenGLRenderEngine::AddSceneObject(SceneObject* object)
+{
+
+}
+
+void OpenGLRenderEngine::RemoveSceneObject(SceneObject* object)
+{
+
+}

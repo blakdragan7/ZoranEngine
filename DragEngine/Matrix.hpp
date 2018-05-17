@@ -2,7 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <memory>
-#include "Vector3D.hpp"
+#include "Vector3.h"
 
 #define M_PI 3.14159265359f
 
@@ -21,7 +21,8 @@ public:
 		mat.makeIdentity();
 		return mat;
 	}
-	static Matrix<t,4,1> MatrixFromVector(Vector3D<t> vector)
+
+	static Matrix<t,4,1> MatrixFromVector(Vector3D vector)
 	{
 		Matrix mat;
 		mat.c_array[0] = vector.x;
@@ -51,7 +52,7 @@ public:
 
 		return projMatrix;
 	}
-	static Matrix GLCameraMatrix(Vector3D<t> pos,Vector3D<t> lookAt,Vector3D<t> up)
+	static Matrix GLCameraMatrix(Vector3D pos,Vector3D lookAt,Vector3D up)
 	{
 		Vector3D<t> dir, right;
  
@@ -93,7 +94,7 @@ public:
 
 		return viewMatrix;
 	}
-	static Matrix GLRotationMatrix(float angle,Vector3D<t> vectors)
+	static Matrix GLRotationMatrix(float angle,Vector3D vectors)
 	{
 		Matrix mat = Matrix(4,4);
 		if(vectors.x != 0.0)
@@ -176,17 +177,17 @@ public:
 	inline int getRows()const{return rows;}
 	inline int getCols()const{return cols;}
 
-	Vector3D<t> getScale()
+	Vector3D getScale()
 	{
-		return Vector3D<t>(this->operator()(0,0), this->operator()(1, 1), this->operator()(2, 2));
+		return Vector3D(this->operator()(0,0), this->operator()(1, 1), this->operator()(2, 2));
 	}
 
-	Vector3D<t> getTransform()
+	Vector3D getTransform()
 	{
-		return Vector3D<t>(this->operator()(0, 3), this->operator()(1, 3), this->operator()(2, 3));
+		return Vector3D(this->operator()(0, 3), this->operator()(1, 3), this->operator()(2, 3));
 	}
 
-	Matrix translate(Vector3D<t> trans)
+	Matrix translate(Vector3D trans)
 	{
 		if((rows==cols) && (cols==4))
 		{
@@ -200,7 +201,7 @@ public:
 			throw std::invalid_argument("Must be Perfect Matricie to Translate");
 	}
 
-	Matrix scale(Vector3D<t> scale)
+	Matrix scale(Vector3D scale)
 	{
 		if ((rows == cols) && (cols == 4))
 		{
@@ -224,7 +225,7 @@ public:
 		return *this;
 	}
 
-	Matrix rotate(Vec3F angles)
+	Matrix rotate(Vec3D angles)
 	{
 		if((cols == rows) && (rows == 4))
 		{

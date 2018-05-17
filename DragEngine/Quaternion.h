@@ -1,5 +1,5 @@
 #pragma once
-#include "Vector3D.hpp"
+#include "Vector3.h"
 #include "Matrix.hpp"
 #include "MathLib.h"
 
@@ -11,10 +11,10 @@ public:
 	Quaternion();
 	Quaternion(const double* array);
 	Quaternion(double x, double y, double z, double w);
-	Quaternion(Vec3D complex,double w);
+	Quaternion(Vector3D complex,double w);
 	~Quaternion();
 
-	Vec3D Complex() const;
+	Vector3D Complex() const;
 	Quaternion Conjugate()const;
 	Quaternion Inverse();
 
@@ -24,10 +24,10 @@ public:
 	Mat4D Matrix() const;
 	Mat4D RightMatrix() const;
 	Mat3D RotationMatrix() const;
-	void ScaledAxis(Vec3D& w);
-	Vec3D RotatedVector(const Vec3D& v) const;
-	void Euler(const Vec3D& euler);
-	Vec3D Euler(void) const;
+	void ScaledAxis(Vector3D& w);
+	Vector3D RotatedVector(const Vector3D& v) const;
+	void Euler(const Vector3D& euler);
+	Vector3D Euler(void) const;
 	// scaled linear interp
 	Quaternion Slerp(const Quaternion& q1, double t);
 	static Quaternion Slerp(const Quaternion& q0, const Quaternion& q1, double t);

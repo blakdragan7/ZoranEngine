@@ -1,6 +1,6 @@
 #pragma once
 #include "PlatformTypes.h"
-#include "Vector2D.hpp"
+#include "Vector2.h"
 /*
 	WindowBase is an abstract base class that defines functions that all windows should have
 */
