@@ -46,9 +46,9 @@ void SceneObject::Translate(Vector3D delta)
 	pos += delta;
 }
 
-Mat4D SceneObject::GetModel()
+MatrixD SceneObject::GetModel()
 {
-	Mat4D model = Mat4D::GLIdentityMatrix();
+	MatrixD model = MatrixD::GLIdentityMatrix();
 	model.translate(pos);
 	model = rotation.AsMatrix()*model;
 	return model;

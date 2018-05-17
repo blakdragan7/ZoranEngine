@@ -1,48 +1,46 @@
 #pragma once
 #include <iostream>
 #include <vector>
-#include <memory>
 #include "Vector3.h"
 
 #define M_PI 3.14159265359f
 
-template<typename t,unsigned int x,unsigned int y>
+template<class t>
 class Matrix
 {
 private:
 	std::vector<t> c_array;
 	int array_size;
-	int rows,cols;
+	int rows, cols;
 
 public:
-	static Matrix<double,4,4> GLIdentityMatrix()
+	static Matrix GLIdentityMatrix()
 	{
-		Matrix mat;
+		Matrix mat(4, 4);
 		mat.makeIdentity();
 		return mat;
 	}
-
-	static Matrix<t,4,1> MatrixFromVector(Vector3D vector)
+	static Matrix MatrixFromVector(Vector3D vector)
 	{
-		Matrix mat;
+		Matrix mat = Matrix(4, 1);
 		mat.c_array[0] = vector.x;
 		mat.c_array[1] = vector.y;
 		mat.c_array[2] = vector.z;
 		mat.c_array[3] = 1.0;
 		return mat;
 	}
-	static Matrix MatrixFromArray(int rows,int cols,t* c_array)
+	static Matrix MatrixFromArray(int rows, int cols, t* c_array)
 	{
-		Matrix mat = Matrix(rows,cols);
-		memcpy(&mat.c_array[0],c_array,sizeof(t)*mat.array_size);
+		Matrix mat = Matrix(rows, cols);
+		memcpy(&mat.c_array[0], c_array, sizeof(t)*mat.array_size);
 		return mat;
 	}
 	static Matrix GLProjectionMatrix(float fov, float ratio, float nearP, float farP)
 	{
 		Matrix projMatrix = Matrix::GLIdentityMatrix();
 
-		float f = 1.0f / tan (fov * (M_PI / 360.0f));
- 
+		float f = 1.0f / tan(fov * (M_PI / 360.0f));
+
 		projMatrix[0] = f / ratio;
 		projMatrix[1 * 4 + 1] = f;
 		projMatrix[2 * 4 + 2] = farP / (farP - nearP);
@@ -52,41 +50,41 @@ public:
 
 		return projMatrix;
 	}
-	static Matrix GLCameraMatrix(Vector3D pos,Vector3D lookAt,Vector3D up)
+	static Matrix GLCameraMatrix(Vector3D pos, Vector3D lookAt, Vector3D up)
 	{
-		Vector3D<t> dir, right;
- 
-		dir.x =  (lookAt.x - pos.x);
-		dir.y =  (lookAt.y - pos.y);
-		dir.z =  (lookAt.z - pos.z);
+		Vector3D dir, right;
+
+		dir.x = (lookAt.x - pos.x);
+		dir.y = (lookAt.y - pos.y);
+		dir.z = (lookAt.z - pos.z);
 
 		dir.normalize();
- 
+
 		right = dir.cross(up);
 		right.normalize();
- 
+
 		up = right.cross(dir);
 		up.normalize();
- 
-		Matrix viewMatrix=Matrix::GLIdentityMatrix();
- 
-		viewMatrix[0]  = right.x;
-		viewMatrix[4]  = right.y;
-		viewMatrix[8]  = right.z;
+
+		Matrix viewMatrix = Matrix::GLIdentityMatrix();
+
+		viewMatrix[0] = right.x;
+		viewMatrix[4] = right.y;
+		viewMatrix[8] = right.z;
 		viewMatrix[12] = 0.0f;
- 
-		viewMatrix[1]  = up.x;
-		viewMatrix[5]  = up.y;
-		viewMatrix[9]  = up.z;
+
+		viewMatrix[1] = up.x;
+		viewMatrix[5] = up.y;
+		viewMatrix[9] = up.z;
 		viewMatrix[13] = 0.0f;
- 
-		viewMatrix[2]  = -dir.x;
-		viewMatrix[6]  = -dir.y;
+
+		viewMatrix[2] = -dir.x;
+		viewMatrix[6] = -dir.y;
 		viewMatrix[10] = -dir.z;
-		viewMatrix[14] =  0.0f;
- 
-		viewMatrix[3]  = 0.0f;
-		viewMatrix[7]  = 0.0f;
+		viewMatrix[14] = 0.0f;
+
+		viewMatrix[3] = 0.0f;
+		viewMatrix[7] = 0.0f;
 		viewMatrix[11] = 0.0f;
 		viewMatrix[15] = 1.0f;
 
@@ -94,46 +92,46 @@ public:
 
 		return viewMatrix;
 	}
-	static Matrix GLRotationMatrix(float angle,Vector3D vectors)
+	static Matrix GLRotationMatrix(float angle, Vector3D vectors)
 	{
-		Matrix mat = Matrix(4,4);
-		if(vectors.x != 0.0)
+		MatrixF mat = MatrixF(4, 4);
+		if (vectors.x != 0.0)
 		{
 			float newAngle = angle * vectors.x;
-			float matVal[] = 
+			float matVal[] =
 			{
 				1.0,0.0,0.0,0.0,
 				0.0,cos(newAngle),-sin(newAngle),0.0,
 				0.0,sin(newAngle),cos(newAngle),0.0,
 				0.0,0.0,0.0,1.0
 			};
-			Matrix rotX = Matrix<float>::MatrixFromArray(4,4,matVal);
+			MatrixF rotX = Matrix<float>::MatrixFromArray(4, 4, matVal);
 			mat *= rotX;
 		}
-		if(vectors.y != 0.0)
+		if (vectors.y != 0.0)
 		{
 			float newAngle = angle * vectors.y;
-			float matVal[] = 
+			float matVal[] =
 			{
 				cos(newAngle),0.0,sin(newAngle),0.0,
 				0.0,1.0,0.0,0.0,
 				-sin(newAngle),0.0,cos(newAngle),0.0,
 				0.0,0.0,0.0,1.0
 			};
-			Matrix rotY = Matrix<float>::MatrixFromArray(4,4,matVal);
+			MatrixF rotY = Matrix<float>::MatrixFromArray(4, 4, matVal);
 			mat *= rotY;
 		}
-		if(vectors.z != 0.0)
+		if (vectors.z != 0.0)
 		{
 			float newAngle = angle * vectors.z;
-			float matVal[] = 
+			float matVal[] =
 			{
 				cos(newAngle),-sin(newAngle),0.0,0.0,
 				sin(newAngle),cos(newAngle),0.0,0.0,
 				0.0,0.0,1.0,0.0,
 				0.0,0.0,0.0,1.0
 			};
-			Matrix rotZ = Matrix<float>::MatrixFromArray(4,4,matVal);
+			MatrixF rotZ = Matrix<float>::MatrixFromArray(4, 4, matVal);
 			mat *= rotZ;
 		}
 		return mat;
@@ -149,37 +147,44 @@ public:
 		};
 		MatrixF rotX = Matrix<float>::MatrixFromArray(2, 2, matVal);
 		mat *= rotX;
-		
+
 		return mat;
 	}
 
 	Matrix(void)
 	{
-		rows = x;
-		cols = y;
+		rows = 0;
+		cols = 0;
+		array_size = 0;
+	}
+
+	Matrix(int rows_, int cols_)
+	{
+		rows = rows_;
+		cols = cols_;
 		array_size = rows*cols;
 		c_array.resize(array_size);
 		makeIdentity();
 	}
 
-	Matrix(t* c_array)
+	~Matrix(void) {}
+
+	int getSize()const { return array_size; }
+	int getRows()const { return rows; }
+	int getCols()const { return cols; }
+
+	void resize(int rows_, int cols_)
 	{
-		rows = x;
-		cols = y;
+		rows = rows_;
+		cols = cols_;
 		array_size = rows*cols;
-		this->c_array.resize(array_size);
-		memcpy(&this->c_array[0], c_array, sizeof(t)*array_size);
+		c_array.resize(array_size);
+		makeIdentity();
 	}
-
-	~Matrix(void){}
-
-	inline int getSize()const{return array_size;}
-	inline int getRows()const{return rows;}
-	inline int getCols()const{return cols;}
 
 	Vector3D getScale()
 	{
-		return Vector3D(this->operator()(0,0), this->operator()(1, 1), this->operator()(2, 2));
+		return Vector3D(this->operator()(0, 0), this->operator()(1, 1), this->operator()(2, 2));
 	}
 
 	Vector3D getTransform()
@@ -189,11 +194,11 @@ public:
 
 	Matrix translate(Vector3D trans)
 	{
-		if((rows==cols) && (cols==4))
+		if ((rows == cols) && (cols == 4))
 		{
-			operator()(0,3) += trans.x;
-			operator()(1,3) += trans.y;
-			operator()(2,3) += trans.z;
+			operator()(0, 3) += trans.x;
+			operator()(1, 3) += trans.y;
+			operator()(2, 3) += trans.z;
 
 			return *this;
 		}
@@ -227,21 +232,21 @@ public:
 
 	Matrix rotate(Vec3D angles)
 	{
-		if((cols == rows) && (rows == 4))
+		if ((cols == rows) && (rows == 4))
 		{
-			if(angles.x != 0.0)
+			if (angles.x != 0.0)
 			{
-				Matrix mat = Matrix::GLRotationMatrix(angles.x,Vector3D<t>(1.0,0.0,0.0));
+				Matrix mat = Matrix::GLRotationMatrix(angles.x, Vector3D(1.0, 0.0, 0.0));
 				*this *= mat;
 			}
-			if(angles.y != 0.0)
+			if (angles.y != 0.0)
 			{
-				Matrix mat = Matrix::GLRotationMatrix(angles.y,Vector3D<t>(0.0,1.0,0.0));
+				Matrix mat = Matrix::GLRotationMatrix(angles.y, Vector3D(0.0, 1.0, 0.0));
 				*this *= mat;
 			}
-			if(angles.z != 0.0)
+			if (angles.z != 0.0)
 			{
-				Matrix mat = Matrix::GLRotationMatrix(angles.z,Vector3D<t>(0.0,0.0,1.0));
+				Matrix mat = Matrix::GLRotationMatrix(angles.z, Vector3D(0.0, 0.0, 1.0));
 				*this *= mat;
 			}
 
@@ -253,14 +258,14 @@ public:
 
 	void makeIdentity()
 	{
-		if(rows == cols)
+		if (rows == cols)
 		{
-			for(int i=0;i<rows;i++)
+			for (int i = 0; i<rows; i++)
 			{
-				for(int j=0;j<cols;j++)
+				for (int j = 0; j<cols; j++)
 				{
 					int index = (i * cols) + j;
-					if(i==j)
+					if (i == j)
 						c_array[index] = 1;
 					else
 						c_array[index] = 0;
@@ -269,10 +274,10 @@ public:
 		}
 		else
 		{
-			memset(&c_array[0],0,array_size);
+			memset(&c_array[0], 0, array_size);
 		}
 	}
-// QT Workaround
+	// QT Workaround
 
 #ifdef QT
 #define transPostIfQT(a) a.transpose()
@@ -282,10 +287,10 @@ public:
 
 	Matrix transpose()
 	{
-		Matrix ret(cols,rows);
-		for(int i=0;i<rows;i++)
+		Matrix ret(cols, rows);
+		for (int i = 0; i<rows; i++)
 		{
-			for(int j=0;j<cols;j++)
+			for (int j = 0; j<cols; j++)
 			{
 				ret[(j*cols) + i] = c_array[(i*rows) + j];
 			}
@@ -295,7 +300,7 @@ public:
 
 	Matrix inverse()
 	{
-		if(rows == cols)
+		if (rows == cols)
 		{
 			return transpose();
 		}
@@ -309,23 +314,23 @@ public:
 	void print()
 	{
 		std::cout << "Matrix: " << std::endl;
-		for(int i=0;i<cols;i++)
+		for (int i = 0; i<cols; i++)
 		{
 			std::cout << "Row: " << i << ": ";
-			for(int j=0;j<rows;j++)
+			for (int j = 0; j<rows; j++)
 			{
-				std::cout << c_array[(i*rows) + j] <<" ";
+				std::cout << c_array[(i*rows) + j] << " ";
 			}
-			std::cout <<std::endl;
+			std::cout << std::endl;
 		}
 	}
 
 	Matrix operator +(const Matrix &other)
 	{
-		Matrix mat(cols,rows);
-		if ( rows == other.rows && cols == other.cols )
+		Matrix mat(cols, rows);
+		if (rows == other.rows && cols == other.cols)
 		{
-			for(int i=0;i<array_size;i++)
+			for (int i = 0; i<array_size; i++)
 			{
 				mat[i] += other[i];
 			}
@@ -335,10 +340,10 @@ public:
 
 	Matrix operator -(const Matrix &other)
 	{
-		Matrix mat(rows,cols);
-		if ( rows == other.rows && cols == other.cols )
+		Matrix mat(rows, cols);
+		if (rows == other.rows && cols == other.cols)
 		{
-			for(int i=0;i<rows*cols;i++)
+			for (int i = 0; i<rows*cols; i++)
 			{
 				mat[i] -= other[i];
 			}
@@ -349,11 +354,11 @@ public:
 	Matrix operator *(Matrix &other)
 	{
 		Matrix res(rows, other.cols);
-		if(cols == other.rows)
+		if (cols == other.rows)
 		{
 			for (int col = 0; col < other.cols; ++col)
 			{
-				for (int row = 0; row < rows; ++row) 
+				for (int row = 0; row < rows; ++row)
 				{
 					res(row, col) = 0;
 					for (int n = 0; n < cols; n++)
@@ -361,10 +366,10 @@ public:
 				}
 			}
 		}
-		else 
+		else
 		{
 			char var[64] = { 0 };
-			snprintf(var,64,"Wrong Size Matrix Multiply First cols %d second Row %d",cols,other.rows);
+			snprintf(var, 64, "Wrong Size Matrix Multiply First cols %d second Row %d", cols, other.rows);
 			throw std::invalid_argument(var);
 		}
 
@@ -375,24 +380,24 @@ public:
 	{
 		std::vector<t> new_Array;
 		new_Array.resize(array_size);
-		if(rows == other.rows && cols == other.cols)
+		if (rows == other.rows && cols == other.cols)
 		{
-			for (int i = 0; i < cols; ++i) 
+			for (int i = 0; i < cols; ++i)
 			{
-				for (int j = 0; j < other.rows; ++j) 
+				for (int j = 0; j < other.rows; ++j)
 				{
-					int index = (i*other.rows)+j;
+					int index = (i*other.rows) + j;
 					new_Array[index] = 0.0f;
-					for (int k = 0; k < rows; ++k) 
+					for (int k = 0; k < rows; ++k)
 					{
-						int index1 = (i*rows)+k;
-						int index2 = ((k*other.rows)+j);
+						int index1 = (i*rows) + k;
+						int index2 = ((k*other.rows) + j);
 						new_Array[index] += c_array[index1] * other.c_array[index2];
 					}
 				}
 			}
 			c_array = new_Array;
-		}	
+		}
 		else
 			throw std::invalid_argument("Can not \"*=\" two Matricies of different sizes");
 		return *this;
@@ -400,31 +405,35 @@ public:
 
 	t& operator[](int index)
 	{
-		if(index >= array_size)
+		if (index >= array_size)
 			throw std::exception("Index Out of Bounds For Matrix");
 		return c_array[index];
 	}
 
-	t& operator()(int row,int col)
+	t& operator()(int row, int col)
 	{
-		if(row >= rows)
+		if (row >= rows)
 			throw std::exception("MATRIX OUT OF BOUNDS - row is not within row bounds");
-		if(col >= cols)
+		if (col >= cols)
 			throw std::exception("MATRIX OUT OF BOUNDS - col is not within column bounds");
-		int index = (row*cols)+col;
+		int index = (row*cols) + col;
 
 		return c_array[index];
 	}
 };
 
-typedef Matrix<double,4,4> Mat4D;
-typedef Matrix<float,4,4>  Mat4F;
-typedef Matrix<int,4,4>    Mat4I;
+typedef Matrix<double> MatrixD;
+typedef Matrix<float>  MatrixF;
+typedef Matrix<int>    MatrixI;
 
-typedef Matrix<double, 3, 3> Mat3D;
-typedef Matrix<float, 3, 3>  Mat3F;
-typedef Matrix<int, 3, 3>    Mat3I;
+#define Mat4D MatrixD(4,4)
+#define Mat3D MatrixD(3,3)
+#define Mat2D MatrixD(2,2)
 
-typedef Matrix<double, 2, 2> Mat2D;
-typedef Matrix<float, 2, 2>  Mat2F;
-typedef Matrix<int, 2, 2>    Mat2I;
+#define Mat4F MatrixF(4,4)
+#define Mat3F MatrixF(3,3)
+#define Mat2F MatrixF(2,2)
+
+#define Mat4I MatrixI(4,4)
+#define Mat3I MatrixI(3,3)
+#define Mat2I MatrixI(2,2)

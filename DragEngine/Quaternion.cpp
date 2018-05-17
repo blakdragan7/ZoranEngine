@@ -85,35 +85,35 @@ Quaternion Quaternion::Product(const Quaternion& rhs) const {
 		W()*rhs.W() - X()*rhs.X() - Y()*rhs.Y() - Z()*rhs.Z());
 }
 
-Mat4D Quaternion::AsMatrix() const {
+MatrixD Quaternion::AsMatrix() const {
 	double m[16] = {
 		W(), -Z(),  Y(), X(),
 		Z(),  W(), -X(), Y(),
 		-Y(),  X(),  W(), Z(),
 		-X(), -Y(), -Z(), W()
 	};
-	Mat4D mat(m);
+	MatrixD mat = MatrixD::MatrixFromArray(4, 4, m);
 	return mat;
 }
 
-Mat4D Quaternion::AsRightMatrix() const {
+MatrixD Quaternion::AsRightMatrix() const {
 	double m[16] = {
 		+W(), -Z(),  Y(), -X(),
 		+Z(),  W(), -X(), -Y(),
 		-Y(),  X(),  W(), -Z(),
 		+X(),  Y(),  Z(),  W()
 	};
-	Mat4D mat(m);
+	MatrixD mat = MatrixD::MatrixFromArray(4, 4, m);
 	return mat;
 }
 
-Mat3D Quaternion::AsRotationMatrix() const {
+MatrixD Quaternion::AsRotationMatrix() const {
 	double m[9] = {
 		1 - 2 * Y()*Y() - 2 * Z()*Z(), 2 * X()*Y() - 2 * Z()*W(), 2 * X()*Z() + 2 * Y()*W(),
 		2 * X()*Y() + 2 * Z()*W(), 1 - 2 * X()*X() - 2 * Z()*Z(), 2 * Y()*Z() - 2 * X()*W(),
 		2 * X()*Z() - 2 * Y()*W(), 2 * Y()*Z() + 2 * X()*W(), 1 - 2 * X()*X() - 2 * Y()*Y()
 	};
-	Mat3D mat(m);
+	MatrixD mat = MatrixD::MatrixFromArray(3, 3, m);
 	return mat;
 }
 

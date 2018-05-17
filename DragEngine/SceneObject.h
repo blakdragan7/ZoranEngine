@@ -37,6 +37,6 @@ public:
 
 	void Translate(Vector3D delta);
 
-	Mat4D GetModel();
+	MatrixD GetModel();
 };
 
