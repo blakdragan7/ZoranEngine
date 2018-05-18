@@ -1,11 +1,11 @@
 #pragma once
-
+#include "PlatformTypes.h"
 #include "Vector3.h"
 #include "Quaternion.h"
 /*
 * Very Basic Object, Essentially represents bare minmum needed to be rendered on the scene
 */
-class SceneObject
+class DRAGENGINE_EXPORT SceneObject
 {
 private:
 	Vector3D pos;

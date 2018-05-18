@@ -2,6 +2,10 @@
 #include "PlatformTypes.h"
 #include "RenderTypes.h"
 
+/*
+* This represents a texture stored in gpu memory. This calss is not supposed to be created manually but made through a RenderEngine
+*/
+
 class RenderEngine;
 class DRAGENGINE_EXPORT TextureBase
 {
@@ -36,5 +40,7 @@ public:
 
 	virtual void SetRenderDataType(RenderDataType newType) = 0;
 	virtual void SetRenderDataFormat(RenderDataFormat newFormat) = 0;
+
+	friend class RenderEngineBase;
 };
 

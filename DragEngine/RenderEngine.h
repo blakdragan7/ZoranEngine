@@ -1,10 +1,15 @@
 #pragma once
 #include "PlatformTypes.h"
+#include "RenderTypes.h"
+#include "Vector2.h"
 #include <map>
 /*
 RenderEngine, this is an abstract base class that allows common functionality across different render types such as OpenGL vs DirectX
 */
 class SceneObject;
+class TextureBase;
+class VertexBufferBase;
+class FrameBufferBase;
 class DRAGENGINE_EXPORT RenderEngine
 {
 public:
@@ -25,7 +30,11 @@ public:
 	// Scene Object MUST NEVER BE DELETED OUTSIDE OF THIS FUNCTION
 	// Each implementation must handle detroying objects individually
 	virtual void RemoveSceneObject(SceneObject* object) = 0;
-
-	virtual void* CreateTexture(const char* path);
+	// Creates Texture Memory on GPU and returns a texture object.
+	virtual TextureBase* CreateTexture(const char* path, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2L size) = 0;
+	virtual TextureBase* CreateTexture(void* data, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2L size) = 0;
+	// Createx Vertex Buffer in GPU Memory
+	virtual VertexBufferBase* CreateVertexBuffer(RenderDataType bufferType,RenderDataFormat bufferFormat, Vec2L size,void* data=0) = 0;
+	// Create frame buffer for offscreen rendering and the texture that represents the result
+	virtual bool CreateFrameBuffer(FrameBufferBase** outBuffer, TextureBase** outTexture, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2L size) = 0;
 };
-
