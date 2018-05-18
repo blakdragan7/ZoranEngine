@@ -1,7 +1,8 @@
 #pragma once
 #include "PlatformTypes.h"
+#include <map>
 /*
-	RenderEngine, this is an abstract base class that allows common functionality across different render types such as OpenGL vs DirectX
+RenderEngine, this is an abstract base class that allows common functionality across different render types such as OpenGL vs DirectX
 */
 class SceneObject;
 class DRAGENGINE_EXPORT RenderEngine
@@ -24,5 +25,7 @@ public:
 	// Scene Object MUST NEVER BE DELETED OUTSIDE OF THIS FUNCTION
 	// Each implementation must handle detroying objects individually
 	virtual void RemoveSceneObject(SceneObject* object) = 0;
+
+	virtual void* CreateTexture(const char* path);
 };
 

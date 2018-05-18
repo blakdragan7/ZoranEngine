@@ -16,6 +16,9 @@
     <Filter Include="Math">
       <UniqueIdentifier>{edcb1785-9902-4cc0-99c3-3fd3a4e446fb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="loadpng">
+      <UniqueIdentifier>{64a62625-3d64-48c1-9cf3-4ed8660bec8d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DragEngine.h">
@@ -60,6 +63,18 @@
     <ClInclude Include="Vector3.h">
       <Filter>Math</Filter>
     </ClInclude>
+    <ClInclude Include="TextureBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderTypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGLTexture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lodepng.h">
+      <Filter>loadpng</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DragEngine.cpp">
@@ -97,6 +112,15 @@
     </ClCompile>
     <ClCompile Include="Vector3.cpp">
       <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGLTexture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lodepng.cpp">
+      <Filter>loadpng</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
