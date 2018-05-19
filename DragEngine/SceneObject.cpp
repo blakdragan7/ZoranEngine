@@ -1,15 +1,21 @@
 #include "stdafx.h"
 #include "SceneObject.h"
 #include "ThreadBase.h"
+#include "DragEngine.h"
 
 void SceneObject::WaitForMutex()
 {
-	while (mutex.try_lock() == false)ThreadBase::Sleep(0.01);
+	while (mutex.try_lock() == false)ThreadBase::Sleep(0.01F);
 }
 
 void SceneObject::UnlockMutex()
 {
 	mutex.unlock();
+}
+
+SceneObject::SceneObject()
+{
+	renderEngine = dEngine->GetRenderer();
 }
 
 void SceneObject::SetRotation(Vector3D eulor)
@@ -42,6 +48,13 @@ void SceneObject::SetPosition(double x, double y, double z)
 Vector3D SceneObject::GetRotationAsEulor()
 {
 	return rotation.AsEuler();
+}
+
+inline void SceneObject::SetRotation(Quaternion quat)
+{
+	WaitForMutex();
+	rotation = quat;
+	UnlockMutex();
 }
 
 void SceneObject::RotateByScaledAxis(Vector3D axis)

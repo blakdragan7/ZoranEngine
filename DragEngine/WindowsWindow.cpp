@@ -1,12 +1,12 @@
 #include "stdafx.h"
 #include "WindowsWindow.h"
-#include "RenderEngine.h"
+#include "RenderEngineBase.h"
 #include "DragEngine.h"
 #include <iostream>
 
 static LRESULT CALLBACK wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-WindowsWindow::WindowsWindow(RenderEngine* engine) :  WindowBase(engine)
+WindowsWindow::WindowsWindow(RenderEngineBase* engine) :  WindowBase(engine)
 {
 
 }

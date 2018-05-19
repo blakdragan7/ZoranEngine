@@ -7,6 +7,12 @@
 
 #include <iostream>
 
+#ifdef _WIN32
+#include "WindowsThread.h"
+#else
+
+#endif
+
 DragEngine* DragEngine::instance = 0;
 
 DragEngine::DragEngine()
@@ -76,4 +82,15 @@ void DragEngine::MouseEvent(MouseEventType, float value)
 
 void DragEngine::MouseMove(float x, float y)
 {
+}
+
+ThreadBase * DragEngine::CreateThread()
+{
+	ThreadBase* thread = 0;
+#ifdef _WIN32
+	thread = new WindowsThread();
+#else
+	throw std::exception("Threads Not Implented For This Platform !");
+#endif
+	return thread;
 }

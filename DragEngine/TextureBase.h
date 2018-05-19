@@ -6,12 +6,12 @@
 * This represents a texture stored in gpu memory. This calss is not supposed to be created manually but made through a RenderEngine
 */
 
-class RenderEngine;
+class RenderEngineBase;
 class DRAGENGINE_EXPORT TextureBase
 {
 private:
 
-	RenderEngine* engine;
+	RenderEngineBase * engine;
 	RenderDataType type; // represents the type of the data stored
 	RenderDataFormat format; // represents the format of the data stored
 	bool containsData; // simply wether or not this texture has valid texture data
@@ -20,7 +20,7 @@ protected:
 	unsigned LoadFromPNG(const char* path,unsigned &x, unsigned &y, unsigned char * data);
 
 public:
-	TextureBase(RenderEngine* engine, RenderDataType type = TYPE_BGRA_32, RenderDataFormat format = FORMAT_UNSIGNED_BYTE);
+	TextureBase(RenderEngineBase* engine, RenderDataType type = TYPE_BGRA_32, RenderDataFormat format = FORMAT_UNSIGNED_BYTE);
 	virtual ~TextureBase();
 
 	RenderDataType GetRenderDataType()const { return type; }

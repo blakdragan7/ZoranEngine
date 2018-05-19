@@ -3,7 +3,9 @@
 #include "Matrix.hpp"
 #include "MathLib.h"
 
-class Quaternion
+#include "PlatformTypes.h"
+
+class DRAGENGINE_EXPORT Quaternion
 {
 private:
 	double vals[4];

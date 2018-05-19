@@ -1,12 +1,14 @@
 #include "stdafx.h"
 #include "OpenGLRenderEngine.h"
 #include "GL\glew.h"
+#include "SceneObject.h"
+#include "ShaderProgramBase.h"
+
 #include <iostream>
 
 OpenGLRenderEngine::OpenGLRenderEngine()
 {
 }
-
 
 OpenGLRenderEngine::~OpenGLRenderEngine()
 {
@@ -66,10 +68,13 @@ void OpenGLRenderEngine::InitEngine(WindowHandle handle)
 
 void OpenGLRenderEngine::DisableAlpha()
 {
+	glDisable(GL_BLEND);
 }
 
 void OpenGLRenderEngine::EnableAlpha()
 {
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 void OpenGLRenderEngine::ClearBuffers()
@@ -80,6 +85,16 @@ void OpenGLRenderEngine::ClearBuffers()
 
 void OpenGLRenderEngine::DrawAll()
 {
+	for (auto iter : renderMap)
+	{
+		ShaderProgramBase* program = iter.first;
+		for (SceneObject* object : iter.second)
+		{
+			object->PreRender();
+			object->RenderScene();
+			object->PostRender();
+		}
+	}
 }
 
 void OpenGLRenderEngine::Resize(int x, int y)
@@ -89,10 +104,60 @@ void OpenGLRenderEngine::Resize(int x, int y)
 
 void OpenGLRenderEngine::AddSceneObject(SceneObject* object)
 {
-
+	ShaderProgramBase* program = object->GetShaderProgram();
+	if (renderMap.find(program) != renderMap.end())
+	{
+		renderMap[program].push_back(object);
+	}
+	else
+	{
+		std::vector<SceneObject*> objects;
+		objects.push_back(object);
+		renderMap.insert(GLRenderMapPair(program, objects));
+	}
 }
 
-void OpenGLRenderEngine::RemoveSceneObject(SceneObject* object)
+bool OpenGLRenderEngine::RemoveSceneObject(SceneObject* object)
 {
+	ShaderProgramBase* program = object->GetShaderProgram();
+	if (renderMap.find(program) != renderMap.end())
+	{
+		auto objects = renderMap[program];
+		auto iter = std::find(objects.begin(), objects.end(), object);
+		if (iter != objects.end())
+		{
+			objects.erase(iter);
+			delete object;
+			return true;
+		}
+	}
 
+	std::cerr << "OpenGLRenderEngine::RemoveSceneObject Failed to find and remove SceneObject!\n";
+
+	return false;
+}
+
+TextureBase * OpenGLRenderEngine::CreateTexture(const char * path, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2L size)
+{
+	return nullptr;
+}
+
+TextureBase * OpenGLRenderEngine::CreateTexture(void * data, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2L size)
+{
+	return nullptr;
+}
+
+VertexBufferBase * OpenGLRenderEngine::CreateVertexBuffer(RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2L size, void * data)
+{
+	return nullptr;
+}
+
+bool OpenGLRenderEngine::CreateFrameBuffer(FrameBufferBase ** outBuffer, TextureBase ** outTexture, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2L size)
+{
+	return false;
+}
+
+ShaderProgramBase * OpenGLRenderEngine::CreateShaderProgram(const char * vertex, const char * fragment)
+{
+	return nullptr;
 }

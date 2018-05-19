@@ -5,11 +5,11 @@
 	WindowBase is an abstract base class that defines functions that all windows should have
 */
 
-class RenderEngine;
+class RenderEngineBase;
 class DRAGENGINE_EXPORT WindowBase
 {
 protected:
-	RenderEngine* renderEngine;
+	RenderEngineBase* renderEngine;
 	WindowHandle windowHandle;
 	bool isFullScreen;
 	bool isMaximized;
@@ -22,7 +22,7 @@ protected:
 	void Resize(Vec2L size);
 
 public:
-	WindowBase(RenderEngine* engine);
+	WindowBase(RenderEngineBase* engine);
 	virtual ~WindowBase();
 
 	void SetPosition(Vec2L position);

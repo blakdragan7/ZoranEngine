@@ -7,19 +7,28 @@
 /*
 * Very Basic Object, Essentially represents bare minmum needed to be rendered on the scene
 */
+class RenderEngineBase;
+class ShaderProgramBase;
 class DRAGENGINE_EXPORT SceneObject
 {
 private:
 	Vector3D pos;
 	Quaternion rotation;
+	RenderEngineBase* renderEngine;
+	ShaderProgramBase* shaderProgram;
+
+#pragma warning(push)
+#pragma warning(disable:4251)
 	std::mutex mutex;
+#pragma warning(pop)
 
 protected:
 	void WaitForMutex();
 	void UnlockMutex();
 
 public:
-	SceneObject() {}
+	SceneObject();
+	SceneObject(RenderEngineBase* engine) { renderEngine = engine; }
 	virtual ~SceneObject() {}
 
 	virtual void PostRender() = 0;
@@ -33,10 +42,13 @@ public:
 	void SetPosition(Vector3D pos);
 	void SetPosition(double x, double y, double z);
 
+	inline RenderEngineBase* GetRenderEngine() { return renderEngine; }
+	inline ShaderProgramBase* GetShaderProgram() { return shaderProgram; }
+
 	Vector3D GetRotationAsEulor();
 	
 	inline Quaternion GetRotation() { return rotation; }
-	inline void SetRotation(Quaternion quat) { rotation = quat; }
+	void SetRotation(Quaternion quat);
 
 	void RotateByScaledAxis(Vector3D axis);
 	void RotateByQuat(Quaternion quat);

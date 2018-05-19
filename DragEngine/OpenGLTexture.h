@@ -9,7 +9,7 @@ private:
 	unsigned gl_texture;
 
 public:
-	OpenGLTexture(RenderEngine* engine, RenderDataType type = TYPE_BGRA_32, RenderDataFormat format = FORMAT_UNSIGNED_BYTE);
+	OpenGLTexture(RenderEngineBase* engine, RenderDataType type = TYPE_BGRA_32, RenderDataFormat format = FORMAT_UNSIGNED_BYTE);
 	~OpenGLTexture();
 
 	virtual void LoadFromPath(const char* texture_path, RenderDataType type = TYPE_BGRA_32, RenderDataFormat format = FORMAT_UNSIGNED_BYTE)override;

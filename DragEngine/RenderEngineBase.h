@@ -10,11 +10,13 @@ class SceneObject;
 class TextureBase;
 class VertexBufferBase;
 class FrameBufferBase;
-class DRAGENGINE_EXPORT RenderEngine
+class ShaderProgramBase;
+
+class DRAGENGINE_EXPORT RenderEngineBase
 {
 public:
-	RenderEngine();
-	virtual ~RenderEngine();
+	RenderEngineBase();
+	virtual ~RenderEngineBase();
 
 	virtual void InitEngine(WindowHandle handle) = 0;
 
@@ -29,7 +31,8 @@ public:
 	virtual void AddSceneObject(SceneObject* object) = 0;
 	// Scene Object MUST NEVER BE DELETED OUTSIDE OF THIS FUNCTION
 	// Each implementation must handle detroying objects individually
-	virtual void RemoveSceneObject(SceneObject* object) = 0;
+	// If returns true then the sceneobject passed is deleted, false if it failed to find it
+	virtual bool RemoveSceneObject(SceneObject* object) = 0;
 	// Creates Texture Memory on GPU and returns a texture object.
 	virtual TextureBase* CreateTexture(const char* path, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2L size) = 0;
 	virtual TextureBase* CreateTexture(void* data, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2L size) = 0;
@@ -37,4 +40,6 @@ public:
 	virtual VertexBufferBase* CreateVertexBuffer(RenderDataType bufferType,RenderDataFormat bufferFormat, Vec2L size,void* data=0) = 0;
 	// Create frame buffer for offscreen rendering and the texture that represents the result
 	virtual bool CreateFrameBuffer(FrameBufferBase** outBuffer, TextureBase** outTexture, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2L size) = 0;
+	// Creates a ShaderProgram in gpu memory and returns an instance to it
+	virtual ShaderProgramBase* CreateShaderProgram(const char* vertex, const char* fragment) = 0;
 };

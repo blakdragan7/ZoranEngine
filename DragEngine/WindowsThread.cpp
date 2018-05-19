@@ -47,4 +47,6 @@ DWORD WINAPI WindowsThreadFunc(LPVOID lpParam)
 			thread->Run(0);
 		}
 	}
+
+	return 0;
 }
