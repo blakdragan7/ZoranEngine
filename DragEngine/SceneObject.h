@@ -2,6 +2,8 @@
 #include "PlatformTypes.h"
 #include "Vector3.h"
 #include "Quaternion.h"
+
+#include <mutex>
 /*
 * Very Basic Object, Essentially represents bare minmum needed to be rendered on the scene
 */
@@ -10,6 +12,11 @@ class DRAGENGINE_EXPORT SceneObject
 private:
 	Vector3D pos;
 	Quaternion rotation;
+	std::mutex mutex;
+
+protected:
+	void WaitForMutex();
+	void UnlockMutex();
 
 public:
 	SceneObject() {}
