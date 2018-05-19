@@ -24,4 +24,3 @@ public:
 	virtual void SetRenderDataType(RenderDataType newType)override;
 	virtual void SetRenderDataFormat(RenderDataFormat newFormat)override;
 };
-
