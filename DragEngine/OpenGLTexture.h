@@ -7,10 +7,17 @@ class DRAGENGINE_EXPORT OpenGLTexture : public TextureBase
 {
 private:
 	unsigned gl_texture;
+	static bool glTextureIsEnabled;
+private:
+	unsigned GLTypeFromRenderDataType(RenderDataType type);
+	unsigned GLFormatFromRenderDataFormat(RenderDataFormat format);
 
 public:
-	OpenGLTexture(RenderEngineBase* engine, RenderDataType type = TYPE_BGRA_32, RenderDataFormat format = FORMAT_UNSIGNED_BYTE);
+	OpenGLTexture(RenderEngineBase* engine, unsigned width, unsigned height, RenderDataType type = TYPE_BGRA_32, RenderDataFormat format = FORMAT_UNSIGNED_BYTE);
 	~OpenGLTexture();
+	// these may get moved to TextureBase it depends on how DirectX handles textures
+	void BindTexture(unsigned textureNumber);
+	void UnbindTexture(unsigned textureNumber);
 
 	virtual void LoadFromPath(const char* texture_path, RenderDataType type = TYPE_BGRA_32, RenderDataFormat format = FORMAT_UNSIGNED_BYTE)override;
 	virtual void LoadFromMemory(unsigned x, unsigned y, void* data, RenderDataType type = TYPE_BGRA_32, RenderDataFormat format = FORMAT_UNSIGNED_BYTE)override;
