@@ -2,6 +2,7 @@
 #include "PlatformTypes.h"
 #include "CommomTypes.h"
 
+class ThreadBase;
 class WindowBase;
 class DRAGENGINE_EXPORT DragEngine
 {

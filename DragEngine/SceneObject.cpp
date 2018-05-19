@@ -1,10 +1,10 @@
 #include "stdafx.h"
 #include "SceneObject.h"
-#include "Thread.h"
+#include "ThreadBase.h"
 
 void SceneObject::WaitForMutex()
 {
-	while (mutex.try_lock() == false)Thread::Sleep(0.01);
+	while (mutex.try_lock() == false)ThreadBase::Sleep(0.01);
 }
 
 void SceneObject::UnlockMutex()
