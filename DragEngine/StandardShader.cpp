@@ -18,9 +18,9 @@ StandardShader::~StandardShader()
 
 bool StandardShader::SetupShaderFromSceneObject(SceneObject * object)
 {
-	MatrixD model = object->GetModel();
+	MatrixF model = object->GetModel();
 
-	setUniformMat4("MVP",(float*)&model[0]);
+	setUniformMat4("MVP",&model[0]);
 
 	return true;
 }

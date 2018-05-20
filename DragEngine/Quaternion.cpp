@@ -6,6 +6,7 @@
 Quaternion::Quaternion()
 {
 	memset(vals,0,sizeof(vals));
+	vals[3] = 1;
 }
 
 Quaternion::Quaternion(const double* array)
@@ -85,35 +86,35 @@ Quaternion Quaternion::Product(const Quaternion& rhs) const {
 		W()*rhs.W() - X()*rhs.X() - Y()*rhs.Y() - Z()*rhs.Z());
 }
 
-MatrixD Quaternion::AsMatrix() const {
-	double m[16] = {
+MatrixF Quaternion::AsMatrix() const {
+	float m[16] = {
 		W(), -Z(),  Y(), X(),
 		Z(),  W(), -X(), Y(),
 		-Y(),  X(),  W(), Z(),
 		-X(), -Y(), -Z(), W()
 	};
-	MatrixD mat = MatrixD::MatrixFromArray(4, 4, m);
+	MatrixF mat = MatrixF::MatrixFromArray(4, 4, m);
 	return mat;
 }
 
-MatrixD Quaternion::AsRightMatrix() const {
-	double m[16] = {
+MatrixF Quaternion::AsRightMatrix() const {
+	float m[16] = {
 		+W(), -Z(),  Y(), -X(),
 		+Z(),  W(), -X(), -Y(),
 		-Y(),  X(),  W(), -Z(),
 		+X(),  Y(),  Z(),  W()
 	};
-	MatrixD mat = MatrixD::MatrixFromArray(4, 4, m);
+	MatrixF mat = MatrixF::MatrixFromArray(4, 4, m);
 	return mat;
 }
 
-MatrixD Quaternion::AsRotationMatrix() const {
-	double m[9] = {
+MatrixF Quaternion::AsRotationMatrix() const {
+	float m[9] = {
 		1 - 2 * Y()*Y() - 2 * Z()*Z(), 2 * X()*Y() - 2 * Z()*W(), 2 * X()*Z() + 2 * Y()*W(),
 		2 * X()*Y() + 2 * Z()*W(), 1 - 2 * X()*X() - 2 * Z()*Z(), 2 * Y()*Z() - 2 * X()*W(),
 		2 * X()*Z() - 2 * Y()*W(), 2 * Y()*Z() + 2 * X()*W(), 1 - 2 * X()*X() - 2 * Y()*Y()
 	};
-	MatrixD mat = MatrixD::MatrixFromArray(3, 3, m);
+	MatrixF mat = MatrixF::MatrixFromArray(3, 3, m);
 	return mat;
 }
 

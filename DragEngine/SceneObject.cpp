@@ -119,9 +119,9 @@ void SceneObject::Translate(Vector3D delta)
 	UnlockMutex();
 }
 
-MatrixD SceneObject::GetModel()
+MatrixF SceneObject::GetModel()
 {
-	MatrixD model = MatrixD::GLIdentityMatrix();
+	MatrixF model = MatrixF::GLIdentityMatrix();
 	WaitForMutex();
 	model.translate(pos);
 	model = rotation.AsMatrix()*model;

@@ -23,9 +23,9 @@ public:
 	Quaternion Product(const Quaternion& rhs) const;
 	double GetMagnitude() const;
 
-	MatrixD AsMatrix() const;
-	MatrixD AsRightMatrix() const;
-	MatrixD AsRotationMatrix() const;
+	MatrixF AsMatrix() const;
+	MatrixF AsRightMatrix() const;
+	MatrixF AsRotationMatrix() const;
 	Vector3D RotatedVector(const Vector3D& v) const;
 
 	static Quaternion FromScaledAxis(Vector3D& w);

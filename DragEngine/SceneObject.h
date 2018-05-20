@@ -62,6 +62,6 @@ public:
 
 	void Translate(Vector3D delta);
 
-	MatrixD GetModel();
+	MatrixF GetModel();
 };
 
