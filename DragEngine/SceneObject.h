@@ -28,6 +28,9 @@ protected:
 	void WaitForMutex();
 	void UnlockMutex();
 
+	void SetShaderProgram(ShaderProgramBase* newShaderProgram);
+	void SetRenderedObject(RenderedObjectBase* newRenderedObject);
+
 public:
 	SceneObject();
 	SceneObject(RenderEngineBase* engine) { renderEngine = engine; }
@@ -46,6 +49,7 @@ public:
 
 	inline RenderEngineBase* GetRenderEngine() { return renderEngine; }
 	inline ShaderProgramBase* GetShaderProgram() { return shaderProgram; }
+	inline RenderedObjectBase* GetRenderedObject() { return renderedObject; }
 
 	Vector3D GetRotationAsEulor();
 	

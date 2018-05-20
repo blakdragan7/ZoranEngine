@@ -28,6 +28,9 @@
     <Filter Include="Windows">
       <UniqueIdentifier>{501f8354-2d90-4bb9-b765-134957274745}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{b596d8f7-b018-489c-a2f2-47d93ab3662e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DragEngine.h">
@@ -105,6 +108,15 @@
     <ClInclude Include="OpenGLObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="OpenGLShaderProgramBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StandardShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TestSceneObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DragEngine.cpp">
@@ -173,8 +185,23 @@
     <ClCompile Include="OpenGLObject.cpp">
       <Filter>OpenGL</Filter>
     </ClCompile>
+    <ClCompile Include="OpenGLShaderProgramBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StandardShader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TestSceneObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />
+    <None Include="Shaders\standard.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\standard.vert">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

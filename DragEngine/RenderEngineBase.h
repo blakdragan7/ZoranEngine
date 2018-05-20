@@ -41,4 +41,7 @@ public:
 	virtual bool CreateFrameBuffer(FrameBufferBase** outBuffer, TextureBase** outTexture, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2L size) = 0;
 	// Creates a ShaderProgram in gpu memory and returns an instance to it
 	virtual ShaderProgramBase* CreateShaderProgram(const char* vertex, const char* fragment) = 0;
+
+	virtual void CheckErrors(const char* text) = 0;
+	virtual void ClearErrors() = 0;
 };

@@ -164,3 +164,21 @@ ShaderProgramBase * OpenGLRenderEngine::CreateShaderProgram(const char * vertex,
 {
 	return nullptr;
 }
+
+void OpenGLRenderEngine::CheckErrors(const char* text)
+{
+		int error;
+		while ((error = glGetError()) != GL_NO_ERROR) {
+			const GLubyte* errorS = gluErrorString(error);
+			if (!errorS)
+				errorS = (const GLubyte*)" ";
+			std::cerr << "Error " << text << ": glError " << errorS << std::endl;
+		}
+}
+
+void OpenGLRenderEngine::ClearErrors()
+{
+	int error;
+	while ((error = glGetError()) != GL_NO_ERROR) {
+	}
+}

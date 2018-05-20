@@ -2,6 +2,7 @@
 #include "OpenGLObject.h"
 #include "GL/glew.h"
 #include <stdexcept>
+#include "RenderEngineBase.h"
 
 OpenGLObject::OpenGLObject()
 {
@@ -9,6 +10,7 @@ OpenGLObject::OpenGLObject()
 	tbo = -1;
 	
 	glGenVertexArrays(1, &vao);
+	renderEngine->CheckErrors("OpenGLObject()");
 }
 
 
@@ -76,6 +78,7 @@ void OpenGLObject::CreateObjectFromMemory(VertexType vertType, DrawType drawType
 		cpuVertData = verts;
 		cpuUVData = uv;
 	}
+	renderEngine->CheckErrors("CreateObjectFromMemory");
 }
 
 unsigned OpenGLObject::GLDrawTypeFromDrawType(DrawType type)
@@ -108,5 +111,55 @@ unsigned OpenGLObject::GLVertexTypeFromVertexType(VertexType type)
 void OpenGLObject::RenderObject()
 {
 	glBindVertexArray(vao);
-	glDrawArrays(drawType,0,numVerts);
+	
+	glDrawArrays(glDrawType,0,numVerts);
+
+	renderEngine->CheckErrors("RenderObject");
+}
+
+void OpenGLObject::MakeFullScreenQuad()
+{
+	this->numVerts = 4;
+
+	this->drawType = DT_Dynamic;
+	this->vertType = VT_Float;
+
+	this->glDrawType = GL_TRIANGLE_STRIP;
+	this->glBufferDrawType = GLDrawTypeFromDrawType(drawType);
+	this->glVertType = GLVertexTypeFromVertexType(vertType);
+
+	if (this->cpuVertData)
+		delete[] this->cpuVertData;
+	if (this->cpuUVData)
+		delete[] this->cpuUVData;
+
+	float vert[12] = { -1.0f,-1.0f, 0.0f,-1.0f,1.0f,0.0f,1.0f,-1.0f,0.0f,1.0f,1.0f,0.0f };
+	float coord[8] = { 0.0f,0.0f,0.0f,1.0f,1.0f,0.0f,1.0f,1.0f };
+
+	this->cpuVertData = malloc(sizeof(vert));
+	this->cpuUVData = malloc(sizeof(coord));
+
+	memcpy(this->cpuVertData, vert, sizeof(vert));
+	memcpy(this->cpuUVData, coord, sizeof(coord));
+
+	glGenBuffers(1, &vbo);
+	glGenBuffers(1, &tbo);
+
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vert), this->cpuVertData, GL_DYNAMIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, tbo);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(coord), this->cpuUVData, GL_DYNAMIC_DRAW);
+
+	glBindVertexArray(vao);
+
+	glEnableVertexAttribArray(vertLocation);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glVertexAttribPointer(vertLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+
+	glEnableVertexAttribArray(UVLocation);
+	glBindBuffer(GL_ARRAY_BUFFER, tbo);
+	glVertexAttribPointer(UVLocation, 2, GL_FLOAT, GL_FALSE, 0, 0);
+
+	renderEngine->CheckErrors("MakeFullScreenQuad");
 }

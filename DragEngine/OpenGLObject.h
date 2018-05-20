@@ -24,5 +24,7 @@ public:
 
 	virtual void CreateObjectFromMemory(VertexType vertType, DrawType drawType, unsigned numVerts, void* verts, void* uv, bool copy = true)override;
 	virtual void RenderObject()override;
+
+	void MakeFullScreenQuad();
 };
 

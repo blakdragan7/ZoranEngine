@@ -3,22 +3,28 @@
 #include "OpenGLShaderProgramBase.h"
 #include "Vector2.h"
 #include "Vector3.h"
+#include "RenderEngineBase.h"
 
 #include <iostream>
+#include <fstream>
+
 OpenGLShaderProgramBase::OpenGLShaderProgramBase()
 {
 	program = glCreateProgram();
+	engine->CheckErrors("OpenGLShaderProgramBase()");
 }
 
 
 OpenGLShaderProgramBase::~OpenGLShaderProgramBase()
 {
 	glDeleteProgram(program);
+	engine->CheckErrors("~OpenGLShaderProgramBase()");
 }
 
 void OpenGLShaderProgramBase::BindProgram()
 {
 	glUseProgram(program);
+	engine->CheckErrors("BindProgram()");
 }
 
 void OpenGLShaderProgramBase::UnBindProgram()
@@ -46,28 +52,94 @@ bool OpenGLShaderProgramBase::Link()
 	return true;
 }
 
+bool OpenGLShaderProgramBase::AddShaderFromSource(const char * source, unsigned type)
+{
+	std::fstream File;
+	File.open(source, std::ios::in);
+	bool good = File.good();
+	if (!good)
+	{
+		std::cerr << "Error File not found: " << source << std::endl;
+		return false;
+	}
+	std::string cs;
+	File.seekg(0, std::ios::end);
+	cs.resize((unsigned int)File.tellg());
+	File.seekg(0, std::ios::beg);
+	File.read(&cs[0], cs.size());
+	File.close();
+	const char* temp = cs.c_str();
+	GLuint shader = glCreateShader(type);
+	glShaderSource(shader, 1, &temp, NULL);
+	glCompileShader(shader);
+
+	GLint isCompiled = 1;
+	glGetShaderiv(shader, GL_COMPILE_STATUS, &isCompiled);
+	if (isCompiled == GL_FALSE)
+	{
+		GLint maxLength = 0;
+		glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &maxLength);
+
+		//The maxLength includes the NULL character
+		GLchar* infoLog = new GLchar[maxLength];
+		glGetShaderInfoLog(shader, maxLength, &maxLength, &infoLog[0]);
+		std::cerr << source << " Compile Error: " << infoLog << std::endl;
+		return false;
+	}
+	glAttachShader(program, shader);
+	glDeleteShader(shader);
+	return true;
+}
+
+bool OpenGLShaderProgramBase::AddShaderFromConst(const char* const_, unsigned type)
+{
+	GLuint shader = glCreateShader(type);
+	glShaderSource(shader, 1, &const_, NULL);
+	glCompileShader(shader);
+
+	GLint isCompiled = 1;
+	glGetShaderiv(shader, GL_COMPILE_STATUS, &isCompiled);
+	if (isCompiled == GL_FALSE)
+	{
+		GLint maxLength = 0;
+		glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &maxLength);
+
+		//The maxLength includes the NULL character
+		char* infoLog = new char[maxLength];
+		glGetShaderInfoLog(shader, maxLength, &maxLength, &infoLog[0]);
+		std::cerr << "Shader Compile Error: " << infoLog << std::endl;
+		return false;
+	}
+	glAttachShader(program, shader);
+	return true;
+}
+
 void OpenGLShaderProgramBase::setUniform(const char* uniform, unsigned int value)
 {
 	GLuint loc = glGetUniformLocation(program, uniform);
 	glUniform1ui(loc, value);
+	engine->CheckErrors("setUniform()");
 }
 
 void OpenGLShaderProgramBase::setUniform(const char* uniform, int value)
 {
 	GLuint loc = glGetUniformLocation(program, uniform);
 	glUniform1i(loc, value);
+	engine->CheckErrors("setUniform()");
 }
 
 void OpenGLShaderProgramBase::setUniform(const char* uniform, float value)
 {
 	GLuint loc = glGetUniformLocation(program, uniform);
 	glUniform1f(loc, value);
+	engine->CheckErrors("setUniform()");
 }
 
 void OpenGLShaderProgramBase::setUniform(const char* uniform, double value)
 {
 	GLuint loc = glGetUniformLocation(program, uniform);
 	glUniform1d(loc, value);
+	engine->CheckErrors("setUniform()");
 }
 
 
@@ -75,44 +147,66 @@ void OpenGLShaderProgramBase::setUniform(const char* uniform, Vector2L* value)
 {
 	GLuint loc = glGetUniformLocation(program, uniform);
 	glUniform2i(loc, value->x, value->y);
+	engine->CheckErrors("setUniform()");
 }
 
 void OpenGLShaderProgramBase::setUniform(const char* uniform, Vector2D* value)
 {
 	GLuint loc = glGetUniformLocation(program, uniform);
 	glUniform2d(loc, value->x, value->y);
+	engine->CheckErrors("setUniform()");
 }
 
 void OpenGLShaderProgramBase::setUniform(const char* uniform, Vector3D* value)
 {
 	GLuint loc = glGetUniformLocation(program, uniform);
 	glUniform3d(loc, value->x, value->y, value->z);
+	engine->CheckErrors("setUniform()");
 }
 
 void OpenGLShaderProgramBase::setUniform(const char* uniform, float value1, float value2, float value3, float value4)
 {
 	GLuint loc = glGetUniformLocation(program, uniform);
 	glUniform4f(loc, value1, value2, value3, value4);
+	engine->CheckErrors("setUniform()");
 }
-
 void OpenGLShaderProgramBase::setUniformMat4(const char * uniform, float * value)
 {
 	GLuint loc = glGetUniformLocation(program, uniform);
 	glUniformMatrix4fv(loc, 1, true, value);
+	engine->CheckErrors("setUniformMat4()");
 }
 
 void OpenGLShaderProgramBase::setUniformMat2(const char * uniform, float * value)
 {
 	GLuint loc = glGetUniformLocation(program, uniform);
 	glUniformMatrix2fv(loc, 1, true, value);
+	engine->CheckErrors("setUniformMat2()");
+}
+
+void OpenGLShaderProgramBase::setUniformMat4(const char * uniform, double * value)
+{
+	GLuint loc = glGetUniformLocation(program, uniform);
+	glUniformMatrix4dv(loc, 1, true, value);
+	engine->CheckErrors("setUniformMat4()");
+}
+
+void OpenGLShaderProgramBase::setUniformMat2(const char * uniform, double * value)
+{
+	GLuint loc = glGetUniformLocation(program, uniform);
+	glUniformMatrix2dv(loc, 1, true, value);
+	engine->CheckErrors("setUniformMat2()");
 }
 
 unsigned OpenGLShaderProgramBase::getAttrLocation(const char * attr)
 {
-	return glGetAttribLocation(program, attr);
+	unsigned att = glGetAttribLocation(program, attr);
+	engine->CheckErrors("getAttrLocation()");
+	return att;
 }
 
 void OpenGLShaderProgramBase::setPatchVertexCount(unsigned int count)
 {
 	glPatchParameteri(GL_PATCH_VERTICES, count);
+	engine->CheckErrors("setPatchVertexCount()");
 }

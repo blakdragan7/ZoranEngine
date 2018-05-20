@@ -12,6 +12,7 @@ enum DrawType
 	DT_Static
 };
 
+class RenderEngineBase;
 class DRAGENGINE_EXPORT RenderedObjectBase
 {
 protected:
@@ -22,6 +23,8 @@ protected:
 
 	VertexType	vertType;
 	DrawType	drawType;
+
+	RenderEngineBase* renderEngine;
 
 public:
 	RenderedObjectBase();

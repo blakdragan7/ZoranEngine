@@ -4,6 +4,8 @@
 #include "DragEngine.h"
 #include "RenderEngineBase.h"
 #include "RenderedObjectBase.h"
+#include "ShaderProgramBase.h"
+
 
 void SceneObject::WaitForMutex()
 {
@@ -15,6 +17,16 @@ void SceneObject::UnlockMutex()
 	mutex.unlock();
 }
 
+void SceneObject::SetShaderProgram(ShaderProgramBase * newShaderProgram)
+{
+	shaderProgram = newShaderProgram;
+}
+
+void SceneObject::SetRenderedObject(RenderedObjectBase * newRenderedObject)
+{
+	renderedObject = newRenderedObject;
+}
+
 SceneObject::SceneObject()
 {
 	renderEngine = dEngine->GetRenderer();
@@ -23,6 +35,7 @@ SceneObject::SceneObject()
 
 void SceneObject::PostRender()
 {
+	// profit ?
 }
 
 void SceneObject::RenderScene()
@@ -32,6 +45,11 @@ void SceneObject::RenderScene()
 
 void SceneObject::PreRender()
 {
+	if (shaderProgram)
+	{
+		shaderProgram->BindProgram();
+		shaderProgram->SetupShaderFromSceneObject(this);
+	}
 }
 
 void SceneObject::SetRotation(Vector3D eulor)

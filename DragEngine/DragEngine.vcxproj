@@ -26,6 +26,7 @@
     <ClInclude Include="MathLib.h" />
     <ClInclude Include="Matrix.hpp" />
     <ClInclude Include="OpenGLRenderEngine.h" />
+    <ClInclude Include="OpenGLShaderProgramBase.h" />
     <ClInclude Include="OpenGLTexture.h" />
     <ClInclude Include="OpenGLObject.h" />
     <ClInclude Include="PlatformTypes.h" />
@@ -35,7 +36,9 @@
     <ClInclude Include="RenderTypes.h" />
     <ClInclude Include="SceneObject.h" />
     <ClInclude Include="ShaderProgramBase.h" />
+    <ClInclude Include="StandardShader.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="TestSceneObject.h" />
     <ClInclude Include="TextureBase.h" />
     <ClInclude Include="TexturedSprite.h" />
     <ClInclude Include="ThreadBase.h" />
@@ -54,6 +57,7 @@
     </ClCompile>
     <ClCompile Include="MathLib.cpp" />
     <ClCompile Include="OpenGLRenderEngine.cpp" />
+    <ClCompile Include="OpenGLShaderProgramBase.cpp" />
     <ClCompile Include="OpenGLTexture.cpp" />
     <ClCompile Include="OpenGLObject.cpp" />
     <ClCompile Include="Quaternion.cpp" />
@@ -61,9 +65,11 @@
     <ClCompile Include="RenderEngineBase.cpp" />
     <ClCompile Include="SceneObject.cpp" />
     <ClCompile Include="ShaderProgramBase.cpp" />
+    <ClCompile Include="StandardShader.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="TestSceneObject.cpp" />
     <ClCompile Include="TextureBase.cpp" />
     <ClCompile Include="TexturedSprite.cpp" />
     <ClCompile Include="ThreadBase.cpp" />
@@ -75,6 +81,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />
+    <None Include="Shaders\standard.frag" />
+    <None Include="Shaders\standard.vert" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
