@@ -27,8 +27,10 @@
     <ClInclude Include="Matrix.hpp" />
     <ClInclude Include="OpenGLRenderEngine.h" />
     <ClInclude Include="OpenGLTexture.h" />
+    <ClInclude Include="OpenGLObject.h" />
     <ClInclude Include="PlatformTypes.h" />
     <ClInclude Include="Quaternion.h" />
+    <ClInclude Include="RenderedObjectBase.h" />
     <ClInclude Include="RenderEngineBase.h" />
     <ClInclude Include="RenderTypes.h" />
     <ClInclude Include="SceneObject.h" />
@@ -39,7 +41,6 @@
     <ClInclude Include="ThreadBase.h" />
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="Vector3.h" />
-    <ClInclude Include="VertexBufferBase.h" />
     <ClInclude Include="WindowBase.h" />
     <ClInclude Include="WindowsThread.h" />
     <ClInclude Include="WindowsWindow.h" />
@@ -54,7 +55,9 @@
     <ClCompile Include="MathLib.cpp" />
     <ClCompile Include="OpenGLRenderEngine.cpp" />
     <ClCompile Include="OpenGLTexture.cpp" />
+    <ClCompile Include="OpenGLObject.cpp" />
     <ClCompile Include="Quaternion.cpp" />
+    <ClCompile Include="RenderedObjectBase.cpp" />
     <ClCompile Include="RenderEngineBase.cpp" />
     <ClCompile Include="SceneObject.cpp" />
     <ClCompile Include="ShaderProgramBase.cpp" />
@@ -66,7 +69,6 @@
     <ClCompile Include="ThreadBase.cpp" />
     <ClCompile Include="Vector2.cpp" />
     <ClCompile Include="Vector3.cpp" />
-    <ClCompile Include="VertexBufferBase.cpp" />
     <ClCompile Include="WindowBase.cpp" />
     <ClCompile Include="WindowsThread.cpp" />
     <ClCompile Include="WindowsWindow.cpp" />

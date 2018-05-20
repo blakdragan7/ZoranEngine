@@ -1,5 +1,5 @@
 #pragma once
-#include "PlatformTypes.h"
+
 #include "Vector3.h"
 #include "Quaternion.h"
 
@@ -9,6 +9,7 @@
 */
 class RenderEngineBase;
 class ShaderProgramBase;
+class RenderedObjectBase;
 class DRAGENGINE_EXPORT SceneObject
 {
 private:
@@ -16,6 +17,7 @@ private:
 	Quaternion rotation;
 	RenderEngineBase* renderEngine;
 	ShaderProgramBase* shaderProgram;
+	RenderedObjectBase* renderedObject;
 
 #pragma warning(push)
 #pragma warning(disable:4251)
@@ -31,9 +33,9 @@ public:
 	SceneObject(RenderEngineBase* engine) { renderEngine = engine; }
 	virtual ~SceneObject() {}
 
-	virtual void PostRender() = 0;
-	virtual void RenderScene() = 0;
-	virtual void PreRender() = 0;
+	virtual void PostRender();
+	virtual void RenderScene();
+	virtual void PreRender();
 
     // Getter / Setter
 

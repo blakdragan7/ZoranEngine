@@ -81,9 +81,6 @@
     <ClInclude Include="lodepng.h">
       <Filter>loadpng</Filter>
     </ClInclude>
-    <ClInclude Include="VertexBufferBase.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="FrameBufferBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -100,6 +97,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ShaderProgramBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderedObjectBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGLObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -137,9 +140,6 @@
     <ClCompile Include="WindowBase.cpp">
       <Filter>BaseClasses</Filter>
     </ClCompile>
-    <ClCompile Include="VertexBufferBase.cpp">
-      <Filter>BaseClasses</Filter>
-    </ClCompile>
     <ClCompile Include="ThreadBase.cpp">
       <Filter>BaseClasses</Filter>
     </ClCompile>
@@ -166,6 +166,12 @@
     </ClCompile>
     <ClCompile Include="WindowsThread.cpp">
       <Filter>Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderedObjectBase.cpp">
+      <Filter>BaseClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGLObject.cpp">
+      <Filter>OpenGL</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

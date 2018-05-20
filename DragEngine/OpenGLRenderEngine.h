@@ -33,7 +33,7 @@ public:
 
 	virtual TextureBase* CreateTexture(const char* path, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2L size)override;
 	virtual TextureBase* CreateTexture(void* data, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2L size)override;
-	virtual VertexBufferBase* CreateVertexBuffer(RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2L size, void* data = 0)override;
+	virtual RenderedObjectBase* CreateRenderedObject()override;
 	virtual bool CreateFrameBuffer(FrameBufferBase** outBuffer, TextureBase** outTexture, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2L size)override;
 	virtual ShaderProgramBase* CreateShaderProgram(const char* vertex, const char* fragment);
 };

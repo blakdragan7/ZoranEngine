@@ -8,7 +8,7 @@ RenderEngine, this is an abstract base class that allows common functionality ac
 */
 class SceneObject;
 class TextureBase;
-class VertexBufferBase;
+class RenderedObjectBase;
 class FrameBufferBase;
 class ShaderProgramBase;
 
@@ -36,8 +36,7 @@ public:
 	// Creates Texture Memory on GPU and returns a texture object.
 	virtual TextureBase* CreateTexture(const char* path, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2L size) = 0;
 	virtual TextureBase* CreateTexture(void* data, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2L size) = 0;
-	// Createx Vertex Buffer in GPU Memory
-	virtual VertexBufferBase* CreateVertexBuffer(RenderDataType bufferType,RenderDataFormat bufferFormat, Vec2L size,void* data=0) = 0;
+	virtual RenderedObjectBase* CreateRenderedObject() = 0;
 	// Create frame buffer for offscreen rendering and the texture that represents the result
 	virtual bool CreateFrameBuffer(FrameBufferBase** outBuffer, TextureBase** outTexture, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2L size) = 0;
 	// Creates a ShaderProgram in gpu memory and returns an instance to it

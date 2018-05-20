@@ -2,6 +2,8 @@
 #include "SceneObject.h"
 #include "ThreadBase.h"
 #include "DragEngine.h"
+#include "RenderEngineBase.h"
+#include "RenderedObjectBase.h"
 
 void SceneObject::WaitForMutex()
 {
@@ -16,6 +18,20 @@ void SceneObject::UnlockMutex()
 SceneObject::SceneObject()
 {
 	renderEngine = dEngine->GetRenderer();
+	renderedObject = renderEngine->CreateRenderedObject();
+}
+
+void SceneObject::PostRender()
+{
+}
+
+void SceneObject::RenderScene()
+{
+	renderedObject->RenderObject();
+}
+
+void SceneObject::PreRender()
+{
 }
 
 void SceneObject::SetRotation(Vector3D eulor)

@@ -3,6 +3,8 @@
 #include "GL\glew.h"
 #include "SceneObject.h"
 #include "ShaderProgramBase.h"
+#include "OpenGLObject.h"
+#include "OpenGLTexture.h"
 
 #include <iostream>
 
@@ -147,9 +149,10 @@ TextureBase * OpenGLRenderEngine::CreateTexture(void * data, RenderDataType buff
 	return nullptr;
 }
 
-VertexBufferBase * OpenGLRenderEngine::CreateVertexBuffer(RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2L size, void * data)
+RenderedObjectBase * OpenGLRenderEngine::CreateRenderedObject()
 {
-	return nullptr;
+	OpenGLObject* object = new OpenGLObject();
+	return object;
 }
 
 bool OpenGLRenderEngine::CreateFrameBuffer(FrameBufferBase ** outBuffer, TextureBase ** outTexture, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2L size)
