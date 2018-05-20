@@ -19,7 +19,7 @@ protected:
 	unsigned width, height;
 
 protected:
-	unsigned LoadFromPNG(const char* path,unsigned &x, unsigned &y, unsigned char * data);
+	unsigned LoadFromPNG(const char* path,unsigned &x, unsigned &y, unsigned char ** data);
 
 public:
 	TextureBase(RenderEngineBase* engine, unsigned width,unsigned height,RenderDataType type = TYPE_BGRA_32, RenderDataFormat format = FORMAT_UNSIGNED_BYTE);

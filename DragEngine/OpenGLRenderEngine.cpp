@@ -141,7 +141,9 @@ bool OpenGLRenderEngine::RemoveSceneObject(SceneObject* object)
 
 TextureBase * OpenGLRenderEngine::CreateTexture(const char * path, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2L size)
 {
-	return nullptr;
+	OpenGLTexture* texture = new OpenGLTexture(this, size.w, size.h);
+	texture->LoadFromPath("test.png");
+	return texture;
 }
 
 TextureBase * OpenGLRenderEngine::CreateTexture(void * data, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2L size)

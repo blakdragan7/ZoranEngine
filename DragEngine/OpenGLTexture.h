@@ -13,7 +13,7 @@ private:
 	unsigned GLFormatFromRenderDataFormat(RenderDataFormat format);
 
 public:
-	OpenGLTexture(RenderEngineBase* engine, unsigned width, unsigned height, RenderDataType type = TYPE_BGRA_32, RenderDataFormat format = FORMAT_UNSIGNED_BYTE);
+	OpenGLTexture(RenderEngineBase* engine, unsigned width, unsigned height, RenderDataType type = TYPE_RGBA_32, RenderDataFormat format = FORMAT_UNSIGNED_BYTE);
 	~OpenGLTexture();
 	// these may get moved to TextureBase it depends on how DirectX handles textures
 	void BindTexture(unsigned textureNumber);

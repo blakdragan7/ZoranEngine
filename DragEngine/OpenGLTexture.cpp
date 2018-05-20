@@ -12,24 +12,29 @@ OpenGLTexture::OpenGLTexture(RenderEngineBase * engine, unsigned width_, unsigne
 	glEnable(GL_TEXTURE_2D);
 
 	glGenTextures(1, &gl_texture);
+
+	engine->CheckErrors("OpenGLTexture");
 }
 
 
 OpenGLTexture::~OpenGLTexture()
 {
 	glDeleteTextures(1, &gl_texture);
+	engine->CheckErrors("~OpenGLTexture");
 }
 
 void OpenGLTexture::BindTexture(unsigned textureNumber)
 {
 	glActiveTexture(GL_TEXTURE0 + textureNumber);
 	glBindTexture(GL_TEXTURE_2D, gl_texture);
+	engine->CheckErrors("BindTexture");
 }
 
 void OpenGLTexture::UnbindTexture(unsigned textureNumber)
 {
 	glActiveTexture(GL_TEXTURE0 + textureNumber);
 	glBindTexture(GL_TEXTURE_2D, 0);
+	engine->CheckErrors("UnbindTexture");
 }
 
 void OpenGLTexture::LoadFromPath(const char * texture_path, RenderDataType type, RenderDataFormat format)
@@ -37,9 +42,11 @@ void OpenGLTexture::LoadFromPath(const char * texture_path, RenderDataType type,
 	unsigned w = 0;
 	unsigned h = 0;
 	unsigned char *data = 0;
-	unsigned error = LoadFromPNG(texture_path, w, h, data);
+	unsigned error = LoadFromPNG(texture_path, w, h, &data);
 
 	LoadFromMemory(w, h, data, RenderDataType::TYPE_RGBA_32);
+
+	free(data);
 }
 
 void OpenGLTexture::LoadFromMemory(unsigned w, unsigned h, void * data, RenderDataType type, RenderDataFormat format)
@@ -50,18 +57,19 @@ void OpenGLTexture::LoadFromMemory(unsigned w, unsigned h, void * data, RenderDa
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GLFormatFromRenderDataFormat(this->format), width, height, 0, GLFormatFromRenderDataFormat(format), GLTypeFromRenderDataType(type), data);
+	glTexImage2D(GL_TEXTURE_2D, 0, GLTypeFromRenderDataType(this->type), width, height, 0, GLTypeFromRenderDataType(type), GLFormatFromRenderDataFormat(format), data);
 
-	glBindTexture(GL_TEXTURE_2D, 0);
-
+	engine->CheckErrors("LoadFromMemory");
 }
 
 void OpenGLTexture::SetRenderDataType(RenderDataType newType)
 {
+	engine->CheckErrors("SetRenderDataType");
 }
 
 void OpenGLTexture::SetRenderDataFormat(RenderDataFormat newFormat)
 {
+	engine->CheckErrors("SetRenderDataFormat");
 }
 
 unsigned OpenGLTexture::GLTypeFromRenderDataType(RenderDataType type)
