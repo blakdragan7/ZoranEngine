@@ -1,6 +1,6 @@
 #pragma once
 #include "OpenGLShaderProgramBase.h"
-class StandardShader : public OpenGLShaderProgramBase
+class DRAGENGINE_EXPORT StandardShader : public OpenGLShaderProgramBase
 {
 public:
 	StandardShader();

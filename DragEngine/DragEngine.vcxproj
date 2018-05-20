@@ -38,7 +38,6 @@
     <ClInclude Include="ShaderProgramBase.h" />
     <ClInclude Include="StandardShader.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="TestSceneObject.h" />
     <ClInclude Include="TextureBase.h" />
     <ClInclude Include="TexturedSprite.h" />
     <ClInclude Include="ThreadBase.h" />
@@ -69,7 +68,6 @@
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="TestSceneObject.cpp" />
     <ClCompile Include="TextureBase.cpp" />
     <ClCompile Include="TexturedSprite.cpp" />
     <ClCompile Include="ThreadBase.cpp" />

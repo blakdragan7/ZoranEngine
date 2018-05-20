@@ -4,7 +4,6 @@
 #include "WindowBase.h"
 #include "WindowsWindow.h"
 #include "OpenGLRenderEngine.h"
-#include "TestSceneObject.h"
 #include <iostream>
 
 #ifdef _WIN32
@@ -58,8 +57,6 @@ bool DragEngine::Init()
 	WindowsWindow* window = new WindowsWindow(mainRenderEngine);
 	window->MakeWindow("test", 0, 0, 1920, 1080);
 	mainRenderEngine->InitEngine(window->GetHandle());
-	TestSceneObject* object = new TestSceneObject();
-	mainRenderEngine->AddSceneObject(object);
 
 	mainWindow = window;
 	return true;

@@ -114,9 +114,6 @@
     <ClInclude Include="StandardShader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TestSceneObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DragEngine.cpp">
@@ -189,9 +186,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="StandardShader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TestSceneObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -31,6 +31,7 @@ SceneObject::SceneObject()
 {
 	renderEngine = dEngine->GetRenderer();
 	renderedObject = renderEngine->CreateRenderedObject();
+	scale = Vector3D(1.0,1.0,1.0);
 }
 
 void SceneObject::PostRender()
@@ -79,6 +80,22 @@ void SceneObject::SetPosition(double x, double y, double z)
 	UnlockMutex();
 }
 
+void SceneObject::SetScale(Vector3D scale)
+{
+	WaitForMutex();
+	scale = scale;
+	UnlockMutex();
+}
+
+void SceneObject::SetScale(double x, double y, double z)
+{
+	WaitForMutex();
+	scale.x = x;
+	scale.y = y;
+	scale.z = z;
+	UnlockMutex();
+}
+
 Vector3D SceneObject::GetRotationAsEulor()
 {
 	return rotation.AsEuler();
@@ -119,11 +136,20 @@ void SceneObject::Translate(Vector3D delta)
 	UnlockMutex();
 }
 
+void SceneObject::Scale(Vector3D scale)
+{
+	WaitForMutex();
+	this->scale *= scale;
+	UnlockMutex();
+}
+
 MatrixF SceneObject::GetModel()
 {
 	MatrixF model = MatrixF::GLIdentityMatrix();
+
 	WaitForMutex();
 	model.translate(pos);
+	model.scale(scale);
 	model = rotation.AsMatrix()*model;
 	UnlockMutex();
 	return model;

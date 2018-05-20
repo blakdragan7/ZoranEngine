@@ -18,6 +18,8 @@ TestSceneObject::TestSceneObject()
 	}
 	Vec2L size(800,800);
 	texture = dEngine->GetRenderer()->CreateTexture("test.png",RenderDataType::TYPE_RGBA_32,RenderDataFormat::FORMAT_UNSIGNED_BYTE,size);
+
+	Scale(Vector3D(0.5,-0.5,1.0));
 }
 
 

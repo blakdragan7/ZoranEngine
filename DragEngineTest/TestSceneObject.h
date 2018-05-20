@@ -1,5 +1,5 @@
 #pragma once
-#include "SceneObject.h"
+#include <SceneObject.h>
 class TextureBase;
 class TestSceneObject : public SceneObject
 {

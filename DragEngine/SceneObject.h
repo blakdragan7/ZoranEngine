@@ -13,6 +13,7 @@ class RenderedObjectBase;
 class DRAGENGINE_EXPORT SceneObject
 {
 private:
+	Vector3D scale;
 	Vector3D pos;
 	Quaternion rotation;
 	RenderEngineBase* renderEngine;
@@ -46,6 +47,8 @@ public:
 	void SetRotationFromAxis(Vector3D axis);
 	void SetPosition(Vector3D pos);
 	void SetPosition(double x, double y, double z);
+	void SetScale(Vector3D scale);
+	void SetScale(double x, double y, double z);
 
 	inline RenderEngineBase* GetRenderEngine() { return renderEngine; }
 	inline ShaderProgramBase* GetShaderProgram() { return shaderProgram; }
@@ -61,6 +64,7 @@ public:
 	void RotateByEulor(Vector3D eulor);
 
 	void Translate(Vector3D delta);
+	void Scale(Vector3D scale);
 
 	MatrixF GetModel();
 };
