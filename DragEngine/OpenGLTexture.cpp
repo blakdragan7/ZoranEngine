@@ -72,6 +72,16 @@ void OpenGLTexture::SetRenderDataFormat(RenderDataFormat newFormat)
 	engine->CheckErrors("SetRenderDataFormat");
 }
 
+void OpenGLTexture::UseTexture(void * data)
+{
+	BindTexture((unsigned)data);
+}
+
+void OpenGLTexture::StopUsingTexture(void * data)
+{
+	UnbindTexture((unsigned)data);
+}
+
 unsigned OpenGLTexture::GLTypeFromRenderDataType(RenderDataType type)
 {
 	switch (type)

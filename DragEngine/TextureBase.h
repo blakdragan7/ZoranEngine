@@ -42,7 +42,9 @@ public:
 
 	virtual void SetRenderDataType(RenderDataType newType) = 0;
 	virtual void SetRenderDataFormat(RenderDataFormat newFormat) = 0;
-
+	/* data argument is available in case d3d needs something to be passed to use OpenGL Textures just use this argument as an int*/
+	virtual void UseTexture(void* data) = 0;
+	virtual void StopUsingTexture(void* data)=0;
 	friend class RenderEngineBase;
 };
 

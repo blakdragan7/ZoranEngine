@@ -23,4 +23,7 @@ public:
 	virtual void LoadFromMemory(unsigned x, unsigned y, void* data, RenderDataType type = TYPE_BGRA_32, RenderDataFormat format = FORMAT_UNSIGNED_BYTE)override;
 	virtual void SetRenderDataType(RenderDataType newType)override;
 	virtual void SetRenderDataFormat(RenderDataFormat newFormat)override;
+
+	virtual void UseTexture(void* data);
+	virtual void StopUsingTexture(void* data);
 };
