@@ -6,3 +6,4 @@
 #endif
 
 #include <memory>
+#include "PlatformTypes.h"

@@ -11,8 +11,11 @@ private:
 
 private:
 	void SetSizeAndPositionByRect(RECT rect);
+	unsigned ConvertWPARAMToKey(WPARAM key);
+
 public:
-	WindowsWindow(RenderEngine* engine);
+
+	WindowsWindow(RenderEngineBase* engine);
 	~WindowsWindow();
 
 	virtual bool MakeWindow(const char* title,int x, int y, int w, int h)override;

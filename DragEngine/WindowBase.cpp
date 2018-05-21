@@ -1,9 +1,9 @@
 #include "stdafx.h"
 
 #include "WindowBase.h"
-#include "RenderEngine.h"
+#include "RenderEngineBase.h"
 
-WindowBase::WindowBase(RenderEngine* engine)
+WindowBase::WindowBase(RenderEngineBase* engine)
 {
 	this->renderEngine = engine;
 	isFullScreen = false;

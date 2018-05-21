@@ -1,11 +1,12 @@
 #include "stdafx.h"
 #include "WindowsWindow.h"
-#include "RenderEngine.h"
+#include "RenderEngineBase.h"
+#include "DragEngine.h"
 #include <iostream>
 
 static LRESULT CALLBACK wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-WindowsWindow::WindowsWindow(RenderEngine* engine) :  WindowBase(engine)
+WindowsWindow::WindowsWindow(RenderEngineBase* engine) :  WindowBase(engine)
 {
 
 }
@@ -120,6 +121,12 @@ void WindowsWindow::SetSizeAndPositionByRect(RECT rect)
 	SetWindowPos(hwnd, NULL, position.x, position.y, size.x, size.y, SWP_NOZORDER | SWP_SHOWWINDOW);
 }
 
+unsigned WindowsWindow::ConvertWPARAMToKey(WPARAM key)
+{
+	if(key < 0x70 || key > 0x87)return key; // ascii
+	return key + 0x378;
+}
+
 void WindowsWindow::SetPosition(long x, long y)
 {
 	SetWindowPos(hwnd, NULL, x, y, size.x, size.y, SWP_NOZORDER | SWP_NOSIZE | SWP_SHOWWINDOW);
@@ -174,11 +181,11 @@ static LRESULT CALLBACK wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 		}
 		if (uMsg == WM_QUIT)
 		{
-			exit(0);
+			dEngine->StopRunning();
 		}
 		if (uMsg == WM_CLOSE)
 		{
-			exit(0);
+			dEngine->StopRunning();
 		}
 		if (uMsg == WM_SIZE)
 		{
@@ -200,37 +207,33 @@ static LRESULT CALLBACK wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 		}
 		if (uMsg == WM_KEYDOWN)
 		{
-
+			dEngine->KeyEvent(KEY_DOWN, pThis->ConvertWPARAMToKey(wParam));
 		}
 		if (uMsg == WM_KEYUP)
 		{
-			pThis->SetWindowFullScreen(!pThis->IsFullScreen());
+			dEngine->KeyEvent(KEY_UP, pThis->ConvertWPARAMToKey(wParam));
 		}
 		if (uMsg == WM_LBUTTONDOWN)
 		{
-
+			dEngine->MouseEvent(MOUSE_L_DOWN, 0);
 		}
 		if (uMsg == WM_RBUTTONDOWN)
 		{
-
+			dEngine->MouseEvent(MOUSE_R_DOWN, 0);
 		}
 		if (uMsg == WM_LBUTTONUP)
 		{
-
+			dEngine->MouseEvent(MOUSE_L_UP, 0);
 		}
 		if (uMsg == WM_RBUTTONUP)
 		{
-
-
+			dEngine->MouseEvent(MOUSE_R_UP, 0);
 		}
 		if (uMsg == WM_MOUSEMOVE)
 		{
-
+			dEngine->MouseMove(LOWORD(lParam),HIWORD(lParam));
 		}
 	}
-
-
-	
 
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }

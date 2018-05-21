@@ -1,12 +1,16 @@
 #include "stdafx.h"
 #include "OpenGLRenderEngine.h"
 #include "GL\glew.h"
+#include "SceneObject.h"
+#include "ShaderProgramBase.h"
+#include "OpenGLObject.h"
+#include "OpenGLTexture.h"
+
 #include <iostream>
 
 OpenGLRenderEngine::OpenGLRenderEngine()
 {
 }
-
 
 OpenGLRenderEngine::~OpenGLRenderEngine()
 {
@@ -66,22 +70,117 @@ void OpenGLRenderEngine::InitEngine(WindowHandle handle)
 
 void OpenGLRenderEngine::DisableAlpha()
 {
+	glDisable(GL_BLEND);
 }
 
 void OpenGLRenderEngine::EnableAlpha()
 {
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 void OpenGLRenderEngine::ClearBuffers()
 {
+	glClearColor(1.0,0.0,0.0,1.0);
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 }
 
 void OpenGLRenderEngine::DrawAll()
 {
+	for (auto iter : renderMap)
+	{
+		ShaderProgramBase* program = iter.first;
+		for (SceneObject* object : iter.second)
+		{
+			object->PreRender();
+			object->RenderScene();
+			object->PostRender();
+		}
+	}
 }
 
 void OpenGLRenderEngine::Resize(int x, int y)
 {
 	glViewport(0, 0, x, y);
+}
+
+void OpenGLRenderEngine::AddSceneObject(SceneObject* object)
+{
+	ShaderProgramBase* program = object->GetShaderProgram();
+	if (renderMap.find(program) != renderMap.end())
+	{
+		renderMap[program].push_back(object);
+	}
+	else
+	{
+		std::vector<SceneObject*> objects;
+		objects.push_back(object);
+		renderMap.insert(GLRenderMapPair(program, objects));
+	}
+}
+
+bool OpenGLRenderEngine::RemoveSceneObject(SceneObject* object)
+{
+	ShaderProgramBase* program = object->GetShaderProgram();
+	if (renderMap.find(program) != renderMap.end())
+	{
+		auto objects = renderMap[program];
+		auto iter = std::find(objects.begin(), objects.end(), object);
+		if (iter != objects.end())
+		{
+			objects.erase(iter);
+			delete object;
+			return true;
+		}
+	}
+
+	std::cerr << "OpenGLRenderEngine::RemoveSceneObject Failed to find and remove SceneObject!\n";
+
+	return false;
+}
+
+TextureBase * OpenGLRenderEngine::CreateTexture(const char * path, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2L size)
+{
+	OpenGLTexture* texture = new OpenGLTexture(this, size.w, size.h);
+	texture->LoadFromPath("test.png");
+	return texture;
+}
+
+TextureBase * OpenGLRenderEngine::CreateTexture(void * data, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2L size)
+{
+	return nullptr;
+}
+
+RenderedObjectBase * OpenGLRenderEngine::CreateRenderedObject()
+{
+	OpenGLObject* object = new OpenGLObject();
+	return object;
+}
+
+bool OpenGLRenderEngine::CreateFrameBuffer(FrameBufferBase ** outBuffer, TextureBase ** outTexture, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2L size)
+{
+	return false;
+}
+
+ShaderProgramBase * OpenGLRenderEngine::CreateShaderProgram(const char * vertex, const char * fragment)
+{
+	return nullptr;
+}
+
+void OpenGLRenderEngine::CheckErrors(const char* text)
+{
+		int error;
+		while ((error = glGetError()) != GL_NO_ERROR) {
+			const GLubyte* errorS = gluErrorString(error);
+			if (!errorS)
+				errorS = (const GLubyte*)" ";
+			std::cerr << "Error " << text << ": glError " << errorS << std::endl;
+		}
+}
+
+void OpenGLRenderEngine::ClearErrors()
+{
+	int error;
+	while ((error = glGetError()) != GL_NO_ERROR) {
+	}
 }
