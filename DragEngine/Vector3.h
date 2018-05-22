@@ -37,9 +37,13 @@ public:
 	Vector3D operator/(double &scalor);
 
 	double getMagnitude();
+	double getMagnitudeSqr();
 	void normalize();
 
 	Vector3D cross(const Vector3D other);
+
+	double distance(Vector3D other);
+	double distanceSqr(Vector3D other);
 };
 
 #define Vec3D Vector3D

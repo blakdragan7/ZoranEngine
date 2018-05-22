@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BoxCollisionObject.h" />
     <ClInclude Include="CommomTypes.h" />
     <ClInclude Include="DragEngine.h" />
     <ClInclude Include="FrameBufferBase.h" />
@@ -29,6 +30,8 @@
     <ClInclude Include="OpenGLShaderProgramBase.h" />
     <ClInclude Include="OpenGLTexture.h" />
     <ClInclude Include="OpenGLObject.h" />
+    <ClInclude Include="PhysicsEngine.h" />
+    <ClInclude Include="PhysicsObjectBase.h" />
     <ClInclude Include="PlatformTypes.h" />
     <ClInclude Include="Quaternion.h" />
     <ClInclude Include="RenderedObjectBase.h" />
@@ -43,11 +46,13 @@
     <ClInclude Include="ThreadBase.h" />
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="Vector3.h" />
+    <ClInclude Include="Version.h" />
     <ClInclude Include="WindowBase.h" />
     <ClInclude Include="WindowsThread.h" />
     <ClInclude Include="WindowsWindow.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BoxCollisionObject.cpp" />
     <ClCompile Include="CommonTypes.cpp" />
     <ClCompile Include="DragEngine.cpp" />
     <ClCompile Include="FrameBufferBase.cpp" />
@@ -59,6 +64,8 @@
     <ClCompile Include="OpenGLShaderProgramBase.cpp" />
     <ClCompile Include="OpenGLTexture.cpp" />
     <ClCompile Include="OpenGLObject.cpp" />
+    <ClCompile Include="PhysicsEngine.cpp" />
+    <ClCompile Include="PhysicsObjectBase.cpp" />
     <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="RenderedObjectBase.cpp" />
     <ClCompile Include="RenderEngineBase.cpp" />

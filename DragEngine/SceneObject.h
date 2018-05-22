@@ -50,6 +50,9 @@ public:
 	void SetScale(Vector3D scale);
 	void SetScale(double x, double y, double z);
 
+	Vector3D GetPosition();
+	Vector3D GetScale();
+
 	inline RenderEngineBase* GetRenderEngine() { return renderEngine; }
 	inline ShaderProgramBase* GetShaderProgram() { return shaderProgram; }
 	inline RenderedObjectBase* GetRenderedObject() { return renderedObject; }
@@ -67,5 +70,8 @@ public:
 	void Scale(Vector3D scale);
 
 	MatrixF GetModel();
+
+	double DistanceTo(Vector3D pos);
+	double DistanceTo(SceneObject* other);
 };
 

@@ -180,6 +180,11 @@ double Vector3D::getMagnitude()
 	return sqrt((x*x) + (y*y) + (z*z));
 }
 
+double Vector3D::getMagnitudeSqr()
+{
+	return ((x*x) + (y*y) + (z*z));
+}
+
 void Vector3D::normalize()
 {
 	double mag = abs(getMagnitude());
@@ -197,4 +202,14 @@ Vector3D Vector3D::cross(const Vector3D other)
 	res.z = (x * other.y) - (other.x * y);
 
 	return res;
+}
+
+double Vector3D::distance(Vector3D other)
+{
+	return (other - *this).getMagnitude();
+}
+
+double Vector3D::distanceSqr(Vector3D other)
+{
+	return (other - *this).getMagnitudeSqr();
 }

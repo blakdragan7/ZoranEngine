@@ -96,6 +96,16 @@ void SceneObject::SetScale(double x, double y, double z)
 	UnlockMutex();
 }
 
+Vector3D SceneObject::GetPosition()
+{
+	return pos;
+}
+
+Vector3D SceneObject::GetScale()
+{
+	return scale;
+}
+
 Vector3D SceneObject::GetRotationAsEulor()
 {
 	return rotation.AsEuler();
@@ -153,4 +163,14 @@ MatrixF SceneObject::GetModel()
 	model = rotation.AsMatrix()*model;
 	UnlockMutex();
 	return model;
+}
+
+double SceneObject::DistanceTo(Vector3D pos)
+{
+	return this->pos.distance(pos);
+}
+
+double SceneObject::DistanceTo(SceneObject * other)
+{
+	return this->pos.distance(other->pos);
 }
