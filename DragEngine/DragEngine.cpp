@@ -6,6 +6,8 @@
 #include "OpenGLRenderEngine.h"
 #include <iostream>
 
+#include "Version.h"
+
 #ifdef _WIN32
 #include "WindowsThread.h"
 #else
@@ -81,6 +83,18 @@ void DragEngine::MouseEvent(MouseEventType, float value)
 
 void DragEngine::MouseMove(float x, float y)
 {
+}
+
+const char * DragEngine::GetVersion()
+{
+	return Version;
+}
+
+void DragEngine::GetVersion(unsigned &Major, unsigned &Minor, unsigned &Revision)
+{
+	Major = VERSION_MAJOR;
+	Minor = VERSION_MINOR;
+	Revision = VERSION_REVISION;
 }
 
 ThreadBase * DragEngine::CreateThread()

@@ -36,6 +36,9 @@ public:
 
 	static inline DragEngine* Instance() { return instance; }
 
+	const char* GetVersion();
+	void GetVersion(unsigned &Major,unsigned &Minor,unsigned &Revision);
+
 	// Creates a thread for the current platform and returns an instance to it.
 	// You must release this instance when it is done.
 	ThreadBase* CreateThread();
