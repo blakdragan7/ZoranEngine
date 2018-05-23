@@ -1,17 +1,17 @@
 #pragma once
 #include "CollisionObjectBase.h"
 
-#define BOX_COLLISION 2
+#define SPHERE_COLLISION 1
 
-class BoxCollisionObject : public CollisionObjectBase
+class SphereCollisionObject : public CollisionObjectBase
 {
 private:
-	Vector3D minPos;
-	Vector3D maxPos;
+	double radius;
+	double radiusSqr;
 
 public:
-	BoxCollisionObject(Vector3D min,Vector3D max,SceneObject* object, unsigned collisionType = BOX_COLLISION);
-	~BoxCollisionObject();
+	SphereCollisionObject(double radius, SceneObject* object, unsigned collisionType = SPHERE_COLLISION);
+	~SphereCollisionObject();
 
 	virtual bool CollidesWith(Vector3D pos)override;
 	virtual bool CollidesWith(CollisionObjectBase* other)override;

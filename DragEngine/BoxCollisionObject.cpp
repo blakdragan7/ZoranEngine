@@ -2,7 +2,7 @@
 #include "BoxCollisionObject.h"
 
 
-BoxCollisionObject::BoxCollisionObject(Vector3D min, Vector3D max, SceneObject* object) : PhysicsObjectBase(object)
+BoxCollisionObject::BoxCollisionObject(Vector3D min, Vector3D max, SceneObject* object, unsigned collisionType) : CollisionObjectBase(object,collisionType)
 {
 	this->minPos = min;
 	this->maxPos = max;
@@ -20,10 +20,12 @@ bool BoxCollisionObject::CollidesWith(Vector3D pos)
 		   (pos.z >= minPos.z && pos.z <= maxPos.z);
 }
 
-bool BoxCollisionObject::CollidesWith(PhysicsObjectBase * other)
+bool BoxCollisionObject::CollidesWith(CollisionObjectBase * other)
 {
-	if (BoxCollisionObject* otherBox = dynamic_cast<BoxCollisionObject*>(other))
+	if (other->GetCollisionType() == BOX_COLLISION)
 	{
+		BoxCollisionObject* otherBox = (BoxCollisionObject*)other;
+
 		return	(minPos.x <= otherBox->maxPos.x && maxPos.x >= otherBox->minPos.x) && \
 				(minPos.y <= otherBox->maxPos.y && maxPos.y >= otherBox->minPos.y) && \
 				(minPos.z <= otherBox->maxPos.z && maxPos.z >= otherBox->minPos.z);
