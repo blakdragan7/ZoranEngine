@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "SphereCollisionObject.h"
-
+#include "BoxCollisionObject.h"
 
 SphereCollisionObject::SphereCollisionObject(double radius, SceneObject* object, unsigned collisionType) : CollisionObjectBase(object, collisionType)
 {
@@ -20,13 +20,22 @@ bool SphereCollisionObject::CollidesWith(Vector3D pos)
 
 bool SphereCollisionObject::CollidesWith(CollisionObjectBase * other)
 {
-	if (other->GetCollisionType() == SPHERE_COLLISION)
+	switch(other->GetCollisionType()) 
 	{
-		SphereCollisionObject* object = (SphereCollisionObject*)object;
+		case SPHERE_COLLISION:
+		{
+			SphereCollisionObject* object = (SphereCollisionObject*)object;
 
-		double radiusSqrSum = radiusSqr + object->radiusSqr;
-		double distanceSqr = (GetScenePos() - other->GetScenePos()).getMagnitudeSqr();
-		return distanceSqr <= radiusSqrSum;
+			double radiusSqrSum = radiusSqr + object->radiusSqr;
+			double distanceSqr = (GetScenePos() - other->GetScenePos()).getMagnitudeSqr();
+			return distanceSqr <= radiusSqrSum;
+		}
+		break;
+		case BOX_COLLISION:
+		{
+			return CollidesWith(other->GetClosestPointTo(GetScenePos()));
+		}
+		break;
 	}
 
 	return false;

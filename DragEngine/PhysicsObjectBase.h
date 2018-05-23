@@ -9,4 +9,3 @@ public:
 	PhysicsObjectBase();
 	virtual ~PhysicsObjectBase();
 };
-

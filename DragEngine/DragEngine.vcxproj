@@ -31,6 +31,7 @@
     <ClInclude Include="OpenGLTexture.h" />
     <ClInclude Include="OpenGLObject.h" />
     <ClInclude Include="PhysicsEngine.h" />
+    <ClInclude Include="CollisionObjectBase.h" />
     <ClInclude Include="PhysicsObjectBase.h" />
     <ClInclude Include="PlatformTypes.h" />
     <ClInclude Include="Quaternion.h" />
@@ -39,6 +40,7 @@
     <ClInclude Include="RenderTypes.h" />
     <ClInclude Include="SceneObject.h" />
     <ClInclude Include="ShaderProgramBase.h" />
+    <ClInclude Include="SphereCollisionObject.h" />
     <ClInclude Include="StandardShader.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TextureBase.h" />
@@ -65,12 +67,14 @@
     <ClCompile Include="OpenGLTexture.cpp" />
     <ClCompile Include="OpenGLObject.cpp" />
     <ClCompile Include="PhysicsEngine.cpp" />
+    <ClCompile Include="CollisionObjectBase.cpp" />
     <ClCompile Include="PhysicsObjectBase.cpp" />
     <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="RenderedObjectBase.cpp" />
     <ClCompile Include="RenderEngineBase.cpp" />
     <ClCompile Include="SceneObject.cpp" />
     <ClCompile Include="ShaderProgramBase.cpp" />
+    <ClCompile Include="SphereCollisionObject.cpp" />
     <ClCompile Include="StandardShader.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
