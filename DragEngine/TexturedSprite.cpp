@@ -11,7 +11,7 @@ TexturedSprite::TexturedSprite()
 
 TexturedSprite::TexturedSprite(const char* texture, RenderDataType type, RenderDataFormat format, Vec2L size) : SceneObject()
 {
-	texture = dEngine->GetRenderer()->CreateTexture(texture, type, format, size);
+	this->texture = dEngine->GetRenderer()->CreateTexture(texture, type, format, size);
 }
 
 TexturedSprite::~TexturedSprite()
