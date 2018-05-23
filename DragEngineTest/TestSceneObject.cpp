@@ -17,7 +17,7 @@ TestSceneObject::TestSceneObject()
 		object->MakeFullScreenQuad();
 	}
 	Vec2L size(800,800);
-	texture = dEngine->GetRenderer()->CreateTexture("test.png",RenderDataType::TYPE_RGBA_32,RenderDataFormat::FORMAT_UNSIGNED_BYTE,size);
+	SetTexture("test.png", RenderDataType::TYPE_RGBA_32, RenderDataFormat::FORMAT_UNSIGNED_BYTE, size);
 
 	Scale(Vector3D(0.5,-0.5,1.0));
 }
@@ -31,7 +31,5 @@ void TestSceneObject::PreRender()
 {
 	SceneObject::PreRender();
 
-	OpenGLTexture* oglt = dynamic_cast<OpenGLTexture*>(texture);
-
-	oglt->BindTexture(0);
+	GetTexture()->UseTexture(0);
 }

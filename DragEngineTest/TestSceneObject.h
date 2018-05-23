@@ -1,10 +1,8 @@
 #pragma once
-#include <SceneObject.h>
+#include <TexturedSprite.h>
 class TextureBase;
-class TestSceneObject : public SceneObject
+class TestSceneObject : public TexturedSprite
 {
-private:
-	TextureBase * texture;
 
 public:
 	TestSceneObject();
