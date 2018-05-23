@@ -11,7 +11,7 @@ private:
 
 public:
 	TexturedSprite();
-	TexturedSprite(const char* texture);
+	TexturedSprite(const char* texture, RenderDataType type, RenderDataFormat format, Vec2L size);
 	virtual ~TexturedSprite();
 
 	void SetTexture(const char* path,RenderDataType type,RenderDataFormat format, Vec2L size);

@@ -9,13 +9,14 @@ TexturedSprite::TexturedSprite()
 	texture = 0;
 }
 
-TexturedSprite::TexturedSprite(const char* texture) : SceneObject()
+TexturedSprite::TexturedSprite(const char* texture, RenderDataType type, RenderDataFormat format, Vec2L size) : SceneObject()
 {
-	if (texture)delete texture;
+	texture = dEngine->GetRenderer()->CreateTexture(texture, type, format, size);
 }
 
 TexturedSprite::~TexturedSprite()
 {
+	if (texture)delete texture;
 }
 
 void TexturedSprite::SetTexture(const char* path, RenderDataType type, RenderDataFormat format, Vec2L size)
