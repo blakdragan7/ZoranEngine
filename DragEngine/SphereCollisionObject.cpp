@@ -24,7 +24,7 @@ bool SphereCollisionObject::CollidesWith(CollisionObjectBase * other)
 	{
 		case SPHERE_COLLISION:
 		{
-			SphereCollisionObject* object = (SphereCollisionObject*)object;
+			SphereCollisionObject* object = (SphereCollisionObject*)other;
 
 			double radiusSqrSum = radiusSqr + object->radiusSqr;
 			double distanceSqr = (GetScenePos() - other->GetScenePos()).getMagnitudeSqr();

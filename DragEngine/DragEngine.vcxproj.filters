@@ -164,9 +164,6 @@
     <ClCompile Include="lodepng.cpp">
       <Filter>loadpng</Filter>
     </ClCompile>
-    <ClCompile Include="TexturedSprite.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="WindowBase.cpp">
       <Filter>BaseClasses</Filter>
     </ClCompile>
@@ -212,17 +209,20 @@
     <ClCompile Include="PhysicsEngine.cpp">
       <Filter>Physics</Filter>
     </ClCompile>
-    <ClCompile Include="BoxCollisionObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SphereCollisionObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CollisionObjectBase.cpp">
       <Filter>Physics</Filter>
     </ClCompile>
+    <ClCompile Include="SphereCollisionObject.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxCollisionObject.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
     <ClCompile Include="PhysicsObjectBase.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="TexturedSprite.cpp">
+      <Filter>OpenGL</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
