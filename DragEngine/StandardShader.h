@@ -8,4 +8,3 @@ public:
 
 	virtual bool SetupShaderFromSceneObject(SceneObject* object)override;
 };
-

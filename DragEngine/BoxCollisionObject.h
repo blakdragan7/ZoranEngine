@@ -3,7 +3,7 @@
 
 #define BOX_COLLISION 2
 
-class BoxCollisionObject : public CollisionObjectBase
+class DRAGENGINE_EXPORT BoxCollisionObject : public CollisionObjectBase
 {
 private:
 	Vector3D minPos;

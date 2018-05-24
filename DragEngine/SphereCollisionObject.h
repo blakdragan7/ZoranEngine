@@ -3,7 +3,7 @@
 
 #define SPHERE_COLLISION 1
 
-class SphereCollisionObject : public CollisionObjectBase
+class DRAGENGINE_EXPORT SphereCollisionObject : public CollisionObjectBase
 {
 private:
 	double radius;
