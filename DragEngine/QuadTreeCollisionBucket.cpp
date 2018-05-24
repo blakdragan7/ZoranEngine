@@ -7,7 +7,7 @@
 template <typename T>
 void remove(std::vector<T> &v, size_t i);
 
-QuadTreeCollisionBucket::QuadTreeCollisionBucket(Vec3D pos, Vec3D size, unsigned maxObjects,QuadTreeCollisionBucket * parent)
+QuadTreeCollisionBucket::QuadTreeCollisionBucket(Vec3D pos, Vec3D size, unsigned maxObjects,QuadTreeCollisionBucket * parent) : CollisionBucketBase(pos,size,maxObjects)
 {
 	children[0] = 0;
 	children[1] = 0;
@@ -17,11 +17,6 @@ QuadTreeCollisionBucket::QuadTreeCollisionBucket(Vec3D pos, Vec3D size, unsigned
 	hasSubdivided = false;
 
 	this->parent = parent;
-
-	this->collision = new BoxCollisionObject(pos - (size/2.0), pos + (size / 2.0), NULL);
-	this->sceneObject = new SceneObject(NULL);
-	this->sceneObject->SetPosition(pos);
-	this->maxObjects = maxObjects;
 }
 
 
@@ -34,9 +29,6 @@ QuadTreeCollisionBucket::~QuadTreeCollisionBucket()
 		delete children[2];
 		delete children[3];
 	}
-
-	delete collision;
-	delete sceneObject;
 }
 
 void QuadTreeCollisionBucket::AddObject(CollisionObjectBase * object)
@@ -88,6 +80,24 @@ CollisionObjectBase * QuadTreeCollisionBucket::RemoveObject(CollisionObjectBase 
 
 void QuadTreeCollisionBucket::CheckAllCollision()
 {
+	for (unsigned i = 0;i<collisionObjects.size();i++)
+	{
+		CollisionObjectBase* object = collisionObjects[i];
+		if (i < collisionObjects.size() - 1)
+		{
+			for (unsigned j = i+1; j < collisionObjects.size(); j++)
+			{
+				object->CollidesWith(collisionObjects[j]);
+			}
+		}
+	}
+	if (hasSubdivided)
+	{
+		children[0]->CheckAllCollision();
+		children[1]->CheckAllCollision();
+		children[2]->CheckAllCollision();
+		children[3]->CheckAllCollision();
+	}
 }
 
 bool QuadTreeCollisionBucket::ObjectIsWithinBucket(CollisionObjectBase * object)
@@ -97,6 +107,11 @@ bool QuadTreeCollisionBucket::ObjectIsWithinBucket(CollisionObjectBase * object)
 
 void QuadTreeCollisionBucket::Subdivide()
 {
+	if (hasSubdivided)
+	{
+		std::cerr << "QuadTreeCollisionBucket::Subdivide() Already Subdivided !\n";
+		return;
+	}
 	Vec3D subSize = collision->GetSize() / 2.0;
 	Vec3D size = collision->GetSize();
 

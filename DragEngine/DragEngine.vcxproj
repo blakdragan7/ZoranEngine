@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BoxCollisionObject.h" />
+    <ClInclude Include="CollisionBucketBase.h" />
     <ClInclude Include="CommomTypes.h" />
     <ClInclude Include="DragEngine.h" />
     <ClInclude Include="FrameBufferBase.h" />
@@ -56,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BoxCollisionObject.cpp" />
+    <ClCompile Include="CollisionBucketBase.cpp" />
     <ClCompile Include="CommonTypes.cpp" />
     <ClCompile Include="DragEngine.cpp" />
     <ClCompile Include="FrameBufferBase.cpp" />

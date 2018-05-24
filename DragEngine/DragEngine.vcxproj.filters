@@ -141,6 +141,9 @@
     <ClInclude Include="QuadTreeCollisionBucket.h">
       <Filter>Physics</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionBucketBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DragEngine.cpp">
@@ -232,6 +235,9 @@
     </ClCompile>
     <ClCompile Include="QuadTreeCollisionBucket.cpp">
       <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionBucketBase.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
