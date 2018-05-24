@@ -34,6 +34,9 @@
     <Filter Include="Physics">
       <UniqueIdentifier>{fa662e68-6a11-4b50-b3f1-a11545d89b0a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Types">
+      <UniqueIdentifier>{79a32296-3187-40b4-bef2-e25b1be64899}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DragEngine.h">
@@ -46,18 +49,6 @@
       <Filter>Math</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PlatformTypes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OpenGLRenderEngine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="WindowsWindow.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CommomTypes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Quaternion.h">
@@ -75,43 +66,10 @@
     <ClInclude Include="Vector3.h">
       <Filter>Math</Filter>
     </ClInclude>
-    <ClInclude Include="TextureBase.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderTypes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OpenGLTexture.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="lodepng.h">
       <Filter>loadpng</Filter>
     </ClInclude>
-    <ClInclude Include="FrameBufferBase.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ThreadBase.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="WindowsThread.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="TexturedSprite.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderEngineBase.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ShaderProgramBase.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderedObjectBase.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OpenGLObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OpenGLShaderProgramBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="StandardShader.h">
@@ -120,20 +78,68 @@
     <ClInclude Include="PhysicsEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BoxCollisionObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SphereCollisionObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionObjectBase.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="BoxCollisionObject.h">
+      <Filter>Physics</Filter>
     </ClInclude>
     <ClInclude Include="PhysicsObjectBase.h">
-      <Filter>Header Files</Filter>
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="SphereCollisionObject.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGLObject.h">
+      <Filter>OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGLRenderEngine.h">
+      <Filter>OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGLShaderProgramBase.h">
+      <Filter>OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGLTexture.h">
+      <Filter>OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowsWindow.h">
+      <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowsThread.h">
+      <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadBase.h">
+      <Filter>BaseClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderedObjectBase.h">
+      <Filter>BaseClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderEngineBase.h">
+      <Filter>BaseClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameBufferBase.h">
+      <Filter>BaseClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionObjectBase.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderProgramBase.h">
+      <Filter>BaseClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureBase.h">
+      <Filter>BaseClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderTypes.h">
+      <Filter>Types</Filter>
+    </ClInclude>
+    <ClInclude Include="PlatformTypes.h">
+      <Filter>Types</Filter>
+    </ClInclude>
+    <ClInclude Include="CommomTypes.h">
+      <Filter>Types</Filter>
+    </ClInclude>
+    <ClInclude Include="QuadTreeCollisionBucket.h">
+      <Filter>Physics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -142,9 +148,6 @@
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CommonTypes.cpp">
-      <Filter>Header Files</Filter>
     </ClCompile>
     <ClCompile Include="Quaternion.cpp">
       <Filter>Math</Filter>
@@ -223,6 +226,12 @@
     </ClCompile>
     <ClCompile Include="TexturedSprite.cpp">
       <Filter>OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="CommonTypes.cpp">
+      <Filter>Types</Filter>
+    </ClCompile>
+    <ClCompile Include="QuadTreeCollisionBucket.cpp">
+      <Filter>Physics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

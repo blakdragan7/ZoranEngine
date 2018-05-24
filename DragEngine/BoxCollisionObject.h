@@ -16,5 +16,6 @@ public:
 	virtual bool CollidesWith(Vector3D pos)override;
 	virtual bool CollidesWith(CollisionObjectBase* other)override;
 	virtual Vector3D GetClosestPointTo(Vector3D pos)override;
+	virtual Vector3D GetSize();
 };
 

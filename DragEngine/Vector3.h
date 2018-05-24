@@ -31,10 +31,10 @@ public:
 	Vector3D operator-(Vector3D &other);
 	Vector3D operator*(Vector3D &other);
 	Vector3D operator/(Vector3D &other);
-	Vector3D operator+(double &scalor);
-	Vector3D operator-(double &scalor);
-	Vector3D operator*(double &scalor);
-	Vector3D operator/(double &scalor);
+	Vector3D operator+(double scalor);
+	Vector3D operator-(double scalor);
+	Vector3D operator*(double scalor);
+	Vector3D operator/(double scalor);
 
 	double getMagnitude();
 	double getMagnitudeSqr();

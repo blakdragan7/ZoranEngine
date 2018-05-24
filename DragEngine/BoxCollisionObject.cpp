@@ -52,3 +52,8 @@ Vector3D BoxCollisionObject::GetClosestPointTo(Vector3D pos)
 
 	return point;
 }
+
+Vector3D BoxCollisionObject::GetSize()
+{
+	return Vector3D((maxPos - minPos));
+}

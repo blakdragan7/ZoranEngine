@@ -34,6 +34,7 @@
     <ClInclude Include="CollisionObjectBase.h" />
     <ClInclude Include="PhysicsObjectBase.h" />
     <ClInclude Include="PlatformTypes.h" />
+    <ClInclude Include="QuadTreeCollisionBucket.h" />
     <ClInclude Include="Quaternion.h" />
     <ClInclude Include="RenderedObjectBase.h" />
     <ClInclude Include="RenderEngineBase.h" />
@@ -69,6 +70,7 @@
     <ClCompile Include="PhysicsEngine.cpp" />
     <ClCompile Include="CollisionObjectBase.cpp" />
     <ClCompile Include="PhysicsObjectBase.cpp" />
+    <ClCompile Include="QuadTreeCollisionBucket.cpp" />
     <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="RenderedObjectBase.cpp" />
     <ClCompile Include="RenderEngineBase.cpp" />

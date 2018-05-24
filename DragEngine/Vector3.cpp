@@ -135,7 +135,7 @@ Vector3D Vector3D::operator/(Vector3D &other)
 	return ret;
 }
 
-Vector3D Vector3D::operator+(double &scalor)
+Vector3D Vector3D::operator+(double scalor)
 {
 	Vector3D ret;
 	ret.x = x + scalor;
@@ -145,7 +145,7 @@ Vector3D Vector3D::operator+(double &scalor)
 	return ret;
 }
 
-Vector3D Vector3D::operator-(double &scalor)
+Vector3D Vector3D::operator-(double scalor)
 {
 	Vector3D ret;
 	ret.x = x - scalor;
@@ -155,7 +155,7 @@ Vector3D Vector3D::operator-(double &scalor)
 	return ret;
 }
 
-Vector3D Vector3D::operator*(double &scalor)
+Vector3D Vector3D::operator*(double scalor)
 {
 	Vector3D ret;
 	ret.x = x * scalor;
@@ -165,7 +165,7 @@ Vector3D Vector3D::operator*(double &scalor)
 	return ret;
 }
 
-Vector3D Vector3D::operator/(double &scalor)
+Vector3D Vector3D::operator/(double scalor)
 {
 	Vector3D ret;
 	ret.x = x / scalor;
@@ -212,4 +212,9 @@ double Vector3D::distance(Vector3D other)
 double Vector3D::distanceSqr(Vector3D other)
 {
 	return (other - *this).getMagnitudeSqr();
+}
+
+Vector3D operator/(Vector3D & other, double & scalor)
+{
+	return Vector3D(other.x / scalor, other.y / scalor, other.z / scalor);
 }
