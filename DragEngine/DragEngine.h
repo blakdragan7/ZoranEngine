@@ -5,6 +5,7 @@
 class ThreadBase;
 class WindowBase;
 class RenderEngineBase;
+class PhysicsEngine;
 class DRAGENGINE_EXPORT DragEngine
 {
 private:
@@ -13,6 +14,8 @@ private:
 
 	static DragEngine* instance;
 	bool shouldRun;
+
+	PhysicsEngine* physicsEngine;
 
 public:
 	DragEngine();
@@ -23,9 +26,9 @@ public:
 	int MainLoop();
 	bool Init();
 	/* 
-	* All Input Events are converted to a common format, normall 'A' on OSx is not the same as 'A' 
-	* on Windows so we convert them first in there respective WindowBase Implementations
-	* therefore, to check for a key you must only do a simple comparison such as key == 'A' once inside KeyEvent
+	* All Input Events are converted to a common format, normall 'A' on OSx is not the same as 'A' on Windows
+	* so we convert them first in there respective WindowBase Implementations therefore, 
+	* to check for a key you must only do a simple comparison such as key == 'A' once inside KeyEvent
 	* currently this does not support case sensitive because 'a' == 'A' That may or may not need to be changed later
 	*/
 	void KeyEvent(KeyEventType type,unsigned key);
@@ -33,6 +36,7 @@ public:
 	void MouseMove(float x,float y);
 
 	inline RenderEngineBase* GetRenderer() { return mainRenderEngine; }
+	inline PhysicsEngine* GetPhysicsEngine() { return physicsEngine; }
 
 	static inline DragEngine* Instance() { return instance; }
 
@@ -44,5 +48,9 @@ public:
 	ThreadBase* CreateThread();
 };
 
+// convenience defines
+
 #define dEngine DragEngine::Instance()
+#define pEngine DragEngine::Instance()->GetPhysicsEngine()
+#define rEngine DragEngine::Instance()->GetRenderer()
 

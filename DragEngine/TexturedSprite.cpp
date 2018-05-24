@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "TexturedSprite.h"
 
+#include "TextureBase.h"
 #include "RenderEngineBase.h"
 #include "DragEngine.h"
 

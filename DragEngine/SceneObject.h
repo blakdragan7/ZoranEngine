@@ -10,6 +10,7 @@
 class RenderEngineBase;
 class ShaderProgramBase;
 class RenderedObjectBase;
+class CollisionObjectBase;
 class DRAGENGINE_EXPORT SceneObject
 {
 private:
@@ -19,11 +20,14 @@ private:
 	RenderEngineBase* renderEngine;
 	ShaderProgramBase* shaderProgram;
 	RenderedObjectBase* renderedObject;
-
 #pragma warning(push)
 #pragma warning(disable:4251)
 	std::mutex mutex;
 #pragma warning(pop)
+
+protected:
+	CollisionObjectBase * collision;
+	bool hasCollision;
 
 protected:
 	void WaitForMutex();
@@ -34,7 +38,7 @@ protected:
 
 public:
 	SceneObject();
-	SceneObject(RenderEngineBase* engine) { renderEngine = engine; }
+	SceneObject(RenderEngineBase* engine) { collision = 0;  hasCollision = false; renderEngine = engine; }
 	virtual ~SceneObject() {}
 
 	virtual void PostRender();

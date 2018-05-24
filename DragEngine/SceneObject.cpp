@@ -32,6 +32,8 @@ SceneObject::SceneObject()
 	renderEngine = dEngine->GetRenderer();
 	renderedObject = renderEngine->CreateRenderedObject();
 	scale = Vector3D(1.0,1.0,1.0);
+
+	collision = 0;  hasCollision = false;
 }
 
 void SceneObject::PostRender()

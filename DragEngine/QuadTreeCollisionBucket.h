@@ -8,7 +8,7 @@
 #define BR_BUCKET 0
 
 
-class DRAGENGINE_EXPORT QuadTreeCollisionBucket : CollisionBucketBase
+class DRAGENGINE_EXPORT QuadTreeCollisionBucket : public CollisionBucketBase
 {
 private:
 	QuadTreeCollisionBucket * parent;
