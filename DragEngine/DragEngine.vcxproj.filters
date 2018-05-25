@@ -40,6 +40,9 @@
     <Filter Include="Utils">
       <UniqueIdentifier>{f3d8c626-848a-4075-afdf-f0423a84fdab}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Interfaces">
+      <UniqueIdentifier>{0bdb78de-8302-4e07-844d-0543b9ed1f60}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DragEngine.h">
@@ -149,6 +152,9 @@
     </ClInclude>
     <ClInclude Include="OpenGLTexture.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TickableObject.h">
+      <Filter>Interfaces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

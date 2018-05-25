@@ -5,7 +5,7 @@
 #include "ShaderProgramBase.h"
 #include "OpenGLObject.h"
 #include "OpenGLTexture.h"
-
+#include <Windows.h>
 #include <iostream>
 
 OpenGLRenderEngine::OpenGLRenderEngine()

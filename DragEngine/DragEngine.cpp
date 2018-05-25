@@ -2,7 +2,7 @@
 
 #include "DragEngine.h"
 #include "WindowBase.h"
-#include "SceneObject.h"
+#include "TickableObject.h"
 #include "PhysicsEngine.h"
 #include "WindowsWindow.h"
 #include "OpenGLRenderEngine.h"
@@ -62,6 +62,8 @@ int DragEngine::MainLoop()
 		{
 			object->Tick(deltaTime);
 		}
+
+		//std::cout << "Fps: " << 1.0 / deltaTime << std::endl;
 	}
 #endif
 
@@ -101,7 +103,7 @@ void DragEngine::MouseMove(float x, float y)
 {
 }
 
-void DragEngine::AddSceneObject(SceneObject * object)
+void DragEngine::AddTickableObject(TickableObject * object)
 {
 	allSceneObjects.push_back(object);
 }

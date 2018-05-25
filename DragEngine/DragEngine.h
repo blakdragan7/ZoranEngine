@@ -8,6 +8,7 @@ class WindowBase;
 class RenderEngineBase;
 class PhysicsEngine;
 class SceneObject;
+class TickableObject;
 class DRAGENGINE_EXPORT DragEngine
 {
 private:
@@ -18,8 +19,10 @@ private:
 	bool shouldRun;
 
 	PhysicsEngine* physicsEngine;
-
-	std::vector<SceneObject*> allSceneObjects;
+#pragma warning(push)
+#pragma warning(disable:4251)
+	std::vector<TickableObject*> allSceneObjects;
+#pragma warning(pop)
 
 public:
 	DragEngine();
@@ -39,7 +42,7 @@ public:
 	void MouseEvent(MouseEventType,float value);
 	void MouseMove(float x,float y);
 
-	void AddSceneObject(SceneObject* object);
+	void AddTickableObject(TickableObject* object);
 
 	inline RenderEngineBase* GetRenderer() { return mainRenderEngine; }
 	inline PhysicsEngine* GetPhysicsEngine() { return physicsEngine; }

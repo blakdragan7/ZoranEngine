@@ -2,7 +2,6 @@
 
 #include "Vector3.h"
 #include "Quaternion.h"
-
 #include <mutex>
 /*
 * Very Basic Object, Essentially represents bare minmum needed to be rendered on the scene
@@ -44,8 +43,6 @@ public:
 	virtual void PostRender();
 	virtual void RenderScene();
 	virtual void PreRender();
-
-	virtual void Tick(double deltaTime) {}
 
     // Getter / Setter
 
