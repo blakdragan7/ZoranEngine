@@ -97,10 +97,11 @@ Vector3D Vector3D::operator-()
 
 Vector3D Vector3D::operator+(Vector3D &other)
 {
-	Vector3D ret;
+	Vector3D ret(0,0,0);
+
 	ret.x = x + other.x;
-	ret.x = y + other.y;
-	ret.x = z + other.z;
+	ret.y = y + other.y;
+	ret.z = z + other.z;
 
 	return ret;
 }

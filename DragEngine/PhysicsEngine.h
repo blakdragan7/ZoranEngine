@@ -17,6 +17,8 @@ public:
 	void SetupFor2D(Vector3D mapCenter, Vector3D mapSize);
 	void SetupFor3D();
 
+	void UpdateAll(double deltaTime);
+
 	void AddCollisionObject(CollisionObjectBase* object);
 	CollisionObjectBase* RemoveObject(CollisionObjectBase* object);
 };

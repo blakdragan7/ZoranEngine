@@ -2,8 +2,11 @@
 
 #include "DragEngine.h"
 #include "WindowBase.h"
+#include "SceneObject.h"
+#include "PhysicsEngine.h"
 #include "WindowsWindow.h"
 #include "OpenGLRenderEngine.h"
+#include "HighPrecisionClock.h"
 #include <iostream>
 
 #include "Version.h"
@@ -22,11 +25,14 @@ DragEngine::DragEngine()
 	if (instance)throw std::exception("There can only be one DragEngine instance !");
 	instance = this;
 	shouldRun = true;
+	physicsEngine = new PhysicsEngine();
+	mainRenderEngine = 0;
 }
 
 DragEngine::~DragEngine()
 {
 	if (mainWindow)delete mainWindow;
+	if (physicsEngine)delete physicsEngine;
 	mainWindow = 0;
 }
 
@@ -37,8 +43,12 @@ int DragEngine::MainLoop()
 #ifdef _WIN32
 	MSG       msg = { 0 };
 
+	HighPrecisionClock clock;
+
 	while (WM_QUIT != msg.message && shouldRun)
 	{
+		double deltaTime = clock.GetDiffSeconds();
+		clock.TakeClock();
 
 		while (PeekMessageW(&msg, NULL, 0, 0, PM_REMOVE))
 		{
@@ -47,6 +57,11 @@ int DragEngine::MainLoop()
 		}
 
 		if (mainWindow)mainWindow->MainDraw();
+		if (physicsEngine)physicsEngine->UpdateAll(deltaTime);
+		for (auto object : allSceneObjects)
+		{
+			object->Tick(deltaTime);
+		}
 	}
 #endif
 
@@ -61,6 +76,7 @@ bool DragEngine::Init()
 	mainRenderEngine->InitEngine(window->GetHandle());
 
 	mainWindow = window;
+
 	return true;
 }
 
@@ -83,6 +99,11 @@ void DragEngine::MouseEvent(MouseEventType, float value)
 
 void DragEngine::MouseMove(float x, float y)
 {
+}
+
+void DragEngine::AddSceneObject(SceneObject * object)
+{
+	allSceneObjects.push_back(object);
 }
 
 const char * DragEngine::GetVersion()

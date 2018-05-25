@@ -24,6 +24,7 @@
     <ClInclude Include="CommomTypes.h" />
     <ClInclude Include="DragEngine.h" />
     <ClInclude Include="FrameBufferBase.h" />
+    <ClInclude Include="HighPrecisionClock.h" />
     <ClInclude Include="lodepng.h" />
     <ClInclude Include="MathLib.h" />
     <ClInclude Include="Matrix.hpp" />
@@ -61,6 +62,7 @@
     <ClCompile Include="CommonTypes.cpp" />
     <ClCompile Include="DragEngine.cpp" />
     <ClCompile Include="FrameBufferBase.cpp" />
+    <ClCompile Include="HighPrecisionClock.cpp" />
     <ClCompile Include="lodepng.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>

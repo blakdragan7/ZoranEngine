@@ -37,6 +37,9 @@
     <Filter Include="Types">
       <UniqueIdentifier>{79a32296-3187-40b4-bef2-e25b1be64899}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{f3d8c626-848a-4075-afdf-f0423a84fdab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DragEngine.h">
@@ -99,9 +102,6 @@
     <ClInclude Include="OpenGLShaderProgramBase.h">
       <Filter>OpenGL</Filter>
     </ClInclude>
-    <ClInclude Include="OpenGLTexture.h">
-      <Filter>OpenGL</Filter>
-    </ClInclude>
     <ClInclude Include="WindowsWindow.h">
       <Filter>Windows</Filter>
     </ClInclude>
@@ -142,6 +142,12 @@
       <Filter>Physics</Filter>
     </ClInclude>
     <ClInclude Include="CollisionBucketBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HighPrecisionClock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGLTexture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -227,9 +233,6 @@
     <ClCompile Include="PhysicsObjectBase.cpp">
       <Filter>Physics</Filter>
     </ClCompile>
-    <ClCompile Include="TexturedSprite.cpp">
-      <Filter>OpenGL</Filter>
-    </ClCompile>
     <ClCompile Include="CommonTypes.cpp">
       <Filter>Types</Filter>
     </ClCompile>
@@ -237,6 +240,12 @@
       <Filter>Physics</Filter>
     </ClCompile>
     <ClCompile Include="CollisionBucketBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HighPrecisionClock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TexturedSprite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,11 +1,13 @@
 #pragma once
 #include "PlatformTypes.h"
 #include "CommomTypes.h"
+#include <vector>
 
 class ThreadBase;
 class WindowBase;
 class RenderEngineBase;
 class PhysicsEngine;
+class SceneObject;
 class DRAGENGINE_EXPORT DragEngine
 {
 private:
@@ -16,6 +18,8 @@ private:
 	bool shouldRun;
 
 	PhysicsEngine* physicsEngine;
+
+	std::vector<SceneObject*> allSceneObjects;
 
 public:
 	DragEngine();
@@ -34,6 +38,8 @@ public:
 	void KeyEvent(KeyEventType type,unsigned key);
 	void MouseEvent(MouseEventType,float value);
 	void MouseMove(float x,float y);
+
+	void AddSceneObject(SceneObject* object);
 
 	inline RenderEngineBase* GetRenderer() { return mainRenderEngine; }
 	inline PhysicsEngine* GetPhysicsEngine() { return physicsEngine; }

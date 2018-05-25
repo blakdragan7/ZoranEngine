@@ -22,15 +22,23 @@ bool BoxCollisionObject::CollidesWith(Vector3D pos)
 
 bool BoxCollisionObject::CollidesWith(CollisionObjectBase * other)
 {
+	Vector3D pos = GetScenePos();
+
+	Vector3D nmip = minPos + pos;
+	Vector3D nmap = maxPos + pos;
+
 	switch(other->GetCollisionType())
 	{
 		case BOX_COLLISION:
 		{
 			BoxCollisionObject* otherBox = (BoxCollisionObject*)other;
 
-			return	(minPos.x <= otherBox->maxPos.x && maxPos.x >= otherBox->minPos.x) && \
-				(minPos.y <= otherBox->maxPos.y && maxPos.y >= otherBox->minPos.y) && \
-				(minPos.z <= otherBox->maxPos.z && maxPos.z >= otherBox->minPos.z);
+			Vector3D onmip = otherBox->minPos + other->GetScenePos();
+			Vector3D onmap = otherBox->maxPos + other->GetScenePos();
+
+			return	(nmip.x <= onmap.x && nmap.x >= onmip.x) && \
+				(nmip.y <=onmap.y && nmap.y >= onmip.y) && \
+				(nmip.z <= onmap.z && nmap.z >= onmip.z);
 		}
 		break;
 		case SPHERE_COLLISION:

@@ -45,6 +45,8 @@ public:
 	virtual void RenderScene();
 	virtual void PreRender();
 
+	virtual void Tick(double deltaTime) {}
+
     // Getter / Setter
 
 	void SetRotation(Vector3D eulor);

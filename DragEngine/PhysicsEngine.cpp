@@ -29,6 +29,11 @@ void PhysicsEngine::SetupFor3D()
 	throw std::exception("PhysicsEngine::SetupFor3D() Not Implemented !!");
 }
 
+void PhysicsEngine::UpdateAll(double deltaTime)
+{
+	CheckAllCollision();
+}
+
 void PhysicsEngine::AddCollisionObject(CollisionObjectBase * object)
 {
 	if (collisionTree)collisionTree->AddObject(object);
