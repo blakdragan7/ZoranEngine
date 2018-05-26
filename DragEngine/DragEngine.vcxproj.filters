@@ -43,6 +43,9 @@
     <Filter Include="Interfaces">
       <UniqueIdentifier>{0bdb78de-8302-4e07-844d-0543b9ed1f60}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Events">
+      <UniqueIdentifier>{34363f3a-16d7-43ce-94cb-9084548a8b54}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DragEngine.h">
@@ -79,9 +82,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="StandardShader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PhysicsEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Version.h">
@@ -144,17 +144,32 @@
     <ClInclude Include="QuadTreeCollisionBucket.h">
       <Filter>Physics</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionBucketBase.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="HighPrecisionClock.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="OpenGLTexture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TickableObject.h">
       <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsEngine.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionBucketBase.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="HighPrecisionClock.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="EventDispatcher.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="EventBase.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="EventTypes.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="VectorAddons.hpp">
+      <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -245,14 +260,20 @@
     <ClCompile Include="QuadTreeCollisionBucket.cpp">
       <Filter>Physics</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionBucketBase.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="HighPrecisionClock.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="TexturedSprite.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionBucketBase.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="HighPrecisionClock.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="EventDispatcher.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="EventBase.cpp">
+      <Filter>Events</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

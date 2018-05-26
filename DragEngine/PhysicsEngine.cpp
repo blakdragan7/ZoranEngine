@@ -1,7 +1,9 @@
 #include "stdafx.h"
 #include "PhysicsEngine.h"
+#include "PhysicsObjectBase.h"
 #include "CollisionBucketBase.h"
 #include "QuadTreeCollisionBucket.h"
+#include "VectorAddons.hpp"
 
 PhysicsEngine::PhysicsEngine()
 {
@@ -31,7 +33,16 @@ void PhysicsEngine::SetupFor3D()
 
 void PhysicsEngine::UpdateAll(double deltaTime)
 {
+	for (auto object : physicsObjects)
+	{
+		object->Update(deltaTime);
+	}
 	CheckAllCollision();
+}
+
+void PhysicsEngine::AddPhysicsObject(PhysicsObjectBase * object)
+{
+	physicsObjects.push_back(object);
 }
 
 void PhysicsEngine::AddCollisionObject(CollisionObjectBase * object)
@@ -43,4 +54,9 @@ CollisionObjectBase * PhysicsEngine::RemoveObject(CollisionObjectBase * object)
 {
 	if(collisionTree == NULL)return nullptr;
 	return collisionTree->RemoveObject(object);
+}
+
+PhysicsObjectBase * PhysicsEngine::RemoveObject(PhysicsObjectBase * object)
+{
+	return remove(physicsObjects, object);
 }

@@ -194,7 +194,7 @@ public:
 
 	Matrix translate(Vector3D trans)
 	{
-		if ((rows == cols) && (cols == 4))
+		if ((rows == cols) && (cols == 4 || cols==3))
 		{
 			operator()(0, 3) += trans.x;
 			operator()(1, 3) += trans.y;
@@ -208,7 +208,7 @@ public:
 
 	Matrix scale(Vector3D scale)
 	{
-		if ((rows == cols) && (cols == 4))
+		if ((rows == cols) && (cols == 4 || cols == 3))
 		{
 			operator()(0, 0) *= scale.x;
 			operator()(1, 1) *= scale.y;
@@ -217,7 +217,7 @@ public:
 			return *this;
 		}
 		else
-			throw std::invalid_argument("Must be Perfect Matricie to Translate");
+			throw std::invalid_argument("Must be Perfect Matricie to Scale");
 	}
 
 	Matrix rotate(float angle)

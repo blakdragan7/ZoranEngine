@@ -205,6 +205,11 @@ Vector3D Vector3D::cross(const Vector3D other)
 	return res;
 }
 
+Vector3D Vector3D::getAbs()
+{
+	return Vector3D(abs(x),abs(y),abs(z));
+}
+
 double Vector3D::distance(Vector3D other)
 {
 	return (other - *this).getMagnitude();

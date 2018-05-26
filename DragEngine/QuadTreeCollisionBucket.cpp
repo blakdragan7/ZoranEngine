@@ -3,9 +3,7 @@
 #include "BoxCollisionObject.h"
 #include "SceneObject.h"
 #include "ThreadBase.h"
-
-template <typename T>
-void remove(std::vector<T> &v, size_t i);
+#include "VectorAddons.hpp"
 
 QuadTreeCollisionBucket::QuadTreeCollisionBucket(Vec3D pos, Vec3D size, unsigned maxObjects,QuadTreeCollisionBucket * parent) : CollisionBucketBase(pos,size,maxObjects)
 {
@@ -33,7 +31,7 @@ QuadTreeCollisionBucket::~QuadTreeCollisionBucket()
 
 void QuadTreeCollisionBucket::AddObject(CollisionObjectBase * object)
 {
-	while (mutex.try_lock() == false)ThreadBase::Sleep(0.001);
+	while (mutex.try_lock() == false)ThreadBase::Sleep(0.001F);
 	if (collisionObjects.size() < maxObjects && !hasSubdivided)
 	{
 		collisionObjects.push_back(object);
@@ -56,7 +54,7 @@ void QuadTreeCollisionBucket::AddObject(CollisionObjectBase * object)
 
 CollisionObjectBase * QuadTreeCollisionBucket::RemoveObject(CollisionObjectBase * object)
 {
-	while (mutex.try_lock() == false)ThreadBase::Sleep(0.001);
+	while (mutex.try_lock() == false)ThreadBase::Sleep(0.001F);
 	auto iter = std::find(collisionObjects.begin(), collisionObjects.end(), object);
 	if (iter != collisionObjects.end())
 	{
@@ -141,11 +139,4 @@ void QuadTreeCollisionBucket::Subdivide()
 	}
 
 	collisionObjects.clear();
-}
-
-template <typename T>
-void remove(std::vector<T> &v, size_t i)
-{
-	std::swap(v[i], v.back());
-	v.pop_back();
 }

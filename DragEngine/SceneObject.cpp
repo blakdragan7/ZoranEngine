@@ -33,8 +33,18 @@ SceneObject::SceneObject()
 	renderedObject = renderEngine->CreateRenderedObject();
 	scale = Vector3D(1.0,1.0,1.0);
 
+	physicsObject = 0;
 	collision = 0;  hasCollision = false;
 }
+
+SceneObject::SceneObject(RenderEngineBase* engine)
+{
+	collision = 0;  
+	physicsObject = 0;
+	hasCollision = false; 
+	renderEngine = engine;
+}
+
 
 void SceneObject::PostRender()
 {
@@ -165,6 +175,20 @@ MatrixF SceneObject::GetModel()
 	model = rotation.AsMatrix()*model;
 	UnlockMutex();
 	return model;
+}
+
+MatrixF SceneObject::GetScaleMatrix3x3()
+{
+	MatrixF mat(3, 3);
+	mat.scale(scale);
+	return mat;
+}
+
+MatrixF SceneObject::GetScaleMatrix4x4()
+{
+	MatrixF mat(4,4);
+	mat.scale(scale);
+	return mat;
 }
 
 double SceneObject::DistanceTo(Vector3D pos)

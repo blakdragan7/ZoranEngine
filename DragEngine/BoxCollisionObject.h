@@ -9,9 +9,14 @@ private:
 	Vector3D minPos;
 	Vector3D maxPos;
 
+	Vector3D size;
+	Vector3D scaledSize;
+
 public:
 	BoxCollisionObject(Vector3D min,Vector3D max,SceneObject* object, unsigned collisionType = BOX_COLLISION);
 	~BoxCollisionObject();
+
+	void SetBoundsBySceneObject();
 
 	virtual bool CollidesWith(Vector3D pos)override;
 	virtual bool CollidesWith(CollisionObjectBase* other)override;

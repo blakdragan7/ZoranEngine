@@ -41,6 +41,7 @@ public:
 	void normalize();
 
 	Vector3D cross(const Vector3D other);
+	Vector3D getAbs();
 
 	double distance(Vector3D other);
 	double distanceSqr(Vector3D other);

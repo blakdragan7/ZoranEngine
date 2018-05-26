@@ -10,15 +10,19 @@ class RenderEngineBase;
 class ShaderProgramBase;
 class RenderedObjectBase;
 class CollisionObjectBase;
+class PhysicsObjectBase;
 class DRAGENGINE_EXPORT SceneObject
 {
 private:
 	Vector3D scale;
 	Vector3D pos;
 	Quaternion rotation;
+
 	RenderEngineBase* renderEngine;
 	ShaderProgramBase* shaderProgram;
 	RenderedObjectBase* renderedObject;
+	PhysicsObjectBase* physicsObject;
+
 #pragma warning(push)
 #pragma warning(disable:4251)
 	std::mutex mutex;
@@ -37,7 +41,7 @@ protected:
 
 public:
 	SceneObject();
-	SceneObject(RenderEngineBase* engine) { collision = 0;  hasCollision = false; renderEngine = engine; }
+	SceneObject(RenderEngineBase* engine);
 	virtual ~SceneObject() {}
 
 	virtual void PostRender();
@@ -59,6 +63,7 @@ public:
 	inline RenderEngineBase* GetRenderEngine() { return renderEngine; }
 	inline ShaderProgramBase* GetShaderProgram() { return shaderProgram; }
 	inline RenderedObjectBase* GetRenderedObject() { return renderedObject; }
+	inline CollisionObjectBase* GetCollision() { return collision; }
 
 	Vector3D GetRotationAsEulor();
 	
@@ -73,6 +78,8 @@ public:
 	void Scale(Vector3D scale);
 
 	MatrixF GetModel();
+	MatrixF GetScaleMatrix3x3();
+	MatrixF GetScaleMatrix4x4();
 
 	double DistanceTo(Vector3D pos);
 	double DistanceTo(SceneObject* other);
