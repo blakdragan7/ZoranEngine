@@ -1,26 +1,40 @@
 #include "stdafx.h"
 #include "SphereCollisionObject.h"
 #include "BoxCollisionObject.h"
+#include "SceneObject.h"
 
 SphereCollisionObject::SphereCollisionObject(double radius, SceneObject* object, unsigned collisionType) : CollisionObjectBase(object, collisionType)
 {
 	this->radius = radius;
 	this->radiusSqr = radius * radius;
+	scaledRadius = 0;
 }
 
 SphereCollisionObject::~SphereCollisionObject()
 {
 }
 
+void SphereCollisionObject::SetBoundsBySceneObject()
+{
+	Vec3D scale = GetSceneObject()->GetScale().getAbs();
+
+	scaledRadius = radius * max(scale.x, max(scale.y, scale.z));
+	radiusSqr = scaledRadius * scaledRadius;
+}
+
 bool SphereCollisionObject::CollidesWith(Vector3D pos)
 {
+	SetBoundsBySceneObject();
 	double distanceSqr = (pos - GetScenePos()).getMagnitudeSqr();
 	return distanceSqr <= radiusSqr;
 }
 
 bool SphereCollisionObject::CollidesWith(CollisionObjectBase * other)
 {
-	switch(other->GetCollisionType()) 
+	SetBoundsBySceneObject();
+	other->SetBoundsBySceneObject();
+
+	switch(other->GetCollisionType())
 	{
 		case SPHERE_COLLISION:
 		{

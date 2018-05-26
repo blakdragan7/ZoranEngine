@@ -19,7 +19,7 @@ TestSceneObject::TestSceneObject()
 	Vec2L size(800,800);
 	SetTexture("test.png", RenderDataType::TYPE_RGBA_32, RenderDataFormat::FORMAT_UNSIGNED_BYTE, size);
 
-	Scale(Vector3D(0.5,-0.5,1.0));
+	dEngine->AddTickableObject(this);
 }
 
 
@@ -32,4 +32,12 @@ void TestSceneObject::PreRender()
 	SceneObject::PreRender();
 
 	GetTexture()->UseTexture(0);
+}
+
+void TestSceneObject::Tick(double deltaTime)
+{
+	Vector3D delta = Vector3D(0,0,0) - GetPosition();
+	delta.normalize();
+
+	Translate(delta * 0.3 * deltaTime);
 }

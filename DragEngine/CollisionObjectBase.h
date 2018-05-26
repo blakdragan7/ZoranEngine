@@ -18,6 +18,8 @@ public:
 
 	void SetSceneObject(SceneObject* object);
 
+	virtual void SetBoundsBySceneObject() = 0;
+
 	inline unsigned GetCollisionType() { return collisionType; }
 	virtual unsigned GetCollisionLayer();
 	void SetCollisionLayer(unsigned layer);

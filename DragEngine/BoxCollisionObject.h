@@ -16,7 +16,7 @@ public:
 	BoxCollisionObject(Vector3D min,Vector3D max,SceneObject* object, unsigned collisionType = BOX_COLLISION);
 	~BoxCollisionObject();
 
-	void SetBoundsBySceneObject();
+	void SetBoundsBySceneObject()override;
 
 	virtual bool CollidesWith(Vector3D pos)override;
 	virtual bool CollidesWith(CollisionObjectBase* other)override;

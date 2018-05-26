@@ -9,9 +9,13 @@ private:
 	double radius;
 	double radiusSqr;
 
+	double scaledRadius;
+
 public:
 	SphereCollisionObject(double radius, SceneObject* object, unsigned collisionType = SPHERE_COLLISION);
 	~SphereCollisionObject();
+
+	virtual void SetBoundsBySceneObject()override;
 
 	virtual bool CollidesWith(Vector3D pos)override;
 	virtual bool CollidesWith(CollisionObjectBase* other)override;
