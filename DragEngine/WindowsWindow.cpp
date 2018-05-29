@@ -8,11 +8,17 @@ static LRESULT CALLBACK wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 WindowsWindow::WindowsWindow(RenderEngineBase* engine) :  WindowBase(engine)
 {
-
+	hwnd = 0;
+	dc = 0;
 }
 
 WindowsWindow::~WindowsWindow()
 {
+	if (hwnd)
+	{
+		CloseWindow(hwnd);
+		DestroyWindow(hwnd);
+	}
 }
 
 bool WindowsWindow::MakeWindow(const char* title,int x, int y, int w, int h)

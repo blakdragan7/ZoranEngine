@@ -16,6 +16,8 @@ private:
 	std::map<ShaderProgramBase*, std::vector<SceneObject*>> renderMap;
 #pragma warning(pop)
 
+	void* context;
+
 public:
 	OpenGLRenderEngine();
 	~OpenGLRenderEngine();
@@ -31,7 +33,7 @@ public:
 	virtual void AddSceneObject(SceneObject* object);
 	virtual bool RemoveSceneObject(SceneObject* object);
 
-	virtual TextureBase* CreateTexture(const char* path, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2L size)override;
+	virtual TextureBase* CreateTexture(const char* path, RenderDataType bufferType, RenderDataFormat bufferFormat)override;
 	virtual TextureBase* CreateTexture(void* data, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2L size)override;
 	virtual RenderedObjectBase* CreateRenderedObject()override;
 	virtual bool CreateFrameBuffer(FrameBufferBase** outBuffer, TextureBase** outTexture, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2L size)override;

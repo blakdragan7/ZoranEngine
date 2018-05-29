@@ -29,12 +29,9 @@ public:
 	/* Each implementation must implement way of adding Render Objects 
 	*  so DirectX may have a different render loop style then OpenGL */
 	virtual void AddSceneObject(SceneObject* object) = 0;
-	// Scene Object MUST NEVER BE DELETED OUTSIDE OF THIS FUNCTION
-	// Each implementation must handle detroying objects individually
-	// If returns true then the sceneobject passed is deleted, false if it failed to find it
 	virtual bool RemoveSceneObject(SceneObject* object) = 0;
 	// Creates Texture Memory on GPU and returns a texture object.
-	virtual TextureBase* CreateTexture(const char* path, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2L size) = 0;
+	virtual TextureBase* CreateTexture(const char* path, RenderDataType bufferType, RenderDataFormat bufferFormat) = 0;
 	virtual TextureBase* CreateTexture(void* data, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2L size) = 0;
 	virtual RenderedObjectBase* CreateRenderedObject() = 0;
 	// Create frame buffer for offscreen rendering and the texture that represents the result

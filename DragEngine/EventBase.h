@@ -1,15 +1,11 @@
 #pragma once
 #include "CommomTypes.h"
-#include "EventTypes.h"
 
 class DRAGENGINE_EXPORT EventBase
 {
-private:
-	EventHandler object;
-	unsigned EventType;
 
 public:
-	EventBase(EventHandler object);
+	EventBase();
 	virtual ~EventBase();
 
 	virtual bool DispatchEvent() = 0;

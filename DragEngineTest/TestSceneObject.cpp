@@ -16,10 +16,9 @@ TestSceneObject::TestSceneObject()
 	{
 		object->MakeFullScreenQuad();
 	}
-	Vec2L size(800,800);
-	SetTexture("test.png", RenderDataType::TYPE_RGBA_32, RenderDataFormat::FORMAT_UNSIGNED_BYTE, size);
+	SetTexture("test.png", RenderDataType::TYPE_RGBA_32, RenderDataFormat::FORMAT_UNSIGNED_BYTE);
 
-	dEngine->AddTickableObject(this);
+	dEngine->AddSceneObject(this);
 }
 
 

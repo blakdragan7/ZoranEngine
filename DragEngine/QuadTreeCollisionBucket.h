@@ -3,9 +3,9 @@
 #include "CollisionBucketBase.h"
 
 #define TL_BUCKET 0
-#define TR_BUCKET 0
-#define BL_BUCKET 0
-#define BR_BUCKET 0
+#define TR_BUCKET 1
+#define BL_BUCKET 2
+#define BR_BUCKET 3
 
 
 class DRAGENGINE_EXPORT QuadTreeCollisionBucket : public CollisionBucketBase
@@ -20,7 +20,7 @@ private:
 	void Subdivide();
 
 public:
-	QuadTreeCollisionBucket(Vec3D pos,Vec3D size,unsigned maxObjects = 32,QuadTreeCollisionBucket * parent=0);
+	QuadTreeCollisionBucket(Vec3D pos,Vec3D size,unsigned maxObjects = 4,QuadTreeCollisionBucket * parent=0);
 	~QuadTreeCollisionBucket();
 
 	void AddObject(CollisionObjectBase* object)override;

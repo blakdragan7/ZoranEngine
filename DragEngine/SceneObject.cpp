@@ -2,6 +2,7 @@
 #include "SceneObject.h"
 #include "ThreadBase.h"
 #include "DragEngine.h"
+#include "PhysicsEngine.h"
 #include "RenderEngineBase.h"
 #include "RenderedObjectBase.h"
 #include "ShaderProgramBase.h"
@@ -45,6 +46,12 @@ SceneObject::SceneObject(RenderEngineBase* engine)
 	renderEngine = engine;
 }
 
+SceneObject::~SceneObject()
+{
+	if (collision)delete collision;
+	if (physicsObject)delete physicsObject;
+}
+
 
 void SceneObject::PostRender()
 {
@@ -63,6 +70,14 @@ void SceneObject::PreRender()
 		shaderProgram->BindProgram();
 		shaderProgram->SetupShaderFromSceneObject(this);
 	}
+}
+
+void SceneObject::Destroy()
+{
+	if(collision)pEngine->RemoveObject(collision);
+	if(physicsObject)pEngine->RemoveObject(physicsObject);
+	dEngine->RemoveTickableObject(this);
+	dEngine->DestroySceneObject(this);
 }
 
 void SceneObject::SetRotation(Vector3D eulor)

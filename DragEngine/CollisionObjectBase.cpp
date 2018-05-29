@@ -20,6 +20,11 @@ void CollisionObjectBase::SetSceneObject(SceneObject * object)
 	sceneObject = object;
 }
 
+void CollisionObjectBase::SetPhysicsObject(PhysicsObjectBase * object)
+{
+	physicsObject = object;
+}
+
 unsigned CollisionObjectBase::GetCollisionLayer()
 {
 	return collisionLayer;

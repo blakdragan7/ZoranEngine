@@ -21,7 +21,8 @@ private:
 	PhysicsEngine* physicsEngine;
 #pragma warning(push)
 #pragma warning(disable:4251)
-	std::vector<TickableObject*> allSceneObjects;
+	std::vector<TickableObject*> allTickables;
+	std::vector<SceneObject*> allSceneObjects;
 #pragma warning(pop)
 
 public:
@@ -42,7 +43,13 @@ public:
 	void MouseEvent(MouseEventType,float value);
 	void MouseMove(float x,float y);
 
+	// do not add scene objects or any subclass of scene objects this way, instead use AddSceneObject
 	void AddTickableObject(TickableObject* object);
+	// add this scene object to the scene and updates it
+	void AddSceneObject(SceneObject* object);
+	// Scene Object MUST NEVER BE DELETED OUTSIDE OF THIS FUNCTION
+	void DestroySceneObject(SceneObject* object);
+	void RemoveTickableObject(TickableObject* object);
 
 	inline RenderEngineBase* GetRenderer() { return mainRenderEngine; }
 	inline PhysicsEngine* GetPhysicsEngine() { return physicsEngine; }

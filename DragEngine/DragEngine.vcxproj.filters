@@ -171,6 +171,12 @@
     <ClInclude Include="VectorAddons.hpp">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Random.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DragEngine.cpp">
@@ -274,6 +280,12 @@
     </ClCompile>
     <ClCompile Include="EventBase.cpp">
       <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Random.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureManager.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

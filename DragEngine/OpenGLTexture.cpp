@@ -4,7 +4,7 @@
 
 #include "GL\glew.h"
 
-OpenGLTexture::OpenGLTexture(RenderEngineBase * engine, unsigned width_, unsigned height_, RenderDataType type_, RenderDataFormat format_) : TextureBase(engine,width_,height_,type_,format_)
+OpenGLTexture::OpenGLTexture(RenderEngineBase * engine, RenderDataType type_, RenderDataFormat format_) : TextureBase(engine,0,0,type_,format_)
 {
 	OpenGLRenderEngine* oglEngine = dynamic_cast<OpenGLRenderEngine*>(engine);
 	if (oglEngine == 0)throw std::invalid_argument("OpenGLTexture::OpenGLTexture() Must pass an OpenGL Engine to OpenGLTexture Class !");
@@ -12,7 +12,6 @@ OpenGLTexture::OpenGLTexture(RenderEngineBase * engine, unsigned width_, unsigne
 	glEnable(GL_TEXTURE_2D);
 
 	glGenTextures(1, &gl_texture);
-
 	engine->CheckErrors("OpenGLTexture");
 }
 
@@ -43,6 +42,9 @@ void OpenGLTexture::LoadFromPath(const char * texture_path, RenderDataType type,
 	unsigned h = 0;
 	unsigned char *data = 0;
 	unsigned error = LoadFromPNG(texture_path, w, h, &data);
+
+	width = w;
+	height = h;
 
 	LoadFromMemory(w, h, data, RenderDataType::TYPE_RGBA_32);
 

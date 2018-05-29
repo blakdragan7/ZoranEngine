@@ -3,6 +3,9 @@
 #include "Vector3.h"
 #include "Quaternion.h"
 #include <mutex>
+
+#include "TickableObject.h"
+
 /*
 * Very Basic Object, Essentially represents bare minmum needed to be rendered on the scene
 */
@@ -11,7 +14,8 @@ class ShaderProgramBase;
 class RenderedObjectBase;
 class CollisionObjectBase;
 class PhysicsObjectBase;
-class DRAGENGINE_EXPORT SceneObject
+
+class DRAGENGINE_EXPORT SceneObject : public TickableObject
 {
 private:
 	Vector3D scale;
@@ -42,11 +46,17 @@ protected:
 public:
 	SceneObject();
 	SceneObject(RenderEngineBase* engine);
-	virtual ~SceneObject() {}
+	virtual ~SceneObject();
 
 	virtual void PostRender();
 	virtual void RenderScene();
 	virtual void PreRender();
+
+	// Destroys this object removeing it from any part of the engine that it needs to
+	virtual void Destroy();
+
+	// default impl
+	virtual void Tick(double deltaTime)override {}
 
     // Getter / Setter
 

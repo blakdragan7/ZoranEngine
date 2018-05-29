@@ -11,10 +11,10 @@ private:
 
 public:
 	TexturedSprite();
-	TexturedSprite(const char* texture, RenderDataType type, RenderDataFormat format, Vec2L size);
+	TexturedSprite(const char* texture, RenderDataType type, RenderDataFormat format);
 	virtual ~TexturedSprite();
 
-	void SetTexture(const char* path,RenderDataType type,RenderDataFormat format, Vec2L size);
+	void SetTexture(const char* path,RenderDataType type,RenderDataFormat format);
 	inline TextureBase* GetTexture() { return texture; }
 };
 

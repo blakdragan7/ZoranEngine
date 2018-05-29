@@ -41,6 +41,7 @@
     <ClInclude Include="PlatformTypes.h" />
     <ClInclude Include="QuadTreeCollisionBucket.h" />
     <ClInclude Include="Quaternion.h" />
+    <ClInclude Include="Random.h" />
     <ClInclude Include="RenderedObjectBase.h" />
     <ClInclude Include="RenderEngineBase.h" />
     <ClInclude Include="RenderTypes.h" />
@@ -51,6 +52,7 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TextureBase.h" />
     <ClInclude Include="TexturedSprite.h" />
+    <ClInclude Include="TextureManager.h" />
     <ClInclude Include="ThreadBase.h" />
     <ClInclude Include="TickableObject.h" />
     <ClInclude Include="Vector2.h" />
@@ -83,6 +85,7 @@
     <ClCompile Include="PhysicsObjectBase.cpp" />
     <ClCompile Include="QuadTreeCollisionBucket.cpp" />
     <ClCompile Include="Quaternion.cpp" />
+    <ClCompile Include="Random.cpp" />
     <ClCompile Include="RenderedObjectBase.cpp" />
     <ClCompile Include="RenderEngineBase.cpp" />
     <ClCompile Include="SceneObject.cpp" />
@@ -94,6 +97,7 @@
     </ClCompile>
     <ClCompile Include="TextureBase.cpp" />
     <ClCompile Include="TexturedSprite.cpp" />
+    <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="ThreadBase.cpp" />
     <ClCompile Include="Vector2.cpp" />
     <ClCompile Include="Vector3.cpp" />

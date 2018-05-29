@@ -6,6 +6,7 @@
 #include "DragEngine.h"
 #include "PhysicsEngine.h"
 #include "BoxCollisionObject.h"
+#include "TextureManager.h"
 
 TexturedSprite::TexturedSprite()
 {
@@ -14,9 +15,9 @@ TexturedSprite::TexturedSprite()
 	pEngine->AddCollisionObject(collision);
 }
 
-TexturedSprite::TexturedSprite(const char* texture, RenderDataType type, RenderDataFormat format, Vec2L size) : SceneObject()
+TexturedSprite::TexturedSprite(const char* texture, RenderDataType type, RenderDataFormat format) : SceneObject()
 {
-	this->texture = dEngine->GetRenderer()->CreateTexture(texture, type, format, size);
+	this->texture = TextureManager::GetInstance()->TextureForFilePath(texture, type, format);
 	collision = new BoxCollisionObject(Vec3D(0,0,0), Vec3D(1,1,1), this);
 	pEngine->AddCollisionObject(collision);
 }
@@ -24,11 +25,9 @@ TexturedSprite::TexturedSprite(const char* texture, RenderDataType type, RenderD
 TexturedSprite::~TexturedSprite()
 {
 	if (texture)delete texture;
-	pEngine->RemoveObject(collision);
-	delete collision;
 }
 
-void TexturedSprite::SetTexture(const char* path, RenderDataType type, RenderDataFormat format, Vec2L size)
+void TexturedSprite::SetTexture(const char* path, RenderDataType type, RenderDataFormat format)
 {
-	texture = dEngine->GetRenderer()->CreateTexture(path, type, format, size);
+	texture = TextureManager::GetInstance()->TextureForFilePath(path, type, format);
 }

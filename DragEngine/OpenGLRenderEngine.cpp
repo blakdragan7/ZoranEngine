@@ -10,10 +10,14 @@
 
 OpenGLRenderEngine::OpenGLRenderEngine()
 {
+	context = 0;
 }
 
 OpenGLRenderEngine::~OpenGLRenderEngine()
 {
+#ifdef _WIN32
+	wglDeleteContext((HGLRC)context);
+#endif
 }
 
 void OpenGLRenderEngine::InitEngine(WindowHandle handle)
@@ -129,7 +133,6 @@ bool OpenGLRenderEngine::RemoveSceneObject(SceneObject* object)
 		if (iter != objects.end())
 		{
 			objects.erase(iter);
-			delete object;
 			return true;
 		}
 	}
@@ -139,9 +142,9 @@ bool OpenGLRenderEngine::RemoveSceneObject(SceneObject* object)
 	return false;
 }
 
-TextureBase * OpenGLRenderEngine::CreateTexture(const char * path, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2L size)
+TextureBase * OpenGLRenderEngine::CreateTexture(const char * path, RenderDataType bufferType, RenderDataFormat bufferFormat)
 {
-	OpenGLTexture* texture = new OpenGLTexture(this, size.w, size.h);
+	OpenGLTexture* texture = new OpenGLTexture(this,bufferType,bufferFormat);
 	texture->LoadFromPath("test.png");
 	return texture;
 }

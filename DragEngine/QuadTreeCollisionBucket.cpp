@@ -81,15 +81,28 @@ void QuadTreeCollisionBucket::CheckAllCollision()
 	for (unsigned i = 0;i<collisionObjects.size();i++)
 	{
 		CollisionObjectBase* object = collisionObjects[i];
+		
+		if (parent)
+		{
+			if (ObjectIsWithinBucket(object) == false)
+			{
+				RemoveObject(object);
+				parent->AddObject(object);
+			}
+		}
+
 		if (i < collisionObjects.size() - 1)
 		{
 			for (unsigned j = i+1; j < collisionObjects.size(); j++)
 			{
 				if (object->CollidesWith(collisionObjects[j]))
-					std::cout << "Collision !!\n";
+				{
+					//std::cout << "Collision !!\n";
+				}
 			}
 		}
 	}
+
 	if (hasSubdivided)
 	{
 		children[0]->CheckAllCollision();

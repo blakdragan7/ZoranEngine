@@ -2,7 +2,7 @@
 #include <TexturedSprite.h>
 #include <TickableObject.h>
 class TextureBase;
-class TestSceneObject : public TexturedSprite , public TickableObject
+class TestSceneObject : public TexturedSprite
 {
 
 public:

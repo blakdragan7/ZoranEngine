@@ -2,9 +2,8 @@
 #include "EventBase.h"
 
 
-EventBase::EventBase(EventHandler object)
+EventBase::EventBase()
 {
-	this->object = object;
 }
 
 

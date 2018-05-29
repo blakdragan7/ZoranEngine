@@ -1,5 +1,6 @@
 #include "stdafx.h"
 
+#include "Random.h"
 #include "DragEngine.h"
 #include "WindowBase.h"
 #include "TickableObject.h"
@@ -8,6 +9,10 @@
 #include "OpenGLRenderEngine.h"
 #include "HighPrecisionClock.h"
 #include <iostream>
+
+#include "SceneObject.h"
+
+#include "VectorAddons.hpp"
 
 #include "Version.h"
 
@@ -31,9 +36,14 @@ DragEngine::DragEngine()
 
 DragEngine::~DragEngine()
 {
+	for (auto object : allSceneObjects)
+	{
+		object->Destroy();
+	}
+
 	if (mainWindow)delete mainWindow;
 	if (physicsEngine)delete physicsEngine;
-	mainWindow = 0;
+	if (mainRenderEngine)delete mainRenderEngine;
 }
 
 int DragEngine::MainLoop()
@@ -58,12 +68,10 @@ int DragEngine::MainLoop()
 
 		if (mainWindow)mainWindow->MainDraw();
 		if (physicsEngine)physicsEngine->UpdateAll(deltaTime);
-		for (auto object : allSceneObjects)
+		for (auto object : allTickables)
 		{
 			object->Tick(deltaTime);
 		}
-
-		//std::cout << "Fps: " << 1.0 / deltaTime << std::endl;
 	}
 #endif
 
@@ -72,6 +80,8 @@ int DragEngine::MainLoop()
 
 bool DragEngine::Init()
 {
+	Random::Init();
+	
 	mainRenderEngine = new OpenGLRenderEngine();
 	WindowsWindow* window = new WindowsWindow(mainRenderEngine);
 	window->MakeWindow("test", 0, 0, 1920, 1080);
@@ -105,7 +115,24 @@ void DragEngine::MouseMove(float x, float y)
 
 void DragEngine::AddTickableObject(TickableObject * object)
 {
-	allSceneObjects.push_back(object);
+	allTickables.push_back(object);
+}
+
+void DragEngine::AddSceneObject(SceneObject * object)
+{
+	AddTickableObject((TickableObject*)(object));
+	mainRenderEngine->AddSceneObject(object);
+}
+
+void DragEngine::DestroySceneObject(SceneObject * object)
+{
+	mainRenderEngine->RemoveSceneObject(object);
+	delete object;
+}
+
+void DragEngine::RemoveTickableObject(TickableObject * object)
+{
+	remove(allTickables,object);
 }
 
 const char * DragEngine::GetVersion()
