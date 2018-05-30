@@ -40,6 +40,7 @@ public:
 	double getMagnitudeSqr();
 	void normalize();
 
+	double dot(const Vector3D other);
 	Vector3D cross(const Vector3D other);
 	Vector3D getAbs();
 
@@ -48,3 +49,5 @@ public:
 };
 
 #define Vec3D Vector3D
+
+Vector3D operator*(double, Vector3D);

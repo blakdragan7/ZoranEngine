@@ -4,6 +4,9 @@
 #include "SceneObject.h"
 #include "ThreadBase.h"
 #include "VectorAddons.hpp"
+#include "PhysicsObjectBase.h"
+#include "BoxCollisionObject.h"
+#include "SphereCollisionObject.h"
 
 QuadTreeCollisionBucket::QuadTreeCollisionBucket(Vec3D pos, Vec3D size, unsigned maxObjects,QuadTreeCollisionBucket * parent) : CollisionBucketBase(pos,size,maxObjects)
 {
@@ -97,7 +100,18 @@ void QuadTreeCollisionBucket::CheckAllCollision()
 			{
 				if (object->CollidesWith(collisionObjects[j]))
 				{
-					//std::cout << "Collision !!\n";
+					if (collisionObjects[j]->GetCollisionType() == BOX_COLLISION)
+					{
+						Vec3D normal = collisionObjects[j]->GetNormalBetween(object);
+						object->GetPhysicsObject()->CollidedWith(Vec3D(), normal, collisionObjects[j]->GetPhysicsObject());
+						collisionObjects[j]->GetPhysicsObject()->CollidedWith(Vec3D(), -normal, object->GetPhysicsObject());
+					}
+					else
+					{
+						Vec3D normal = object->GetNormalBetween(collisionObjects[j]);
+						object->GetPhysicsObject()->CollidedWith(Vec3D(), normal, collisionObjects[j]->GetPhysicsObject());
+						collisionObjects[j]->GetPhysicsObject()->CollidedWith(Vec3D(), -normal, object->GetPhysicsObject());
+					}
 				}
 			}
 		}

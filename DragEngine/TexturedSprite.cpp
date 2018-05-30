@@ -12,6 +12,7 @@ TexturedSprite::TexturedSprite()
 {
 	texture = 0;
 	collision = new BoxCollisionObject(Vec3D(0, 0, 0), Vec3D(2, 2, 1), this);
+	collision->SetPhysicsObject(GetPhysics());
 	pEngine->AddCollisionObject(collision);
 }
 

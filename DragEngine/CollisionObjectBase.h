@@ -29,7 +29,9 @@ public:
 	virtual bool CollidesWith(Vector3D pos) = 0;
 	virtual bool CollidesWith(CollisionObjectBase* other) = 0;
 	virtual Vector3D GetClosestPointTo(Vector3D pos) = 0;
+	virtual Vector3D GetNormalBetween(CollisionObjectBase* other) = 0;
 
 	Vector3D GetScenePos();
 	SceneObject* GetSceneObject();
+	PhysicsObjectBase* GetPhysicsObject();
 };

@@ -25,7 +25,6 @@
     <ClInclude Include="DragEngine.h" />
     <ClInclude Include="EventBase.h" />
     <ClInclude Include="EventDispatcher.h" />
-    <ClInclude Include="EventTypes.h" />
     <ClInclude Include="FrameBufferBase.h" />
     <ClInclude Include="HighPrecisionClock.h" />
     <ClInclude Include="lodepng.h" />
@@ -45,6 +44,7 @@
     <ClInclude Include="RenderedObjectBase.h" />
     <ClInclude Include="RenderEngineBase.h" />
     <ClInclude Include="RenderTypes.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="SceneObject.h" />
     <ClInclude Include="ShaderProgramBase.h" />
     <ClInclude Include="SphereCollisionObject.h" />
@@ -109,6 +109,9 @@
     <None Include="..\README.md" />
     <None Include="Shaders\standard.frag" />
     <None Include="Shaders\standard.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="DragEngine.rc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

@@ -3,7 +3,7 @@
 
 class CollisionObjectBase;
 class SceneObject;
-class PhysicsObjectBase
+class DRAGENGINE_EXPORT PhysicsObjectBase
 {
 private:
 	CollisionObjectBase * collision;
@@ -11,8 +11,8 @@ private:
 
 	Vector3D velocity;
 	double drag;
-	double gravity;
 	bool shouldSimulate;
+	Vector3D gravity;
 
 private:
 	void RegisterPhysicsObject();
@@ -27,7 +27,9 @@ public:
 	void SetDrag(double drag) { this->drag = drag; }
 	void ApplyForce(Vec3D Force);
 	void SetVeloctiy(Vec3D Velocity);
-	void SetGravity(double gravity);
+	void SetGravity(Vector3D gravity);
+
+	void CollidedWith(Vector3D point,Vector3D normal,PhysicsObjectBase* other);
 
 	inline bool GetShouldSimulate() { return shouldSimulate; }
 

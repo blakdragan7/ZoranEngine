@@ -66,3 +66,10 @@ Vector3D SphereCollisionObject::GetClosestPointTo(Vector3D pos)
 
 	return myPos + (direction * radius);
 }
+
+Vector3D SphereCollisionObject::GetNormalBetween(CollisionObjectBase * other)
+{
+	Vec3D normal = other->GetScenePos() - GetScenePos();
+	normal.normalize();
+	return normal;
+}

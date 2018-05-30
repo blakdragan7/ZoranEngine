@@ -71,6 +71,23 @@ Vector3D BoxCollisionObject::GetClosestPointTo(Vector3D pos)
 	return point;
 }
 
+Vector3D BoxCollisionObject::GetNormalBetween(CollisionObjectBase * other)
+{
+	Vec3D diff = other->GetScenePos() - GetScenePos();
+
+	double sx = diff.x > 0 ? 1 : -1;
+	double sy = diff.y > 0 ? 1 : -1;
+	double sz = diff.z > 0 ? 1 : -1;
+
+	Vec3D normal;
+
+	if (sx > sy && sx > sz) normal = Vec3D(sx, 0, 0);
+	if (sy > sz) normal = Vec3D(0, sy, 0);
+	else normal = Vec3D(0, 0, sz);
+
+	return normal;
+}
+
 Vector3D BoxCollisionObject::GetSize()
 {
 	return Vector3D((maxPos - minPos));

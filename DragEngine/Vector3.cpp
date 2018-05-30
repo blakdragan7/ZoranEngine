@@ -195,6 +195,11 @@ void Vector3D::normalize()
 	z /= mag;
 }
 
+double Vector3D::dot(const Vector3D other)
+{
+	return (x * other.x) + (y * other.y) + (z * other.z);
+}
+
 Vector3D Vector3D::cross(const Vector3D other)
 {
 	Vector3D res;
@@ -223,4 +228,9 @@ double Vector3D::distanceSqr(Vector3D other)
 Vector3D operator/(Vector3D & other, double & scalor)
 {
 	return Vector3D(other.x / scalor, other.y / scalor, other.z / scalor);
+}
+
+Vector3D operator*(double d, Vector3D v)
+{
+	return v*d;
 }

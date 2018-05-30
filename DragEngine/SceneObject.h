@@ -74,6 +74,7 @@ public:
 	inline ShaderProgramBase* GetShaderProgram() { return shaderProgram; }
 	inline RenderedObjectBase* GetRenderedObject() { return renderedObject; }
 	inline CollisionObjectBase* GetCollision() { return collision; }
+	inline PhysicsObjectBase* GetPhysics() { return physicsObject; }
 
 	Vector3D GetRotationAsEulor();
 	

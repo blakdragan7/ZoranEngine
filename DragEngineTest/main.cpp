@@ -3,6 +3,7 @@
 #include <PhysicsEngine.h>
 #include "TestSceneObject.h"
 #include <RenderEngineBase.h>
+#include <PhysicsObjectBase.h>
 
 #include <Random.h>
 
@@ -19,7 +20,7 @@ int main(int argc, char* argv[])
 		test->SetPosition(Random::GetDoubleInRange(-1,1), Random::GetDoubleInRange(-1, 1),0);
 	}*/
 
-	TestSceneObject* object1 = new TestSceneObject();
+	/*TestSceneObject* object1 = new TestSceneObject();
 	object1->SetScale(0.1, 0.1, 1);
 	object1->SetPosition(-0.6,1,1);
 
@@ -49,7 +50,19 @@ int main(int argc, char* argv[])
 
 	TestSceneObject* object8 = new TestSceneObject();
 	object8->SetScale(0.1, 0.1, 1);
-	object8->SetPosition(0.8, -1, 1);
+	object8->SetPosition(0.8, -1, 1);*/
+
+	TestSceneObject* object7 = new TestSceneObject();
+	object7->SetScale(0.1, 0.1, 1);
+	object7->SetPosition(0.0, -1, 1);
+	object7->GetPhysics()->SetGravity(Vec3D(0,0.0098,0));
+
+	TestSceneObject* object8 = new TestSceneObject();
+	object8->SetScale(0.1, 0.1, 1);
+	object8->SetPosition(0.0, 1, 1);
+
+	object7->GetPhysics()->StartPhysicsSim();
+	object8->GetPhysics()->StartPhysicsSim();
 
 	engine.MainLoop();
 }

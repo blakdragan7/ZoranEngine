@@ -165,9 +165,6 @@
     <ClInclude Include="EventBase.h">
       <Filter>Events</Filter>
     </ClInclude>
-    <ClInclude Include="EventTypes.h">
-      <Filter>Events</Filter>
-    </ClInclude>
     <ClInclude Include="VectorAddons.hpp">
       <Filter>Utils</Filter>
     </ClInclude>
@@ -175,6 +172,9 @@
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="TextureManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -296,5 +296,10 @@
     <None Include="Shaders\standard.vert">
       <Filter>Shaders</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="DragEngine.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

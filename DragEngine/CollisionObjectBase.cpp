@@ -6,6 +6,7 @@
 
 CollisionObjectBase::CollisionObjectBase(SceneObject* object, unsigned collisionType)
 {
+	physicsObject = 0;
 	sceneObject = object;
 	collisionLayer = -1;
 	this->collisionType = collisionType;
@@ -48,4 +49,9 @@ Vector3D CollisionObjectBase::GetScenePos()
 SceneObject* CollisionObjectBase::GetSceneObject()
 {
 	return sceneObject;
+}
+
+PhysicsObjectBase * CollisionObjectBase::GetPhysicsObject()
+{
+	return physicsObject;
 }

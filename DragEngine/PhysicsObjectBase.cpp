@@ -14,7 +14,8 @@ PhysicsObjectBase::PhysicsObjectBase(SceneObject * object)
 	sceneObject = object;
 	collision = sceneObject->GetCollision();
 	shouldSimulate = false;
-	gravity = -9.80;
+	gravity = Vec3D(0, -.00980,0);
+	drag = 0.999;
 	RegisterPhysicsObject();
 }
 
@@ -41,9 +42,15 @@ void PhysicsObjectBase::SetVeloctiy(Vec3D Velocity)
 	this->velocity = Velocity;
 }
 
-void PhysicsObjectBase::SetGravity(double gravity)
+void PhysicsObjectBase::SetGravity(Vector3D gravity)
 {
 	this->gravity = gravity;
+}
+
+void PhysicsObjectBase::CollidedWith(Vector3D point, Vector3D normal, PhysicsObjectBase * other)
+{
+	Vector3D r = velocity - (2.0 * (velocity.dot(normal)) * normal);
+	velocity = r;
 }
 
 void PhysicsObjectBase::ApplyForce(Vec3D Force)

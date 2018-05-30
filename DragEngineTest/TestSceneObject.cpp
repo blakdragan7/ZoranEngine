@@ -6,6 +6,7 @@
 #include "DragEngine.h"
 #include "RenderEngineBase.h"
 #include "OpenGLTexture.h"
+#include <PhysicsObjectBase.h>
 
 TestSceneObject::TestSceneObject()
 {
@@ -35,8 +36,8 @@ void TestSceneObject::PreRender()
 
 void TestSceneObject::Tick(double deltaTime)
 {
-	Vector3D delta = Vector3D(0,0,0) - GetPosition();
-	delta.normalize();
+	//Vector3D delta = Vector3D(0,0,0) - GetPosition();
+	//delta.normalize();
 
-	Translate(delta * 0.3 * deltaTime);
+	//Translate(delta * 0.3 * deltaTime);
 }

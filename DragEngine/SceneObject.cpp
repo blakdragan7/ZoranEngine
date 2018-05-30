@@ -4,8 +4,9 @@
 #include "DragEngine.h"
 #include "PhysicsEngine.h"
 #include "RenderEngineBase.h"
-#include "RenderedObjectBase.h"
 #include "ShaderProgramBase.h"
+#include "PhysicsObjectBase.h"
+#include "RenderedObjectBase.h"
 
 
 void SceneObject::WaitForMutex()
@@ -34,16 +35,17 @@ SceneObject::SceneObject()
 	renderedObject = renderEngine->CreateRenderedObject();
 	scale = Vector3D(1.0,1.0,1.0);
 
-	physicsObject = 0;
-	collision = 0;  hasCollision = false;
+	physicsObject = new PhysicsObjectBase(this);
+	collision = 0;  
+	hasCollision = true;
 }
 
 SceneObject::SceneObject(RenderEngineBase* engine)
 {
 	collision = 0;  
-	physicsObject = 0;
-	hasCollision = false; 
+	hasCollision = true; 
 	renderEngine = engine;
+	physicsObject = new PhysicsObjectBase(this);
 }
 
 SceneObject::~SceneObject()

@@ -122,6 +122,7 @@ void DragEngine::AddSceneObject(SceneObject * object)
 {
 	AddTickableObject((TickableObject*)(object));
 	mainRenderEngine->AddSceneObject(object);
+	physicsEngine->AddPhysicsObject(object->GetPhysics());
 }
 
 void DragEngine::DestroySceneObject(SceneObject * object)
