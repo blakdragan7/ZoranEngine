@@ -6,6 +6,8 @@
 class PhysicsObjectBase;
 class CollisionObjectBase;
 class CollisionBucketBase;
+struct CollisionResponse;
+class SceneObject;
 class DRAGENGINE_EXPORT PhysicsEngine
 {
 private:
@@ -19,6 +21,7 @@ public:
 	PhysicsEngine();
 	~PhysicsEngine();
 
+	bool CheckCollisionForObject(SceneObject* object, CollisionResponse& response);
 	void CheckAllCollision();
 	void SetupFor2D(Vector3D mapCenter, Vector3D mapSize);
 	void SetupFor3D();

@@ -21,5 +21,8 @@ public:
 	virtual bool CollidesWith(CollisionObjectBase* other)override;
 	virtual Vector3D GetClosestPointTo(Vector3D pos)override;
 	virtual Vector3D GetNormalBetween(CollisionObjectBase* other)override;
+
+	inline double GetRadius() { return radius; }
+	inline double GetRadiusSqr() { return radiusSqr; }
 };
 

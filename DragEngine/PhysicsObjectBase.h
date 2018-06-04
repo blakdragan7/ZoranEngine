@@ -6,7 +6,6 @@ class SceneObject;
 class DRAGENGINE_EXPORT PhysicsObjectBase
 {
 private:
-	CollisionObjectBase * collision;
 	SceneObject* sceneObject;
 
 	Vector3D velocity;

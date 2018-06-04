@@ -12,11 +12,9 @@ void PhysicsObjectBase::RegisterPhysicsObject()
 PhysicsObjectBase::PhysicsObjectBase(SceneObject * object)
 {
 	sceneObject = object;
-	collision = sceneObject->GetCollision();
 	shouldSimulate = false;
 	gravity = Vec3D(0, -.00980,0);
-	drag = 0.999;
-	RegisterPhysicsObject();
+	drag = 0.99;
 }
 
 PhysicsObjectBase::~PhysicsObjectBase()
@@ -65,7 +63,7 @@ void PhysicsObjectBase::Update(double deltaTime)
 		velocity += gravity;
 		velocity *= drag;
 
-		sceneObject->SetPosition(sceneObject->GetPosition() + (velocity * deltaTime));
+		sceneObject->TrySetPosition(sceneObject->GetPosition() + (velocity * deltaTime));
 	}
 }
 

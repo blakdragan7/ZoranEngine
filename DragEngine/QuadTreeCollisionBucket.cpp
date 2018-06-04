@@ -8,6 +8,8 @@
 #include "BoxCollisionObject.h"
 #include "SphereCollisionObject.h"
 
+#include <assert.h>
+
 QuadTreeCollisionBucket::QuadTreeCollisionBucket(Vec3D pos, Vec3D size, unsigned maxObjects,QuadTreeCollisionBucket * parent) : CollisionBucketBase(pos,size,maxObjects)
 {
 	children[0] = 0;
@@ -32,27 +34,45 @@ QuadTreeCollisionBucket::~QuadTreeCollisionBucket()
 	}
 }
 
-void QuadTreeCollisionBucket::AddObject(CollisionObjectBase * object)
+bool QuadTreeCollisionBucket::AddObject(CollisionObjectBase * object)
 {
+	assert(FindObject(object) == -1);
+
+	bool wasAdded = false;
+
 	while (mutex.try_lock() == false)ThreadBase::Sleep(0.001F);
 	if (collisionObjects.size() < maxObjects && !hasSubdivided)
 	{
-		collisionObjects.push_back(object);
+		if (ObjectIsWithinBucket(object))
+		{
+			collisionObjects.push_back(object);
+			wasAdded = true;
+		}
 	}
 	else 
 	{
 		if (hasSubdivided == false)Subdivide();
+		
 		for (unsigned i = 0; i < 4; i++)
 		{
-			if (children[i]->ObjectIsWithinBucket(object))
+			if (children[i]->AddObject(object))
 			{
-				children[i]->AddObject(object);
+				wasAdded = true;
 				break;
+			}
+		}
+		if (wasAdded == false)
+		{
+			if (ObjectIsWithinBucket(object))
+			{
+				collisionObjects.push_back(object);
+				wasAdded = true;
 			}
 		}
 	}
 
 	mutex.unlock();
+	return wasAdded;
 }
 
 CollisionObjectBase * QuadTreeCollisionBucket::RemoveObject(CollisionObjectBase * object)
@@ -63,14 +83,16 @@ CollisionObjectBase * QuadTreeCollisionBucket::RemoveObject(CollisionObjectBase 
 	{
 		size_t index = iter - collisionObjects.begin();
 		remove(collisionObjects,index);
-		return *iter;
+		mutex.unlock();
+		return object;
 	}
-	else if(hasSubdivided)
+	if(hasSubdivided)
 	{
-		for (unsigned i = 0; i > 4; i++)
+		for (unsigned i = 0; i < 4; i++)
 		{
 			if (children[i]->RemoveObject(object))
 			{
+				mutex.unlock();
 				return object;
 			}
 		}
@@ -131,6 +153,75 @@ bool QuadTreeCollisionBucket::ObjectIsWithinBucket(CollisionObjectBase * object)
 	return object->CollidesWith(collision);
 }
 
+bool QuadTreeCollisionBucket::CheckAllCollisionForObject(CollisionObjectBase * object, CollisionResponse& response)
+{
+	int index = FindObject(object);
+
+	if (index == -1 && hasSubdivided)
+	{
+		if (children[0]->CheckAllCollisionForObject(object, response))return true;
+		if (children[1]->CheckAllCollisionForObject(object, response))return true;
+		if (children[2]->CheckAllCollisionForObject(object, response))return true;
+		if (children[3]->CheckAllCollisionForObject(object, response))return true;
+	}
+
+	if (index != -1)
+	{
+		if (parent)
+		{
+			if (ObjectIsWithinBucket(object) == false)
+			{
+				RemoveObject(object);
+				parent->AddObject(object);
+				return parent->CheckAllCollisionForObject(object,response);
+			}
+		}
+
+		for (unsigned i = 0; i < collisionObjects.size(); i++)
+		{
+			if (i == index)continue;
+			if (object->CollidesWith(collisionObjects[i]))
+			{
+				if (collisionObjects[i]->GetCollisionType() == BOX_COLLISION)
+				{
+					Vec3D normal = collisionObjects[i]->GetNormalBetween(object);
+					response.collided = true;
+					response.normal = normal;
+					response.objectBounds[0] = object;
+					response.objectBounds[1] = collisionObjects[i];
+					response.collidedObjects[0] = object->GetPhysicsObject();
+					response.collidedObjects[1] = collisionObjects[i]->GetPhysicsObject();
+					response.intersection = object->GetScenePos() - collisionObjects[i]->GetScenePos();
+					return true;
+				}
+				else
+				{
+					Vec3D normal = object->GetNormalBetween(collisionObjects[i]);
+					response.collided = true;
+					response.normal = normal;
+					response.objectBounds[0] = object;
+					response.objectBounds[1] = collisionObjects[i];
+					response.collidedObjects[0] = object->GetPhysicsObject();
+					response.collidedObjects[1] = collisionObjects[i]->GetPhysicsObject();
+					response.intersection = collisionObjects[i]->GetScenePos() - object->GetScenePos();
+					return true;
+				}
+			}
+		}
+		if (hasSubdivided)
+		{
+			if (children[0]->CheckAllCollisionForObject(object, response))return true;
+			if (children[1]->CheckAllCollisionForObject(object, response))return true;
+			if (children[2]->CheckAllCollisionForObject(object, response))return true;
+			if (children[3]->CheckAllCollisionForObject(object, response))return true;
+		}
+		
+		return true;
+	}
+
+	return false;
+}
+
 void QuadTreeCollisionBucket::Subdivide()
 {
 	if (hasSubdivided)
@@ -143,27 +234,39 @@ void QuadTreeCollisionBucket::Subdivide()
 
 	Vec3D pos = collision->GetScenePos();
 
-	Vec3D TL = Vec3D(pos.x - size.x / 4.0, pos.y + size.y / 4.0, 0);
-	Vec3D TR = Vec3D(pos.x - size.x / 4.0, pos.y + size.y / 4.0, 0);
-	Vec3D BL = Vec3D(pos.x - size.x / 4.0, pos.y + size.y / 4.0, 0);
-	Vec3D BR = Vec3D(pos.x - size.x / 4.0, pos.y + size.y / 4.0, 0);
+	Vec3D TL = Vec3D(pos.x - (size.x / 4.0), pos.y + (size.y / 4.0), 0);
+	Vec3D TR = Vec3D(pos.x - (size.x / 4.0), pos.y + (size.y / 4.0), 0);
+	Vec3D BL = Vec3D(pos.x - (size.x / 4.0), pos.y + (size.y / 4.0), 0);
+	Vec3D BR = Vec3D(pos.x - (size.x / 4.0), pos.y + (size.y / 4.0), 0);
 
-	children[TL_BUCKET] = new QuadTreeCollisionBucket(TL, subSize, maxObjects, parent);
-	children[TR_BUCKET] = new QuadTreeCollisionBucket(TR, subSize, maxObjects, parent);
-	children[BL_BUCKET] = new QuadTreeCollisionBucket(BL, subSize, maxObjects, parent);
-	children[BR_BUCKET] = new QuadTreeCollisionBucket(BR, subSize, maxObjects, parent);
+	children[TL_BUCKET] = new QuadTreeCollisionBucket(TL, subSize, maxObjects, this);
+	children[TR_BUCKET] = new QuadTreeCollisionBucket(TR, subSize, maxObjects, this);
+	children[BL_BUCKET] = new QuadTreeCollisionBucket(BL, subSize, maxObjects, this);
+	children[BR_BUCKET] = new QuadTreeCollisionBucket(BR, subSize, maxObjects, this);
+
+	std::vector<CollisionObjectBase*> keptObjects;
 
 	for (auto object : collisionObjects)
 	{
+		bool wasAdded = false;
 		for (unsigned i = 0; i < 4; i++)
 		{
 			if (children[i]->ObjectIsWithinBucket(object))
 			{
 				children[i]->AddObject(object);
+				wasAdded = true;
 				break;
 			}
+		}
+		if (wasAdded == false)
+		{
+			keptObjects.push_back(object);
 		}
 	}
 
 	collisionObjects.clear();
+
+	collisionObjects = keptObjects;
+
+	hasSubdivided = true;
 }

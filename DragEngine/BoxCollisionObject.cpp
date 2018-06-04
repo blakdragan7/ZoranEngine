@@ -81,8 +81,10 @@ Vector3D BoxCollisionObject::GetNormalBetween(CollisionObjectBase * other)
 
 	Vec3D normal;
 
-	if (sx > sy && sx > sz) normal = Vec3D(sx, 0, 0);
-	if (sy > sz) normal = Vec3D(0, sy, 0);
+	diff = diff.getAbs();
+
+	if (diff.x > diff.y && diff.x > diff.z) normal = Vec3D(sx, 0, 0);
+	else if (diff.y > diff.z) normal = Vec3D(0, sy, 0);
 	else normal = Vec3D(0, 0, sz);
 
 	return normal;

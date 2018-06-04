@@ -62,6 +62,7 @@ public:
 
 	void SetRotation(Vector3D eulor);
 	void SetRotationFromAxis(Vector3D axis);
+	void TrySetPosition(Vector3D pos);
 	void SetPosition(Vector3D pos);
 	void SetPosition(double x, double y, double z);
 	void SetScale(Vector3D scale);

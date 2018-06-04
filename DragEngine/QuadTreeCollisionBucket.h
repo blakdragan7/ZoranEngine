@@ -20,13 +20,14 @@ private:
 	void Subdivide();
 
 public:
-	QuadTreeCollisionBucket(Vec3D pos,Vec3D size,unsigned maxObjects = 4,QuadTreeCollisionBucket * parent=0);
+	QuadTreeCollisionBucket(Vec3D pos,Vec3D size,unsigned maxObjects = 2,QuadTreeCollisionBucket * parent=0);
 	~QuadTreeCollisionBucket();
 
-	void AddObject(CollisionObjectBase* object)override;
+	bool AddObject(CollisionObjectBase* object)override;
 	CollisionObjectBase* RemoveObject(CollisionObjectBase* object)override;
 
 	void CheckAllCollision()override;
 	bool ObjectIsWithinBucket(CollisionObjectBase* object)override;
+	virtual bool CheckAllCollisionForObject(CollisionObjectBase* object, CollisionResponse& response)override;
 };
 

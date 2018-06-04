@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "CollisionObjectBase.h"
+#include "PhysicsObjectBase.h"
 #include "SceneObject.h"
 
 #include <iostream>

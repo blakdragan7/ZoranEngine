@@ -7,7 +7,10 @@
 #include "ShaderProgramBase.h"
 #include "PhysicsObjectBase.h"
 #include "RenderedObjectBase.h"
-
+#include "CollisionBucketBase.h"
+#include "CollisionObjectBase.h"
+#include "BoxCollisionObject.h"
+#include "SphereCollisionObject.h"
 
 void SceneObject::WaitForMutex()
 {
@@ -42,6 +45,8 @@ SceneObject::SceneObject()
 
 SceneObject::SceneObject(RenderEngineBase* engine)
 {
+	scale = Vector3D(1.0, 1.0, 1.0);
+
 	collision = 0;  
 	hasCollision = true; 
 	renderEngine = engine;
@@ -95,6 +100,37 @@ void SceneObject::SetRotationFromAxis(Vector3D axis)
 	UnlockMutex();
 }
 
+void SceneObject::TrySetPosition(Vector3D pos)
+{
+	WaitForMutex();
+	Vec3D old_pos = pos;
+	this->pos = pos;
+
+	CollisionResponse response;
+	if (pEngine->CheckCollisionForObject(this, response))
+	{
+		if (response.collided)
+		{
+			if (collision->GetCollisionType() == BOX_COLLISION)
+			{
+				BoxCollisionObject* bcollision = (BoxCollisionObject*)collision;
+				Vec3D size = bcollision->GetSize();
+				Vec3D penetration = response.normal * (size - response.intersection.getAbs());
+				this->pos += penetration;
+				physicsObject->CollidedWith(response.point, response.normal, response.collidedObjects[1]);
+			}
+			else if (collision->GetCollisionType() == SPHERE_COLLISION)
+			{
+				SphereCollisionObject* scollision = (SphereCollisionObject*)collision;
+				physicsObject->CollidedWith(response.point, response.normal, response.collidedObjects[1]);
+				Vec3D penetration = response.normal * (scollision->GetRadiusSqr() - response.intersection.getMagnitudeSqr());
+				this->pos += penetration;
+			}
+		}
+	}
+	UnlockMutex();
+}
+
 void SceneObject::SetPosition(Vector3D pos)
 {
 	WaitForMutex();
@@ -113,6 +149,11 @@ void SceneObject::SetScale(Vector3D scale)
 {
 	WaitForMutex();
 	scale = scale;
+	if (collision)
+	{
+		pEngine->RemoveObject(collision);
+		pEngine->AddCollisionObject(collision);
+	}
 	UnlockMutex();
 }
 
@@ -122,6 +163,11 @@ void SceneObject::SetScale(double x, double y, double z)
 	scale.x = x;
 	scale.y = y;
 	scale.z = z;
+	if (collision)
+	{
+		pEngine->RemoveObject(collision);
+		pEngine->AddCollisionObject(collision);
+	}
 	UnlockMutex();
 }
 

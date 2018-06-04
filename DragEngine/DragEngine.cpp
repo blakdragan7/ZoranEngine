@@ -129,6 +129,7 @@ void DragEngine::DestroySceneObject(SceneObject * object)
 {
 	mainRenderEngine->RemoveSceneObject(object);
 	delete object;
+	delete object->GetPhysics();
 }
 
 void DragEngine::RemoveTickableObject(TickableObject * object)
