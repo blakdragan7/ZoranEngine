@@ -26,6 +26,17 @@ struct DRAGENGINE_EXPORT CollisionResponse
 		objectBounds[0] = 0;
 		objectBounds[1] = 0;
 	}
+
+	CollisionResponse Reflection() 
+	{ 
+		CollisionResponse res = *this;
+		res.normal = -res.normal;
+		res.collidedObjects[0] = collidedObjects[1];
+		res.collidedObjects[1] = collidedObjects[0];
+		res.objectBounds[0] = objectBounds[1];
+		res.objectBounds[1] = objectBounds[0];
+		return res;
+	};
 };
 
 class DRAGENGINE_EXPORT CollisionBucketBase
@@ -51,6 +62,8 @@ public:
 
 	virtual bool AddObject(CollisionObjectBase* object) = 0;
 	virtual CollisionObjectBase* RemoveObject(CollisionObjectBase* object) = 0;
+
+	virtual bool UpdateObject(CollisionObjectBase* object) = 0;
 
 	virtual void CheckAllCollision() = 0;
 	virtual bool ObjectIsWithinBucket(CollisionObjectBase* object) = 0;

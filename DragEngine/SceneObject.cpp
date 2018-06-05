@@ -106,42 +106,45 @@ void SceneObject::TrySetPosition(Vector3D pos)
 	Vec3D old_pos = pos;
 	this->pos = pos;
 
-	CollisionResponse response;
-	if (pEngine->CheckCollisionForObject(this, response))
+	if (collision)
 	{
-		if (response.collided)
+		pEngine->UpdateCollisionObject(collision);
+
+		CollisionResponse response;
+		if (pEngine->CheckCollisionForObject(this, response))
 		{
-			if (collision->GetCollisionType() == BOX_COLLISION)
-			{
-				BoxCollisionObject* bcollision = (BoxCollisionObject*)collision;
-				Vec3D size = bcollision->GetSize();
-				Vec3D penetration = response.normal * (size - response.intersection.getAbs());
-				this->pos += penetration;
-				physicsObject->CollidedWith(response.point, response.normal, response.collidedObjects[1]);
-			}
-			else if (collision->GetCollisionType() == SPHERE_COLLISION)
-			{
-				SphereCollisionObject* scollision = (SphereCollisionObject*)collision;
-				physicsObject->CollidedWith(response.point, response.normal, response.collidedObjects[1]);
-				Vec3D penetration = response.normal * (scollision->GetRadiusSqr() - response.intersection.getMagnitudeSqr());
-				this->pos += penetration;
-			}
+			UnlockMutex();
+			physicsObject->OnCollision(response);
+		}
+		else
+		{
+			UnlockMutex();
 		}
 	}
-	UnlockMutex();
+	else
+	{
+		UnlockMutex();
+	}
+
 }
 
 void SceneObject::SetPosition(Vector3D pos)
 {
 	WaitForMutex();
 	this->pos = pos;
+	if (collision)pEngine->UpdateCollisionObject(collision);
 	UnlockMutex();
 }
 
 void SceneObject::SetPosition(double x, double y, double z)
 {
 	WaitForMutex();
-	this->pos = Vector3D(x,y,z);
+
+	this->pos.x = x;
+	this->pos.y = y;
+	this->pos.z = z;
+
+	if (collision)pEngine->UpdateCollisionObject(collision);
 	UnlockMutex();
 }
 
@@ -149,11 +152,7 @@ void SceneObject::SetScale(Vector3D scale)
 {
 	WaitForMutex();
 	scale = scale;
-	if (collision)
-	{
-		pEngine->RemoveObject(collision);
-		pEngine->AddCollisionObject(collision);
-	}
+	if (collision)pEngine->UpdateCollisionObject(collision);
 	UnlockMutex();
 }
 
@@ -163,11 +162,7 @@ void SceneObject::SetScale(double x, double y, double z)
 	scale.x = x;
 	scale.y = y;
 	scale.z = z;
-	if (collision)
-	{
-		pEngine->RemoveObject(collision);
-		pEngine->AddCollisionObject(collision);
-	}
+	if (collision)pEngine->UpdateCollisionObject(collision);
 	UnlockMutex();
 }
 
@@ -218,6 +213,7 @@ void SceneObject::Translate(Vector3D delta)
 {
 	WaitForMutex();
 	pos += delta;
+	if (collision)pEngine->UpdateCollisionObject(collision);
 	UnlockMutex();
 }
 
@@ -225,6 +221,7 @@ void SceneObject::Scale(Vector3D scale)
 {
 	WaitForMutex();
 	this->scale *= scale;
+	if (collision)pEngine->UpdateCollisionObject(collision);
 	UnlockMutex();
 }
 

@@ -5,11 +5,11 @@
 #include "QuadTreeCollisionBucket.h"
 #include "VectorAddons.hpp"
 #include "SceneObject.h"
+
 PhysicsEngine::PhysicsEngine()
 {
 	collisionTree = 0;
 }
-
 
 PhysicsEngine::~PhysicsEngine()
 {
@@ -55,6 +55,11 @@ void PhysicsEngine::AddPhysicsObject(PhysicsObjectBase * object)
 void PhysicsEngine::AddCollisionObject(CollisionObjectBase * object)
 {
 	if (collisionTree)collisionTree->AddObject(object);
+}
+
+void PhysicsEngine::UpdateCollisionObject(CollisionObjectBase *object)
+{
+	if (collisionTree)collisionTree->UpdateObject(object);
 }
 
 CollisionObjectBase * PhysicsEngine::RemoveObject(CollisionObjectBase * object)

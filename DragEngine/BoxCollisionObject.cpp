@@ -38,9 +38,6 @@ bool BoxCollisionObject::CollidesWith(Vector3D pos)
 
 bool BoxCollisionObject::CollidesWith(CollisionObjectBase * other)
 {
-	SetBoundsBySceneObject();
-	other->SetBoundsBySceneObject();
-
 	switch(other->GetCollisionType())
 	{
 		case BOX_COLLISION:

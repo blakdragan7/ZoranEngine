@@ -30,6 +30,8 @@ public:
 
 	void AddPhysicsObject(PhysicsObjectBase* object);
 	void AddCollisionObject(CollisionObjectBase* object);
+	void UpdateCollisionObject(CollisionObjectBase*);
+
 	CollisionObjectBase* RemoveObject(CollisionObjectBase* object);
 	PhysicsObjectBase* RemoveObject(PhysicsObjectBase* object);
 };

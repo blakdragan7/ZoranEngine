@@ -21,9 +21,9 @@ CollisionBucketBase::CollisionBucketBase(Vec3D pos, Vec3D size, unsigned maxObje
 	this->collision = new BoxCollisionObject(pos - (size / 2.0), pos + (size / 2.0), this->sceneObject);
 }
 
-
 CollisionBucketBase::~CollisionBucketBase()
 {
 	delete collision;
 	delete sceneObject;
 }
+

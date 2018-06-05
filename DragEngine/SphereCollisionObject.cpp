@@ -31,9 +31,6 @@ bool SphereCollisionObject::CollidesWith(Vector3D pos)
 
 bool SphereCollisionObject::CollidesWith(CollisionObjectBase * other)
 {
-	SetBoundsBySceneObject();
-	other->SetBoundsBySceneObject();
-
 	switch(other->GetCollisionType())
 	{
 		case SPHERE_COLLISION:

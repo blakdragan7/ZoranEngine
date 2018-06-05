@@ -3,6 +3,10 @@
 #include "SceneObject.h"
 #include "DragEngine.h"
 #include "PhysicsEngine.h"
+#include "CollisionBucketBase.h"
+#include "CollisionObjectBase.h"
+#include "BoxCollisionObject.h"
+#include "SphereCollisionObject.h"
 
 void PhysicsObjectBase::RegisterPhysicsObject()
 {
@@ -45,10 +49,30 @@ void PhysicsObjectBase::SetGravity(Vector3D gravity)
 	this->gravity = gravity;
 }
 
-void PhysicsObjectBase::CollidedWith(Vector3D point, Vector3D normal, PhysicsObjectBase * other)
+void PhysicsObjectBase::OnCollision(CollisionResponse &response)
 {
-	Vector3D r = velocity - (2.0 * (velocity.dot(normal)) * normal);
-	velocity = r;
+	if (response.collided)
+	{
+		CollisionObjectBase* collision = response.objectBounds[0];
+		CollisionObjectBase* collision2 = response.objectBounds[1];
+
+		if (collision->GetCollisionType() == BOX_COLLISION)
+		{
+			BoxCollisionObject* bcollision = (BoxCollisionObject*)collision;
+			Vec3D size = bcollision->GetSize();
+			Vec3D penetration = response.normal * (size - response.intersection.getAbs());
+			sceneObject->Translate(penetration);
+		}
+		else if (collision->GetCollisionType() == SPHERE_COLLISION)
+		{
+			SphereCollisionObject* scollision = (SphereCollisionObject*)collision;
+			Vec3D penetration = response.normal * (scollision->GetRadiusSqr() - response.intersection.getMagnitudeSqr());
+			sceneObject->Translate(penetration);
+		}
+	
+		Vector3D r = velocity - (2.0 * (velocity.dot(response.normal)) * response.normal);
+		velocity = r;
+	}
 }
 
 void PhysicsObjectBase::ApplyForce(Vec3D Force)

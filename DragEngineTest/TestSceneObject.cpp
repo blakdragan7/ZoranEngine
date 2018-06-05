@@ -18,8 +18,6 @@ TestSceneObject::TestSceneObject()
 		object->MakeFullScreenQuad();
 	}
 	SetTexture("test.png", RenderDataType::TYPE_RGBA_32, RenderDataFormat::FORMAT_UNSIGNED_BYTE);
-
-	dEngine->AddSceneObject(this);
 }
 
 

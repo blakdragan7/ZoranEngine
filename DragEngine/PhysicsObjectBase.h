@@ -28,7 +28,7 @@ public:
 	void SetVeloctiy(Vec3D Velocity);
 	void SetGravity(Vector3D gravity);
 
-	void CollidedWith(Vector3D point,Vector3D normal,PhysicsObjectBase* other);
+	void OnCollision(struct CollisionResponse& response);
 
 	inline bool GetShouldSimulate() { return shouldSimulate; }
 

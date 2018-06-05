@@ -72,6 +72,8 @@ int DragEngine::MainLoop()
 		{
 			object->Tick(deltaTime);
 		}
+
+		std::cout << "fps " << 1.0 / deltaTime << std::endl;
 	}
 #endif
 
@@ -123,6 +125,8 @@ void DragEngine::AddSceneObject(SceneObject * object)
 	AddTickableObject((TickableObject*)(object));
 	mainRenderEngine->AddSceneObject(object);
 	physicsEngine->AddPhysicsObject(object->GetPhysics());
+	CollisionObjectBase* collision = object->GetCollision();
+	if (collision)GetPhysicsEngine()->AddCollisionObject(collision);
 }
 
 void DragEngine::DestroySceneObject(SceneObject * object)

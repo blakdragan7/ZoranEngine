@@ -18,13 +18,16 @@ private:
 
 private:
 	void Subdivide();
+	bool CheckCollisionForObject(CollisionObjectBase* object, CollisionResponse& response);
 
 public:
-	QuadTreeCollisionBucket(Vec3D pos,Vec3D size,unsigned maxObjects = 2,QuadTreeCollisionBucket * parent=0);
+	QuadTreeCollisionBucket(Vec3D pos,Vec3D size,unsigned maxObjects = 128,QuadTreeCollisionBucket * parent=0);
 	~QuadTreeCollisionBucket();
 
 	bool AddObject(CollisionObjectBase* object)override;
 	CollisionObjectBase* RemoveObject(CollisionObjectBase* object)override;
+
+	virtual bool UpdateObject(CollisionObjectBase* object)override;
 
 	void CheckAllCollision()override;
 	bool ObjectIsWithinBucket(CollisionObjectBase* object)override;
