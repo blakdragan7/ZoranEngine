@@ -13,6 +13,9 @@ private:
 	unsigned collisionLayer;
 	SceneObject* sceneObject;
 	PhysicsObjectBase* physicsObject;
+	
+public:
+	bool isDirty;
 
 public:
 	CollisionObjectBase(SceneObject* object, unsigned collisionType = NO_COLLISION);

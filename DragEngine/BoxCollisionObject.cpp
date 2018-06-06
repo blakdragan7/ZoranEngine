@@ -43,9 +43,9 @@ bool BoxCollisionObject::CollidesWith(CollisionObjectBase * other)
 		case BOX_COLLISION:
 		{
 			BoxCollisionObject* otherBox = (BoxCollisionObject*)other;
-			return	(minPos.x <= otherBox->maxPos.x && maxPos.x >= otherBox->minPos.x) && \
-				(minPos.y <= otherBox->maxPos.y && maxPos.y >= otherBox->minPos.y) && \
-				(minPos.z <= otherBox->maxPos.z && maxPos.z >= otherBox->minPos.z);
+			return	(minPos.x < otherBox->maxPos.x && maxPos.x > otherBox->minPos.x) && \
+				(minPos.y < otherBox->maxPos.y && maxPos.y > otherBox->minPos.y) && \
+				(minPos.z < otherBox->maxPos.z && maxPos.z > otherBox->minPos.z);
 		}
 		break;
 		case SPHERE_COLLISION:

@@ -21,7 +21,7 @@ private:
 	bool CheckCollisionForObject(CollisionObjectBase* object, CollisionResponse& response);
 
 public:
-	QuadTreeCollisionBucket(Vec3D pos,Vec3D size,unsigned maxObjects = 128,QuadTreeCollisionBucket * parent=0);
+	QuadTreeCollisionBucket(Vec3D pos,Vec3D size,unsigned maxObjects = 8,QuadTreeCollisionBucket * parent=0);
 	~QuadTreeCollisionBucket();
 
 	bool AddObject(CollisionObjectBase* object)override;

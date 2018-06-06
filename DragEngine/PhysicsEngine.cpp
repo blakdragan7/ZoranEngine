@@ -5,6 +5,7 @@
 #include "QuadTreeCollisionBucket.h"
 #include "VectorAddons.hpp"
 #include "SceneObject.h"
+#include "CollisionObjectBase.h"
 
 PhysicsEngine::PhysicsEngine()
 {
@@ -44,7 +45,9 @@ void PhysicsEngine::UpdateAll(double deltaTime)
 		object->Update(deltaTime);
 	}
 	// no longer looping for collision, instead checking collision on position change
-	//CheckAllCollision();
+#ifndef CON_COLLISION
+	CheckAllCollision();
+#endif
 }
 
 void PhysicsEngine::AddPhysicsObject(PhysicsObjectBase * object)
@@ -59,7 +62,11 @@ void PhysicsEngine::AddCollisionObject(CollisionObjectBase * object)
 
 void PhysicsEngine::UpdateCollisionObject(CollisionObjectBase *object)
 {
+#ifdef CON_COLLISION
 	if (collisionTree)collisionTree->UpdateObject(object);
+#else
+	object->isDirty = true;
+#endif
 }
 
 CollisionObjectBase * PhysicsEngine::RemoveObject(CollisionObjectBase * object)

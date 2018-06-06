@@ -10,6 +10,8 @@
 
 #include <assert.h>
 
+static unsigned long long numBuckets = 0;
+
 QuadTreeCollisionBucket::QuadTreeCollisionBucket(Vec3D pos, Vec3D size, unsigned maxObjects,QuadTreeCollisionBucket * parent) : CollisionBucketBase(pos,size,maxObjects)
 {
 	children[0] = 0;
@@ -20,6 +22,10 @@ QuadTreeCollisionBucket::QuadTreeCollisionBucket(Vec3D pos, Vec3D size, unsigned
 	hasSubdivided = false;
 
 	this->parent = parent;
+
+	numBuckets++;
+
+	std::cout << "Buckets: " << numBuckets << std::endl;
 }
 
 
@@ -32,6 +38,8 @@ QuadTreeCollisionBucket::~QuadTreeCollisionBucket()
 		delete children[2];
 		delete children[3];
 	}
+
+	numBuckets--;
 }
 
 bool QuadTreeCollisionBucket::AddObject(CollisionObjectBase * object)
@@ -149,19 +157,19 @@ bool QuadTreeCollisionBucket::UpdateObject(CollisionObjectBase * object)
 
 void QuadTreeCollisionBucket::CheckAllCollision()
 {
+	for (auto object : collisionObjects)
+	{
+		if (object->isDirty)
+		{
+			UpdateObject(object);
+			object->isDirty = false;
+		}
+	}
+
 	for (unsigned i = 0;i<collisionObjects.size();i++)
 	{
 		CollisionObjectBase* object = collisionObjects[i];
 		
-		if (parent)
-		{
-			if (ObjectIsWithinBucket(object) == false)
-			{
-				RemoveObject(object);
-				parent->AddObject(object);
-			}
-		}
-
 		if (i < collisionObjects.size() - 1)
 		{
 			for (unsigned j = i+1; j < collisionObjects.size(); j++)
@@ -171,14 +179,14 @@ void QuadTreeCollisionBucket::CheckAllCollision()
 					if (collisionObjects[j]->GetCollisionType() == BOX_COLLISION)
 					{
 						CollisionResponse response;
-						Vec3D normal = collisionObjects[i]->GetNormalBetween(object);
+						Vec3D normal = collisionObjects[j]->GetNormalBetween(object);
 						response.collided = true;
 						response.normal = normal;
 						response.objectBounds[0] = object;
-						response.objectBounds[1] = collisionObjects[i];
+						response.objectBounds[1] = collisionObjects[j];
 						response.collidedObjects[0] = object->GetPhysicsObject();
-						response.collidedObjects[1] = collisionObjects[i]->GetPhysicsObject();
-						response.intersection = object->GetScenePos() - collisionObjects[i]->GetScenePos();
+						response.collidedObjects[1] = collisionObjects[j]->GetPhysicsObject();
+						response.intersection = object->GetScenePos() - collisionObjects[j]->GetScenePos();
 
 						object->GetPhysicsObject()->OnCollision(response);
 						collisionObjects[j]->GetPhysicsObject()->OnCollision(response.Reflection());
@@ -186,14 +194,17 @@ void QuadTreeCollisionBucket::CheckAllCollision()
 					else
 					{
 						CollisionResponse response;
-						Vec3D normal = object->GetNormalBetween(collisionObjects[i]);
+						Vec3D normal = object->GetNormalBetween(collisionObjects[j]);
 						response.collided = true;
 						response.normal = normal;
 						response.objectBounds[0] = object;
-						response.objectBounds[1] = collisionObjects[i];
+						response.objectBounds[1] = collisionObjects[j];
 						response.collidedObjects[0] = object->GetPhysicsObject();
-						response.collidedObjects[1] = collisionObjects[i]->GetPhysicsObject();
-						response.intersection = collisionObjects[i]->GetScenePos() - object->GetScenePos();
+						response.collidedObjects[1] = collisionObjects[j]->GetPhysicsObject();
+						response.intersection = collisionObjects[j]->GetScenePos() - object->GetScenePos();
+
+						collisionObjects[j]->GetPhysicsObject()->OnCollision(response);
+						object->GetPhysicsObject()->OnCollision(response.Reflection());
 					}
 				}
 			}
@@ -331,14 +342,15 @@ void QuadTreeCollisionBucket::Subdivide()
 		std::cerr << "QuadTreeCollisionBucket::Subdivide() Already Subdivided !\n";
 		return;
 	}
+
 	Vec3D subSize = collision->GetSize() / 2.0;
 	Vec3D size = collision->GetSize();
 
 	Vec3D pos = collision->GetScenePos();
 
 	Vec3D TL = Vec3D(pos.x - (size.x / 4.0), pos.y + (size.y / 4.0), 0);
-	Vec3D TR = Vec3D(pos.x - (size.x / 4.0), pos.y - (size.y / 4.0), 0);
-	Vec3D BL = Vec3D(pos.x + (size.x / 4.0), pos.y + (size.y / 4.0), 0);
+	Vec3D BL = Vec3D(pos.x - (size.x / 4.0), pos.y - (size.y / 4.0), 0);
+	Vec3D TR = Vec3D(pos.x + (size.x / 4.0), pos.y + (size.y / 4.0), 0);
 	Vec3D BR = Vec3D(pos.x + (size.x / 4.0), pos.y - (size.y / 4.0), 0);
 
 	children[TL_BUCKET] = new QuadTreeCollisionBucket(TL, subSize, maxObjects, this);
@@ -353,9 +365,8 @@ void QuadTreeCollisionBucket::Subdivide()
 		bool wasAdded = false;
 		for (unsigned i = 0; i < 4; i++)
 		{
-			if (children[i]->ObjectIsWithinBucket(object))
+			if (children[i]->AddObject(object))
 			{
-				children[i]->AddObject(object);
 				wasAdded = true;
 				break;
 			}

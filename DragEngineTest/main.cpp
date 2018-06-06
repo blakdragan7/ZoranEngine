@@ -13,7 +13,7 @@ int main(int argc, char* argv[])
 	engine.Init();
 	engine.GetPhysicsEngine()->SetupFor2D(Vector3D(0,0,0),Vector3D(2,2,10));
 	
-	for (unsigned i = 0; i < 600; i++)
+	for (unsigned i = 0; i < 32; i++)
 	{
 		TestSceneObject* test = new TestSceneObject();
 		test->SetScale(0.02, -0.02, 1);

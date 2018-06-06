@@ -8,6 +8,7 @@
 #include "WindowsWindow.h"
 #include "OpenGLRenderEngine.h"
 #include "HighPrecisionClock.h"
+#include "CollisionObjectBase.h"
 #include <iostream>
 
 #include "SceneObject.h"
@@ -68,6 +69,7 @@ int DragEngine::MainLoop()
 
 		if (mainWindow)mainWindow->MainDraw();
 		if (physicsEngine)physicsEngine->UpdateAll(deltaTime);
+
 		for (auto object : allTickables)
 		{
 			object->Tick(deltaTime);
@@ -122,6 +124,7 @@ void DragEngine::AddTickableObject(TickableObject * object)
 
 void DragEngine::AddSceneObject(SceneObject * object)
 {
+	if (object->GetCollision())object->GetCollision()->SetBoundsBySceneObject();
 	AddTickableObject((TickableObject*)(object));
 	mainRenderEngine->AddSceneObject(object);
 	physicsEngine->AddPhysicsObject(object->GetPhysics());

@@ -87,7 +87,11 @@ void PhysicsObjectBase::Update(double deltaTime)
 		velocity += gravity;
 		velocity *= drag;
 
+#ifdef CON_COLLISION
 		sceneObject->TrySetPosition(sceneObject->GetPosition() + (velocity * deltaTime));
+#else
+		sceneObject->Translate(velocity * deltaTime);
+#endif
 	}
 }
 
