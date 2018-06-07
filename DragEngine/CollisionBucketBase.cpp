@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "CollisionBucketBase.h"
-#include "BoxCollisionObject.h"
+#include "QuadTreeCollision.h"
 #include "SceneObject.h"
 
 int CollisionBucketBase::FindObject(CollisionObjectBase * object)
@@ -13,12 +13,12 @@ int CollisionBucketBase::FindObject(CollisionObjectBase * object)
 	else return -1;
 }
 
-CollisionBucketBase::CollisionBucketBase(Vec3D pos, Vec3D size, unsigned maxObjects)
+CollisionBucketBase::CollisionBucketBase(std::string name, Vec3D pos, Vec3D size, unsigned maxObjects)
 {
-	this->sceneObject = new SceneObject(NULL);
+	this->sceneObject = new SceneObject(name);
 	this->sceneObject->SetPosition(pos);
 	this->maxObjects = maxObjects;
-	this->collision = new BoxCollisionObject(pos - (size / 2.0), pos + (size / 2.0), this->sceneObject);
+	this->collision = new QuadTreeCollision(pos - (size / 2.0), pos + (size / 2.0), this->sceneObject);
 }
 
 CollisionBucketBase::~CollisionBucketBase()

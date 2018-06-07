@@ -10,8 +10,8 @@ private:
 	TextureBase* texture;
 
 public:
-	TexturedSprite();
-	TexturedSprite(const char* texture, RenderDataType type, RenderDataFormat format);
+	TexturedSprite(std::string name);
+	TexturedSprite(std::string name, const char* texture, RenderDataType type, RenderDataFormat format);
 	virtual ~TexturedSprite();
 
 	void SetTexture(const char* path,RenderDataType type,RenderDataFormat format);

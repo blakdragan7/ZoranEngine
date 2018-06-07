@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "QuadTreeCollisionBucket.h"
+#include "QuadTreeCollision.h"
 #include "BoxCollisionObject.h"
 #include "SceneObject.h"
 #include "ThreadBase.h"
@@ -9,10 +10,11 @@
 #include "SphereCollisionObject.h"
 
 #include <assert.h>
+#include <string>
 
 static unsigned long long numBuckets = 0;
 
-QuadTreeCollisionBucket::QuadTreeCollisionBucket(Vec3D pos, Vec3D size, unsigned maxObjects,QuadTreeCollisionBucket * parent) : CollisionBucketBase(pos,size,maxObjects)
+QuadTreeCollisionBucket::QuadTreeCollisionBucket(std::string name, Vec3D pos, Vec3D size, unsigned maxObjects,QuadTreeCollisionBucket * parent) : CollisionBucketBase(name,pos,size,maxObjects)
 {
 	children[0] = 0;
 	children[1] = 0;
@@ -55,6 +57,9 @@ bool QuadTreeCollisionBucket::AddObject(CollisionObjectBase * object)
 		{
 			collisionObjects.push_back(object);
 			wasAdded = true;
+
+			std::cout << "Object " << object->GetSceneObject()->readableName << " Add To Bucket " << sceneObject->readableName << std::endl;
+
 		}
 	}
 	else 
@@ -71,7 +76,7 @@ bool QuadTreeCollisionBucket::AddObject(CollisionObjectBase * object)
 		}
 		if (wasAdded == false)
 		{
-			if (ObjectIsWithinBucket(object))
+			if (ObjectIsWithinBucket(object) || parent == 0)
 			{
 				collisionObjects.push_back(object);
 				wasAdded = true;
@@ -135,6 +140,8 @@ bool QuadTreeCollisionBucket::UpdateObject(CollisionObjectBase * object)
 			{
 				if (parent)
 				{
+					std::cout << "Object " << object->GetSceneObject()->readableName << " No Longer in Bucket " << sceneObject->readableName << std::endl;
+				
 					remove(collisionObjects,index);
 					return parent->AddObject(object);
 				}
@@ -155,21 +162,42 @@ bool QuadTreeCollisionBucket::UpdateObject(CollisionObjectBase * object)
 	return false;
 }
 
-void QuadTreeCollisionBucket::CheckAllCollision()
+void QuadTreeCollisionBucket::UpdateAllObjects()
 {
 	for (auto object : collisionObjects)
 	{
 		if (object->isDirty)
 		{
 			UpdateObject(object);
-			object->isDirty = false;
 		}
+	}
+
+	if (hasSubdivided)
+	{
+		children[0]->UpdateAllObjects();
+		children[1]->UpdateAllObjects();
+		children[2]->UpdateAllObjects();
+		children[3]->UpdateAllObjects();
+	}
+}
+
+void QuadTreeCollisionBucket::CheckAllCollision()
+{
+	if (hasSubdivided)
+	{
+		children[0]->CheckAllCollision();
+		children[1]->CheckAllCollision();
+		children[2]->CheckAllCollision();
+		children[3]->CheckAllCollision();
 	}
 
 	for (unsigned i = 0;i<collisionObjects.size();i++)
 	{
 		CollisionObjectBase* object = collisionObjects[i];
 		
+		if (object->isDirty == false)continue;
+		object->isDirty = false;
+
 		if (i < collisionObjects.size() - 1)
 		{
 			for (unsigned j = i+1; j < collisionObjects.size(); j++)
@@ -208,62 +236,55 @@ void QuadTreeCollisionBucket::CheckAllCollision()
 					}
 				}
 			}
+		}
 
-			if (hasSubdivided)
+		if (hasSubdivided)
+		{
+			CollisionResponse response;
+
+			if (children[0]->CheckCollisionForObject(object, response))
 			{
-				CollisionResponse response;
+				PhysicsObjectBase* pObject = response.collidedObjects[0];
+				PhysicsObjectBase* pObjec2t = response.collidedObjects[1];
 
-				if (children[0]->CheckCollisionForObject(object, response))
-				{
-					PhysicsObjectBase* pObject = response.collidedObjects[0];
-					PhysicsObjectBase* pObjec2t = response.collidedObjects[1];
+				pObject->OnCollision(response);
+				pObjec2t->OnCollision(response.Reflection());
+			}
 
-					pObject->OnCollision(response);
-					pObjec2t->OnCollision(response.Reflection());
-				}
+			if (children[1]->CheckCollisionForObject(object, response))
+			{
+				PhysicsObjectBase* pObject = response.collidedObjects[0];
+				PhysicsObjectBase* pObjec2t = response.collidedObjects[1];
 
-				if (children[1]->CheckCollisionForObject(object, response))
-				{
-					PhysicsObjectBase* pObject = response.collidedObjects[0];
-					PhysicsObjectBase* pObjec2t = response.collidedObjects[1];
+				pObject->OnCollision(response);
+				pObjec2t->OnCollision(response.Reflection());
+			}
 
-					pObject->OnCollision(response);
-					pObjec2t->OnCollision(response.Reflection());
-				}
+			if (children[2]->CheckCollisionForObject(object, response))
+			{
+				PhysicsObjectBase* pObject = response.collidedObjects[0];
+				PhysicsObjectBase* pObjec2t = response.collidedObjects[1];
 
-				if (children[2]->CheckCollisionForObject(object, response))
-				{
-					PhysicsObjectBase* pObject = response.collidedObjects[0];
-					PhysicsObjectBase* pObjec2t = response.collidedObjects[1];
+				pObject->OnCollision(response);
+				pObjec2t->OnCollision(response.Reflection());
+			}
 
-					pObject->OnCollision(response);
-					pObjec2t->OnCollision(response.Reflection());
-				}
+			if (children[3]->CheckCollisionForObject(object, response))
+			{
+				PhysicsObjectBase* pObject = response.collidedObjects[0];
+				PhysicsObjectBase* pObjec2t = response.collidedObjects[1];
 
-				if (children[3]->CheckCollisionForObject(object, response))
-				{
-					PhysicsObjectBase* pObject = response.collidedObjects[0];
-					PhysicsObjectBase* pObjec2t = response.collidedObjects[1];
-
-					pObject->OnCollision(response);
-					pObjec2t->OnCollision(response.Reflection());
-				}
+				pObject->OnCollision(response);
+				pObjec2t->OnCollision(response.Reflection());
 			}
 		}
-	}
-
-	if (hasSubdivided)
-	{
-		children[0]->CheckAllCollision();
-		children[1]->CheckAllCollision();
-		children[2]->CheckAllCollision();
-		children[3]->CheckAllCollision();
 	}
 }
 
 bool QuadTreeCollisionBucket::ObjectIsWithinBucket(CollisionObjectBase * object)
 {
-	return object->CollidesWith(collision);
+	// always add to the root tree if it hasnt subdivided yet
+	return collision->CollidesWith(object) || (hasSubdivided == false && parent == 0);
 }
 
 bool QuadTreeCollisionBucket::CheckAllCollisionForObject(CollisionObjectBase * object, CollisionResponse& response)
@@ -353,10 +374,12 @@ void QuadTreeCollisionBucket::Subdivide()
 	Vec3D TR = Vec3D(pos.x + (size.x / 4.0), pos.y + (size.y / 4.0), 0);
 	Vec3D BR = Vec3D(pos.x + (size.x / 4.0), pos.y - (size.y / 4.0), 0);
 
-	children[TL_BUCKET] = new QuadTreeCollisionBucket(TL, subSize, maxObjects, this);
-	children[TR_BUCKET] = new QuadTreeCollisionBucket(TR, subSize, maxObjects, this);
-	children[BL_BUCKET] = new QuadTreeCollisionBucket(BL, subSize, maxObjects, this);
-	children[BR_BUCKET] = new QuadTreeCollisionBucket(BR, subSize, maxObjects, this);
+	std::string sname = sceneObject->readableName;
+
+	children[TL_BUCKET] = new QuadTreeCollisionBucket((sname + ".topleft").c_str(),TL, subSize, maxObjects, this);
+	children[TR_BUCKET] = new QuadTreeCollisionBucket((sname + ".topright").c_str(),TR, subSize, maxObjects, this);
+	children[BL_BUCKET] = new QuadTreeCollisionBucket((sname + ".bottomleft").c_str(),BL, subSize, maxObjects, this);
+	children[BR_BUCKET] = new QuadTreeCollisionBucket((sname + ".bottomright").c_str(),BR, subSize, maxObjects, this);
 
 	std::vector<CollisionObjectBase*> keptObjects;
 
@@ -386,11 +409,8 @@ void QuadTreeCollisionBucket::Subdivide()
 
 bool QuadTreeCollisionBucket::CheckCollisionForObject(CollisionObjectBase * object, CollisionResponse& response)
 {
-	int index = FindObject(object);
-
 	for (unsigned i = 0; i < collisionObjects.size(); i++)
 	{
-		if (i == index)continue;
 		if (object->CollidesWith(collisionObjects[i]))
 		{
 			if (collisionObjects[i]->GetCollisionType() == BOX_COLLISION)

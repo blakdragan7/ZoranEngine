@@ -21,7 +21,7 @@ private:
 	bool CheckCollisionForObject(CollisionObjectBase* object, CollisionResponse& response);
 
 public:
-	QuadTreeCollisionBucket(Vec3D pos,Vec3D size,unsigned maxObjects = 8,QuadTreeCollisionBucket * parent=0);
+	QuadTreeCollisionBucket(std::string name, Vec3D pos,Vec3D size,unsigned maxObjects = 2,QuadTreeCollisionBucket * parent=0);
 	~QuadTreeCollisionBucket();
 
 	bool AddObject(CollisionObjectBase* object)override;
@@ -29,6 +29,7 @@ public:
 
 	virtual bool UpdateObject(CollisionObjectBase* object)override;
 
+	virtual void UpdateAllObjects()override;
 	void CheckAllCollision()override;
 	bool ObjectIsWithinBucket(CollisionObjectBase* object)override;
 	virtual bool CheckAllCollisionForObject(CollisionObjectBase* object, CollisionResponse& response)override;

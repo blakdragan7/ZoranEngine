@@ -17,6 +17,7 @@ private:
 
 	static DragEngine* instance;
 	bool shouldRun;
+	bool isPaused;
 
 	PhysicsEngine* physicsEngine;
 #pragma warning(push)

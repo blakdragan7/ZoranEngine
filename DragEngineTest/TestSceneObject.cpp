@@ -8,7 +8,7 @@
 #include "OpenGLTexture.h"
 #include <PhysicsObjectBase.h>
 
-TestSceneObject::TestSceneObject()
+TestSceneObject::TestSceneObject(std::string name) : TexturedSprite(name)
 {
 	SetShaderProgram(new StandardShader());
 	OpenGLObject* object = dynamic_cast<OpenGLObject*>(GetRenderedObject());

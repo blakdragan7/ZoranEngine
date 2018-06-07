@@ -33,6 +33,7 @@ DragEngine::DragEngine()
 	shouldRun = true;
 	physicsEngine = new PhysicsEngine();
 	mainRenderEngine = 0;
+	isPaused = false;
 }
 
 DragEngine::~DragEngine()
@@ -68,14 +69,20 @@ int DragEngine::MainLoop()
 		}
 
 		if (mainWindow)mainWindow->MainDraw();
-		if (physicsEngine)physicsEngine->UpdateAll(deltaTime);
-
-		for (auto object : allTickables)
+		if (isPaused == false)
 		{
-			object->Tick(deltaTime);
-		}
+			if (physicsEngine)physicsEngine->UpdateAll(deltaTime);
 
-		std::cout << "fps " << 1.0 / deltaTime << std::endl;
+			for (auto object : allTickables)
+			{
+				object->Tick(deltaTime);
+			}
+		}
+		else
+		{
+
+		}
+		//std::cout << "fps " << 1.0 / deltaTime << std::endl;
 	}
 #endif
 
@@ -101,7 +108,14 @@ void DragEngine::KeyEvent(KeyEventType type, unsigned key)
 	switch (type)
 	{
 	case KEY_DOWN:
-		std::cout << key << " ";
+		switch (key)
+		{
+			case VK_SPACE:
+			{
+				isPaused = !isPaused;
+				break;
+			}
+		}
 		break;
 	case KEY_UP:
 		if (key == Key_F11)mainWindow->SetWindowFullScreen(!mainWindow->IsFullScreen());
@@ -125,6 +139,8 @@ void DragEngine::AddTickableObject(TickableObject * object)
 void DragEngine::AddSceneObject(SceneObject * object)
 {
 	if (object->GetCollision())object->GetCollision()->SetBoundsBySceneObject();
+	// add a should ever tick option in SceneObject for optimization
+	//i.e. if(object->shouldEverTick)
 	AddTickableObject((TickableObject*)(object));
 	mainRenderEngine->AddSceneObject(object);
 	physicsEngine->AddPhysicsObject(object->GetPhysics());

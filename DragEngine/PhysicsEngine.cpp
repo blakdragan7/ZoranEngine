@@ -30,7 +30,7 @@ void PhysicsEngine::CheckAllCollision()
 
 void PhysicsEngine::SetupFor2D(Vector3D mapCenter, Vector3D mapSize)
 {
-	collisionTree = new QuadTreeCollisionBucket(mapCenter,mapSize);
+	collisionTree = new QuadTreeCollisionBucket("root_tree",mapCenter,mapSize);
 }
 
 void PhysicsEngine::SetupFor3D()
@@ -46,6 +46,7 @@ void PhysicsEngine::UpdateAll(double deltaTime)
 	}
 	// no longer looping for collision, instead checking collision on position change
 #ifndef CON_COLLISION
+	if (collisionTree)collisionTree->UpdateAllObjects();
 	CheckAllCollision();
 #endif
 }

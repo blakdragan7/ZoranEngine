@@ -4,7 +4,7 @@
 #include <mutex>
 
 class CollisionObjectBase;
-class BoxCollisionObject;
+class QuadTreeCollision;
 class SceneObject;
 class PhysicsObjectBase;
 
@@ -43,7 +43,7 @@ class DRAGENGINE_EXPORT CollisionBucketBase
 {
 protected:
 	SceneObject * sceneObject;
-	BoxCollisionObject* collision;
+	QuadTreeCollision* collision;
 
 	unsigned maxObjects;
 
@@ -57,13 +57,14 @@ protected:
 	int FindObject(CollisionObjectBase* object);
 
 public:
-	CollisionBucketBase(Vec3D pos, Vec3D size, unsigned maxObjects = 32);
+	CollisionBucketBase(std::string name, Vec3D pos, Vec3D size, unsigned maxObjects = 32);
 	virtual ~CollisionBucketBase();
 
 	virtual bool AddObject(CollisionObjectBase* object) = 0;
 	virtual CollisionObjectBase* RemoveObject(CollisionObjectBase* object) = 0;
 
 	virtual bool UpdateObject(CollisionObjectBase* object) = 0;
+	virtual void UpdateAllObjects() = 0;
 
 	virtual void CheckAllCollision() = 0;
 	virtual bool ObjectIsWithinBucket(CollisionObjectBase* object) = 0;

@@ -27,6 +27,8 @@ private:
 	RenderedObjectBase* renderedObject;
 	PhysicsObjectBase* physicsObject;
 
+	unsigned long long ID;
+
 #pragma warning(push)
 #pragma warning(disable:4251)
 	std::mutex mutex;
@@ -36,6 +38,12 @@ protected:
 	CollisionObjectBase * collision;
 	bool hasCollision;
 
+public:
+#pragma warning(push)
+#pragma warning(disable:4251)
+	std::string readableName;
+#pragma warning(pop)
+
 protected:
 	void WaitForMutex();
 	void UnlockMutex();
@@ -44,8 +52,8 @@ protected:
 	void SetRenderedObject(RenderedObjectBase* newRenderedObject);
 
 public:
-	SceneObject();
-	SceneObject(RenderEngineBase* engine);
+	SceneObject(std::string);
+	SceneObject(std::string, RenderEngineBase* engine);
 	virtual ~SceneObject();
 
 	virtual void PostRender();

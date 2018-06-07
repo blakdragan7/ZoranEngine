@@ -6,7 +6,7 @@ class TestSceneObject : public TexturedSprite
 {
 
 public:
-	TestSceneObject();
+	TestSceneObject(std::string name);
 	~TestSceneObject();
 
 	virtual void PreRender()override;

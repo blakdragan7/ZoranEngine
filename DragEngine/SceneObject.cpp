@@ -12,6 +12,8 @@
 #include "BoxCollisionObject.h"
 #include "SphereCollisionObject.h"
 
+static unsigned long long NextID = 0;
+
 void SceneObject::WaitForMutex()
 {
 	while (mutex.try_lock() == false)ThreadBase::Sleep(0.01F);
@@ -32,7 +34,7 @@ void SceneObject::SetRenderedObject(RenderedObjectBase * newRenderedObject)
 	renderedObject = newRenderedObject;
 }
 
-SceneObject::SceneObject()
+SceneObject::SceneObject(std::string name)
 {
 	renderEngine = dEngine->GetRenderer();
 	renderedObject = renderEngine->CreateRenderedObject();
@@ -41,11 +43,17 @@ SceneObject::SceneObject()
 	physicsObject = new PhysicsObjectBase(this);
 	collision = 0;  
 	hasCollision = true;
+
+	this->readableName = name;
+	this->ID = NextID++;
 }
 
-SceneObject::SceneObject(RenderEngineBase* engine)
+SceneObject::SceneObject(std::string name, RenderEngineBase* engine)
 {
 	scale = Vector3D(1.0, 1.0, 1.0);
+
+	this->readableName = name;
+	this->ID = NextID++;
 
 	collision = 0;  
 	hasCollision = true; 

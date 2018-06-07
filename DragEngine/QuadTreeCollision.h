@@ -1,9 +1,9 @@
 #pragma once
 #include "CollisionObjectBase.h"
 
-#define BOX_COLLISION 2
+#define QUADTREE_COLLISION 3
 
-class DRAGENGINE_EXPORT BoxCollisionObject : public CollisionObjectBase
+class QuadTreeCollision : public CollisionObjectBase
 {
 private:
 	Vector3D minPos;
@@ -13,13 +13,10 @@ private:
 	Vector3D scaledSize;
 
 public:
-	BoxCollisionObject(Vector3D min,Vector3D max,SceneObject* object, unsigned collisionType = BOX_COLLISION);
-	~BoxCollisionObject();
+	QuadTreeCollision(Vector3D min, Vector3D max, SceneObject* object);
+	~QuadTreeCollision();
 
 	void SetBoundsBySceneObject()override;
-
-	inline Vec3D GetMinPos() { return minPos; }
-	inline Vec3D GetMaxPos() { return maxPos; }
 
 	virtual Vector3D GetSize();
 	virtual bool CollidesWith(Vector3D pos)override;
