@@ -15,18 +15,20 @@ int main(int argc, char* argv[])
 	
 	std::string name_base = "TestSceneObject-";
 
-	/*for (unsigned i = 0; i < 6; i++)
+	Vec3D CollisionPoint(0,0,0);
+
+	for (unsigned i = 0; i < 600; i++)
 	{
 		TestSceneObject* test = new TestSceneObject((name_base + std::to_string(i)));
-		test->SetScale(0.1, -0.1, 1);
-		test->SetPosition(-0.9, Random::GetDoubleInRange(-1, 1),0);
+		test->SetScale(0.02, -0.02, 1);
+		test->SetPosition(Random::GetDoubleInRange(-1, 1), Random::GetDoubleInRange(-1, 1),0);
 		test->GetPhysics()->StartPhysicsSim();
 		Vec3D pos = test->GetPosition();
-		pos = Vec3D(0.8,0,0) - pos;
+		pos = CollisionPoint - pos;
 		pos.normalize();
 		test->GetPhysics()->SetGravity(pos * 0.01);
 		dEngine->AddSceneObject(test);
-	}*/
+	}
 
 	/*TestSceneObject* object1 = new TestSceneObject();
 	object1->SetScale(0.1, 0.1, 1);
@@ -60,9 +62,9 @@ int main(int argc, char* argv[])
 	object8->SetScale(0.1, 0.1, 1);
 	object8->SetPosition(0.8, -1, 1);
 	*/
-	Vec3D CollisionPoint(-0.8, 0, 0);
+	/*Vec3D CollisionPoint(-0.8, 0, 1);
 
-	TestSceneObject* object7 = new TestSceneObject("TestSceneObject-0");
+	TestSceneObject* object7 = new TestSceneObject("TopStart");
 	object7->SetScale(0.1, -0.1, 1);
 	object7->SetPosition(-0.8, 0.8, 1);
 
@@ -71,7 +73,7 @@ int main(int argc, char* argv[])
 	pos.normalize();
 	object7->GetPhysics()->SetGravity(pos*0.01);
 
-	TestSceneObject* object8 = new TestSceneObject("TestSceneObject-1");
+	TestSceneObject* object8 = new TestSceneObject("TopMiddleStart");
 	object8->SetScale(0.1, -0.1, 1);
 	object8->SetPosition(-0.8, 0.3, 1);
 
@@ -80,7 +82,7 @@ int main(int argc, char* argv[])
 	pos.normalize();
 	object8->GetPhysics()->SetGravity(pos*0.01);
 
-	TestSceneObject* object9 = new TestSceneObject("TestSceneObject-2");
+	TestSceneObject* object9 = new TestSceneObject("bottomMiddleStart");
 	object9->SetScale(0.1, -0.1, 1); 
 	object9->SetPosition(-0.8, -0.3, 1);
 
@@ -89,7 +91,7 @@ int main(int argc, char* argv[])
 	pos.normalize();
 	object9->GetPhysics()->SetGravity(pos*0.01);
 
-	TestSceneObject* object10 = new TestSceneObject("TestSceneObject-3");
+	TestSceneObject* object10 = new TestSceneObject("BottomStart");
 	object10->SetScale(0.1, -0.1, 1);
 	object10->SetPosition(-0.8, -0.8, 1);
 
@@ -108,6 +110,6 @@ int main(int argc, char* argv[])
 	object8->GetPhysics()->StartPhysicsSim();
 	object9->GetPhysics()->StartPhysicsSim();
 	object10->GetPhysics()->StartPhysicsSim();
-
+	*/
 	engine.MainLoop();
 }

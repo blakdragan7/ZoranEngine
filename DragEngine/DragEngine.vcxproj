@@ -22,12 +22,14 @@
     <ClInclude Include="BoxCollisionObject.h" />
     <ClInclude Include="CollisionBucketBase.h" />
     <ClInclude Include="CommomTypes.h" />
+    <ClInclude Include="ConsoleLogger.h" />
     <ClInclude Include="DragEngine.h" />
     <ClInclude Include="EventBase.h" />
     <ClInclude Include="EventDispatcher.h" />
     <ClInclude Include="FrameBufferBase.h" />
     <ClInclude Include="HighPrecisionClock.h" />
     <ClInclude Include="lodepng.h" />
+    <ClInclude Include="LoggerBase.h" />
     <ClInclude Include="MathLib.h" />
     <ClInclude Include="Matrix.hpp" />
     <ClInclude Include="OpenGLRenderEngine.h" />
@@ -68,6 +70,7 @@
     <ClCompile Include="BoxCollisionObject.cpp" />
     <ClCompile Include="CollisionBucketBase.cpp" />
     <ClCompile Include="CommonTypes.cpp" />
+    <ClCompile Include="ConsoleLogger.cpp" />
     <ClCompile Include="DragEngine.cpp" />
     <ClCompile Include="EventBase.cpp" />
     <ClCompile Include="EventDispatcher.cpp" />
@@ -76,6 +79,7 @@
     <ClCompile Include="lodepng.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="LoggerBase.cpp" />
     <ClCompile Include="MathLib.cpp" />
     <ClCompile Include="OpenGLRenderEngine.cpp" />
     <ClCompile Include="OpenGLShaderProgramBase.cpp" />

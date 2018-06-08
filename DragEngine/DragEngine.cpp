@@ -9,6 +9,7 @@
 #include "OpenGLRenderEngine.h"
 #include "HighPrecisionClock.h"
 #include "CollisionObjectBase.h"
+#include "CollisionBucketBase.h"
 #include <iostream>
 
 #include "SceneObject.h"
@@ -16,7 +17,7 @@
 #include "VectorAddons.hpp"
 
 #include "Version.h"
-
+#include "ConsoleLogger.h"
 #ifdef _WIN32
 #include "WindowsThread.h"
 #else
@@ -34,6 +35,8 @@ DragEngine::DragEngine()
 	physicsEngine = new PhysicsEngine();
 	mainRenderEngine = 0;
 	isPaused = false;
+	logger = new ConsoleLogger();
+	logger->SetLogLevel(LogLevel_Default);
 }
 
 DragEngine::~DragEngine()
@@ -46,6 +49,8 @@ DragEngine::~DragEngine()
 	if (mainWindow)delete mainWindow;
 	if (physicsEngine)delete physicsEngine;
 	if (mainRenderEngine)delete mainRenderEngine;
+
+	delete logger;
 }
 
 int DragEngine::MainLoop()
@@ -82,7 +87,7 @@ int DragEngine::MainLoop()
 		{
 
 		}
-		//std::cout << "fps " << 1.0 / deltaTime << std::endl;
+		std::cout << "fps " << 1.0 / deltaTime << std::endl;
 	}
 #endif
 
@@ -115,6 +120,10 @@ void DragEngine::KeyEvent(KeyEventType type, unsigned key)
 				isPaused = !isPaused;
 				break;
 			}
+			case 'P':
+				if (physicsEngine)physicsEngine->GetCollisionBucketRoot()->PrintAllContents();
+				if (physicsEngine)physicsEngine->GetCollisionBucketRoot()->PrintAllCollisions();
+				break;
 		}
 		break;
 	case KEY_UP:

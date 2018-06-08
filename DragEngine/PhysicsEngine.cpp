@@ -38,6 +38,11 @@ void PhysicsEngine::SetupFor3D()
 	throw std::exception("PhysicsEngine::SetupFor3D() Not Implemented !!");
 }
 
+CollisionBucketBase * PhysicsEngine::GetCollisionBucketRoot()
+{
+	return collisionTree;
+}
+
 void PhysicsEngine::UpdateAll(double deltaTime)
 {
 	for (auto object : physicsObjects)

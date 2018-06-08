@@ -19,15 +19,21 @@ private:
 private:
 	void Subdivide();
 	bool CheckCollisionForObject(CollisionObjectBase* object, CollisionResponse& response);
+	bool PrintCollisionForObject(CollisionObjectBase * object);
+
+	bool TraverseUpAddObject(CollisionObjectBase* object);
 
 public:
-	QuadTreeCollisionBucket(std::string name, Vec3D pos,Vec3D size,unsigned maxObjects = 2,QuadTreeCollisionBucket * parent=0);
+	QuadTreeCollisionBucket(std::string name, Vec3D pos,Vec3D size,unsigned maxObjects = 128,QuadTreeCollisionBucket * parent=0);
 	~QuadTreeCollisionBucket();
 
 	bool AddObject(CollisionObjectBase* object)override;
 	CollisionObjectBase* RemoveObject(CollisionObjectBase* object)override;
 
 	virtual bool UpdateObject(CollisionObjectBase* object)override;
+
+	virtual void PrintAllContents(unsigned depth=0)override;
+	virtual void PrintAllCollisions()override;
 
 	virtual void UpdateAllObjects()override;
 	void CheckAllCollision()override;

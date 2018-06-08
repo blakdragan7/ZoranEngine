@@ -180,6 +180,12 @@
     <ClInclude Include="QuadTreeCollision.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="LoggerBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleLogger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DragEngine.cpp">
@@ -291,6 +297,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="QuadTreeCollision.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LoggerBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ConsoleLogger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

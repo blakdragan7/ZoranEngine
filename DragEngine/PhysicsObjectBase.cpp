@@ -70,7 +70,7 @@ void PhysicsObjectBase::OnCollision(CollisionResponse &response)
 			sceneObject->Translate(penetration);
 		}
 	
-		Vector3D r = velocity - (2.0 * (velocity.dot(response.normal)) * response.normal);
+		Vector3D r = velocity - ((2.0 * velocity.dot(response.normal)) * response.normal);
 		velocity = r;
 	}
 }

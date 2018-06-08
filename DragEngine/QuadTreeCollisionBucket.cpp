@@ -8,7 +8,7 @@
 #include "PhysicsObjectBase.h"
 #include "BoxCollisionObject.h"
 #include "SphereCollisionObject.h"
-
+#include "DragEngine.h"
 #include <assert.h>
 #include <string>
 
@@ -27,7 +27,7 @@ QuadTreeCollisionBucket::QuadTreeCollisionBucket(std::string name, Vec3D pos, Ve
 
 	numBuckets++;
 
-	std::cout << "Buckets: " << numBuckets << std::endl;
+	Log(LogLevel_Verbose,"Buckets: %i", numBuckets);
 }
 
 
@@ -58,7 +58,7 @@ bool QuadTreeCollisionBucket::AddObject(CollisionObjectBase * object)
 			collisionObjects.push_back(object);
 			wasAdded = true;
 
-			std::cout << "Object " << object->GetSceneObject()->readableName << " Add To Bucket " << sceneObject->readableName << std::endl;
+			Log(LogLevel_Debug,"Object %s Add To Bucket %s\n", object->GetSceneObject()->readableName.c_str(), sceneObject->readableName.c_str());
 
 		}
 	}
@@ -76,7 +76,8 @@ bool QuadTreeCollisionBucket::AddObject(CollisionObjectBase * object)
 		}
 		if (wasAdded == false)
 		{
-			if (ObjectIsWithinBucket(object) || parent == 0)
+			bool objectIsIn = ObjectIsWithinBucket(object);
+			if (objectIsIn || parent == 0)
 			{
 				collisionObjects.push_back(object);
 				wasAdded = true;
@@ -140,10 +141,10 @@ bool QuadTreeCollisionBucket::UpdateObject(CollisionObjectBase * object)
 			{
 				if (parent)
 				{
-					std::cout << "Object " << object->GetSceneObject()->readableName << " No Longer in Bucket " << sceneObject->readableName << std::endl;
-				
+					Log(LogLevel_Debug, "Object %s No Longer in Bucket %s\n", object->GetSceneObject()->readableName.c_str(), sceneObject->readableName.c_str());
+
 					remove(collisionObjects,index);
-					return parent->AddObject(object);
+					return parent->TraverseUpAddObject(object);
 				}
 			}
 		}
@@ -160,6 +161,25 @@ bool QuadTreeCollisionBucket::UpdateObject(CollisionObjectBase * object)
 	}
 
 	return false;
+}
+
+void QuadTreeCollisionBucket::PrintAllContents(unsigned depth)
+{
+	for (int i = 0; i < depth; i++)Log(LogLevel_None,"\t");
+	Log(LogLevel_None, "%s Contains: \n", sceneObject->readableName.c_str());
+	for (auto object : collisionObjects)
+	{
+		for (int i = 0; i < depth; i++)Log(LogLevel_None, "\t");
+		Log(LogLevel_None, "\t%s\n", object->GetSceneObject()->readableName.c_str());
+	}
+	if (hasSubdivided)
+	{
+		int new_depth = depth + 1;
+		children[0]->PrintAllContents(new_depth);
+		children[1]->PrintAllContents(new_depth);
+		children[2]->PrintAllContents(new_depth);
+		children[3]->PrintAllContents(new_depth);
+	}
 }
 
 void QuadTreeCollisionBucket::UpdateAllObjects()
@@ -183,7 +203,7 @@ void QuadTreeCollisionBucket::UpdateAllObjects()
 
 void QuadTreeCollisionBucket::CheckAllCollision()
 {
-	if (hasSubdivided)
+ 	if (hasSubdivided)
 	{
 		children[0]->CheckAllCollision();
 		children[1]->CheckAllCollision();
@@ -449,4 +469,84 @@ bool QuadTreeCollisionBucket::CheckCollisionForObject(CollisionObjectBase * obje
 	}
 
 	return false;
+}
+
+// Debug Prints
+
+bool QuadTreeCollisionBucket::PrintCollisionForObject(CollisionObjectBase * object)
+{
+	for (unsigned i = 0; i < collisionObjects.size(); i++)
+	{
+		Log(LogLevel_None, "\tCheck Collision %s => %s\n", object->GetSceneObject()->readableName.c_str(), collisionObjects[i]->GetSceneObject()->readableName.c_str());
+		if (object->CollidesWith(collisionObjects[i]))
+		{
+			Log(LogLevel_None, "Found Collision\n");
+			return true;
+		}
+	}
+
+	if (hasSubdivided)
+	{
+		if (children[0]->PrintCollisionForObject(object))return true;
+		if (children[1]->PrintCollisionForObject(object))return true;
+		if (children[2]->PrintCollisionForObject(object))return true;
+		if (children[3]->PrintCollisionForObject(object))return true;
+	}
+
+	return false;
+}
+
+bool QuadTreeCollisionBucket::TraverseUpAddObject(CollisionObjectBase * object)
+{
+	if (AddObject(object) == false)return parent->TraverseUpAddObject(object);
+	return true;
+}
+
+void QuadTreeCollisionBucket::PrintAllCollisions()
+{
+	if (hasSubdivided)
+	{
+		children[0]->PrintAllCollisions();
+		children[1]->PrintAllCollisions();
+		children[2]->PrintAllCollisions();
+		children[3]->PrintAllCollisions();
+	}
+
+	for (unsigned i = 0; i<collisionObjects.size(); i++)
+	{
+		CollisionObjectBase* object = collisionObjects[i];
+
+		if (i < collisionObjects.size() - 1)
+		{
+			for (unsigned j = i + 1; j < collisionObjects.size(); j++)
+			{
+				Log(LogLevel_None, "\tCheck Collision %s => %s\n", object->GetSceneObject()->readableName.c_str(), collisionObjects[i]->GetSceneObject()->readableName.c_str());
+
+				if (object->CollidesWith(collisionObjects[j]))
+				{
+					Log(LogLevel_None, "Found Collision\n");
+				}
+			}
+		}
+
+		if (hasSubdivided)
+		{
+
+			if (children[0]->PrintCollisionForObject(object))
+			{
+			}
+
+			if (children[1]->PrintCollisionForObject(object))
+			{
+			}
+
+			if (children[2]->PrintCollisionForObject(object))
+			{
+			}
+
+			if (children[3]->PrintCollisionForObject(object))
+			{
+			}
+		}
+	}
 }

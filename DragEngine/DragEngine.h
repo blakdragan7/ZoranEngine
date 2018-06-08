@@ -1,4 +1,5 @@
 #pragma once
+#include "LoggerBase.h"
 #include "PlatformTypes.h"
 #include "CommomTypes.h"
 #include <vector>
@@ -29,6 +30,8 @@ private:
 public:
 	DragEngine();
 	~DragEngine();
+
+	LoggerBase* logger;
 
 	inline void StopRunning() { shouldRun = false; }
 
@@ -70,4 +73,4 @@ public:
 #define dEngine DragEngine::Instance()
 #define pEngine DragEngine::Instance()->GetPhysicsEngine()
 #define rEngine DragEngine::Instance()->GetRenderer()
-
+#define Log(...) DragEngine::Instance()->logger->LogString(__VA_ARGS__);

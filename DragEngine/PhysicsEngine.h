@@ -26,6 +26,8 @@ public:
 	void SetupFor2D(Vector3D mapCenter, Vector3D mapSize);
 	void SetupFor3D();
 
+	CollisionBucketBase* GetCollisionBucketRoot();
+
 	void UpdateAll(double deltaTime);
 
 	void AddPhysicsObject(PhysicsObjectBase* object);

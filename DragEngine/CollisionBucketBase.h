@@ -69,5 +69,9 @@ public:
 	virtual void CheckAllCollision() = 0;
 	virtual bool ObjectIsWithinBucket(CollisionObjectBase* object) = 0;
 	virtual bool CheckAllCollisionForObject(CollisionObjectBase* object, CollisionResponse& response) = 0;
+
+	// Debug Prints
+	virtual void PrintAllContents(unsigned depth = 0) = 0;
+	virtual void PrintAllCollisions() = 0;
 };
 
