@@ -51,27 +51,30 @@ void PhysicsObjectBase::SetGravity(Vector3D gravity)
 
 void PhysicsObjectBase::OnCollision(CollisionResponse &response)
 {
-	if (response.collided)
+	if (shouldSimulate)
 	{
-		CollisionObjectBase* collision = response.objectBounds[0];
-		CollisionObjectBase* collision2 = response.objectBounds[1];
+		if (response.collided)
+		{
+			CollisionObjectBase* collision = response.objectBounds[0];
+			CollisionObjectBase* collision2 = response.objectBounds[1];
 
-		if (collision->GetCollisionType() == BOX_COLLISION)
-		{
-			BoxCollisionObject* bcollision = (BoxCollisionObject*)collision;
-			Vec3D size = bcollision->GetSize();
-			Vec3D penetration = response.normal * (size - response.intersection.getAbs());
-			sceneObject->Translate(penetration);
+			if (collision->GetCollisionType() == BOX_COLLISION)
+			{
+				BoxCollisionObject* bcollision = (BoxCollisionObject*)collision;
+				Vec3D size = bcollision->GetSize();
+				Vec3D penetration = response.normal * (size - response.intersection.getAbs());
+				sceneObject->Translate(penetration);
+			}
+			else if (collision->GetCollisionType() == SPHERE_COLLISION)
+			{
+				SphereCollisionObject* scollision = (SphereCollisionObject*)collision;
+				Vec3D penetration = response.normal * (scollision->GetRadiusSqr() - response.intersection.getMagnitudeSqr());
+				sceneObject->Translate(penetration);
+			}
+
+			Vector3D r = velocity - ((2.0 * velocity.dot(response.normal)) * response.normal);
+			velocity = r;
 		}
-		else if (collision->GetCollisionType() == SPHERE_COLLISION)
-		{
-			SphereCollisionObject* scollision = (SphereCollisionObject*)collision;
-			Vec3D penetration = response.normal * (scollision->GetRadiusSqr() - response.intersection.getMagnitudeSqr());
-			sceneObject->Translate(penetration);
-		}
-	
-		Vector3D r = velocity - ((2.0 * velocity.dot(response.normal)) * response.normal);
-		velocity = r;
 	}
 }
 
