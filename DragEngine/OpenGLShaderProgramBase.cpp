@@ -8,6 +8,8 @@
 #include <iostream>
 #include <fstream>
 
+OpenGLShaderProgramBase* OpenGLShaderProgramBase::CurrentlyBoundShader = 0;
+
 OpenGLShaderProgramBase::OpenGLShaderProgramBase()
 {
 	program = glCreateProgram();
@@ -23,13 +25,22 @@ OpenGLShaderProgramBase::~OpenGLShaderProgramBase()
 
 void OpenGLShaderProgramBase::BindProgram()
 {
+	if (CurrentlyBoundShader == this)return;
+
 	glUseProgram(program);
 	engine->CheckErrors("BindProgram()");
+	CurrentlyBoundShader = this;
 }
 
 void OpenGLShaderProgramBase::UnBindProgram()
 {
+	if (CurrentlyBoundShader != this)
+	{
+		std::cerr << "Trying To Unbind Shader that isnt Bound !!\n";
+		return;
+	}
 	glUseProgram(0);
+	CurrentlyBoundShader = 0;
 }
 
 bool OpenGLShaderProgramBase::Link()

@@ -26,6 +26,8 @@ public:
 	virtual void DrawAll() = 0;
 	virtual void Resize(int w, int h) = 0;
 
+	virtual void SetupScene(Vector3D center, Vector3D size) = 0;
+
 	/* Each implementation must implement way of adding Render Objects 
 	*  so DirectX may have a different render loop style then OpenGL */
 	virtual void AddSceneObject(SceneObject* object) = 0;

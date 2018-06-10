@@ -18,6 +18,9 @@ class PhysicsObjectBase;
 class DRAGENGINE_EXPORT SceneObject : public TickableObject
 {
 private:
+	// used to make GetModel more effecient
+	MatrixF model;
+
 	Vector3D scale;
 	Vector3D pos;
 	Quaternion rotation;

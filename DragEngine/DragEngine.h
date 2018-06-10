@@ -2,6 +2,7 @@
 #include "LoggerBase.h"
 #include "PlatformTypes.h"
 #include "CommomTypes.h"
+#include "Vector3.h"
 #include <vector>
 
 class ThreadBase;
@@ -10,11 +11,14 @@ class RenderEngineBase;
 class PhysicsEngine;
 class SceneObject;
 class TickableObject;
+class CameraBase;
 class DRAGENGINE_EXPORT DragEngine
 {
 private:
 	WindowBase* mainWindow;
 	RenderEngineBase* mainRenderEngine;
+
+	CameraBase* camera;
 
 	static DragEngine* instance;
 	bool shouldRun;
@@ -47,6 +51,12 @@ public:
 	void MouseEvent(MouseEventType,float value);
 	void MouseMove(float x,float y);
 
+	void Setup2DScene(double centerx, double centery, double width, double height); // in meters
+	void Setup2DScene(Vector3D center, Vector3D size); // in meters
+	void SetupScene(double centerx, double centery, double width, double height, double depth); // in meters
+	void SetupScene(Vector3D center, Vector3D size); // in meters
+
+	inline CameraBase* GetCamera() { return camera; }
 	// do not add scene objects or any subclass of scene objects this way, instead use AddSceneObject
 	void AddTickableObject(TickableObject* object);
 	// add this scene object to the scene and updates it

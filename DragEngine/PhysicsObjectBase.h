@@ -11,6 +11,8 @@ private:
 	Vector3D velocity;
 	double drag;
 	bool shouldSimulate;
+	double mass; // KG
+	double restitution;
 	Vector3D gravity;
 
 private:
@@ -22,6 +24,9 @@ public:
 
 	void StartPhysicsSim();
 	void StopPhysicsSim();
+
+	void SetMass(double mass); // in KG
+	void SetRestitution(double restitution);
 
 	void SetDrag(double drag) { this->drag = drag; }
 	void ApplyForce(Vec3D Force);

@@ -10,6 +10,8 @@ class DRAGENGINE_EXPORT OpenGLShaderProgramBase : public ShaderProgramBase
 private:
 	unsigned program;
 
+	static OpenGLShaderProgramBase* CurrentlyBoundShader;
+
 public:
 	OpenGLShaderProgramBase();
 	virtual ~OpenGLShaderProgramBase();

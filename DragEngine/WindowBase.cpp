@@ -40,6 +40,5 @@ void WindowBase::MainDraw()
 {
 	renderEngine->ClearBuffers();
 	renderEngine->DrawAll();
-
 	SwapBuffers();
 }

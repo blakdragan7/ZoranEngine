@@ -36,6 +36,8 @@ void SceneObject::SetRenderedObject(RenderedObjectBase * newRenderedObject)
 
 SceneObject::SceneObject(std::string name)
 {
+	model = MatrixF::GLIdentityMatrix();
+
 	renderEngine = dEngine->GetRenderer();
 	renderedObject = renderEngine->CreateRenderedObject();
 	scale = Vector3D(1.0,1.0,1.0);
@@ -50,6 +52,8 @@ SceneObject::SceneObject(std::string name)
 
 SceneObject::SceneObject(std::string name, RenderEngineBase* engine)
 {
+	model = MatrixF::GLIdentityMatrix();
+
 	scale = Vector3D(1.0, 1.0, 1.0);
 
 	this->readableName = name;
@@ -99,6 +103,7 @@ void SceneObject::SetRotation(Vector3D eulor)
 {
 	WaitForMutex();
 	rotation = Quaternion::FromEuler(eulor);
+	UnlockMutex();
 }
 
 void SceneObject::SetRotationFromAxis(Vector3D axis)
@@ -235,12 +240,12 @@ void SceneObject::Scale(Vector3D scale)
 
 MatrixF SceneObject::GetModel()
 {
-	MatrixF model = MatrixF::GLIdentityMatrix();
+	model.makeIdentity();
 
 	WaitForMutex();
-	model.translate(pos);
 	model.scale(scale);
-	model = rotation.AsMatrix()*model;
+	model.translate(pos);
+	model = model*rotation.AsRotationMatrix();
 	UnlockMutex();
 	return model;
 }

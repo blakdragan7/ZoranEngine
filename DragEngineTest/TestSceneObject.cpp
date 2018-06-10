@@ -8,9 +8,11 @@
 #include "OpenGLTexture.h"
 #include <PhysicsObjectBase.h>
 
+static StandardShader* shader = 0;
 TestSceneObject::TestSceneObject(std::string name) : TexturedSprite(name)
 {
-	SetShaderProgram(new StandardShader());
+	if (shader == 0)shader = new StandardShader();
+	SetShaderProgram(shader);
 	OpenGLObject* object = dynamic_cast<OpenGLObject*>(GetRenderedObject());
 
 	if (object)
@@ -34,8 +36,5 @@ void TestSceneObject::PreRender()
 
 void TestSceneObject::Tick(double deltaTime)
 {
-	//Vector3D delta = Vector3D(0,0,0) - GetPosition();
-	//delta.normalize();
-
-	//Translate(delta * 0.3 * deltaTime);
+	//RotateByEulor(Vec3D(0, 0, 1.5*deltaTime));
 }

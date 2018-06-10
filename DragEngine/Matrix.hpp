@@ -35,6 +35,17 @@ public:
 		memcpy(&mat.c_array[0], c_array, sizeof(t)*mat.array_size);
 		return mat;
 	}
+	static Matrix GLOrthoMatrix(float xmin, float ymin, float xmax, float ymax, float znear, float zfar)
+	{
+		Matrix orthoMatrix = Matrix::GLIdentityMatrix();
+
+		orthoMatrix[0] = 2 / xmax;
+		orthoMatrix[5] = -2 / ymax;
+		orthoMatrix[10] = 2 / (zfar - znear);
+		orthoMatrix[11] = (znear + zfar) / (znear - zfar);
+
+		return orthoMatrix;
+	}
 	static Matrix GLProjectionMatrix(float fov, float ratio, float nearP, float farP)
 	{
 		Matrix projMatrix = Matrix::GLIdentityMatrix();

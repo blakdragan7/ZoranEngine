@@ -81,9 +81,6 @@
     <ClInclude Include="TexturedSprite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="StandardShader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -186,6 +183,15 @@
     <ClInclude Include="ConsoleLogger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="StandardShader.h">
+      <Filter>OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OrthoCamera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DragEngine.cpp">
@@ -251,9 +257,6 @@
     <ClCompile Include="OpenGLShaderProgramBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="StandardShader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PhysicsEngine.cpp">
       <Filter>Physics</Filter>
     </ClCompile>
@@ -303,6 +306,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ConsoleLogger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StandardShader.cpp">
+      <Filter>OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OrthoCamera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

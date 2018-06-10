@@ -33,6 +33,8 @@ public:
 	virtual void AddSceneObject(SceneObject* object);
 	virtual bool RemoveSceneObject(SceneObject* object);
 
+	virtual void SetupScene(Vector3D center, Vector3D size)override;
+
 	virtual TextureBase* CreateTexture(const char* path, RenderDataType bufferType, RenderDataFormat bufferFormat)override;
 	virtual TextureBase* CreateTexture(void* data, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2L size)override;
 	virtual RenderedObjectBase* CreateRenderedObject()override;

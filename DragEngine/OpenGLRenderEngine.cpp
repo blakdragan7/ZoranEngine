@@ -142,6 +142,11 @@ bool OpenGLRenderEngine::RemoveSceneObject(SceneObject* object)
 	return false;
 }
 
+void OpenGLRenderEngine::SetupScene(Vector3D center, Vector3D size)
+{
+
+}
+
 TextureBase * OpenGLRenderEngine::CreateTexture(const char * path, RenderDataType bufferType, RenderDataFormat bufferFormat)
 {
 	OpenGLTexture* texture = new OpenGLTexture(this,bufferType,bufferFormat);

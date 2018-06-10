@@ -30,6 +30,7 @@ public:
 
 	static Quaternion FromScaledAxis(Vector3D& w);
 	static Quaternion FromEuler(const Vector3D& euler);
+	static Quaternion FromEuler(double x, double y, double z);
 
 	Vector3D AsEuler(void) const;
 	// scaled linear interp

@@ -7,3 +7,5 @@
 
 #include <memory>
 #include "PlatformTypes.h"
+#include "DragEngine.h"
+#include "HighPrecisionClock.h"

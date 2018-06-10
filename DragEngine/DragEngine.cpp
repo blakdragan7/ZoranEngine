@@ -10,6 +10,7 @@
 #include "HighPrecisionClock.h"
 #include "CollisionObjectBase.h"
 #include "CollisionBucketBase.h"
+#include "OrthoCamera.h"
 #include <iostream>
 
 #include "SceneObject.h"
@@ -61,6 +62,8 @@ int DragEngine::MainLoop()
 	MSG       msg = { 0 };
 
 	HighPrecisionClock clock;
+	HighPrecisionClock statisticsClock;
+	double statistics = 0;
 
 	while (WM_QUIT != msg.message && shouldRun)
 	{
@@ -72,16 +75,26 @@ int DragEngine::MainLoop()
 			TranslateMessage(&msg);
 			DispatchMessageW(&msg);
 		}
-
+		statisticsClock.TakeClock();
 		if (mainWindow)mainWindow->MainDraw();
+		statistics = statisticsClock.GetDiffSeconds();
+		Log(LogLevel_Verbose,"mainWindow->MainDraw() took %f ms\n", statistics*1000);
 		if (isPaused == false)
 		{
+			statisticsClock.TakeClock();
 			if (physicsEngine)physicsEngine->UpdateAll(deltaTime);
 
+			statistics = statisticsClock.GetDiffSeconds();
+			Log(LogLevel_Verbose, "physicsEngine->UpdateAll() took %f ms\n", statistics*1000);
+
+			statisticsClock.TakeClock();
 			for (auto object : allTickables)
 			{
 				object->Tick(deltaTime);
 			}
+
+			statistics = statisticsClock.GetDiffSeconds();
+			Log(LogLevel_Verbose, "All object->Tick()'s took %f ms\n", statistics*1000);
 		}
 		else
 		{
@@ -106,6 +119,30 @@ bool DragEngine::Init()
 	mainWindow = window;
 
 	return true;
+}
+
+void DragEngine::Setup2DScene(double centerx, double centery, double width, double height)
+{
+	physicsEngine->SetupFor2D(Vec3D(centerx, centery, 0), Vec3D(width, height, 10));
+	camera = new OrthoCamera("camera", width, height, 0);
+	camera->Translate(centerx, centery, 0);
+}
+
+void DragEngine::Setup2DScene(Vector3D center, Vector3D size)
+{
+	physicsEngine->SetupFor2D(center, size);
+	camera = new OrthoCamera("camera",size.x,size.y, 0);
+	camera->Translate(center.x, center.y, 0);
+}
+
+void DragEngine::SetupScene(double centerx, double centery, double width, double height, double depth)
+{
+	throw std::exception("SetupScene Not Implemented yet !");
+}
+
+void DragEngine::SetupScene(Vector3D center, Vector3D size)
+{
+	throw std::exception("SetupScene Not Implemented yet !");
 }
 
 void DragEngine::KeyEvent(KeyEventType type, unsigned key)

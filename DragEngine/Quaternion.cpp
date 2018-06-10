@@ -109,12 +109,13 @@ MatrixF Quaternion::AsRightMatrix() const {
 }
 
 MatrixF Quaternion::AsRotationMatrix() const {
-	float m[9] = {
-		1 - 2 * Y()*Y() - 2 * Z()*Z(), 2 * X()*Y() - 2 * Z()*W(), 2 * X()*Z() + 2 * Y()*W(),
-		2 * X()*Y() + 2 * Z()*W(), 1 - 2 * X()*X() - 2 * Z()*Z(), 2 * Y()*Z() - 2 * X()*W(),
-		2 * X()*Z() - 2 * Y()*W(), 2 * Y()*Z() + 2 * X()*W(), 1 - 2 * X()*X() - 2 * Y()*Y()
+	float m[16] = {
+		1 - 2 * Y()*Y() - 2 * Z()*Z(), 2 * X()*Y() - 2 * Z()*W(), 2 * X()*Z() + 2 * Y()*W(),0,
+		2 * X()*Y() + 2 * Z()*W(), 1 - 2 * X()*X() - 2 * Z()*Z(), 2 * Y()*Z() - 2 * X()*W(),0,
+		2 * X()*Z() - 2 * Y()*W(), 2 * Y()*Z() + 2 * X()*W(), 1 - 2 * X()*X() - 2 * Y()*Y(),0,
+		0,0,0,1
 	};
-	MatrixF mat = MatrixF::MatrixFromArray(3, 3, m);
+	MatrixF mat = MatrixF::MatrixFromArray(4, 4, m);
 	return mat;
 }
 
@@ -139,6 +140,24 @@ Quaternion Quaternion::FromScaledAxis(Vector3D& w) {
 
 Vector3D Quaternion::RotatedVector(const Vector3D& v) const {
 	return (((*this) * Quaternion(v, 0)) * GetConjugate()).GetComplex();
+}
+
+Quaternion Quaternion::FromEuler(double x,double y,double z) {
+	double c1 = cos(z * 0.5);
+	double c2 = cos(y * 0.5);
+	double c3 = cos(x * 0.5);
+	double s1 = sin(z * 0.5);
+	double s2 = sin(y * 0.5);
+	double s3 = sin(x * 0.5);
+
+	Quaternion quat;
+
+	quat.vals[0] = c1 * c2*s3 - s1 * s2*c3;
+	quat.vals[1] = c1 * s2*c3 + s1 * c2*s3;
+	quat.vals[2] = s1 * c2*c3 - c1 * s2*s3;
+	quat.vals[3] = c1 * c2*c3 + s1 * s2*s3;
+
+	return quat;
 }
 
 Quaternion Quaternion::FromEuler(const Vector3D& euler) {

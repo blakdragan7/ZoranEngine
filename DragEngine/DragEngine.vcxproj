@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BoxCollisionObject.h" />
+    <ClInclude Include="CameraBase.h" />
     <ClInclude Include="CollisionBucketBase.h" />
     <ClInclude Include="CommomTypes.h" />
     <ClInclude Include="ConsoleLogger.h" />
@@ -36,6 +37,7 @@
     <ClInclude Include="OpenGLShaderProgramBase.h" />
     <ClInclude Include="OpenGLTexture.h" />
     <ClInclude Include="OpenGLObject.h" />
+    <ClInclude Include="OrthoCamera.h" />
     <ClInclude Include="PhysicsEngine.h" />
     <ClInclude Include="CollisionObjectBase.h" />
     <ClInclude Include="PhysicsObjectBase.h" />
@@ -68,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BoxCollisionObject.cpp" />
+    <ClCompile Include="CameraBase.cpp" />
     <ClCompile Include="CollisionBucketBase.cpp" />
     <ClCompile Include="CommonTypes.cpp" />
     <ClCompile Include="ConsoleLogger.cpp" />
@@ -85,6 +88,7 @@
     <ClCompile Include="OpenGLShaderProgramBase.cpp" />
     <ClCompile Include="OpenGLTexture.cpp" />
     <ClCompile Include="OpenGLObject.cpp" />
+    <ClCompile Include="OrthoCamera.cpp" />
     <ClCompile Include="PhysicsEngine.cpp" />
     <ClCompile Include="CollisionObjectBase.cpp" />
     <ClCompile Include="PhysicsObjectBase.cpp" />
