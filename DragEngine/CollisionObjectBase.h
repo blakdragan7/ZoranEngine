@@ -4,6 +4,12 @@
 
 #define NO_COLLISION 0
 
+enum CollisionDynamics
+{
+	CD_Static=0,
+	CD_Dynamic=1
+};
+
 class SceneObject;
 class PhysicsObjectBase;
 class DRAGENGINE_EXPORT CollisionObjectBase
@@ -13,12 +19,13 @@ private:
 	unsigned collisionLayer;
 	SceneObject* sceneObject;
 	PhysicsObjectBase* physicsObject;
+	CollisionDynamics collisionDynamics;
 	
 public:
 	bool isDirty;
 
 public:
-	CollisionObjectBase(SceneObject* object, unsigned collisionType = NO_COLLISION);
+	CollisionObjectBase(SceneObject* object, CollisionDynamics collisionDynamics = CD_Dynamic, unsigned collisionType = NO_COLLISION);
 	virtual ~CollisionObjectBase();
 
 	void SetSceneObject(SceneObject* object);
@@ -34,6 +41,7 @@ public:
 	virtual Vector3D GetClosestPointTo(Vector3D pos) = 0;
 	virtual Vector3D GetNormalBetween(CollisionObjectBase* other) = 0;
 
+	CollisionDynamics GetDynamics();
 	Vector3D GetScenePos();
 	SceneObject* GetSceneObject();
 	PhysicsObjectBase* GetPhysicsObject();

@@ -13,7 +13,7 @@ private:
 	Vector3D scaledSize;
 
 public:
-	BoxCollisionObject(Vector3D min,Vector3D max,SceneObject* object, unsigned collisionType = BOX_COLLISION);
+	BoxCollisionObject(Vector3D min,Vector3D max,SceneObject* object, CollisionDynamics dynamics = CD_Dynamic, unsigned collisionType = BOX_COLLISION);
 	~BoxCollisionObject();
 
 	void SetBoundsBySceneObject()override;

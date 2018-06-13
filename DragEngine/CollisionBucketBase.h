@@ -49,6 +49,8 @@ protected:
 
 #pragma warning(push)
 #pragma warning(disable:4251)
+	// this should be split into dynamic / static objects for effeicinecy.
+	// It's a lot of work though so unless we need it at some point, it will be left like this for now
 	std::vector<CollisionObjectBase*> collisionObjects;
 	std::mutex mutex;
 #pragma warning(pop)

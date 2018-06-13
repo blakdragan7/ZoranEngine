@@ -36,6 +36,9 @@ public:
 	Vector3D operator*(double scalor);
 	Vector3D operator/(double scalor);
 
+	bool nearlyEquals(double other);
+	bool nearlyEquals(Vector3D other);
+
 	double getMagnitude();
 	double getMagnitudeSqr();
 	void normalize();

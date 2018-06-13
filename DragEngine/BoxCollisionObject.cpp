@@ -4,7 +4,7 @@
 #include "SceneObject.h"
 #include "Matrix.hpp"
 
-BoxCollisionObject::BoxCollisionObject(Vector3D min, Vector3D max, SceneObject* object, unsigned collisionType) : CollisionObjectBase(object,collisionType)
+BoxCollisionObject::BoxCollisionObject(Vector3D min, Vector3D max, SceneObject* object, CollisionDynamics dynamics, unsigned collisionType) : CollisionObjectBase(object, dynamics,collisionType)
 {
 	this->minPos = min;
 	this->maxPos = max;

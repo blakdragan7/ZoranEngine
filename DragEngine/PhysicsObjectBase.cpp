@@ -19,8 +19,9 @@ PhysicsObjectBase::PhysicsObjectBase(SceneObject * object)
 	shouldSimulate = false;
 	gravity = Vec3D(0, -.00980,0);
 	drag = 0.99;
-	mass = 0.5;
+	mass = 200;
 	restitution = 1.0;
+	isOnGround = false;
 }
 
 PhysicsObjectBase::~PhysicsObjectBase()
@@ -90,6 +91,10 @@ void PhysicsObjectBase::OnCollision(CollisionResponse &response)
 			Vec3D Vel = velocity - other->velocity;
 			Vector3D F = (-response.normal * ((1.0 + restitution) * Vel.dot(response.normal))) / (mass + other->mass);
 			velocity += F * mass;
+			if (velocity.nearlyEquals(0))
+			{
+				isOnGround = true;
+			}
 		}
 	}
 }
@@ -97,13 +102,14 @@ void PhysicsObjectBase::OnCollision(CollisionResponse &response)
 void PhysicsObjectBase::ApplyForce(Vec3D Force)
 {
 	this->velocity += Force;
+	isOnGround = false;
 }
 
 void PhysicsObjectBase::Update(double deltaTime)
 {
 	if (shouldSimulate)
 	{
-		velocity += gravity;
+		if(isOnGround == false)velocity += gravity;
 		velocity *= drag;
 
 #ifdef CON_COLLISION

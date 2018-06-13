@@ -4,7 +4,7 @@
 #include "SphereCollisionObject.h"
 #include "SceneObject.h"
 
-QuadTreeCollision::QuadTreeCollision(Vector3D min, Vector3D max, SceneObject* object) : CollisionObjectBase(object, QUADTREE_COLLISION)
+QuadTreeCollision::QuadTreeCollision(Vector3D min, Vector3D max, SceneObject* object) : CollisionObjectBase(object,CD_Static, QUADTREE_COLLISION)
 {
 	this->minPos = min;
 	this->maxPos = max;

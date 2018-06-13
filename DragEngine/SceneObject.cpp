@@ -36,6 +36,8 @@ void SceneObject::SetRenderedObject(RenderedObjectBase * newRenderedObject)
 
 SceneObject::SceneObject(std::string name)
 {
+	willEverTick = false;
+
 	model = MatrixF::GLIdentityMatrix();
 
 	renderEngine = dEngine->GetRenderer();
@@ -52,6 +54,8 @@ SceneObject::SceneObject(std::string name)
 
 SceneObject::SceneObject(std::string name, RenderEngineBase* engine)
 {
+	willEverTick = false;
+
 	model = MatrixF::GLIdentityMatrix();
 
 	scale = Vector3D(1.0, 1.0, 1.0);
@@ -243,8 +247,8 @@ MatrixF SceneObject::GetModel()
 	model.makeIdentity();
 
 	WaitForMutex();
-	model.scale(scale);
 	model.translate(pos);
+	model.scale(scale);
 	model = model*rotation.AsRotationMatrix();
 	UnlockMutex();
 	return model;

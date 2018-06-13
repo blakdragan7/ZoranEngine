@@ -40,7 +40,7 @@ public:
 		Matrix orthoMatrix = Matrix::GLIdentityMatrix();
 
 		orthoMatrix[0] = 2 / xmax;
-		orthoMatrix[5] = -2 / ymax;
+		orthoMatrix[5] = 2 / ymax;
 		orthoMatrix[10] = 2 / (zfar - znear);
 		orthoMatrix[11] = (znear + zfar) / (znear - zfar);
 

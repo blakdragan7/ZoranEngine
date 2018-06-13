@@ -15,6 +15,8 @@ private:
 	double restitution;
 	Vector3D gravity;
 
+	bool isOnGround;
+
 private:
 	void RegisterPhysicsObject();
 

@@ -131,6 +131,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="TestPlatformObject.cpp" />
     <ClCompile Include="TestSceneObject.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -139,6 +140,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="TestPlatformObject.h" />
     <ClInclude Include="TestSceneObject.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

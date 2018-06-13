@@ -5,12 +5,13 @@
 
 #include <iostream>
 
-CollisionObjectBase::CollisionObjectBase(SceneObject* object, unsigned collisionType)
+CollisionObjectBase::CollisionObjectBase(SceneObject* object, CollisionDynamics collisionDynamics, unsigned collisionType)
 {
 	physicsObject = 0;
 	sceneObject = object;
 	collisionLayer = -1;
 	this->collisionType = collisionType;
+	this->collisionDynamics = collisionDynamics;
 }
 
 CollisionObjectBase::~CollisionObjectBase()
@@ -35,6 +36,11 @@ unsigned CollisionObjectBase::GetCollisionLayer()
 void CollisionObjectBase::SetCollisionLayer(unsigned layer)
 {
 	collisionLayer = layer;
+}
+
+CollisionDynamics CollisionObjectBase::GetDynamics()
+{
+	return collisionDynamics;
 }
 
 Vector3D CollisionObjectBase::GetScenePos()

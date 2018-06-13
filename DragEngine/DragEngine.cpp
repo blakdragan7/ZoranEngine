@@ -185,9 +185,7 @@ void DragEngine::AddTickableObject(TickableObject * object)
 void DragEngine::AddSceneObject(SceneObject * object)
 {
 	if (object->GetCollision())object->GetCollision()->SetBoundsBySceneObject();
-	// add a should ever tick option in SceneObject for optimization
-	//i.e. if(object->shouldEverTick)
-	AddTickableObject((TickableObject*)(object));
+	if(object->willEverTick)AddTickableObject((TickableObject*)(object));
 	mainRenderEngine->AddSceneObject(object);
 	physicsEngine->AddPhysicsObject(object->GetPhysics());
 	CollisionObjectBase* collision = object->GetCollision();

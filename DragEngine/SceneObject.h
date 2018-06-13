@@ -47,6 +47,8 @@ public:
 	std::string readableName;
 #pragma warning(pop)
 
+	bool willEverTick;
+
 protected:
 	void WaitForMutex();
 	void UnlockMutex();

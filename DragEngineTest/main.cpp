@@ -2,6 +2,7 @@
 #include <DragEngine.h>
 #include <PhysicsEngine.h>
 #include "TestSceneObject.h"
+#include "TestPlatformObject.h"
 #include <RenderEngineBase.h>
 #include <PhysicsObjectBase.h>
 
@@ -36,16 +37,11 @@ int main(int argc, char* argv[])
 	test->GetPhysics()->StartPhysicsSim();
 	test->GetPhysics()->SetGravity(Vec3D(0,-9.8,0));
 	dEngine->AddSceneObject(test);
-
-	TestSceneObject* test2 = new TestSceneObject("bottom");
-	test2->SetScale(20, -20, 1);
-	test2->SetPosition(200, -500, 0);
-	test2->GetPhysics()->StartPhysicsSim();
-	Vec3D pos = test2->GetPosition();
-	pos = CollisionPoint - pos;
-	pos.normalize();
-	test2->GetPhysics()->SetGravity(pos*8);
-	dEngine->AddSceneObject(test2);
 	
+	TestPlatformObject* platform = new TestPlatformObject();
+	platform->SetScale(500, -20, 1);
+	platform->SetPosition(0, -200, 0);
+	dEngine->AddSceneObject(platform);
+
 	engine.MainLoop();
 }

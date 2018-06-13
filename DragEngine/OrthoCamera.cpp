@@ -7,7 +7,6 @@ OrthoCamera::OrthoCamera(std::string name, double width, double height, double r
 	double width_2 = width / 2.0;
 	double height_2 = height / 2.0;
 	orthoModel = MatrixF::GLOrthoMatrix(-width_2,-height_2,width_2,height_2,-1,10);
-
 }
 
 OrthoCamera::~OrthoCamera()

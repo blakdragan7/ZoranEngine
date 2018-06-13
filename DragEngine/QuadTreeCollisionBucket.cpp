@@ -117,6 +117,8 @@ CollisionObjectBase * QuadTreeCollisionBucket::RemoveObject(CollisionObjectBase 
 
 bool QuadTreeCollisionBucket::UpdateObject(CollisionObjectBase * object)
 {
+	// Static collision objects don't need to be updated
+	if (object->GetDynamics() == CD_Static)return false;
 	object->SetBoundsBySceneObject();
 	int index = FindObject(object);
 	if (index != -1)

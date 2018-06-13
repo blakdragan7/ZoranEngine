@@ -3,7 +3,7 @@
 #include "BoxCollisionObject.h"
 #include "SceneObject.h"
 
-SphereCollisionObject::SphereCollisionObject(double radius, SceneObject* object, unsigned collisionType) : CollisionObjectBase(object, collisionType)
+SphereCollisionObject::SphereCollisionObject(double radius, SceneObject* object, CollisionDynamics dynamics, unsigned collisionType) : CollisionObjectBase(object, dynamics, collisionType)
 {
 	this->radius = radius;
 	this->radiusSqr = radius * radius;
