@@ -40,6 +40,9 @@ public:
 	virtual bool CollidesWith(CollisionObjectBase* other) = 0;
 	virtual Vector3D GetClosestPointTo(Vector3D pos) = 0;
 	virtual Vector3D GetNormalBetween(CollisionObjectBase* other) = 0;
+	virtual Vector3D GetSize() = 0;
+
+	void SetDynamics(CollisionDynamics dynamics);
 
 	CollisionDynamics GetDynamics();
 	Vector3D GetScenePos();

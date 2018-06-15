@@ -3,7 +3,7 @@
 #include <RenderEngineBase.h>
 #include <StandardShader.h>
 #include <TextureBase.h>
-
+#include <CollisionObjectBase.h>
 static StandardShader* shader = 0;
 TestPlatformObject::TestPlatformObject() : TexturedSprite("Ground", "test.png", RenderDataType::TYPE_RGBA_32, RenderDataFormat::FORMAT_UNSIGNED_BYTE)
 {
@@ -16,6 +16,8 @@ TestPlatformObject::TestPlatformObject() : TexturedSprite("Ground", "test.png", 
 	{
 		object->MakeFullScreenQuad();
 	}
+
+	collision->SetDynamics(CD_Static);
 }
 
 TestPlatformObject::~TestPlatformObject()

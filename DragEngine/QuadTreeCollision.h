@@ -18,7 +18,7 @@ public:
 
 	void SetBoundsBySceneObject()override;
 
-	virtual Vector3D GetSize();
+	virtual Vector3D GetSize()override;
 	virtual bool CollidesWith(Vector3D pos)override;
 	virtual bool CollidesWith(CollisionObjectBase* other)override;
 	virtual Vector3D GetClosestPointTo(Vector3D pos)override;

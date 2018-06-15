@@ -6,6 +6,8 @@ class SceneObject;
 class DRAGENGINE_EXPORT PhysicsObjectBase
 {
 private:
+	class BoxCollisionObject * sweepCollisionBox;
+
 	SceneObject* sceneObject;
 
 	Vector3D velocity;
@@ -19,6 +21,10 @@ private:
 
 private:
 	void RegisterPhysicsObject();
+
+protected:
+	float SweepCollisionTo(Vec3D newPosition, struct CollisionResponse& response);
+	bool FastSweepCollision(Vec3D newPosition); // Braod Sweep
 
 public:
 	PhysicsObjectBase(SceneObject* object);
@@ -36,6 +42,7 @@ public:
 	void SetGravity(Vector3D gravity);
 
 	void OnCollision(struct CollisionResponse& response);
+	bool SweepToo(Vec3D targetPosition, Vec3D &actualPosition);
 
 	inline bool GetShouldSimulate() { return shouldSimulate; }
 

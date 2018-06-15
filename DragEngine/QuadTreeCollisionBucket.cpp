@@ -473,6 +473,51 @@ bool QuadTreeCollisionBucket::CheckCollisionForObject(CollisionObjectBase * obje
 	return false;
 }
 
+bool QuadTreeCollisionBucket::CheckObjectAgainstStaic(CollisionObjectBase * object, CollisionResponse & response)
+{
+	for (unsigned i = 0; i < collisionObjects.size(); i++)
+	{
+		if (collisionObjects[i]->GetDynamics() != CD_Static)continue;
+		if (object->CollidesWith(collisionObjects[i]))
+		{
+			if (collisionObjects[i]->GetCollisionType() == BOX_COLLISION)
+			{
+				Vec3D normal = collisionObjects[i]->GetNormalBetween(object);
+				response.collided = true;
+				response.normal = normal;
+				response.objectBounds[0] = object;
+				response.objectBounds[1] = collisionObjects[i];
+				response.collidedObjects[0] = object->GetPhysicsObject();
+				response.collidedObjects[1] = collisionObjects[i]->GetPhysicsObject();
+				response.intersection = object->GetScenePos() - collisionObjects[i]->GetScenePos();
+				return true;
+			}
+			else
+			{
+				Vec3D normal = object->GetNormalBetween(collisionObjects[i]);
+				response.collided = true;
+				response.normal = normal;
+				response.objectBounds[0] = object;
+				response.objectBounds[1] = collisionObjects[i];
+				response.collidedObjects[0] = object->GetPhysicsObject();
+				response.collidedObjects[1] = collisionObjects[i]->GetPhysicsObject();
+				response.intersection = collisionObjects[i]->GetScenePos() - object->GetScenePos();
+				return true;
+			}
+		}
+	}
+
+	if (hasSubdivided)
+	{
+		if (children[0]->CheckCollisionForObject(object, response))return true;
+		if (children[1]->CheckCollisionForObject(object, response))return true;
+		if (children[2]->CheckCollisionForObject(object, response))return true;
+		if (children[3]->CheckCollisionForObject(object, response))return true;
+	}
+
+	return false;
+}
+
 // Debug Prints
 
 bool QuadTreeCollisionBucket::PrintCollisionForObject(CollisionObjectBase * object)

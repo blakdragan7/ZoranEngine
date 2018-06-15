@@ -18,7 +18,6 @@ private:
 
 private:
 	void Subdivide();
-	bool CheckCollisionForObject(CollisionObjectBase* object, CollisionResponse& response);
 	bool PrintCollisionForObject(CollisionObjectBase * object);
 
 	bool TraverseUpAddObject(CollisionObjectBase* object);
@@ -38,6 +37,8 @@ public:
 	virtual void UpdateAllObjects()override;
 	void CheckAllCollision()override;
 	bool ObjectIsWithinBucket(CollisionObjectBase* object)override;
+	bool CheckCollisionForObject(CollisionObjectBase* object, CollisionResponse& response)override;
+	virtual bool CheckObjectAgainstStaic(CollisionObjectBase* object, CollisionResponse& response)override;
 	virtual bool CheckAllCollisionForObject(CollisionObjectBase* object, CollisionResponse& response)override;
 };
 

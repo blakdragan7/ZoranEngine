@@ -65,15 +65,17 @@ public:
 	virtual bool AddObject(CollisionObjectBase* object) = 0;
 	virtual CollisionObjectBase* RemoveObject(CollisionObjectBase* object) = 0;
 
-	virtual bool UpdateObject(CollisionObjectBase* object) = 0;
 	virtual void UpdateAllObjects() = 0;
+	virtual bool UpdateObject(CollisionObjectBase* object) = 0;
 
 	virtual void CheckAllCollision() = 0;
 	virtual bool ObjectIsWithinBucket(CollisionObjectBase* object) = 0;
+	virtual bool CheckObjectAgainstStaic(CollisionObjectBase* object, CollisionResponse& response) = 0;
+	virtual bool CheckCollisionForObject(CollisionObjectBase* object, CollisionResponse& response) = 0;
 	virtual bool CheckAllCollisionForObject(CollisionObjectBase* object, CollisionResponse& response) = 0;
 
 	// Debug Prints
-	virtual void PrintAllContents(unsigned depth = 0) = 0;
 	virtual void PrintAllCollisions() = 0;
+	virtual void PrintAllContents(unsigned depth = 0) = 0;
 };
 

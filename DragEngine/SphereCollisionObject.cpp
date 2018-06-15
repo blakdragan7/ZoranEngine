@@ -70,3 +70,8 @@ Vector3D SphereCollisionObject::GetNormalBetween(CollisionObjectBase * other)
 	normal.normalize();
 	return normal;
 }
+
+Vector3D SphereCollisionObject::GetSize()
+{
+	return Vector3D(radius,radius,radius);
+}

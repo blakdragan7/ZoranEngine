@@ -38,6 +38,11 @@ void CollisionObjectBase::SetCollisionLayer(unsigned layer)
 	collisionLayer = layer;
 }
 
+void CollisionObjectBase::SetDynamics(CollisionDynamics dynamics)
+{
+	collisionDynamics = dynamics;
+}
+
 CollisionDynamics CollisionObjectBase::GetDynamics()
 {
 	return collisionDynamics;

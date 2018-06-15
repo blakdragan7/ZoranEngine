@@ -13,6 +13,39 @@ void PhysicsObjectBase::RegisterPhysicsObject()
 	pEngine->AddPhysicsObject(this);
 }
 
+float PhysicsObjectBase::SweepCollisionTo(Vec3D position, CollisionResponse & response)
+{
+	
+	return 0.0f;
+}
+
+bool PhysicsObjectBase::FastSweepCollision(Vec3D position)
+{
+	Vec3D startingPosition = sceneObject->GetPosition();
+	Vec3D size = sceneObject->GetCollision()->GetSize() / 2.0;
+
+	double minPositionx = min(startingPosition.x, position.x);
+	double maxPositionx = max(startingPosition.x, position.x);
+
+	double minPositiony = min(startingPosition.y, position.y);
+	double maxPositiony = max(startingPosition.y, position.y);
+
+	double minPositionz = min(startingPosition.z, position.z);
+	double maxPositionz = max(startingPosition.z, position.z);
+
+	sweepCollisionBox->minPos.x = minPositionx - size.x;
+	sweepCollisionBox->maxPos.x = maxPositionx + size.x;
+
+	sweepCollisionBox->minPos.y = minPositiony - size.y;
+	sweepCollisionBox->maxPos.y = maxPositiony + size.y;
+
+	sweepCollisionBox->minPos.z = minPositionz - size.z;
+	sweepCollisionBox->maxPos.z = maxPositionz + size.z;
+
+	CollisionResponse unused;
+	return pEngine->GetCollisionBucketRoot()->CheckObjectAgainstStaic(sweepCollisionBox, unused);
+}
+
 PhysicsObjectBase::PhysicsObjectBase(SceneObject * object)
 {
 	sceneObject = object;
@@ -22,12 +55,16 @@ PhysicsObjectBase::PhysicsObjectBase(SceneObject * object)
 	mass = 200;
 	restitution = 1.0;
 	isOnGround = false;
+
+	sweepCollisionBox = new BoxCollisionObject(Vec3D(),Vec3D(),object,CD_Static,BOX_COLLISION);
 }
 
 PhysicsObjectBase::~PhysicsObjectBase()
 {
 	// Not in charge of deleting Scene or collision objects, thats the engines job
 	// We do need to unregister though
+
+	delete sweepCollisionBox;
 
 	pEngine->RemoveObject(this);
 }
@@ -91,12 +128,30 @@ void PhysicsObjectBase::OnCollision(CollisionResponse &response)
 			Vec3D Vel = velocity - other->velocity;
 			Vector3D F = (-response.normal * ((1.0 + restitution) * Vel.dot(response.normal))) / (mass + other->mass);
 			velocity += F * mass;
-			if (velocity.nearlyEquals(0))
+			if (abs(velocity.y) < 0.00001)
 			{
 				isOnGround = true;
 			}
 		}
 	}
+}
+
+bool PhysicsObjectBase::SweepToo(Vec3D targetPosition, Vec3D &actualPosition)
+{
+	if (FastSweepCollision(targetPosition))
+	{
+		CollisionResponse response;
+		float time =  SweepCollisionTo(targetPosition, response);
+		if (time < 1.0)
+		{
+
+		}
+		return true;
+	}
+
+	actualPosition = targetPosition;
+	
+	return false;
 }
 
 void PhysicsObjectBase::ApplyForce(Vec3D Force)
@@ -109,13 +164,15 @@ void PhysicsObjectBase::Update(double deltaTime)
 {
 	if (shouldSimulate)
 	{
-		if(isOnGround == false)velocity += gravity;
+		if(isOnGround == false)velocity += gravity*deltaTime;
 		velocity *= drag;
 
 #ifdef CON_COLLISION
 		sceneObject->TrySetPosition(sceneObject->GetPosition() + (velocity * deltaTime));
 #else
-		sceneObject->Translate(velocity * deltaTime);
+		Vec3D ap;
+		SweepToo(velocity*deltaTime, ap);
+		sceneObject->Translate(velocity*deltaTime);
 #endif
 	}
 }
