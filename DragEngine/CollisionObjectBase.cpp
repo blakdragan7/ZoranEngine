@@ -50,11 +50,6 @@ Vector3D CollisionObjectBase::GetPenetration(CollisionObjectBase * other,Vec3D n
 
 	Vec3D diff = (pepPoint - point).getAbs();
 
-	Log(LogLevel_None, "point: %f,%f,%f\n", point.x, point.y, point.z);
-	Log(LogLevel_None, "pepPoint: %f,%f,%f\n", pepPoint.x, pepPoint.y, pepPoint.z);
-	Log(LogLevel_None, "diff: %f,%f,%f", diff.x, diff.y, diff.z);
-
-
 	return normal * (diff);
 }
 
