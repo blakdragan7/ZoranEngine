@@ -42,6 +42,8 @@ public:
 	virtual Vector3D GetNormalBetween(CollisionObjectBase* other) = 0;
 	virtual Vector3D GetSize() = 0;
 
+	virtual Vector3D GetPenetration(CollisionObjectBase* other, Vec3D normal);
+
 	void SetDynamics(CollisionDynamics dynamics);
 
 	CollisionDynamics GetDynamics();

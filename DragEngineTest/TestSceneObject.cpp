@@ -19,7 +19,7 @@ TestSceneObject::TestSceneObject(std::string name) : TexturedSprite(name)
 	}
 	SetTexture("test.png", RenderDataType::TYPE_RGBA_32, RenderDataFormat::FORMAT_UNSIGNED_BYTE);
 	GetPhysics()->SetRestitution(1.0);
-	GetPhysics()->SetMass(20);
+	GetPhysics()->SetMass(200);
 }
 
 
@@ -36,5 +36,4 @@ void TestSceneObject::PreRender()
 
 void TestSceneObject::Tick(double deltaTime)
 {
-	//RotateByEulor(Vec3D(0, 0, 1.5*deltaTime));
 }

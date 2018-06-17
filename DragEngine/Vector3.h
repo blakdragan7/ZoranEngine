@@ -6,7 +6,20 @@ class Vector2D;
 class DRAGENGINE_EXPORT Vector3D
 {
 public:
-	double	x,y,z;
+	union {
+		double x;
+		double w;
+	};
+	
+	union {
+		double y;
+		double h;
+	};
+
+	union {
+		double z;
+		double d;
+	};
 
 	Vector3D(void);
 	Vector3D(Vector2D other);

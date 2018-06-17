@@ -15,9 +15,11 @@ private:
 	bool shouldSimulate;
 	double mass; // KG
 	double restitution;
-	Vector3D gravity;
 
 	bool isOnGround;
+	Vector3D gravity;
+
+	bool useSweptCollision;
 
 private:
 	void RegisterPhysicsObject();
@@ -35,6 +37,8 @@ public:
 
 	void SetMass(double mass); // in KG
 	void SetRestitution(double restitution);
+
+	void SetSweptCollision(bool newSwept);
 
 	void SetDrag(double drag) { this->drag = drag; }
 	void ApplyForce(Vec3D Force);

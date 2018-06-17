@@ -35,11 +35,11 @@ int main(int argc, char* argv[])
 	test->SetScale(20, -20, 1);
 	test->SetPosition(0, 500, 0);
 	test->GetPhysics()->StartPhysicsSim();
-	test->GetPhysics()->SetGravity(Vec3D(0,-98*98,0));
+	test->GetPhysics()->SetGravity(Vec3D(0,-980,0));
 	dEngine->AddSceneObject(test);
 	
 	TestPlatformObject* platform = new TestPlatformObject();
-	platform->SetScale(500, -20, 1);
+	platform->SetScale(500, -40, 1);
 	platform->SetPosition(0, -200, 0);
 	dEngine->AddSceneObject(platform);
 

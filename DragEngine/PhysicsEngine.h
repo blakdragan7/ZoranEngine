@@ -21,7 +21,6 @@ public:
 	PhysicsEngine();
 	~PhysicsEngine();
 
-	bool CheckCollisionForObject(SceneObject* object, CollisionResponse& response);
 	void CheckAllCollision();
 	void SetupFor2D(Vector3D mapCenter, Vector3D mapSize);
 	void SetupFor3D();

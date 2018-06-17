@@ -8,6 +8,9 @@
 #include "BoxCollisionObject.h"
 #include "SphereCollisionObject.h"
 
+#include <cmath>
+const double EulerConstant = std::exp(1.0);
+
 void PhysicsObjectBase::RegisterPhysicsObject()
 {
 	pEngine->AddPhysicsObject(this);
@@ -15,8 +18,10 @@ void PhysicsObjectBase::RegisterPhysicsObject()
 
 float PhysicsObjectBase::SweepCollisionTo(Vec3D position, CollisionResponse & response)
 {
-	
-	return 0.0f;
+	SweepCollisionResponse swpResponse;
+	pEngine->GetCollisionBucketRoot()->SweepCollision(sceneObject->GetCollision(),position,swpResponse);
+	response = swpResponse.collisionResponse;
+	return swpResponse.timeHit;
 }
 
 bool PhysicsObjectBase::FastSweepCollision(Vec3D position)
@@ -55,6 +60,7 @@ PhysicsObjectBase::PhysicsObjectBase(SceneObject * object)
 	mass = 200;
 	restitution = 1.0;
 	isOnGround = false;
+	useSweptCollision = false;
 
 	sweepCollisionBox = new BoxCollisionObject(Vec3D(),Vec3D(),object,CD_Static,BOX_COLLISION);
 }
@@ -89,6 +95,11 @@ void PhysicsObjectBase::SetRestitution(double restitution)
 	this->restitution = restitution;
 }
 
+void PhysicsObjectBase::SetSweptCollision(bool newSwept)
+{
+	useSweptCollision = newSwept;
+}
+
 void PhysicsObjectBase::SetVeloctiy(Vec3D Velocity)
 {
 	this->velocity = Velocity;
@@ -110,28 +121,12 @@ void PhysicsObjectBase::OnCollision(CollisionResponse &response)
 
 			PhysicsObjectBase* other = response.collidedObjects[1];
 
-			Vec3D penetration;
+			sceneObject->Translate(response.penetration);
 
-			if (collision->GetCollisionType() == BOX_COLLISION)
-			{
-				BoxCollisionObject* bcollision = (BoxCollisionObject*)collision;
-				Vec3D size = bcollision->GetSize();
-				penetration = response.normal * (size - response.intersection.getAbs());
-				sceneObject->Translate(penetration);
-			}
-			else if (collision->GetCollisionType() == SPHERE_COLLISION)
-			{
-				SphereCollisionObject* scollision = (SphereCollisionObject*)collision;
-				penetration = response.normal * (scollision->GetRadiusSqr() - response.intersection.getMagnitudeSqr());
-				sceneObject->Translate(penetration);
-			}
 			Vec3D Vel = velocity - other->velocity;
 			Vector3D F = (-response.normal * ((1.0 + restitution) * Vel.dot(response.normal))) / (mass + other->mass);
-			velocity += F * mass;
-			if (abs(velocity.y) < 0.00001)
-			{
-				isOnGround = true;
-			}
+			//Vec3D F = -2 * response.normal * (response.normal * Vel);
+			velocity += F * 0.9;
 		}
 	}
 }
@@ -141,16 +136,20 @@ bool PhysicsObjectBase::SweepToo(Vec3D targetPosition, Vec3D &actualPosition)
 	if (FastSweepCollision(targetPosition))
 	{
 		CollisionResponse response;
-		float time =  SweepCollisionTo(targetPosition, response);
+		double time =  SweepCollisionTo(targetPosition, response);
 		if (time < 1.0)
 		{
-
+			actualPosition = GetScenePos() * (1.0 - time) +  (targetPosition * time);
+		}
+		else
+		{
+			actualPosition = targetPosition;
 		}
 		return true;
 	}
 
 	actualPosition = targetPosition;
-	
+
 	return false;
 }
 
@@ -167,13 +166,17 @@ void PhysicsObjectBase::Update(double deltaTime)
 		if(isOnGround == false)velocity += gravity*deltaTime;
 		velocity *= drag;
 
-#ifdef CON_COLLISION
-		sceneObject->TrySetPosition(sceneObject->GetPosition() + (velocity * deltaTime));
-#else
-		Vec3D ap;
-		SweepToo(velocity*deltaTime, ap);
-		sceneObject->Translate(velocity*deltaTime);
-#endif
+		if (useSweptCollision)
+		{
+			Vec3D actual;
+			Vec3D target = sceneObject->GetPosition() + (velocity*deltaTime);
+			SweepToo(target, actual);
+			sceneObject->SetPosition(actual);
+		}
+		else
+		{
+			sceneObject->Translate(velocity*deltaTime);
+		}
 	}
 }
 

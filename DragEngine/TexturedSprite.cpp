@@ -18,7 +18,7 @@ TexturedSprite::TexturedSprite(std::string name) : SceneObject(name)
 TexturedSprite::TexturedSprite(std::string name, const char* texture, RenderDataType type, RenderDataFormat format) : SceneObject(name)
 {
 	this->texture = TextureManager::GetInstance()->TextureForFilePath(texture, type, format);
-	collision = new BoxCollisionObject(Vec3D(0,0,0), Vec3D(1,1,1), this);
+	collision = new BoxCollisionObject(Vec3D(0, 0, 0), Vec3D(2, 2, 1), this);
 	collision->SetPhysicsObject(GetPhysics());
 }
 

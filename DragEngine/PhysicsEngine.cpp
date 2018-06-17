@@ -17,12 +17,6 @@ PhysicsEngine::~PhysicsEngine()
 	if (collisionTree)delete collisionTree;
 }
 
-bool PhysicsEngine::CheckCollisionForObject(SceneObject * object, CollisionResponse & response)
-{
-	if (collisionTree)return collisionTree->CheckAllCollisionForObject(object->GetCollision(), response);
-	return false;
-}
-
 void PhysicsEngine::CheckAllCollision()
 {
 	if (collisionTree)collisionTree->CheckAllCollision();

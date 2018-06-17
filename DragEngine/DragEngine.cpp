@@ -75,10 +75,7 @@ int DragEngine::MainLoop()
 			TranslateMessage(&msg);
 			DispatchMessageW(&msg);
 		}
-		statisticsClock.TakeClock();
-		if (mainWindow)mainWindow->MainDraw();
-		statistics = statisticsClock.GetDiffSeconds();
-		Log(LogLevel_Verbose,"mainWindow->MainDraw() took %f ms\n", statistics*1000);
+
 		if (isPaused == false)
 		{
 			statisticsClock.TakeClock();
@@ -100,7 +97,13 @@ int DragEngine::MainLoop()
 		{
 
 		}
-		std::cout << "fps " << 1.0 / deltaTime << std::endl;
+
+		statisticsClock.TakeClock();
+		if (mainWindow)mainWindow->MainDraw();
+		statistics = statisticsClock.GetDiffSeconds();
+		Log(LogLevel_Verbose, "mainWindow->MainDraw() took %f ms\n", statistics * 1000);
+
+		//std::cout << "fps " << 1.0 / deltaTime << std::endl;
 	}
 #endif
 

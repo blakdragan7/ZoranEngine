@@ -70,6 +70,8 @@ public:
 
 	static inline DragEngine* Instance() { return instance; }
 
+	void SetPaused(bool paused) { isPaused = paused; }
+
 	const char* GetVersion();
 	void GetVersion(unsigned &Major,unsigned &Minor,unsigned &Revision);
 

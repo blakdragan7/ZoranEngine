@@ -14,7 +14,7 @@ struct DRAGENGINE_EXPORT CollisionResponse
 	bool collided;
 	Vector3D normal;
 	Vector3D point;
-	Vector3D intersection;
+	Vector3D penetration;
 	PhysicsObjectBase* collidedObjects[2];
 	CollisionObjectBase* objectBounds[2];
 
@@ -37,6 +37,17 @@ struct DRAGENGINE_EXPORT CollisionResponse
 		res.objectBounds[1] = objectBounds[0];
 		return res;
 	};
+};
+
+struct SweepCollisionResponse
+{
+	CollisionResponse collisionResponse;
+	double timeHit;
+
+	SweepCollisionResponse()
+	{
+		timeHit = 1.0;
+	}
 };
 
 class DRAGENGINE_EXPORT CollisionBucketBase
@@ -72,8 +83,8 @@ public:
 	virtual bool ObjectIsWithinBucket(CollisionObjectBase* object) = 0;
 	virtual bool CheckObjectAgainstStaic(CollisionObjectBase* object, CollisionResponse& response) = 0;
 	virtual bool CheckCollisionForObject(CollisionObjectBase* object, CollisionResponse& response) = 0;
-	virtual bool CheckAllCollisionForObject(CollisionObjectBase* object, CollisionResponse& response) = 0;
-
+	virtual bool SweepCollision(CollisionObjectBase* object, Vec3D newPosition, SweepCollisionResponse& response) = 0;
+	virtual bool SweepCollisionHitTest(CollisionObjectBase* object, Vec3D newPosition, SweepCollisionResponse& response) = 0;
 	// Debug Prints
 	virtual void PrintAllCollisions() = 0;
 	virtual void PrintAllContents(unsigned depth = 0) = 0;

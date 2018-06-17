@@ -117,34 +117,6 @@ void SceneObject::SetRotationFromAxis(Vector3D axis)
 	UnlockMutex();
 }
 
-void SceneObject::TrySetPosition(Vector3D pos)
-{
-	WaitForMutex();
-	Vec3D old_pos = pos;
-	this->pos = pos;
-
-	if (collision)
-	{
-		pEngine->UpdateCollisionObject(collision);
-
-		CollisionResponse response;
-		if (pEngine->CheckCollisionForObject(this, response))
-		{
-			UnlockMutex();
-			physicsObject->OnCollision(response);
-		}
-		else
-		{
-			UnlockMutex();
-		}
-	}
-	else
-	{
-		UnlockMutex();
-	}
-
-}
-
 void SceneObject::SetPosition(Vector3D pos)
 {
 	WaitForMutex();
