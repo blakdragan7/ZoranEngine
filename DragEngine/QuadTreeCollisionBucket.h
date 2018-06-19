@@ -39,7 +39,7 @@ public:
 	bool ObjectIsWithinBucket(CollisionObjectBase* object)override;
 	bool CheckCollisionForObject(CollisionObjectBase* object, CollisionResponse& response)override;
 	virtual bool CheckObjectAgainstStaic(CollisionObjectBase* object, CollisionResponse& response)override;
-	virtual bool SweepCollision(CollisionObjectBase* object, Vec3D newPosition, SweepCollisionResponse& response)override;
-	virtual bool SweepCollisionHitTest(CollisionObjectBase* object, Vec3D newPosition,SweepCollisionResponse& response)override;
+	virtual bool SweepCollision(CollisionObjectBase* object, Vec3D newPosition, struct SweepCollisionResponse& response)override;
+	virtual bool SweepCollisionHitTest(CollisionObjectBase* object, Vec3D newPosition,struct SweepCollisionResponse& response)override;
 };
 

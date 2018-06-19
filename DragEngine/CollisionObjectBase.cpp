@@ -38,21 +38,6 @@ void CollisionObjectBase::SetCollisionLayer(unsigned layer)
 	collisionLayer = layer;
 }
 
-Vector3D CollisionObjectBase::GetPenetration(CollisionObjectBase * other,Vec3D normal)
-{
-	Vec3D origin = GetScenePos();
-	Vec3D size = GetSize();
-	Vec3D pepPoint = origin + ((size / 2.0) * -normal);
-
-	Vec3D otherOrigin = other->GetScenePos();
-	Vec3D otherSize = other->GetSize();
-	Vec3D point = otherOrigin + ((otherSize / 2.0) * normal);
-
-	Vec3D diff = (pepPoint - point).getAbs();
-
-	return normal * (diff);
-}
-
 void CollisionObjectBase::SetDynamics(CollisionDynamics dynamics)
 {
 	collisionDynamics = dynamics;

@@ -36,14 +36,16 @@ bool QuadTreeCollision::CollidesWith(Vector3D pos)
 		(pos.z >= minPos.z && pos.z <= maxPos.z);
 }
 
-bool QuadTreeCollision::CollidesWith(CollisionObjectBase * other)
+bool QuadTreeCollision::CollidesWith(CollisionObjectBase * other, CollisionResponse& response)
 {
+
+	response.collided = false;
 	switch (other->GetCollisionType())
 	{
 	case BOX_COLLISION:
 	{
 		BoxCollisionObject* otherBox = (BoxCollisionObject*)other;
-		return	CollidesWith(otherBox->GetMinPos()) && CollidesWith(otherBox->GetMaxPos());
+		response.collided =	CollidesWith(otherBox->GetMinPos()) && CollidesWith(otherBox->GetMaxPos());
 	}
 	break;
 	case SPHERE_COLLISION:
@@ -52,11 +54,12 @@ bool QuadTreeCollision::CollidesWith(CollisionObjectBase * other)
 		float r = sphere->GetRadius();
 		Vec3D pos = sphere->GetScenePos();
 
-		return CollidesWith(pos - r) && CollidesWith(pos + r);
+		response.collided = CollidesWith(pos - r) && CollidesWith(pos + r);
 	}
 	break;
 	}
-	return false;
+
+	return response.collided;
 }
 
 Vector3D QuadTreeCollision::GetClosestPointTo(Vector3D pos)
@@ -68,25 +71,6 @@ Vector3D QuadTreeCollision::GetClosestPointTo(Vector3D pos)
 	point.z = max(this->minPos.z, min(pos.z, this->maxPos.z));
 
 	return point;
-}
-
-Vector3D QuadTreeCollision::GetNormalBetween(CollisionObjectBase * other)
-{
-	Vec3D diff = other->GetScenePos() - GetScenePos();
-
-	double sx = diff.x > 0 ? 1 : -1;
-	double sy = diff.y > 0 ? 1 : -1;
-	double sz = diff.z > 0 ? 1 : -1;
-
-	Vec3D normal;
-
-	diff = diff.getAbs();
-
-	if (diff.x > diff.y && diff.x > diff.z) normal = Vec3D(sx, 0, 0);
-	else if (diff.y > diff.z) normal = Vec3D(0, sy, 0);
-	else normal = Vec3D(0, 0, sz);
-
-	return normal;
 }
 
 Vector3D QuadTreeCollision::GetSize()

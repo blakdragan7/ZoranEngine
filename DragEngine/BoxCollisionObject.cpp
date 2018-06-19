@@ -29,32 +29,77 @@ void BoxCollisionObject::SetBoundsBySceneObject()
 	maxPos = pos + (scaledSize / 2);
 }
 
-bool BoxCollisionObject::CollidesWith(Vector3D pos)
+bool BoxCollisionObject::CollidesWith(CollisionObjectBase * other, CollisionResponse& response)
 {
-	return (pos.x >= minPos.x && pos.x <= maxPos.x) && \
-		   (pos.y >= minPos.y && pos.y <= maxPos.y) && \
-		   (pos.z >= minPos.z && pos.z <= maxPos.z);
-}
+	Vec3D otherMin;
+	Vec3D otherMax;
 
-bool BoxCollisionObject::CollidesWith(CollisionObjectBase * other)
-{
-	switch(other->GetCollisionType())
+	if (other->GetCollisionType() == BOX_COLLISION)
 	{
-		case BOX_COLLISION:
-		{
-			BoxCollisionObject* otherBox = (BoxCollisionObject*)other;
-			return	(minPos.x < otherBox->maxPos.x && maxPos.x > otherBox->minPos.x) && \
-				(minPos.y < otherBox->maxPos.y && maxPos.y > otherBox->minPos.y) && \
-				(minPos.z < otherBox->maxPos.z && maxPos.z > otherBox->minPos.z);
-		}
-		break;
-		case SPHERE_COLLISION:
-		{
-			return other->CollidesWith(GetClosestPointTo(other->GetScenePos()));
-		}
-		break;
+		BoxCollisionObject* boxOther = (BoxCollisionObject*)other;
+		otherMin = boxOther->minPos;
+		otherMax = boxOther->maxPos;
 	}
-	return false;
+	else
+	{
+		// treat the other as a box for now
+		Vec3D size = other->GetSize();
+		otherMin = other->GetScenePos() - size / 2.0;
+		otherMax = other->GetScenePos() + size / 2.0;
+	}
+
+	static const Vector3D faces[6] =
+	{
+		Vector3D(-1,  0,  0), // 'left' face normal (-x direction)
+		Vector3D(1,  0,  0), // 'right' face normal (+x direction)
+		Vector3D(0, -1,  0), // 'bottom' face normal (-y direction)
+		Vector3D(0,  1,  0), // 'top' face normal (+y direction)
+		Vector3D(0,  0, -1), // 'far' face normal (-z direction)
+		Vector3D(0,  0,  1), // 'near' face normal (+x direction)
+	};
+
+	float distances[6] =
+	{
+		(otherMax.x - minPos.x), // distance of otherBox to face on 'left' side.
+		(maxPos.x - otherMin.x), // distance of otherBox to face on 'right' side.
+		(otherMax.y - minPos.y), // distance of otherBox to face on 'bottom' side.
+		(maxPos.y - otherMin.y), // distance of otherBox to face on 'top' side.
+		(otherMax.z - minPos.z), // distance of otherBox to face on 'far' side.
+		(maxPos.z - otherMin.z), // distance of otherBox to face on 'near' side.
+	};
+
+	double penetration = 0;
+	Vec3D normal;
+	int faceIndex = -1;
+
+	for (int i = 0; i < 4; i++)
+	{
+		// box does not intersect face. So boxes don't intersect at all.
+		if (distances[i] < 0.0f)
+		{
+			response.collided = false;
+			return false;
+		}
+		// face of least intersection depth. That's our candidate.
+		if ((i == 0) || (distances[i] < penetration))
+		{
+			faceIndex = i;
+			normal = faces[i];
+			penetration = distances[i];
+		}
+	}
+
+	response.collidedObjects[0] = GetPhysicsObject();
+	response.collidedObjects[1] = other->GetPhysicsObject();
+
+	response.objectBounds[0] = this;
+	response.objectBounds[1] = other;
+
+	response.collided = true;
+	response.normal = normal;
+	response.penetration = penetration * -normal;
+
+	return true;
 }
 
 Vector3D BoxCollisionObject::GetClosestPointTo(Vector3D pos)
@@ -66,25 +111,6 @@ Vector3D BoxCollisionObject::GetClosestPointTo(Vector3D pos)
 	point.z = max(this->minPos.z, min(pos.z, this->maxPos.z));
 
 	return point;
-}
-
-Vector3D BoxCollisionObject::GetNormalBetween(CollisionObjectBase * other)
-{
-	Vec3D diff = other->GetScenePos() - GetScenePos();
-
-	double sx = diff.x > 0 ? 1 : -1;
-	double sy = diff.y > 0 ? 1 : -1;
-	double sz = diff.z > 0 ? 1 : -1;
-
-	Vec3D normal;
-
-	diff = diff.getAbs();
-
-	if (diff.x > diff.y && diff.x > diff.z) normal = Vec3D(sx, 0, 0);
-	else if (diff.y > diff.z) normal = Vec3D(0, sy, 0);
-	else normal = Vec3D(0, 0, sz);
-
-	return normal;
 }
 
 Vector3D BoxCollisionObject::GetSize()

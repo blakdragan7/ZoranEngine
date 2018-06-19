@@ -33,9 +33,11 @@ int main(int argc, char* argv[])
 
 	TestSceneObject* test = new TestSceneObject("top");
 	test->SetScale(20, -20, 1);
-	test->SetPosition(0, 500, 0);
+	test->SetPosition(-500, 500, 0);
 	test->GetPhysics()->StartPhysicsSim();
-	test->GetPhysics()->SetGravity(Vec3D(0,-980,0));
+	test->GetPhysics()->SetGravity(Vec3D(0, -400, 0));
+	test->GetPhysics()->ApplyForce(Vec3D(500,-100,0));
+	test->GetPhysics()->SetSweptCollision(false);
 	dEngine->AddSceneObject(test);
 	
 	TestPlatformObject* platform = new TestPlatformObject();

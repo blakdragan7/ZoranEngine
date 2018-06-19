@@ -30,24 +30,26 @@ public:
 	bool operator !=(Vector3D other);
 	void operator =(Vector3D other);
 	void operator =(Vector2D other);
-	void operator+=(Vector3D &other);
-	void operator-=(Vector3D &other);
-	void operator*=(Vector3D &other);
-	void operator/=(Vector3D &other);
-	void operator+=(double &scalor);
-	void operator-=(double &scalor);
-	void operator*=(double &scalor);
-	void operator/=(double &scalor);
 
-	Vector3D operator-();
-	Vector3D operator+(Vector3D &other);
-	Vector3D operator-(Vector3D &other);
-	Vector3D operator*(Vector3D &other);
-	Vector3D operator/(Vector3D &other);
-	Vector3D operator+(double scalor);
-	Vector3D operator-(double scalor);
-	Vector3D operator*(double scalor);
-	Vector3D operator/(double scalor);
+	void operator +=(Vector3D &other);
+	void operator -=(Vector3D &other);
+	void operator *=(Vector3D &other);
+	void operator /=(Vector3D &other);
+
+	void operator +=(double &scalor);
+	void operator -=(double &scalor);
+	void operator *=(double &scalor);
+	void operator /=(double &scalor);
+
+	Vector3D operator -();
+	Vector3D operator +(Vector3D &other);
+	Vector3D operator -(Vector3D &other);
+	Vector3D operator *(Vector3D &other);
+	Vector3D operator /(Vector3D &other);
+	Vector3D operator +(double scalor);
+	Vector3D operator -(double scalor);
+	Vector3D operator *(double scalor);
+	Vector3D operator /(double scalor);
 
 	bool nearlyEquals(double other);
 	bool nearlyEquals(Vector3D other);

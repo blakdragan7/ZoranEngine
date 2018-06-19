@@ -213,6 +213,7 @@ void QuadTreeCollisionBucket::CheckAllCollision()
 		children[3]->CheckAllCollision();
 	}
 
+
 	for (unsigned i = 0;i<collisionObjects.size();i++)
 	{
 		CollisionObjectBase* object = collisionObjects[i];
@@ -224,38 +225,12 @@ void QuadTreeCollisionBucket::CheckAllCollision()
 		{
 			for (unsigned j = i+1; j < collisionObjects.size(); j++)
 			{
-				if (object->CollidesWith(collisionObjects[j]))
+				CollisionResponse response;
+
+				if (object->CollidesWith(collisionObjects[j],response))
 				{
-					if (collisionObjects[j]->GetCollisionType() == BOX_COLLISION)
-					{
-						CollisionResponse response;
-						Vec3D normal = collisionObjects[j]->GetNormalBetween(object);
-						response.collided = true;
-						response.normal = normal;
-						response.objectBounds[0] = object;
-						response.objectBounds[1] = collisionObjects[j];
-						response.collidedObjects[0] = object->GetPhysicsObject();
-						response.collidedObjects[1] = collisionObjects[j]->GetPhysicsObject();
-						response.penetration = object->GetPenetration(collisionObjects[j],normal);
-
-						object->GetPhysicsObject()->OnCollision(response);
-						collisionObjects[j]->GetPhysicsObject()->OnCollision(response.Reflection());
-					}
-					else
-					{
-						CollisionResponse response;
-						Vec3D normal = object->GetNormalBetween(collisionObjects[j]);
-						response.collided = true;
-						response.normal = normal;
-						response.objectBounds[0] = object;
-						response.objectBounds[1] = collisionObjects[j];
-						response.collidedObjects[0] = object->GetPhysicsObject();
-						response.collidedObjects[1] = collisionObjects[j]->GetPhysicsObject();
-						response.penetration = collisionObjects[j]->GetPenetration(object,normal);
-
-						collisionObjects[j]->GetPhysicsObject()->OnCollision(response);
-						object->GetPhysicsObject()->OnCollision(response.Reflection());
-					}
+					object->GetPhysicsObject()->OnCollision(response);
+					collisionObjects[j]->GetPhysicsObject()->OnCollision(response.Reflection());
 				}
 			}
 		}
@@ -306,7 +281,7 @@ void QuadTreeCollisionBucket::CheckAllCollision()
 bool QuadTreeCollisionBucket::ObjectIsWithinBucket(CollisionObjectBase * object)
 {
 	// always add to the root tree if it hasnt subdivided yet
-	return collision->CollidesWith(object) || (hasSubdivided == false && parent == 0);
+	return collision->CollidesWith(object, CollisionResponse()) || (hasSubdivided == false && parent == 0);
 }
 
 void QuadTreeCollisionBucket::Subdivide()
@@ -364,32 +339,9 @@ bool QuadTreeCollisionBucket::CheckCollisionForObject(CollisionObjectBase * obje
 {
 	for (unsigned i = 0; i < collisionObjects.size(); i++)
 	{
-		if (object->CollidesWith(collisionObjects[i]))
+		if (object->CollidesWith(collisionObjects[i],response))
 		{
-			if (collisionObjects[i]->GetCollisionType() == BOX_COLLISION)
-			{
-				Vec3D normal = collisionObjects[i]->GetNormalBetween(object);
-				response.collided = true;
-				response.normal = normal;
-				response.objectBounds[0] = object;
-				response.objectBounds[1] = collisionObjects[i];
-				response.collidedObjects[0] = object->GetPhysicsObject();
-				response.collidedObjects[1] = collisionObjects[i]->GetPhysicsObject();
-				response.penetration = object->GetPenetration(collisionObjects[i],normal);
-				return true;
-			}
-			else
-			{
-				Vec3D normal = object->GetNormalBetween(collisionObjects[i]);
-				response.collided = true;
-				response.normal = normal;
-				response.objectBounds[0] = object;
-				response.objectBounds[1] = collisionObjects[i];
-				response.collidedObjects[0] = object->GetPhysicsObject();
-				response.collidedObjects[1] = collisionObjects[i]->GetPhysicsObject();
-				response.penetration = collisionObjects[i]->GetPenetration(object,normal);
-				return true;
-			}
+			return true;
 		}
 	}
 
@@ -522,13 +474,40 @@ bool QuadTreeCollisionBucket::SweepCollisionHitTest(CollisionObjectBase * object
 
 		if (entryTime > exitTime || (entry.x < 0.0 && entry.y < 0) || (entry.x > 1.0  && entry.y > 1.0))
 		{
-			return false;
+			continue;
+		}
+
+		Vec3D normal;
+
+		if (entry.x > entry.y && entry.x > entry.z)
+		{
+			if (entry.x < 0) normal = Vec3D(-1, 0, 0);
+			else normal = Vec3D(1, 0, 0);
+		}
+		else if (entry.y > entry.z)
+		{
+			if (entry.y < 0) normal = Vec3D(0, -1, 0);
+			else normal = Vec3D(0, 1, 0);
+		}
+		else
+		{
+			if (entry.z < 0)normal = Vec3D(0, 0, -1);
+			else normal = Vec3D(0, 0, 1);
 		}
 
 		response.timeHit = entryTime;
 
+		response.collisionResponse.collided = true;
+		response.collisionResponse.collidedObjects[0] = object->GetPhysicsObject();
+		response.collisionResponse.collidedObjects[1] = collisionObjects[i]->GetPhysicsObject();
+		response.collisionResponse.objectBounds[0] = object;
+		response.collisionResponse.objectBounds[1] = collisionObjects[i];
+		response.collisionResponse.normal = normal;
+
 		return true;
 	}
+
+	return false;
 }
 
 bool QuadTreeCollisionBucket::CheckObjectAgainstStaic(CollisionObjectBase * object, CollisionResponse & response)
@@ -536,32 +515,11 @@ bool QuadTreeCollisionBucket::CheckObjectAgainstStaic(CollisionObjectBase * obje
 	for (unsigned i = 0; i < collisionObjects.size(); i++)
 	{
 		if (collisionObjects[i]->GetDynamics() != CD_Static)continue;
-		if (object->CollidesWith(collisionObjects[i]))
+		CollisionResponse response;
+
+		if (object->CollidesWith(collisionObjects[i], response))
 		{
-			if (collisionObjects[i]->GetCollisionType() == BOX_COLLISION)
-			{
-				Vec3D normal = collisionObjects[i]->GetNormalBetween(object);
-				response.collided = true;
-				response.normal = normal;
-				response.objectBounds[0] = object;
-				response.objectBounds[1] = collisionObjects[i];
-				response.collidedObjects[0] = object->GetPhysicsObject();
-				response.collidedObjects[1] = collisionObjects[i]->GetPhysicsObject();
-				response.penetration = object->GetPenetration(collisionObjects[i],normal);
-				return true;
-			}
-			else
-			{
-				Vec3D normal = object->GetNormalBetween(collisionObjects[i]);
-				response.collided = true;
-				response.normal = normal;
-				response.objectBounds[0] = object;
-				response.objectBounds[1] = collisionObjects[i];
-				response.collidedObjects[0] = object->GetPhysicsObject();
-				response.collidedObjects[1] = collisionObjects[i]->GetPhysicsObject();
-				response.penetration = collisionObjects[i]->GetPenetration(object, normal);
-				return true;
-			}
+			return true;
 		}
 	}
 
@@ -583,7 +541,7 @@ bool QuadTreeCollisionBucket::PrintCollisionForObject(CollisionObjectBase * obje
 	for (unsigned i = 0; i < collisionObjects.size(); i++)
 	{
 		Log(LogLevel_None, "\tCheck Collision %s => %s\n", object->GetSceneObject()->readableName.c_str(), collisionObjects[i]->GetSceneObject()->readableName.c_str());
-		if (object->CollidesWith(collisionObjects[i]))
+		if (object->CollidesWith(collisionObjects[i], CollisionResponse()))
 		{
 			Log(LogLevel_None, "Found Collision\n");
 			return true;
@@ -627,7 +585,7 @@ void QuadTreeCollisionBucket::PrintAllCollisions()
 			{
 				Log(LogLevel_None, "\tCheck Collision %s => %s\n", object->GetSceneObject()->readableName.c_str(), collisionObjects[i]->GetSceneObject()->readableName.c_str());
 
-				if (object->CollidesWith(collisionObjects[j]))
+				if (object->CollidesWith(collisionObjects[j], CollisionResponse()))
 				{
 					Log(LogLevel_None, "Found Collision\n");
 				}

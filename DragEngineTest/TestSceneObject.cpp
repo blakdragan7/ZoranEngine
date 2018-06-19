@@ -19,7 +19,7 @@ TestSceneObject::TestSceneObject(std::string name) : TexturedSprite(name)
 	}
 	SetTexture("test.png", RenderDataType::TYPE_RGBA_32, RenderDataFormat::FORMAT_UNSIGNED_BYTE);
 	GetPhysics()->SetRestitution(1.0);
-	GetPhysics()->SetMass(200);
+	GetPhysics()->SetMass(20);
 }
 
 

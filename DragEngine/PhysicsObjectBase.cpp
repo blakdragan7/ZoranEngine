@@ -16,12 +16,9 @@ void PhysicsObjectBase::RegisterPhysicsObject()
 	pEngine->AddPhysicsObject(this);
 }
 
-float PhysicsObjectBase::SweepCollisionTo(Vec3D position, CollisionResponse & response)
+bool PhysicsObjectBase::SweepCollisionTo(Vec3D position, SweepCollisionResponse & response)
 {
-	SweepCollisionResponse swpResponse;
-	pEngine->GetCollisionBucketRoot()->SweepCollision(sceneObject->GetCollision(),position,swpResponse);
-	response = swpResponse.collisionResponse;
-	return swpResponse.timeHit;
+	return pEngine->GetCollisionBucketRoot()->SweepCollision(sceneObject->GetCollision(),position, response);
 }
 
 bool PhysicsObjectBase::FastSweepCollision(Vec3D position)
@@ -124,31 +121,18 @@ void PhysicsObjectBase::OnCollision(CollisionResponse &response)
 			sceneObject->Translate(response.penetration);
 
 			Vec3D Vel = velocity - other->velocity;
-			Vector3D F = (-response.normal * ((1.0 + restitution) * Vel.dot(response.normal))) / (mass + other->mass);
-			//Vec3D F = -2 * response.normal * (response.normal * Vel);
-			velocity += F * 0.9;
+			Vector3D F = (-response.normal * ((1.0 + restitution) * Vel.dot(response.normal)));// / (mass + other->mass);
+			velocity += F;// *other->mass;
 		}
 	}
 }
 
-bool PhysicsObjectBase::SweepToo(Vec3D targetPosition, Vec3D &actualPosition)
+bool PhysicsObjectBase::SweepToo(Vec3D targetPosition, SweepCollisionResponse & response)
 {
 	if (FastSweepCollision(targetPosition))
 	{
-		CollisionResponse response;
-		double time =  SweepCollisionTo(targetPosition, response);
-		if (time < 1.0)
-		{
-			actualPosition = GetScenePos() * (1.0 - time) +  (targetPosition * time);
-		}
-		else
-		{
-			actualPosition = targetPosition;
-		}
-		return true;
+		return SweepCollisionTo(targetPosition, response);
 	}
-
-	actualPosition = targetPosition;
 
 	return false;
 }
@@ -168,10 +152,22 @@ void PhysicsObjectBase::Update(double deltaTime)
 
 		if (useSweptCollision)
 		{
-			Vec3D actual;
 			Vec3D target = sceneObject->GetPosition() + (velocity*deltaTime);
-			SweepToo(target, actual);
-			sceneObject->SetPosition(actual);
+			SweepCollisionResponse response;
+			if (SweepToo(target,response))
+			{
+				Vec3D actual = GetScenePos() + (velocity * deltaTime * response.timeHit);
+				sceneObject->SetPosition(actual);
+				if (response.timeHit < 1.0)
+				{
+					double invTime = (1.0 - response.timeHit);
+					velocity *= invTime;
+				}
+				OnCollision(response.collisionResponse);
+
+			}
+			else
+				sceneObject->SetPosition(target);
 		}
 		else
 		{

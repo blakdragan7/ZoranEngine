@@ -17,10 +17,8 @@ public:
 
 	virtual void SetBoundsBySceneObject()override;
 
-	virtual bool CollidesWith(Vector3D pos)override;
-	virtual bool CollidesWith(CollisionObjectBase* other)override;
+	virtual bool CollidesWith(CollisionObjectBase* other, CollisionResponse& response)override;
 	virtual Vector3D GetClosestPointTo(Vector3D pos)override;
-	virtual Vector3D GetNormalBetween(CollisionObjectBase* other)override;
 
 	virtual Vector3D GetSize()override;
 	inline double GetRadius() { return radius; }

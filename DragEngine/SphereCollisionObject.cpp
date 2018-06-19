@@ -22,14 +22,7 @@ void SphereCollisionObject::SetBoundsBySceneObject()
 	radiusSqr = scaledRadius * scaledRadius;
 }
 
-bool SphereCollisionObject::CollidesWith(Vector3D pos)
-{
-	SetBoundsBySceneObject();
-	double distanceSqr = (pos - GetScenePos()).getMagnitudeSqr();
-	return distanceSqr <= radiusSqr;
-}
-
-bool SphereCollisionObject::CollidesWith(CollisionObjectBase * other)
+bool SphereCollisionObject::CollidesWith(CollisionObjectBase * other, CollisionResponse& response)
 {
 	switch(other->GetCollisionType())
 	{
@@ -39,17 +32,32 @@ bool SphereCollisionObject::CollidesWith(CollisionObjectBase * other)
 
 			double radiusSqrSum = radiusSqr + object->radiusSqr;
 			double distanceSqr = (GetScenePos() - other->GetScenePos()).getMagnitudeSqr();
-			return distanceSqr <= radiusSqrSum;
+			
+			bool collided = distanceSqr <= radiusSqrSum;
+			response.collided = collided;
+
+			if (collided)
+			{
+				response.collidedObjects[0] = GetPhysicsObject();
+				response.collidedObjects[1] = other->GetPhysicsObject();
+
+				response.objectBounds[0] = this;
+				response.objectBounds[1] = other;
+
+				response.normal = (GetScenePos() - other->GetScenePos());
+				response.normal.normalize();
+				response.penetration = (radiusSqrSum - distanceSqr) * -response.normal;
+			}
 		}
 		break;
 		case BOX_COLLISION:
 		{
-			return CollidesWith(other->GetClosestPointTo(GetScenePos()));
+			return other->CollidesWith(this,response);
 		}
 		break;
 	}
 
-	return false;
+	return response.collided;
 }
 
 Vector3D SphereCollisionObject::GetClosestPointTo(Vector3D pos)
@@ -62,13 +70,6 @@ Vector3D SphereCollisionObject::GetClosestPointTo(Vector3D pos)
 	direction.normalize();
 
 	return myPos + (direction * radius);
-}
-
-Vector3D SphereCollisionObject::GetNormalBetween(CollisionObjectBase * other)
-{
-	Vec3D normal = other->GetScenePos() - GetScenePos();
-	normal.normalize();
-	return normal;
 }
 
 Vector3D SphereCollisionObject::GetSize()

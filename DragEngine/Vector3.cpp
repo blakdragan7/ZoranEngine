@@ -176,6 +176,7 @@ Vector3D Vector3D::operator/(double scalor)
 	return ret;
 }
 
+
 bool Vector3D::nearlyEquals(double other)
 {
 	return abs((getMagnitudeSqr() - (other*other)) < 0.00001);
