@@ -226,6 +226,21 @@ Vector3D Vector3D::getAbs()
 	return Vector3D(abs(x),abs(y),abs(z));
 }
 
+Vector2D Vector3D::GetXY()
+{
+	return Vector2D(x,y);
+}
+
+Vector2D Vector3D::GetYZ()
+{
+	return Vector2D(y,z);
+}
+
+Vector2D Vector3D::GetXZ()
+{
+	return Vector2D(x,z);
+}
+
 double Vector3D::distance(Vector3D other)
 {
 	return (other - *this).getMagnitude();

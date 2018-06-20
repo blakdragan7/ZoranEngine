@@ -18,6 +18,7 @@ public:
 
 	~Vector2D(void);
 
+	Vector2D operator -();
 	Vector2D operator -(Vector2D other);
 	Vector2D operator +(Vector2D other);
 	Vector2D operator *(Vector2D other);

@@ -8,6 +8,11 @@ Vector2D::Vector2D(double x_, double y_) :x(x_), y(y_) { }
 
 Vector2D::~Vector2D(void) {}
 
+Vector2D Vector2D::operator-()
+{
+	return Vector2D(-x, -y);
+}
+
 Vector2D Vector2D::operator -(Vector2D other)
 {
 	Vector2D ret = *this;

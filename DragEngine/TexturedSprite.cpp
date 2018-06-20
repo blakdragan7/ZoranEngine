@@ -5,20 +5,20 @@
 #include "RenderEngineBase.h"
 #include "DragEngine.h"
 #include "PhysicsEngine.h"
-#include "BoxCollisionObject.h"
+#include "SquareColisionObject.h"
 #include "TextureManager.h"
 
 TexturedSprite::TexturedSprite(std::string name) : SceneObject(name)
 {
 	texture = 0;
-	collision = new BoxCollisionObject(Vec3D(0, 0, 0), Vec3D(2, 2, 1), this);
+	collision = new SquareColisionObject(Vec2D(0, 0), Vec2D(2, 2), this);
 	collision->SetPhysicsObject(GetPhysics());
 }
 
 TexturedSprite::TexturedSprite(std::string name, const char* texture, RenderDataType type, RenderDataFormat format) : SceneObject(name)
 {
 	this->texture = TextureManager::GetInstance()->TextureForFilePath(texture, type, format);
-	collision = new BoxCollisionObject(Vec3D(0, 0, 0), Vec3D(2, 2, 1), this);
+	collision = new SquareColisionObject(Vec2D(0, 0), Vec2D(2, 2), this);
 	collision->SetPhysicsObject(GetPhysics());
 }
 

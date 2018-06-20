@@ -62,6 +62,10 @@ public:
 	Vector3D cross(const Vector3D other);
 	Vector3D getAbs();
 
+	Vector2D GetXY();
+	Vector2D GetYZ();
+	Vector2D GetXZ();
+
 	double distance(Vector3D other);
 	double distanceSqr(Vector3D other);
 };

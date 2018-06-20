@@ -54,6 +54,7 @@
     <ClInclude Include="SceneObject.h" />
     <ClInclude Include="ShaderProgramBase.h" />
     <ClInclude Include="SphereCollisionObject.h" />
+    <ClInclude Include="SquareColisionObject.h" />
     <ClInclude Include="StandardShader.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TextureBase.h" />
@@ -103,6 +104,7 @@
     <ClCompile Include="SceneObject.cpp" />
     <ClCompile Include="ShaderProgramBase.cpp" />
     <ClCompile Include="SphereCollisionObject.cpp" />
+    <ClCompile Include="SquareColisionObject.cpp" />
     <ClCompile Include="StandardShader.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
