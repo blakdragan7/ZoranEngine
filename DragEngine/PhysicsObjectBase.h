@@ -12,6 +12,8 @@ private:
 
 	Vector3D velocity;
 	double drag;
+	double friction;
+	double otherFriction;
 	bool shouldSimulate;
 	double mass; // KG
 	double restitution;
@@ -37,6 +39,7 @@ public:
 	void StopPhysicsSim();
 
 	void SetMass(double mass); // in KG
+	void SetFriction(double friction);
 	void SetRestitution(double restitution);
 
 	void SetSweptCollision(bool newSwept);

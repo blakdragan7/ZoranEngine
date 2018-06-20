@@ -38,7 +38,7 @@ int main(int argc, char* argv[])
 	test->GetPhysics()->SetGravity(Vec3D(0, -400, 0));
 	test->GetPhysics()->ApplyForce(Vec3D(200,-100,0));
 	test->GetPhysics()->SetSweptCollision(false);
-	test->GetPhysics()->SetRestitution(1);
+	test->GetPhysics()->SetRestitution(0);
 	dEngine->AddSceneObject(test);
 	
 	TestPlatformObject* platform = new TestPlatformObject();

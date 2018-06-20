@@ -56,6 +56,8 @@ PhysicsObjectBase::PhysicsObjectBase(SceneObject * object)
 	gravity = Vec3D(0, -980, 0);
 	gravityNormal = Vec3D(0, -1,0);
 	drag = 0.99;
+	otherFriction = 1.0;
+	friction = 0.99;
 	mass = 200;
 	restitution = 1.0;
 	isOnGround = false;
@@ -139,6 +141,7 @@ void PhysicsObjectBase::OnCollision(CollisionResponse &response)
 					{
 						isOnGround = true;
 						velocity += velocityGravNorm;
+						otherFriction = other->friction;
 					}
 				}
 			}
@@ -161,6 +164,7 @@ void PhysicsObjectBase::ApplyForce(Vec3D Force)
 {
 	this->velocity += Force;
 	isOnGround = false;
+	otherFriction = 1.0;
 }
 
 void PhysicsObjectBase::Update(double deltaTime)
@@ -169,7 +173,7 @@ void PhysicsObjectBase::Update(double deltaTime)
 	{
 		if(isOnGround == false)velocity += gravity*deltaTime;
 		else 
-			velocity *= 0.9;
+			velocity *= (friction*otherFriction);
 		velocity *= drag;
 
 		if (useSweptCollision)
