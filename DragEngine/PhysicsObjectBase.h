@@ -18,6 +18,7 @@ private:
 
 	bool isOnGround;
 	Vector3D gravity;
+	Vector3D gravityNormal;
 
 	bool useSweptCollision;
 

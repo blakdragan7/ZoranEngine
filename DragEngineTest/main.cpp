@@ -33,17 +33,33 @@ int main(int argc, char* argv[])
 
 	TestSceneObject* test = new TestSceneObject("top");
 	test->SetScale(20, -20, 1);
-	test->SetPosition(-500, 500, 0);
+	test->SetPosition(-400, 200, 0);
 	test->GetPhysics()->StartPhysicsSim();
 	test->GetPhysics()->SetGravity(Vec3D(0, -400, 0));
-	test->GetPhysics()->ApplyForce(Vec3D(500,-100,0));
+	test->GetPhysics()->ApplyForce(Vec3D(200,-100,0));
 	test->GetPhysics()->SetSweptCollision(false);
+	test->GetPhysics()->SetRestitution(1);
 	dEngine->AddSceneObject(test);
 	
 	TestPlatformObject* platform = new TestPlatformObject();
-	platform->SetScale(500, -40, 1);
-	platform->SetPosition(0, -200, 0);
+	platform->SetScale(500, -50, 1);
+	platform->SetPosition(0, -500, 0);
 	dEngine->AddSceneObject(platform);
+
+	TestPlatformObject* platform2 = new TestPlatformObject();
+	platform2->SetScale(500, -40, 1);
+	platform2->SetPosition(0, 500, 0);
+	dEngine->AddSceneObject(platform2);
+
+	TestPlatformObject* platform3 = new TestPlatformObject();
+	platform3->SetScale(40, -500, 1);
+	platform3->SetPosition(-500, 0, 0);
+	dEngine->AddSceneObject(platform3);
+
+	TestPlatformObject* platform4 = new TestPlatformObject();
+	platform4->SetScale(40, -500, 1);
+	platform4->SetPosition(500, 0, 0);
+	dEngine->AddSceneObject(platform4);
 
 	engine.MainLoop();
 }

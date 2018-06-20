@@ -62,28 +62,28 @@ void Vector3D::operator/=(Vector3D &other)
 	z /= other.z;
 }
 
-void Vector3D::operator+=(double &scalor)
+void Vector3D::operator+=(double scalor)
 {
 	x += scalor;
 	y += scalor;
 	z += scalor;
 }
 
-void Vector3D::operator-=(double &scalor)
+void Vector3D::operator-=(double scalor)
 {
 	x -= scalor;
 	y -= scalor;
 	z -= scalor;
 }
 
-void Vector3D::operator*=(double &scalor)
+void Vector3D::operator*=(double scalor)
 {
 	x *= scalor;
 	y *= scalor;
 	z *= scalor;
 }
 
-void Vector3D::operator/=(double &scalor)
+void Vector3D::operator/=(double scalor)
 {
 	x /= scalor;
 	y /= scalor;

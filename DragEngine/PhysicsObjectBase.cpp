@@ -7,6 +7,7 @@
 #include "CollisionObjectBase.h"
 #include "BoxCollisionObject.h"
 #include "SphereCollisionObject.h"
+#include "MathHelpers.h"
 
 #include <cmath>
 const double EulerConstant = std::exp(1.0);
@@ -52,7 +53,8 @@ PhysicsObjectBase::PhysicsObjectBase(SceneObject * object)
 {
 	sceneObject = object;
 	shouldSimulate = false;
-	gravity = Vec3D(0, -.00980,0);
+	gravity = Vec3D(0, -980, 0);
+	gravityNormal = Vec3D(0, -1,0);
 	drag = 0.99;
 	mass = 200;
 	restitution = 1.0;
@@ -105,6 +107,8 @@ void PhysicsObjectBase::SetVeloctiy(Vec3D Velocity)
 void PhysicsObjectBase::SetGravity(Vector3D gravity)
 {
 	this->gravity = gravity;
+	gravityNormal = gravity;
+	gravityNormal.normalize();
 }
 
 void PhysicsObjectBase::OnCollision(CollisionResponse &response)
@@ -119,10 +123,26 @@ void PhysicsObjectBase::OnCollision(CollisionResponse &response)
 			PhysicsObjectBase* other = response.collidedObjects[1];
 
 			sceneObject->Translate(response.penetration);
-
+			
 			Vec3D Vel = velocity - other->velocity;
-			Vector3D F = (-response.normal * ((1.0 + restitution) * Vel.dot(response.normal)));// / (mass + other->mass);
-			velocity += F;// *other->mass;
+			Vector3D F = (-response.normal * ((1.0 + restitution) * Vel.dot(response.normal))) / (mass + other->mass);
+			velocity += F * other->mass * 0.99;
+			// very complicated and realistic isOnGround code. need to probably optmize this somehow later
+			if (isOnGround == false)
+			{
+				Vec3D cross = response.normal.cross(gravity);
+				double dot = response.normal.dot(gravity);
+				if (cross.getMagnitudeSqr() == 0 && dot > 0)
+				{
+					Vec3D velocityGravNorm = (velocity + 10 * gravityNormal) * gravityNormal.getAbs();
+					if (gravity.dot(velocityGravNorm) >= 0.0)
+					{
+						isOnGround = true;
+						velocity += velocityGravNorm;
+					}
+				}
+			}
+			std::cout << "collision\n";
 		}
 	}
 }
@@ -148,6 +168,8 @@ void PhysicsObjectBase::Update(double deltaTime)
 	if (shouldSimulate)
 	{
 		if(isOnGround == false)velocity += gravity*deltaTime;
+		else 
+			velocity *= 0.9;
 		velocity *= drag;
 
 		if (useSweptCollision)

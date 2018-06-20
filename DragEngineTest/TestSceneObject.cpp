@@ -36,4 +36,5 @@ void TestSceneObject::PreRender()
 
 void TestSceneObject::Tick(double deltaTime)
 {
+
 }

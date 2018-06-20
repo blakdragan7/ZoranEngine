@@ -31,6 +31,7 @@
     <ClInclude Include="HighPrecisionClock.h" />
     <ClInclude Include="lodepng.h" />
     <ClInclude Include="LoggerBase.h" />
+    <ClInclude Include="MathHelpers.h" />
     <ClInclude Include="MathLib.h" />
     <ClInclude Include="Matrix.hpp" />
     <ClInclude Include="OpenGLRenderEngine.h" />
@@ -83,6 +84,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="LoggerBase.cpp" />
+    <ClCompile Include="MathHelper.cpp" />
     <ClCompile Include="MathLib.cpp" />
     <ClCompile Include="OpenGLRenderEngine.cpp" />
     <ClCompile Include="OpenGLShaderProgramBase.cpp" />

@@ -36,10 +36,10 @@ public:
 	void operator *=(Vector3D &other);
 	void operator /=(Vector3D &other);
 
-	void operator +=(double &scalor);
-	void operator -=(double &scalor);
-	void operator *=(double &scalor);
-	void operator /=(double &scalor);
+	void operator +=(double scalor);
+	void operator -=(double scalor);
+	void operator *=(double scalor);
+	void operator /=(double scalor);
 
 	Vector3D operator -();
 	Vector3D operator +(Vector3D &other);

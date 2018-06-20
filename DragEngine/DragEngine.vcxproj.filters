@@ -192,6 +192,9 @@
     <ClInclude Include="QuadTreeCollision.h">
       <Filter>Physics</Filter>
     </ClInclude>
+    <ClInclude Include="MathHelpers.h">
+      <Filter>Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DragEngine.cpp">
@@ -316,6 +319,9 @@
     </ClCompile>
     <ClCompile Include="QuadTreeCollision.cpp">
       <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="MathHelper.cpp">
+      <Filter>Math</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
