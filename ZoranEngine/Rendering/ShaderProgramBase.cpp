@@ -4,7 +4,7 @@
 
 ShaderProgramBase::ShaderProgramBase()
 {
-	engine = dEngine->GetRenderer();
+	engine = zEngine->GetRenderer();
 }
 
 

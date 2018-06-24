@@ -187,11 +187,11 @@ static LRESULT CALLBACK wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 		}
 		if (uMsg == WM_QUIT)
 		{
-			dEngine->StopRunning();
+			zEngine->StopRunning();
 		}
 		if (uMsg == WM_CLOSE)
 		{
-			dEngine->StopRunning();
+			zEngine->StopRunning();
 		}
 		if (uMsg == WM_SIZE)
 		{
@@ -213,31 +213,31 @@ static LRESULT CALLBACK wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 		}
 		if (uMsg == WM_KEYDOWN)
 		{
-			dEngine->KeyEvent(KEY_DOWN, pThis->ConvertWPARAMToKey(wParam));
+			zEngine->KeyEvent(KEY_DOWN, pThis->ConvertWPARAMToKey(wParam));
 		}
 		if (uMsg == WM_KEYUP)
 		{
-			dEngine->KeyEvent(KEY_UP, pThis->ConvertWPARAMToKey(wParam));
+			zEngine->KeyEvent(KEY_UP, pThis->ConvertWPARAMToKey(wParam));
 		}
 		if (uMsg == WM_LBUTTONDOWN)
 		{
-			dEngine->MouseEvent(MOUSE_L_DOWN, 0);
+			zEngine->MouseEvent(MOUSE_L_DOWN, 0);
 		}
 		if (uMsg == WM_RBUTTONDOWN)
 		{
-			dEngine->MouseEvent(MOUSE_R_DOWN, 0);
+			zEngine->MouseEvent(MOUSE_R_DOWN, 0);
 		}
 		if (uMsg == WM_LBUTTONUP)
 		{
-			dEngine->MouseEvent(MOUSE_L_UP, 0);
+			zEngine->MouseEvent(MOUSE_L_UP, 0);
 		}
 		if (uMsg == WM_RBUTTONUP)
 		{
-			dEngine->MouseEvent(MOUSE_R_UP, 0);
+			zEngine->MouseEvent(MOUSE_R_UP, 0);
 		}
 		if (uMsg == WM_MOUSEMOVE)
 		{
-			dEngine->MouseMove(LOWORD(lParam),HIWORD(lParam));
+			zEngine->MouseMove(LOWORD(lParam),HIWORD(lParam));
 		}
 	}
 

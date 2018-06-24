@@ -8,7 +8,7 @@ RenderedObjectBase::RenderedObjectBase()
 	cpuVertData = 0;
 	cpuUVData = 0;
 
-	renderEngine = dEngine->GetRenderer();
+	renderEngine = zEngine->GetRenderer();
 }
 
 

@@ -28,7 +28,7 @@ int main(int argc, char* argv[])
 		pos = CollisionPoint - pos;
 		pos.normalize();
 		test->GetPhysics()->SetGravity(pos * 0.01);
-		dEngine->AddSceneObject(test);
+		zEngine->AddSceneObject(test);
 	}*/
 
 	TestSceneObject* test = new TestSceneObject("top");
@@ -39,27 +39,27 @@ int main(int argc, char* argv[])
 	test->GetPhysics()->ApplyForce(Vec3D(200,-100,0));
 	test->GetPhysics()->SetSweptCollision(false);
 	test->GetPhysics()->SetRestitution(1);
-	dEngine->AddSceneObject(test);
+	zEngine->AddSceneObject(test);
 	
 	TestPlatformObject* platform = new TestPlatformObject();
 	platform->SetScale(500, -50, 1);
 	platform->SetPosition(0, -500, 0);
-	dEngine->AddSceneObject(platform);
+	zEngine->AddSceneObject(platform);
 
 	TestPlatformObject* platform2 = new TestPlatformObject();
 	platform2->SetScale(500, -40, 1);
 	platform2->SetPosition(0, 500, 0);
-	dEngine->AddSceneObject(platform2);
+	zEngine->AddSceneObject(platform2);
 
 	TestPlatformObject* platform3 = new TestPlatformObject();
 	platform3->SetScale(40, -500, 1);
 	platform3->SetPosition(-500, 0, 0);
-	dEngine->AddSceneObject(platform3);
+	zEngine->AddSceneObject(platform3);
 
 	TestPlatformObject* platform4 = new TestPlatformObject();
 	platform4->SetScale(40, -500, 1);
 	platform4->SetPosition(500, 0, 0);
-	dEngine->AddSceneObject(platform4);
+	zEngine->AddSceneObject(platform4);
 
 	engine.MainLoop();
 }

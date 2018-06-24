@@ -40,7 +40,7 @@ SceneObject::SceneObject(std::string name)
 
 	model = MatrixF::GLIdentityMatrix();
 
-	renderEngine = dEngine->GetRenderer();
+	renderEngine = zEngine->GetRenderer();
 	renderedObject = renderEngine->CreateRenderedObject();
 	scale = Vector3D(1.0,1.0,1.0);
 
@@ -99,8 +99,8 @@ void SceneObject::Destroy()
 {
 	if(collision)pEngine->RemoveObject(collision);
 	if(physicsObject)pEngine->RemoveObject(physicsObject);
-	dEngine->RemoveTickableObject(this);
-	dEngine->DestroySceneObject(this);
+	zEngine->RemoveTickableObject(this);
+	zEngine->DestroySceneObject(this);
 }
 
 void SceneObject::SetRotation(Vector3D eulor)
