@@ -22,6 +22,11 @@
     <None Include="..\README.md" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Core\2D\Camera2D.cpp" />
+    <ClCompile Include="Core\2D\OrthoCamera.cpp" />
+    <ClCompile Include="Core\2D\SceneObject2D.cpp" />
+    <ClCompile Include="Core\3D\Camera3D.cpp" />
+    <ClCompile Include="Core\3D\SceneObject3D.cpp" />
     <ClCompile Include="Core\CameraBase.cpp" />
     <ClCompile Include="Core\CommonTypes.cpp" />
     <ClCompile Include="Core\Events\EventBase.cpp" />
@@ -41,6 +46,7 @@
     <ClCompile Include="OpenGL\OpenGLShaderProgramBase.cpp" />
     <ClCompile Include="OpenGL\OpenGLTexture.cpp" />
     <ClCompile Include="OpenGL\StandardShader.cpp" />
+    <ClCompile Include="OpenGL\StandardShader2D.cpp" />
     <ClCompile Include="Physics\Collision\2D\SquareColisionObject.cpp" />
     <ClCompile Include="Physics\Collision\3D\BoxCollisionObject.cpp" />
     <ClCompile Include="Physics\Collision\3D\QuadTreeCollision.cpp" />
@@ -52,7 +58,6 @@
     <ClCompile Include="Physics\PhysicsEngine.cpp" />
     <ClCompile Include="Physics\PhysicsObjectBase.cpp" />
     <ClCompile Include="Rendering\FrameBufferBase.cpp" />
-    <ClCompile Include="Rendering\OrthoCamera.cpp" />
     <ClCompile Include="Rendering\RenderedObjectBase.cpp" />
     <ClCompile Include="Rendering\RenderEngineBase.cpp" />
     <ClCompile Include="Rendering\ShaderProgramBase.cpp" />
@@ -64,17 +69,18 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="ThirdParty\loadong\lodepng.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
+    <ClCompile Include="ThirdParty\loadong\lodepng.cpp" />
     <ClCompile Include="Utils\ConsoleLogger.cpp" />
     <ClCompile Include="Utils\HighPrecisionClock.cpp" />
     <ClCompile Include="Utils\LoggerBase.cpp" />
     <ClCompile Include="Utils\Random.cpp" />
-    <ClCompile Include="Windows\WindowsThread.cpp" />
-    <ClCompile Include="Windows\WindowsWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Core\2D\Camera2D.h" />
+    <ClInclude Include="Core\2D\OrthoCamera.h" />
+    <ClInclude Include="Core\2D\SceneObject2D.h" />
+    <ClInclude Include="Core\3D\Camera3D.h" />
+    <ClInclude Include="Core\3D\SceneObject3D.h" />
     <ClInclude Include="Core\CameraBase.h" />
     <ClInclude Include="Core\CommomTypes.h" />
     <ClInclude Include="Core\Events\EventBase.h" />
@@ -97,6 +103,7 @@
     <ClInclude Include="OpenGL\OpenGLShaderProgramBase.h" />
     <ClInclude Include="OpenGL\OpenGLTexture.h" />
     <ClInclude Include="OpenGL\StandardShader.h" />
+    <ClInclude Include="OpenGL\StandardShader2D.h" />
     <ClInclude Include="Physics\Collision\2D\SquareColisionObject.h" />
     <ClInclude Include="Physics\Collision\3D\BoxCollisionObject.h" />
     <ClInclude Include="Physics\Collision\3D\QuadTreeCollision.h" />
@@ -108,7 +115,6 @@
     <ClInclude Include="Physics\PhysicsEngine.h" />
     <ClInclude Include="Physics\PhysicsObjectBase.h" />
     <ClInclude Include="Rendering\FrameBufferBase.h" />
-    <ClInclude Include="Rendering\OrthoCamera.h" />
     <ClInclude Include="Rendering\RenderedObjectBase.h" />
     <ClInclude Include="Rendering\RenderEngineBase.h" />
     <ClInclude Include="Rendering\RenderTypes.h" />
@@ -124,8 +130,6 @@
     <ClInclude Include="Utils\Random.h" />
     <ClInclude Include="Utils\VectorAddons.hpp" />
     <ClInclude Include="Version.h" />
-    <ClInclude Include="Windows\WindowsThread.h" />
-    <ClInclude Include="Windows\WindowsWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ZoranEngine.rc" />

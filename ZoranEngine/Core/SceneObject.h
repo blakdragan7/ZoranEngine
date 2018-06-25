@@ -1,11 +1,8 @@
 #pragma once
 
-#include "Math/Vector3.h"
-#include "Math/Quaternion.h"
 #include <mutex>
-
 #include "Core/TickableObject.h"
-
+#include <Math/Matrix.hpp>
 /*
 * Very Basic Object, Essentially represents bare minmum needed to be rendered on the scene
 */
@@ -17,13 +14,7 @@ class PhysicsObjectBase;
 
 class ZoranEngine_EXPORT SceneObject : public TickableObject
 {
-private:
-	// used to make GetModel more effecient
-	MatrixF model;
-
-	Vector3D scale;
-	Vector3D pos;
-	Quaternion rotation;
+protected:
 
 	RenderEngineBase* renderEngine;
 	ShaderProgramBase* shaderProgram;
@@ -73,40 +64,14 @@ public:
 
     // Getter / Setter
 
-	void SetRotation(Vector3D eulor);
-	void SetRotationFromAxis(Vector3D axis);
-	void TrySetPosition(Vector3D pos);
-	void SetPosition(Vector3D pos);
-	void SetPosition(double x, double y, double z);
-	void SetScale(Vector3D scale);
-	void SetScale(double x, double y, double z);
-
-	Vector3D GetPosition();
-	Vector3D GetScale();
-
 	inline RenderEngineBase* GetRenderEngine() { return renderEngine; }
 	inline ShaderProgramBase* GetShaderProgram() { return shaderProgram; }
 	inline RenderedObjectBase* GetRenderedObject() { return renderedObject; }
 	inline CollisionObjectBase* GetCollision() { return collision; }
 	inline PhysicsObjectBase* GetPhysics() { return physicsObject; }
 
-	Vector3D GetRotationAsEulor();
-	
-	inline Quaternion GetRotation() { return rotation; }
-	void SetRotation(Quaternion quat);
-
-	void RotateByScaledAxis(Vector3D axis);
-	void RotateByQuat(Quaternion quat);
-	void RotateByEulor(Vector3D eulor);
-
-	void Translate(Vector3D delta);
-	void Scale(Vector3D scale);
-
-	MatrixF GetModel();
-	MatrixF GetScaleMatrix3x3();
-	MatrixF GetScaleMatrix4x4();
-
-	double DistanceTo(Vector3D pos);
-	double DistanceTo(SceneObject* other);
+	virtual MatrixF GetModel() = 0;
+	virtual MatrixF GetScaleMatrix3x3() = 0;
+	virtual MatrixF GetScaleMatrix4x4() = 0;
 };
 

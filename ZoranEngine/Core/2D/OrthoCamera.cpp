@@ -2,7 +2,7 @@
 #include "OrthoCamera.h"
 #include "Core/SceneObject.h"
 
-OrthoCamera::OrthoCamera(std::string name, double width, double height, double rotation) : CameraBase(name, Vec3D(0,0,0), Vec3D(1,1,1), Vec3D(0,0,0))
+OrthoCamera::OrthoCamera(std::string name, double width, double height, double rotation) : Camera2D(name,Vec2D(0,0), Vec2D(1,1), 0)
 {
 	double width_2 = width / 2.0;
 	double height_2 = height / 2.0;
@@ -15,7 +15,7 @@ OrthoCamera::~OrthoCamera()
 
 MatrixF OrthoCamera::GetModel()
 {
-	MatrixF sceneModel = GetSceneObject()->GetModel();
+	MatrixF sceneModel = Camera2D::GetModel();
 
 	return orthoModel * sceneModel;
 }

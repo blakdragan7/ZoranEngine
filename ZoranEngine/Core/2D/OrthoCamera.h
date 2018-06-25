@@ -1,7 +1,7 @@
 #pragma once
-#include "Core/CameraBase.h"
+#include "Core/2D/Camera2D.h"
 
-class OrthoCamera : public CameraBase
+class OrthoCamera : public Camera2D
 {
 private:
 	MatrixF orthoModel;

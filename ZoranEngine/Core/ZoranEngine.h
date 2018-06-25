@@ -83,6 +83,6 @@ public:
 // convenience defines
 
 #define zEngine ZoranEngine::Instance()
-#define pEngine ZoranEngine::Instance()->GetPhysicsEngine()
-#define rEngine ZoranEngine::Instance()->GetRenderer()
+#define pEngine zEngine->GetPhysicsEngine()
+#define rEngine zEngine->GetRenderer()
 #define Log(...) ZoranEngine::Instance()->logger->LogString(__VA_ARGS__);
