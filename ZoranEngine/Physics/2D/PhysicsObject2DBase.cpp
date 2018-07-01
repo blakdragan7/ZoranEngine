@@ -84,7 +84,7 @@ void PhysicsObject2DBase::OnCollision(CollisionResponse2D &response)
 			velocity += F *other->mass;
 			velocity *= (other->friction * friction);
 			// very complicated and realistic isOnGround code. need to probably optmize this somehow later
-			if (isOnGround == false)
+			if (isOnGround == false && collision2->GetDynamics() == CD_Static)
 			{
 				double cross = response.penetration.cross(gravity);
 				double dot = response.penetration.dot(gravity);

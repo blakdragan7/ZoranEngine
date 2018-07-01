@@ -20,19 +20,23 @@ bool SatCollision2DObject::TestAgainstOtherSquare(SatCollision2DObject * other, 
 	double sinb = sin(-other->GetSceneObject()->GetRotationRad());
 
 	Vec2D axis[4] = {
-		Vec2D(-cosa, sina),
-		Vec2D(cosa, sina),
-		Vec2D(-cosb, sinb),
-		Vec2D(cosb, sinb)
+		Vec2D(-cosa,sina).getNormal(),
+		Vec2D(-sina,-cosa).getNormal(),
+		Vec2D(-cosb,sinb).getNormal(),
+		Vec2D(-sinb,-cosb).getNormal(),
 	};
+
+	int normal_index = -1;
+	double penetration = std::numeric_limits<double>::infinity();
+	bool isNegative = false;
 
 	for (int axes_index = 0; axes_index < 4; axes_index++)
 	{
-		double mina = 1000000000;
-		double maxa = 0;
+		double mina = std::numeric_limits<double>::infinity();
+		double maxa = -std::numeric_limits<double>::infinity();
 
-		double minb = 1000000000;
-		double maxb = 0;
+		double minb = std::numeric_limits<double>::infinity();
+		double maxb = -std::numeric_limits<double>::infinity();
 
 		for (int point_index = 0; point_index < 4; point_index++)
 		{
@@ -47,7 +51,34 @@ bool SatCollision2DObject::TestAgainstOtherSquare(SatCollision2DObject * other, 
 		}
 
 		if (maxa < minb || maxb < mina) return false;
+
+		double overlap = min(maxa, maxb) - max(mina, minb);
+
+		if (overlap < penetration)
+		{
+			isNegative = false;
+
+			penetration = overlap;
+			normal_index = axes_index;
+
+			Vec2D dv(mina - minb, maxa - maxb);
+
+			if (dv.dot(axis[axes_index]) < 0)
+			{
+				isNegative = true;
+			}
+		}
 	}
+
+	response.collided = true;
+	response.normal = axis[normal_index];
+	response.penetration = -response.normal * penetration * (isNegative ? -1 : 1);
+	response.objectBounds[0] = this;
+	response.objectBounds[1] = other;
+	response.collidedObjects[0] = GetPhysicsObject();
+	response.collidedObjects[1] = other->GetPhysicsObject();
+
+	return true;
 
 	return true;
 }
