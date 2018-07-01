@@ -7,7 +7,7 @@
 #include <Physics/2D/Collision/AABBSquareCollisionObject.h>
 #include <Physics/2D/Collision/CollisionObject2DBase.h>
 #include "Math/MathHelpers.h"
-
+#include <Math/MathLib.h>
 #include <cmath>
 const double EulerConstant = std::exp(1.0);
 
@@ -86,11 +86,12 @@ void PhysicsObject2DBase::OnCollision(CollisionResponse2D &response)
 			// very complicated and realistic isOnGround code. need to probably optmize this somehow later
 			if (isOnGround == false)
 			{
-				double cross = response.normal.perpDot(gravity);
-				if (cross == 0 )
+				double cross = response.penetration.cross(gravity);
+				double dot = response.penetration.dot(gravity);
+				if (cross == 0 && dot > 0)
 				{
 					Vec2D velocityGravNorm = (velocity + 10 * gravityNormal) * gravityNormal.getAbs();
-					if (signbit(gravity.x) == signbit(velocityGravNorm.x) && signbit(gravity.y) == signbit(velocityGravNorm.y))
+					if (MathLib::signum(gravity.x) == MathLib::signum(velocityGravNorm.x) && MathLib::signum(gravity.y) == MathLib::signum(velocityGravNorm.y))
 					{
 						isOnGround = true;
 						velocity += (velocity* gravityNormal);
@@ -98,7 +99,6 @@ void PhysicsObject2DBase::OnCollision(CollisionResponse2D &response)
 					}
 				}
 			}
-			std::cout << "collision\n";
 		}
 	}
 }

@@ -48,7 +48,8 @@ public:
 	double magnitude();
 	double distance(Vector2D other);
 	double distanceSquared(Vector2D other);
-	double perpDot(Vector2D other);
+	double dot(Vector2D other);
+	double cross(Vector2D other);
 	void rotate(Vector2D origin, double angle /*radians*/);
 };
 

@@ -37,7 +37,7 @@ int main(int argc, char* argv[])
 	test->SetPosition(-400, 200);
 	test->GetPhysics2D()->StartPhysicsSim();
 	test->GetPhysics2D()->SetGravity(Vec2D(0, -400));
-	test->GetPhysics2D()->ApplyForce(Vec2D(200,-100));
+	test->GetPhysics2D()->ApplyForce(Vec2D(-200,600));
 	test->GetPhysics2D()->SetSweptCollision(false);
 	test->GetPhysics2D()->SetRestitution(1);
 	zEngine->AddSceneObject(test);
@@ -61,8 +61,6 @@ int main(int argc, char* argv[])
 	platform4->SetScale(40, -500);
 	platform4->SetPosition(500, 0);
 	zEngine->AddSceneObject(platform4);
-
-	engine.SetPaused(true);
 
 	engine.MainLoop();
 }

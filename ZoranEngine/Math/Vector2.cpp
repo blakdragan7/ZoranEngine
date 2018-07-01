@@ -181,6 +181,16 @@ Vector2D Vector2D::getNormal()
 	return Vector2D(x/mag,y/mag);
 }
 
+double Vector2D::dot(Vector2D other)
+{
+	return (x*other.x) - (y*other.y);
+}
+
+double Vector2D::cross(Vector2D other)
+{
+	return (x*other.y) - (y*other.x);
+}
+
 void Vector2D::rotate(Vector2D origin, double angle /*radians*/)
 {
 	Vector2D p(*this);
@@ -223,11 +233,6 @@ double Vector2D::distanceSquared(Vector2D other)
 	double dy = other.y - y;
 
 	return (pow(dx, 2) + pow(dy, 2));
-}
-
-double Vector2D::perpDot(Vector2D other)
-{
-	return (x*other.y) - (y*other.x);
 }
 
 void Vector2D::normalize()

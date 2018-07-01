@@ -36,8 +36,8 @@ bool SatCollision2DObject::TestAgainstOtherSquare(SatCollision2DObject * other, 
 
 		for (int point_index = 0; point_index < 4; point_index++)
 		{
-			double currenta = derivedPoints[point_index].perpDot(axis[axes_index]);
-			double currentb = other->derivedPoints[point_index].perpDot(axis[axes_index]);
+			double currenta = derivedPoints[point_index].dot(axis[axes_index]);
+			double currentb = other->derivedPoints[point_index].dot(axis[axes_index]);
 
 			mina = min(currenta, mina);
 			maxa = max(currenta, maxa);
@@ -81,21 +81,15 @@ bool SatCollision2DObject::TestAgainstOtherAABBSquare(AABBSquareCollisionObject 
 	};
 
 	Vec2D axis[4] = {
-		Vec2D(-cosa,sina),
-		Vec2D(-sina,-cosa),
+		Vec2D(-cosa,sina).getNormal(),
+		Vec2D(-sina,-cosa).getNormal(),
 		Vec2D(-cosb,sinb),
 		Vec2D(-sinb,-cosb),
 	};
 
-	Vec2D oaxis[4] = {
-		(derivedPoints[TOP_LEFT] - derivedPoints[BOTTOM_LEFT]).getNormal(),
-		(derivedPoints[BOTTOM_RIGHT] - derivedPoints[BOTTOM_LEFT]).getNormal(),
-		(otherPoints[TOP_LEFT] - otherPoints[BOTTOM_LEFT]).getNormal(),
-		(otherPoints[BOTTOM_RIGHT] - otherPoints[BOTTOM_LEFT]).getNormal(),
-	};
-
 	int normal_index = -1;
 	double penetration = std::numeric_limits<double>::infinity();
+	bool isNegative = false;
 
 	for (int axes_index = 0; axes_index < 4; axes_index++)
 	{
@@ -107,8 +101,8 @@ bool SatCollision2DObject::TestAgainstOtherAABBSquare(AABBSquareCollisionObject 
 
 		for (int point_index = 0; point_index < 4; point_index++)
 		{
-			double currenta = derivedPoints[point_index].perpDot(oaxis[axes_index]);
-			double currentb = otherPoints[point_index].perpDot(oaxis[axes_index]);
+			double currenta = derivedPoints[point_index].dot(axis[axes_index]);
+			double currentb = otherPoints[point_index].dot(axis[axes_index]);
 
 			mina = min(currenta, mina);
 			maxa = max(currenta, maxa);
@@ -124,14 +118,23 @@ bool SatCollision2DObject::TestAgainstOtherAABBSquare(AABBSquareCollisionObject 
 
 		if ( overlap < penetration )
 		{
+			isNegative = false;
+
 			penetration = overlap;
 			normal_index = axes_index;
+
+			Vec2D dv(mina - minb, maxa - maxb);
+
+			if (dv.dot(axis[axes_index]) < 0)
+			{
+				isNegative = true;
+			}
 		}
 	}
 
 	response.collided = true;
 	response.normal = axis[normal_index];
-	response.penetration = -response.normal * abs(penetration);
+ 	response.penetration = -response.normal * penetration * (isNegative ? -1 : 1);
 	response.objectBounds[0] = this;
 	response.objectBounds[1] = other;
 	response.collidedObjects[0] = GetPhysicsObject();
@@ -228,34 +231,22 @@ void SatCollision2DObject::SetBoundsBySceneObject()
 
 		scaledSize = scale * size;
 
-		Vec2D tempPoinnts[4] = {
-			startingPoints[0],
-			startingPoints[1],
-			startingPoints[2],
-			startingPoints[3]
-		};
+		derivedPoints[0].x = (cosv * startingPoints[0].x) - (sinv * startingPoints[0].y);
+		derivedPoints[0].y = (sinv * startingPoints[0].x) + (cosv * startingPoints[0].y);
 
-		tempPoinnts[0] = (startingPoints[0] * scale);
-		tempPoinnts[1] = (startingPoints[1] * scale);
-		tempPoinnts[2] = (startingPoints[2] * scale);
-		tempPoinnts[3] = (startingPoints[3] * scale);
+		derivedPoints[1].x = (cosv * startingPoints[1].x) - (sinv * startingPoints[1].y);
+		derivedPoints[1].y = (sinv * startingPoints[1].x) + (cosv * startingPoints[1].y);
 
-		derivedPoints[0].x = (cosv * tempPoinnts[0].x) - (sinv * tempPoinnts[0].y);
-		derivedPoints[0].y = (sinv * tempPoinnts[0].x) + (cosv * tempPoinnts[0].y);
+		derivedPoints[2].x = (cosv * startingPoints[2].x) - (sinv * startingPoints[2].y);
+		derivedPoints[2].y = (sinv * startingPoints[2].x) + (cosv * startingPoints[2].y);
 
-		derivedPoints[1].x = (cosv * tempPoinnts[1].x) - (sinv * tempPoinnts[1].y);
-		derivedPoints[1].y = (sinv * tempPoinnts[1].x) + (cosv * tempPoinnts[1].y);
+		derivedPoints[3].x = (cosv * startingPoints[3].x) - (sinv * startingPoints[3].y);
+		derivedPoints[3].y = (sinv * startingPoints[3].x) + (cosv * startingPoints[3].y);
 
-		derivedPoints[2].x = (cosv * tempPoinnts[2].x) - (sinv * tempPoinnts[2].y);
-		derivedPoints[2].y = (sinv * tempPoinnts[2].x) + (cosv * tempPoinnts[2].y);
-
-		derivedPoints[3].x = (cosv * tempPoinnts[3].x) - (sinv * tempPoinnts[3].y);
-		derivedPoints[3].y = (sinv * tempPoinnts[3].x) + (cosv * tempPoinnts[3].y);
-
-		derivedPoints[0] += pos;
-		derivedPoints[1] += pos;
-		derivedPoints[2] += pos;
-		derivedPoints[3] += pos;
+		derivedPoints[0] = (derivedPoints[0] * scale) + pos;
+		derivedPoints[1] = (derivedPoints[1] * scale) + pos;
+		derivedPoints[2] = (derivedPoints[2] * scale) + pos;
+		derivedPoints[3] = (derivedPoints[3] * scale) + pos;
 	}
 		break;
 	case SATPT_Circle:
