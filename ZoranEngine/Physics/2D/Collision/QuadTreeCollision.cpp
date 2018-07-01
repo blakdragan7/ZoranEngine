@@ -1,10 +1,13 @@
 #include "stdafx.h"
 #include "QuadTreeCollision.h"
-#include "BoxCollisionObject.h"
-#include "SphereCollisionObject.h"
+#include <Core/2D/SceneObject2D.h>
+#include <Physics/2D/Collision/SquareColisionObject.h>
+#include <Physics/3D/Collision/BoxCollisionObject.h>
+#include <Physics/3D/Collision/SphereCollisionObject.h>
 #include "Core/SceneObject.h"
+#include <Math/Vector2.h>
 
-QuadTreeCollision::QuadTreeCollision(Vector3D min, Vector3D max, SceneObject* object) : CollisionObjectBase(object,CD_Static, QUADTREE_COLLISION)
+QuadTreeCollision::QuadTreeCollision(Vector2D min, Vector2D max, SceneObject2D* object) : CollisionObject2DBase(object,CD_Static, QUADTREE_COLLISION)
 {
 	this->minPos = min;
 	this->maxPos = max;
@@ -20,8 +23,8 @@ QuadTreeCollision::~QuadTreeCollision()
 
 void QuadTreeCollision::SetBoundsBySceneObject()
 {
-	Vector3D pos = GetScenePos();
-	Vector3D scale = GetSceneObject()->GetScale().getAbs();
+	Vector2D pos = GetScenePos();
+	Vector2D scale = GetSceneObject()->GetScale().getAbs();
 
 	scaledSize = size * scale;
 
@@ -32,11 +35,10 @@ void QuadTreeCollision::SetBoundsBySceneObject()
 bool QuadTreeCollision::CollidesWith(Vector3D pos)
 {
 	return (pos.x >= minPos.x && pos.x <= maxPos.x) && \
-		(pos.y >= minPos.y && pos.y <= maxPos.y) && \
-		(pos.z >= minPos.z && pos.z <= maxPos.z);
+		(pos.y >= minPos.y && pos.y <= maxPos.y);
 }
 
-bool QuadTreeCollision::CollidesWith(CollisionObjectBase * other, CollisionResponse& response)
+bool QuadTreeCollision::CollidesWith(CollisionObject2DBase * other, CollisionResponse2D& response)
 {
 
 	response.collided = false;
@@ -62,18 +64,17 @@ bool QuadTreeCollision::CollidesWith(CollisionObjectBase * other, CollisionRespo
 	return response.collided;
 }
 
-Vector3D QuadTreeCollision::GetClosestPointTo(Vector3D pos)
+Vector2D QuadTreeCollision::GetClosestPointTo(Vector2D pos)
 {
-	Vector3D point;
+	Vector2D point;
 
 	point.x = max(this->minPos.x, min(pos.x, this->maxPos.x));
 	point.y = max(this->minPos.y, min(pos.y, this->maxPos.y));
-	point.z = max(this->minPos.z, min(pos.z, this->maxPos.z));
 
 	return point;
 }
 
-Vector3D QuadTreeCollision::GetSize()
+Vector2D QuadTreeCollision::GetSize()
 {
-	return Vector3D((maxPos - minPos));
+	return Vector2D((maxPos - minPos));
 }

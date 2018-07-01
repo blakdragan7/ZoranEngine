@@ -7,7 +7,7 @@
 #include <Core/CameraBase.h>
 
 class SceneObject2D;
-class Camera2D : public CameraBase
+class ZoranEngine_EXPORT Camera2D : public CameraBase
 {
 private:
 	SceneObject2D * sceneObject;

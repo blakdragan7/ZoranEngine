@@ -3,7 +3,12 @@
 #include <Math/Matrix.hpp>
 #include <Math/Vector2.h>
 
-class SceneObject2D : public SceneObject
+class CollisionObject2DBase;
+class PhysicsObject2DBase;
+class CollisionObjectBase;
+class PhysicsObjectBase;
+
+class ZoranEngine_EXPORT SceneObject2D : public SceneObject
 {
 private:
 	// used to make GetModel more effecient
@@ -12,6 +17,10 @@ private:
 	Vector2D scale;
 	Vector2D pos;
 	double rotation;
+
+protected:
+	CollisionObject2DBase * collision;
+	PhysicsObject2DBase* physicsObject;
 
 public:
 	SceneObject2D(std::string name);
@@ -41,5 +50,13 @@ public:
 	virtual MatrixF GetModel()override;
 	virtual MatrixF GetScaleMatrix3x3()override;
 	virtual MatrixF GetScaleMatrix4x4()override;
+
+	inline CollisionObject2DBase* GetCollision2D() { return collision; }
+	inline class PhysicsObject2DBase* GetPhysics2D() { return physicsObject; }
+
+	inline class CollisionObjectBase* GetCollision() { return (CollisionObjectBase*)collision; }
+	inline PhysicsObjectBase* GetPhysics() { return (PhysicsObjectBase*)physicsObject; }
+
+	virtual void Destroy()override;
 };
 

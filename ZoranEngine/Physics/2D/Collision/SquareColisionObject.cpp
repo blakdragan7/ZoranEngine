@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "SquareColisionObject.h"
-#include "Core/SceneObject.h"
+#include <Core/2D/SceneObject2D.h>
 
-SquareColisionObject::SquareColisionObject(Vector2D min, Vector2D max, SceneObject* object, CollisionDynamics dynamics, unsigned collisionType) : CollisionObjectBase(object, dynamics, collisionType)
+SquareColisionObject::SquareColisionObject(Vector2D min, Vector2D max, SceneObject2D* object, CollisionDynamics dynamics) : CollisionObject2DBase(object, dynamics, SQUARE_COLLISION)
 {
 	this->minPos = min;
 	this->maxPos = max;
@@ -17,8 +17,8 @@ SquareColisionObject::~SquareColisionObject()
 
 void SquareColisionObject::SetBoundsBySceneObject()
 {
-	Vector2D pos = GetScenePos().GetXY();
-	Vector2D scale = GetSceneObject()->GetScale().getAbs().GetXY();
+	Vector2D pos = GetScenePos();
+	Vector2D scale = GetSceneObject()->GetScale().getAbs();
 
 	scaledSize = size * scale;
 
@@ -26,7 +26,7 @@ void SquareColisionObject::SetBoundsBySceneObject()
 	maxPos = pos + (scaledSize / 2);
 }
 
-bool SquareColisionObject::CollidesWith(CollisionObjectBase * other, CollisionResponse& response)
+bool SquareColisionObject::CollidesWith(CollisionObject2DBase* other, CollisionResponse2D& response)
 {
 	Vec2D otherMin;
 	Vec2D otherMax;
@@ -40,9 +40,9 @@ bool SquareColisionObject::CollidesWith(CollisionObjectBase * other, CollisionRe
 	else
 	{
 		// treat the other as a box for now
-		Vec2D size = other->GetSize().GetXY();
-		otherMin = other->GetScenePos().GetXY() - size / 2.0;
-		otherMax = other->GetScenePos().GetXY() + size / 2.0;
+		Vec2D size = other->GetSize();
+		otherMin = other->GetScenePos() - size / 2.0;
+		otherMax = other->GetScenePos() + size / 2.0;
 	}
 
 	static const Vector2D faces[6] =
@@ -53,7 +53,7 @@ bool SquareColisionObject::CollidesWith(CollisionObjectBase * other, CollisionRe
 		Vector2D(0,  1), // 'top' face normal (+y direction)
 	};
 
-	double distances[6] =
+	double distances[4] =
 	{
 		(otherMax.x - minPos.x), // distance of otherBox to face on 'left' side.
 		(maxPos.x - otherMin.x), // distance of otherBox to face on 'right' side.
@@ -95,9 +95,9 @@ bool SquareColisionObject::CollidesWith(CollisionObjectBase * other, CollisionRe
 	return true;
 }
 
-Vector3D SquareColisionObject::GetClosestPointTo(Vector3D pos)
+Vector2D SquareColisionObject::GetClosestPointTo(Vector2D pos)
 {
-	Vector3D point;
+	Vector2D point;
 
 	point.x = max(this->minPos.x, min(pos.x, this->maxPos.x));
 	point.y = max(this->minPos.y, min(pos.y, this->maxPos.y));
@@ -106,7 +106,7 @@ Vector3D SquareColisionObject::GetClosestPointTo(Vector3D pos)
 }
 
 
-Vector3D SquareColisionObject::GetSize()
+Vector2D SquareColisionObject::GetSize()
 {
-	return Vector3D(maxPos - minPos);
+	return Vector2D(maxPos - minPos);
 }

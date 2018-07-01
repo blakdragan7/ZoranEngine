@@ -41,12 +41,17 @@ public:
 
 	bool operator ==(Vector2D other);
 
+	Vector2D getAbs();
+
 	void normalize();
 	double magnitude();
 	double distance(Vector2D other);
 	double distanceSquared(Vector2D other);
+	double perpDot(Vector2D other);
 	void rotate(Vector2D origin, double angle /*radians*/);
 };
+
+Vector2D operator*(double, Vector2D);
 
 class ZoranEngine_EXPORT Vector2L
 {
@@ -85,12 +90,15 @@ public:
 	Vector2L operator /=(long long scalor);
 	Vector2L operator =(long long scalor);
 
+	Vector2D getAbs();
+
 	bool operator ==(Vector2L other);
 
 	double distance(Vector2L other);
 
 	long long magnitude();
 	long long distanceSquared(Vector2L other);
+	long long perpDot(Vector2L other);
 	void rotate(Vector2L origin, float angle /*radians*/);
 };
 

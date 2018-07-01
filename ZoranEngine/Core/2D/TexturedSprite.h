@@ -1,10 +1,10 @@
 #pragma once
-#include "Core/SceneObject.h"
+#include <Core/2D/SceneObject2D.h>
 #include "Math/Vector2.h"
 #include "Rendering/RenderTypes.h"
 
 class TextureBase;
-class ZoranEngine_EXPORT TexturedSprite : public SceneObject
+class ZoranEngine_EXPORT TexturedSprite : public SceneObject2D
 {
 private:
 	TextureBase* texture;

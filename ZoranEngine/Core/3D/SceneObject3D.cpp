@@ -1,23 +1,23 @@
 #include "stdafx.h"
-#include "SceneObject3D.h"
-#include "Core/ThreadBase.h"
-#include "Core/ZoranEngine.h"
-#include "Physics/PhysicsEngine.h"
-#include "Rendering/RenderEngineBase.h"
-#include "Rendering/ShaderProgramBase.h"
-#include "Physics/PhysicsObjectBase.h"
-#include "Rendering/RenderedObjectBase.h"
-#include "Physics/Collision/CollisionBucketBase.h"
-#include "Physics/Collision/CollisionObjectBase.h"
-#include "Physics/Collision/3D/BoxCollisionObject.h"
-#include "Physics/Collision/3D/SphereCollisionObject.h"
+#include <Core/ThreadBase.h>
+#include <Core/ZoranEngine.h>
+#include <Core/3D/SceneObject3D.h>
+#include <Physics/PhysicsEngine.h>
+#include <Physics/PhysicsObjectBase.h>
+#include <Rendering/RenderEngineBase.h>
+#include <Rendering/ShaderProgramBase.h>
+#include <Rendering/RenderedObjectBase.h>
+#include <Physics/3D/PhysicsObject3DBase.h>
+#include <Physics/Collision/CollisionBucketBase.h>
+#include <Physics/Collision/CollisionObjectBase.h>
+#include <Physics/3D/Collision/BoxCollisionObject.h>
+#include <Physics/3D/Collision/SphereCollisionObject.h>
 
 static unsigned long long NextID = 0;
 
 SceneObject3D::SceneObject3D(std::string name) : SceneObject(name)
 {
 	model = MatrixF::GLIdentityMatrix();
-
 	scale = Vector3D(1.0, 1.0, 1.0);
 }
 
@@ -29,6 +29,8 @@ SceneObject3D::SceneObject3D(std::string name, RenderEngineBase* engine) : Scene
 
 SceneObject3D::~SceneObject3D()
 {
+	if (collision)delete collision;
+	if (physicsObject)delete physicsObject;
 }
 
 

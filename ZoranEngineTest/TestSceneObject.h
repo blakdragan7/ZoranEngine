@@ -1,5 +1,5 @@
 #pragma once
-#include <Core/TexturedSprite.h>
+#include <Core/2D/TexturedSprite.h>
 #include <Core/TickableObject.h>
 class TextureBase;
 class TestSceneObject : public TexturedSprite

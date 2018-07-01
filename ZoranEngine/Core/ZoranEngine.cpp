@@ -10,7 +10,7 @@
 #include "Utils/HighPrecisionClock.h"
 #include "Physics/Collision/CollisionObjectBase.h"
 #include "Physics/Collision/CollisionBucketBase.h"
-#include "Rendering/OrthoCamera.h"
+#include <Core/2D/OrthoCamera.h>
 #include <iostream>
 
 #include "SceneObject.h"
@@ -37,7 +37,7 @@ ZoranEngine::ZoranEngine()
 	mainRenderEngine = 0;
 	isPaused = false;
 	logger = new ConsoleLogger();
-	logger->SetLogLevel(LogLevel_Default);
+	logger->SetLogLevel(LogLevel_Debug);
 }
 
 ZoranEngine::~ZoranEngine()
@@ -126,12 +126,12 @@ bool ZoranEngine::Init()
 
 void ZoranEngine::Setup2DScene(double centerx, double centery, double width, double height)
 {
-	physicsEngine->SetupFor2D(Vec3D(centerx, centery, 0), Vec3D(width, height, 10));
+	physicsEngine->SetupFor2D(Vec2D(centerx, centery), Vec2D(width, height));
 	camera = new OrthoCamera("camera", width, height, 0);
 	camera->Translate(centerx, centery, 0);
 }
 
-void ZoranEngine::Setup2DScene(Vector3D center, Vector3D size)
+void ZoranEngine::Setup2DScene(Vector2D center, Vector2D size)
 {
 	physicsEngine->SetupFor2D(center, size);
 	camera = new OrthoCamera("camera",size.x,size.y, 0);

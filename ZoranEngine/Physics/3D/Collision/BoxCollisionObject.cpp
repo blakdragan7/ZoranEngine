@@ -1,10 +1,10 @@
 #include "stdafx.h"
 #include "BoxCollisionObject.h"
 #include "SphereCollisionObject.h"
-#include "Core/SceneObject.h"
+#include <Core/3D/SceneObject3D.h> 
 #include "Math/Matrix.hpp"
 
-BoxCollisionObject::BoxCollisionObject(Vector3D min, Vector3D max, SceneObject* object, CollisionDynamics dynamics, unsigned collisionType) : CollisionObjectBase(object, dynamics,collisionType)
+BoxCollisionObject::BoxCollisionObject(Vector3D min, Vector3D max, SceneObject3D* object, CollisionDynamics dynamics, unsigned collisionType) : CollisionObject3DBase(object, dynamics,collisionType)
 {
 	this->minPos = min;
 	this->maxPos = max;
@@ -29,7 +29,7 @@ void BoxCollisionObject::SetBoundsBySceneObject()
 	maxPos = pos + (scaledSize / 2);
 }
 
-bool BoxCollisionObject::CollidesWith(CollisionObjectBase * other, CollisionResponse& response)
+bool BoxCollisionObject::CollidesWith(CollisionObject3DBase * other, CollisionResponse3D& response)
 {
 	Vec3D otherMin;
 	Vec3D otherMax;

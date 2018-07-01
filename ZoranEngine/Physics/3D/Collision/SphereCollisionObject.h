@@ -1,9 +1,9 @@
 #pragma once
-#include "Physics/Collision/CollisionObjectBase.h"
+#include <Physics/3D/Collision/CollisionObject3DBase.h>
 
 #define SPHERE_COLLISION 1
 
-class ZoranEngine_EXPORT SphereCollisionObject : public CollisionObjectBase
+class ZoranEngine_EXPORT SphereCollisionObject : public CollisionObject3DBase
 {
 private:
 	double radius;
@@ -12,12 +12,12 @@ private:
 	double scaledRadius;
 
 public:
-	SphereCollisionObject(double radius, SceneObject* object, CollisionDynamics dynamics,unsigned collisionType = SPHERE_COLLISION);
+	SphereCollisionObject(double radius, SceneObject3D* object, CollisionDynamics dynamics,unsigned collisionType = SPHERE_COLLISION);
 	~SphereCollisionObject();
 
 	virtual void SetBoundsBySceneObject()override;
 
-	virtual bool CollidesWith(CollisionObjectBase* other, CollisionResponse& response)override;
+	virtual bool CollidesWith(CollisionObject3DBase* other, CollisionResponse3D& response)override;
 	virtual Vector3D GetClosestPointTo(Vector3D pos)override;
 
 	virtual Vector3D GetSize()override;

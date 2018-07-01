@@ -48,16 +48,6 @@ CollisionDynamics CollisionObjectBase::GetDynamics()
 	return collisionDynamics;
 }
 
-Vector3D CollisionObjectBase::GetScenePos()
-{
-	if(sceneObject != NULL) return sceneObject->GetPosition();
-	else
-	{
-		std::cerr << "Getting Position Before SceneObject Set !\n";
-		return Vector3D(0,0,0);
-	}
-}
-
 SceneObject* CollisionObjectBase::GetSceneObject()
 {
 	return sceneObject;

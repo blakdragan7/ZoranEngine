@@ -1,10 +1,10 @@
 #pragma once
-#include <Core/TexturedSprite.h>
+#include <Core/2D/TexturedSprite.h>
 
 class TestPlatformObject : public TexturedSprite
 {
 public:
-	TestPlatformObject();
+	TestPlatformObject(std::string name);
 	~TestPlatformObject();
 
 	virtual void PreRender()override;

@@ -1,20 +1,20 @@
 #include "stdafx.h"
 #include "SATCollisionObject.h"
-#include "Core/SceneObject.h"
+#include "Core/3D/SceneObject3D.h"
 #include "Rendering/RenderedObjectBase.h"
 
-SATCollisionObject::SATCollisionObject(bool is3D, SceneObject* object) : CollisionObjectBase(object,CD_Dynamic,SAT_COLLISION)
+SATCollision3DObject::SATCollision3DObject(bool is3D, SceneObject3D* object) : CollisionObject3DBase(object,CD_Dynamic,SAT_COLLISION)
 {
 	this->is3D = is3D;
 	vertData = 0;
 	numVerts = 0;
 }
 
-SATCollisionObject::~SATCollisionObject()
+SATCollision3DObject::~SATCollision3DObject()
 {
 }
 
-void SATCollisionObject::SetBoundsBySceneObject()
+void SATCollision3DObject::SetBoundsBySceneObject()
 {
 	if (vertData)delete[] vertData;
 	if (GetSceneObject()->GetRenderedObject()->GetVertDataAsDouble(&vertData, numVerts) == false)
@@ -28,17 +28,17 @@ void SATCollisionObject::SetBoundsBySceneObject()
 	}
 }
 
-Vector3D SATCollisionObject::GetSize()
+Vector3D SATCollision3DObject::GetSize()
 {
 	return Vector3D();
 }
 
-bool SATCollisionObject::CollidesWith(CollisionObjectBase * other, CollisionResponse & response)
+bool SATCollision3DObject::CollidesWith(CollisionObject3DBase * other, CollisionResponse3D & response)
 {
 	return false;
 }
 
-Vector3D SATCollisionObject::GetClosestPointTo(Vector3D pos)
+Vector3D SATCollision3DObject::GetClosestPointTo(Vector3D pos)
 {
 	return Vector3D();
 }

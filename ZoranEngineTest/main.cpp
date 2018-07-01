@@ -4,7 +4,7 @@
 #include "TestSceneObject.h"
 #include "TestPlatformObject.h"
 #include <Rendering/RenderEngineBase.h>
-#include <Physics/PhysicsObjectBase.h>
+#include <Physics/2D/PhysicsObject2DBase.h>
 
 #include <Utils/Random.h>
 #include <string>
@@ -31,34 +31,34 @@ int main(int argc, char* argv[])
 		zEngine->AddSceneObject(test);
 	}*/
 
-	TestSceneObject* test = new TestSceneObject("top");
-	test->SetScale(20, -20, 1);
-	test->SetPosition(-400, 200, 0);
-	test->GetPhysics()->StartPhysicsSim();
-	test->GetPhysics()->SetGravity(Vec3D(0, -400, 0));
-	test->GetPhysics()->ApplyForce(Vec3D(200,-100,0));
-	test->GetPhysics()->SetSweptCollision(false);
-	test->GetPhysics()->SetRestitution(1);
+	TestSceneObject* test = new TestSceneObject("Dynamic");
+	test->SetScale(20, -20);
+	test->SetPosition(-400, 200);
+	test->GetPhysics2D()->StartPhysicsSim();
+	test->GetPhysics2D()->SetGravity(Vec2D(0, -400));
+	test->GetPhysics2D()->ApplyForce(Vec2D(200,-100));
+	test->GetPhysics2D()->SetSweptCollision(false);
+	test->GetPhysics2D()->SetRestitution(1);
 	zEngine->AddSceneObject(test);
 	
-	TestPlatformObject* platform = new TestPlatformObject();
-	platform->SetScale(500, -50, 1);
-	platform->SetPosition(0, -500, 0);
+	TestPlatformObject* platform = new TestPlatformObject("Ground");
+	platform->SetScale(500, -50);
+	platform->SetPosition(0, -500);
 	zEngine->AddSceneObject(platform);
 
-	TestPlatformObject* platform2 = new TestPlatformObject();
-	platform2->SetScale(500, -40, 1);
-	platform2->SetPosition(0, 500, 0);
+	TestPlatformObject* platform2 = new TestPlatformObject("Ceiling");
+	platform2->SetScale(500, -40);
+	platform2->SetPosition(0, 500);
 	zEngine->AddSceneObject(platform2);
 
-	TestPlatformObject* platform3 = new TestPlatformObject();
-	platform3->SetScale(40, -500, 1);
-	platform3->SetPosition(-500, 0, 0);
+	TestPlatformObject* platform3 = new TestPlatformObject("Left Wall");
+	platform3->SetScale(40, -500);
+	platform3->SetPosition(-500, 0);
 	zEngine->AddSceneObject(platform3);
 
-	TestPlatformObject* platform4 = new TestPlatformObject();
-	platform4->SetScale(40, -500, 1);
-	platform4->SetPosition(500, 0, 0);
+	TestPlatformObject* platform4 = new TestPlatformObject("Right Wall");
+	platform4->SetScale(40, -500);
+	platform4->SetPosition(500, 0);
 	zEngine->AddSceneObject(platform4);
 
 	engine.MainLoop();

@@ -9,7 +9,7 @@
 class RenderEngineBase;
 class ShaderProgramBase;
 class RenderedObjectBase;
-class CollisionObjectBase;
+class CollisionObject2DBase;
 class PhysicsObjectBase;
 
 class ZoranEngine_EXPORT SceneObject : public TickableObject
@@ -19,7 +19,6 @@ protected:
 	RenderEngineBase* renderEngine;
 	ShaderProgramBase* shaderProgram;
 	RenderedObjectBase* renderedObject;
-	PhysicsObjectBase* physicsObject;
 
 	unsigned long long ID;
 
@@ -28,8 +27,6 @@ protected:
 	std::mutex mutex;
 #pragma warning(pop)
 
-protected:
-	CollisionObjectBase * collision;
 	bool hasCollision;
 
 public:
@@ -67,11 +64,13 @@ public:
 	inline RenderEngineBase* GetRenderEngine() { return renderEngine; }
 	inline ShaderProgramBase* GetShaderProgram() { return shaderProgram; }
 	inline RenderedObjectBase* GetRenderedObject() { return renderedObject; }
-	inline CollisionObjectBase* GetCollision() { return collision; }
-	inline PhysicsObjectBase* GetPhysics() { return physicsObject; }
+	
 
 	virtual MatrixF GetModel() = 0;
 	virtual MatrixF GetScaleMatrix3x3() = 0;
 	virtual MatrixF GetScaleMatrix4x4() = 0;
+
+	virtual class CollisionObjectBase* GetCollision() = 0;
+	virtual class PhysicsObjectBase* GetPhysics() = 0;
 };
 

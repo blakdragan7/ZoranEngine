@@ -170,6 +170,11 @@ bool Vector2D::operator ==(Vector2D other)
 	return other.x == x && other.y == y;
 }
 
+Vector2D Vector2D::getAbs()
+{
+	return Vector2D(abs(x),abs(y));
+}
+
 void Vector2D::rotate(Vector2D origin, double angle /*radians*/)
 {
 	Vector2D p(*this);
@@ -212,6 +217,11 @@ double Vector2D::distanceSquared(Vector2D other)
 	double dy = other.y - y;
 
 	return (pow(dx, 2) + pow(dy, 2));
+}
+
+double Vector2D::perpDot(Vector2D other)
+{
+	return (x*other.y) - (y*other.x);
 }
 
 void Vector2D::normalize()
@@ -377,6 +387,11 @@ Vector2L Vector2L::operator =(long long scalor)
 	return *this;
 }
 
+Vector2D Vector2L::getAbs()
+{
+	return Vector2D(abs(x), abs(y));
+}
+
 bool Vector2L::operator ==(Vector2L other)
 {
 	return other.x == x && other.y == y;
@@ -424,4 +439,20 @@ long long Vector2L::distanceSquared(Vector2L other)
 	long long dy = other.y - y;
 
 	return (pow(dx, 2) + pow(dy, 2));
+}
+
+long long Vector2L::perpDot(Vector2L other)
+{
+	return (x*other.y) - (y*other.x);
+}
+
+
+Vector2D operator/(Vector2D & other, double & scalor)
+{
+	return Vector2D(other.x / scalor, other.y / scalor);
+}
+
+Vector2D operator*(double d, Vector2D v)
+{
+	return v * d;
 }

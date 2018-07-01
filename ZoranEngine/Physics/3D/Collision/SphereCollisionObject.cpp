@@ -2,8 +2,9 @@
 #include "SphereCollisionObject.h"
 #include "BoxCollisionObject.h"
 #include "Core/SceneObject.h"
+#include <Core/3D/SceneObject3D.h>
 
-SphereCollisionObject::SphereCollisionObject(double radius, SceneObject* object, CollisionDynamics dynamics, unsigned collisionType) : CollisionObjectBase(object, dynamics, collisionType)
+SphereCollisionObject::SphereCollisionObject(double radius, SceneObject3D* object, CollisionDynamics dynamics, unsigned collisionType) : CollisionObject3DBase(object, dynamics, collisionType)
 {
 	this->radius = radius;
 	this->radiusSqr = radius * radius;
@@ -22,7 +23,7 @@ void SphereCollisionObject::SetBoundsBySceneObject()
 	radiusSqr = scaledRadius * scaledRadius;
 }
 
-bool SphereCollisionObject::CollidesWith(CollisionObjectBase * other, CollisionResponse& response)
+bool SphereCollisionObject::CollidesWith(CollisionObject3DBase * other, CollisionResponse3D& response)
 {
 	switch(other->GetCollisionType())
 	{

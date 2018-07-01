@@ -1,35 +1,23 @@
 #pragma once
 #include "Math/Vector3.h"
 
-class CollisionObjectBase;
-class SceneObject;
 class ZoranEngine_EXPORT PhysicsObjectBase
 {
 private:
-	class BoxCollisionObject * sweepCollisionBox;
-
 	SceneObject* sceneObject;
 
-	Vector3D velocity;
+protected:
 	double drag;
 	double friction;
 	double otherFriction;
 	bool shouldSimulate;
 	double mass; // KG
 	double restitution;
-
 	bool isOnGround;
-	Vector3D gravity;
-	Vector3D gravityNormal;
-
 	bool useSweptCollision;
 
 private:
 	void RegisterPhysicsObject();
-
-protected:
-	bool SweepCollisionTo(Vec3D newPosition, struct SweepCollisionResponse& response);
-	bool FastSweepCollision(Vec3D newPosition); // Braod Sweep
 
 public:
 	PhysicsObjectBase(SceneObject* object);
@@ -45,18 +33,10 @@ public:
 	void SetSweptCollision(bool newSwept);
 
 	void SetDrag(double drag) { this->drag = drag; }
-	void ApplyForce(Vec3D Force);
-	void SetVeloctiy(Vec3D Velocity);
-	void SetGravity(Vector3D gravity);
-
-	void OnCollision(struct CollisionResponse& response);
-	bool SweepToo(Vec3D targetPosition, SweepCollisionResponse &response);
 
 	inline bool GetShouldSimulate() { return shouldSimulate; }
 
-	Vec3D GetVelocity();
-	Vec3D GetScenePos();
 	SceneObject* GetSceneObject();
 
-	virtual void Update(double deltaTime);
+	virtual void Update(double deltaTime) = 0;
 };

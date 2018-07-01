@@ -10,8 +10,8 @@
 #include <Rendering/RenderedObjectBase.h>
 #include <Physics/Collision/CollisionBucketBase.h>
 #include <Physics/Collision/CollisionObjectBase.h>
-#include <Physics/Collision/3D/BoxCollisionObject.h>
-#include <Physics/Collision/3D/SphereCollisionObject.h>
+#include <Physics/3D/Collision/BoxCollisionObject.h>
+#include <Physics/3D/Collision/SphereCollisionObject.h>
 
 static unsigned long long NextID = 0;
 
@@ -42,7 +42,6 @@ SceneObject::SceneObject(std::string name)
 	renderEngine = zEngine->GetRenderer();
 	renderedObject = renderEngine->CreateRenderedObject();
 
-	collision = 0;  
 	hasCollision = false;
 
 	this->readableName = name;
@@ -56,15 +55,12 @@ SceneObject::SceneObject(std::string name, RenderEngineBase* engine)
 	this->readableName = name;
 	this->ID = NextID++;
 
-	collision = 0;  
 	hasCollision = false; 
 	renderEngine = engine;
 }
 
 SceneObject::~SceneObject()
 {
-	if (collision)delete collision;
-	if (physicsObject)delete physicsObject;
 }
 
 
@@ -89,8 +85,6 @@ void SceneObject::PreRender()
 
 void SceneObject::Destroy()
 {
-	if(collision)pEngine->RemoveObject(collision);
-	if(physicsObject)pEngine->RemoveObject(physicsObject);
 	zEngine->RemoveTickableObject(this);
 	zEngine->DestroySceneObject(this);
 }
