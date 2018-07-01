@@ -5,16 +5,19 @@
 #include <Physics/2D/PhysicsObject2DBase.h>
 #include <Physics/2D/Collision/CollisionObject2DBase.h>
 
+#define PI 3.141592653589793
 SceneObject2D::SceneObject2D(std::string name) : SceneObject(name)
 {
 	model = MatrixF::GLIdentityMatrix();
 	scale = Vector2D(1.0, 1.0);
+	rotation = 0;
 }
 
 SceneObject2D::SceneObject2D(std::string name, RenderEngineBase* engine) : SceneObject(name, engine)
 {
 	model = MatrixF::GLIdentityMatrix();
 	scale = Vector2D(1.0, 1.0);
+	rotation = 0;
 }
 
 SceneObject2D::~SceneObject2D()
@@ -87,6 +90,11 @@ void SceneObject2D::Rotate(double rotation)
 	if (collision)pEngine->UpdateCollisionObject(collision);
 }
 
+double SceneObject2D::GetRotationRad()
+{
+	return rotation;
+}
+
 double SceneObject2D::GetRotation()
 {
 	return rotation;
@@ -106,11 +114,11 @@ MatrixF SceneObject2D::GetModel()
 {
 	model.makeIdentity();
 
-	//MatrixF rotMatrix = MatrixF::GLRotationMatrix(rotation, Vector3D(1, 0, 0));
+	MatrixF rotMatrix = MatrixF::GLRotationMatrix(rotation, Vector3D(0, 0, 1));
 	model.translate(pos);
 	model.scale(scale);
 
-	return model;// *rotMatrix;
+	return model *rotMatrix;
 }
 
 MatrixF SceneObject2D::GetScaleMatrix3x3()

@@ -10,7 +10,7 @@
 #include <Physics/3D/PhysicsObject3DBase.h>
 #include <Physics/Collision/CollisionBucketBase.h>
 #include <Physics/Collision/CollisionObjectBase.h>
-#include <Physics/3D/Collision/BoxCollisionObject.h>
+#include <Physics/3D/Collision/AABBoxCollisionObject.h>
 #include <Physics/3D/Collision/SphereCollisionObject.h>
 
 static unsigned long long NextID = 0;

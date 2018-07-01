@@ -5,7 +5,7 @@
 
 #define SQUARE_COLLISION 4
 
-class SquareColisionObject : public CollisionObject2DBase
+class AABBSquareCollisionObject : public CollisionObject2DBase
 {
 private:
 	Vector2D minPos;
@@ -15,8 +15,8 @@ private:
 	Vector2D scaledSize;
 
 public:
-	SquareColisionObject(Vector2D min, Vector2D max, SceneObject2D* object, CollisionDynamics dynamics = CD_Dynamic);
-	~SquareColisionObject();
+	AABBSquareCollisionObject(Vector2D min, Vector2D max, SceneObject2D* object, CollisionDynamics dynamics = CD_Dynamic);
+	~AABBSquareCollisionObject();
 
 	void SetBoundsBySceneObject()override;
 

@@ -4,7 +4,7 @@
 #include "Core/ZoranEngine.h"
 #include <Physics/PhysicsEngine.h>
 #include "Physics/2D/Collision/CollisionBucket2DBase.h"
-#include <Physics/2D/Collision/SquareColisionObject.h>
+#include <Physics/2D/Collision/AABBSquareCollisionObject.h>
 #include <Physics/2D/Collision/CollisionObject2DBase.h>
 #include "Math/MathHelpers.h"
 
@@ -43,7 +43,7 @@ PhysicsObject2DBase::PhysicsObject2DBase(SceneObject2D * object) : PhysicsObject
 	gravity = Vec2D(0, -980);
 	gravityNormal = Vec2D(0, -1);
 
-	sweepCollisionSquare = new SquareColisionObject(Vec2D(), Vec2D(), object, CD_Static);
+	sweepCollisionSquare = new AABBSquareCollisionObject(Vec2D(), Vec2D(), object, CD_Static);
 }
 
 PhysicsObject2DBase::~PhysicsObject2DBase()

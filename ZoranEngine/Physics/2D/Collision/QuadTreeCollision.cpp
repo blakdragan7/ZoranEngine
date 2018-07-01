@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "QuadTreeCollision.h"
 #include <Core/2D/SceneObject2D.h>
-#include <Physics/2D/Collision/SquareColisionObject.h>
-#include <Physics/3D/Collision/BoxCollisionObject.h>
+#include <Physics/2D/Collision/AABBSquareCollisionObject.h>
+#include <Physics/3D/Collision/AABBoxCollisionObject.h>
 #include <Physics/3D/Collision/SphereCollisionObject.h>
 #include "Core/SceneObject.h"
 #include <Math/Vector2.h>
@@ -44,9 +44,9 @@ bool QuadTreeCollision::CollidesWith(CollisionObject2DBase * other, CollisionRes
 	response.collided = false;
 	switch (other->GetCollisionType())
 	{
-	case BOX_COLLISION:
+	case AABBOX_COLLISION:
 	{
-		BoxCollisionObject* otherBox = (BoxCollisionObject*)other;
+		AABBoxCollisionObject* otherBox = (AABBoxCollisionObject*)other;
 		response.collided =	CollidesWith(otherBox->GetMinPos()) && CollidesWith(otherBox->GetMaxPos());
 	}
 	break;

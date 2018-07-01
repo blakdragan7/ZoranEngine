@@ -3,8 +3,8 @@
 #include <Physics/2D/Collision/QuadTreeCollisionBucket.h>
 #include <Physics/2D/Collision/CollisionObject2DBase.h>
 #include <Physics/3D/Collision/SphereCollisionObject.h>
-#include <Physics/2D/Collision/SquareColisionObject.h>
-#include <Physics/3D/Collision/BoxCollisionObject.h>
+#include <Physics/2D/Collision/AABBSquareCollisionObject.h>
+#include <Physics/3D/Collision/AABBoxCollisionObject.h>
 #include <Physics/2D/Collision/QuadTreeCollision.h>
 #include <Physics/2D/PhysicsObject2DBase.h>
 #include <Core/2D/SceneObject2D.h>
@@ -30,7 +30,7 @@ QuadTreeCollisionBucket::QuadTreeCollisionBucket(std::string name, Vec2D pos, Ve
 
 	Vec2D halfSize = size / 2.0;
 
-	collision = new SquareColisionObject(pos - halfSize,pos + halfSize, sceneObject,CD_Static);
+	collision = new AABBSquareCollisionObject(pos - halfSize,pos + halfSize, sceneObject,CD_Static);
 
 	Log(LogLevel_Verbose,"Buckets: %i", numBuckets);
 }

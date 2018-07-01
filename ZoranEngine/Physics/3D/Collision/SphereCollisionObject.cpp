@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "SphereCollisionObject.h"
-#include "BoxCollisionObject.h"
+#include "AABBoxCollisionObject.h"
 #include "Core/SceneObject.h"
 #include <Core/3D/SceneObject3D.h>
 
@@ -51,7 +51,7 @@ bool SphereCollisionObject::CollidesWith(CollisionObject3DBase * other, Collisio
 			}
 		}
 		break;
-		case BOX_COLLISION:
+		case AABBOX_COLLISION:
 		{
 			return other->CollidesWith(this,response);
 		}

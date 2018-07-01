@@ -42,6 +42,7 @@ public:
 	bool operator ==(Vector2D other);
 
 	Vector2D getAbs();
+	Vector2D getNormal();
 
 	void normalize();
 	double magnitude();

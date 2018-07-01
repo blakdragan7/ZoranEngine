@@ -175,6 +175,12 @@ Vector2D Vector2D::getAbs()
 	return Vector2D(abs(x),abs(y));
 }
 
+Vector2D Vector2D::getNormal()
+{
+	double mag = magnitude();
+	return Vector2D(x/mag,y/mag);
+}
+
 void Vector2D::rotate(Vector2D origin, double angle /*radians*/)
 {
 	Vector2D p(*this);

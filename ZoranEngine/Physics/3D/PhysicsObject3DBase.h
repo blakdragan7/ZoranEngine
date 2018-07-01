@@ -5,7 +5,7 @@ class SceneObject3D;
 class ZoranEngine_EXPORT PhysicsObject3DBase : public PhysicsObjectBase
 {
 private:
-	class BoxCollisionObject * sweepCollisionBox;
+	class AABBoxCollisionObject * sweepCollisionBox;
 
 	SceneObject3D* sceneObject3D;
 

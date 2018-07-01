@@ -6,7 +6,7 @@ class SceneObject2D;
 class ZoranEngine_EXPORT PhysicsObject2DBase : public PhysicsObjectBase
 {
 private:
-	class SquareColisionObject * sweepCollisionSquare;
+	class AABBSquareCollisionObject * sweepCollisionSquare;
 	SceneObject2D* sceneObject2D;
 
 	Vector2D velocity;

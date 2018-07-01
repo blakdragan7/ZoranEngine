@@ -1,10 +1,10 @@
 #include "stdafx.h"
-#include "BoxCollisionObject.h"
+#include "AABBoxCollisionObject.h"
 #include "SphereCollisionObject.h"
 #include <Core/3D/SceneObject3D.h> 
 #include "Math/Matrix.hpp"
 
-BoxCollisionObject::BoxCollisionObject(Vector3D min, Vector3D max, SceneObject3D* object, CollisionDynamics dynamics, unsigned collisionType) : CollisionObject3DBase(object, dynamics,collisionType)
+AABBoxCollisionObject::AABBoxCollisionObject(Vector3D min, Vector3D max, SceneObject3D* object, CollisionDynamics dynamics, unsigned collisionType) : CollisionObject3DBase(object, dynamics,collisionType)
 {
 	this->minPos = min;
 	this->maxPos = max;
@@ -14,11 +14,11 @@ BoxCollisionObject::BoxCollisionObject(Vector3D min, Vector3D max, SceneObject3D
 }
 
 
-BoxCollisionObject::~BoxCollisionObject()
+AABBoxCollisionObject::~AABBoxCollisionObject()
 {
 }
 
-void BoxCollisionObject::SetBoundsBySceneObject()
+void AABBoxCollisionObject::SetBoundsBySceneObject()
 {
 	Vector3D pos = GetScenePos();
 	Vector3D scale = GetSceneObject()->GetScale().getAbs();
@@ -29,14 +29,14 @@ void BoxCollisionObject::SetBoundsBySceneObject()
 	maxPos = pos + (scaledSize / 2);
 }
 
-bool BoxCollisionObject::CollidesWith(CollisionObject3DBase * other, CollisionResponse3D& response)
+bool AABBoxCollisionObject::CollidesWith(CollisionObject3DBase * other, CollisionResponse3D& response)
 {
 	Vec3D otherMin;
 	Vec3D otherMax;
 
-	if (other->GetCollisionType() == BOX_COLLISION)
+	if (other->GetCollisionType() == AABBOX_COLLISION)
 	{
-		BoxCollisionObject* boxOther = (BoxCollisionObject*)other;
+		AABBoxCollisionObject* boxOther = (AABBoxCollisionObject*)other;
 		otherMin = boxOther->minPos;
 		otherMax = boxOther->maxPos;
 	}
@@ -102,7 +102,7 @@ bool BoxCollisionObject::CollidesWith(CollisionObject3DBase * other, CollisionRe
 	return true;
 }
 
-Vector3D BoxCollisionObject::GetClosestPointTo(Vector3D pos)
+Vector3D AABBoxCollisionObject::GetClosestPointTo(Vector3D pos)
 {
 	Vector3D point;
 
@@ -113,7 +113,7 @@ Vector3D BoxCollisionObject::GetClosestPointTo(Vector3D pos)
 	return point;
 }
 
-Vector3D BoxCollisionObject::GetSize()
+Vector3D AABBoxCollisionObject::GetSize()
 {
 	return Vector3D((maxPos - minPos));
 }

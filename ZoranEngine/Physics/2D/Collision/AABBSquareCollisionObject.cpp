@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include "SquareColisionObject.h"
+#include "AABBSquareCollisionObject.h"
 #include <Core/2D/SceneObject2D.h>
 
-SquareColisionObject::SquareColisionObject(Vector2D min, Vector2D max, SceneObject2D* object, CollisionDynamics dynamics) : CollisionObject2DBase(object, dynamics, SQUARE_COLLISION)
+AABBSquareCollisionObject::AABBSquareCollisionObject(Vector2D min, Vector2D max, SceneObject2D* object, CollisionDynamics dynamics) : CollisionObject2DBase(object, dynamics, SQUARE_COLLISION)
 {
 	this->minPos = min;
 	this->maxPos = max;
@@ -11,11 +11,11 @@ SquareColisionObject::SquareColisionObject(Vector2D min, Vector2D max, SceneObje
 	this->scaledSize = this->size;
 }
 
-SquareColisionObject::~SquareColisionObject()
+AABBSquareCollisionObject::~AABBSquareCollisionObject()
 {
 }
 
-void SquareColisionObject::SetBoundsBySceneObject()
+void AABBSquareCollisionObject::SetBoundsBySceneObject()
 {
 	Vector2D pos = GetScenePos();
 	Vector2D scale = GetSceneObject()->GetScale().getAbs();
@@ -26,14 +26,14 @@ void SquareColisionObject::SetBoundsBySceneObject()
 	maxPos = pos + (scaledSize / 2);
 }
 
-bool SquareColisionObject::CollidesWith(CollisionObject2DBase* other, CollisionResponse2D& response)
+bool AABBSquareCollisionObject::CollidesWith(CollisionObject2DBase* other, CollisionResponse2D& response)
 {
 	Vec2D otherMin;
 	Vec2D otherMax;
 
 	if (other->GetCollisionType() == SQUARE_COLLISION)
 	{
-		SquareColisionObject* squareOther = (SquareColisionObject*)other;
+		AABBSquareCollisionObject* squareOther = (AABBSquareCollisionObject*)other;
 		otherMin = squareOther->minPos;
 		otherMax = squareOther->maxPos;
 	}
@@ -95,7 +95,7 @@ bool SquareColisionObject::CollidesWith(CollisionObject2DBase* other, CollisionR
 	return true;
 }
 
-Vector2D SquareColisionObject::GetClosestPointTo(Vector2D pos)
+Vector2D AABBSquareCollisionObject::GetClosestPointTo(Vector2D pos)
 {
 	Vector2D point;
 
@@ -106,7 +106,7 @@ Vector2D SquareColisionObject::GetClosestPointTo(Vector2D pos)
 }
 
 
-Vector2D SquareColisionObject::GetSize()
+Vector2D AABBSquareCollisionObject::GetSize()
 {
 	return Vector2D(maxPos - minPos);
 }

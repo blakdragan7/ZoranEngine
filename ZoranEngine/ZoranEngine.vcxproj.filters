@@ -96,22 +96,13 @@
     <ClCompile Include="Physics\2D\Collision\QuadTreeCollisionBucket.cpp">
       <Filter>ZoranEngine\Physics\2D\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="Physics\2D\Collision\SquareColisionObject.cpp">
-      <Filter>ZoranEngine\Physics\2D\Collision</Filter>
-    </ClCompile>
     <ClCompile Include="Physics\3D\PhysicsObject3DBase.cpp">
       <Filter>ZoranEngine\Physics\3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Physics\3D\Collision\BoxCollisionObject.cpp">
-      <Filter>ZoranEngine\Physics\3D\Collision</Filter>
     </ClCompile>
     <ClCompile Include="Physics\3D\Collision\CollisionBucket3DBase.cpp">
       <Filter>ZoranEngine\Physics\3D\Collision</Filter>
     </ClCompile>
     <ClCompile Include="Physics\3D\Collision\CollisionObject3DBase.cpp">
-      <Filter>ZoranEngine\Physics\3D\Collision</Filter>
-    </ClCompile>
-    <ClCompile Include="Physics\3D\Collision\SATCollisionObject.cpp">
       <Filter>ZoranEngine\Physics\3D\Collision</Filter>
     </ClCompile>
     <ClCompile Include="Physics\3D\Collision\SphereCollisionObject.cpp">
@@ -231,6 +222,18 @@
     <ClCompile Include="Utils\Random.cpp">
       <Filter>ZoranEngine\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="Physics\3D\Collision\SATCollision3DObject.cpp">
+      <Filter>ZoranEngine\Physics\3D\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\2D\Collision\AABBSquareCollisionObject.cpp">
+      <Filter>ZoranEngine\Physics\2D\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\3D\Collision\AABBoxCollisionObject.cpp">
+      <Filter>ZoranEngine\Physics\3D\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\2D\Collision\SatCollision2DObject.cpp">
+      <Filter>ZoranEngine\Physics\2D\Collision</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -269,22 +272,13 @@
     <ClInclude Include="Physics\2D\Collision\QuadTreeCollisionBucket.h">
       <Filter>ZoranEngine\Physics\2D\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="Physics\2D\Collision\SquareColisionObject.h">
-      <Filter>ZoranEngine\Physics\2D\Collision</Filter>
-    </ClInclude>
     <ClInclude Include="Physics\3D\PhysicsObject3DBase.h">
       <Filter>ZoranEngine\Physics\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="Physics\3D\Collision\BoxCollisionObject.h">
-      <Filter>ZoranEngine\Physics\3D\Collision</Filter>
     </ClInclude>
     <ClInclude Include="Physics\3D\Collision\CollisionBucket3DBase.h">
       <Filter>ZoranEngine\Physics\3D\Collision</Filter>
     </ClInclude>
     <ClInclude Include="Physics\3D\Collision\CollisionObject3DBase.h">
-      <Filter>ZoranEngine\Physics\3D\Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="Physics\3D\Collision\SATCollisionObject.h">
       <Filter>ZoranEngine\Physics\3D\Collision</Filter>
     </ClInclude>
     <ClInclude Include="Physics\3D\Collision\SphereCollisionObject.h">
@@ -419,6 +413,18 @@
     <ClInclude Include="Utils\VectorAddons.hpp">
       <Filter>ZoranEngine\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Physics\3D\Collision\SATCollision3DObject.h">
+      <Filter>ZoranEngine\Physics\3D\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\2D\Collision\AABBSquareCollisionObject.h">
+      <Filter>ZoranEngine\Physics\2D\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\3D\Collision\AABBoxCollisionObject.h">
+      <Filter>ZoranEngine\Physics\3D\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\2D\Collision\SatCollision2DObject.h">
+      <Filter>ZoranEngine\Physics\2D\Collision</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ZoranEngine.rc">
@@ -438,5 +444,6 @@
     <None Include="Shaders\2D\standard.vert">
       <Filter>ZoranEngine\Shaders\2D</Filter>
     </None>
+    <None Include="..\README.md" />
   </ItemGroup>
 </Project>

@@ -5,7 +5,7 @@
 #include "PhysicsEngine.h"
 #include "Physics/Collision/CollisionBucketBase.h"
 #include "Physics/Collision/CollisionObjectBase.h"
-#include "Physics/3D/Collision/BoxCollisionObject.h"
+#include "Physics/3D/Collision/AABBoxCollisionObject.h"
 #include "Physics/3D/Collision/SphereCollisionObject.h"
 #include "Math/MathHelpers.h"
 

@@ -32,6 +32,7 @@ int main(int argc, char* argv[])
 	}*/
 
 	TestSceneObject* test = new TestSceneObject("Dynamic");
+	test->SetRotation(1);
 	test->SetScale(20, -20);
 	test->SetPosition(-400, 200);
 	test->GetPhysics2D()->StartPhysicsSim();
@@ -60,6 +61,8 @@ int main(int argc, char* argv[])
 	platform4->SetScale(40, -500);
 	platform4->SetPosition(500, 0);
 	zEngine->AddSceneObject(platform4);
+
+	engine.SetPaused(true);
 
 	engine.MainLoop();
 }

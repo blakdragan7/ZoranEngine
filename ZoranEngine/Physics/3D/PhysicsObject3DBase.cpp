@@ -5,7 +5,7 @@
 #include <Math/MathHelpers.h>
 #include <Core/3D/SceneObject3D.h>
 #include <Physics/PhysicsEngine.h>
-#include <Physics/3D/Collision/BoxCollisionObject.h>
+#include <Physics/3D/Collision/AABBoxCollisionObject.h>
 #include <Physics/3D/Collision/CollisionBucket3DBase.h>
 #include <Physics/3D/Collision/CollisionObject3DBase.h>
 #include <Physics/3D/Collision/SphereCollisionObject.h>
@@ -51,7 +51,7 @@ PhysicsObject3DBase::PhysicsObject3DBase(SceneObject3D * object) : PhysicsObject
 	gravity = Vec3D(0, -980, 0);
 	gravityNormal = Vec3D(0, -1, 0);
 
-	sweepCollisionBox = new BoxCollisionObject(Vec3D(), Vec3D(), object, CD_Static, BOX_COLLISION);
+	sweepCollisionBox = new AABBoxCollisionObject(Vec3D(), Vec3D(), object, CD_Static, AABBOX_COLLISION);
 }
 
 PhysicsObject3DBase::~PhysicsObject3DBase()

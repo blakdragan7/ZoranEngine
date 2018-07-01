@@ -23,6 +23,7 @@ private:
 	static ZoranEngine* instance;
 	bool shouldRun;
 	bool isPaused;
+	bool step;
 
 	PhysicsEngine* physicsEngine;
 #pragma warning(push)

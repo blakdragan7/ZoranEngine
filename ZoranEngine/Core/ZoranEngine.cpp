@@ -38,6 +38,7 @@ ZoranEngine::ZoranEngine()
 	isPaused = false;
 	logger = new ConsoleLogger();
 	logger->SetLogLevel(LogLevel_Debug);
+	step = false;
 }
 
 ZoranEngine::~ZoranEngine()
@@ -76,8 +77,13 @@ int ZoranEngine::MainLoop()
 			DispatchMessageW(&msg);
 		}
 
-		if (isPaused == false)
+		if (isPaused == false || step == true)
 		{
+			if (step)
+			{
+				step = false;
+				deltaTime = 0.033;
+			}
 			statisticsClock.TakeClock();
 			if (physicsEngine)physicsEngine->UpdateAll(deltaTime);
 
@@ -163,6 +169,9 @@ void ZoranEngine::KeyEvent(KeyEventType type, unsigned key)
 			case 'P':
 				if (physicsEngine)physicsEngine->GetCollisionBucketRoot()->PrintAllContents();
 				if (physicsEngine)physicsEngine->GetCollisionBucketRoot()->PrintAllCollisions();
+				break;
+			case 'S':
+				if (isPaused)step = true;
 				break;
 		}
 		break;

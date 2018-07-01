@@ -1,9 +1,9 @@
 #pragma once
 #include <Physics/3D/Collision/CollisionObject3DBase.h>
 
-#define BOX_COLLISION 2
+#define AABBOX_COLLISION 2
 
-class ZoranEngine_EXPORT BoxCollisionObject : public CollisionObject3DBase
+class ZoranEngine_EXPORT AABBoxCollisionObject : public CollisionObject3DBase
 {
 private:
 	Vector3D minPos;
@@ -13,8 +13,8 @@ private:
 	Vector3D scaledSize;
 
 public:
-	BoxCollisionObject(Vector3D min,Vector3D max,SceneObject3D* object, CollisionDynamics dynamics = CD_Dynamic, unsigned collisionType = BOX_COLLISION);
-	~BoxCollisionObject();
+	AABBoxCollisionObject(Vector3D min,Vector3D max,SceneObject3D* object, CollisionDynamics dynamics = CD_Dynamic, unsigned collisionType = AABBOX_COLLISION);
+	~AABBoxCollisionObject();
 
 	void SetBoundsBySceneObject()override;
 

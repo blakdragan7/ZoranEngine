@@ -16,7 +16,7 @@ private:
 
 	Vector2D scale;
 	Vector2D pos;
-	double rotation;
+	double rotation; // degrees
 
 protected:
 	CollisionObject2DBase * collision;
@@ -43,6 +43,7 @@ public:
 
 	void Rotate(double rotation);
 
+	double GetRotationRad();
 	double GetRotation();
 	Vector2D GetPosition();
 	Vector2D GetScale();

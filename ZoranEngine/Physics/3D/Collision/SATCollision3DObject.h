@@ -9,10 +9,9 @@ private:
 	double* vertData;
 	unsigned* edgeIndexes;
 	unsigned numVerts;
-	bool is3D;
 
 public:
-	SATCollision3DObject(bool is3D, SceneObject3D* object);
+	SATCollision3DObject(SceneObject3D* object);
 	~SATCollision3DObject();
 
 	void SetBoundsBySceneObject()override;
