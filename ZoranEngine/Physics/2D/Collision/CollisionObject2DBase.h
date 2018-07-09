@@ -64,6 +64,8 @@ public:
 	virtual Vector2D GetClosestPointTo(Vector2D pos) = 0;
 	virtual Vector2D GetSize() = 0;
 
+	virtual bool SweepCollidesWith(CollisionObject2DBase* other, Vector2D newPosition, SweepCollisionResponse2D & response) = 0;
+	virtual bool FastSweepCollidesWith(Vector2D newPosition) = 0;
 
 	Vector2D GetScenePos();
 	SceneObject2D* GetSceneObject();

@@ -5,6 +5,7 @@
 #include <Math/MathLib.h>
 #include <Core/2D/SceneObject2D.h>
 #include <Physics/2D/Collision/AABBSquareCollisionObject.h>
+#include <Physics/2D/PhysicsObject2DBase.h>
 
 #define BOTTOM_LEFT 0
 #define TOP_LEFT 1
@@ -77,8 +78,6 @@ bool SatCollision2DObject::TestAgainstOtherSquare(SatCollision2DObject * other, 
 	response.objectBounds[1] = other;
 	response.collidedObjects[0] = GetPhysicsObject();
 	response.collidedObjects[1] = other->GetPhysicsObject();
-
-	return true;
 
 	return true;
 }
@@ -172,6 +171,114 @@ bool SatCollision2DObject::TestAgainstOtherAABBSquare(AABBSquareCollisionObject 
 	response.collidedObjects[1] = other->GetPhysicsObject();
 
 	return true;
+}
+
+bool SatCollision2DObject::SweepTestAgainstOtherSquare(SatCollision2DObject* other, SweepCollisionResponse2D & response)
+{
+	return 1.0;
+}
+
+bool SatCollision2DObject::SweepTestAgainstOtherTriagnle(SatCollision2DObject* other, SweepCollisionResponse2D & response)
+{
+	return 1.0;
+}
+
+bool SatCollision2DObject::SweepTestAgainstOtherCircle(SatCollision2DObject* other, SweepCollisionResponse2D & response)
+{
+	return 1.0;
+}
+
+bool SatCollision2DObject::SweepTestAgainstOtherAABBSquare(AABBSquareCollisionObject* other, SweepCollisionResponse2D & response)
+{
+	double cosa = cos(-GetSceneObject()->GetRotationRad());
+	double sina = sin(-GetSceneObject()->GetRotationRad());
+
+	double cosb = 1;
+	double sinb = 0;
+
+	Vec2D otherMin = other->GetMinPos();
+	Vec2D otherMax = other->GetMaxPos();
+
+	Vec2D otherPoints[4] = {
+		otherMin,
+		Vec2D(otherMin.x,otherMax.y),
+		Vec2D(otherMax.x,otherMin.y),
+		otherMax,
+	};
+
+	Vec2D axis[4] = {
+		Vec2D(-cosa,sina).getNormal(),
+		Vec2D(-sina,-cosa).getNormal(),
+		Vec2D(-cosb,sinb),
+		Vec2D(-sinb,-cosb),
+	};
+
+	int normal_index = -1;
+
+	double minLeaveTime = std::numeric_limits<double>::infinity();
+	double maxEnterTime = -std::numeric_limits<double>::infinity();
+
+	Vec2D rV = GetPhysicsObject()->GetVelocity() - other->GetPhysicsObject()->GetVelocity();
+
+	std::string to_print;
+
+	for (int axes_index = 0; axes_index < 4; axes_index++)
+	{
+		double mina = std::numeric_limits<double>::infinity();
+		double maxa = -std::numeric_limits<double>::infinity();
+
+		double minb = std::numeric_limits<double>::infinity();
+		double maxb = -std::numeric_limits<double>::infinity();
+
+		for (int point_index = 0; point_index < 4; point_index++)
+		{
+			double currenta = derivedPoints[point_index].dot(axis[axes_index]);
+			double currentb = otherPoints[point_index].dot(axis[axes_index]);
+
+			mina = min(currenta, mina);
+			maxa = max(currenta, maxa);
+
+			minb = min(currentb, minb);
+			maxb = max(currentb, maxb);
+
+		}
+
+		double V = rV.dot(axis[axes_index]);
+
+		double currentLeaveTime = 0;
+		double currentEnterTime = 0;
+
+		currentLeaveTime = ((maxb - mina) / V);
+		currentEnterTime = ((minb - maxa) / V);
+
+		if (currentEnterTime > currentLeaveTime)
+		{
+			double temp = currentEnterTime;
+			currentEnterTime = currentLeaveTime;
+			currentLeaveTime = temp;
+		}
+
+		minLeaveTime = min(minLeaveTime, currentLeaveTime);
+		maxEnterTime = max(maxEnterTime, currentEnterTime);
+
+	}
+
+	double normalTime = maxEnterTime / GetPhysicsObject()->GetCurrentDeltaTime();
+
+	if (maxEnterTime < minLeaveTime && normalTime <= 1 && normalTime >= 0)
+	{
+		response.CollisionResponse2D.collided = true;
+		response.CollisionResponse2D.normal = axis[normal_index];
+		response.CollisionResponse2D.objectBounds[0] = this;
+		response.CollisionResponse2D.objectBounds[1] = other;
+		response.CollisionResponse2D.collidedObjects[0] = GetPhysicsObject();
+		response.CollisionResponse2D.collidedObjects[1] = other->GetPhysicsObject();
+
+		response.timeHit = normalTime;
+
+		return true;
+	}
+	else return false;
 }
 
 SatCollision2DObject::SatCollision2DObject(SceneObject2D *object) : CollisionObject2DBase(object,CD_Dynamic,SAT_2D_COLLISION)
@@ -332,4 +439,40 @@ bool SatCollision2DObject::CollidesWith(CollisionObject2DBase * other, Collision
 Vector2D SatCollision2DObject::GetClosestPointTo(Vector2D pos)
 {
 	return pos;
+}
+
+bool SatCollision2DObject::SweepCollidesWith(CollisionObject2DBase * other, Vector2D newPosition, SweepCollisionResponse2D & response)
+{
+	switch (other->GetCollisionType())
+	{
+	case SQUARE_COLLISION:
+	{
+		return SweepTestAgainstOtherAABBSquare((AABBSquareCollisionObject*)other, response);
+	}
+	break;
+	case SAT_2D_COLLISION:
+	{
+		SatCollision2DObject* satOther = (SatCollision2DObject*)other;
+		switch (satOther->polygonType)
+		{
+		case SATPT_Triangle:
+			return SweepTestAgainstOtherTriagnle(satOther, response);
+		case SATPT_Square:
+			return SweepTestAgainstOtherSquare(satOther, response);
+		case SATPT_Circle:
+			return SweepTestAgainstOtherCircle(satOther, response);
+		case SATPT_Invalid:
+		default:
+			return false;
+		}
+	}
+	break;
+	default:
+		return false;
+	}
+}
+
+bool SatCollision2DObject::FastSweepCollidesWith(Vector2D newPosition)
+{
+	return true;
 }

@@ -77,6 +77,8 @@ int ZoranEngine::MainLoop()
 			DispatchMessageW(&msg);
 		}
 
+		if (deltaTime == 0)deltaTime = 0;
+
 		if (isPaused == false || step == true)
 		{
 			if (step)

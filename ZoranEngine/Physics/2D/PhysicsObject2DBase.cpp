@@ -13,28 +13,13 @@ const double EulerConstant = std::exp(1.0);
 
 bool PhysicsObject2DBase::SweepCollisionTo(Vec2D position, SweepCollisionResponse2D & response)
 {
-	return pEngine->GetCollisionBucketRootFor2D()->SweepCollision(sceneObject2D->GetCollision2D(), position, response);
+	pEngine->GetCollisionBucketRootFor2D()->SweepCollision(sceneObject2D->GetCollision2D(), position, response);
+	return response.CollisionResponse2D.collided;
 }
 
 bool PhysicsObject2DBase::FastSweepCollision(Vec2D position)
 {
-	Vec2D startingPosition = sceneObject2D->GetPosition();
-	Vec2D size = sceneObject2D->GetCollision2D()->GetSize() / 2.0;
-
-	double minPositionx = min(startingPosition.x, position.x);
-	double maxPositionx = max(startingPosition.x, position.x);
-
-	double minPositiony = min(startingPosition.y, position.y);
-	double maxPositiony = max(startingPosition.y, position.y);
-
-	sweepCollisionSquare->minPos.x = minPositionx - size.x;
-	sweepCollisionSquare->maxPos.x = maxPositionx + size.x;
-				  
-	sweepCollisionSquare->minPos.y = minPositiony - size.y;
-	sweepCollisionSquare->maxPos.y = maxPositiony + size.y;
-
-	CollisionResponse2D unused;
-	return pEngine->GetCollisionBucketRootFor2D()->CheckObjectAgainstStaic(sweepCollisionSquare, unused);
+	return sceneObject2D->GetCollision2D()->FastSweepCollidesWith(position);
 }
 
 PhysicsObject2DBase::PhysicsObject2DBase(SceneObject2D * object) : PhysicsObjectBase(object)
@@ -43,7 +28,6 @@ PhysicsObject2DBase::PhysicsObject2DBase(SceneObject2D * object) : PhysicsObject
 	gravity = Vec2D(0, -980);
 	gravityNormal = Vec2D(0, -1);
 
-	sweepCollisionSquare = new AABBSquareCollisionObject(Vec2D(), Vec2D(), object, CD_Static);
 }
 
 PhysicsObject2DBase::~PhysicsObject2DBase()
@@ -51,7 +35,6 @@ PhysicsObject2DBase::~PhysicsObject2DBase()
 	// Not in charge of deleting Scene or collision objects, thats the engines job
 	// We do need to unregister though
 
-	delete sweepCollisionSquare;
 }
 
 void PhysicsObject2DBase::SetVeloctiy(Vec2D Velocity)
@@ -88,7 +71,7 @@ void PhysicsObject2DBase::OnCollision(CollisionResponse2D &response)
 			{
 				double cross = response.penetration.cross(gravity);
 				double dot = response.penetration.dot(gravity);
-				if (cross == 0 && dot > 0)
+				if (cross == 0 && dot < 0)
 				{
 					Vec2D velocityGravNorm = (velocity + 10 * gravityNormal) * gravityNormal.getAbs();
 					if (MathLib::signum(gravity.x) == MathLib::signum(velocityGravNorm.x) && MathLib::signum(gravity.y) == MathLib::signum(velocityGravNorm.y))
@@ -124,6 +107,8 @@ void PhysicsObject2DBase::Update(double deltaTime)
 {
 	if (shouldSimulate)
 	{
+		currentDeltaTime = deltaTime;
+
 		if (isOnGround == false)velocity += gravity * deltaTime;
 		else
 			velocity *= (friction*otherFriction);
@@ -137,13 +122,14 @@ void PhysicsObject2DBase::Update(double deltaTime)
 			{
 				Vec2D actual = GetScenePos() + (velocity * deltaTime * response.timeHit);
 				sceneObject2D->SetPosition(actual);
+				//Vec2D sV = velocity;
 				if (response.timeHit < 1.0)
 				{
-					double invTime = (1.0 - response.timeHit);
-					velocity *= invTime;
+					//double invTime = (1.0 - response.timeHit);
+					//velocity *= invTime;
 				}
 				OnCollision(response.CollisionResponse2D);
-
+				//velocity = sV;
 			}
 			else
 				sceneObject2D->SetPosition(target);

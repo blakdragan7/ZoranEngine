@@ -19,6 +19,7 @@ void PhysicsObjectBase::RegisterPhysicsObject()
 
 PhysicsObjectBase::PhysicsObjectBase(SceneObject * object)
 {
+	currentDeltaTime = 0;
 	sceneObject = object;
 	shouldSimulate = false;
 	drag = 0.99;

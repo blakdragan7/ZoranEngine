@@ -222,7 +222,7 @@ void QuadTreeCollisionBucket::CheckAllCollision()
 	{
 		CollisionObject2DBase* object = collisionObjects[i];
 		
-		if (object->isDirty == false)continue;
+		if (object->isDirty == false || object->GetPhysicsObject()->GetIsSweptCollision() || object->GetDynamics() == CD_Static)continue;
 		object->isDirty = false;
 
 		if (i < collisionObjects.size() - 1)
@@ -403,87 +403,8 @@ bool QuadTreeCollisionBucket::SweepCollisionHitTest(CollisionObject2DBase * obje
 		CollisionObject2DBase* other = collisionObjects[i];
 		if (other == object)continue;
 
-		Vec2D otherPos = other->GetScenePos();
-		Vec2D otherSize = other->GetSize();
+		if (object->SweepCollidesWith(other, newPosition, response))return true;
 
-		// determine closest and farthest axis
-
-		if (deltaPos.x > 0)
-		{
-			InvEntry.x = otherPos.x - (origin.x + size.w);
-			InvExit.x = (otherPos.x + otherSize.w) - origin.x;
-		}
-		else
-		{
-			InvEntry.x = (otherPos.x + otherSize.w) - origin.x;
-			InvExit.x = otherPos.x - (origin.x + size.w);
-		}
-		if (deltaPos.y > 0.0f)
-		{
-			InvEntry.y = otherPos.y - (origin.y + size.h);
-			InvExit.y = (otherPos.y + otherSize.h) - origin.y;
-		}
-		else
-		{
-			InvEntry.y = (otherPos.y + otherSize.h) - origin.y;
-			InvExit.y = otherPos.y - (origin.y + size.h);
-		}
-
-		Vec2D entry;
-		Vec2D exit;
-
-		if (deltaPos.x == 0)
-		{
-			entry.x = -std::numeric_limits<double>::infinity();
-			exit.x = -std::numeric_limits<double>::infinity();
-		}
-		else
-		{
-			entry.x = InvEntry.x / deltaPos.x;
-			exit.x = InvExit.x / deltaPos.x;
-		}
-		if (deltaPos.y == 0)
-		{
-			entry.y = -std::numeric_limits<double>::infinity();
-			exit.y = -std::numeric_limits<double>::infinity();
-		}
-		else
-		{
-			entry.y = InvEntry.y / deltaPos.y;
-			exit.y = InvExit.y / deltaPos.y;
-		}
-
-		double entryTime = max(entry.x,entry.y);
-		double exitTime = max(entry.x,entry.y);
-
-		if (entryTime > exitTime || (entry.x < 0.0 && entry.y < 0) || (entry.x > 1.0  && entry.y > 1.0))
-		{
-			continue;
-		}
-
-		Vec2D normal;
-
-		if (entry.x > entry.y)
-		{
-			if (entry.x < 0) normal = Vec2D(-1, 0);
-			else normal = Vec2D(1, 0);
-		}
-		{
-			if (entry.y < 0) normal = Vec2D(0, -1);
-			else normal = Vec2D(0, 1);
-		}
-		
-
-		response.timeHit = entryTime;
-
-		response.CollisionResponse2D.collided = true;
-		response.CollisionResponse2D.collidedObjects[0] = object->GetPhysicsObject();
-		response.CollisionResponse2D.collidedObjects[1] = collisionObjects[i]->GetPhysicsObject();
-		response.CollisionResponse2D.objectBounds[0] = object;
-		response.CollisionResponse2D.objectBounds[1] = collisionObjects[i];
-		response.CollisionResponse2D.normal = normal;
-
-		return true;
 	}
 
 	return false;

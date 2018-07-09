@@ -7,6 +7,7 @@ private:
 	SceneObject* sceneObject;
 
 protected:
+	double currentDeltaTime;
 	double drag;
 	double friction;
 	double otherFriction;
@@ -34,7 +35,10 @@ public:
 
 	void SetDrag(double drag) { this->drag = drag; }
 
+	inline double GetCurrentDeltaTime() { return currentDeltaTime; }
+
 	inline bool GetShouldSimulate() { return shouldSimulate; }
+	inline bool GetIsSweptCollision() { return useSweptCollision; }
 
 	SceneObject* GetSceneObject();
 

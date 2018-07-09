@@ -6,7 +6,6 @@ class SceneObject2D;
 class ZoranEngine_EXPORT PhysicsObject2DBase : public PhysicsObjectBase
 {
 private:
-	class AABBSquareCollisionObject * sweepCollisionSquare;
 	SceneObject2D* sceneObject2D;
 
 	Vector2D velocity;
@@ -28,8 +27,6 @@ public:
 
 	void OnCollision(struct CollisionResponse2D& response);
 	bool SweepToo(Vec2D targetPosition, struct SweepCollisionResponse2D &response);
-
-	inline bool GetShouldSimulate() { return shouldSimulate; }
 
 	Vec2D GetVelocity();
 	Vec2D GetScenePos();

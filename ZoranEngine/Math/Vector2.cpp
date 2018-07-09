@@ -183,7 +183,7 @@ Vector2D Vector2D::getNormal()
 
 double Vector2D::dot(Vector2D other)
 {
-	return (x*other.x) - (y*other.y);
+	return (x*other.x) + (y*other.y);
 }
 
 double Vector2D::cross(Vector2D other)

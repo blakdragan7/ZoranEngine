@@ -30,6 +30,11 @@ private:
 	bool TestAgainstOtherCircle(SatCollision2DObject* other, CollisionResponse2D & response);
 	bool TestAgainstOtherAABBSquare(class AABBSquareCollisionObject* other, CollisionResponse2D & response);
 
+	bool SweepTestAgainstOtherSquare(SatCollision2DObject* other, SweepCollisionResponse2D & response);
+	bool SweepTestAgainstOtherTriagnle(SatCollision2DObject* other, SweepCollisionResponse2D & response);
+	bool SweepTestAgainstOtherCircle(SatCollision2DObject* other, SweepCollisionResponse2D & response);
+	bool SweepTestAgainstOtherAABBSquare(class AABBSquareCollisionObject* other, SweepCollisionResponse2D & response);
+
 public:
 	SatCollision2DObject(SceneObject2D *object);
 	~SatCollision2DObject();
@@ -43,5 +48,8 @@ public:
 	virtual Vector2D GetSize()override;
 	virtual bool CollidesWith(CollisionObject2DBase* other, CollisionResponse2D& response)override;
 	virtual Vector2D GetClosestPointTo(Vector2D pos)override;
+
+	virtual bool SweepCollidesWith(CollisionObject2DBase* other, Vector2D newPosition, SweepCollisionResponse2D & response)override;
+	virtual bool FastSweepCollidesWith(Vector2D newPosition)override;
 };
 

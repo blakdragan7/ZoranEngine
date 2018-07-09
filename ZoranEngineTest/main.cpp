@@ -17,7 +17,7 @@ int main(int argc, char* argv[])
 	std::string name_base = "TestSceneObject-";
 
 	Vec2D CollisionPoint(0,0);
-	for (unsigned i = 0; i < 10; i++)
+	/*for (unsigned i = 0; i < 10; i++)
 	{
 		TestSceneObject* test = new TestSceneObject((name_base + std::to_string(i)));
 		test->SetScale(40, -40);
@@ -26,8 +26,19 @@ int main(int argc, char* argv[])
 		Vec2D pos = test->GetPosition();
 		pos = CollisionPoint - pos;
 		pos.normalize();
+		test->GetPhysics2D()->ApplyForce(pos * 100);
 		zEngine->AddSceneObject(test);
-	}
+	}*/
+
+	TestSceneObject* test = new TestSceneObject("dynamic");
+	test->SetScale(40, -40);
+	test->SetPosition(0,0);
+	test->GetPhysics()->StartPhysicsSim();
+	//test->GetPhysics2D()->SetGravity(Vec2D(0,-980));
+	test->GetPhysics2D()->ApplyForce(Vec2D(100,1200));
+	test->GetPhysics2D()->SetSweptCollision(false);
+	test->SetRotation(1);
+	zEngine->AddSceneObject(test);
 	
 	TestPlatformObject* platform = new TestPlatformObject("Ground");
 	platform->SetScale(500, -50);
@@ -49,5 +60,6 @@ int main(int argc, char* argv[])
 	platform4->SetPosition(500, 0);
 	zEngine->AddSceneObject(platform4);
 
+	engine.SetPaused(true);
 	engine.MainLoop();
 }
