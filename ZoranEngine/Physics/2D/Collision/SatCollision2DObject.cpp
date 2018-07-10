@@ -163,7 +163,7 @@ bool SatCollision2DObject::TestAgainstOtherAABBSquare(AABBSquareCollisionObject 
 	}
 
 	response.collided = true;
-	response.normal = axis[normal_index];
+	response.normal = axis[normal_index] * (isNegative ? -1 : 1);
  	response.penetration = -response.normal * penetration * (isNegative ? -1 : 1);
 	response.objectBounds[0] = this;
 	response.objectBounds[1] = other;
@@ -214,13 +214,13 @@ bool SatCollision2DObject::SweepTestAgainstOtherAABBSquare(AABBSquareCollisionOb
 	};
 
 	int normal_index = -1;
+	double penetration = std::numeric_limits<double>::infinity();
+	bool isNegative = false;
 
 	double minLeaveTime = std::numeric_limits<double>::infinity();
 	double maxEnterTime = -std::numeric_limits<double>::infinity();
 
 	Vec2D rV = GetPhysicsObject()->GetVelocity() - other->GetPhysicsObject()->GetVelocity();
-
-	std::string to_print;
 
 	for (int axes_index = 0; axes_index < 4; axes_index++)
 	{
@@ -261,6 +261,23 @@ bool SatCollision2DObject::SweepTestAgainstOtherAABBSquare(AABBSquareCollisionOb
 		minLeaveTime = min(minLeaveTime, currentLeaveTime);
 		maxEnterTime = max(maxEnterTime, currentEnterTime);
 
+		if (maxEnterTime > minLeaveTime)return false;
+		double overlap = min(maxa + V, maxb) - max(mina + V, minb);
+
+		if (overlap < penetration)
+		{
+			isNegative = false;
+			penetration = overlap;
+			normal_index = axes_index;
+
+			Vec2D dv(mina - minb, maxa - maxb);
+
+			if (dv.dot(axis[axes_index]) < 0)
+			{
+				isNegative = true;
+			}
+		}
+
 	}
 
 	double normalTime = maxEnterTime / GetPhysicsObject()->GetCurrentDeltaTime();
@@ -268,7 +285,7 @@ bool SatCollision2DObject::SweepTestAgainstOtherAABBSquare(AABBSquareCollisionOb
 	if (maxEnterTime < minLeaveTime && normalTime <= 1 && normalTime >= 0)
 	{
 		response.CollisionResponse2D.collided = true;
-		response.CollisionResponse2D.normal = axis[normal_index];
+		response.CollisionResponse2D.normal = axis[normal_index] * (isNegative ? 1 : -1);
 		response.CollisionResponse2D.objectBounds[0] = this;
 		response.CollisionResponse2D.objectBounds[1] = other;
 		response.CollisionResponse2D.collidedObjects[0] = GetPhysicsObject();

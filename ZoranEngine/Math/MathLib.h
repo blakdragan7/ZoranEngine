@@ -24,5 +24,10 @@ public:
 	{
 		return signum(x, std::is_signed<T>());
 	}
+
+	static double lerp(double start, double end, double alpha)
+	{
+		return (start * alpha) + (end * 1.0 - alpha);
+	}
 };
 

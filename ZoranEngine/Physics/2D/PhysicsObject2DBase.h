@@ -26,6 +26,7 @@ public:
 	void SetGravity(Vector2D gravity);
 
 	void OnCollision(struct CollisionResponse2D& response);
+	void OnSweepCollision(struct SweepCollisionResponse2D& response, double deltaTime);
 	bool SweepToo(Vec2D targetPosition, struct SweepCollisionResponse2D &response);
 
 	Vec2D GetVelocity();

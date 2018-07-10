@@ -234,7 +234,8 @@ void QuadTreeCollisionBucket::CheckAllCollision()
 				if (object->CollidesWith(collisionObjects[j],response))
 				{
 					object->GetPhysicsObject()->OnCollision(response);
-					collisionObjects[j]->GetPhysicsObject()->OnCollision(response.Reflection());
+					if(collisionObjects[j]->GetDynamics() == CD_Dynamic)
+						collisionObjects[j]->GetPhysicsObject()->OnCollision(response.Reflection());
 				}
 			}
 		}
@@ -479,11 +480,13 @@ void QuadTreeCollisionBucket::PrintAllCollisions()
 	{
 		CollisionObject2DBase* object = collisionObjects[i];
 
+		if (object->GetDynamics() != CD_Dynamic)continue;
+
 		if (i < collisionObjects.size() - 1)
 		{
 			for (unsigned j = i + 1; j < collisionObjects.size(); j++)
 			{
-				Log(LogLevel_None, "\tCheck Collision %s => %s\n", object->GetSceneObject()->readableName.c_str(), collisionObjects[i]->GetSceneObject()->readableName.c_str());
+				Log(LogLevel_None, "\tCheck Collision %s => %s\n", object->GetSceneObject()->readableName.c_str(), collisionObjects[j]->GetSceneObject()->readableName.c_str());
 
 				if (object->CollidesWith(collisionObjects[j], CollisionResponse2D()))
 				{

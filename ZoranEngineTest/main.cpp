@@ -35,8 +35,8 @@ int main(int argc, char* argv[])
 	test->SetPosition(0,0);
 	test->GetPhysics()->StartPhysicsSim();
 	//test->GetPhysics2D()->SetGravity(Vec2D(0,-980));
-	test->GetPhysics2D()->ApplyForce(Vec2D(100,1200));
-	test->GetPhysics2D()->SetSweptCollision(false);
+	test->GetPhysics2D()->ApplyForce(Vec2D(10000,8000));
+	test->GetPhysics2D()->SetSweptCollision(true);
 	test->SetRotation(1);
 	zEngine->AddSceneObject(test);
 	

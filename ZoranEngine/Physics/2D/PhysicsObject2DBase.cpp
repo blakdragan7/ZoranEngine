@@ -51,19 +51,19 @@ void PhysicsObject2DBase::SetGravity(Vector2D gravity)
 
 void PhysicsObject2DBase::OnCollision(CollisionResponse2D &response)
 {
-	if (shouldSimulate)
+	if (response.collided)
 	{
-		if (response.collided)
+		CollisionObject2DBase* collision = response.objectBounds[0];
+		CollisionObject2DBase* collision2 = response.objectBounds[1];
+
+		PhysicsObject2DBase* other = response.collidedObjects[1];
+
+		sceneObject2D->Translate(response.penetration);
+
+		if (shouldSimulate)
 		{
-			CollisionObject2DBase* collision = response.objectBounds[0];
-			CollisionObject2DBase* collision2 = response.objectBounds[1];
-
-			PhysicsObject2DBase* other = response.collidedObjects[1];
-
-			sceneObject2D->Translate(response.penetration);
-
 			Vec2D Vel = velocity - other->velocity;
-			Vector2D F = (response.normal * ((1.0 + restitution) * Vel)) / (mass + other->mass);
+			Vector2D F = (-response.normal.getAbs() * ((1.0 + restitution) * Vel)) / (mass + other->mass);
 			velocity += F *other->mass;
 			velocity *= (other->friction * friction);
 			// very complicated and realistic isOnGround code. need to probably optmize this somehow later
@@ -83,6 +83,57 @@ void PhysicsObject2DBase::OnCollision(CollisionResponse2D &response)
 				}
 			}
 		}
+	}
+}
+
+void PhysicsObject2DBase::OnSweepCollision(SweepCollisionResponse2D & response,double deltaTime)
+{
+	if (shouldSimulate)
+	{
+		CollisionObject2DBase* collision = response.CollisionResponse2D.objectBounds[0];
+		CollisionObject2DBase* collision2 = response.CollisionResponse2D.objectBounds[1];
+
+		PhysicsObject2DBase* other = response.CollisionResponse2D.collidedObjects[1];
+
+		Vec2D actual = GetScenePos() + (velocity * deltaTime * response.timeHit);
+		sceneObject2D->SetPosition(actual);
+
+		Vec2D Vel = (velocity - other->velocity);
+		Vector2D F = (-response.CollisionResponse2D.normal.getAbs() * ((1.0 + restitution) * Vel));// / (mass + other->mass);
+
+		velocity += (F);// *other->mass);
+		velocity *= (other->friction * friction);
+
+		Vec2D targetPos = GetScenePos() + (velocity * deltaTime * (1.0 - response.timeHit));
+
+		SweepCollisionResponse2D inner_response;
+
+		if (SweepToo(targetPos, inner_response))
+		{
+			OnSweepCollision(inner_response, deltaTime * (1.0 - response.timeHit));
+		}
+		else
+		{
+			sceneObject2D->SetPosition(targetPos);
+		}
+
+		// very complicated and realistic isOnGround code. need to probably optmize this somehow later
+		if (isOnGround == false && collision2->GetDynamics() == CD_Static)
+		{
+			double cross = response.CollisionResponse2D.normal.cross(gravity);
+			double dot = response.CollisionResponse2D.normal.dot(gravity);
+			if (cross == 0 && dot < 0)
+			{
+				Vec2D velocityGravNorm = (velocity + 10 * gravityNormal) * gravityNormal.getAbs();
+				if (MathLib::signum(gravity.x) == MathLib::signum(velocityGravNorm.x) && MathLib::signum(gravity.y) == MathLib::signum(velocityGravNorm.y))
+				{
+					isOnGround = true;
+					velocity += (velocity* gravityNormal);
+					otherFriction = other->friction;
+				}
+			}
+		}
+		
 	}
 }
 
@@ -119,18 +170,7 @@ void PhysicsObject2DBase::Update(double deltaTime)
 			Vec2D target = sceneObject2D->GetPosition() + (velocity*deltaTime);
 			SweepCollisionResponse2D response;
 			if (SweepToo(target, response))
-			{
-				Vec2D actual = GetScenePos() + (velocity * deltaTime * response.timeHit);
-				sceneObject2D->SetPosition(actual);
-				//Vec2D sV = velocity;
-				if (response.timeHit < 1.0)
-				{
-					//double invTime = (1.0 - response.timeHit);
-					//velocity *= invTime;
-				}
-				OnCollision(response.CollisionResponse2D);
-				//velocity = sV;
-			}
+				OnSweepCollision(response,deltaTime);
 			else
 				sceneObject2D->SetPosition(target);
 		}
