@@ -16,6 +16,7 @@ Collision2D::Collision2D()
 	velocitySnapshot[1] = 0;
 	friction = 0;
 	ID = sID++;
+	frame = 0;
 }
 
 Collision2D Collision2D::Reflection()

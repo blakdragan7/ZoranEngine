@@ -30,7 +30,7 @@ struct CollisionFrame2D
 	{
 		auto itr = collisions.begin();
 		while (itr != collisions.end()) {
-			if ((*itr).second.wasUpdated == false) {
+			if ((*itr).second.wasUpdated == false && (*itr).second.frame > 1) {
 				itr = collisions.erase(itr);
 			}
 			else {

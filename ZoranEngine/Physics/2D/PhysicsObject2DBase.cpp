@@ -228,7 +228,7 @@ void PhysicsObject2DBase::UpdatePositionsAndRotation(float deltaTime)
 
 void PhysicsObject2DBase::ApplyImpulseToVelocity(Vector2D impulse)
 {
-	velocity += invMass * impulse;
+	velocity += /*invMass */ impulse;
 }
 
 void PhysicsObject2DBase::ApplyImpulseToAngularVelocity(float impulse)

@@ -83,6 +83,7 @@ public:
 
 	bool collided;
 	bool wasUpdated;
+	int frame;
 	Vector2D velocitySnapshot[2];
 	Matrix22 rotationSnapshots[2];
 

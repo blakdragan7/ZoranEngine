@@ -39,6 +39,7 @@ void PhysicsEngine::ResolveAllStaticCollisions(float dt)
 	{
 		Collision2D& collision = collisionIter.second;
 		collision.PreUpdate(inv_dt);
+		collision.frame++;
 
 		for (int i = 0; i < 10; ++i)
 		{
