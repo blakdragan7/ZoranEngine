@@ -1,5 +1,8 @@
 #pragma once
 class Vector2D;
+class Matrix22;
+struct ClipedVertex;
+
 class MathLib
 {
 public:
@@ -31,7 +34,8 @@ public:
 		return (start * alpha) + (end * 1.0 - alpha);
 	}
 
-	static int ClipRangeToLine(Vector2D outPoints[2], Vector2D inPoints[2],const Vector2D& lineNormal, float offset, char clipEdge);
+	static int ClipRangeToLine(ClipedVertex outPoints[2], ClipedVertex inPoints[2], const Vector2D& lineNormal, float offset, char clipEdge);
+	static void ComputeIncidentEdge(ClipedVertex c[2], const Vector2D& h, const Vector2D& pos,const Matrix22& Rot, const Vector2D& normal);
 	static float Clamp(float value, float minv, float max);
 };
 

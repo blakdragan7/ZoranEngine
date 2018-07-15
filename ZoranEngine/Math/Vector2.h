@@ -18,6 +18,9 @@ public:
 
 	~Vector2D(void);
 
+	void Set(float x, float y);
+	void Set(const Vector2D& other);
+
 	Vector2D operator -()const;
 	Vector2D operator -(const Vector2D& other)const;
 	Vector2D operator +(const Vector2D& other)const;
@@ -57,6 +60,8 @@ public:
 	Vector2D crossRight(float scalor)const;
 	Vector2D crossLeft(float scalor)const;
 };
+
+inline extern Vector2D operator*(float d,const Vector2D& v);
 
 class ZoranEngine_EXPORT Vector2L
 {

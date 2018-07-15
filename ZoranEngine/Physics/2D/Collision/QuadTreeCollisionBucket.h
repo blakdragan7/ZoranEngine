@@ -36,8 +36,8 @@ public:
 	virtual void UpdateAllObjects()override;
 	virtual void CheckAllCollision(struct CollisionFrame2D& frame)override;
 	virtual bool ObjectIsWithinBucket(CollisionObject2DBase* object)override;
-	virtual bool CheckCollisionForObject(CollisionObject2DBase* object, struct CollisionResponse2D& response)override;
-	virtual bool CheckObjectAgainstStaic(CollisionObject2DBase* object, struct CollisionResponse2D& response)override;
-	virtual bool SweepCollision(CollisionObject2DBase* object, Vec2D newPosition, struct SweepCollisionResponse2D& response)override;
-	virtual bool SweepCollisionHitTest(CollisionObject2DBase* object, Vec2D newPosition,struct SweepCollisionResponse2D& response)override;
+	virtual bool CheckCollisionForObject(CollisionObject2DBase* object, struct Collision2D& response)override;
+	virtual bool CheckObjectAgainstStaic(CollisionObject2DBase* object, struct Collision2D& response)override;
+	virtual bool SweepCollision(CollisionObject2DBase* object, Vec2D newPosition, struct SweepCollision2D& response)override;
+	virtual bool SweepCollisionHitTest(CollisionObject2DBase* object, Vec2D newPosition,struct SweepCollision2D& response)override;
 };

@@ -68,7 +68,8 @@ int ZoranEngine::MainLoop()
 
 	while (WM_QUIT != msg.message && shouldRun)
 	{
-		float deltaTime = clock.GetDiffSeconds();
+		//float deltaTime = clock.GetDiffSeconds();
+		float deltaTime = 1.0 / 60.0;
 		clock.TakeClock();
 
 		while (PeekMessageW(&msg, NULL, 0, 0, PM_REMOVE))
@@ -84,7 +85,7 @@ int ZoranEngine::MainLoop()
 			if (step)
 			{
 				step = false;
-				deltaTime = 0.033;
+				//deltaTime = 0.033;
 			}
 			statisticsClock.TakeClock();
 			if (physicsEngine)physicsEngine->UpdateAll(deltaTime);

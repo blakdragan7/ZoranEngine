@@ -53,6 +53,7 @@
     <ClCompile Include="OpenGL\StandardShader2D.cpp" />
     <ClCompile Include="Physics\2D\Collision\CollisionBucket2DBase.cpp" />
     <ClCompile Include="Physics\2D\Collision\CollisionObject2DBase.cpp" />
+    <ClCompile Include="Physics\2D\Collision\Collision2D.cpp" />
     <ClCompile Include="Physics\2D\Collision\QuadTreeCollision.cpp" />
     <ClCompile Include="Physics\2D\Collision\QuadTreeCollisionBucket.cpp" />
     <ClCompile Include="Physics\2D\Collision\AABBSquareCollisionObject.cpp" />
@@ -123,6 +124,7 @@
     <ClInclude Include="Physics\2D\Collision\CollisionBucket2DBase.h" />
     <ClInclude Include="Physics\2D\Collision\CollisionFrame2D.h" />
     <ClInclude Include="Physics\2D\Collision\CollisionObject2DBase.h" />
+    <ClInclude Include="Physics\2D\Collision\Collision2D.h" />
     <ClInclude Include="Physics\2D\Collision\QuadTreeCollision.h" />
     <ClInclude Include="Physics\2D\Collision\QuadTreeCollisionBucket.h" />
     <ClInclude Include="Physics\2D\Collision\AABBSquareCollisionObject.h" />

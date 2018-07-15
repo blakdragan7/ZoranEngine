@@ -25,5 +25,5 @@ public:
 	virtual void SetRenderDataFormat(RenderDataFormat newFormat)override;
 
 	virtual void UseTexture(void* data);
-	virtual void StopUsingTexture(void* data);
+	virtual void StopUsinfgTexture(void* data);
 };

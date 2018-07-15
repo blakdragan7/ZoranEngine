@@ -4,7 +4,7 @@
 /*
 * ShaderProgramBase must be sub classed To implement specific shaders.
 * There is not really shared logic in the baseclass, it's only a base class to 
-* allow easy abstract passing between the scene object and the render engine
+* allow easy abstract passinfg between the scene object and the render engine
 */
 class SceneObject;
 class RenderEngineBase;

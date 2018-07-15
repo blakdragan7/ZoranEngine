@@ -116,8 +116,8 @@ public:
 			float matVal[] =
 			{
 				1.0,0.0,0.0,0.0,
-				0.0,cos(newAngle),-sin(newAngle),0.0,
-				0.0,sin(newAngle),cos(newAngle),0.0,
+				0.0,cosf(newAngle),-sinf(newAngle),0.0,
+				0.0,sinf(newAngle),cosf(newAngle),0.0,
 				0.0,0.0,0.0,1.0
 			};
 			MatrixF rotX = Matrix<float>::MatrixFromArray(4, 4, matVal);
@@ -128,9 +128,9 @@ public:
 			float newAngle = angle * vectors.y;
 			float matVal[] =
 			{
-				cos(newAngle),0.0,sin(newAngle),0.0,
+				cosf(newAngle),0.0,sinf(newAngle),0.0,
 				0.0,1.0,0.0,0.0,
-				-sin(newAngle),0.0,cos(newAngle),0.0,
+				-sinf(newAngle),0.0,cosf(newAngle),0.0,
 				0.0,0.0,0.0,1.0
 			};
 			MatrixF rotY = Matrix<float>::MatrixFromArray(4, 4, matVal);
@@ -141,8 +141,8 @@ public:
 			float newAngle = angle * vectors.z;
 			float matVal[] =
 			{
-				cos(newAngle),-sin(newAngle),0.0,0.0,
-				sin(newAngle),cos(newAngle),0.0,0.0,
+				cosf(newAngle),-sinf(newAngle),0.0,0.0,
+				sinf(newAngle),cosf(newAngle),0.0,0.0,
 				0.0,0.0,1.0,0.0,
 				0.0,0.0,0.0,1.0
 			};
@@ -157,8 +157,8 @@ public:
 
 		float matVal[] =
 		{
-			cos(angle),-sin(angle),
-			sin(angle),cos(angle)
+			cosf(angle),-sinf(angle),
+			sinf(angle),cosf(angle)
 		};
 		MatrixF rotX = Matrix<float>::MatrixFromArray(2, 2, matVal);
 		mat *= rotX;

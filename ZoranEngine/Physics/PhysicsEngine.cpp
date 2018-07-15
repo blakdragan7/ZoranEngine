@@ -31,53 +31,45 @@ void PhysicsEngine::CheckAllCollision()
 	if (collisionTree3D)collisionTree3D->CheckAllCollision(collisionFrame2D);
 }
 
-void PhysicsEngine::ResolveAllStaticCollisions()
+void PhysicsEngine::ResolveAllStaticCollisions(float dt)
 {
-	if (collisionFrame2D.collisions.size() == 0)return;
+	float inv_dt = 1.0f / dt;
 
-	CollisionResponse2D biggestResponse;
-	biggestResponse.collisionPoints[0].penetrationDepth = 0;
-
-	for (auto object : collisionFrame2D.collisions)
+	for (auto collisionIter : collisionFrame2D.collisions)
 	{
-		if (object.collisionPoints[0].penetrationDepth > biggestResponse.collisionPoints[0].penetrationDepth)
-			biggestResponse = object;
+		Collision2D& collision = collisionIter.second;
+		collision.PreUpdate(inv_dt);
+
+		for (int i = 0; i < 10; ++i)
+		{
+			collision.UpdateForces();
+		}
+
+		if (collision.objectBounds[0]->GetDynamics() != CD_Static)
+			collision.collidedObjects[0]->OnCollision(collision);
+		if (collision.objectBounds[1]->GetDynamics() != CD_Static)
+			collision.collidedObjects[1]->OnCollision(collision.Reflection());
 	}
-
-	remove<CollisionResponse2D>(collisionFrame2D.collisions, biggestResponse);
-
-	if (biggestResponse.collisionPoints[0].penetrationDepth < 0.1)
-	{
-		collisionFrame2D.collisions.clear();
-		return;
-	}
-
-	if (biggestResponse.objectBounds[0]->GetDynamics() != CD_Static)
-		biggestResponse.collidedObjects[0]->OnCollision(biggestResponse);
-	if (biggestResponse.objectBounds[1]->GetDynamics() != CD_Static)
-		biggestResponse.collidedObjects[1]->OnCollision(biggestResponse.Reflection());
-
-	ResolveAllStaticCollisions();
 }
 
-void PhysicsEngine::ResolveAllSweptCollisions()
+void PhysicsEngine::ResolveAllSweptCollisions(float dt)
 {
 	if (collisionFrame2D.sweptCollisions.size() == 0)return;
 
-	SweepCollisionResponse2D currentResponse = collisionFrame2D.sweptCollisions.front();
+	SweepCollision2D currentResponse = collisionFrame2D.sweptCollisions.front();
 
-	remove<SweepCollisionResponse2D>(collisionFrame2D.sweptCollisions, currentResponse);
+	remove<SweepCollision2D>(collisionFrame2D.sweptCollisions, currentResponse);
 
-	if (currentResponse.CollisionResponse2D.objectBounds[0]->GetDynamics() != CD_Static)
-		currentResponse.CollisionResponse2D.collidedObjects[0]->OnSweepCollision(currentResponse, currentResponse.CollisionResponse2D.collidedObjects[0]->GetCurrentDeltaTime());
+	if (currentResponse.Collision2D.objectBounds[0]->GetDynamics() != CD_Static)
+		currentResponse.Collision2D.collidedObjects[0]->OnSweepCollision(currentResponse, currentResponse.Collision2D.collidedObjects[0]->GetCurrentDeltaTime());
 
-	ResolveAllSweptCollisions();
+	ResolveAllSweptCollisions(dt);
 }
 
-void PhysicsEngine::ResolveAllCollisions()
+void PhysicsEngine::ResolveAllCollisions(float dt)
 {
-	ResolveAllStaticCollisions();
-	ResolveAllSweptCollisions();
+	ResolveAllStaticCollisions(dt);
+	ResolveAllSweptCollisions(dt);
 }
 
 void PhysicsEngine::SetupFor2D(Vector2D mapCenter, Vector2D mapSize)
@@ -109,10 +101,7 @@ CollisionBucketBase * PhysicsEngine::GetCollisionBucketRoot()
 
 void PhysicsEngine::UpdateAll(float deltaTime)
 {
-	if (is3D == false)
-	{
-		collisionFrame2D.Clear();
-	}
+	collisionFrame2D.RemoveDullCollisions();
 
 	for (auto object : physicsObjects)
 	{
@@ -130,7 +119,7 @@ void PhysicsEngine::UpdateAll(float deltaTime)
 	}
 
 	CheckAllCollision();
-	ResolveAllCollisions();
+	ResolveAllCollisions(deltaTime);
 }
 
 void PhysicsEngine::AddPhysicsObject(PhysicsObjectBase * object)

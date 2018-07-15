@@ -79,7 +79,7 @@ void OpenGLTexture::UseTexture(void * data)
 	BindTexture((unsigned)data);
 }
 
-void OpenGLTexture::StopUsingTexture(void * data)
+void OpenGLTexture::StopUsinfgTexture(void * data)
 {
 	UnbindTexture((unsigned)data);
 }

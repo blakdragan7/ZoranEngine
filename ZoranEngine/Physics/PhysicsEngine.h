@@ -29,9 +29,9 @@ public:
 	~PhysicsEngine();
 
 	void CheckAllCollision();
-	void ResolveAllStaticCollisions();
-	void ResolveAllSweptCollisions();
-	void ResolveAllCollisions();
+	void ResolveAllStaticCollisions(float dt);
+	void ResolveAllSweptCollisions(float dt);
+	void ResolveAllCollisions(float dt);
 	void SetupFor2D(Vector2D mapCenter, Vector2D mapSize);
 	void SetupFor3D();
 

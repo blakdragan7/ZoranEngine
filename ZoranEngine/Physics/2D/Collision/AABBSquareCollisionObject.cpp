@@ -38,7 +38,7 @@ void AABBSquareCollisionObject::SetBoundsBySceneObject()
 	maxPos = pos + (size / 2);
 }
 
-bool AABBSquareCollisionObject::CollidesWith(CollisionObject2DBase* other, CollisionResponse2D& response)
+bool AABBSquareCollisionObject::CollidesWith(CollisionObject2DBase* other, Collision2D& response)
 {
 	Vec2D otherMin;
 	Vec2D otherMax;
@@ -95,13 +95,13 @@ bool AABBSquareCollisionObject::CollidesWith(CollisionObject2DBase* other, Colli
 			FillCollisionPoints(contactPointsA, otherMin, otherMax);
 
 			contactPointsA[0].normal = faces[i];
-			contactPointsA[0].penetrationDepth = distances[i];
-			contactPointsA[0].penetration = -contactPointsA[0].normal * distances[i];
+			/*contactPointsA[0].penetrationDepth = distances[i];
+			contactPointsA[0].penetration = -contactPointsA[0].normal * distances[i];*/
 
 			
 			contactPointsA[1].normal = contactPointsA[0].normal;
-			contactPointsA[1].penetrationDepth = contactPointsA[0].penetrationDepth;
-			contactPointsA[1].penetration = contactPointsA[0].penetration;
+			/*contactPointsA[1].penetrationDepth = contactPointsA[0].penetrationDepth;
+			contactPointsA[1].penetration = contactPointsA[0].penetration;*/
 		}
 	}
 
@@ -134,7 +134,7 @@ Vector2D AABBSquareCollisionObject::GetClosestPointTo(Vector2D pos)
 	return point;
 }
 
-bool AABBSquareCollisionObject::SweepCollidesWith(CollisionObject2DBase * other, Vector2D newPosition, SweepCollisionResponse2D & response)
+bool AABBSquareCollisionObject::SweepCollidesWith(CollisionObject2DBase * other, Vector2D newPosition, SweepCollision2D & response)
 {
 	Vec2D origin = GetScenePos();
 	Vec2D deltaPos = newPosition - origin;
@@ -225,19 +225,19 @@ bool AABBSquareCollisionObject::SweepCollidesWith(CollisionObject2DBase * other,
 
 	response.timeHit = entryTime;
 
-	response.CollisionResponse2D.collided = true;
-	response.CollisionResponse2D.collidedObjects[0] = GetPhysicsObject();
-	response.CollisionResponse2D.collidedObjects[1] = other->GetPhysicsObject();
-	response.CollisionResponse2D.objectBounds[0] = this;
-	response.CollisionResponse2D.objectBounds[1] = other;
+	response.Collision2D.collided = true;
+	response.Collision2D.collidedObjects[0] = GetPhysicsObject();
+	response.Collision2D.collidedObjects[1] = other->GetPhysicsObject();
+	response.Collision2D.objectBounds[0] = this;
+	response.Collision2D.objectBounds[1] = other;
 
-	response.CollisionResponse2D.collisionPoints.push_back(points[0]);
-	response.CollisionResponse2D.collisionPoints.push_back(points[1]);
+	response.Collision2D.collisionPoints.push_back(points[0]);
+	response.Collision2D.collisionPoints.push_back(points[1]);
 	
 	if (GetPhysicsObject())
-		response.CollisionResponse2D.velocitySnapshot[0] = GetPhysicsObject()->GetVelocity();
+		response.Collision2D.velocitySnapshot[0] = GetPhysicsObject()->GetVelocity();
 	if (other->GetPhysicsObject())
-		response.CollisionResponse2D.velocitySnapshot[1] = other->GetPhysicsObject()->GetVelocity();
+		response.Collision2D.velocitySnapshot[1] = other->GetPhysicsObject()->GetVelocity();
 
 	return true;
 
@@ -260,7 +260,7 @@ bool AABBSquareCollisionObject::FastSweepCollidesWith(Vector2D newPosition)
 	sweepCollisionSquare->minPos.y = minPositiony - size.y;
 	sweepCollisionSquare->maxPos.y = maxPositiony + size.y;
 
-	CollisionResponse2D unused;
+	Collision2D unused;
 	return pEngine->GetCollisionBucketRootFor2D()->CheckObjectAgainstStaic(sweepCollisionSquare, unused);
 }
 

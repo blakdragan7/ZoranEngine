@@ -38,7 +38,7 @@ bool QuadTreeCollision::CollidesWith(Vector3D pos)
 		(pos.y >= minPos.y && pos.y <= maxPos.y);
 }
 
-bool QuadTreeCollision::CollidesWith(CollisionObject2DBase * other, CollisionResponse2D& response)
+bool QuadTreeCollision::CollidesWith(CollisionObject2DBase * other, Collision2D& response)
 {
 
 	response.collided = false;

@@ -40,6 +40,8 @@ public:
 	virtual void SetFriction(float friction);
 	virtual void SetRestitution(float restitution);
 
+	float GetFriction() { return friction; }
+
 	void SetSweptCollision(bool newSwept);
 
 	void SetDrag(float drag) { this->drag = drag; }
@@ -53,4 +55,6 @@ public:
 
 	virtual void UpdateVelocities(float deltaTime) = 0;
 	virtual void UpdatePositionsAndRotation(float deltaTime) = 0;
+
+	friend struct Collision2D;
 };

@@ -8,6 +8,18 @@ Vector2D::Vector2D(float x_, float y_) :x(x_), y(y_) { }
 
 Vector2D::~Vector2D(void) {}
 
+void Vector2D::Set(float x, float y)
+{
+	this->x = x;
+	this->y = y;
+}
+
+void Vector2D::Set(const Vector2D & other)
+{
+	x = other.x;
+	y = other.y;
+}
+
 Vector2D Vector2D::operator-()const
 {
 	return Vector2D(-x, -y);
@@ -193,8 +205,8 @@ void Vector2D::rotate(Vector2D origin, float angle /*radians*/)
 {
 	Vector2D p(*this);
 
-	float s = sin(angle);
-	float c = cos(angle);
+	float s = sinf(angle);
+	float c = cosf(angle);
 
 	// translate point back to origin:
 	p.x -= origin.x;
@@ -242,6 +254,11 @@ void Vector2D::normalize()
 {
 	float mag = magnitude();
 	*this /= mag;
+}
+
+inline Vector2D operator*(float d, const Vector2D& v)
+{
+	return v * d;
 }
 
 Vector2L::Vector2L(void) : x(0), y(0) { }
@@ -415,8 +432,8 @@ void Vector2L::rotate(Vector2L origin, float angle /*radians*/)
 {
 	Vector2L p(*this);
 
-	float s = sin(angle);
-	float c = cos(angle);
+	float s = sinf(angle);
+	float c = cosf(angle);
 
 	// translate point back to origin:
 	p.x -= origin.x;

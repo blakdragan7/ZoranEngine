@@ -25,18 +25,15 @@ private:
 	float derivedRadius;
 
 private:
-	bool TestAgainstOtherSquare(SatCollision2DObject* other, CollisionResponse2D & response);
-	bool TestAgainstOtherTriagnle(SatCollision2DObject* other, CollisionResponse2D & response);
-	bool TestAgainstOtherCircle(SatCollision2DObject* other, CollisionResponse2D & response);
-	bool TestAgainstOtherAABBSquare(class AABBSquareCollisionObject* other, CollisionResponse2D & response);
+	bool SquareAgainstOtherSquare(SatCollision2DObject* other, Collision2D & response);
+	bool SquareAgainstOtherTriagnle(SatCollision2DObject* other, Collision2D & response);
+	bool SquareAgainstOtherCircle(SatCollision2DObject* other, Collision2D & response);
+	bool SquareAgainstOtherAABBSquare(class AABBSquareCollisionObject* other, Collision2D & response);
 
-	bool SweepTestAgainstOtherSquare(SatCollision2DObject* other, SweepCollisionResponse2D & response);
-	bool SweepTestAgainstOtherTriagnle(SatCollision2DObject* other, SweepCollisionResponse2D & response);
-	bool SweepTestAgainstOtherCircle(SatCollision2DObject* other, SweepCollisionResponse2D & response);
-	bool SweepTestAgainstOtherAABBSquare(class AABBSquareCollisionObject* other, SweepCollisionResponse2D & response);
-
-protected:
-	bool SweepTestWithAxes(Vec2D axes[], int numAxes, Vec2D otherPoints[], int numPoints, Vec2D velocityDelta, CollisionObject2DBase* other, SweepCollisionResponse2D & response);
+	bool SweepSquareAgainstOtherSquare(SatCollision2DObject* other, SweepCollision2D & response);
+	bool SweepSquareAgainstOtherTriagnle(SatCollision2DObject* other, SweepCollision2D & response);
+	bool SweepSquareAgainstOtherCircle(SatCollision2DObject* other, SweepCollision2D & response);
+	bool SweepSquareAgainstOtherAABBSquare(class AABBSquareCollisionObject* other, SweepCollision2D & response);
 
 public:
 	SatCollision2DObject(SceneObject2D *object);
@@ -49,10 +46,10 @@ public:
 	void SetBoundsBySceneObject()override;
 
 	virtual Vector2D GetSize()override;
-	virtual bool CollidesWith(CollisionObject2DBase* other, CollisionResponse2D& response)override;
+	virtual bool CollidesWith(CollisionObject2DBase* other, Collision2D& response)override;
 	virtual Vector2D GetClosestPointTo(Vector2D pos)override;
 
-	virtual bool SweepCollidesWith(CollisionObject2DBase* other, Vector2D newPosition, SweepCollisionResponse2D & response)override;
+	virtual bool SweepCollidesWith(CollisionObject2DBase* other, Vector2D newPosition, SweepCollision2D & response)override;
 	virtual bool FastSweepCollidesWith(Vector2D newPosition)override;
 };
 

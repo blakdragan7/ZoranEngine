@@ -12,343 +12,243 @@
 #define BOTTOM_RIGHT 2
 #define TOP_RIGHT 3
 
-bool SatCollision2DObject::TestAgainstOtherSquare(SatCollision2DObject * other, CollisionResponse2D & response)
+bool SatCollision2DObject::SquareAgainstOtherSquare(SatCollision2DObject * other, Collision2D & response)
 {
-	float cosa = cos(-GetSceneObject()->GetRotationRad());
-	float sina = sin(-GetSceneObject()->GetRotationRad());
+	// Setup
 
-	float cosb = cos(-other->GetSceneObject()->GetRotationRad());
-	float sinb = sin(-other->GetSceneObject()->GetRotationRad());
+	SceneObject2D* objectA = GetSceneObject();
+	SceneObject2D* objectB = other->GetSceneObject();
 
-	Vec2D axis[4] = {
-		Vec2D(-cosa,sina).getNormal(),
-		Vec2D(-sina,-cosa).getNormal(),
-		Vec2D(-cosb,sinb).getNormal(),
-		Vec2D(-sinb,-cosb).getNormal(),
-	};
+	Vector2D hA = 0.5f * objectA->GetSize();
+	Vector2D hB = 0.5f * objectB->GetSize();
 
-	int normal_index = -1;
-	float penetration = std::numeric_limits<float>::infinity();
-	bool isNegative = false;
+	Vector2D posA = objectA->GetPosition();
+	Vector2D posB = objectB->GetPosition();
 
-	for (int axes_index = 0; axes_index < 4; axes_index++)
+	Matrix22 RotA(objectA->GetRotation()), RotB(objectB->GetRotation());
+
+	Matrix22 RotAT = RotA.GetTranspose();
+	Matrix22 RotBT = RotB.GetTranspose();
+
+	Vector2D a1 = RotA.cols[0], a2 = RotA.cols[1];
+	Vector2D b1 = RotB.cols[0], b2 = RotB.cols[1];
+
+	Vector2D dp = posB - posA;
+	Vector2D dA = RotAT * dp;
+	Vector2D dB = RotBT * dp;
+
+	Matrix22 C = RotAT * RotB;
+	Matrix22 absC = C.GetAbs();
+	Matrix22 absCT = absC.GetTranspose();
+
+	// Box A faces
+	Vector2D faceA = dA.getAbs() - hA - absC * hB;
+	if (faceA.x > 0.0f || faceA.y > 0.0f)
+		return false;
+
+	// Box B faces
+	Vector2D faceB = dB.getAbs() - absCT * hA - hB;
+	if (faceB.x > 0.0f || faceB.y > 0.0f)
+		return false;
+
+	// Find best axis
+	Axis axis;
+	float separation;
+	Vector2D normal;
+
+	// Box A faces
+	axis = FACE_A_X;
+	separation = faceA.x;
+	normal = dA.x > 0.0f ? RotA.cols[0] : -RotA.cols[0];
+
+	const float relativeTol = 0.95f;
+	const float absoluteTol = 0.01f;
+
+	if (faceA.y > relativeTol * separation + absoluteTol * hA.y)
 	{
-		float mina = std::numeric_limits<float>::infinity();
-		float maxa = -std::numeric_limits<float>::infinity();
-
-		float minb = std::numeric_limits<float>::infinity();
-		float maxb = -std::numeric_limits<float>::infinity();
-
-		for (int point_index = 0; point_index < 4; point_index++)
-		{
-			float currenta = derivedPoints[point_index].dot(axis[axes_index]);
-			float currentb = other->derivedPoints[point_index].dot(axis[axes_index]);
-
-			mina = min(currenta, mina);
-			maxa = max(currenta, maxa);
-
-			minb = min(currentb, minb);
-			maxb = max(currentb, maxb);
-		}
-
-		if (maxa < minb || maxb < mina) return false;
-
-		float overlap = min(maxa, maxb) - max(mina, minb);
-
-		if (overlap < penetration)
-		{
-			isNegative = false;
-
-			penetration = overlap;
-			normal_index = axes_index;
-
-			Vec2D dv(mina - minb, maxa - maxb);
-
-			if (dv.dot(axis[axes_index]) < 0)
-			{
-				isNegative = true;
-			}
-		}
+		axis = FACE_A_Y;
+		separation = faceA.y;
+		normal = dA.y > 0.0f ? RotA.cols[1] : -RotA.cols[1];
 	}
 
-	response.collided = true;
-	response.normal = axis[normal_index];
-	response.penetration = -response.normal * penetration * (isNegative ? -1 : 1);
-	response.penetrationDepth = abs(penetration);
-	response.objectBounds[0] = this;
-	response.objectBounds[1] = other;
-	response.collidedObjects[0] = GetPhysicsObject();
-	response.collidedObjects[1] = other->GetPhysicsObject();
-	if (GetPhysicsObject())
-		response.velocitySnapshot[0] = GetPhysicsObject()->GetVelocity();
-	if (other->GetPhysicsObject())
-		response.velocitySnapshot[1] = other->GetPhysicsObject()->GetVelocity();
+	// Box B faces
+	if (faceB.x > relativeTol * separation + absoluteTol * hB.x)
+	{
+		axis = FACE_B_X;
+		separation = faceB.x;
+		normal = dB.x > 0.0f ? RotB.cols[0] : -RotB.cols[0];
+	}
 
-	return true;
+	if (faceB.y > relativeTol * separation + absoluteTol * hB.y)
+	{
+		axis = FACE_B_Y;
+		separation = faceB.y;
+		normal = dB.y > 0.0f ? RotB.cols[1] : -RotB.cols[1];
+	}
+
+	// Setup clipping plane data based on the separating axis
+	Vector2D frontNormal, sideNormal;
+	ClipedVertex incidentEdge[2];
+	float front, negSide, posSide;
+	char negEdge, posEdge;
+
+	// Compute the clipping lines and the line segment to be clipped.
+	switch (axis)
+	{
+	case FACE_A_X:
+	{
+		frontNormal = normal;
+		front = posA.dot(frontNormal) + hA.x;
+		sideNormal = RotA.cols[1];
+		float side = posA.dot(sideNormal);
+		negSide = -side + hA.y;
+		posSide = side + hA.y;
+		negEdge = EDGE3;
+		posEdge = EDGE1;
+		MathLib::ComputeIncidentEdge(incidentEdge, hB, posB, RotB, frontNormal);
+	}
+	break;
+
+	case FACE_A_Y:
+	{
+		frontNormal = normal;
+		front = posA.dot(frontNormal) + hA.y;
+		sideNormal = RotA.cols[0];
+		float side = posA.dot(sideNormal);
+		negSide = -side + hA.x;
+		posSide = side + hA.x;
+		negEdge = EDGE2;
+		posEdge = EDGE4;
+		MathLib::ComputeIncidentEdge(incidentEdge, hB, posB, RotB, frontNormal);
+	}
+	break;
+
+	case FACE_B_X:
+	{
+		frontNormal = -normal;
+		front = posB.dot(frontNormal) + hB.x;
+		sideNormal = RotB.cols[1];
+		float side = posB.dot(sideNormal);
+		negSide = -side + hB.y;
+		posSide = side + hB.y;
+		negEdge = EDGE3;
+		posEdge = EDGE1;
+		MathLib::ComputeIncidentEdge(incidentEdge, hA, posA, RotA, frontNormal);
+	}
+	break;
+
+	case FACE_B_Y:
+	{
+		frontNormal = -normal;
+		front = posB.dot(frontNormal) + hB.y;
+		sideNormal = RotB.cols[0];
+		float side = posB.dot(sideNormal);
+		negSide = -side + hB.x;
+		posSide = side + hB.x;
+		negEdge = EDGE2;
+		posEdge = EDGE4;
+		MathLib::ComputeIncidentEdge(incidentEdge, hA, posA, RotA, frontNormal);
+	}
+	break;
+	}
+
+	// clip other face with 5 box planes (1 face plane, 4 edge planes)
+
+	ClipedVertex clipPoints1[2];
+	ClipedVertex clipPoints2[2];
+	int np;
+
+	// Clip to box side 1
+	np = MathLib::ClipRangeToLine(clipPoints1, incidentEdge, -sideNormal, negSide, negEdge);
+
+	if (np < 2)
+		return false;
+
+	// Clip to negative box side 1
+	np = MathLib::ClipRangeToLine(clipPoints2, clipPoints1, sideNormal, posSide, posEdge);
+
+	if (np < 2)
+		return false;
+
+	// Now clipPoints2 contains the clipping points.
+	// Due to roundoff, it is possible that clipping removes all points.
+
+	for (int i = 0; i < 2; ++i)
+	{
+		float separation = frontNormal.dot(clipPoints2[i].vertex) - front;
+
+		if (separation <= 0)
+		{
+			CollisionPoint point;
+
+			point.separation = separation;
+			point.normal = normal;
+			// slide contact point onto reference face (easy to cull)
+			point.pos = clipPoints2[i].vertex - separation * frontNormal;
+			point.edges = clipPoints2[i].edge;
+			if (axis == FACE_B_X || axis == FACE_B_Y)
+				point.edges.Flip();
+			response.collisionPoints.push_back(point);
+		}
+	}
+	if (response.collisionPoints.size() > 0)
+	{
+		response.collided = true;
+		response.objects[0] = objectA;
+		response.objects[1] = objectB;
+		response.collidedObjects[0] = this->GetPhysicsObject();
+		response.collidedObjects[1] = other->GetPhysicsObject();
+		response.objectBounds[0] = this;
+		response.objectBounds[1] = other;
+		response.rotationSnapshots[0] = objectA->GetRotationMatrix();
+		response.rotationSnapshots[1] = objectB->GetRotationMatrix();
+		response.invRotationSnapshots[0] = objectA->GetInvRotationMatrix();
+		response.invRotationSnapshots[1] = objectB->GetInvRotationMatrix();
+		response.friction = sqrt(objectA->GetPhysics()->GetFriction() * objectB->GetPhysics()->GetFriction());
+		if(GetDynamics() != CD_Static)
+			response.velocitySnapshot[0] = response.collidedObjects[0]->GetVelocity();
+		if (other->GetDynamics() != CD_Static)
+			response.velocitySnapshot[1] = response.collidedObjects[1]->GetVelocity();
+	}
+
+	return response.collided;
 }
 
-bool SatCollision2DObject::TestAgainstOtherTriagnle(SatCollision2DObject * other, CollisionResponse2D & response)
+bool SatCollision2DObject::SquareAgainstOtherTriagnle(SatCollision2DObject * other, Collision2D & response)
 {
 	return false;
 }
 
-bool SatCollision2DObject::TestAgainstOtherCircle(SatCollision2DObject * other, CollisionResponse2D & response)
+bool SatCollision2DObject::SquareAgainstOtherCircle(SatCollision2DObject * other, Collision2D & response)
 {
 	return false;
 }
 
-bool SatCollision2DObject::TestAgainstOtherAABBSquare(AABBSquareCollisionObject * other, CollisionResponse2D & response)
+bool SatCollision2DObject::SquareAgainstOtherAABBSquare(AABBSquareCollisionObject * other, Collision2D & response)
 {
-	float cosa = cos(-GetSceneObject()->GetRotationRad());
-	float sina = sin(-GetSceneObject()->GetRotationRad());
+	// TODO optimize to use specific function
 
-	float cosb = 1;
-	float sinb = 0;
-
-	Vec2D otherMin = other->GetMinPos();
-	Vec2D otherMax = other->GetMaxPos();
-
-	Vec2D otherPoints[4] = {
-		otherMin,
-		Vec2D(otherMin.x,otherMax.y),
-		Vec2D(otherMax.x,otherMin.y),
-		otherMax,
-	};
-
-	Vec2D axis[4] = {
-		Vec2D(-cosa,sina).getNormal(),
-		Vec2D(-sina,-cosa).getNormal(),
-		Vec2D(-cosb,sinb),
-		Vec2D(-sinb,-cosb),
-	};
-
-	int normal_index = -1;
-	float penetration = std::numeric_limits<float>::infinity();
-	bool isNegative = false;
-
-	for (int axes_index = 0; axes_index < 4; axes_index++)
-	{
-		float mina = std::numeric_limits<float>::infinity();
-		float maxa = -std::numeric_limits<float>::infinity();
-
-		float minb = std::numeric_limits<float>::infinity();
-		float maxb = -std::numeric_limits<float>::infinity();
-
-		for (int point_index = 0; point_index < 4; point_index++)
-		{
-			float currenta = derivedPoints[point_index].dot(axis[axes_index]);
-			float currentb = otherPoints[point_index].dot(axis[axes_index]);
-
-			mina = min(currenta, mina);
-			maxa = max(currenta, maxa);
-
-			minb = min(currentb, minb);
-			maxb = max(currentb, maxb);
-
-		}
-
-		if (maxa < minb || maxb < mina) return false;
-
-		float overlap = min(maxa, maxb) - max(mina,minb);
-
-		if ( overlap < penetration )
-		{
-			isNegative = false;
-
-			penetration = overlap;
-			normal_index = axes_index;
-
-			Vec2D dv(mina - minb, maxa - maxb);
-
-			if (dv.dot(axis[axes_index]) < 0)
-			{
-				isNegative = true;
-			}
-		}
-	}
-
-	response.collided = true;
-	response.normal = axis[normal_index] * (isNegative ? -1 : 1);
- 	response.penetration = -response.normal * penetration * (isNegative ? -1 : 1);
-	response.penetrationDepth = abs(penetration);
-	response.objectBounds[0] = this;
-	response.objectBounds[1] = other;
-	response.collidedObjects[0] = GetPhysicsObject();
-	response.collidedObjects[1] = other->GetPhysicsObject();
-	if (GetPhysicsObject())
-		response.velocitySnapshot[0] = GetPhysicsObject()->GetVelocity();
-	if (other->GetPhysicsObject())
-		response.velocitySnapshot[1] = other->GetPhysicsObject()->GetVelocity();
-	return true;
+	return false;
 }
 
-bool SatCollision2DObject::SweepTestAgainstOtherSquare(SatCollision2DObject* other, SweepCollisionResponse2D & response)
-{
-	float cosa = cos(-GetSceneObject()->GetRotationRad());
-	float sina = sin(-GetSceneObject()->GetRotationRad());
-
-	float cosb = cos(-other->GetSceneObject()->GetRotationRad());
-	float sinb = sin(-other->GetSceneObject()->GetRotationRad());
-	
-	Vec2D axis[4] = {
-		Vec2D(-cosa,sina).getNormal(),
-		Vec2D(-sina,-cosa).getNormal(),
-		Vec2D(-cosb,sinb).getNormal(),
-		Vec2D(-sinb,-cosb).getNormal(),
-	};
-
-	Vec2D rV = GetPhysicsObject()->GetVelocity() - other->GetPhysicsObject()->GetVelocity();
-
-	return SweepTestWithAxes(axis, 4, other->derivedPoints, 4, rV, other, response);
-}
-
-bool SatCollision2DObject::SweepTestAgainstOtherTriagnle(SatCollision2DObject* other, SweepCollisionResponse2D & response)
+bool SatCollision2DObject::SweepSquareAgainstOtherSquare(SatCollision2DObject* other, SweepCollision2D & response)
 {
 	return false;
 }
 
-bool SatCollision2DObject::SweepTestAgainstOtherCircle(SatCollision2DObject* other, SweepCollisionResponse2D & response)
+bool SatCollision2DObject::SweepSquareAgainstOtherTriagnle(SatCollision2DObject* other, SweepCollision2D & response)
 {
 	return false;
 }
 
-bool SatCollision2DObject::SweepTestAgainstOtherAABBSquare(AABBSquareCollisionObject* other, SweepCollisionResponse2D & response)
+bool SatCollision2DObject::SweepSquareAgainstOtherCircle(SatCollision2DObject* other, SweepCollision2D & response)
 {
-	float cosa = cos(-GetSceneObject()->GetRotationRad());
-	float sina = sin(-GetSceneObject()->GetRotationRad());
-
-	float cosb = 1;
-	float sinb = 0;
-
-	Vec2D otherMin = other->GetMinPos();
-	Vec2D otherMax = other->GetMaxPos();
-
-	Vec2D otherPoints[4] = {
-		otherMin,
-		Vec2D(otherMin.x,otherMax.y),
-		Vec2D(otherMax.x,otherMin.y),
-		otherMax,
-	};
-
-	Vec2D axis[4] = {
-		Vec2D(-cosa,sina).getNormal(),
-		Vec2D(-sina,-cosa).getNormal(),
-		Vec2D(-cosb,sinb),
-		Vec2D(-sinb,-cosb),
-	};
-
-	Vec2D rV = GetPhysicsObject()->GetVelocity() - other->GetPhysicsObject()->GetVelocity();
-	
-	return SweepTestWithAxes(axis,4,otherPoints,4,rV,other,response);
+	return false;
 }
 
-bool SatCollision2DObject::SweepTestWithAxes(Vec2D axes[], int numAxes, Vec2D otherPoints[], int numPoints, Vec2D velocityDelta,CollisionObject2DBase* other, SweepCollisionResponse2D & response)
+bool SatCollision2DObject::SweepSquareAgainstOtherAABBSquare(AABBSquareCollisionObject* other, SweepCollision2D & response)
 {
-	int normal_index = -1;
-	float penetration = std::numeric_limits<float>::infinity();
-	bool isNegative = false;
-
-	float minLeaveTime = std::numeric_limits<float>::infinity();
-	float maxEnterTime = -std::numeric_limits<float>::infinity();
-
-	for (int axes_index = 0; axes_index < 4; axes_index++)
-	{
-		float mina = std::numeric_limits<float>::infinity();
-		float maxa = -std::numeric_limits<float>::infinity();
-
-		float minb = std::numeric_limits<float>::infinity();
-		float maxb = -std::numeric_limits<float>::infinity();
-
-		for (int point_index = 0; point_index < numPoints; point_index++)
-		{
-			float currenta = derivedPoints[point_index].dot(axes[axes_index]);
-			float currentb = otherPoints[point_index].dot(axes[axes_index]);
-
-			mina = min(currenta, mina);
-			maxa = max(currenta, maxa);
-
-			minb = min(currentb, minb);
-			maxb = max(currentb, maxb);
-
-		}
-
-		float V = velocityDelta.dot(axes[axes_index]);
-
-		float currentLeaveTime = 0;
-		float currentEnterTime = 0;
-
-		if (V != 0)
-		{
-			/*if ((mina < minb && minb < maxa) || (minb < mina && mina < maxb))
-			{
-				currentLeaveTime = ((maxb - mina) / V);
-				currentEnterTime = 0;
-			}
-			else*/
-			{
-				currentLeaveTime = ((maxb - mina) / V);
-				currentEnterTime = ((minb - maxa) / V);
-			}
-		}
-		else
-		{
-			if (mina < maxb && minb < maxa)
-			{
-				currentLeaveTime = std::numeric_limits<float>::infinity();
-				currentEnterTime = 0;
-			}
-			else return false;
-		}
-
-		if (currentEnterTime > currentLeaveTime)
-		{
-			float temp = currentEnterTime;
-			currentEnterTime = currentLeaveTime;
-			currentLeaveTime = temp;
-		}
-
-		minLeaveTime = min(minLeaveTime, currentLeaveTime);
-
-		if (currentEnterTime > maxEnterTime)
-		{
-			maxEnterTime = currentEnterTime;
-			isNegative = false;
-			normal_index = axes_index;
-
-			Vec2D dv((mina + V) - minb, (maxa + V) - maxb);
-
-			if (dv.dot(axes[axes_index]) < 0)
-			{
-				isNegative = true;
-			}
-		}
-	}
-
-	if (normal_index == -1)
-	{
-		Log(LogLevel_None,"Error Finding Normal For Collision %s => %s", GetSceneObject()->readableName.c_str(), other->GetSceneObject()->readableName.c_str());
-	}
-
-	float normalTime = maxEnterTime / GetPhysicsObject()->GetCurrentDeltaTime();
-
-	if (maxEnterTime < minLeaveTime && normalTime <= 1 && normalTime >= 0)
-	{
-		response.CollisionResponse2D.collided = true;
-		response.CollisionResponse2D.normal = axes[normal_index] * (isNegative ? 1 : -1);
-		response.CollisionResponse2D.objectBounds[0] = this;
-		response.CollisionResponse2D.objectBounds[1] = other;
-		response.CollisionResponse2D.collidedObjects[0] = GetPhysicsObject();
-		response.CollisionResponse2D.collidedObjects[1] = other->GetPhysicsObject();
-		if (GetPhysicsObject())
-			response.CollisionResponse2D.velocitySnapshot[0] = GetPhysicsObject()->GetVelocity();
-		if (other->GetPhysicsObject())
-			response.CollisionResponse2D.velocitySnapshot[1] = other->GetPhysicsObject()->GetVelocity();
-
-		response.timeHit = normalTime;
-
-		return true;
-	}
-	else return false;
+	return false;
 }
 
 SatCollision2DObject::SatCollision2DObject(SceneObject2D *object) : CollisionObject2DBase(object,CD_Dynamic,SAT_2D_COLLISION)
@@ -396,8 +296,8 @@ void SatCollision2DObject::SetBoundsBySceneObject()
 	{
 	case SATPT_Triangle:
 	{
-		float sinv = sin(GetSceneObject()->GetRotationRad());
-		float cosv = cos(GetSceneObject()->GetRotationRad());
+		float sinfv = sinf(GetSceneObject()->GetRotationRad());
+		float cosfv = cosf(GetSceneObject()->GetRotationRad());
 
 		Vec2D scale = GetSceneObject()->GetScale();
 		Vec2D pos = GetScenePos();
@@ -414,14 +314,14 @@ void SatCollision2DObject::SetBoundsBySceneObject()
 		tempPoinnts[1] = (startingPoints[1] * scale);
 		tempPoinnts[2] = (startingPoints[2] * scale);
 
-		derivedPoints[0].x = (cosv * tempPoinnts[0].x) - (sinv * tempPoinnts[0].y);
-		derivedPoints[0].y = (sinv * tempPoinnts[0].x) + (cosv * tempPoinnts[0].y);
+		derivedPoints[0].x = (cosfv * tempPoinnts[0].x) - (sinfv * tempPoinnts[0].y);
+		derivedPoints[0].y = (sinfv * tempPoinnts[0].x) + (cosfv * tempPoinnts[0].y);
 
-		derivedPoints[1].x = (cosv * tempPoinnts[1].x) - (sinv * tempPoinnts[1].y);
-		derivedPoints[1].y = (sinv * tempPoinnts[1].x) + (cosv * tempPoinnts[1].y);
+		derivedPoints[1].x = (cosfv * tempPoinnts[1].x) - (sinfv * tempPoinnts[1].y);
+		derivedPoints[1].y = (sinfv * tempPoinnts[1].x) + (cosfv * tempPoinnts[1].y);
 
-		derivedPoints[2].x = (cosv * tempPoinnts[2].x) - (sinv * tempPoinnts[2].y);
-		derivedPoints[2].y = (sinv * tempPoinnts[2].x) + (cosv * tempPoinnts[2].y);
+		derivedPoints[2].x = (cosfv * tempPoinnts[2].x) - (sinfv * tempPoinnts[2].y);
+		derivedPoints[2].y = (sinfv * tempPoinnts[2].x) + (cosfv * tempPoinnts[2].y);
 
 		derivedPoints[0] += pos;
 		derivedPoints[1] += pos;
@@ -431,25 +331,25 @@ void SatCollision2DObject::SetBoundsBySceneObject()
 		break;
 	case SATPT_Square:
 	{
-		float sinv = sin(GetSceneObject()->GetRotationRad());
-		float cosv = cos(GetSceneObject()->GetRotationRad());
+		float sinfv = sinf(GetSceneObject()->GetRotationRad());
+		float cosfv = cosf(GetSceneObject()->GetRotationRad());
 
 		Vec2D scale = GetSceneObject()->GetScale();
 		Vec2D pos = GetScenePos();
 
 		scaledSize = scale * size;
 
-		derivedPoints[0].x = (cosv * startingPoints[0].x) - (sinv * startingPoints[0].y);
-		derivedPoints[0].y = (sinv * startingPoints[0].x) + (cosv * startingPoints[0].y);
+		derivedPoints[0].x = (cosfv * startingPoints[0].x) - (sinfv * startingPoints[0].y);
+		derivedPoints[0].y = (sinfv * startingPoints[0].x) + (cosfv * startingPoints[0].y);
 
-		derivedPoints[1].x = (cosv * startingPoints[1].x) - (sinv * startingPoints[1].y);
-		derivedPoints[1].y = (sinv * startingPoints[1].x) + (cosv * startingPoints[1].y);
+		derivedPoints[1].x = (cosfv * startingPoints[1].x) - (sinfv * startingPoints[1].y);
+		derivedPoints[1].y = (sinfv * startingPoints[1].x) + (cosfv * startingPoints[1].y);
 
-		derivedPoints[2].x = (cosv * startingPoints[2].x) - (sinv * startingPoints[2].y);
-		derivedPoints[2].y = (sinv * startingPoints[2].x) + (cosv * startingPoints[2].y);
+		derivedPoints[2].x = (cosfv * startingPoints[2].x) - (sinfv * startingPoints[2].y);
+		derivedPoints[2].y = (sinfv * startingPoints[2].x) + (cosfv * startingPoints[2].y);
 
-		derivedPoints[3].x = (cosv * startingPoints[3].x) - (sinv * startingPoints[3].y);
-		derivedPoints[3].y = (sinv * startingPoints[3].x) + (cosv * startingPoints[3].y);
+		derivedPoints[3].x = (cosfv * startingPoints[3].x) - (sinfv * startingPoints[3].y);
+		derivedPoints[3].y = (sinfv * startingPoints[3].x) + (cosfv * startingPoints[3].y);
 
 		derivedPoints[0] = (derivedPoints[0] * scale) + pos;
 		derivedPoints[1] = (derivedPoints[1] * scale) + pos;
@@ -475,13 +375,13 @@ Vector2D SatCollision2DObject::GetSize()
 	return GetSceneObject()->GetScale();
 }
 
-bool SatCollision2DObject::CollidesWith(CollisionObject2DBase * other, CollisionResponse2D & response)
+bool SatCollision2DObject::CollidesWith(CollisionObject2DBase * other, Collision2D & response)
 {
 	switch (other->GetCollisionType())
 	{
 	case SQUARE_COLLISION:
 	{
-		return TestAgainstOtherAABBSquare((AABBSquareCollisionObject*)other, response);
+		return SquareAgainstOtherAABBSquare((AABBSquareCollisionObject*)other, response);
 	}
 		break;
 	case SAT_2D_COLLISION:
@@ -490,11 +390,11 @@ bool SatCollision2DObject::CollidesWith(CollisionObject2DBase * other, Collision
 		switch (satOther->polygonType)
 		{
 		case SATPT_Triangle:
-			return TestAgainstOtherTriagnle(satOther, response);
+			return SquareAgainstOtherTriagnle(satOther, response);
 		case SATPT_Square:
-			return TestAgainstOtherSquare(satOther, response);
+			return SquareAgainstOtherSquare(satOther, response);
 		case SATPT_Circle:
-			return TestAgainstOtherCircle(satOther, response);
+			return SquareAgainstOtherCircle(satOther, response);
 		case SATPT_Invalid:
 		default:
 			return false;
@@ -511,13 +411,13 @@ Vector2D SatCollision2DObject::GetClosestPointTo(Vector2D pos)
 	return pos;
 }
 
-bool SatCollision2DObject::SweepCollidesWith(CollisionObject2DBase * other, Vector2D newPosition, SweepCollisionResponse2D & response)
+bool SatCollision2DObject::SweepCollidesWith(CollisionObject2DBase * other, Vector2D newPosition, SweepCollision2D & response)
 {
 	switch (other->GetCollisionType())
 	{
 	case SQUARE_COLLISION:
 	{
-		return SweepTestAgainstOtherAABBSquare((AABBSquareCollisionObject*)other, response);
+		return SweepSquareAgainstOtherAABBSquare((AABBSquareCollisionObject*)other, response);
 	}
 	break;
 	case SAT_2D_COLLISION:
@@ -526,11 +426,11 @@ bool SatCollision2DObject::SweepCollidesWith(CollisionObject2DBase * other, Vect
 		switch (satOther->polygonType)
 		{
 		case SATPT_Triangle:
-			return SweepTestAgainstOtherTriagnle(satOther, response);
+			return SweepSquareAgainstOtherTriagnle(satOther, response);
 		case SATPT_Square:
-			return SweepTestAgainstOtherSquare(satOther, response);
+			return SweepSquareAgainstOtherSquare(satOther, response);
 		case SATPT_Circle:
-			return SweepTestAgainstOtherCircle(satOther, response);
+			return SweepSquareAgainstOtherCircle(satOther, response);
 		case SATPT_Invalid:
 		default:
 			return false;

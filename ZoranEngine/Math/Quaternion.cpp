@@ -123,12 +123,12 @@ Quaternion Quaternion::FromScaledAxis(Vector3D& w) {
 	float theta = w.getMagnitude();
 	Quaternion quat;
 	if (theta > 0.0001) {
-		float s = sin(theta / 2.0);
+		float s = sinf(theta / 2.0);
 		Vector3D W(w / theta * s);
 		quat.vals[0] = W.x;
 		quat.vals[1] = W.y;
 		quat.vals[2] = W.z;
-		quat.vals[3] = cos(theta / 2.0);
+		quat.vals[3] = cosf(theta / 2.0);
 	}
 	else {
 		quat.vals[0] = quat.vals[1] = quat.vals[2] = 0;
@@ -143,12 +143,12 @@ Vector3D Quaternion::RotatedVector(const Vector3D& v) const {
 }
 
 Quaternion Quaternion::FromEuler(float x,float y,float z) {
-	float c1 = cos(z * 0.5);
-	float c2 = cos(y * 0.5);
-	float c3 = cos(x * 0.5);
-	float s1 = sin(z * 0.5);
-	float s2 = sin(y * 0.5);
-	float s3 = sin(x * 0.5);
+	float c1 = cosf(z * 0.5);
+	float c2 = cosf(y * 0.5);
+	float c3 = cosf(x * 0.5);
+	float s1 = sinf(z * 0.5);
+	float s2 = sinf(y * 0.5);
+	float s3 = sinf(x * 0.5);
 
 	Quaternion quat;
 
@@ -161,12 +161,12 @@ Quaternion Quaternion::FromEuler(float x,float y,float z) {
 }
 
 Quaternion Quaternion::FromEuler(const Vector3D& euler) {
-	float c1 = cos(euler.z * 0.5);
-	float c2 = cos(euler.y * 0.5);
-	float c3 = cos(euler.x * 0.5);
-	float s1 = sin(euler.z * 0.5);
-	float s2 = sin(euler.y * 0.5);
-	float s3 = sin(euler.x * 0.5);
+	float c1 = cosf(euler.z * 0.5);
+	float c2 = cosf(euler.y * 0.5);
+	float c3 = cosf(euler.x * 0.5);
+	float s1 = sinf(euler.z * 0.5);
+	float s2 = sinf(euler.y * 0.5);
+	float s3 = sinf(euler.x * 0.5);
 
 	Quaternion quat;
 
@@ -190,7 +190,7 @@ Vector3D Quaternion::AsEuler(void) const {
 	sqy = vals[1] * vals[1];
 	sqz = vals[2] * vals[2];
 
-	euler.y = asin(2.0 * (vals[3] * vals[1] - vals[0] * vals[2]));
+	euler.y = asinf(2.0 * (vals[3] * vals[1] - vals[0] * vals[2]));
 	if (PI_OVER_2 - fabs(euler.y) > EPSILON) {
 		euler.z = atan2(2.0 * (vals[0] * vals[1] + vals[3] * vals[2]),
 			sqx - sqy - sqz + sqw);
@@ -216,16 +216,16 @@ Quaternion Quaternion::Slerp(const Quaternion& q1, float t) {
 
 Quaternion Quaternion::Slerp(const Quaternion& q0, const Quaternion& q1, float t) {
 
-	float omega = acos(MathLib::Saturate(q0.vals[0] * q1.vals[0] +
+	float omega = acosf(MathLib::Saturate(q0.vals[0] * q1.vals[0] +
 		q0.vals[1] * q1.vals[1] +
 		q0.vals[2] * q1.vals[2] +
 		q0.vals[3] * q1.vals[3], -1, 1));
 	if (fabs(omega) < 1e-10) {
 		omega = 1e-10;
 	}
-	float som = sin(omega);
-	float st0 = sin((1 - t) * omega) / som;
-	float st1 = sin(t * omega) / som;
+	float som = sinf(omega);
+	float st0 = sinf((1 - t) * omega) / som;
+	float st1 = sinf(t * omega) / som;
 
 	return Quaternion(q0.vals[0] * st0 + q1.vals[0] * st1,
 		q0.vals[1] * st0 + q1.vals[1] * st1,

@@ -234,6 +234,9 @@
     <ClCompile Include="Physics\2D\Collision\SatCollision2DObject.cpp">
       <Filter>ZoranEngine\Physics\2D\Collision</Filter>
     </ClCompile>
+    <ClCompile Include="Physics\2D\Collision\Collision2D.cpp">
+      <Filter>ZoranEngine\Physics\2D\Collision</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -430,6 +433,9 @@
     </ClInclude>
     <ClInclude Include="Math\Matrix22.h">
       <Filter>ZoranEngine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\2D\Collision\Collision2D.h">
+      <Filter>ZoranEngine\Physics\2D\Collision</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

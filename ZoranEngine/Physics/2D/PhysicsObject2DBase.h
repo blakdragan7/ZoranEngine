@@ -19,9 +19,9 @@ private:
 	float angularVelocity;
 
 protected:
-	bool SweepCollisionTo(Vec2D newPosition, struct SweepCollisionResponse2D& response);
+	bool SweepCollisionTo(Vec2D newPosition, struct SweepCollision2D& response);
 	bool FastSweepCollision(Vec2D newPosition); // Broad Sweep
-	virtual void CheckIfOnGround(struct CollisionResponse2D& response);
+	virtual void CheckIfOnGround(struct Collision2D& response);
 
 public:
 	PhysicsObject2DBase(SceneObject2D* object);
@@ -33,9 +33,11 @@ public:
 
 	virtual void SetMass(float mass)override; // in KG
 
-	void OnCollision(struct CollisionResponse2D& response);
-	bool OnSweepCollision(struct SweepCollisionResponse2D& response, float deltaTime,int currentDepth=0,int maxDepth=10);
-	bool SweepToo(Vec2D targetPosition, struct SweepCollisionResponse2D &response);
+	void OnCollision(struct Collision2D& response);
+	bool OnSweepCollision(struct SweepCollision2D& response, float deltaTime,int currentDepth=0,int maxDepth=10);
+	bool SweepToo(Vec2D targetPosition, struct SweepCollision2D &response);
+
+	float GetAngularVelocity();
 
 	Vec2D GetVelocity();
 	Vec2D GetScenePos();
@@ -43,5 +45,8 @@ public:
 
 	virtual void UpdateVelocities(float deltaTime)override;
 	virtual void UpdatePositionsAndRotation(float deltaTime)override;
+
+	void ApplyImpulseToVelocity(Vector2D impulse);
+	void ApplyImpulseToAngularVelocity(float impulse);
 };
 

@@ -81,8 +81,8 @@ bool QuadTreeCollisionBucket::AddObject(CollisionObject2DBase * object)
 		}
 		if (wasAdded == false)
 		{
-			bool objectIsIn = ObjectIsWithinBucket(object);
-			if (objectIsIn || parent == 0)
+			bool objectIsinf = ObjectIsWithinBucket(object);
+			if (objectIsinf || parent == 0)
 			{
 				collisionObjects.push_back(object);
 				wasAdded = true;
@@ -229,49 +229,52 @@ void QuadTreeCollisionBucket::CheckAllCollision(struct CollisionFrame2D& frame)
 		{
 			for (unsigned j = i+1; j < collisionObjects.size(); j++)
 			{
-				CollisionResponse2D response;
+				Collision2D response;
 
 				if (object->CollidesWith(collisionObjects[j],response))
 				{
-					frame.collisions.push_back(response);
+					frame.UpdateCollisionWithKey(Collision2DKey(response.objects[0], response.objects[1]),response);
 				}
 			}
 		}
 
 		if (hasSubdivided)
 		{
-			CollisionResponse2D response;
+			Collision2D response;
 
 			if (children[0]->CheckCollisionForObject(object, response))
 			{
 				PhysicsObject2DBase* pObject = response.collidedObjects[0];
 				PhysicsObject2DBase* pObjec2t = response.collidedObjects[1];
 
-				frame.collisions.push_back(response);
+				frame.UpdateCollisionWithKey(Collision2DKey(response.objects[0], response.objects[1]), response);
 			}
 
+			response = Collision2D();
 			if (children[1]->CheckCollisionForObject(object, response))
 			{
 				PhysicsObject2DBase* pObject = response.collidedObjects[0];
 				PhysicsObject2DBase* pObjec2t = response.collidedObjects[1];
 
-				frame.collisions.push_back(response);
+				frame.UpdateCollisionWithKey(Collision2DKey(response.objects[0], response.objects[1]), response);
 			}
 
+			response = Collision2D();
 			if (children[2]->CheckCollisionForObject(object, response))
 			{
 				PhysicsObject2DBase* pObject = response.collidedObjects[0];
 				PhysicsObject2DBase* pObjec2t = response.collidedObjects[1];
 
-				frame.collisions.push_back(response);
+				frame.UpdateCollisionWithKey(Collision2DKey(response.objects[0], response.objects[1]), response);
 			}
 
+			response = Collision2D();
 			if (children[3]->CheckCollisionForObject(object, response))
 			{
 				PhysicsObject2DBase* pObject = response.collidedObjects[0];
 				PhysicsObject2DBase* pObjec2t = response.collidedObjects[1];
 
-				frame.collisions.push_back(response);
+				frame.UpdateCollisionWithKey(Collision2DKey(response.objects[0], response.objects[1]), response);
 			}
 		}
 	}
@@ -280,7 +283,7 @@ void QuadTreeCollisionBucket::CheckAllCollision(struct CollisionFrame2D& frame)
 bool QuadTreeCollisionBucket::ObjectIsWithinBucket(CollisionObject2DBase * object)
 {
 	// always add to the root tree if it hasnt subdivided yet
-	return collision->CollidesWith(object, CollisionResponse2D()) || (hasSubdivided == false && parent == 0);
+	return collision->CollidesWith(object, Collision2D()) || (hasSubdivided == false && parent == 0);
 }
 
 void QuadTreeCollisionBucket::Subdivide()
@@ -334,7 +337,7 @@ void QuadTreeCollisionBucket::Subdivide()
 	hasSubdivided = true;
 }
 
-bool QuadTreeCollisionBucket::CheckCollisionForObject(CollisionObject2DBase * object, CollisionResponse2D& response)
+bool QuadTreeCollisionBucket::CheckCollisionForObject(CollisionObject2DBase * object, Collision2D& response)
 {
 	for (unsigned i = 0; i < collisionObjects.size(); i++)
 	{
@@ -355,7 +358,7 @@ bool QuadTreeCollisionBucket::CheckCollisionForObject(CollisionObject2DBase * ob
 	return false;
 }
 
-bool QuadTreeCollisionBucket::SweepCollision(CollisionObject2DBase * object, Vec2D newPosition, SweepCollisionResponse2D & response)
+bool QuadTreeCollisionBucket::SweepCollision(CollisionObject2DBase * object, Vec2D newPosition, SweepCollision2D & response)
 {
 	int index = FindObject(object);
 	if (index == -1)
@@ -384,7 +387,7 @@ bool QuadTreeCollisionBucket::SweepCollision(CollisionObject2DBase * object, Vec
 	return false;
 }
 
-bool QuadTreeCollisionBucket::SweepCollisionHitTest(CollisionObject2DBase * object, Vec2D newPosition, SweepCollisionResponse2D & response)
+bool QuadTreeCollisionBucket::SweepCollisionHitTest(CollisionObject2DBase * object, Vec2D newPosition, SweepCollision2D & response)
 {
 	Vec2D origin = object->GetScenePos();
 	Vec2D deltaPos = newPosition - origin;
@@ -405,12 +408,12 @@ bool QuadTreeCollisionBucket::SweepCollisionHitTest(CollisionObject2DBase * obje
 	return false;
 }
 
-bool QuadTreeCollisionBucket::CheckObjectAgainstStaic(CollisionObject2DBase * object, CollisionResponse2D & response)
+bool QuadTreeCollisionBucket::CheckObjectAgainstStaic(CollisionObject2DBase * object, Collision2D & response)
 {
 	for (unsigned i = 0; i < collisionObjects.size(); i++)
 	{
 		if (collisionObjects[i]->GetDynamics() != CD_Static)continue;
-		CollisionResponse2D response;
+		Collision2D response;
 
 		if (object->CollidesWith(collisionObjects[i], response))
 		{
@@ -436,7 +439,7 @@ bool QuadTreeCollisionBucket::PrintCollisionForObject(CollisionObject2DBase * ob
 	for (unsigned i = 0; i < collisionObjects.size(); i++)
 	{
 		Log(LogLevel_None, "\tCheck Collision %s => %s\n", object->GetSceneObject()->readableName.c_str(), collisionObjects[i]->GetSceneObject()->readableName.c_str());
-		if (object->CollidesWith(collisionObjects[i], CollisionResponse2D()))
+		if (object->CollidesWith(collisionObjects[i], Collision2D()))
 		{
 			Log(LogLevel_None, "Found Collision\n");
 			return true;
@@ -482,7 +485,7 @@ void QuadTreeCollisionBucket::PrintAllCollisions()
 			{
 				Log(LogLevel_None, "\tCheck Collision %s => %s\n", object->GetSceneObject()->readableName.c_str(), collisionObjects[j]->GetSceneObject()->readableName.c_str());
 
-				if (object->CollidesWith(collisionObjects[j], CollisionResponse2D()))
+				if (object->CollidesWith(collisionObjects[j], Collision2D()))
 				{
 					Log(LogLevel_None, "Found Collision\n");
 				}

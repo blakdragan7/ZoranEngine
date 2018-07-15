@@ -5,7 +5,7 @@
 
 class Matrix22
 {
-private:
+public:
 		Vector2D cols[2];
 
 public:
@@ -13,8 +13,8 @@ public:
 	~Matrix22() {}
 	Matrix22(float rotation)
 	{
-		float c = cos(rotation);
-		float s = sin(rotation);
+		float c = cosf(rotation);
+		float s = sinf(rotation);
 
 		cols[0].x = c; 
 		cols[0].y = -s;
@@ -52,8 +52,8 @@ public:
 
 	void SetRotation(float rotation)
 	{
-		float c = cos(rotation);
-		float s = sin(rotation);
+		float c = cosf(rotation);
+		float s = sinf(rotation);
 
 		cols[0].x = c;
 		cols[0].y = -s;
