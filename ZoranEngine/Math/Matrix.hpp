@@ -6,6 +6,9 @@
 
 #define M_PI 3.14159265359f
 
+// TODO
+// Replace this with specific typed matricies like Matrixd44 and Matrixf44 etc ..
+
 template<class t>
 class ZoranEngine_EXPORT Matrix
 {

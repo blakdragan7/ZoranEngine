@@ -425,6 +425,10 @@
     <ClInclude Include="Physics\2D\Collision\SatCollision2DObject.h">
       <Filter>ZoranEngine\Physics\2D\Collision</Filter>
     </ClInclude>
+    <ClInclude Include="Physics\2D\Collision\CollisionFrame2D.h">
+      <Filter>ZoranEngine\Physics\2D\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix22.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ZoranEngine.rc">

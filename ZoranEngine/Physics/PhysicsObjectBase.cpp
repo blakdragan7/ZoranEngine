@@ -25,10 +25,11 @@ PhysicsObjectBase::PhysicsObjectBase(SceneObject * object)
 	drag = 0.99;
 	otherFriction = 1.0;
 	friction = 0.99;
-	mass = 200;
-	restitution = 1.0;
+	restitution = 0.9;
 	isOnGround = false;
 	useSweptCollision = false;
+	calculatedFriction = sqrt(1.0+0.99);
+	SetMass(200);
 }
 
 PhysicsObjectBase::~PhysicsObjectBase()
@@ -52,6 +53,7 @@ void PhysicsObjectBase::StopPhysicsSim()
 void PhysicsObjectBase::SetMass(double mass)
 {
 	this->mass = mass;
+	invMass = (mass != 0 ? 1.0 / mass : 0.0);
 }
 
 void PhysicsObjectBase::SetFriction(double friction)

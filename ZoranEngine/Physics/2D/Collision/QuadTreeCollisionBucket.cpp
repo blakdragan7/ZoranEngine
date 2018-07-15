@@ -6,6 +6,7 @@
 #include <Physics/2D/Collision/AABBSquareCollisionObject.h>
 #include <Physics/3D/Collision/AABBoxCollisionObject.h>
 #include <Physics/2D/Collision/QuadTreeCollision.h>
+#include <Physics/2D/Collision/CollisionFrame2D.h>
 #include <Physics/2D/PhysicsObject2DBase.h>
 #include <Core/2D/SceneObject2D.h>
 #include <Utils/VectorAddons.hpp>
@@ -207,16 +208,15 @@ void QuadTreeCollisionBucket::UpdateAllObjects()
 	}
 }
 
-void QuadTreeCollisionBucket::CheckAllCollision()
+void QuadTreeCollisionBucket::CheckAllCollision(struct CollisionFrame2D& frame)
 {
  	if (hasSubdivided)
 	{
-		children[0]->CheckAllCollision();
-		children[1]->CheckAllCollision();
-		children[2]->CheckAllCollision();
-		children[3]->CheckAllCollision();
+		children[0]->CheckAllCollision(frame);
+		children[1]->CheckAllCollision(frame);
+		children[2]->CheckAllCollision(frame);
+		children[3]->CheckAllCollision(frame);
 	}
-
 
 	for (unsigned i = 0;i<collisionObjects.size();i++)
 	{
@@ -233,9 +233,7 @@ void QuadTreeCollisionBucket::CheckAllCollision()
 
 				if (object->CollidesWith(collisionObjects[j],response))
 				{
-					object->GetPhysicsObject()->OnCollision(response);
-					if(collisionObjects[j]->GetDynamics() == CD_Dynamic)
-						collisionObjects[j]->GetPhysicsObject()->OnCollision(response.Reflection());
+					frame.collisions.push_back(response);
 				}
 			}
 		}
@@ -249,8 +247,7 @@ void QuadTreeCollisionBucket::CheckAllCollision()
 				PhysicsObject2DBase* pObject = response.collidedObjects[0];
 				PhysicsObject2DBase* pObjec2t = response.collidedObjects[1];
 
-				pObject->OnCollision(response);
-				pObjec2t->OnCollision(response.Reflection());
+				frame.collisions.push_back(response);
 			}
 
 			if (children[1]->CheckCollisionForObject(object, response))
@@ -258,8 +255,7 @@ void QuadTreeCollisionBucket::CheckAllCollision()
 				PhysicsObject2DBase* pObject = response.collidedObjects[0];
 				PhysicsObject2DBase* pObjec2t = response.collidedObjects[1];
 
-				pObject->OnCollision(response);
-				pObjec2t->OnCollision(response.Reflection());
+				frame.collisions.push_back(response);
 			}
 
 			if (children[2]->CheckCollisionForObject(object, response))
@@ -267,8 +263,7 @@ void QuadTreeCollisionBucket::CheckAllCollision()
 				PhysicsObject2DBase* pObject = response.collidedObjects[0];
 				PhysicsObject2DBase* pObjec2t = response.collidedObjects[1];
 
-				pObject->OnCollision(response);
-				pObjec2t->OnCollision(response.Reflection());
+				frame.collisions.push_back(response);
 			}
 
 			if (children[3]->CheckCollisionForObject(object, response))
@@ -276,8 +271,7 @@ void QuadTreeCollisionBucket::CheckAllCollision()
 				PhysicsObject2DBase* pObject = response.collidedObjects[0];
 				PhysicsObject2DBase* pObjec2t = response.collidedObjects[1];
 
-				pObject->OnCollision(response);
-				pObjec2t->OnCollision(response.Reflection());
+				frame.collisions.push_back(response);
 			}
 		}
 	}

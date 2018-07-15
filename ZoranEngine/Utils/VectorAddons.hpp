@@ -9,7 +9,7 @@ void remove(std::vector<T> &v, size_t i)
 }
 
 template <typename T>
-T remove(std::vector<T> &v, T object)
+bool remove(std::vector<T> &v, T object)
 {
 	auto iter = std::find(v.begin(),v.end(),object);
 	if (iter != v.end())
@@ -19,7 +19,8 @@ T remove(std::vector<T> &v, T object)
 		std::swap(v[i], v.back());
 		v.pop_back();
 
-		return object;
+		return true;
 	}
-	return NULL;
+
+	return false;
 }

@@ -1,4 +1,5 @@
 #pragma once
+class Vector2D;
 class MathLib
 {
 public:
@@ -29,5 +30,8 @@ public:
 	{
 		return (start * alpha) + (end * 1.0 - alpha);
 	}
+
+	static int ClipRangeToLine(Vector2D outPoints[2], Vector2D inPoints[2],const Vector2D& lineNormal, double offset);
+
 };
 

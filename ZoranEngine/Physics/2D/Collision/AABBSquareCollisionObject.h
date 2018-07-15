@@ -16,6 +16,9 @@ private:
 
 	AABBSquareCollisionObject* sweepCollisionSquare;
 
+private:
+	void FillCollisionPoints(CollisionPoint points[2], Vec2D otherMin, Vec2D otherMax);
+
 public:
 	AABBSquareCollisionObject(Vector2D min, Vector2D max, SceneObject2D* object, CollisionDynamics dynamics = CD_Dynamic,bool isRoot = true);
 	~AABBSquareCollisionObject();

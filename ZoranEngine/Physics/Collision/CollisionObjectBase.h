@@ -10,6 +10,9 @@ enum CollisionDynamics
 	CD_Dynamic=1
 };
 
+#define COLLISION_LAYER_GROUND 0
+#define COLLISION_LAYER_DYNAMIC 1
+
 class ZoranEngine_EXPORT CollisionObjectBase
 {
 private:

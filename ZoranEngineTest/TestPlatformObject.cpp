@@ -19,6 +19,7 @@ TestPlatformObject::TestPlatformObject(std::string name) : TexturedSprite(name, 
 	}
 
 	collision->SetDynamics(CD_Static);
+	collision->SetCollisionLayer(COLLISION_LAYER_GROUND);
 }
 
 TestPlatformObject::~TestPlatformObject()

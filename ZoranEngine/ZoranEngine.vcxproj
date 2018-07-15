@@ -113,6 +113,7 @@
     <ClInclude Include="Math\Quaternion.h" />
     <ClInclude Include="Math\Vector2.h" />
     <ClInclude Include="Math\Vector3.h" />
+    <ClInclude Include="Matrix22.h" />
     <ClInclude Include="OpenGL\OpenGLObject.h" />
     <ClInclude Include="OpenGL\OpenGLRenderEngine.h" />
     <ClInclude Include="OpenGL\OpenGLShaderProgramBase.h" />
@@ -120,6 +121,7 @@
     <ClInclude Include="OpenGL\StandardShader.h" />
     <ClInclude Include="OpenGL\StandardShader2D.h" />
     <ClInclude Include="Physics\2D\Collision\CollisionBucket2DBase.h" />
+    <ClInclude Include="Physics\2D\Collision\CollisionFrame2D.h" />
     <ClInclude Include="Physics\2D\Collision\CollisionObject2DBase.h" />
     <ClInclude Include="Physics\2D\Collision\QuadTreeCollision.h" />
     <ClInclude Include="Physics\2D\Collision\QuadTreeCollisionBucket.h" />

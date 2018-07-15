@@ -74,10 +74,15 @@ bool SatCollision2DObject::TestAgainstOtherSquare(SatCollision2DObject * other, 
 	response.collided = true;
 	response.normal = axis[normal_index];
 	response.penetration = -response.normal * penetration * (isNegative ? -1 : 1);
+	response.penetrationDepth = abs(penetration);
 	response.objectBounds[0] = this;
 	response.objectBounds[1] = other;
 	response.collidedObjects[0] = GetPhysicsObject();
 	response.collidedObjects[1] = other->GetPhysicsObject();
+	if (GetPhysicsObject())
+		response.velocitySnapshot[0] = GetPhysicsObject()->GetVelocity();
+	if (other->GetPhysicsObject())
+		response.velocitySnapshot[1] = other->GetPhysicsObject()->GetVelocity();
 
 	return true;
 }
@@ -165,27 +170,46 @@ bool SatCollision2DObject::TestAgainstOtherAABBSquare(AABBSquareCollisionObject 
 	response.collided = true;
 	response.normal = axis[normal_index] * (isNegative ? -1 : 1);
  	response.penetration = -response.normal * penetration * (isNegative ? -1 : 1);
+	response.penetrationDepth = abs(penetration);
 	response.objectBounds[0] = this;
 	response.objectBounds[1] = other;
 	response.collidedObjects[0] = GetPhysicsObject();
 	response.collidedObjects[1] = other->GetPhysicsObject();
-
+	if (GetPhysicsObject())
+		response.velocitySnapshot[0] = GetPhysicsObject()->GetVelocity();
+	if (other->GetPhysicsObject())
+		response.velocitySnapshot[1] = other->GetPhysicsObject()->GetVelocity();
 	return true;
 }
 
 bool SatCollision2DObject::SweepTestAgainstOtherSquare(SatCollision2DObject* other, SweepCollisionResponse2D & response)
 {
-	return 1.0;
+	double cosa = cos(-GetSceneObject()->GetRotationRad());
+	double sina = sin(-GetSceneObject()->GetRotationRad());
+
+	double cosb = cos(-other->GetSceneObject()->GetRotationRad());
+	double sinb = sin(-other->GetSceneObject()->GetRotationRad());
+	
+	Vec2D axis[4] = {
+		Vec2D(-cosa,sina).getNormal(),
+		Vec2D(-sina,-cosa).getNormal(),
+		Vec2D(-cosb,sinb).getNormal(),
+		Vec2D(-sinb,-cosb).getNormal(),
+	};
+
+	Vec2D rV = GetPhysicsObject()->GetVelocity() - other->GetPhysicsObject()->GetVelocity();
+
+	return SweepTestWithAxes(axis, 4, other->derivedPoints, 4, rV, other, response);
 }
 
 bool SatCollision2DObject::SweepTestAgainstOtherTriagnle(SatCollision2DObject* other, SweepCollisionResponse2D & response)
 {
-	return 1.0;
+	return false;
 }
 
 bool SatCollision2DObject::SweepTestAgainstOtherCircle(SatCollision2DObject* other, SweepCollisionResponse2D & response)
 {
-	return 1.0;
+	return false;
 }
 
 bool SatCollision2DObject::SweepTestAgainstOtherAABBSquare(AABBSquareCollisionObject* other, SweepCollisionResponse2D & response)
@@ -213,14 +237,19 @@ bool SatCollision2DObject::SweepTestAgainstOtherAABBSquare(AABBSquareCollisionOb
 		Vec2D(-sinb,-cosb),
 	};
 
+	Vec2D rV = GetPhysicsObject()->GetVelocity() - other->GetPhysicsObject()->GetVelocity();
+	
+	return SweepTestWithAxes(axis,4,otherPoints,4,rV,other,response);
+}
+
+bool SatCollision2DObject::SweepTestWithAxes(Vec2D axes[], int numAxes, Vec2D otherPoints[], int numPoints, Vec2D velocityDelta,CollisionObject2DBase* other, SweepCollisionResponse2D & response)
+{
 	int normal_index = -1;
 	double penetration = std::numeric_limits<double>::infinity();
 	bool isNegative = false;
 
 	double minLeaveTime = std::numeric_limits<double>::infinity();
 	double maxEnterTime = -std::numeric_limits<double>::infinity();
-
-	Vec2D rV = GetPhysicsObject()->GetVelocity() - other->GetPhysicsObject()->GetVelocity();
 
 	for (int axes_index = 0; axes_index < 4; axes_index++)
 	{
@@ -230,10 +259,10 @@ bool SatCollision2DObject::SweepTestAgainstOtherAABBSquare(AABBSquareCollisionOb
 		double minb = std::numeric_limits<double>::infinity();
 		double maxb = -std::numeric_limits<double>::infinity();
 
-		for (int point_index = 0; point_index < 4; point_index++)
+		for (int point_index = 0; point_index < numPoints; point_index++)
 		{
-			double currenta = derivedPoints[point_index].dot(axis[axes_index]);
-			double currentb = otherPoints[point_index].dot(axis[axes_index]);
+			double currenta = derivedPoints[point_index].dot(axes[axes_index]);
+			double currentb = otherPoints[point_index].dot(axes[axes_index]);
 
 			mina = min(currenta, mina);
 			maxa = max(currenta, maxa);
@@ -243,13 +272,33 @@ bool SatCollision2DObject::SweepTestAgainstOtherAABBSquare(AABBSquareCollisionOb
 
 		}
 
-		double V = rV.dot(axis[axes_index]);
+		double V = velocityDelta.dot(axes[axes_index]);
 
 		double currentLeaveTime = 0;
 		double currentEnterTime = 0;
 
-		currentLeaveTime = ((maxb - mina) / V);
-		currentEnterTime = ((minb - maxa) / V);
+		if (V != 0)
+		{
+			/*if ((mina < minb && minb < maxa) || (minb < mina && mina < maxb))
+			{
+				currentLeaveTime = ((maxb - mina) / V);
+				currentEnterTime = 0;
+			}
+			else*/
+			{
+				currentLeaveTime = ((maxb - mina) / V);
+				currentEnterTime = ((minb - maxa) / V);
+			}
+		}
+		else
+		{
+			if (mina < maxb && minb < maxa)
+			{
+				currentLeaveTime = std::numeric_limits<double>::infinity();
+				currentEnterTime = 0;
+			}
+			else return false;
+		}
 
 		if (currentEnterTime > currentLeaveTime)
 		{
@@ -259,25 +308,25 @@ bool SatCollision2DObject::SweepTestAgainstOtherAABBSquare(AABBSquareCollisionOb
 		}
 
 		minLeaveTime = min(minLeaveTime, currentLeaveTime);
-		maxEnterTime = max(maxEnterTime, currentEnterTime);
 
-		if (maxEnterTime > minLeaveTime)return false;
-		double overlap = min(maxa + V, maxb) - max(mina + V, minb);
-
-		if (overlap < penetration)
+		if (currentEnterTime > maxEnterTime)
 		{
+			maxEnterTime = currentEnterTime;
 			isNegative = false;
-			penetration = overlap;
 			normal_index = axes_index;
 
-			Vec2D dv(mina - minb, maxa - maxb);
+			Vec2D dv((mina + V) - minb, (maxa + V) - maxb);
 
-			if (dv.dot(axis[axes_index]) < 0)
+			if (dv.dot(axes[axes_index]) < 0)
 			{
 				isNegative = true;
 			}
 		}
+	}
 
+	if (normal_index == -1)
+	{
+		Log(LogLevel_None,"Error Finding Normal For Collision %s => %s", GetSceneObject()->readableName.c_str(), other->GetSceneObject()->readableName.c_str());
 	}
 
 	double normalTime = maxEnterTime / GetPhysicsObject()->GetCurrentDeltaTime();
@@ -285,11 +334,15 @@ bool SatCollision2DObject::SweepTestAgainstOtherAABBSquare(AABBSquareCollisionOb
 	if (maxEnterTime < minLeaveTime && normalTime <= 1 && normalTime >= 0)
 	{
 		response.CollisionResponse2D.collided = true;
-		response.CollisionResponse2D.normal = axis[normal_index] * (isNegative ? 1 : -1);
+		response.CollisionResponse2D.normal = axes[normal_index] * (isNegative ? 1 : -1);
 		response.CollisionResponse2D.objectBounds[0] = this;
 		response.CollisionResponse2D.objectBounds[1] = other;
 		response.CollisionResponse2D.collidedObjects[0] = GetPhysicsObject();
 		response.CollisionResponse2D.collidedObjects[1] = other->GetPhysicsObject();
+		if (GetPhysicsObject())
+			response.CollisionResponse2D.velocitySnapshot[0] = GetPhysicsObject()->GetVelocity();
+		if (other->GetPhysicsObject())
+			response.CollisionResponse2D.velocitySnapshot[1] = other->GetPhysicsObject()->GetVelocity();
 
 		response.timeHit = normalTime;
 

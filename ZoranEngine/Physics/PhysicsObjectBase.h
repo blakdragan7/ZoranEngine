@@ -11,9 +11,18 @@ protected:
 	double drag;
 	double friction;
 	double otherFriction;
+	
+	double calculatedFriction;
+
 	bool shouldSimulate;
+	
 	double mass; // KG
+	double invMass; // KG
 	double restitution;
+	
+	double inertia;
+	double invInertia;
+
 	bool isOnGround;
 	bool useSweptCollision;
 
@@ -27,9 +36,9 @@ public:
 	void StartPhysicsSim();
 	void StopPhysicsSim();
 
-	void SetMass(double mass); // in KG
-	void SetFriction(double friction);
-	void SetRestitution(double restitution);
+	virtual void SetMass(double mass); // in KG
+	virtual void SetFriction(double friction);
+	virtual void SetRestitution(double restitution);
 
 	void SetSweptCollision(bool newSwept);
 
@@ -42,5 +51,6 @@ public:
 
 	SceneObject* GetSceneObject();
 
-	virtual void Update(double deltaTime) = 0;
+	virtual void UpdateVelocities(double deltaTime) = 0;
+	virtual void UpdatePositionsAndRotation(double deltaTime) = 0;
 };

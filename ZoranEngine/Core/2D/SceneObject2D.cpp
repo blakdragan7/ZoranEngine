@@ -11,6 +11,10 @@ SceneObject2D::SceneObject2D(std::string name) : SceneObject(name)
 	model = MatrixF::GLIdentityMatrix();
 	scale = Vector2D(1.0, 1.0);
 	rotation = 0;
+	collision = 0;
+
+	rotationMat.SetRotation(0);
+	invRotationMat.SetRotation(0);
 }
 
 SceneObject2D::SceneObject2D(std::string name, RenderEngineBase* engine) : SceneObject(name, engine)
@@ -18,6 +22,7 @@ SceneObject2D::SceneObject2D(std::string name, RenderEngineBase* engine) : Scene
 	model = MatrixF::GLIdentityMatrix();
 	scale = Vector2D(1.0, 1.0);
 	rotation = 0;
+	collision = 0;
 }
 
 SceneObject2D::~SceneObject2D()
@@ -35,6 +40,7 @@ void SceneObject2D::SetPosition(Vector2D pos)
 void SceneObject2D::SetScale(Vector2D scale)
 {
 	this->scale = scale;
+	this->size = (startingSize * scale).getAbs();
 	if (collision)pEngine->UpdateCollisionObject(collision);
 }
 
@@ -49,12 +55,15 @@ void SceneObject2D::SetScale(double x, double y)
 {
 	this->scale.x = x;
 	this->scale.y = y;
+	this->size = (startingSize * scale).getAbs();
 	if (collision)pEngine->UpdateCollisionObject(collision);
 }
 
 void SceneObject2D::SetRotation(double rotation)
 {
 	this->rotation = rotation;
+	rotationMat.SetRotation(rotation);
+	invRotationMat = rotationMat.GetInversion();
 	if (collision)pEngine->UpdateCollisionObject(collision);
 }
 
@@ -74,6 +83,7 @@ void SceneObject2D::Translate(double x, double y)
 void SceneObject2D::Scale(Vector2D scale)
 {
 	this->scale *= scale;
+	this->size = (startingSize * scale).getAbs();
 	if (collision)pEngine->UpdateCollisionObject(collision);
 }
 
@@ -81,12 +91,15 @@ void SceneObject2D::Scale(double dx, double dy)
 {
 	this->scale.x *= dx;
 	this->scale.y *= dy;
+	this->size = (startingSize * scale).getAbs();
 	if (collision)pEngine->UpdateCollisionObject(collision);
 }
 
 void SceneObject2D::Rotate(double rotation)
 {
 	rotation += rotation;
+	rotationMat.SetRotation(rotation);
+	invRotationMat = rotationMat.GetInversion();
 	if (collision)pEngine->UpdateCollisionObject(collision);
 }
 
@@ -108,6 +121,21 @@ Vector2D SceneObject2D::GetPosition()
 Vector2D SceneObject2D::GetScale()
 {
 	return scale;
+}
+
+Vector2D SceneObject2D::GetSize()
+{
+	return size;
+}
+
+Matrix22 SceneObject2D::GetRotationMatrix()
+{
+	return rotationMat;
+}
+
+Matrix22 SceneObject2D::GetInvRotationMatrix()
+{
+	return invRotationMat;
 }
 
 MatrixF SceneObject2D::GetModel()

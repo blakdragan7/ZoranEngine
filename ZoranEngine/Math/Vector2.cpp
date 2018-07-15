@@ -8,12 +8,12 @@ Vector2D::Vector2D(double x_, double y_) :x(x_), y(y_) { }
 
 Vector2D::~Vector2D(void) {}
 
-Vector2D Vector2D::operator-()
+Vector2D Vector2D::operator-()const
 {
 	return Vector2D(-x, -y);
 }
 
-Vector2D Vector2D::operator -(Vector2D other)
+Vector2D Vector2D::operator -(const Vector2D& other)const
 {
 	Vector2D ret = *this;
 	ret.x -= other.x;
@@ -22,7 +22,7 @@ Vector2D Vector2D::operator -(Vector2D other)
 	return ret;
 }
 
-Vector2D Vector2D::operator +(Vector2D other)
+Vector2D Vector2D::operator +(const Vector2D& other)const
 {
 	Vector2D ret = *this;
 	ret.x += other.x;
@@ -31,7 +31,7 @@ Vector2D Vector2D::operator +(Vector2D other)
 	return ret;
 }
 
-Vector2D Vector2D::operator *(Vector2D other)
+Vector2D Vector2D::operator *(const Vector2D& other)const
 {
 	Vector2D ret = *this;
 	ret.x *= other.x;
@@ -40,7 +40,7 @@ Vector2D Vector2D::operator *(Vector2D other)
 	return ret;
 }
 
-Vector2D Vector2D::operator /(Vector2D other)
+Vector2D Vector2D::operator /(const Vector2D& other)const
 {
 	Vector2D ret = *this;
 	ret.x /= other.x;
@@ -49,7 +49,7 @@ Vector2D Vector2D::operator /(Vector2D other)
 	return ret;
 }
 
-Vector2D Vector2D::operator =(Vector2D other)
+Vector2D Vector2D::operator =(const Vector2D& other)
 {
 	x = other.x;
 	y = other.y;
@@ -57,39 +57,31 @@ Vector2D Vector2D::operator =(Vector2D other)
 	return *this;
 }
 
-Vector2D Vector2D::operator -=(Vector2D other)
+void Vector2D::operator -=(Vector2D other)
 {
 	x -= other.x;
 	y -= other.y;
-
-	return *this;
 }
 
-Vector2D Vector2D::operator +=(Vector2D other)
+void Vector2D::operator +=(Vector2D other)
 {
 	x += other.x;
 	y += other.y;
-
-	return *this;
 }
 
-Vector2D Vector2D::operator *=(Vector2D other)
+void Vector2D::operator *=(Vector2D other)
 {
 	x *= other.x;
 	y *= other.y;
-
-	return *this;
 }
 
-Vector2D Vector2D::operator /=(Vector2D other)
+void Vector2D::operator /=(Vector2D other)
 {
 	x /= other.x;
 	y /= other.y;
-
-	return *this;
 }
 
-Vector2D Vector2D::operator -(double scalor)
+Vector2D Vector2D::operator -(double scalor)const
 {
 	Vector2D ret = *this;
 	ret.x -= scalor;
@@ -98,7 +90,7 @@ Vector2D Vector2D::operator -(double scalor)
 	return ret;
 }
 
-Vector2D Vector2D::operator +(double scalor)
+Vector2D Vector2D::operator +(double scalor)const
 {
 	Vector2D ret = *this;
 	ret.x += scalor;
@@ -107,7 +99,7 @@ Vector2D Vector2D::operator +(double scalor)
 	return ret;
 }
 
-Vector2D Vector2D::operator *(double scalor)
+Vector2D Vector2D::operator *(double scalor)const
 {
 	Vector2D ret = *this;
 	ret.x *= scalor;
@@ -116,7 +108,7 @@ Vector2D Vector2D::operator *(double scalor)
 	return ret;
 }
 
-Vector2D Vector2D::operator /(double scalor)
+Vector2D Vector2D::operator /(double scalor)const
 {
 	Vector2D ret = *this;
 	ret.x /= scalor;
@@ -125,68 +117,64 @@ Vector2D Vector2D::operator /(double scalor)
 	return ret;
 }
 
-Vector2D Vector2D::operator -=(double scalor)
+void Vector2D::operator -=(double scalor)
 {
 	x -= scalor;
 	y -= scalor;
-
-	return *this;
 }
 
-Vector2D Vector2D::operator +=(double scalor)
+void Vector2D::operator +=(double scalor)
 {
 	x += scalor;
 	y += scalor;
-
-	return *this;
 }
 
-Vector2D Vector2D::operator *=(double scalor)
+void Vector2D::operator *=(double scalor)
 {
 	x *= scalor;
 	y *= scalor;
-
-	return *this;
 }
 
-Vector2D Vector2D::operator /=(double scalor)
+void Vector2D::operator /=(double scalor)
 {
 	x /= scalor;
 	y /= scalor;
-
-	return *this;
 }
 
-Vector2D Vector2D::operator =(double scalor)
+void Vector2D::operator =(double scalor)
 {
 	x = scalor;
 	y = scalor;
-
-	return *this;
 }
 
-bool Vector2D::operator ==(Vector2D other)
+bool Vector2D::operator ==(const Vector2D& other)const
 {
 	return other.x == x && other.y == y;
 }
 
-Vector2D Vector2D::getAbs()
+Vector2D Vector2D::getAbs()const
 {
 	return Vector2D(abs(x),abs(y));
 }
 
-Vector2D Vector2D::getNormal()
+Vector2D Vector2D::getNormal()const
 {
 	double mag = magnitude();
 	return Vector2D(x/mag,y/mag);
 }
 
-double Vector2D::dot(Vector2D other)
+void Vector2D::clear()
+{
+	x = 0;
+	y = 0;
+}
+
+double Vector2D::dot(Vector2D other)const
 {
 	return (x*other.x) + (y*other.y);
 }
 
-double Vector2D::cross(Vector2D other)
+double Vector2D::cross(Vector2D other)const
 {
 	return (x*other.y) - (y*other.x);
 }
@@ -214,12 +202,17 @@ void Vector2D::rotate(Vector2D origin, double angle /*radians*/)
 	y = p.y;
 }
 
-double Vector2D::magnitude()
+double Vector2D::magnitudeSqr()const
 {
-	return sqrt((x*x) + (y*y));
+	return (x*x) + (y*y);
 }
 
-double Vector2D::distance(Vector2D other)
+double Vector2D::magnitude()const
+{
+	return sqrt(magnitudeSqr());
+}
+
+double Vector2D::distance(const Vector2D& other)const
 {
 	double dx = other.x - x;
 	double dy = other.y - y;
@@ -227,7 +220,7 @@ double Vector2D::distance(Vector2D other)
 	return sqrt(pow(dx, 2) + pow(dy, 2));
 }
 
-double Vector2D::distanceSquared(Vector2D other)
+double Vector2D::distanceSquared(const Vector2D& other)const
 {
 	double dx = other.x - x;
 	double dy = other.y - y;

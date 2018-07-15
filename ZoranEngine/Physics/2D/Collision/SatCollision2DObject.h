@@ -35,6 +35,9 @@ private:
 	bool SweepTestAgainstOtherCircle(SatCollision2DObject* other, SweepCollisionResponse2D & response);
 	bool SweepTestAgainstOtherAABBSquare(class AABBSquareCollisionObject* other, SweepCollisionResponse2D & response);
 
+protected:
+	bool SweepTestWithAxes(Vec2D axes[], int numAxes, Vec2D otherPoints[], int numPoints, Vec2D velocityDelta, CollisionObject2DBase* other, SweepCollisionResponse2D & response);
+
 public:
 	SatCollision2DObject(SceneObject2D *object);
 	~SatCollision2DObject();

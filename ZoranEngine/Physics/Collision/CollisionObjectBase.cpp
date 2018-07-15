@@ -9,7 +9,7 @@ CollisionObjectBase::CollisionObjectBase(SceneObject* object, CollisionDynamics 
 {
 	physicsObject = 0;
 	sceneObject = object;
-	collisionLayer = -1;
+	collisionLayer = COLLISION_LAYER_DYNAMIC;
 	this->collisionType = collisionType;
 	this->collisionDynamics = collisionDynamics;
 }

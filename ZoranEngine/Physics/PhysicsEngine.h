@@ -1,6 +1,7 @@
 #pragma once
 #include "Math/Vector3.h"
 #include "Core/PlatformTypes.h"
+#include <Physics/2D/Collision/CollisionFrame2D.h>
 #include <vector>
 
 class PhysicsObjectBase;
@@ -18,6 +19,7 @@ private:
 #pragma warning(push)
 #pragma warning(disable:4251)
 	std::vector<PhysicsObjectBase*> physicsObjects;
+	CollisionFrame2D collisionFrame2D;
 #pragma warning(pop)
 
 	bool is3D;
@@ -27,6 +29,9 @@ public:
 	~PhysicsEngine();
 
 	void CheckAllCollision();
+	void ResolveAllStaticCollisions();
+	void ResolveAllSweptCollisions();
+	void ResolveAllCollisions();
 	void SetupFor2D(Vector2D mapCenter, Vector2D mapSize);
 	void SetupFor3D();
 
@@ -42,4 +47,5 @@ public:
 
 	CollisionObjectBase* RemoveObject(CollisionObjectBase* object);
 	PhysicsObjectBase* RemoveObject(PhysicsObjectBase* object);
+	CollisionFrame2D& CurrentCollisionFrame2D() { return collisionFrame2D; }
 };

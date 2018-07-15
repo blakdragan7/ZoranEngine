@@ -23,7 +23,7 @@ public:
 	virtual void PrintAllCollisions() = 0;
 	virtual void PrintAllContents(unsigned depth = 0) = 0;
 	virtual SceneObject* GetSceneObject() = 0;
-	virtual void CheckAllCollision() = 0;
+	virtual void CheckAllCollision(struct CollisionFrame2D& frame) = 0;
 	virtual void UpdateAllObjects() = 0;
 };  
 

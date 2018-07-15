@@ -18,42 +18,45 @@ public:
 
 	~Vector2D(void);
 
-	Vector2D operator -();
-	Vector2D operator -(Vector2D other);
-	Vector2D operator +(Vector2D other);
-	Vector2D operator *(Vector2D other);
-	Vector2D operator /(Vector2D other);
-	Vector2D operator =(Vector2D other);
-	Vector2D operator -=(Vector2D other);
-	Vector2D operator +=(Vector2D other);
-	Vector2D operator *=(Vector2D other);
-	Vector2D operator /=(Vector2D other);
+	Vector2D operator -()const;
+	Vector2D operator -(const Vector2D& other)const;
+	Vector2D operator +(const Vector2D& other)const;
+	Vector2D operator *(const Vector2D& other)const;
+	Vector2D operator /(const Vector2D& other)const;
+	Vector2D operator =(const Vector2D& other);
+	void operator -=(Vector2D other);
+	void operator +=(Vector2D other);
+	void operator *=(Vector2D other);
+	void operator /=(Vector2D other);
 
-	Vector2D operator -(double scalor);
-	Vector2D operator +(double scalor);
-	Vector2D operator *(double scalor);
-	Vector2D operator /(double scalor);
-	Vector2D operator -=(double scalor);
-	Vector2D operator +=(double scalor);
-	Vector2D operator *=(double scalor);
-	Vector2D operator /=(double scalor);
-	Vector2D operator =(double scalor);
+	Vector2D operator -(double scalor)const;
+	Vector2D operator +(double scalor)const;
+	Vector2D operator *(double scalor)const;
+	Vector2D operator /(double scalor)const;
+	void operator -=(double scalor);
+	void operator +=(double scalor);
+	void operator *=(double scalor);
+	void operator /=(double scalor);
+	void operator =(double scalor);
 
-	bool operator ==(Vector2D other);
+	bool operator ==(const Vector2D& other)const;
 
-	Vector2D getAbs();
-	Vector2D getNormal();
+	Vector2D getAbs()const;
+	Vector2D getNormal()const;
 
+	void clear();
 	void normalize();
-	double magnitude();
-	double distance(Vector2D other);
-	double distanceSquared(Vector2D other);
-	double dot(Vector2D other);
-	double cross(Vector2D other);
 	void rotate(Vector2D origin, double angle /*radians*/);
+
+	double magnitude()const;
+	double magnitudeSqr()const;
+	double distance(const Vector2D& other)const;
+	double distanceSquared(const Vector2D& other)const;
+	double dot(Vector2D other)const;
+	double cross(Vector2D other)const;
 };
 
-Vector2D operator*(double, Vector2D);
+Vector2D operator*(double, const Vector2D&);
 
 class ZoranEngine_EXPORT Vector2L
 {

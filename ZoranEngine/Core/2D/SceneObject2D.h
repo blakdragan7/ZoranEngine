@@ -2,6 +2,7 @@
 #include "Core\SceneObject.h"
 #include <Math/Matrix.hpp>
 #include <Math/Vector2.h>
+#include <Math/Matrix22.h>
 
 class CollisionObject2DBase;
 class PhysicsObject2DBase;
@@ -18,9 +19,14 @@ private:
 	Vector2D pos;
 	double rotation; // degrees
 
+	Matrix22 rotationMat;
+	Matrix22 invRotationMat;
+
 protected:
 	CollisionObject2DBase * collision;
 	PhysicsObject2DBase* physicsObject;
+	Vector2D size;
+	Vector2D startingSize;
 
 public:
 	SceneObject2D(std::string name);
@@ -47,6 +53,10 @@ public:
 	double GetRotation();
 	Vector2D GetPosition();
 	Vector2D GetScale();
+	Vector2D GetSize();
+
+	Matrix22 GetRotationMatrix();
+	Matrix22 GetInvRotationMatrix();
 
 	virtual MatrixF GetModel()override;
 	virtual MatrixF GetScaleMatrix3x3()override;

@@ -13,9 +13,15 @@ private:
 	Vector2D gravity;
 	Vector2D gravityNormal;
 
+	Vector2D force;
+
+	double torque;
+	double angularVelocity;
+
 protected:
 	bool SweepCollisionTo(Vec2D newPosition, struct SweepCollisionResponse2D& response);
 	bool FastSweepCollision(Vec2D newPosition); // Broad Sweep
+	virtual void CheckIfOnGround(struct CollisionResponse2D& response);
 
 public:
 	PhysicsObject2DBase(SceneObject2D* object);
@@ -25,14 +31,17 @@ public:
 	void SetVeloctiy(Vec2D Velocity);
 	void SetGravity(Vector2D gravity);
 
+	virtual void SetMass(double mass)override; // in KG
+
 	void OnCollision(struct CollisionResponse2D& response);
-	void OnSweepCollision(struct SweepCollisionResponse2D& response, double deltaTime);
+	bool OnSweepCollision(struct SweepCollisionResponse2D& response, double deltaTime,int currentDepth=0,int maxDepth=10);
 	bool SweepToo(Vec2D targetPosition, struct SweepCollisionResponse2D &response);
 
 	Vec2D GetVelocity();
 	Vec2D GetScenePos();
 	SceneObject2D* GetSceneObject();
 
-	virtual void Update(double deltaTime);
+	virtual void UpdateVelocities(double deltaTime)override;
+	virtual void UpdatePositionsAndRotation(double deltaTime)override;
 };
 

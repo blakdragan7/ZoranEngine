@@ -2,6 +2,8 @@
 #include "CollisionObject2DBase.h"
 #include <Core/2D/SceneObject2D.h>
 
+unsigned long long CollisionResponse2D::sID = 0;
+
 CollisionObject2DBase::CollisionObject2DBase(SceneObject2D *object, CollisionDynamics collisionDynamics, unsigned collisionType) : CollisionObjectBase(object, collisionDynamics, collisionType)
 {
 	physicsObject2D = 0;

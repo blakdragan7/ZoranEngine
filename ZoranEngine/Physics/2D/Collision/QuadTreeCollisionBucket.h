@@ -34,7 +34,7 @@ public:
 	virtual void PrintAllCollisions()override;
 
 	virtual void UpdateAllObjects()override;
-	virtual void CheckAllCollision()override;
+	virtual void CheckAllCollision(struct CollisionFrame2D& frame)override;
 	virtual bool ObjectIsWithinBucket(CollisionObject2DBase* object)override;
 	virtual bool CheckCollisionForObject(CollisionObject2DBase* object, struct CollisionResponse2D& response)override;
 	virtual bool CheckObjectAgainstStaic(CollisionObject2DBase* object, struct CollisionResponse2D& response)override;
