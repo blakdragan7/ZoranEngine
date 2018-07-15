@@ -21,7 +21,7 @@ int main(int argc, char* argv[])
 	{
 		TestSceneObject* test = new TestSceneObject((name_base + std::to_string(i)));
 		test->SetScale(40, -40);
-		test->SetPosition(Random::GetDoubleInRange(-300, 300), Random::GetDoubleInRange(-300, 300));
+		test->SetPosition(Random::GetfloatInRange(-300, 300), Random::GetfloatInRange(-300, 300));
 		test->GetPhysics()->StartPhysicsSim();
 		test->GetPhysics2D()->SetSweptCollision(true);
 		Vec2D pos = test->GetPosition();

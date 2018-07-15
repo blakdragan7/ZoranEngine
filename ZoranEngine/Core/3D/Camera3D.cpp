@@ -20,7 +20,7 @@ MatrixF Camera3D::GetModel()
 	return sceneObject->GetModel();
 }
 
-void Camera3D::Translate(double deltax, double deltay, double deltaz)
+void Camera3D::Translate(float deltax, float deltay, float deltaz)
 {
 	sceneObject->Translate(Vec3D(deltax,deltay,deltaz));
 }
@@ -35,12 +35,12 @@ void Camera3D::Translate(Vec3D delta)
 	sceneObject->Translate(delta);
 }
 
-void Camera3D::Rotate(double rotx, double roty, double rotz)
+void Camera3D::Rotate(float rotx, float roty, float rotz)
 {
 	sceneObject->RotateByEulor(Vec3D(rotx,roty,rotz));
 }
 
-void Camera3D::Rotate(double rotation)
+void Camera3D::Rotate(float rotation)
 {
 	sceneObject->RotateByEulor(Vec3D(rotation,0,0));
 }

@@ -1,16 +1,11 @@
 #include "stdafx.h"
 
-bool IsNearlyEqual(double left, double right)
+bool IsNearlyEqual(float left, float right)
 {
 	return abs(left - right) < .00001;
 }
 
-bool IsNearlyEqual(float left, float right)
-{
-	return abs(left - right) < .00001f;
-}
-
-bool IsNearlyEqual(long double left, long double right)
+bool IsNearlyEqual(long float left, long float right)
 {
 	return abs(left - right) < .00001;
 }

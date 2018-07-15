@@ -11,7 +11,7 @@
 #include <Physics/3D/Collision/SphereCollisionObject.h>
 
 #include <cmath>
-const double EulerConstant = std::exp(1.0);
+const float EulerConstant = std::exp(1.0);
 
 bool PhysicsObject3DBase::SweepCollisionTo(Vec3D position, SweepCollisionResponse3D & response)
 {
@@ -23,14 +23,14 @@ bool PhysicsObject3DBase::FastSweepCollision(Vec3D position)
 	Vec3D startingPosition = sceneObject3D->GetPosition();
 	Vec3D size = sceneObject3D->GetCollision3D()->GetSize() / 2.0;
 
-	double minPositionx = min(startingPosition.x, position.x);
-	double maxPositionx = max(startingPosition.x, position.x);
+	float minPositionx = min(startingPosition.x, position.x);
+	float maxPositionx = max(startingPosition.x, position.x);
 
-	double minPositiony = min(startingPosition.y, position.y);
-	double maxPositiony = max(startingPosition.y, position.y);
+	float minPositiony = min(startingPosition.y, position.y);
+	float maxPositiony = max(startingPosition.y, position.y);
 
-	double minPositionz = min(startingPosition.z, position.z);
-	double maxPositionz = max(startingPosition.z, position.z);
+	float minPositionz = min(startingPosition.z, position.z);
+	float maxPositionz = max(startingPosition.z, position.z);
 
 	sweepCollisionBox->minPos.x = minPositionx - size.x;
 	sweepCollisionBox->maxPos.x = maxPositionx + size.x;
@@ -94,7 +94,7 @@ void PhysicsObject3DBase::OnCollision(CollisionResponse3D &response)
 			if (isOnGround == false)
 			{
 				Vec3D cross = response.normal.cross(gravity);
-				double dot = response.normal.dot(gravity);
+				float dot = response.normal.dot(gravity);
 				if (cross.getMagnitudeSqr() == 0 && dot > 0)
 				{
 					Vec3D velocityGravNorm = (velocity + 10 * gravityNormal) * gravityNormal.getAbs();
@@ -128,7 +128,7 @@ void PhysicsObject3DBase::ApplyForce(Vec3D Force)
 	otherFriction = 1.0;
 }
 
-void PhysicsObject3DBase::Update(double deltaTime)
+void PhysicsObject3DBase::Update(float deltaTime)
 {
 	if (shouldSimulate)
 	{
@@ -147,7 +147,7 @@ void PhysicsObject3DBase::Update(double deltaTime)
 				sceneObject3D->SetPosition(actual);
 				if (response.timeHit < 1.0)
 				{
-					double invTime = (1.0 - response.timeHit);
+					float invTime = (1.0 - response.timeHit);
 					velocity *= invTime;
 				}
 				OnCollision(response.CollisionResponse3D);

@@ -83,7 +83,7 @@ void SceneObject3D::SetPosition(Vector3D pos)
 	UnlockMutex();
 }
 
-void SceneObject3D::SetPosition(double x, double y, double z)
+void SceneObject3D::SetPosition(float x, float y, float z)
 {
 	WaitForMutex();
 
@@ -103,7 +103,7 @@ void SceneObject3D::SetScale(Vector3D scale)
 	UnlockMutex();
 }
 
-void SceneObject3D::SetScale(double x, double y, double z)
+void SceneObject3D::SetScale(float x, float y, float z)
 {
 	WaitForMutex();
 	scale.x = x;
@@ -198,12 +198,12 @@ MatrixF SceneObject3D::GetScaleMatrix4x4()
 	return mat;
 }
 
-double SceneObject3D::DistanceTo(Vector3D pos)
+float SceneObject3D::DistanceTo(Vector3D pos)
 {
 	return this->pos.distance(pos);
 }
 
-double SceneObject3D::DistanceTo(SceneObject3D * other)
+float SceneObject3D::DistanceTo(SceneObject3D * other)
 {
 	return this->pos.distance(other->pos);
 }

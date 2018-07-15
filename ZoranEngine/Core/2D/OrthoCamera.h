@@ -7,7 +7,7 @@ private:
 	MatrixF orthoModel;
 
 public:
-	OrthoCamera(std::string name,double width,double height,double rotation);
+	OrthoCamera(std::string name,float width,float height,float rotation);
 	~OrthoCamera();
 
 	virtual MatrixF GetModel()override;

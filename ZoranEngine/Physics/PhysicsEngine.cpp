@@ -107,7 +107,7 @@ CollisionBucketBase * PhysicsEngine::GetCollisionBucketRoot()
 	else return collisionTree2D;
 }
 
-void PhysicsEngine::UpdateAll(double deltaTime)
+void PhysicsEngine::UpdateAll(float deltaTime)
 {
 	if (is3D == false)
 	{

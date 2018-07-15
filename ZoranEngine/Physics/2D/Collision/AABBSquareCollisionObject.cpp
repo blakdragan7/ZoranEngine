@@ -65,7 +65,7 @@ bool AABBSquareCollisionObject::CollidesWith(CollisionObject2DBase* other, Colli
 		Vector2D(0,  1), // 'top' face normal (+y direction)
 	};
 
-	double distances[4] =
+	float distances[4] =
 	{
 		(otherMax.x - minPos.x), // distance of otherBox to face on 'left' side.
 		(maxPos.x - otherMin.x), // distance of otherBox to face on 'right' side.
@@ -73,7 +73,7 @@ bool AABBSquareCollisionObject::CollidesWith(CollisionObject2DBase* other, Colli
 		(maxPos.y - otherMin.y), // distance of otherBox to face on 'top' side.
 	};
 
-	double penetration = 0;
+	float penetration = 0;
 	Vec2D normal;
 	int faceIndex = -1;
 
@@ -177,8 +177,8 @@ bool AABBSquareCollisionObject::SweepCollidesWith(CollisionObject2DBase * other,
 
 	if (deltaPos.x == 0)
 	{
-		entry.x = -std::numeric_limits<double>::infinity();
-		exit.x = -std::numeric_limits<double>::infinity();
+		entry.x = -std::numeric_limits<float>::infinity();
+		exit.x = -std::numeric_limits<float>::infinity();
 	}
 	else
 	{
@@ -187,8 +187,8 @@ bool AABBSquareCollisionObject::SweepCollidesWith(CollisionObject2DBase * other,
 	}
 	if (deltaPos.y == 0)
 	{
-		entry.y = -std::numeric_limits<double>::infinity();
-		exit.y = -std::numeric_limits<double>::infinity();
+		entry.y = -std::numeric_limits<float>::infinity();
+		exit.y = -std::numeric_limits<float>::infinity();
 	}
 	else
 	{
@@ -196,8 +196,8 @@ bool AABBSquareCollisionObject::SweepCollidesWith(CollisionObject2DBase * other,
 		exit.y = InvExit.y / deltaPos.y;
 	}
 
-	double entryTime = max(entry.x, entry.y);
-	double exitTime = max(exit.x, exit.y);
+	float entryTime = max(entry.x, entry.y);
+	float exitTime = max(exit.x, exit.y);
 
 	if (entryTime > exitTime || (entry.x < 0.0 && entry.y < 0) || (entry.x > 1.0  && entry.y > 1.0))
 	{
@@ -248,11 +248,11 @@ bool AABBSquareCollisionObject::FastSweepCollidesWith(Vector2D newPosition)
 	Vec2D startingPosition = GetSceneObject()->GetPosition();
 	Vec2D size = GetSceneObject()->GetCollision2D()->GetSize() / 2.0;
 
-	double minPositionx = min(startingPosition.x, newPosition.x);
-	double maxPositionx = max(startingPosition.x, newPosition.x);
+	float minPositionx = min(startingPosition.x, newPosition.x);
+	float maxPositionx = max(startingPosition.x, newPosition.x);
 
-	double minPositiony = min(startingPosition.y, newPosition.y);
-	double maxPositiony = max(startingPosition.y, newPosition.y);
+	float minPositiony = min(startingPosition.y, newPosition.y);
+	float maxPositiony = max(startingPosition.y, newPosition.y);
 
 	sweepCollisionSquare->minPos.x = minPositionx - size.x;
 	sweepCollisionSquare->maxPos.x = maxPositionx + size.x;

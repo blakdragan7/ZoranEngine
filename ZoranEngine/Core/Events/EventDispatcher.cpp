@@ -11,7 +11,7 @@ EventDispatcher::~EventDispatcher()
 {
 }
 
-void EventDispatcher::UpdateAll(double deltaTime)
+void EventDispatcher::UpdateAll(float deltaTime)
 {
 	std::list<EventBase*>::iterator i = eventList.begin();
 

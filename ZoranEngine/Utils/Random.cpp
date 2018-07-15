@@ -13,9 +13,9 @@ float Random::GetFloatInRange(float low, float hi)
 	return low + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (hi - low)));
 }
 
-double Random::GetDoubleInRange(double low, double hi)
+float Random::GetfloatInRange(float low, float hi)
 {
-	return low + static_cast <double> (rand()) / (static_cast <double> (RAND_MAX / (hi - low)));
+	return low + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (hi - low)));
 }
 
 int Random::GetIntInRange(int low, int hi)

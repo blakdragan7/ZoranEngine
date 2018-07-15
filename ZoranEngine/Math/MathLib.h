@@ -3,7 +3,7 @@ class Vector2D;
 class MathLib
 {
 public:
-	inline static double Saturate(double val, double min, double max)
+	inline static float Saturate(float val, float min, float max)
 	{
 		return min(max(val, min), max);
 	}
@@ -26,12 +26,12 @@ public:
 		return signum(x, std::is_signed<T>());
 	}
 
-	static double lerp(double start, double end, double alpha)
+	static float lerp(float start, float end, float alpha)
 	{
 		return (start * alpha) + (end * 1.0 - alpha);
 	}
 
-	static int ClipRangeToLine(Vector2D outPoints[2], Vector2D inPoints[2],const Vector2D& lineNormal, double offset);
-
+	static int ClipRangeToLine(Vector2D outPoints[2], Vector2D inPoints[2],const Vector2D& lineNormal, float offset, char clipEdge);
+	static float Clamp(float value, float minv, float max);
 };
 

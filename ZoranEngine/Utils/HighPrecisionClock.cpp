@@ -25,7 +25,7 @@ long long HighPrecisionClock::GetDiffNanoSeconds()
 	return (high_resolution_clock::now().time_since_epoch().count() - time);
 }
 
-double HighPrecisionClock::GetDiffSeconds()
+float HighPrecisionClock::GetDiffSeconds()
 {
-	return (double)GetDiffNanoSeconds() / (double)NANOSECONDS_PER_SECONDS;
+	return (float)GetDiffNanoSeconds() / (float)NANOSECONDS_PER_SECONDS;
 }

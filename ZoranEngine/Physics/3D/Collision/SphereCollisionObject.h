@@ -6,13 +6,13 @@
 class ZoranEngine_EXPORT SphereCollisionObject : public CollisionObject3DBase
 {
 private:
-	double radius;
-	double radiusSqr;
+	float radius;
+	float radiusSqr;
 
-	double scaledRadius;
+	float scaledRadius;
 
 public:
-	SphereCollisionObject(double radius, SceneObject3D* object, CollisionDynamics dynamics,unsigned collisionType = SPHERE_COLLISION);
+	SphereCollisionObject(float radius, SceneObject3D* object, CollisionDynamics dynamics,unsigned collisionType = SPHERE_COLLISION);
 	~SphereCollisionObject();
 
 	virtual void SetBoundsBySceneObject()override;
@@ -21,7 +21,7 @@ public:
 	virtual Vector3D GetClosestPointTo(Vector3D pos)override;
 
 	virtual Vector3D GetSize()override;
-	inline double GetRadius() { return radius; }
-	inline double GetRadiusSqr() { return radiusSqr; }
+	inline float GetRadius() { return radius; }
+	inline float GetRadiusSqr() { return radiusSqr; }
 };
 

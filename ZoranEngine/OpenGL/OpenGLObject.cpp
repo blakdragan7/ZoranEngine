@@ -164,18 +164,18 @@ void OpenGLObject::MakeFullScreenQuad()
 	renderEngine->CheckErrors("MakeFullScreenQuad");
 }
 
-bool OpenGLObject::GetVertDataAsDouble(double ** data, unsigned & amount)
+bool OpenGLObject::GetVertDataAsfloat(float ** data, unsigned & amount)
 {
 	switch (this->vertType)
 	{
 	case VT_Float:
 	{
-		double* doubleData = new double[numVerts];
+		float* floatData = new float[numVerts];
 		for (unsigned i = 0; i < numVerts; i++)
 		{
-			doubleData[i] = ((float*)cpuVertData)[i];
+			floatData[i] = ((float*)cpuVertData)[i];
 		}
-		*data = doubleData;
+		*data = floatData;
 		amount = numVerts;
 		return true;
 	}

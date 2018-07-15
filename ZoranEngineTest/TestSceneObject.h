@@ -10,6 +10,6 @@ public:
 	~TestSceneObject();
 
 	virtual void PreRender()override;
-	virtual void Tick(double dt)override;
+	virtual void Tick(float dt)override;
 };
 

@@ -44,14 +44,14 @@ void SceneObject2D::SetScale(Vector2D scale)
 	if (collision)pEngine->UpdateCollisionObject(collision);
 }
 
-void SceneObject2D::SetPosition(double x, double y)
+void SceneObject2D::SetPosition(float x, float y)
 {
 	this->pos.x = x;
 	this->pos.y = y;
 	if (collision)pEngine->UpdateCollisionObject(collision);
 }
 
-void SceneObject2D::SetScale(double x, double y)
+void SceneObject2D::SetScale(float x, float y)
 {
 	this->scale.x = x;
 	this->scale.y = y;
@@ -59,7 +59,7 @@ void SceneObject2D::SetScale(double x, double y)
 	if (collision)pEngine->UpdateCollisionObject(collision);
 }
 
-void SceneObject2D::SetRotation(double rotation)
+void SceneObject2D::SetRotation(float rotation)
 {
 	this->rotation = rotation;
 	rotationMat.SetRotation(rotation);
@@ -73,7 +73,7 @@ void SceneObject2D::Translate(Vector2D delta)
 	if (collision)pEngine->UpdateCollisionObject(collision);
 }
 
-void SceneObject2D::Translate(double x, double y)
+void SceneObject2D::Translate(float x, float y)
 {
 	this->pos.x += x;
 	this->pos.y += y;
@@ -87,7 +87,7 @@ void SceneObject2D::Scale(Vector2D scale)
 	if (collision)pEngine->UpdateCollisionObject(collision);
 }
 
-void SceneObject2D::Scale(double dx, double dy)
+void SceneObject2D::Scale(float dx, float dy)
 {
 	this->scale.x *= dx;
 	this->scale.y *= dy;
@@ -95,7 +95,7 @@ void SceneObject2D::Scale(double dx, double dy)
 	if (collision)pEngine->UpdateCollisionObject(collision);
 }
 
-void SceneObject2D::Rotate(double rotation)
+void SceneObject2D::Rotate(float rotation)
 {
 	rotation += rotation;
 	rotationMat.SetRotation(rotation);
@@ -103,12 +103,12 @@ void SceneObject2D::Rotate(double rotation)
 	if (collision)pEngine->UpdateCollisionObject(collision);
 }
 
-double SceneObject2D::GetRotationRad()
+float SceneObject2D::GetRotationRad()
 {
 	return rotation;
 }
 
-double SceneObject2D::GetRotation()
+float SceneObject2D::GetRotation()
 {
 	return rotation;
 }

@@ -110,10 +110,10 @@
     <ClInclude Include="Math\MathHelpers.h" />
     <ClInclude Include="Math\MathLib.h" />
     <ClInclude Include="Math\Matrix.hpp" />
+    <ClInclude Include="Math\Matrix22.h" />
     <ClInclude Include="Math\Quaternion.h" />
     <ClInclude Include="Math\Vector2.h" />
     <ClInclude Include="Math\Vector3.h" />
-    <ClInclude Include="Matrix22.h" />
     <ClInclude Include="OpenGL\OpenGLObject.h" />
     <ClInclude Include="OpenGL\OpenGLRenderEngine.h" />
     <ClInclude Include="OpenGL\OpenGLShaderProgramBase.h" />

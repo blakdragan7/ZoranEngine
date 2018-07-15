@@ -437,7 +437,7 @@ public:
 	}
 };
 
-typedef Matrix<double> MatrixD;
+typedef Matrix<float> MatrixD;
 typedef Matrix<float>  MatrixF;
 typedef Matrix<int>    MatrixI;
 

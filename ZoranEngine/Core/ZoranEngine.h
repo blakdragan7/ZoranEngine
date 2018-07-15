@@ -52,9 +52,9 @@ public:
 	void MouseEvent(MouseEventType,float value);
 	void MouseMove(float x,float y);
 
-	void Setup2DScene(double centerx, double centery, double width, double height); // in meters
+	void Setup2DScene(float centerx, float centery, float width, float height); // in meters
 	void Setup2DScene(Vector2D center, Vector2D size); // in meters
-	void SetupScene(double centerx, double centery, double width, double height, double depth); // in meters
+	void SetupScene(float centerx, float centery, float width, float height, float depth); // in meters
 	void SetupScene(Vector3D center, Vector3D size); // in meters
 
 	inline CameraBase* GetCamera() { return camera; }

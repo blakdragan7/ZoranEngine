@@ -5,16 +5,16 @@ class ZoranEngine_EXPORT Vector2D
 {
 public:
 	union {
-		double x;
-		double w;
+		float x;
+		float w;
 	};
 	union {
-		double y;
-		double h;
+		float y;
+		float h;
 	};
 
 	Vector2D(void);
-	Vector2D(double x_, double y_);
+	Vector2D(float x_, float y_);
 
 	~Vector2D(void);
 
@@ -29,15 +29,15 @@ public:
 	void operator *=(Vector2D other);
 	void operator /=(Vector2D other);
 
-	Vector2D operator -(double scalor)const;
-	Vector2D operator +(double scalor)const;
-	Vector2D operator *(double scalor)const;
-	Vector2D operator /(double scalor)const;
-	void operator -=(double scalor);
-	void operator +=(double scalor);
-	void operator *=(double scalor);
-	void operator /=(double scalor);
-	void operator =(double scalor);
+	Vector2D operator -(float scalor)const;
+	Vector2D operator +(float scalor)const;
+	Vector2D operator *(float scalor)const;
+	Vector2D operator /(float scalor)const;
+	void operator -=(float scalor);
+	void operator +=(float scalor);
+	void operator *=(float scalor);
+	void operator /=(float scalor);
+	void operator =(float scalor);
 
 	bool operator ==(const Vector2D& other)const;
 
@@ -46,17 +46,17 @@ public:
 
 	void clear();
 	void normalize();
-	void rotate(Vector2D origin, double angle /*radians*/);
+	void rotate(Vector2D origin, float angle /*radians*/);
 
-	double magnitude()const;
-	double magnitudeSqr()const;
-	double distance(const Vector2D& other)const;
-	double distanceSquared(const Vector2D& other)const;
-	double dot(Vector2D other)const;
-	double cross(Vector2D other)const;
+	float magnitude()const;
+	float magnitudeSqr()const;
+	float distance(const Vector2D& other)const;
+	float distanceSquared(const Vector2D& other)const;
+	float dot(const Vector2D& other)const;
+	float cross(const Vector2D& other)const;
+	Vector2D crossRight(float scalor)const;
+	Vector2D crossLeft(float scalor)const;
 };
-
-Vector2D operator*(double, const Vector2D&);
 
 class ZoranEngine_EXPORT Vector2L
 {
@@ -99,7 +99,7 @@ public:
 
 	bool operator ==(Vector2L other);
 
-	double distance(Vector2L other);
+	float distance(Vector2L other);
 
 	long long magnitude();
 	long long distanceSquared(Vector2L other);

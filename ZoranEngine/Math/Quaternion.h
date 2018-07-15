@@ -8,12 +8,12 @@
 class ZoranEngine_EXPORT Quaternion
 {
 private:
-	double vals[4];
+	float vals[4];
 public:
 	Quaternion();
-	Quaternion(const double* array);
-	Quaternion(double x, double y, double z, double w);
-	Quaternion(Vector3D complex,double w);
+	Quaternion(const float* array);
+	Quaternion(float x, float y, float z, float w);
+	Quaternion(Vector3D complex,float w);
 	~Quaternion();
 
 	Vector3D GetComplex() const;
@@ -21,7 +21,7 @@ public:
 	Quaternion GetInverse();
 
 	Quaternion Product(const Quaternion& rhs) const;
-	double GetMagnitude() const;
+	float GetMagnitude() const;
 
 	MatrixF AsMatrix() const;
 	MatrixF AsRightMatrix() const;
@@ -30,24 +30,24 @@ public:
 
 	static Quaternion FromScaledAxis(Vector3D& w);
 	static Quaternion FromEuler(const Vector3D& euler);
-	static Quaternion FromEuler(double x, double y, double z);
+	static Quaternion FromEuler(float x, float y, float z);
 
 	Vector3D AsEuler(void) const;
 	// scaled linear interp
-	Quaternion Slerp(const Quaternion& q1, double t);
-	static Quaternion Slerp(const Quaternion& q0, const Quaternion& q1, double t);
+	Quaternion Slerp(const Quaternion& q1, float t);
+	static Quaternion Slerp(const Quaternion& q0, const Quaternion& q1, float t);
 
-	inline double X()const { return vals[0]; }
-	inline double Y()const { return vals[1]; }
-	inline double Z()const { return vals[2]; }
-	inline double W()const { return vals[3]; }
+	inline float X()const { return vals[0]; }
+	inline float Y()const { return vals[1]; }
+	inline float Z()const { return vals[2]; }
+	inline float W()const { return vals[3]; }
 
 	// opreators
 	Quaternion operator*(const Quaternion& rhs) const;
 	Quaternion operator-(const Quaternion& rhs) const;
-	Quaternion operator*(double s) const;
-	Quaternion operator/(double s) const;
+	Quaternion operator*(float s) const;
+	Quaternion operator/(float s) const;
 	Quaternion operator-() const;
 };
 
-Quaternion operator*(double s, const Quaternion& q);
+Quaternion operator*(float s, const Quaternion& q);

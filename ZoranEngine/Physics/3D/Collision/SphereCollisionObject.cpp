@@ -4,7 +4,7 @@
 #include "Core/SceneObject.h"
 #include <Core/3D/SceneObject3D.h>
 
-SphereCollisionObject::SphereCollisionObject(double radius, SceneObject3D* object, CollisionDynamics dynamics, unsigned collisionType) : CollisionObject3DBase(object, dynamics, collisionType)
+SphereCollisionObject::SphereCollisionObject(float radius, SceneObject3D* object, CollisionDynamics dynamics, unsigned collisionType) : CollisionObject3DBase(object, dynamics, collisionType)
 {
 	this->radius = radius;
 	this->radiusSqr = radius * radius;
@@ -31,8 +31,8 @@ bool SphereCollisionObject::CollidesWith(CollisionObject3DBase * other, Collisio
 		{
 			SphereCollisionObject* object = (SphereCollisionObject*)other;
 
-			double radiusSqrSum = radiusSqr + object->radiusSqr;
-			double distanceSqr = (GetScenePos() - other->GetScenePos()).getMagnitudeSqr();
+			float radiusSqrSum = radiusSqr + object->radiusSqr;
+			float distanceSqr = (GetScenePos() - other->GetScenePos()).getMagnitudeSqr();
 			
 			bool collided = distanceSqr <= radiusSqrSum;
 			response.collided = collided;

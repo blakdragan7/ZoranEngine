@@ -9,13 +9,13 @@ Quaternion::Quaternion()
 	vals[3] = 1;
 }
 
-Quaternion::Quaternion(const double* array)
+Quaternion::Quaternion(const float* array)
 {
 	if (array == NULL)throw std::invalid_argument("Quaternion(array) array can not be null !");
 	memcpy(vals, array, sizeof(vals));
 }
 
-Quaternion::Quaternion(Vector3D complex, double w)
+Quaternion::Quaternion(Vector3D complex, float w)
 {
 	vals[0] = complex.x;
 	vals[1] = complex.y;
@@ -23,7 +23,7 @@ Quaternion::Quaternion(Vector3D complex, double w)
 	vals[3] = w;
 }
 
-Quaternion::Quaternion(double x, double y, double z, double w)
+Quaternion::Quaternion(float x, float y, float z, float w)
 {
 	vals[0] = x;
 	vals[1] = y;
@@ -44,7 +44,7 @@ Quaternion Quaternion::GetConjugate()const
 { 
 	return Quaternion(-GetComplex(), W()); 
 };
-double Quaternion::GetMagnitude() const
+float Quaternion::GetMagnitude() const
 { 
 	return sqrt(vals[0] * vals[0] + vals[1] * vals[1] + vals[2] * vals[2] + vals[3] * vals[3]); 
 }
@@ -57,11 +57,11 @@ Quaternion Quaternion::operator*(const Quaternion& rhs) const {
 	return Product(rhs);
 }
 
-Quaternion Quaternion::operator*(double s) const {
+Quaternion Quaternion::operator*(float s) const {
 	return Quaternion(GetComplex()*s, W()*s);
 }
 
-Quaternion operator*(double s, const Quaternion & q)
+Quaternion operator*(float s, const Quaternion & q)
 {
 	return Quaternion(q.GetComplex()*s,q.W()*s);
 }
@@ -74,7 +74,7 @@ Quaternion Quaternion::operator-() const {
 	return Quaternion(-X(), -Y(), -Z(), -W());
 }
 
-Quaternion Quaternion::operator/(double s) const {
+Quaternion Quaternion::operator/(float s) const {
 	if (s == 0) throw std::invalid_argument("Quaternion operator/: Can not Devide by 0 ! ");
 	return Quaternion(GetComplex() / s, W() / s);
 }
@@ -120,10 +120,10 @@ MatrixF Quaternion::AsRotationMatrix() const {
 }
 
 Quaternion Quaternion::FromScaledAxis(Vector3D& w) {
-	double theta = w.getMagnitude();
+	float theta = w.getMagnitude();
 	Quaternion quat;
 	if (theta > 0.0001) {
-		double s = sin(theta / 2.0);
+		float s = sin(theta / 2.0);
 		Vector3D W(w / theta * s);
 		quat.vals[0] = W.x;
 		quat.vals[1] = W.y;
@@ -142,13 +142,13 @@ Vector3D Quaternion::RotatedVector(const Vector3D& v) const {
 	return (((*this) * Quaternion(v, 0)) * GetConjugate()).GetComplex();
 }
 
-Quaternion Quaternion::FromEuler(double x,double y,double z) {
-	double c1 = cos(z * 0.5);
-	double c2 = cos(y * 0.5);
-	double c3 = cos(x * 0.5);
-	double s1 = sin(z * 0.5);
-	double s2 = sin(y * 0.5);
-	double s3 = sin(x * 0.5);
+Quaternion Quaternion::FromEuler(float x,float y,float z) {
+	float c1 = cos(z * 0.5);
+	float c2 = cos(y * 0.5);
+	float c3 = cos(x * 0.5);
+	float s1 = sin(z * 0.5);
+	float s2 = sin(y * 0.5);
+	float s3 = sin(x * 0.5);
 
 	Quaternion quat;
 
@@ -161,12 +161,12 @@ Quaternion Quaternion::FromEuler(double x,double y,double z) {
 }
 
 Quaternion Quaternion::FromEuler(const Vector3D& euler) {
-	double c1 = cos(euler.z * 0.5);
-	double c2 = cos(euler.y * 0.5);
-	double c3 = cos(euler.x * 0.5);
-	double s1 = sin(euler.z * 0.5);
-	double s2 = sin(euler.y * 0.5);
-	double s3 = sin(euler.x * 0.5);
+	float c1 = cos(euler.z * 0.5);
+	float c2 = cos(euler.y * 0.5);
+	float c3 = cos(euler.x * 0.5);
+	float s1 = sin(euler.z * 0.5);
+	float s2 = sin(euler.y * 0.5);
+	float s3 = sin(euler.x * 0.5);
 
 	Quaternion quat;
 
@@ -180,9 +180,9 @@ Quaternion Quaternion::FromEuler(const Vector3D& euler) {
 
 Vector3D Quaternion::AsEuler(void) const {
 	Vector3D euler;
-	const static double PI_OVER_2 = M_PI * 0.5;
-	const static double EPSILON = 1e-10;
-	double sqw, sqx, sqy, sqz;
+	const static float PI_OVER_2 = M_PI * 0.5;
+	const static float EPSILON = 1e-10;
+	float sqw, sqx, sqy, sqz;
 
 	// quick conversion to Euler angles to give tilt to user
 	sqw = vals[3] * vals[3];
@@ -210,22 +210,22 @@ Vector3D Quaternion::AsEuler(void) const {
 	return euler;
 }
 // scaled linear interp
-Quaternion Quaternion::Slerp(const Quaternion& q1, double t) {
+Quaternion Quaternion::Slerp(const Quaternion& q1, float t) {
 	return Slerp(*this, q1, t);
 }
 
-Quaternion Quaternion::Slerp(const Quaternion& q0, const Quaternion& q1, double t) {
+Quaternion Quaternion::Slerp(const Quaternion& q0, const Quaternion& q1, float t) {
 
-	double omega = acos(MathLib::Saturate(q0.vals[0] * q1.vals[0] +
+	float omega = acos(MathLib::Saturate(q0.vals[0] * q1.vals[0] +
 		q0.vals[1] * q1.vals[1] +
 		q0.vals[2] * q1.vals[2] +
 		q0.vals[3] * q1.vals[3], -1, 1));
 	if (fabs(omega) < 1e-10) {
 		omega = 1e-10;
 	}
-	double som = sin(omega);
-	double st0 = sin((1 - t) * omega) / som;
-	double st1 = sin(t * omega) / som;
+	float som = sin(omega);
+	float st0 = sin((1 - t) * omega) / som;
+	float st1 = sin(t * omega) / som;
 
 	return Quaternion(q0.vals[0] * st0 + q1.vals[0] * st1,
 		q0.vals[1] * st0 + q1.vals[1] * st1,

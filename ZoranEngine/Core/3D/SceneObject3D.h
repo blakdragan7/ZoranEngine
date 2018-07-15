@@ -40,9 +40,9 @@ public:
 	void SetRotation(Vector3D eulor);
 	void SetRotationFromAxis(Vector3D axis);
 	void SetPosition(Vector3D pos);
-	void SetPosition(double x, double y, double z);
+	void SetPosition(float x, float y, float z);
 	void SetScale(Vector3D scale);
-	void SetScale(double x, double y, double z);
+	void SetScale(float x, float y, float z);
 
 	Vector3D GetPosition();
 	Vector3D GetScale();
@@ -63,8 +63,8 @@ public:
 	virtual MatrixF GetScaleMatrix3x3()override;
 	virtual MatrixF GetScaleMatrix4x4()override;
 
-	double DistanceTo(Vector3D pos);
-	double DistanceTo(SceneObject3D* other);
+	float DistanceTo(Vector3D pos);
+	float DistanceTo(SceneObject3D* other);
 
 	inline CollisionObject3DBase* GetCollision3D() { return collision; }
 	inline PhysicsObject3DBase* GetPhysics3D() { return physicsObject; }

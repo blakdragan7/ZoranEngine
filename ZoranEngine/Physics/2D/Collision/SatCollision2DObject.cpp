@@ -14,11 +14,11 @@
 
 bool SatCollision2DObject::TestAgainstOtherSquare(SatCollision2DObject * other, CollisionResponse2D & response)
 {
-	double cosa = cos(-GetSceneObject()->GetRotationRad());
-	double sina = sin(-GetSceneObject()->GetRotationRad());
+	float cosa = cos(-GetSceneObject()->GetRotationRad());
+	float sina = sin(-GetSceneObject()->GetRotationRad());
 
-	double cosb = cos(-other->GetSceneObject()->GetRotationRad());
-	double sinb = sin(-other->GetSceneObject()->GetRotationRad());
+	float cosb = cos(-other->GetSceneObject()->GetRotationRad());
+	float sinb = sin(-other->GetSceneObject()->GetRotationRad());
 
 	Vec2D axis[4] = {
 		Vec2D(-cosa,sina).getNormal(),
@@ -28,21 +28,21 @@ bool SatCollision2DObject::TestAgainstOtherSquare(SatCollision2DObject * other, 
 	};
 
 	int normal_index = -1;
-	double penetration = std::numeric_limits<double>::infinity();
+	float penetration = std::numeric_limits<float>::infinity();
 	bool isNegative = false;
 
 	for (int axes_index = 0; axes_index < 4; axes_index++)
 	{
-		double mina = std::numeric_limits<double>::infinity();
-		double maxa = -std::numeric_limits<double>::infinity();
+		float mina = std::numeric_limits<float>::infinity();
+		float maxa = -std::numeric_limits<float>::infinity();
 
-		double minb = std::numeric_limits<double>::infinity();
-		double maxb = -std::numeric_limits<double>::infinity();
+		float minb = std::numeric_limits<float>::infinity();
+		float maxb = -std::numeric_limits<float>::infinity();
 
 		for (int point_index = 0; point_index < 4; point_index++)
 		{
-			double currenta = derivedPoints[point_index].dot(axis[axes_index]);
-			double currentb = other->derivedPoints[point_index].dot(axis[axes_index]);
+			float currenta = derivedPoints[point_index].dot(axis[axes_index]);
+			float currentb = other->derivedPoints[point_index].dot(axis[axes_index]);
 
 			mina = min(currenta, mina);
 			maxa = max(currenta, maxa);
@@ -53,7 +53,7 @@ bool SatCollision2DObject::TestAgainstOtherSquare(SatCollision2DObject * other, 
 
 		if (maxa < minb || maxb < mina) return false;
 
-		double overlap = min(maxa, maxb) - max(mina, minb);
+		float overlap = min(maxa, maxb) - max(mina, minb);
 
 		if (overlap < penetration)
 		{
@@ -99,11 +99,11 @@ bool SatCollision2DObject::TestAgainstOtherCircle(SatCollision2DObject * other, 
 
 bool SatCollision2DObject::TestAgainstOtherAABBSquare(AABBSquareCollisionObject * other, CollisionResponse2D & response)
 {
-	double cosa = cos(-GetSceneObject()->GetRotationRad());
-	double sina = sin(-GetSceneObject()->GetRotationRad());
+	float cosa = cos(-GetSceneObject()->GetRotationRad());
+	float sina = sin(-GetSceneObject()->GetRotationRad());
 
-	double cosb = 1;
-	double sinb = 0;
+	float cosb = 1;
+	float sinb = 0;
 
 	Vec2D otherMin = other->GetMinPos();
 	Vec2D otherMax = other->GetMaxPos();
@@ -123,21 +123,21 @@ bool SatCollision2DObject::TestAgainstOtherAABBSquare(AABBSquareCollisionObject 
 	};
 
 	int normal_index = -1;
-	double penetration = std::numeric_limits<double>::infinity();
+	float penetration = std::numeric_limits<float>::infinity();
 	bool isNegative = false;
 
 	for (int axes_index = 0; axes_index < 4; axes_index++)
 	{
-		double mina = std::numeric_limits<double>::infinity();
-		double maxa = -std::numeric_limits<double>::infinity();
+		float mina = std::numeric_limits<float>::infinity();
+		float maxa = -std::numeric_limits<float>::infinity();
 
-		double minb = std::numeric_limits<double>::infinity();
-		double maxb = -std::numeric_limits<double>::infinity();
+		float minb = std::numeric_limits<float>::infinity();
+		float maxb = -std::numeric_limits<float>::infinity();
 
 		for (int point_index = 0; point_index < 4; point_index++)
 		{
-			double currenta = derivedPoints[point_index].dot(axis[axes_index]);
-			double currentb = otherPoints[point_index].dot(axis[axes_index]);
+			float currenta = derivedPoints[point_index].dot(axis[axes_index]);
+			float currentb = otherPoints[point_index].dot(axis[axes_index]);
 
 			mina = min(currenta, mina);
 			maxa = max(currenta, maxa);
@@ -149,7 +149,7 @@ bool SatCollision2DObject::TestAgainstOtherAABBSquare(AABBSquareCollisionObject 
 
 		if (maxa < minb || maxb < mina) return false;
 
-		double overlap = min(maxa, maxb) - max(mina,minb);
+		float overlap = min(maxa, maxb) - max(mina,minb);
 
 		if ( overlap < penetration )
 		{
@@ -184,11 +184,11 @@ bool SatCollision2DObject::TestAgainstOtherAABBSquare(AABBSquareCollisionObject 
 
 bool SatCollision2DObject::SweepTestAgainstOtherSquare(SatCollision2DObject* other, SweepCollisionResponse2D & response)
 {
-	double cosa = cos(-GetSceneObject()->GetRotationRad());
-	double sina = sin(-GetSceneObject()->GetRotationRad());
+	float cosa = cos(-GetSceneObject()->GetRotationRad());
+	float sina = sin(-GetSceneObject()->GetRotationRad());
 
-	double cosb = cos(-other->GetSceneObject()->GetRotationRad());
-	double sinb = sin(-other->GetSceneObject()->GetRotationRad());
+	float cosb = cos(-other->GetSceneObject()->GetRotationRad());
+	float sinb = sin(-other->GetSceneObject()->GetRotationRad());
 	
 	Vec2D axis[4] = {
 		Vec2D(-cosa,sina).getNormal(),
@@ -214,11 +214,11 @@ bool SatCollision2DObject::SweepTestAgainstOtherCircle(SatCollision2DObject* oth
 
 bool SatCollision2DObject::SweepTestAgainstOtherAABBSquare(AABBSquareCollisionObject* other, SweepCollisionResponse2D & response)
 {
-	double cosa = cos(-GetSceneObject()->GetRotationRad());
-	double sina = sin(-GetSceneObject()->GetRotationRad());
+	float cosa = cos(-GetSceneObject()->GetRotationRad());
+	float sina = sin(-GetSceneObject()->GetRotationRad());
 
-	double cosb = 1;
-	double sinb = 0;
+	float cosb = 1;
+	float sinb = 0;
 
 	Vec2D otherMin = other->GetMinPos();
 	Vec2D otherMax = other->GetMaxPos();
@@ -245,24 +245,24 @@ bool SatCollision2DObject::SweepTestAgainstOtherAABBSquare(AABBSquareCollisionOb
 bool SatCollision2DObject::SweepTestWithAxes(Vec2D axes[], int numAxes, Vec2D otherPoints[], int numPoints, Vec2D velocityDelta,CollisionObject2DBase* other, SweepCollisionResponse2D & response)
 {
 	int normal_index = -1;
-	double penetration = std::numeric_limits<double>::infinity();
+	float penetration = std::numeric_limits<float>::infinity();
 	bool isNegative = false;
 
-	double minLeaveTime = std::numeric_limits<double>::infinity();
-	double maxEnterTime = -std::numeric_limits<double>::infinity();
+	float minLeaveTime = std::numeric_limits<float>::infinity();
+	float maxEnterTime = -std::numeric_limits<float>::infinity();
 
 	for (int axes_index = 0; axes_index < 4; axes_index++)
 	{
-		double mina = std::numeric_limits<double>::infinity();
-		double maxa = -std::numeric_limits<double>::infinity();
+		float mina = std::numeric_limits<float>::infinity();
+		float maxa = -std::numeric_limits<float>::infinity();
 
-		double minb = std::numeric_limits<double>::infinity();
-		double maxb = -std::numeric_limits<double>::infinity();
+		float minb = std::numeric_limits<float>::infinity();
+		float maxb = -std::numeric_limits<float>::infinity();
 
 		for (int point_index = 0; point_index < numPoints; point_index++)
 		{
-			double currenta = derivedPoints[point_index].dot(axes[axes_index]);
-			double currentb = otherPoints[point_index].dot(axes[axes_index]);
+			float currenta = derivedPoints[point_index].dot(axes[axes_index]);
+			float currentb = otherPoints[point_index].dot(axes[axes_index]);
 
 			mina = min(currenta, mina);
 			maxa = max(currenta, maxa);
@@ -272,10 +272,10 @@ bool SatCollision2DObject::SweepTestWithAxes(Vec2D axes[], int numAxes, Vec2D ot
 
 		}
 
-		double V = velocityDelta.dot(axes[axes_index]);
+		float V = velocityDelta.dot(axes[axes_index]);
 
-		double currentLeaveTime = 0;
-		double currentEnterTime = 0;
+		float currentLeaveTime = 0;
+		float currentEnterTime = 0;
 
 		if (V != 0)
 		{
@@ -294,7 +294,7 @@ bool SatCollision2DObject::SweepTestWithAxes(Vec2D axes[], int numAxes, Vec2D ot
 		{
 			if (mina < maxb && minb < maxa)
 			{
-				currentLeaveTime = std::numeric_limits<double>::infinity();
+				currentLeaveTime = std::numeric_limits<float>::infinity();
 				currentEnterTime = 0;
 			}
 			else return false;
@@ -302,7 +302,7 @@ bool SatCollision2DObject::SweepTestWithAxes(Vec2D axes[], int numAxes, Vec2D ot
 
 		if (currentEnterTime > currentLeaveTime)
 		{
-			double temp = currentEnterTime;
+			float temp = currentEnterTime;
 			currentEnterTime = currentLeaveTime;
 			currentLeaveTime = temp;
 		}
@@ -329,7 +329,7 @@ bool SatCollision2DObject::SweepTestWithAxes(Vec2D axes[], int numAxes, Vec2D ot
 		Log(LogLevel_None,"Error Finding Normal For Collision %s => %s", GetSceneObject()->readableName.c_str(), other->GetSceneObject()->readableName.c_str());
 	}
 
-	double normalTime = maxEnterTime / GetPhysicsObject()->GetCurrentDeltaTime();
+	float normalTime = maxEnterTime / GetPhysicsObject()->GetCurrentDeltaTime();
 
 	if (maxEnterTime < minLeaveTime && normalTime <= 1 && normalTime >= 0)
 	{
@@ -383,7 +383,7 @@ void SatCollision2DObject::SetAsSquare(const Vector2D points[4], const Vector2D 
 	polygonType = SATPT_Square;
 }
 
-void SatCollision2DObject::SetAsCircle(double radius)
+void SatCollision2DObject::SetAsCircle(float radius)
 {
 	this->radius = radius;
 
@@ -396,8 +396,8 @@ void SatCollision2DObject::SetBoundsBySceneObject()
 	{
 	case SATPT_Triangle:
 	{
-		double sinv = sin(GetSceneObject()->GetRotationRad());
-		double cosv = cos(GetSceneObject()->GetRotationRad());
+		float sinv = sin(GetSceneObject()->GetRotationRad());
+		float cosv = cos(GetSceneObject()->GetRotationRad());
 
 		Vec2D scale = GetSceneObject()->GetScale();
 		Vec2D pos = GetScenePos();
@@ -431,8 +431,8 @@ void SatCollision2DObject::SetBoundsBySceneObject()
 		break;
 	case SATPT_Square:
 	{
-		double sinv = sin(GetSceneObject()->GetRotationRad());
-		double cosv = cos(GetSceneObject()->GetRotationRad());
+		float sinv = sin(GetSceneObject()->GetRotationRad());
+		float cosv = cos(GetSceneObject()->GetRotationRad());
 
 		Vec2D scale = GetSceneObject()->GetScale();
 		Vec2D pos = GetScenePos();

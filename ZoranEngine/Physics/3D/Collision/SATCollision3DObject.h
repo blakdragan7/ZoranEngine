@@ -6,7 +6,7 @@
 class SATCollision3DObject : public CollisionObject3DBase
 {
 private:
-	double* vertData;
+	float* vertData;
 	unsigned* edgeIndexes;
 	unsigned numVerts;
 

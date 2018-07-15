@@ -28,7 +28,7 @@ public:
 	void MakeFullScreenQuad()override;
 
 	// data is alloced
-	virtual bool GetVertDataAsDouble(double** data, unsigned &amount)override;
+	virtual bool GetVertDataAsfloat(float** data, unsigned &amount)override;
 	virtual bool GetVertEdgeIndexes(unsigned** indexes, unsigned &amount)override;
 };
 

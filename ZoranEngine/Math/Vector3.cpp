@@ -7,7 +7,7 @@ Vector3D::Vector3D(void) :x(0), y(0), z(0) {}
 
 Vector3D::Vector3D(Vector2D other) :x(other.x), y(other.y), z(0) {}
 
-Vector3D::Vector3D(double x_, double y_, double z_) :x(x_), y(y_), z(z_) {}
+Vector3D::Vector3D(float x_, float y_, float z_) :x(x_), y(y_), z(z_) {}
 
 Vector3D::Vector3D::~Vector3D(void) {}
 
@@ -62,28 +62,28 @@ void Vector3D::operator/=(Vector3D &other)
 	z /= other.z;
 }
 
-void Vector3D::operator+=(double scalor)
+void Vector3D::operator+=(float scalor)
 {
 	x += scalor;
 	y += scalor;
 	z += scalor;
 }
 
-void Vector3D::operator-=(double scalor)
+void Vector3D::operator-=(float scalor)
 {
 	x -= scalor;
 	y -= scalor;
 	z -= scalor;
 }
 
-void Vector3D::operator*=(double scalor)
+void Vector3D::operator*=(float scalor)
 {
 	x *= scalor;
 	y *= scalor;
 	z *= scalor;
 }
 
-void Vector3D::operator/=(double scalor)
+void Vector3D::operator/=(float scalor)
 {
 	x /= scalor;
 	y /= scalor;
@@ -136,7 +136,7 @@ Vector3D Vector3D::operator/(Vector3D &other)
 	return ret;
 }
 
-Vector3D Vector3D::operator+(double scalor)
+Vector3D Vector3D::operator+(float scalor)
 {
 	Vector3D ret;
 	ret.x = x + scalor;
@@ -146,7 +146,7 @@ Vector3D Vector3D::operator+(double scalor)
 	return ret;
 }
 
-Vector3D Vector3D::operator-(double scalor)
+Vector3D Vector3D::operator-(float scalor)
 {
 	Vector3D ret;
 	ret.x = x - scalor;
@@ -156,7 +156,7 @@ Vector3D Vector3D::operator-(double scalor)
 	return ret;
 }
 
-Vector3D Vector3D::operator*(double scalor)
+Vector3D Vector3D::operator*(float scalor)
 {
 	Vector3D ret;
 	ret.x = x * scalor;
@@ -166,7 +166,7 @@ Vector3D Vector3D::operator*(double scalor)
 	return ret;
 }
 
-Vector3D Vector3D::operator/(double scalor)
+Vector3D Vector3D::operator/(float scalor)
 {
 	Vector3D ret;
 	ret.x = x / scalor;
@@ -177,7 +177,7 @@ Vector3D Vector3D::operator/(double scalor)
 }
 
 
-bool Vector3D::nearlyEquals(double other)
+bool Vector3D::nearlyEquals(float other)
 {
 	return abs((getMagnitudeSqr() - (other*other)) < 0.00001);
 }
@@ -187,26 +187,26 @@ bool Vector3D::nearlyEquals(Vector3D other)
 	return abs((getMagnitudeSqr() - (other.getMagnitudeSqr())) < 0.00001);;
 }
 
-double Vector3D::getMagnitude()
+float Vector3D::getMagnitude()
 {
 	return sqrt((x*x) + (y*y) + (z*z));
 }
 
-double Vector3D::getMagnitudeSqr()
+float Vector3D::getMagnitudeSqr()
 {
 	return ((x*x) + (y*y) + (z*z));
 }
 
 void Vector3D::normalize()
 {
-	double mag = abs(getMagnitude());
+	float mag = abs(getMagnitude());
 
 	x /= mag;
 	y /= mag;
 	z /= mag;
 }
 
-double Vector3D::dot(const Vector3D other)
+float Vector3D::dot(const Vector3D other)
 {
 	return (x * other.x) + (y * other.y) + (z * other.z);
 }
@@ -241,22 +241,22 @@ Vector2D Vector3D::GetXZ()
 	return Vector2D(x,z);
 }
 
-double Vector3D::distance(Vector3D other)
+float Vector3D::distance(Vector3D other)
 {
 	return (other - *this).getMagnitude();
 }
 
-double Vector3D::distanceSqr(Vector3D other)
+float Vector3D::distanceSqr(Vector3D other)
 {
 	return (other - *this).getMagnitudeSqr();
 }
 
-Vector3D operator/(Vector3D & other, double & scalor)
+Vector3D operator/(Vector3D & other, float & scalor)
 {
 	return Vector3D(other.x / scalor, other.y / scalor, other.z / scalor);
 }
 
-Vector3D operator*(double d, Vector3D v)
+Vector3D operator*(float d, Vector3D v)
 {
 	return v*d;
 }

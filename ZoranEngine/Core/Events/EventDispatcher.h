@@ -12,6 +12,6 @@ public:
 	EventDispatcher();
 	~EventDispatcher();
 
-	void UpdateAll(double deltaTime);
+	void UpdateAll(float deltaTime);
 };
 

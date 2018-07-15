@@ -15,8 +15,8 @@ private:
 
 	Vector2D force;
 
-	double torque;
-	double angularVelocity;
+	float torque;
+	float angularVelocity;
 
 protected:
 	bool SweepCollisionTo(Vec2D newPosition, struct SweepCollisionResponse2D& response);
@@ -31,17 +31,17 @@ public:
 	void SetVeloctiy(Vec2D Velocity);
 	void SetGravity(Vector2D gravity);
 
-	virtual void SetMass(double mass)override; // in KG
+	virtual void SetMass(float mass)override; // in KG
 
 	void OnCollision(struct CollisionResponse2D& response);
-	bool OnSweepCollision(struct SweepCollisionResponse2D& response, double deltaTime,int currentDepth=0,int maxDepth=10);
+	bool OnSweepCollision(struct SweepCollisionResponse2D& response, float deltaTime,int currentDepth=0,int maxDepth=10);
 	bool SweepToo(Vec2D targetPosition, struct SweepCollisionResponse2D &response);
 
 	Vec2D GetVelocity();
 	Vec2D GetScenePos();
 	SceneObject2D* GetSceneObject();
 
-	virtual void UpdateVelocities(double deltaTime)override;
-	virtual void UpdatePositionsAndRotation(double deltaTime)override;
+	virtual void UpdateVelocities(float deltaTime)override;
+	virtual void UpdatePositionsAndRotation(float deltaTime)override;
 };
 

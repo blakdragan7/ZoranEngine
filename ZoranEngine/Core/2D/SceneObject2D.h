@@ -17,7 +17,7 @@ private:
 
 	Vector2D scale;
 	Vector2D pos;
-	double rotation; // degrees
+	float rotation; // degrees
 
 	Matrix22 rotationMat;
 	Matrix22 invRotationMat;
@@ -36,21 +36,21 @@ public:
 	void SetPosition(Vector2D pos);
 	void SetScale(Vector2D scale);
 
-	void SetPosition(double x, double y);
-	void SetScale(double x, double y);
+	void SetPosition(float x, float y);
+	void SetScale(float x, float y);
 	
-	void SetRotation(double rotation);
+	void SetRotation(float rotation);
 	
 	void Translate(Vector2D delta);
-	void Translate(double dx, double dy);
+	void Translate(float dx, float dy);
 
 	void Scale(Vector2D scale);
-	void Scale(double dx, double dy);
+	void Scale(float dx, float dy);
 
-	void Rotate(double rotation);
+	void Rotate(float rotation);
 
-	double GetRotationRad();
-	double GetRotation();
+	float GetRotationRad();
+	float GetRotation();
 	Vector2D GetPosition();
 	Vector2D GetScale();
 	Vector2D GetSize();

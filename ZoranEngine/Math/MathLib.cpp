@@ -2,13 +2,13 @@
 #include "MathLib.h"
 #include <Math/Vector2.h>
 
-int MathLib::ClipRangeToLine(Vector2D outPoints[2], Vector2D inPoints[2], const Vector2D & lineNormal, double offset)
+int MathLib::ClipRangeToLine(Vector2D outPoints[2], Vector2D inPoints[2], const Vector2D & lineNormal, float offset, char clipEdge)
 {
 	int numPoints = 0;
 
 	// Calculate the distance of end points to the line
-	double distance0 = lineNormal.dot(inPoints[0]) - offset;
-	double distance1 = lineNormal.dot(inPoints[1]) - offset;
+	float distance0 = lineNormal.dot(inPoints[0]) - offset;
+	float distance1 = lineNormal.dot(inPoints[1]) - offset;
 
 	// If the points are behind the plane
 	if (distance0 <= 0.0f) outPoints[numPoints++] = inPoints[0];
@@ -18,7 +18,7 @@ int MathLib::ClipRangeToLine(Vector2D outPoints[2], Vector2D inPoints[2], const 
 	if (distance0 * distance1 < 0.0f)
 	{
 		// Find intersection point of edge and plane
-		double interp = distance0 / (distance0 - distance1);
+		float interp = distance0 / (distance0 - distance1);
 		outPoints[numPoints] = inPoints[0] + interp * (inPoints[1] - inPoints[0]);
 		if (distance0 > 0.0f)
 		{
@@ -36,4 +36,9 @@ int MathLib::ClipRangeToLine(Vector2D outPoints[2], Vector2D inPoints[2], const 
 	}
 
 	return numPoints;
+}
+
+float MathLib::Clamp(float value, float minv, float max)
+{
+	return max(minv,min(value,max));
 }

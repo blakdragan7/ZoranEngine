@@ -13,6 +13,6 @@ public:
 	void TakeClock();
 
 	long long GetDiffNanoSeconds();
-	double GetDiffSeconds();
+	float GetDiffSeconds();
 };
 

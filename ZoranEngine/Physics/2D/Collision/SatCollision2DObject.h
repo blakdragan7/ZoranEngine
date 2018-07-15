@@ -21,8 +21,8 @@ private:
 	Vector2D size;
 	Vector2D scaledSize;
 
-	double radius;
-	double derivedRadius;
+	float radius;
+	float derivedRadius;
 
 private:
 	bool TestAgainstOtherSquare(SatCollision2DObject* other, CollisionResponse2D & response);
@@ -44,7 +44,7 @@ public:
 
 	void SetAsTriangle(const Vector2D points[3], const Vector2D size);
 	void SetAsSquare(const Vector2D points[4], const Vector2D size);
-	void SetAsCircle(double radius);
+	void SetAsCircle(float radius);
 
 	void SetBoundsBySceneObject()override;
 

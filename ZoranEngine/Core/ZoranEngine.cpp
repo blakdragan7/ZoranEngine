@@ -64,11 +64,11 @@ int ZoranEngine::MainLoop()
 
 	HighPrecisionClock clock;
 	HighPrecisionClock statisticsClock;
-	double statistics = 0;
+	float statistics = 0;
 
 	while (WM_QUIT != msg.message && shouldRun)
 	{
-		double deltaTime = clock.GetDiffSeconds();
+		float deltaTime = clock.GetDiffSeconds();
 		clock.TakeClock();
 
 		while (PeekMessageW(&msg, NULL, 0, 0, PM_REMOVE))
@@ -132,7 +132,7 @@ bool ZoranEngine::Init()
 	return true;
 }
 
-void ZoranEngine::Setup2DScene(double centerx, double centery, double width, double height)
+void ZoranEngine::Setup2DScene(float centerx, float centery, float width, float height)
 {
 	physicsEngine->SetupFor2D(Vec2D(centerx, centery), Vec2D(width, height));
 	camera = new OrthoCamera("camera", width, height, 0);
@@ -146,7 +146,7 @@ void ZoranEngine::Setup2DScene(Vector2D center, Vector2D size)
 	camera->Translate(center.x, center.y, 0);
 }
 
-void ZoranEngine::SetupScene(double centerx, double centery, double width, double height, double depth)
+void ZoranEngine::SetupScene(float centerx, float centery, float width, float height, float depth)
 {
 	throw std::exception("SetupScene Not Implemented yet !");
 }

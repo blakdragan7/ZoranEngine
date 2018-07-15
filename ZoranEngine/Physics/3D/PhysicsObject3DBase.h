@@ -35,6 +35,6 @@ public:
 	Vec3D GetScenePos();
 	SceneObject3D* GetSceneObject();
 
-	virtual void Update(double deltaTime);
+	virtual void Update(float deltaTime);
 };
 

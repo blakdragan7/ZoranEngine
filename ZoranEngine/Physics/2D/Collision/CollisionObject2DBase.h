@@ -10,7 +10,7 @@ struct ZoranEngine_EXPORT CollisionPoint
 	Vector2D pos;
 	Vector2D normal;
 	Vector2D penetration;
-	double penetrationDepth;
+	float penetrationDepth;
 
 	CollisionPoint()
 	{
@@ -81,7 +81,7 @@ struct ZoranEngine_EXPORT CollisionResponse2D
 struct ZoranEngine_EXPORT SweepCollisionResponse2D
 {
 	CollisionResponse2D CollisionResponse2D;
-	double timeHit;
+	float timeHit;
 
 	SweepCollisionResponse2D()
 	{

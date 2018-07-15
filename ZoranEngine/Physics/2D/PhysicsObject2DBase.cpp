@@ -9,7 +9,7 @@
 #include "Math/MathHelpers.h"
 #include <Math/MathLib.h>
 #include <cmath>
-const double EulerConstant = std::exp(1.0);
+const float EulerConstant = std::exp(1.0);
 
 bool PhysicsObject2DBase::SweepCollisionTo(Vec2D position, SweepCollisionResponse2D & response)
 {
@@ -27,8 +27,8 @@ void PhysicsObject2DBase::CheckIfOnGround(struct CollisionResponse2D& response)
 	// very complicated and realistic isOnGround code. need to probably optmize this somehow later
 	//if (isOnGround == false && response.objectBounds[1]->GetCollisionLayer() == COLLISION_LAYER_GROUND)
 	//{
-	//	double cross = response.penetration.cross(gravity);
-	//	double dot = response.penetration.dot(gravity);
+	//	float cross = response.penetration.cross(gravity);
+	//	float dot = response.penetration.dot(gravity);
 	//	if (cross == 0 && dot < 0)
 	//	{
 	//		Vec2D velocityGravNorm = (velocity /*+ 1 * gravityNormal*/)* gravityNormal.getAbs();
@@ -76,7 +76,7 @@ void PhysicsObject2DBase::SetGravity(Vector2D gravity)
 	gravityNormal.normalize();
 }
 
-void PhysicsObject2DBase::SetMass(double mass)
+void PhysicsObject2DBase::SetMass(float mass)
 {
 	PhysicsObjectBase::SetMass(mass);
 
@@ -109,7 +109,7 @@ void PhysicsObject2DBase::OnCollision(CollisionResponse2D &response)
 	}
 }
 
-bool PhysicsObject2DBase::OnSweepCollision(SweepCollisionResponse2D & response,double deltaTime, int currentDepth, int maxDepth)
+bool PhysicsObject2DBase::OnSweepCollision(SweepCollisionResponse2D & response,float deltaTime, int currentDepth, int maxDepth)
 {
 	if (currentDepth >= maxDepth)
 	{
@@ -180,7 +180,7 @@ void PhysicsObject2DBase::ApplyForce(Vec2D Force)
 	otherFriction = 1.0;
 }
 
-void PhysicsObject2DBase::UpdateVelocities(double deltaTime)
+void PhysicsObject2DBase::UpdateVelocities(float deltaTime)
 {
 	if (shouldSimulate)
 	{
@@ -201,7 +201,7 @@ void PhysicsObject2DBase::UpdateVelocities(double deltaTime)
 	}
 }
 
-void PhysicsObject2DBase::UpdatePositionsAndRotation(double deltaTime)
+void PhysicsObject2DBase::UpdatePositionsAndRotation(float deltaTime)
 {
 	if (shouldSimulate)
 	{

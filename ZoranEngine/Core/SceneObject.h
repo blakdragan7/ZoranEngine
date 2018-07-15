@@ -57,7 +57,7 @@ public:
 	virtual void Destroy();
 
 	// default impl
-	virtual void Tick(double deltaTime)override {}
+	virtual void Tick(float deltaTime)override {}
 
     // Getter / Setter
 

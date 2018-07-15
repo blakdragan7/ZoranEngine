@@ -39,7 +39,7 @@ public:
 	class CollisionBucket3DBase* GetCollisionBucketRootFor3D();
 	class CollisionBucketBase* GetCollisionBucketRoot();
 
-	void UpdateAll(double deltaTime);
+	void UpdateAll(float deltaTime);
 
 	void AddPhysicsObject(PhysicsObjectBase* object);
 	void AddCollisionObject(CollisionObjectBase* object);

@@ -30,7 +30,7 @@ void TestSceneObject::PreRender()
 	GetTexture()->UseTexture(0);
 }
 
-void TestSceneObject::Tick(double deltaTime)
+void TestSceneObject::Tick(float deltaTime)
 {
 	Vec2D pos = -GetPosition();
 	pos.normalize();

@@ -7,23 +7,23 @@ class ZoranEngine_EXPORT Vector3D
 {
 public:
 	union {
-		double x;
-		double w;
+		float x;
+		float w;
 	};
 	
 	union {
-		double y;
-		double h;
+		float y;
+		float h;
 	};
 
 	union {
-		double z;
-		double d;
+		float z;
+		float d;
 	};
 
 	Vector3D(void);
 	Vector3D(Vector2D other);
-	Vector3D(double x_, double y_, double z_);
+	Vector3D(float x_, float y_, float z_);
 	Vector3D::~Vector3D(void);
 
 	bool operator ==(Vector3D other);
@@ -36,29 +36,29 @@ public:
 	void operator *=(Vector3D &other);
 	void operator /=(Vector3D &other);
 
-	void operator +=(double scalor);
-	void operator -=(double scalor);
-	void operator *=(double scalor);
-	void operator /=(double scalor);
+	void operator +=(float scalor);
+	void operator -=(float scalor);
+	void operator *=(float scalor);
+	void operator /=(float scalor);
 
 	Vector3D operator -();
 	Vector3D operator +(Vector3D &other);
 	Vector3D operator -(Vector3D &other);
 	Vector3D operator *(Vector3D &other);
 	Vector3D operator /(Vector3D &other);
-	Vector3D operator +(double scalor);
-	Vector3D operator -(double scalor);
-	Vector3D operator *(double scalor);
-	Vector3D operator /(double scalor);
+	Vector3D operator +(float scalor);
+	Vector3D operator -(float scalor);
+	Vector3D operator *(float scalor);
+	Vector3D operator /(float scalor);
 
-	bool nearlyEquals(double other);
+	bool nearlyEquals(float other);
 	bool nearlyEquals(Vector3D other);
 
-	double getMagnitude();
-	double getMagnitudeSqr();
+	float getMagnitude();
+	float getMagnitudeSqr();
 	void normalize();
 
-	double dot(const Vector3D other);
+	float dot(const Vector3D other);
 	Vector3D cross(const Vector3D other);
 	Vector3D getAbs();
 
@@ -66,10 +66,10 @@ public:
 	Vector2D GetYZ();
 	Vector2D GetXZ();
 
-	double distance(Vector3D other);
-	double distanceSqr(Vector3D other);
+	float distance(Vector3D other);
+	float distanceSqr(Vector3D other);
 };
 
 #define Vec3D Vector3D
 
-Vector3D operator*(double, Vector3D);
+Vector3D operator*(float, Vector3D);

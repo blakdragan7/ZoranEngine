@@ -428,7 +428,9 @@
     <ClInclude Include="Physics\2D\Collision\CollisionFrame2D.h">
       <Filter>ZoranEngine\Physics\2D\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="Matrix22.h" />
+    <ClInclude Include="Math\Matrix22.h">
+      <Filter>ZoranEngine\Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ZoranEngine.rc">

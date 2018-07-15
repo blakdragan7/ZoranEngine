@@ -2,7 +2,7 @@
 #include "Camera2D.h"
 #include <Core/2D/SceneObject2D.h>
 
-Camera2D::Camera2D(std::string name, Vec2D position, Vec2D scale, double rotation)
+Camera2D::Camera2D(std::string name, Vec2D position, Vec2D scale, float rotation)
 {
 	sceneObject = new SceneObject2D(name);
 	sceneObject->SetPosition(position);
@@ -20,7 +20,7 @@ MatrixF Camera2D::GetModel()
 	return sceneObject->GetModel();
 }
 
-void Camera2D::Translate(double deltax, double deltay, double deltaz)
+void Camera2D::Translate(float deltax, float deltay, float deltaz)
 {
 	sceneObject->Translate(Vec2D(deltax,deltay));
 }
@@ -35,12 +35,12 @@ void Camera2D::Translate(Vec3D delta)
 	sceneObject->Translate(delta.GetXY());
 }
 
-void Camera2D::Rotate(double rotx, double roty, double rotz)
+void Camera2D::Rotate(float rotx, float roty, float rotz)
 {
 	sceneObject->Rotate(rotx);
 }
 
-void Camera2D::Rotate(double rotation)
+void Camera2D::Rotate(float rotation)
 {
 	sceneObject->Rotate(rotation);
 }

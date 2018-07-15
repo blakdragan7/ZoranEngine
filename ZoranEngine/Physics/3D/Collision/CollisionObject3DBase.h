@@ -38,7 +38,7 @@ struct ZoranEngine_EXPORT CollisionResponse3D
 struct ZoranEngine_EXPORT SweepCollisionResponse3D
 {
 	CollisionResponse3D CollisionResponse3D;
-	double timeHit;
+	float timeHit;
 
 	SweepCollisionResponse3D()
 	{

@@ -68,7 +68,7 @@ bool AABBoxCollisionObject::CollidesWith(CollisionObject3DBase * other, Collisio
 		(maxPos.z - otherMin.z), // distance of otherBox to face on 'near' side.
 	};
 
-	double penetration = 0;
+	float penetration = 0;
 	Vec3D normal;
 	int faceIndex = -1;
 

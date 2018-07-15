@@ -3,5 +3,5 @@
 class TickableObject
 {
 public:
-	virtual void Tick(double deltaTime) = 0;
+	virtual void Tick(float deltaTime) = 0;
 };

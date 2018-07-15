@@ -10,7 +10,7 @@
 #include "Math/MathHelpers.h"
 
 #include <cmath>
-const double EulerConstant = std::exp(1.0);
+const float EulerConstant = std::exp(1.0);
 
 void PhysicsObjectBase::RegisterPhysicsObject()
 {
@@ -50,18 +50,18 @@ void PhysicsObjectBase::StopPhysicsSim()
 	shouldSimulate = false;
 }
 
-void PhysicsObjectBase::SetMass(double mass)
+void PhysicsObjectBase::SetMass(float mass)
 {
 	this->mass = mass;
 	invMass = (mass != 0 ? 1.0 / mass : 0.0);
 }
 
-void PhysicsObjectBase::SetFriction(double friction)
+void PhysicsObjectBase::SetFriction(float friction)
 {
 	this->friction = friction;
 }
 
-void PhysicsObjectBase::SetRestitution(double restitution)
+void PhysicsObjectBase::SetRestitution(float restitution)
 {
 	this->restitution = restitution;
 }
