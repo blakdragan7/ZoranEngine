@@ -21,7 +21,7 @@ private:
 protected:
 	bool SweepCollisionTo(Vec2D newPosition, struct SweepCollision2D& response);
 	bool FastSweepCollision(Vec2D newPosition); // Broad Sweep
-	virtual void CheckIfOnGround(struct Collision2D& response);
+	virtual void CheckIfOnGround(class Collision2D& response);
 
 public:
 	PhysicsObject2DBase(SceneObject2D* object);
@@ -33,7 +33,7 @@ public:
 
 	virtual void SetMass(float mass)override; // in KG
 
-	void OnCollision(struct Collision2D& response);
+	void OnCollision(class Collision2D& response);
 	bool OnSweepCollision(struct SweepCollision2D& response, float deltaTime,int currentDepth=0,int maxDepth=10);
 	bool SweepToo(Vec2D targetPosition, struct SweepCollision2D &response);
 

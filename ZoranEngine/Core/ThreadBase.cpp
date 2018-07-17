@@ -22,7 +22,7 @@ ThreadBase::~ThreadBase()
 void ThreadBase::Sleep(float seconds)
 {
 #ifdef _WIN32
-	::Sleep(seconds * 1000.0F);
+	::Sleep((DWORD)(seconds * 1000.0F));
 #else
 #endif
 }

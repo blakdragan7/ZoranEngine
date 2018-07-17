@@ -13,7 +13,11 @@ template<class t>
 class ZoranEngine_EXPORT Matrix
 {
 private:
+#pragma warning(push)
+#pragma warning(disable:4251)
 	std::vector<t> c_array;
+#pragma warning(pop)
+
 	int array_size;
 	int rows, cols;
 

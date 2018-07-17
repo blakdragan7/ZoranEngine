@@ -57,8 +57,8 @@ struct  CollisionPoint
 	Vector2D r1;
 	Vector2D r2;
 
-	double separation;
-	double normalImpulse;
+	float separation;
+	float normalImpulse;
 	float normalTangetImpulses;
 	float noramlBiasImpulses;
 	float massNormal;
@@ -90,7 +90,10 @@ public:
 	class SceneObject2D* objects[2];
 	Matrix22 invRotationSnapshots[2];
 	class PhysicsObject2DBase* collidedObjects[2];
+#pragma warning(push)
+#pragma warning(disable:4251)
 	std::vector<CollisionPoint> collisionPoints;
+#pragma warning(pop)
 	class CollisionObject2DBase* objectBounds[2];
 	unsigned long long ID;
 	static unsigned long long sID;

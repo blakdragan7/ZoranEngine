@@ -76,12 +76,18 @@ void OpenGLTexture::SetRenderDataFormat(RenderDataFormat newFormat)
 
 void OpenGLTexture::UseTexture(void * data)
 {
+#pragma warning(push)
+#pragma warning(disable:4302)
 	BindTexture((unsigned)data);
+#pragma warning(pop)
 }
 
 void OpenGLTexture::StopUsinfgTexture(void * data)
 {
+#pragma warning(push)
+#pragma warning(disable:4302)
 	UnbindTexture((unsigned)data);
+#pragma warning(pop)
 }
 
 unsigned OpenGLTexture::GLTypeFromRenderDataType(RenderDataType type)

@@ -122,17 +122,17 @@ MatrixF Quaternion::AsRotationMatrix() const {
 Quaternion Quaternion::FromScaledAxis(Vector3D& w) {
 	float theta = w.getMagnitude();
 	Quaternion quat;
-	if (theta > 0.0001) {
-		float s = sinf(theta / 2.0);
+	if (theta > 0.0001f) {
+		float s = sinf(theta / 2.0f);
 		Vector3D W(w / theta * s);
 		quat.vals[0] = W.x;
 		quat.vals[1] = W.y;
 		quat.vals[2] = W.z;
-		quat.vals[3] = cosf(theta / 2.0);
+		quat.vals[3] = cosf(theta / 2.0f);
 	}
 	else {
 		quat.vals[0] = quat.vals[1] = quat.vals[2] = 0;
-		quat.vals[3] = 1.0;
+		quat.vals[3] = 1.0f;
 	}
 
 	return quat;
@@ -143,12 +143,12 @@ Vector3D Quaternion::RotatedVector(const Vector3D& v) const {
 }
 
 Quaternion Quaternion::FromEuler(float x,float y,float z) {
-	float c1 = cosf(z * 0.5);
-	float c2 = cosf(y * 0.5);
-	float c3 = cosf(x * 0.5);
-	float s1 = sinf(z * 0.5);
-	float s2 = sinf(y * 0.5);
-	float s3 = sinf(x * 0.5);
+	float c1 = cosf(z * 0.5f);
+	float c2 = cosf(y * 0.5f);
+	float c3 = cosf(x * 0.5f);
+	float s1 = sinf(z * 0.5f);
+	float s2 = sinf(y * 0.5f);
+	float s3 = sinf(x * 0.5f);
 
 	Quaternion quat;
 
@@ -161,12 +161,12 @@ Quaternion Quaternion::FromEuler(float x,float y,float z) {
 }
 
 Quaternion Quaternion::FromEuler(const Vector3D& euler) {
-	float c1 = cosf(euler.z * 0.5);
-	float c2 = cosf(euler.y * 0.5);
-	float c3 = cosf(euler.x * 0.5);
-	float s1 = sinf(euler.z * 0.5);
-	float s2 = sinf(euler.y * 0.5);
-	float s3 = sinf(euler.x * 0.5);
+	float c1 = cosf(euler.z * 0.5f);
+	float c2 = cosf(euler.y * 0.5f);
+	float c3 = cosf(euler.x * 0.5f);
+	float s1 = sinf(euler.z * 0.5f);
+	float s2 = sinf(euler.y * 0.5f);
+	float s3 = sinf(euler.x * 0.5f);
 
 	Quaternion quat;
 
@@ -180,8 +180,8 @@ Quaternion Quaternion::FromEuler(const Vector3D& euler) {
 
 Vector3D Quaternion::AsEuler(void) const {
 	Vector3D euler;
-	const static float PI_OVER_2 = M_PI * 0.5;
-	const static float EPSILON = 1e-10;
+	const static float PI_OVER_2 = M_PI * 0.5f;
+	const static float EPSILON = 1e-10f;
 	float sqw, sqx, sqy, sqz;
 
 	// quick conversion to Euler angles to give tilt to user
@@ -190,17 +190,17 @@ Vector3D Quaternion::AsEuler(void) const {
 	sqy = vals[1] * vals[1];
 	sqz = vals[2] * vals[2];
 
-	euler.y = asinf(2.0 * (vals[3] * vals[1] - vals[0] * vals[2]));
+	euler.y = asinf(2.0f * (vals[3] * vals[1] - vals[0] * vals[2]));
 	if (PI_OVER_2 - fabs(euler.y) > EPSILON) {
-		euler.z = atan2(2.0 * (vals[0] * vals[1] + vals[3] * vals[2]),
+		euler.z = atan2(2.0f * (vals[0] * vals[1] + vals[3] * vals[2]),
 			sqx - sqy - sqz + sqw);
-		euler.x = atan2(2.0 * (vals[3] * vals[0] + vals[1] * vals[2]),
+		euler.x = atan2(2.0f * (vals[3] * vals[0] + vals[1] * vals[2]),
 			sqw - sqx - sqy + sqz);
 	}
 	else {
 		// compute heading from local 'down' vector
-		euler.z = atan2(2 * vals[1] * vals[2] - 2 * vals[0] * vals[3],
-			2 * vals[0] * vals[2] + 2 * vals[1] * vals[3]);
+		euler.z = atan2(2 * vals[1] * vals[2] - 2.0f * vals[0] * vals[3],
+			2.0f * vals[0] * vals[2] + 2.0f * vals[1] * vals[3]);
 		euler.x = 0.0;
 
 		// If facing down, reverse yaw
@@ -221,7 +221,7 @@ Quaternion Quaternion::Slerp(const Quaternion& q0, const Quaternion& q1, float t
 		q0.vals[2] * q1.vals[2] +
 		q0.vals[3] * q1.vals[3], -1, 1));
 	if (fabs(omega) < 1e-10) {
-		omega = 1e-10;
+		omega = 1e-10f;
 	}
 	float som = sinf(omega);
 	float st0 = sinf((1 - t) * omega) / som;

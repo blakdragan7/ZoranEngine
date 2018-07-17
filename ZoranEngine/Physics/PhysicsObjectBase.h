@@ -56,5 +56,5 @@ public:
 	virtual void UpdateVelocities(float deltaTime) = 0;
 	virtual void UpdatePositionsAndRotation(float deltaTime) = 0;
 
-	friend struct Collision2D;
+	friend class Collision2D;
 };

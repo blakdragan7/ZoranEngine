@@ -11,7 +11,7 @@
 #include <Physics/3D/Collision/SphereCollisionObject.h>
 
 #include <cmath>
-const float EulerConstant = std::exp(1.0);
+const float EulerConstant = std::exp(1.0f);
 
 bool PhysicsObject3DBase::SweepCollisionTo(Vec3D position, SweepCollisionResponse3D & response)
 {
@@ -88,8 +88,8 @@ void PhysicsObject3DBase::OnCollision(CollisionResponse3D &response)
 			sceneObject3D->Translate(response.penetration);
 
 			Vec3D Vel = velocity - other->velocity;
-			Vector3D F = (-response.normal * ((1.0 + restitution) * Vel.dot(response.normal))) / (mass + other->mass);
-			velocity += F * other->mass * 0.99;
+			Vector3D F = (-response.normal * ((1.0f + restitution) * Vel.dot(response.normal))) / (mass + other->mass);
+			velocity += F * other->mass * 0.99f;
 			// very complicated and realistic isOnGround code. need to probably optmize this somehow later
 			if (isOnGround == false)
 			{
@@ -98,7 +98,7 @@ void PhysicsObject3DBase::OnCollision(CollisionResponse3D &response)
 				if (cross.getMagnitudeSqr() == 0 && dot > 0)
 				{
 					Vec3D velocityGravNorm = (velocity + 10 * gravityNormal) * gravityNormal.getAbs();
-					if (gravity.dot(velocityGravNorm) >= 0.0)
+					if (gravity.dot(velocityGravNorm) >= 0.0f)
 					{
 						isOnGround = true;
 						velocity += velocityGravNorm;
@@ -145,9 +145,9 @@ void PhysicsObject3DBase::Update(float deltaTime)
 			{
 				Vec3D actual = GetScenePos() + (velocity * deltaTime * response.timeHit);
 				sceneObject3D->SetPosition(actual);
-				if (response.timeHit < 1.0)
+				if (response.timeHit < 1.0f)
 				{
-					float invTime = (1.0 - response.timeHit);
+					float invTime = (1.0f - response.timeHit);
 					velocity *= invTime;
 				}
 				OnCollision(response.CollisionResponse3D);

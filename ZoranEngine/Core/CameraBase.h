@@ -5,7 +5,7 @@
 #include <string>
 
 class SceneObject;
-class CameraBase
+class ZoranEngine_EXPORT CameraBase
 {
 public:
 	CameraBase();

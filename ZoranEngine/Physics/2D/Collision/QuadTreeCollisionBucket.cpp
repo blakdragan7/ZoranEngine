@@ -172,11 +172,11 @@ bool QuadTreeCollisionBucket::UpdateObject(CollisionObject2DBase * object)
 
 void QuadTreeCollisionBucket::PrintAllContents(unsigned depth)
 {
-	for (int i = 0; i < depth; i++)Log(LogLevel_None,"\t");
+	for (unsigned int i = 0; i < depth; i++)Log(LogLevel_None,"\t");
 	Log(LogLevel_None, "%s Contains: \n", sceneObject->readableName.c_str());
 	for (auto object : collisionObjects)
 	{
-		for (int i = 0; i < depth; i++)Log(LogLevel_None, "\t");
+		for (unsigned int i = 0; i < depth; i++)Log(LogLevel_None, "\t");
 		Log(LogLevel_None, "\t%s\n", object->GetSceneObject()->readableName.c_str());
 	}
 	if (hasSubdivided)
@@ -294,15 +294,15 @@ void QuadTreeCollisionBucket::Subdivide()
 		return;
 	}
 
-	Vec2D subSize = collision->GetSize() / 2.0;
+	Vec2D subSize = collision->GetSize() / 2.0f;
 	Vec2D size = collision->GetSize();
 
 	Vec2D pos = collision->GetScenePos();
 
-	Vec2D TL = Vec2D(pos.x - (size.x / 4.0), pos.y + (size.y / 4.0));
-	Vec2D BL = Vec2D(pos.x - (size.x / 4.0), pos.y - (size.y / 4.0));
-	Vec2D TR = Vec2D(pos.x + (size.x / 4.0), pos.y + (size.y / 4.0));
-	Vec2D BR = Vec2D(pos.x + (size.x / 4.0), pos.y - (size.y / 4.0));
+	Vec2D TL = Vec2D(pos.x - (size.x / 4.0f), pos.y + (size.y / 4.0f));
+	Vec2D BL = Vec2D(pos.x - (size.x / 4.0f), pos.y - (size.y / 4.0f));
+	Vec2D TR = Vec2D(pos.x + (size.x / 4.0f), pos.y + (size.y / 4.0f));
+	Vec2D BR = Vec2D(pos.x + (size.x / 4.0f), pos.y - (size.y / 4.0f));
 
 	std::string sname = sceneObject->readableName;
 

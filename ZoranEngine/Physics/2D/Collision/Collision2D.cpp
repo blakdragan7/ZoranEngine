@@ -84,6 +84,8 @@ void Collision2D::PreUpdate(float inv_dt)
 
 void Collision2D::UpdateForces()
 {
+	wasUpdated = false;
+
 	PhysicsObject2DBase* b1 = collidedObjects[0];
 	PhysicsObject2DBase* b2 = collidedObjects[1];
 

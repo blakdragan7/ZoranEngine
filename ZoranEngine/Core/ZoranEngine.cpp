@@ -1,16 +1,18 @@
 #include "stdafx.h"
 
-#include "Utils/Random.h"
-#include "ZoranEngine.h"
-#include "WindowBase.h"
-#include "TickableObject.h"
-#include "Physics/PhysicsEngine.h"
-#include "Windows/WindowsWindow.h"
-#include "OpenGL/OpenGLRenderEngine.h"
-#include "Utils/HighPrecisionClock.h"
-#include "Physics/Collision/CollisionObjectBase.h"
-#include "Physics/Collision/CollisionBucketBase.h"
+#include <Utils/Random.h>
+#include <Core/ZoranEngine.h>
+#include <Core/WindowBase.h>
+#include <Core/TickableObject.h>
 #include <Core/2D/OrthoCamera.h>
+#include <Physics/PhysicsEngine.h>
+#include <Windows/WindowsWindow.h>
+#include <Utils/HighPrecisionClock.h>
+#include <OpenGL/OpenGLRenderEngine.h>
+#include <Physics/PhysicsObjectBase.h>
+#include <Physics/Collision/CollisionObjectBase.h>
+#include <Physics/Collision/CollisionBucketBase.h>
+
 #include <iostream>
 
 #include "SceneObject.h"
@@ -37,7 +39,7 @@ ZoranEngine::ZoranEngine()
 	mainRenderEngine = 0;
 	isPaused = false;
 	logger = new ConsoleLogger();
-	logger->SetLogLevel(LogLevel_Debug);
+	logger->SetLogLevel(LogLevel_Default);
 	step = false;
 }
 
@@ -68,8 +70,8 @@ int ZoranEngine::MainLoop()
 
 	while (WM_QUIT != msg.message && shouldRun)
 	{
-		//float deltaTime = clock.GetDiffSeconds();
-		float deltaTime = 1.0 / 60.0;
+		//float fpsTime = clock.GetDiffSeconds();
+		float deltaTime = 1.0f / 60.0f;
 		clock.TakeClock();
 
 		while (PeekMessageW(&msg, NULL, 0, 0, PM_REMOVE))
@@ -112,7 +114,7 @@ int ZoranEngine::MainLoop()
 		statistics = statisticsClock.GetDiffSeconds();
 		Log(LogLevel_Verbose, "mainWindow->MainDraw() took %f ms\n", statistics * 1000);
 
-		//std::cout << "fps " << 1.0 / deltaTime << std::endl;
+		//std::cout << "fps " << 1.0 / fpsTime << std::endl;
 	}
 #endif
 

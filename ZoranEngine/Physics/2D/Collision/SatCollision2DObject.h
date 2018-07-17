@@ -35,6 +35,8 @@ private:
 	bool SweepSquareAgainstOtherCircle(SatCollision2DObject* other, SweepCollision2D & response);
 	bool SweepSquareAgainstOtherAABBSquare(class AABBSquareCollisionObject* other, SweepCollision2D & response);
 
+	bool NewSATAlgorithim(CollisionObject2DBase* other, Collision2D& response);
+
 public:
 	SatCollision2DObject(SceneObject2D *object);
 	~SatCollision2DObject();

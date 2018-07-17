@@ -14,13 +14,62 @@
 
 bool SatCollision2DObject::SquareAgainstOtherSquare(SatCollision2DObject * other, Collision2D & response)
 {
+	return NewSATAlgorithim(other, response);
+}
+
+bool SatCollision2DObject::SquareAgainstOtherTriagnle(SatCollision2DObject * other, Collision2D & response)
+{
+	return NewSATAlgorithim(other, response);
+}
+
+bool SatCollision2DObject::SquareAgainstOtherCircle(SatCollision2DObject * other, Collision2D & response)
+{
+	return NewSATAlgorithim(other, response);
+}
+
+bool SatCollision2DObject::SquareAgainstOtherAABBSquare(AABBSquareCollisionObject * other, Collision2D & response)
+{
+	// TODO optimize to use specific function
+
+	return NewSATAlgorithim(other, response);
+}
+
+bool SatCollision2DObject::SweepSquareAgainstOtherSquare(SatCollision2DObject* other, SweepCollision2D & response)
+{
+	return false;
+}
+
+bool SatCollision2DObject::SweepSquareAgainstOtherTriagnle(SatCollision2DObject* other, SweepCollision2D & response)
+{
+	return false;
+}
+
+bool SatCollision2DObject::SweepSquareAgainstOtherCircle(SatCollision2DObject* other, SweepCollision2D & response)
+{
+	return false;
+}
+
+bool SatCollision2DObject::SweepSquareAgainstOtherAABBSquare(AABBSquareCollisionObject* other, SweepCollision2D & response)
+{
+	return false;
+}
+
+bool SatCollision2DObject::NewSATAlgorithim(CollisionObject2DBase * other, Collision2D & response)
+{
+	// More effeicient SAT algorithim taking from Box 2ds Light,
+	// Previous algorithim is, find two axis and project all verts onto axes, check overlap between projected verts.
+	// New Algorithim, transform B into A's space (make B relative to A  including rotation) get distance between A and B and project it onto 
+	//	two axis. The axis is chosen based on B's location compared to A. Based on Axes, compute incident edge (the edge the collision happens on) and then use that information
+	//  to find cliped vertecies, verts projected to axes, which give collision points. If at any time no cliped vertecis can be 
+	//  found then there is no collision or if relative to A b.s positions are both negative there is no collision
+
 	// Setup
 
 	SceneObject2D* objectA = GetSceneObject();
 	SceneObject2D* objectB = other->GetSceneObject();
 
-	Vector2D hA = 0.5f * objectA->GetSize();
-	Vector2D hB = 0.5f * objectB->GetSize();
+	Vector2D halfA = 0.5f * objectA->GetSize();
+	Vector2D halfB = 0.5f * objectB->GetSize();
 
 	Vector2D posA = objectA->GetPosition();
 	Vector2D posB = objectB->GetPosition();
@@ -30,24 +79,26 @@ bool SatCollision2DObject::SquareAgainstOtherSquare(SatCollision2DObject * other
 	Matrix22 RotAT = RotA.GetTranspose();
 	Matrix22 RotBT = RotB.GetTranspose();
 
-	Vector2D a1 = RotA.cols[0], a2 = RotA.cols[1];
-	Vector2D b1 = RotB.cols[0], b2 = RotB.cols[1];
+	Vector2D a1 = RotA.cols[0];
+	Vector2D a2 = RotA.cols[1];
+	Vector2D b1 = RotB.cols[0];
+	Vector2D b2 = RotB.cols[1];
 
-	Vector2D dp = posB - posA;
-	Vector2D dA = RotAT * dp;
-	Vector2D dB = RotBT * dp;
+	Vector2D deltaPos = posB - posA;
+	Vector2D dA = RotAT * deltaPos;
+	Vector2D dB = RotBT * deltaPos;
 
 	Matrix22 C = RotAT * RotB;
 	Matrix22 absC = C.GetAbs();
 	Matrix22 absCT = absC.GetTranspose();
 
 	// Box A faces
-	Vector2D faceA = dA.getAbs() - hA - absC * hB;
+	Vector2D faceA = dA.getAbs() - halfA - absC * halfB;
 	if (faceA.x > 0.0f || faceA.y > 0.0f)
 		return false;
 
 	// Box B faces
-	Vector2D faceB = dB.getAbs() - absCT * hA - hB;
+	Vector2D faceB = dB.getAbs() - absCT * halfA - halfB;
 	if (faceB.x > 0.0f || faceB.y > 0.0f)
 		return false;
 
@@ -64,7 +115,7 @@ bool SatCollision2DObject::SquareAgainstOtherSquare(SatCollision2DObject * other
 	const float relativeTol = 0.95f;
 	const float absoluteTol = 0.01f;
 
-	if (faceA.y > relativeTol * separation + absoluteTol * hA.y)
+	if (faceA.y > relativeTol * separation + absoluteTol * halfA.y)
 	{
 		axis = FACE_A_Y;
 		separation = faceA.y;
@@ -72,14 +123,14 @@ bool SatCollision2DObject::SquareAgainstOtherSquare(SatCollision2DObject * other
 	}
 
 	// Box B faces
-	if (faceB.x > relativeTol * separation + absoluteTol * hB.x)
+	if (faceB.x > relativeTol * separation + absoluteTol * halfB.x)
 	{
 		axis = FACE_B_X;
 		separation = faceB.x;
 		normal = dB.x > 0.0f ? RotB.cols[0] : -RotB.cols[0];
 	}
 
-	if (faceB.y > relativeTol * separation + absoluteTol * hB.y)
+	if (faceB.y > relativeTol * separation + absoluteTol * halfB.y)
 	{
 		axis = FACE_B_Y;
 		separation = faceB.y;
@@ -98,56 +149,56 @@ bool SatCollision2DObject::SquareAgainstOtherSquare(SatCollision2DObject * other
 	case FACE_A_X:
 	{
 		frontNormal = normal;
-		front = posA.dot(frontNormal) + hA.x;
+		front = posA.dot(frontNormal) + halfA.x;
 		sideNormal = RotA.cols[1];
 		float side = posA.dot(sideNormal);
-		negSide = -side + hA.y;
-		posSide = side + hA.y;
+		negSide = -side + halfA.y;
+		posSide = side + halfA.y;
 		negEdge = EDGE3;
 		posEdge = EDGE1;
-		MathLib::ComputeIncidentEdge(incidentEdge, hB, posB, RotB, frontNormal);
+		MathLib::ComputeIncidentEdge(incidentEdge, halfB, posB, RotB, frontNormal);
 	}
 	break;
 
 	case FACE_A_Y:
 	{
 		frontNormal = normal;
-		front = posA.dot(frontNormal) + hA.y;
+		front = posA.dot(frontNormal) + halfA.y;
 		sideNormal = RotA.cols[0];
 		float side = posA.dot(sideNormal);
-		negSide = -side + hA.x;
-		posSide = side + hA.x;
+		negSide = -side + halfA.x;
+		posSide = side + halfA.x;
 		negEdge = EDGE2;
 		posEdge = EDGE4;
-		MathLib::ComputeIncidentEdge(incidentEdge, hB, posB, RotB, frontNormal);
+		MathLib::ComputeIncidentEdge(incidentEdge, halfB, posB, RotB, frontNormal);
 	}
 	break;
 
 	case FACE_B_X:
 	{
 		frontNormal = -normal;
-		front = posB.dot(frontNormal) + hB.x;
+		front = posB.dot(frontNormal) + halfB.x;
 		sideNormal = RotB.cols[1];
 		float side = posB.dot(sideNormal);
-		negSide = -side + hB.y;
-		posSide = side + hB.y;
+		negSide = -side + halfB.y;
+		posSide = side + halfB.y;
 		negEdge = EDGE3;
 		posEdge = EDGE1;
-		MathLib::ComputeIncidentEdge(incidentEdge, hA, posA, RotA, frontNormal);
+		MathLib::ComputeIncidentEdge(incidentEdge, halfA, posA, RotA, frontNormal);
 	}
 	break;
 
 	case FACE_B_Y:
 	{
 		frontNormal = -normal;
-		front = posB.dot(frontNormal) + hB.y;
+		front = posB.dot(frontNormal) + halfB.y;
 		sideNormal = RotB.cols[0];
 		float side = posB.dot(sideNormal);
-		negSide = -side + hB.x;
-		posSide = side + hB.x;
+		negSide = -side + halfB.x;
+		posSide = side + halfB.x;
 		negEdge = EDGE2;
 		posEdge = EDGE4;
-		MathLib::ComputeIncidentEdge(incidentEdge, hA, posA, RotA, frontNormal);
+		MathLib::ComputeIncidentEdge(incidentEdge, halfA, posA, RotA, frontNormal);
 	}
 	break;
 	}
@@ -205,50 +256,13 @@ bool SatCollision2DObject::SquareAgainstOtherSquare(SatCollision2DObject * other
 		response.invRotationSnapshots[0] = objectA->GetInvRotationMatrix();
 		response.invRotationSnapshots[1] = objectB->GetInvRotationMatrix();
 		response.friction = sqrt(objectA->GetPhysics()->GetFriction() * objectB->GetPhysics()->GetFriction());
-		if(GetDynamics() != CD_Static)
+		if (GetDynamics() != CD_Static)
 			response.velocitySnapshot[0] = response.collidedObjects[0]->GetVelocity();
 		if (other->GetDynamics() != CD_Static)
 			response.velocitySnapshot[1] = response.collidedObjects[1]->GetVelocity();
 	}
 
 	return response.collided;
-}
-
-bool SatCollision2DObject::SquareAgainstOtherTriagnle(SatCollision2DObject * other, Collision2D & response)
-{
-	return false;
-}
-
-bool SatCollision2DObject::SquareAgainstOtherCircle(SatCollision2DObject * other, Collision2D & response)
-{
-	return false;
-}
-
-bool SatCollision2DObject::SquareAgainstOtherAABBSquare(AABBSquareCollisionObject * other, Collision2D & response)
-{
-	// TODO optimize to use specific function
-
-	return false;
-}
-
-bool SatCollision2DObject::SweepSquareAgainstOtherSquare(SatCollision2DObject* other, SweepCollision2D & response)
-{
-	return false;
-}
-
-bool SatCollision2DObject::SweepSquareAgainstOtherTriagnle(SatCollision2DObject* other, SweepCollision2D & response)
-{
-	return false;
-}
-
-bool SatCollision2DObject::SweepSquareAgainstOtherCircle(SatCollision2DObject* other, SweepCollision2D & response)
-{
-	return false;
-}
-
-bool SatCollision2DObject::SweepSquareAgainstOtherAABBSquare(AABBSquareCollisionObject* other, SweepCollision2D & response)
-{
-	return false;
 }
 
 SatCollision2DObject::SatCollision2DObject(SceneObject2D *object) : CollisionObject2DBase(object,CD_Dynamic,SAT_2D_COLLISION)

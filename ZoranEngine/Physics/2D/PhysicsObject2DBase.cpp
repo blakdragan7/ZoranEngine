@@ -9,7 +9,7 @@
 #include "Math/MathHelpers.h"
 #include <Math/MathLib.h>
 #include <cmath>
-const float EulerConstant = std::exp(1.0);
+const float EulerConstant = std::exp(1.0f);
 
 bool PhysicsObject2DBase::SweepCollisionTo(Vec2D position, SweepCollision2D & response)
 {
@@ -22,7 +22,7 @@ bool PhysicsObject2DBase::FastSweepCollision(Vec2D position)
 	return sceneObject2D->GetCollision2D()->FastSweepCollidesWith(position);
 }
 
-void PhysicsObject2DBase::CheckIfOnGround(struct Collision2D& response)
+void PhysicsObject2DBase::CheckIfOnGround(class Collision2D& response)
 {
 	// very complicated and realistic isOnGround code. need to probably optmize this somehow later
 	//if (isOnGround == false && response.objectBounds[1]->GetCollisionLayer() == COLLISION_LAYER_GROUND)
@@ -82,8 +82,8 @@ void PhysicsObject2DBase::SetMass(float mass)
 
 	Vec2D size = sceneObject2D->GetSize();
 
-	inertia = mass * (size.x*size.x + size.y*size.y) / 12.0;
-	invInertia = 1.0 / inertia;
+	inertia = mass * (size.x*size.x + size.y*size.y) / 12.0f;
+	invInertia = 1.0f / inertia;
 }
 
 void PhysicsObject2DBase::OnCollision(Collision2D &response)
@@ -175,7 +175,7 @@ bool PhysicsObject2DBase::SweepToo(Vec2D targetPosition, SweepCollision2D & resp
 
 void PhysicsObject2DBase::ApplyForce(Vec2D Force)
 {
-	this->velocity += Force;
+	this->force += Force;
 	isOnGround = false;
 	otherFriction = 1.0;
 }
@@ -228,7 +228,7 @@ void PhysicsObject2DBase::UpdatePositionsAndRotation(float deltaTime)
 
 void PhysicsObject2DBase::ApplyImpulseToVelocity(Vector2D impulse)
 {
-	velocity += /*invMass */ impulse;
+	velocity += invMass * impulse;
 }
 
 void PhysicsObject2DBase::ApplyImpulseToAngularVelocity(float impulse)

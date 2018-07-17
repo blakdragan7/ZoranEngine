@@ -157,7 +157,7 @@ void OpenGLShaderProgramBase::setUniform(const char* uniform, double value)
 void OpenGLShaderProgramBase::setUniform(const char* uniform, Vector2L* value)
 {
 	GLuint loc = glGetUniformLocation(program, uniform);
-	glUniform2i(loc, value->x, value->y);
+	glUniform2i(loc, (int)value->x, (int)value->y);
 	engine->CheckErrors("setUniform()");
 }
 

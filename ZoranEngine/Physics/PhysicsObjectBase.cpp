@@ -10,7 +10,7 @@
 #include "Math/MathHelpers.h"
 
 #include <cmath>
-const float EulerConstant = std::exp(1.0);
+const float EulerConstant = std::exp(1.0f);
 
 void PhysicsObjectBase::RegisterPhysicsObject()
 {
@@ -22,13 +22,13 @@ PhysicsObjectBase::PhysicsObjectBase(SceneObject * object)
 	currentDeltaTime = 0;
 	sceneObject = object;
 	shouldSimulate = false;
-	drag = 0.99;
-	otherFriction = 1.0;
-	friction = 0.99;
-	restitution = 0.9;
+	drag = 0.99f;
+	otherFriction = 1.0f;
+	friction = 0.99f;
+	restitution = 0.9f;
 	isOnGround = false;
 	useSweptCollision = false;
-	calculatedFriction = sqrt(1.0+0.99);
+	calculatedFriction = sqrt(1.0f+0.99f);
 	SetMass(200);
 }
 
@@ -53,7 +53,7 @@ void PhysicsObjectBase::StopPhysicsSim()
 void PhysicsObjectBase::SetMass(float mass)
 {
 	this->mass = mass;
-	invMass = (mass != 0 ? 1.0 / mass : 0.0);
+	invMass = (mass != 0 ? 1.0f / mass : 0.0f);
 }
 
 void PhysicsObjectBase::SetFriction(float friction)

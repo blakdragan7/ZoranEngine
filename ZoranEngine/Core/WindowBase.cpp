@@ -8,7 +8,7 @@ WindowBase::WindowBase(RenderEngineBase* engine)
 	this->renderEngine = engine;
 	isFullScreen = false;
 	isMaximized = false;
-	windowHandle == 0;
+	windowHandle = 0;
 }
 
 WindowBase::~WindowBase()

@@ -31,7 +31,7 @@ public:
 
 	static float lerp(float start, float end, float alpha)
 	{
-		return (start * alpha) + (end * 1.0 - alpha);
+		return (start * alpha) + (end * 1.0f - alpha);
 	}
 
 	static int ClipRangeToLine(ClipedVertex outPoints[2], ClipedVertex inPoints[2], const Vector2D& lineNormal, float offset, char clipEdge);

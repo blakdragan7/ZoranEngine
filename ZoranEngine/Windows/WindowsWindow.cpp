@@ -135,14 +135,14 @@ unsigned WindowsWindow::ConvertWPARAMToKey(WPARAM key)
 
 void WindowsWindow::SetPosition(long x, long y)
 {
-	SetWindowPos(hwnd, NULL, x, y, size.x, size.y, SWP_NOZORDER | SWP_NOSIZE | SWP_SHOWWINDOW);
+	SetWindowPos(hwnd, NULL, (int)x, (int)y, (int)size.x, (int)size.y, SWP_NOZORDER | SWP_NOSIZE | SWP_SHOWWINDOW);
 	position.x = x;
 	position.y = y;
 }
 
 void WindowsWindow::SetSize(long x, long y)
 {
-	SetWindowPos(hwnd, NULL, position.x, position.y, x, y, SWP_NOZORDER | SWP_SHOWWINDOW | SWP_NOMOVE);
+	SetWindowPos(hwnd, NULL, (int)position.x, (int)position.y, (int)x, (int)y, SWP_NOZORDER | SWP_SHOWWINDOW | SWP_NOMOVE);
 	size.x = x;
 	size.y = y;
 }

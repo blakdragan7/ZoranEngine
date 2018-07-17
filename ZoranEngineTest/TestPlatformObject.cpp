@@ -4,6 +4,7 @@
 #include <Rendering/TextureBase.h>
 #include <Rendering/RenderEngineBase.h>
 #include <Physics/2D/Collision/CollisionObject2DBase.h>
+#include <Physics/2D/PhysicsObject2DBase.h>
 
 static StandardShader2D* shader = 0;
 TestPlatformObject::TestPlatformObject(std::string name) : TexturedSprite(name, "test.png", RenderDataType::TYPE_RGBA_32, RenderDataFormat::FORMAT_UNSIGNED_BYTE)
@@ -20,6 +21,8 @@ TestPlatformObject::TestPlatformObject(std::string name) : TexturedSprite(name, 
 
 	collision->SetDynamics(CD_Static);
 	collision->SetCollisionLayer(COLLISION_LAYER_GROUND);
+
+	GetPhysics2D()->SetMass(FLT_MAX); // Static object has infinite mass 
 }
 
 TestPlatformObject::~TestPlatformObject()

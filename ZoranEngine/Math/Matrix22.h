@@ -3,7 +3,7 @@
 #include <math.h>
 #include <assert.h>
 
-class Matrix22
+class ZoranEngine_EXPORT Matrix22
 {
 public:
 		Vector2D cols[2];
@@ -79,7 +79,7 @@ public:
 
 		assert(det != 0.0f);
 		
-		det = 1.0 / det;
+		det = 1.0f / det;
 		ret.cols[0].x = det * d;	
 		ret.cols[1].x = -det * b;
 		ret.cols[0].y = -det * c;	

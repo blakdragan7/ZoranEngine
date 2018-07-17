@@ -16,18 +16,20 @@ int main(int argc, char* argv[])
 	
 	std::string name_base = "TestSceneObject-";
 
-	Vec2D CollisionPoint(0,0);
-	/*for (unsigned i = 0; i < 10; i++)
+	/*Vec2D CollisionPoint(0,0);
+	for (unsigned i = 0; i < 100; i++)
 	{
 		TestSceneObject* test = new TestSceneObject((name_base + std::to_string(i)));
 		test->SetScale(40, -40);
 		test->SetPosition(Random::GetfloatInRange(-300, 300), Random::GetfloatInRange(-300, 300));
 		test->GetPhysics()->StartPhysicsSim();
-		test->GetPhysics2D()->SetSweptCollision(true);
+		test->GetPhysics2D()->SetSweptCollision(false);
+		test->SetRotation(1);
 		Vec2D pos = test->GetPosition();
 		pos = CollisionPoint - pos;
 		pos.normalize();
-		test->GetPhysics2D()->ApplyForce(pos * 100);
+		test->GetPhysics2D()->SetGravity(pos*200);
+		//test->GetPhysics2D()->ApplyForce(pos * 100);
 		zEngine->AddSceneObject(test);
 	}*/
 
@@ -36,8 +38,8 @@ int main(int argc, char* argv[])
 	for (int i = 0; i < 2; i++)
 	{
 		TestSceneObject* test = new TestSceneObject(std::string("dynamic ") + std::to_string(i));
-		test->SetScale(40, -40);
-		Vec2D pos(0, -300 + (i * 600));
+		test->SetScale(40.0f, -40.0f);
+		Vec2D pos(0, -300.0f + ((float)i * 600.0f));
 		test->SetPosition(pos);
 		test->GetPhysics()->StartPhysicsSim();
 

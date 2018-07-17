@@ -28,6 +28,9 @@ The manual and changelog are in the header file "lodepng.h"
 Rename this file to lodepng.cpp to use it for C++, or to lodepng.c to use it for C.
 */
 
+// remove warnings
+#pragma warning(push, 0)
+
 #include "lodepng.h"
 
 #include <stdio.h>
@@ -6102,3 +6105,5 @@ unsigned encode(const std::string& filename,
 #endif //LODEPNG_COMPILE_PNG
 } //namespace lodepng
 #endif /*LODEPNG_COMPILE_CPP*/
+
+#pragma warning(pop)
