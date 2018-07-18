@@ -54,7 +54,6 @@ PhysicsObject2DBase::PhysicsObject2DBase(SceneObject2D * object) : PhysicsObject
 	gravityNormal = Vec2D(0, -1);
 	shouldSimulate = false;
 	torque = 0;
-	angularVelocity = 0;
 }
 
 PhysicsObject2DBase::~PhysicsObject2DBase()
@@ -175,7 +174,7 @@ bool PhysicsObject2DBase::SweepToo(Vec2D targetPosition, SweepCollision2D & resp
 
 void PhysicsObject2DBase::ApplyForce(Vec2D Force)
 {
-	this->force += Force;
+	this->force += Force * 1000;
 	isOnGround = false;
 	otherFriction = 1.0;
 }
@@ -198,6 +197,7 @@ void PhysicsObject2DBase::UpdateVelocities(float deltaTime)
 		velocity *= drag;
 
 		force.clear();
+		torque = 0;
 	}
 }
 
@@ -222,13 +222,13 @@ void PhysicsObject2DBase::UpdatePositionsAndRotation(float deltaTime)
 			sceneObject2D->Translate(velocity*deltaTime);
 		}
 
-		sceneObject2D->Rotate(deltaTime * angularVelocity);
+		sceneObject2D->Rotate(deltaTime * -angularVelocity);
 	}
 }
 
 void PhysicsObject2DBase::ApplyImpulseToVelocity(Vector2D impulse)
 {
-	velocity += invMass * impulse;
+	velocity +=  invMass * impulse*100;
 }
 
 void PhysicsObject2DBase::ApplyImpulseToAngularVelocity(float impulse)

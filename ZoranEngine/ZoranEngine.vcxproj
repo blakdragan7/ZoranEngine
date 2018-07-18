@@ -22,6 +22,7 @@
     <None Include="..\README.md" />
     <None Include="Shaders\2D\standard.frag" />
     <None Include="Shaders\2D\standard.vert" />
+    <None Include="Shaders\2D\standard_debug.frag" />
     <None Include="Shaders\3D\standard.frag" />
     <None Include="Shaders\3D\standard.vert" />
   </ItemGroup>
@@ -45,6 +46,7 @@
     <ClCompile Include="Math\Quaternion.cpp" />
     <ClCompile Include="Math\Vector2.cpp" />
     <ClCompile Include="Math\Vector3.cpp" />
+    <ClCompile Include="OpenGL\DebugShader2D.cpp" />
     <ClCompile Include="OpenGL\OpenGLObject.cpp" />
     <ClCompile Include="OpenGL\OpenGLRenderEngine.cpp" />
     <ClCompile Include="OpenGL\OpenGLShaderProgramBase.cpp" />
@@ -115,6 +117,7 @@
     <ClInclude Include="Math\Quaternion.h" />
     <ClInclude Include="Math\Vector2.h" />
     <ClInclude Include="Math\Vector3.h" />
+    <ClInclude Include="OpenGL\DebugShader2D.h" />
     <ClInclude Include="OpenGL\OpenGLObject.h" />
     <ClInclude Include="OpenGL\OpenGLRenderEngine.h" />
     <ClInclude Include="OpenGL\OpenGLShaderProgramBase.h" />

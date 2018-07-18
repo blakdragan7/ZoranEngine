@@ -25,17 +25,17 @@ private:
 	float derivedRadius;
 
 private:
-	bool SquareAgainstOtherSquare(SatCollision2DObject* other, Collision2D & response);
-	bool SquareAgainstOtherTriagnle(SatCollision2DObject* other, Collision2D & response);
-	bool SquareAgainstOtherCircle(SatCollision2DObject* other, Collision2D & response);
-	bool SquareAgainstOtherAABBSquare(class AABBSquareCollisionObject* other, Collision2D & response);
+	bool SquareAgainstOtherSquare(SatCollision2DObject* other, Collision2D * response);
+	bool SquareAgainstOtherTriagnle(SatCollision2DObject* other, Collision2D * response);
+	bool SquareAgainstOtherCircle(SatCollision2DObject* other, Collision2D * response);
+	bool SquareAgainstOtherAABBSquare(class AABBSquareCollisionObject* other, Collision2D * response);
 
 	bool SweepSquareAgainstOtherSquare(SatCollision2DObject* other, SweepCollision2D & response);
 	bool SweepSquareAgainstOtherTriagnle(SatCollision2DObject* other, SweepCollision2D & response);
 	bool SweepSquareAgainstOtherCircle(SatCollision2DObject* other, SweepCollision2D & response);
 	bool SweepSquareAgainstOtherAABBSquare(class AABBSquareCollisionObject* other, SweepCollision2D & response);
 
-	bool NewSATAlgorithim(CollisionObject2DBase* other, Collision2D& response);
+	bool NewSATAlgorithim(CollisionObject2DBase* other, Collision2D* response);
 
 public:
 	SatCollision2DObject(SceneObject2D *object);
@@ -48,7 +48,8 @@ public:
 	void SetBoundsBySceneObject()override;
 
 	virtual Vector2D GetSize()override;
-	virtual bool CollidesWith(CollisionObject2DBase* other, Collision2D& response)override;
+	virtual bool CollidesWithNoCollision(CollisionObject2DBase* other)override;
+	virtual bool CollidesWith(CollisionObject2DBase* other, Collision2D* response)override;
 	virtual Vector2D GetClosestPointTo(Vector2D pos)override;
 
 	virtual bool SweepCollidesWith(CollisionObject2DBase* other, Vector2D newPosition, SweepCollision2D & response)override;

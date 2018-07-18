@@ -56,8 +56,8 @@ public:
 		float s = sinf(rotation);
 
 		cols[0].x = c;
-		cols[0].y = -s;
-		cols[1].x = s;
+		cols[0].y = s;
+		cols[1].x = -s;
 		cols[1].y = c;
 	}
 

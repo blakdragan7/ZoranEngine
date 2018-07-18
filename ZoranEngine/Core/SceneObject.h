@@ -41,9 +41,6 @@ protected:
 	void WaitForMutex();
 	void UnlockMutex();
 
-	void SetShaderProgram(ShaderProgramBase* newShaderProgram);
-	void SetRenderedObject(RenderedObjectBase* newRenderedObject);
-
 public:
 	SceneObject(std::string);
 	SceneObject(std::string, RenderEngineBase* engine);
@@ -60,6 +57,9 @@ public:
 	virtual void Tick(float deltaTime)override {}
 
     // Getter / Setter
+
+	void SetShaderProgram(ShaderProgramBase* newShaderProgram);
+	void SetRenderedObject(RenderedObjectBase* newRenderedObject);
 
 	inline RenderEngineBase* GetRenderEngine() { return renderEngine; }
 	inline ShaderProgramBase* GetShaderProgram() { return shaderProgram; }

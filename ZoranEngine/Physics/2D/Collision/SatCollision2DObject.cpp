@@ -12,22 +12,22 @@
 #define BOTTOM_RIGHT 2
 #define TOP_RIGHT 3
 
-bool SatCollision2DObject::SquareAgainstOtherSquare(SatCollision2DObject * other, Collision2D & response)
+bool SatCollision2DObject::SquareAgainstOtherSquare(SatCollision2DObject * other, Collision2D * response)
 {
 	return NewSATAlgorithim(other, response);
 }
 
-bool SatCollision2DObject::SquareAgainstOtherTriagnle(SatCollision2DObject * other, Collision2D & response)
+bool SatCollision2DObject::SquareAgainstOtherTriagnle(SatCollision2DObject * other, Collision2D * response)
 {
 	return NewSATAlgorithim(other, response);
 }
 
-bool SatCollision2DObject::SquareAgainstOtherCircle(SatCollision2DObject * other, Collision2D & response)
+bool SatCollision2DObject::SquareAgainstOtherCircle(SatCollision2DObject * other, Collision2D * response)
 {
 	return NewSATAlgorithim(other, response);
 }
 
-bool SatCollision2DObject::SquareAgainstOtherAABBSquare(AABBSquareCollisionObject * other, Collision2D & response)
+bool SatCollision2DObject::SquareAgainstOtherAABBSquare(AABBSquareCollisionObject * other, Collision2D * response)
 {
 	// TODO optimize to use specific function
 
@@ -54,7 +54,7 @@ bool SatCollision2DObject::SweepSquareAgainstOtherAABBSquare(AABBSquareCollision
 	return false;
 }
 
-bool SatCollision2DObject::NewSATAlgorithim(CollisionObject2DBase * other, Collision2D & response)
+bool SatCollision2DObject::NewSATAlgorithim(CollisionObject2DBase * other, Collision2D * response)
 {
 	// More effeicient SAT algorithim taking from Box 2ds Light,
 	// Previous algorithim is, find two axis and project all verts onto axes, check overlap between projected verts.
@@ -239,30 +239,30 @@ bool SatCollision2DObject::NewSATAlgorithim(CollisionObject2DBase * other, Colli
 			point.edges = clipPoints2[i].edge;
 			if (axis == FACE_B_X || axis == FACE_B_Y)
 				point.edges.Flip();
-			response.collisionPoints.push_back(point);
+			response->AddCollisionPoint(point);
 		}
 	}
-	if (response.collisionPoints.size() > 0)
+	if (response->GetNumCollisionPoints() > 0)
 	{
-		response.collided = true;
-		response.objects[0] = objectA;
-		response.objects[1] = objectB;
-		response.collidedObjects[0] = this->GetPhysicsObject();
-		response.collidedObjects[1] = other->GetPhysicsObject();
-		response.objectBounds[0] = this;
-		response.objectBounds[1] = other;
-		response.rotationSnapshots[0] = objectA->GetRotationMatrix();
-		response.rotationSnapshots[1] = objectB->GetRotationMatrix();
-		response.invRotationSnapshots[0] = objectA->GetInvRotationMatrix();
-		response.invRotationSnapshots[1] = objectB->GetInvRotationMatrix();
-		response.friction = sqrt(objectA->GetPhysics()->GetFriction() * objectB->GetPhysics()->GetFriction());
+		response->collided = true;
+		response->objects[0] = objectA;
+		response->objects[1] = objectB;
+		response->collidedObjects[0] = this->GetPhysicsObject();
+		response->collidedObjects[1] = other->GetPhysicsObject();
+		response->objectBounds[0] = this;
+		response->objectBounds[1] = other;
+		response->rotationSnapshots[0] = objectA->GetRotationMatrix();
+		response->rotationSnapshots[1] = objectB->GetRotationMatrix();
+		response->invRotationSnapshots[0] = objectA->GetInvRotationMatrix();
+		response->invRotationSnapshots[1] = objectB->GetInvRotationMatrix();
+		response->friction = sqrt(objectA->GetPhysics()->GetFriction() * objectB->GetPhysics()->GetFriction());
 		if (GetDynamics() != CD_Static)
-			response.velocitySnapshot[0] = response.collidedObjects[0]->GetVelocity();
+			response->velocitySnapshot[0] = response->collidedObjects[0]->GetVelocity();
 		if (other->GetDynamics() != CD_Static)
-			response.velocitySnapshot[1] = response.collidedObjects[1]->GetVelocity();
+			response->velocitySnapshot[1] = response->collidedObjects[1]->GetVelocity();
 	}
 
-	return response.collided;
+	return response->collided;
 }
 
 SatCollision2DObject::SatCollision2DObject(SceneObject2D *object) : CollisionObject2DBase(object,CD_Dynamic,SAT_2D_COLLISION)
@@ -389,7 +389,12 @@ Vector2D SatCollision2DObject::GetSize()
 	return GetSceneObject()->GetScale();
 }
 
-bool SatCollision2DObject::CollidesWith(CollisionObject2DBase * other, Collision2D & response)
+bool SatCollision2DObject::CollidesWithNoCollision(CollisionObject2DBase * other)
+{
+	return false;
+}
+
+bool SatCollision2DObject::CollidesWith(CollisionObject2DBase * other, Collision2D * response)
 {
 	switch (other->GetCollisionType())
 	{

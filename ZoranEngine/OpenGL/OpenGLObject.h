@@ -15,14 +15,15 @@ private:
 	unsigned	glBufferDrawType;
 
 private:
-	unsigned GLDrawTypeFromDrawType(DrawType type);
-	unsigned GLVertexTypeFromVertexType(VertexType type);
+	unsigned GLDrawTypeFromDrawType(DrawType type)const;
+	unsigned GLVertexTypeFromVertexType(VertexType type)const;
+	unsigned GLPrimitveFromPrimitiveType(PrimitiveType type)const;
 
 public:
 	OpenGLObject();
 	~OpenGLObject();
 
-	virtual void CreateObjectFromMemory(VertexType vertType, DrawType drawType, unsigned numVerts, void* verts, void* uv, bool copy = true)override;
+	virtual void CreateObjectFromMemory(PrimitiveType pType, VertexType vertType, DrawType drawType, unsigned numVerts, void* verts, void* uv, bool copy = true)override;
 	virtual void RenderObject()override;
 
 	void MakeFullScreenQuad()override;

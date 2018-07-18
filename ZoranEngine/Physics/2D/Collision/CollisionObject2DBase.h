@@ -38,7 +38,8 @@ public:
 	void SetSceneObject(SceneObject2D* object);
 	void SetPhysicsObject(PhysicsObject2DBase* object);
 
-	virtual bool CollidesWith(CollisionObject2DBase* other, Collision2D& response) = 0;
+	virtual bool CollidesWithNoCollision(CollisionObject2DBase* other) = 0;
+	virtual bool CollidesWith(CollisionObject2DBase* other, Collision2D* response) = 0;
 	virtual Vector2D GetClosestPointTo(Vector2D pos) = 0;
 	virtual Vector2D GetSize() = 0;
 

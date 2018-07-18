@@ -3,8 +3,8 @@
 #include <Physics/2D/Collision/CollisionObject2DBase.h>
 struct CollisionFrame2D
 {
-	typedef std::pair<Collision2DKey, Collision2D> CollisionPair;
-	std::map<Collision2DKey,Collision2D> collisions;
+	typedef std::pair<Collision2DKey, Collision2D*> CollisionPair;
+	std::map<Collision2DKey,Collision2D*> collisions;
 	std::vector<SweepCollision2D> sweptCollisions;
 
 	void Clear()
@@ -13,7 +13,7 @@ struct CollisionFrame2D
 		sweptCollisions.clear();
 	}
 
-	void UpdateCollisionWithKey(Collision2DKey& key,Collision2D& collision)
+	void UpdateCollisionWithKey(Collision2DKey& key,Collision2D* collision)
 	{
 		auto iter = collisions.find(key);
 		if (iter == collisions.end())
@@ -22,7 +22,7 @@ struct CollisionFrame2D
 		}
 		else
 		{
-			iter->second.Update(collision.collisionPoints);
+			iter->second->Update(collision);
 		}
 	}
 
@@ -30,7 +30,8 @@ struct CollisionFrame2D
 	{
 		auto itr = collisions.begin();
 		while (itr != collisions.end()) {
-			if ((*itr).second.wasUpdated == false && (*itr).second.frame > 1) {
+			if ((*itr).second->wasUpdated == false && (*itr).second->frame > 1) {
+				delete itr->second;
 				itr = collisions.erase(itr);
 			}
 			else {

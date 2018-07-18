@@ -37,19 +37,23 @@ void PhysicsEngine::ResolveAllStaticCollisions(float dt)
 
 	for (auto& collisionIter : collisionFrame2D.collisions)
 	{
-		Collision2D& collision = collisionIter.second;
-		collision.PreUpdate(inv_dt);
-		collision.frame++;
+		Collision2D* collision = collisionIter.second;
+		collision->PreUpdate(inv_dt);
+		collision->frame++;
 
 		for (int i = 0; i < 10; ++i)
 		{
-			collision.UpdateForces();
+			collision->UpdateForces();
 		}
 
-		if (collision.objectBounds[0]->GetDynamics() != CD_Static)
-			collision.collidedObjects[0]->OnCollision(collision);
-		if (collision.objectBounds[1]->GetDynamics() != CD_Static)
-			collision.collidedObjects[1]->OnCollision(collision.Reflection());
+		if (collision->objectBounds[0]->GetDynamics() != CD_Static)
+			collision->collidedObjects[0]->OnCollision(*collision);
+		if (collision->objectBounds[1]->GetDynamics() != CD_Static)
+		{
+			auto reflection = collision->Reflection();
+			collision->collidedObjects[1]->OnCollision(*reflection);
+			delete reflection;
+		}
 	}
 }
 

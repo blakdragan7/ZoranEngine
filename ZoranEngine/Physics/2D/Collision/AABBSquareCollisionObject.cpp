@@ -38,7 +38,7 @@ void AABBSquareCollisionObject::SetBoundsBySceneObject()
 	maxPos = pos + (size / 2);
 }
 
-bool AABBSquareCollisionObject::CollidesWith(CollisionObject2DBase* other, Collision2D& response)
+bool AABBSquareCollisionObject::CollidesWith(CollisionObject2DBase* other, Collision2D* response)
 {
 	Vec2D otherMin;
 	Vec2D otherMax;
@@ -84,13 +84,15 @@ bool AABBSquareCollisionObject::CollidesWith(CollisionObject2DBase* other, Colli
 		// box does not intersect face. So boxes don't intersect at all.
 		if (distances[i] < 0.0f)
 		{
-			response.collided = false;
+			response->collided = false;
 			return false;
 		}
 		// face of least intersection depth. That's our candidate.
 		if ((i == 0) || (distances[i] < penetration))
 		{
 			faceIndex = i;
+
+			penetration = distances[i];
 
 			FillCollisionPoints(contactPointsA, otherMin, otherMax);
 
@@ -105,21 +107,20 @@ bool AABBSquareCollisionObject::CollidesWith(CollisionObject2DBase* other, Colli
 		}
 	}
 
-	response.collidedObjects[0] = GetPhysicsObject();
-	response.collidedObjects[1] = other->GetPhysicsObject();
-
-	response.objectBounds[0] = this;
-	response.objectBounds[1] = other;
-
-	response.collided = true;
-	
-	response.collisionPoints.push_back(contactPointsA[0]);
-	response.collisionPoints.push_back(contactPointsA[1]);
+	response->collidedObjects[0] = GetPhysicsObject();
+	response->collidedObjects[1] = other->GetPhysicsObject();
+	response->objectBounds[0] = this;
+	response->objectBounds[1] = other;
+	response->collided = true;
+	response->objects[0] = GetSceneObject();
+	response->objects[1] = other->GetSceneObject();
+	response->AddCollisionPoint(contactPointsA[0]);
+	response->AddCollisionPoint(contactPointsA[1]);
 
 	if (GetPhysicsObject())
-		response.velocitySnapshot[0] = GetPhysicsObject()->GetVelocity();
+		response->velocitySnapshot[0] = GetPhysicsObject()->GetVelocity();
 	if(other->GetPhysicsObject())
-		response.velocitySnapshot[1] = other->GetPhysicsObject()->GetVelocity();
+		response->velocitySnapshot[1] = other->GetPhysicsObject()->GetVelocity();
 
 	return true;
 }
@@ -231,8 +232,8 @@ bool AABBSquareCollisionObject::SweepCollidesWith(CollisionObject2DBase * other,
 	response.Collision2D.objectBounds[0] = this;
 	response.Collision2D.objectBounds[1] = other;
 
-	response.Collision2D.collisionPoints.push_back(points[0]);
-	response.Collision2D.collisionPoints.push_back(points[1]);
+	response.Collision2D.AddCollisionPoint(points[0]);
+	response.Collision2D.AddCollisionPoint(points[1]);
 	
 	if (GetPhysicsObject())
 		response.Collision2D.velocitySnapshot[0] = GetPhysicsObject()->GetVelocity();
@@ -260,7 +261,7 @@ bool AABBSquareCollisionObject::FastSweepCollidesWith(Vector2D newPosition)
 	sweepCollisionSquare->minPos.y = minPositiony - size.y;
 	sweepCollisionSquare->maxPos.y = maxPositiony + size.y;
 
-	Collision2D unused;
+	static Collision2D *unused = new Collision2D();
 	return pEngine->GetCollisionBucketRootFor2D()->CheckObjectAgainstStaic(sweepCollisionSquare, unused);
 }
 
@@ -268,4 +269,53 @@ bool AABBSquareCollisionObject::FastSweepCollidesWith(Vector2D newPosition)
 Vector2D AABBSquareCollisionObject::GetSize()
 {
 	return Vector2D(maxPos - minPos);
+}
+
+bool AABBSquareCollisionObject::CollidesWithNoCollision(CollisionObject2DBase * other)
+{
+	Vec2D otherMin;
+	Vec2D otherMax;
+
+	if (other->GetCollisionType() == SQUARE_COLLISION)
+	{
+		AABBSquareCollisionObject* squareOther = (AABBSquareCollisionObject*)other;
+		otherMin = squareOther->minPos;
+		otherMax = squareOther->maxPos;
+	}
+	else
+	{
+		// treat the other as a box for now
+		Vec2D size = other->GetSize();
+		otherMin = other->GetScenePos() - size / 2.0;
+		otherMax = other->GetScenePos() + size / 2.0;
+	}
+
+	static const Vector2D faces[4] =
+	{
+		Vector2D(-1,  0), // 'left' face normal (-x direction)
+		Vector2D(1,  0), // 'right' face normal (+x direction)
+		Vector2D(0, -1), // 'bottom' face normal (-y direction)
+		Vector2D(0,  1), // 'top' face normal (+y direction)
+	};
+
+	float distances[4] =
+	{
+		(otherMax.x - minPos.x), // distance of otherBox to face on 'left' side.
+		(maxPos.x - otherMin.x), // distance of otherBox to face on 'right' side.
+		(otherMax.y - minPos.y), // distance of otherBox to face on 'bottom' side.
+		(maxPos.y - otherMin.y), // distance of otherBox to face on 'top' side.
+	};
+
+	CollisionPoint contactPointsA[2];
+
+	for (int i = 0; i < 4; i++)
+	{
+		// box does not intersect face. So boxes don't intersect at all.
+		if (distances[i] < 0.0f)
+		{
+			return false;
+		}
+	}
+
+	return true;
 }

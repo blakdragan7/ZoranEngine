@@ -97,7 +97,7 @@ void SceneObject2D::Scale(float dx, float dy)
 
 void SceneObject2D::Rotate(float rotation)
 {
-	rotation += rotation;
+	this->rotation += rotation;
 	rotationMat.SetRotation(rotation);
 	invRotationMat = rotationMat.GetInversion();
 	if (collision)pEngine->UpdateCollisionObject(collision);

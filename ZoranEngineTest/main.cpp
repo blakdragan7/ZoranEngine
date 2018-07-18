@@ -35,26 +35,27 @@ int main(int argc, char* argv[])
 
 	Vec2D gravity[2] = { Vec2D(0,600),Vec2D(0,-600) };
 
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 5; i++)
 	{
 		TestSceneObject* test = new TestSceneObject(std::string("dynamic ") + std::to_string(i));
 		test->SetScale(40.0f, -40.0f);
-		Vec2D pos(0, -300.0f + ((float)i * 600.0f));
+		Vec2D pos(0, -300.0f + ((float)i * 120));
 		test->SetPosition(pos);
 		test->GetPhysics()->StartPhysicsSim();
 
 		pos = -pos;
 		pos.normalize();
 
-		test->GetPhysics2D()->SetGravity(gravity[i]);
-		//test->GetPhysics2D()->SetGravity(Vec2D(0,-980));
+		//test->GetPhysics2D()->SetGravity(gravity[i]);
+		//test->GetPhysics2D()->SetGravity(gravity[i]);
+		//test->GetPhysics2D()->SetGravity(pos * 100);
 		//test->GetPhysics2D()->ApplyForce(Vec2D(100,800));
 		test->GetPhysics2D()->SetSweptCollision(false);
-		test->SetRotation(0);
+		//test->SetRotation(1.00);
 		zEngine->AddSceneObject(test);
 	}
 	
-	/*TestPlatformObject* platform = new TestPlatformObject("Ground");
+	TestPlatformObject* platform = new TestPlatformObject("Ground");
 	platform->SetScale(500, -50);
 	platform->SetPosition(0, -500);
 	zEngine->AddSceneObject(platform);
@@ -72,7 +73,7 @@ int main(int argc, char* argv[])
 	TestPlatformObject* platform4 = new TestPlatformObject("Right Wall");
 	platform4->SetScale(40, -500);
 	platform4->SetPosition(500, 0);
-	zEngine->AddSceneObject(platform4);*/
+	zEngine->AddSceneObject(platform4);
 
 	engine.SetPaused(true);
 	engine.MainLoop();

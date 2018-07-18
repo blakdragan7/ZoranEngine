@@ -237,6 +237,9 @@
     <ClCompile Include="Physics\2D\Collision\Collision2D.cpp">
       <Filter>ZoranEngine\Physics\2D\Collision</Filter>
     </ClCompile>
+    <ClCompile Include="OpenGL\DebugShader2D.cpp">
+      <Filter>ZoranEngine\OpenGL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -437,6 +440,9 @@
     <ClInclude Include="Physics\2D\Collision\Collision2D.h">
       <Filter>ZoranEngine\Physics\2D\Collision</Filter>
     </ClInclude>
+    <ClInclude Include="OpenGL\DebugShader2D.h">
+      <Filter>ZoranEngine\OpenGL</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ZoranEngine.rc">
@@ -457,5 +463,8 @@
       <Filter>ZoranEngine\Shaders\2D</Filter>
     </None>
     <None Include="..\README.md" />
+    <None Include="Shaders\2D\standard_debug.frag">
+      <Filter>ZoranEngine\Shaders\2D</Filter>
+    </None>
   </ItemGroup>
 </Project>

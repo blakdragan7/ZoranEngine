@@ -1,8 +1,33 @@
 #include "stdafx.h"
 #include "Collision2D.h"
 #include <Core/2D/SceneObject2D.h>
+#include <Rendering/RenderedObjectBase.h>
 #include <Physics/2D/PhysicsObject2DBase.h>
 #include <Math/MathLib.h>
+#include <OpenGL/DebugShader2D.h>
+
+void Collision2D::AddDebugObject(Vec2D pos)
+{
+	if (shouldRender == false)return;
+	SceneObject2D* debugObject = new SceneObject2D("debug");
+
+	debugObject->GetRenderedObject()->MakeFullScreenQuad();
+	debugObject->SetScale(5, 5);
+	debugObject->SetPosition(pos);
+
+	DebugShader2D* ds = new DebugShader2D();
+	debugObject->SetShaderProgram(ds);
+
+	zEngine->AddSceneObject(debugObject);
+
+	debugObjects.push_back(debugObject);
+}
+
+void Collision2D::AddCollisionPoint(CollisionPoint & point)
+{
+	collisionPoints.push_back(point);
+	AddDebugObject(point.pos);
+}
 
 Collision2D::Collision2D()
 {
@@ -17,20 +42,32 @@ Collision2D::Collision2D()
 	friction = 0;
 	ID = sID++;
 	frame = 0;
+	shouldRender = false;
 }
 
-Collision2D Collision2D::Reflection()
+Collision2D::~Collision2D()
 {
-	Collision2D res;
+	for(auto debugObject : debugObjects)
+	{
+		debugObject->Destroy();
+		debugObject = 0;
+	}
 
-	res.ID = ID;
-	res.collided = collided;
-	res.collidedObjects[0] = collidedObjects[1];
-	res.collidedObjects[1] = collidedObjects[0];
-	res.objectBounds[0] = objectBounds[1];
-	res.objectBounds[1] = objectBounds[0];
-	res.velocitySnapshot[0] = velocitySnapshot[1];
-	res.velocitySnapshot[1] = velocitySnapshot[0];
+	debugObjects.clear();
+}
+
+Collision2D* Collision2D::Reflection()
+{
+	Collision2D *res = new Collision2D();
+
+	res->ID = ID;
+	res->collided = collided;
+	res->collidedObjects[0] = collidedObjects[1];
+	res->collidedObjects[1] = collidedObjects[0];
+	res->objectBounds[0] = objectBounds[1];
+	res->objectBounds[1] = objectBounds[0];
+	res->velocitySnapshot[0] = velocitySnapshot[1];
+	res->velocitySnapshot[1] = velocitySnapshot[0];
 
 	return res;
 };
@@ -42,8 +79,17 @@ bool Collision2D::operator==(const Collision2D& other)
 
 void Collision2D::PreUpdate(float inv_dt)
 {
-	const float k_allowedPenetration = 0.01f;
-	static const float k_biasFactor = 0.2f;
+	if (shouldRender == false)
+	{
+		shouldRender = true;
+		for (auto point : collisionPoints)
+		{
+			AddDebugObject(point.pos);
+		}
+	}
+
+	const float k_allowedPenetration = 0.02f;
+	static const float k_biasFactor = 0.4f;
 
 	for (CollisionPoint& collisionPoint : collisionPoints)
 	{
@@ -91,8 +137,8 @@ void Collision2D::UpdateForces()
 
 	for (CollisionPoint& collisionPoint : collisionPoints)
 	{
-		Vector2D r1 = collisionPoint.pos - objects[0]->GetPosition();
-		Vector2D r2 = collisionPoint.pos - objects[1]->GetPosition();
+		collisionPoint.r1 = collisionPoint.pos - objects[0]->GetPosition();
+		collisionPoint.r2 = collisionPoint.pos - objects[1]->GetPosition();
 
 		// Relative velocity at contact
 		Vector2D dv = b2->GetVelocity() + collisionPoint.r2.crossLeft(b2->GetAngularVelocity()) - b1->GetVelocity() - collisionPoint.r1.crossLeft(b1->GetAngularVelocity());
@@ -143,8 +189,10 @@ void Collision2D::UpdateForces()
 	}
 }
 
-void Collision2D::Update(std::vector<CollisionPoint> points)
+void Collision2D::Update(Collision2D* other)
 {
+	std::vector<CollisionPoint>& points = other->collisionPoints;
+
 	wasUpdated = true;
 
 	CollisionPoint mergedContacts[2];
@@ -181,6 +229,15 @@ void Collision2D::Update(std::vector<CollisionPoint> points)
 	}
 
 	for (int i = 0; i < points.size(); ++i)
-		collisionPoints[i] = mergedContacts[i];
+	{
+		if (collisionPoints.size() <= i)
+			collisionPoints.push_back(mergedContacts[i]);
+		else
+			collisionPoints[i] = mergedContacts[i];
+		if (debugObjects.size() <= i)
+			AddDebugObject(mergedContacts[i].pos);
+		else
+			debugObjects[i]->SetPosition(mergedContacts[i].pos);
+	}
 
 }

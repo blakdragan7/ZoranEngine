@@ -70,8 +70,8 @@ int ZoranEngine::MainLoop()
 
 	while (WM_QUIT != msg.message && shouldRun)
 	{
-		//float fpsTime = clock.GetDiffSeconds();
-		float deltaTime = 1.0f / 60.0f;
+		//float deltaTime = clock.GetDiffSeconds();
+		float deltaTime = (1.0f / 60.0f);
 		clock.TakeClock();
 
 		while (PeekMessageW(&msg, NULL, 0, 0, PM_REMOVE))
@@ -204,7 +204,8 @@ void ZoranEngine::AddSceneObject(SceneObject * object)
 	if (object->GetCollision())object->GetCollision()->SetBoundsBySceneObject();
 	if(object->willEverTick)AddTickableObject((TickableObject*)(object));
 	mainRenderEngine->AddSceneObject(object);
-	physicsEngine->AddPhysicsObject(object->GetPhysics());
+	if(object->GetPhysics())
+		physicsEngine->AddPhysicsObject(object->GetPhysics());
 	CollisionObjectBase* collision = object->GetCollision();
 	if (collision)GetPhysicsEngine()->AddCollisionObject(collision);
 }
@@ -212,8 +213,8 @@ void ZoranEngine::AddSceneObject(SceneObject * object)
 void ZoranEngine::DestroySceneObject(SceneObject * object)
 {
 	mainRenderEngine->RemoveSceneObject(object);
+	if (object->GetPhysics())delete object->GetPhysics();
 	delete object;
-	delete object->GetPhysics();
 }
 
 void ZoranEngine::RemoveTickableObject(TickableObject * object)

@@ -16,12 +16,14 @@ TexturedSprite::TexturedSprite(std::string name) : SceneObject2D(name)
 	texture = 0;
 	physicsObject = new PhysicsObject2DBase(this);
 	SatCollision2DObject* sat = new SatCollision2DObject(this);
-	
-	renderedObject->MakeFullScreenQuad();
-
+	collision = sat;
 	startingSize = Vec2D(2,2);
-
 	SetScale(1,1);
+
+	//collision = new AABBSquareCollisionObject(Vec2D(0, 0), Vec2D(2, 2), this);
+	renderedObject->MakeFullScreenQuad();
+	collision->SetPhysicsObject(GetPhysics2D());
+
 	static const Vec2D points[4] = {
 		Vec2D(-1,-1),
 		Vec2D(-1,1),
@@ -29,9 +31,7 @@ TexturedSprite::TexturedSprite(std::string name) : SceneObject2D(name)
 		Vec2D(1,1)
 	};
 
-	collision = sat;
 	sat->SetAsSquare(points,size);
-	collision->SetPhysicsObject(GetPhysics2D());
 }
 
 TexturedSprite::TexturedSprite(std::string name, const char* texture, RenderDataType type, RenderDataFormat format) : SceneObject2D(name)

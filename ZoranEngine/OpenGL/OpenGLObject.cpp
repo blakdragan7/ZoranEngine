@@ -4,6 +4,8 @@
 #include <stdexcept>
 #include "Rendering/RenderEngineBase.h"
 
+
+
 OpenGLObject::OpenGLObject()
 {
 	vbo = -1;
@@ -24,14 +26,14 @@ OpenGLObject::~OpenGLObject()
 	if (cpuUVData)free(cpuUVData);
 }
 
-void OpenGLObject::CreateObjectFromMemory(VertexType vertType, DrawType drawType, unsigned numVerts, void* verts, void* uv, bool copy)
+void OpenGLObject::CreateObjectFromMemory(PrimitiveType pType, VertexType vertType, DrawType drawType, unsigned numVerts, void* verts, void* uv, bool copy)
 {
 	this->numVerts = numVerts;
 
 	this->drawType = drawType;
 	this->vertType = vertType;
 
-	this->glDrawType = GL_TRIANGLES;
+	this->glDrawType = GLPrimitveFromPrimitiveType(pType);
 	this->glBufferDrawType = GLDrawTypeFromDrawType(drawType);
 	this->glVertType = GLVertexTypeFromVertexType(vertType);
 
@@ -81,7 +83,7 @@ void OpenGLObject::CreateObjectFromMemory(VertexType vertType, DrawType drawType
 	renderEngine->CheckErrors("CreateObjectFromMemory");
 }
 
-unsigned OpenGLObject::GLDrawTypeFromDrawType(DrawType type)
+unsigned OpenGLObject::GLDrawTypeFromDrawType(DrawType type)const
 {
 	switch (type)
 	{
@@ -96,7 +98,7 @@ unsigned OpenGLObject::GLDrawTypeFromDrawType(DrawType type)
 	}
 }
 
-unsigned OpenGLObject::GLVertexTypeFromVertexType(VertexType type)
+unsigned OpenGLObject::GLVertexTypeFromVertexType(VertexType type)const
 {
 	switch (type)
 	{
@@ -105,6 +107,25 @@ unsigned OpenGLObject::GLVertexTypeFromVertexType(VertexType type)
 		break;
 	default:
 		throw std::invalid_argument("OpenGLVertexBuffer::GLVertexTypeFromVertexType VertexType Not Recognized !!");
+	}
+}
+
+unsigned OpenGLObject::GLPrimitveFromPrimitiveType(PrimitiveType type) const
+{
+	switch (type)
+	{
+	case PT_Square:
+		return GL_QUADS;
+	case PT_Triangle_Strip:
+		return GL_TRIANGLE_STRIP;
+	case PT_Triangle:
+		return GL_TRIANGLES;
+	case PT_Dot:
+		return GL_POINTS;
+	case PT_Lines:
+		return GL_LINES;
+	case PT_Line_Loop:
+		return GL_LINE_LOOP;
 	}
 }
 

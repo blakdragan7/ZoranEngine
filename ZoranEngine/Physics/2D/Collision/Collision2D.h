@@ -79,6 +79,18 @@ struct  CollisionPoint
 
 class ZoranEngine_EXPORT Collision2D
 {
+private:
+#pragma warning(push)
+#pragma warning(disable:4251)
+	std::vector<class SceneObject2D*> debugObjects;
+	std::vector<CollisionPoint> collisionPoints;
+#pragma warning(pop)
+
+	bool shouldRender;
+
+private:
+	void AddDebugObject(Vec2D pos);
+
 public:
 
 	bool collided;
@@ -90,22 +102,23 @@ public:
 	class SceneObject2D* objects[2];
 	Matrix22 invRotationSnapshots[2];
 	class PhysicsObject2DBase* collidedObjects[2];
-#pragma warning(push)
-#pragma warning(disable:4251)
-	std::vector<CollisionPoint> collisionPoints;
-#pragma warning(pop)
+
 	class CollisionObject2DBase* objectBounds[2];
 	unsigned long long ID;
 	static unsigned long long sID;
 
 	float friction;
 
+	void AddCollisionPoint(CollisionPoint &point);
+
 	Collision2D();
-	Collision2D Reflection();
+	~Collision2D();
+	Collision2D* Reflection();
 	bool operator==(const Collision2D& other);
 	void PreUpdate(float inv_dt);
 	void UpdateForces();
-	void Update(std::vector<CollisionPoint> points);
+	void Update(Collision2D* other);
+	size_t GetNumCollisionPoints() { return collisionPoints.size(); }
 };
 
 struct ZoranEngine_EXPORT Collision2DKey

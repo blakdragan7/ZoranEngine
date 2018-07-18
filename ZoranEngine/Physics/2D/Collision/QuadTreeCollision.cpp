@@ -38,16 +38,16 @@ bool QuadTreeCollision::CollidesWith(Vector3D pos)
 		(pos.y >= minPos.y && pos.y <= maxPos.y);
 }
 
-bool QuadTreeCollision::CollidesWith(CollisionObject2DBase * other, Collision2D& response)
+bool QuadTreeCollision::CollidesWith(CollisionObject2DBase * other, Collision2D* response)
 {
 
-	response.collided = false;
+	response->collided = false;
 	switch (other->GetCollisionType())
 	{
 	case AABBOX_COLLISION:
 	{
 		AABBoxCollisionObject* otherBox = (AABBoxCollisionObject*)other;
-		response.collided =	CollidesWith(otherBox->GetMinPos()) && CollidesWith(otherBox->GetMaxPos());
+		response->collided =	CollidesWith(otherBox->GetMinPos()) && CollidesWith(otherBox->GetMaxPos());
 	}
 	break;
 	case SPHERE_COLLISION:
@@ -56,12 +56,12 @@ bool QuadTreeCollision::CollidesWith(CollisionObject2DBase * other, Collision2D&
 		float r = sphere->GetRadius();
 		Vec3D pos = sphere->GetScenePos();
 
-		response.collided = CollidesWith(pos - r) && CollidesWith(pos + r);
+		response->collided = CollidesWith(pos - r) && CollidesWith(pos + r);
 	}
 	break;
 	}
 
-	return response.collided;
+	return response->collided;
 }
 
 Vector2D QuadTreeCollision::GetClosestPointTo(Vector2D pos)
