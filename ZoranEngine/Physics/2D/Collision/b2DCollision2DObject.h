@@ -11,7 +11,7 @@ enum SATPolygonType
 	SATPT_Invalid
 };
 
-class SatCollision2DObject : public CollisionObject2DBase
+class b2DCollision2DObject : public CollisionObject2DBase
 {
 private:
 	SATPolygonType polygonType;
@@ -25,21 +25,21 @@ private:
 	float derivedRadius;
 
 private:
-	bool SquareAgainstOtherSquare(SatCollision2DObject* other, Collision2D * response);
-	bool SquareAgainstOtherTriagnle(SatCollision2DObject* other, Collision2D * response);
-	bool SquareAgainstOtherCircle(SatCollision2DObject* other, Collision2D * response);
+	bool SquareAgainstOtherSquare(b2DCollision2DObject* other, Collision2D * response);
+	bool SquareAgainstOtherTriagnle(b2DCollision2DObject* other, Collision2D * response);
+	bool SquareAgainstOtherCircle(b2DCollision2DObject* other, Collision2D * response);
 	bool SquareAgainstOtherAABBSquare(class AABBSquareCollisionObject* other, Collision2D * response);
 
-	bool SweepSquareAgainstOtherSquare(SatCollision2DObject* other, SweepCollision2D & response);
-	bool SweepSquareAgainstOtherTriagnle(SatCollision2DObject* other, SweepCollision2D & response);
-	bool SweepSquareAgainstOtherCircle(SatCollision2DObject* other, SweepCollision2D & response);
+	bool SweepSquareAgainstOtherSquare(b2DCollision2DObject* other, SweepCollision2D & response);
+	bool SweepSquareAgainstOtherTriagnle(b2DCollision2DObject* other, SweepCollision2D & response);
+	bool SweepSquareAgainstOtherCircle(b2DCollision2DObject* other, SweepCollision2D & response);
 	bool SweepSquareAgainstOtherAABBSquare(class AABBSquareCollisionObject* other, SweepCollision2D & response);
 
 	bool NewSATAlgorithim(CollisionObject2DBase* other, Collision2D* response);
 
 public:
-	SatCollision2DObject(SceneObject2D *object);
-	~SatCollision2DObject();
+	b2DCollision2DObject(SceneObject2D *object);
+	~b2DCollision2DObject();
 
 	void SetAsTriangle(const Vector2D points[3], const Vector2D size);
 	void SetAsSquare(const Vector2D points[4], const Vector2D size);

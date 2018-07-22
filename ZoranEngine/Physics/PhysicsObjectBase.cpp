@@ -52,8 +52,16 @@ void PhysicsObjectBase::StopPhysicsSim()
 
 void PhysicsObjectBase::SetMass(float mass)
 {
-	this->mass = mass;
-	invMass = (mass != 0 ? 1.0f / mass : 0.0f);
+	if (mass >= FLT_MAX || mass == 0)
+	{
+		this->mass = mass;
+		invMass = 0;
+	}
+	else
+	{
+		this->mass = mass;
+		invMass = (mass != 0 ? 1.0f / mass : 0.0f);
+	}
 }
 
 void PhysicsObjectBase::SetFriction(float friction)

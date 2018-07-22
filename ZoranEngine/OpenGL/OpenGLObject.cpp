@@ -26,6 +26,20 @@ OpenGLObject::~OpenGLObject()
 	if (cpuUVData)free(cpuUVData);
 }
 
+void OpenGLObject::UpdateObjectFromMemory(unsigned numVerts, unsigned offset, void * verts, void * uv, bool copy)
+{
+	if (vbo != -1 && verts && numVerts > 0)
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		glBufferSubData(GL_ARRAY_BUFFER, offset, sizeof(float)*numVerts * 3, verts);
+	}
+	if (tbo != -1 && uv && numVerts > 0)
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, tbo);
+		glBufferSubData(GL_ARRAY_BUFFER, offset, sizeof(float)*numVerts * 2, uv);
+	}
+}
+
 void OpenGLObject::CreateObjectFromMemory(PrimitiveType pType, VertexType vertType, DrawType drawType, unsigned numVerts, void* verts, void* uv, bool copy)
 {
 	this->numVerts = numVerts;
@@ -37,26 +51,26 @@ void OpenGLObject::CreateObjectFromMemory(PrimitiveType pType, VertexType vertTy
 	this->glBufferDrawType = GLDrawTypeFromDrawType(drawType);
 	this->glVertType = GLVertexTypeFromVertexType(vertType);
 
-	if (vbo)
+	if (verts)
 	{
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(float)*numVerts * 3, verts, glBufferDrawType);
 	}
-	if (tbo)
+	if (uv)
 	{
 		glGenBuffers(1, &tbo);
 		glBindBuffer(GL_ARRAY_BUFFER, tbo);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(float)*numVerts * 2, uv, glBufferDrawType);
 	}
 	glBindVertexArray(vao);
-	if (vbo)
+	if (vbo != -1)
 	{
 		glEnableVertexAttribArray(vertLocation);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 		glVertexAttribPointer(vertLocation, 3, glVertType, GL_FALSE, 0, 0);
 	}
-	if (tbo)
+	if (tbo != -1)
 	{
 		glEnableVertexAttribArray(UVLocation);
 		glBindBuffer(GL_ARRAY_BUFFER, tbo);
@@ -69,7 +83,7 @@ void OpenGLObject::CreateObjectFromMemory(PrimitiveType pType, VertexType vertTy
 			cpuVertData = malloc(sizeof(float)*numVerts * 3);
 			memcpy(cpuVertData, verts, sizeof(float)*numVerts * 3);
 		}
-		if (tbo)
+		if (tbo != -1)
 		{
 			cpuUVData = malloc(sizeof(float)*numVerts * 2);
 			memcpy(cpuUVData, uv, sizeof(float)*numVerts * 2);

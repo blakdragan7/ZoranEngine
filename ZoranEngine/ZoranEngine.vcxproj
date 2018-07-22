@@ -28,6 +28,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\2D\Camera2D.cpp" />
+    <ClCompile Include="Core\2D\DebugSceneObject2D.cpp" />
     <ClCompile Include="Core\2D\OrthoCamera.cpp" />
     <ClCompile Include="Core\2D\SceneObject2D.cpp" />
     <ClCompile Include="Core\2D\TexturedSprite.cpp" />
@@ -59,7 +60,7 @@
     <ClCompile Include="Physics\2D\Collision\QuadTreeCollision.cpp" />
     <ClCompile Include="Physics\2D\Collision\QuadTreeCollisionBucket.cpp" />
     <ClCompile Include="Physics\2D\Collision\AABBSquareCollisionObject.cpp" />
-    <ClCompile Include="Physics\2D\Collision\SatCollision2DObject.cpp" />
+    <ClCompile Include="Physics\2D\Collision\b2DCollision2DObject.cpp" />
     <ClCompile Include="Physics\2D\PhysicsObject2DBase.cpp" />
     <ClCompile Include="Physics\3D\Collision\AABBoxCollisionObject.cpp" />
     <ClCompile Include="Physics\3D\Collision\CollisionBucket3DBase.cpp" />
@@ -95,6 +96,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\2D\Camera2D.h" />
+    <ClInclude Include="Core\2D\DebugSceneObject2D.h" />
     <ClInclude Include="Core\2D\OrthoCamera.h" />
     <ClInclude Include="Core\2D\SceneObject2D.h" />
     <ClInclude Include="Core\2D\TexturedSprite.h" />
@@ -131,7 +133,7 @@
     <ClInclude Include="Physics\2D\Collision\QuadTreeCollision.h" />
     <ClInclude Include="Physics\2D\Collision\QuadTreeCollisionBucket.h" />
     <ClInclude Include="Physics\2D\Collision\AABBSquareCollisionObject.h" />
-    <ClInclude Include="Physics\2D\Collision\SatCollision2DObject.h" />
+    <ClInclude Include="Physics\2D\Collision\b2DCollision2DObject.h" />
     <ClInclude Include="Physics\2D\PhysicsObject2DBase.h" />
     <ClInclude Include="Physics\3D\Collision\AABBoxCollisionObject.h" />
     <ClInclude Include="Physics\3D\Collision\CollisionBucket3DBase.h" />

@@ -23,6 +23,7 @@ public:
 	OpenGLObject();
 	~OpenGLObject();
 
+	virtual void UpdateObjectFromMemory(unsigned numVerts, unsigned offset,void* verts, void* uv, bool copy = true)override;
 	virtual void CreateObjectFromMemory(PrimitiveType pType, VertexType vertType, DrawType drawType, unsigned numVerts, void* verts, void* uv, bool copy = true)override;
 	virtual void RenderObject()override;
 

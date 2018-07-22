@@ -13,6 +13,16 @@ struct CollisionFrame2D
 		sweptCollisions.clear();
 	}
 
+	void RemoveCollisionForObjects(SceneObject2D* object, SceneObject2D* object2)
+	{
+		auto iter = collisions.find(Collision2DKey(object,object2));
+		if (iter != collisions.end())
+		{
+			delete iter->second;
+			collisions.erase(iter);
+		}
+	}
+
 	void UpdateCollisionWithKey(Collision2DKey& key,Collision2D* collision)
 	{
 		auto iter = collisions.find(key);

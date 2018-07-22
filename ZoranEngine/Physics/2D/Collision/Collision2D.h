@@ -82,7 +82,7 @@ class ZoranEngine_EXPORT Collision2D
 private:
 #pragma warning(push)
 #pragma warning(disable:4251)
-	std::vector<class SceneObject2D*> debugObjects;
+	std::vector<class DebugSceneObject2D*> debugObjects;
 	std::vector<CollisionPoint> collisionPoints;
 #pragma warning(pop)
 

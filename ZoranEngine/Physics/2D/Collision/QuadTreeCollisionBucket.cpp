@@ -235,43 +235,68 @@ void QuadTreeCollisionBucket::CheckAllCollision(struct CollisionFrame2D& frame)
 				{
 					frame.UpdateCollisionWithKey(Collision2DKey(response->objects[0], response->objects[1]),response);
 				}
+				else
+				{
+					frame.RemoveCollisionForObjects(object->GetSceneObject(), collisionObjects[j]->GetSceneObject());
+				}
 			}
 		}
 
 		if (hasSubdivided)
 		{
+
 			Collision2D* response = new Collision2D();
 
-			if (children[0]->CheckCollisionForObject(object, response))
+			if (children[0]->CheckCollisionForObject(object, response, frame))
 			{
 				PhysicsObject2DBase* pObject = response->collidedObjects[0];
 				PhysicsObject2DBase* pObjec2t = response->collidedObjects[1];
 
 				frame.UpdateCollisionWithKey(Collision2DKey(response->objects[0], response->objects[1]), response);
 			}
+			else
+			{
+				delete response;
+			}
+			
 
-			if (children[1]->CheckCollisionForObject(object, response))
+			Collision2D* response1 = new Collision2D();
+			if (children[1]->CheckCollisionForObject(object, response1, frame))
 			{
 				PhysicsObject2DBase* pObject = response->collidedObjects[0];
 				PhysicsObject2DBase* pObjec2t = response->collidedObjects[1];
 
-				frame.UpdateCollisionWithKey(Collision2DKey(response->objects[0], response->objects[1]), response);
+				frame.UpdateCollisionWithKey(Collision2DKey(response->objects[0], response->objects[1]), response1);
+			}
+			else
+			{
+				delete response1;
 			}
 
-			if (children[2]->CheckCollisionForObject(object, response))
+			Collision2D* response2 = new Collision2D();
+			if (children[2]->CheckCollisionForObject(object, response2, frame))
 			{
 				PhysicsObject2DBase* pObject = response->collidedObjects[0];
 				PhysicsObject2DBase* pObjec2t = response->collidedObjects[1];
 
-				frame.UpdateCollisionWithKey(Collision2DKey(response->objects[0], response->objects[1]), response);
+				frame.UpdateCollisionWithKey(Collision2DKey(response->objects[0], response->objects[1]), response2);
+			}
+			else
+			{
+				delete response2;
 			}
 
-			if (children[3]->CheckCollisionForObject(object, response))
+			Collision2D* response3 = new Collision2D();
+			if (children[3]->CheckCollisionForObject(object, response3,frame))
 			{
 				PhysicsObject2DBase* pObject = response->collidedObjects[0];
 				PhysicsObject2DBase* pObjec2t = response->collidedObjects[1];
 
-				frame.UpdateCollisionWithKey(Collision2DKey(response->objects[0], response->objects[1]), response);
+				frame.UpdateCollisionWithKey(Collision2DKey(response->objects[0], response->objects[1]), response3);
+			}
+			else
+			{
+				delete response3;
 			}
 		}
 	}
@@ -334,11 +359,11 @@ void QuadTreeCollisionBucket::Subdivide()
 	hasSubdivided = true;
 }
 
-bool QuadTreeCollisionBucket::CheckCollisionForObject(CollisionObject2DBase * object, Collision2D* response)
+bool QuadTreeCollisionBucket::CheckCollisionForObjectNoFrame(CollisionObject2DBase * object, Collision2D* response)
 {
 	for (unsigned i = 0; i < collisionObjects.size(); i++)
 	{
-		if (object->CollidesWith(collisionObjects[i],response))
+		if (object->CollidesWith(collisionObjects[i], response))
 		{
 			return true;
 		}
@@ -346,10 +371,35 @@ bool QuadTreeCollisionBucket::CheckCollisionForObject(CollisionObject2DBase * ob
 
 	if (hasSubdivided)
 	{
-		if (children[0]->CheckCollisionForObject(object, response))return true;
-		if (children[1]->CheckCollisionForObject(object, response))return true;
-		if (children[2]->CheckCollisionForObject(object, response))return true;
-		if (children[3]->CheckCollisionForObject(object, response))return true;
+		if (children[0]->CheckCollisionForObjectNoFrame(object, response))return true;
+		if (children[1]->CheckCollisionForObjectNoFrame(object, response))return true;
+		if (children[2]->CheckCollisionForObjectNoFrame(object, response))return true;
+		if (children[3]->CheckCollisionForObjectNoFrame(object, response))return true;
+	}
+
+	return false;
+}
+
+bool QuadTreeCollisionBucket::CheckCollisionForObject(CollisionObject2DBase * object, Collision2D* response, CollisionFrame2D& frame)
+{
+	for (unsigned i = 0; i < collisionObjects.size(); i++)
+	{
+		if (object->CollidesWith(collisionObjects[i],response))
+		{
+			return true;
+		}
+		else
+		{
+			frame.RemoveCollisionForObjects(object->GetSceneObject(), collisionObjects[i]->GetSceneObject());
+		}
+	}
+
+	if (hasSubdivided)
+	{
+		if (children[0]->CheckCollisionForObject(object, response,frame))return true;
+		if (children[1]->CheckCollisionForObject(object, response,frame))return true;
+		if (children[2]->CheckCollisionForObject(object, response,frame))return true;
+		if (children[3]->CheckCollisionForObject(object, response,frame))return true;
 	}
 
 	return false;
@@ -419,10 +469,10 @@ bool QuadTreeCollisionBucket::CheckObjectAgainstStaic(CollisionObject2DBase * ob
 
 	if (hasSubdivided)
 	{
-		if (children[0]->CheckCollisionForObject(object, response))return true;
-		if (children[1]->CheckCollisionForObject(object, response))return true;
-		if (children[2]->CheckCollisionForObject(object, response))return true;
-		if (children[3]->CheckCollisionForObject(object, response))return true;
+		if (children[0]->CheckCollisionForObjectNoFrame(object, response))return true;
+		if (children[1]->CheckCollisionForObjectNoFrame(object, response))return true;
+		if (children[2]->CheckCollisionForObjectNoFrame(object, response))return true;
+		if (children[3]->CheckCollisionForObjectNoFrame(object, response))return true;
 	}
 
 	return false;

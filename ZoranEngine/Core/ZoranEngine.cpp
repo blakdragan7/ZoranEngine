@@ -70,7 +70,7 @@ int ZoranEngine::MainLoop()
 
 	while (WM_QUIT != msg.message && shouldRun)
 	{
-		//float deltaTime = clock.GetDiffSeconds();
+		//float FPSTime = clock.GetDiffSeconds();
 		float deltaTime = (1.0f / 60.0f);
 		clock.TakeClock();
 
@@ -114,7 +114,7 @@ int ZoranEngine::MainLoop()
 		statistics = statisticsClock.GetDiffSeconds();
 		Log(LogLevel_Verbose, "mainWindow->MainDraw() took %f ms\n", statistics * 1000);
 
-		//std::cout << "fps " << 1.0 / fpsTime << std::endl;
+		//std::cout << "fps " << 1.0 / FPSTime << std::endl;
 	}
 #endif
 

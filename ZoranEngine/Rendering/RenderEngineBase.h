@@ -41,6 +41,8 @@ public:
 	// Creates a ShaderProgram in gpu memory and returns an instance to it
 	virtual ShaderProgramBase* CreateShaderProgram(const char* vertex, const char* fragment) = 0;
 
+	virtual void SetLineWidth(float width) = 0;
+
 	virtual void CheckErrors(const char* text) = 0;
 	virtual void ClearErrors() = 0;
 };

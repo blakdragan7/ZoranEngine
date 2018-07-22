@@ -175,6 +175,11 @@ ShaderProgramBase * OpenGLRenderEngine::CreateShaderProgram(const char * vertex,
 	return nullptr;
 }
 
+void OpenGLRenderEngine::SetLineWidth(float width)
+{
+	glLineWidth(width);
+}
+
 void OpenGLRenderEngine::CheckErrors(const char* text)
 {
 		int error;

@@ -29,7 +29,7 @@ public:
 
 	virtual bool ObjectIsWithinBucket(CollisionObject2DBase* object) = 0;
 	virtual bool CheckObjectAgainstStaic(CollisionObject2DBase* object, class Collision2D* response) = 0;
-	virtual bool CheckCollisionForObject(CollisionObject2DBase* object, class Collision2D* response) = 0;
+	virtual bool CheckCollisionForObject(CollisionObject2DBase* object, class Collision2D* response, CollisionFrame2D& frame) = 0;
 	virtual bool SweepCollision(CollisionObject2DBase* object, Vec2D newPosition, struct SweepCollision2D& response) = 0;
 	virtual bool SweepCollisionHitTest(CollisionObject2DBase* object, Vec2D newPosition, struct SweepCollision2D& response) = 0;
 	virtual SceneObject* GetSceneObject()override;

@@ -30,6 +30,10 @@ class ZoranEngine_EXPORT CollisionObject2DBase : public CollisionObjectBase
 private:
 	SceneObject2D * sceneObject2D;
 	PhysicsObject2DBase* physicsObject2D;
+	class DebugSceneObject2D* debugObject;
+
+protected:
+	void UpdateDebugObject(float verts[], unsigned numVerts);
 
 public:
 	CollisionObject2DBase(SceneObject2D *object, CollisionDynamics collisionDynamics = CD_Dynamic, unsigned collisionType = NO_COLLISION);

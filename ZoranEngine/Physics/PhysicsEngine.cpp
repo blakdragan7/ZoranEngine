@@ -37,6 +37,7 @@ void PhysicsEngine::ResolveAllStaticCollisions(float dt)
 
 	for (auto& collisionIter : collisionFrame2D.collisions)
 	{
+		std::cout << "Static Collision\n";
 		Collision2D* collision = collisionIter.second;
 		collision->PreUpdate(inv_dt);
 		collision->frame++;
@@ -107,7 +108,11 @@ CollisionBucketBase * PhysicsEngine::GetCollisionBucketRoot()
 void PhysicsEngine::UpdateAll(float deltaTime)
 {
 	collisionFrame2D.RemoveDullCollisions();
-	ResolveAllCollisions(deltaTime);
+	
+	for (auto object : physicsObjects)
+	{
+		object->UpdateVelocities(deltaTime);
+	}
 
 	if (collisionTree2D)
 	{
@@ -119,10 +124,10 @@ void PhysicsEngine::UpdateAll(float deltaTime)
 	}
 
 	CheckAllCollision();
+	ResolveAllCollisions(deltaTime);
 
 	for (auto object : physicsObjects)
 	{
-		object->UpdateVelocities(deltaTime);
 		object->UpdatePositionsAndRotation(deltaTime);
 	}
 

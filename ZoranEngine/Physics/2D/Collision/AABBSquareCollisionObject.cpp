@@ -36,6 +36,15 @@ void AABBSquareCollisionObject::SetBoundsBySceneObject()
 
 	minPos = pos - (size / 2);
 	maxPos = pos + (size / 2);
+
+	float verts[12] = {
+		minPos.x,minPos.y,0,
+		minPos.x,maxPos.y,0,
+		maxPos.x,maxPos.y,0,
+		maxPos.x,minPos.y,0
+	};
+
+	UpdateDebugObject(verts,4);
 }
 
 bool AABBSquareCollisionObject::CollidesWith(CollisionObject2DBase* other, Collision2D* response)

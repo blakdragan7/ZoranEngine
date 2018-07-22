@@ -41,6 +41,8 @@ public:
 	virtual bool CreateFrameBuffer(FrameBufferBase** outBuffer, TextureBase** outTexture, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2L size)override;
 	virtual ShaderProgramBase* CreateShaderProgram(const char* vertex, const char* fragment);
 
+	virtual void SetLineWidth(float width);
+
 	virtual void CheckErrors(const char* text)override;
 	virtual void ClearErrors()override;
 };

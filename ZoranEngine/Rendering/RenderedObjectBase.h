@@ -41,6 +41,7 @@ public:
 	RenderedObjectBase();
 	virtual ~RenderedObjectBase();
 
+	virtual void UpdateObjectFromMemory(unsigned numVerts, unsigned offset, void* verts, void* uv, bool copy = true) = 0;
 	virtual void CreateObjectFromMemory(PrimitiveType pType, VertexType vertType, DrawType drawType, unsigned numVerts, void* verts, void* uv, bool copy = true) = 0;
 	virtual void RenderObject() = 0;
 	virtual bool GetVertDataAsfloat(float** data, unsigned &amount) = 0;

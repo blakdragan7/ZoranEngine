@@ -81,8 +81,16 @@ void PhysicsObject2DBase::SetMass(float mass)
 
 	Vec2D size = sceneObject2D->GetSize();
 
-	inertia = mass * (size.x*size.x + size.y*size.y) / 12.0f;
-	invInertia = 1.0f / inertia;
+	if (mass >= FLT_MAX || mass == 0)
+	{
+		inertia = FLT_MAX;
+		invInertia = 0;
+	}
+	else
+	{
+		inertia = mass * (size.x*size.x + size.y*size.y) / 12.0f;
+		invInertia = 1.0f / inertia;
+	}
 }
 
 void PhysicsObject2DBase::OnCollision(Collision2D &response)
@@ -93,9 +101,6 @@ void PhysicsObject2DBase::OnCollision(Collision2D &response)
 		CollisionObject2DBase* collision2 = response.objectBounds[1];
 
 		PhysicsObject2DBase* other = response.collidedObjects[1];
-
-		// apply correction  force
-		//sceneObject2D->Translate(response.penetration);
 		
 		if (shouldSimulate)
 		{
@@ -174,7 +179,7 @@ bool PhysicsObject2DBase::SweepToo(Vec2D targetPosition, SweepCollision2D & resp
 
 void PhysicsObject2DBase::ApplyForce(Vec2D Force)
 {
-	this->force += Force * 1000;
+	this->force += Force;
 	isOnGround = false;
 	otherFriction = 1.0;
 }
@@ -194,6 +199,7 @@ void PhysicsObject2DBase::UpdateVelocities(float deltaTime)
 		{
 			velocity *= calculatedFriction;
 		}
+
 		velocity *= drag;
 
 		force.clear();
@@ -228,12 +234,13 @@ void PhysicsObject2DBase::UpdatePositionsAndRotation(float deltaTime)
 
 void PhysicsObject2DBase::ApplyImpulseToVelocity(Vector2D impulse)
 {
-	velocity +=  invMass * impulse*100;
+	velocity += invMass * impulse * 1000;
 }
 
 void PhysicsObject2DBase::ApplyImpulseToAngularVelocity(float impulse)
 {
 	angularVelocity += invInertia * impulse;
+	//std::cout << sceneObject2D->readableName.c_str() << " aV " << angularVelocity << " after impulse " << impulse * invInertia << std::endl;
 }
 
 Vec2D PhysicsObject2DBase::GetVelocity()

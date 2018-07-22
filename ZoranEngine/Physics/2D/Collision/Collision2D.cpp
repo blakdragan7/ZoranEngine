@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Collision2D.h"
-#include <Core/2D/SceneObject2D.h>
+#include <Core/2D/DebugSceneObject2D.h>
 #include <Rendering/RenderedObjectBase.h>
 #include <Physics/2D/PhysicsObject2DBase.h>
 #include <Math/MathLib.h>
@@ -9,14 +9,12 @@
 void Collision2D::AddDebugObject(Vec2D pos)
 {
 	if (shouldRender == false)return;
-	SceneObject2D* debugObject = new SceneObject2D("debug");
+	DebugSceneObject2D* debugObject = new DebugSceneObject2D("collision point");
+	debugObject->SetColor(Vec3D(0.0,1.0,0.0));
 
 	debugObject->GetRenderedObject()->MakeFullScreenQuad();
 	debugObject->SetScale(5, 5);
 	debugObject->SetPosition(pos);
-
-	DebugShader2D* ds = new DebugShader2D();
-	debugObject->SetShaderProgram(ds);
 
 	zEngine->AddSceneObject(debugObject);
 
@@ -88,7 +86,7 @@ void Collision2D::PreUpdate(float inv_dt)
 		}
 	}
 
-	const float k_allowedPenetration = 0.02f;
+	const float k_allowedPenetration = 0.02f * 100.0f;
 	static const float k_biasFactor = 0.4f;
 
 	for (CollisionPoint& collisionPoint : collisionPoints)
@@ -105,14 +103,16 @@ void Collision2D::PreUpdate(float inv_dt)
 
 		float kNormal = objectA->invMass + objectB->invMass;
 		kNormal += objectA->invMass * (r1.dot(r1) - rn1 * rn1) + objectB->invInertia * (r2.dot(r2) - rn2 * rn2);
-		collisionPoint.massNormal = 1.0f / kNormal;
+		if (kNormal == 0)collisionPoint.massNormal = 0;
+		else collisionPoint.massNormal = 1.0f / kNormal;
 
 		Vector2D tangent = collisionPoint.normal.crossRight(1.0f);
 		float rt1 = r1.dot(tangent);
 		float rt2 = r2.dot(tangent);
 		float kTangent = objectA->invMass + objectB->invMass;
 		kTangent += objectA->invInertia * (r1.dot(r1) - rt1 * rt1) + objectB->invInertia * (r2.dot(r2) - rt2 * rt2);
-		collisionPoint.massTangent = 1.0f / kTangent;
+		if (kTangent == 0)collisionPoint.massTangent = 0;
+		else collisionPoint.massTangent = 1.0f / kTangent;
 
 		collisionPoint.bias = -k_biasFactor * inv_dt * min(0.0f, collisionPoint.separation + k_allowedPenetration);
 
@@ -172,7 +172,7 @@ void Collision2D::UpdateForces()
 		// Compute friction impulse
 		float maxPt = friction * collisionPoint.normalImpulse;
 
-		// Clamp friction
+		//// Clamp friction
 		float oldTangentImpulse = collisionPoint.normalTangetImpulses;
 		collisionPoint.normalTangetImpulses = MathLib::Clamp(oldTangentImpulse + dPt, -maxPt, maxPt);
 		dPt = collisionPoint.normalTangetImpulses - oldTangentImpulse;
@@ -228,16 +228,31 @@ void Collision2D::Update(Collision2D* other)
 		}
 	}
 
+	 // slow ... optimize later
+
+	int diff = collisionPoints.size() - points.size();
+
+	if (diff > 0)
+	{
+		for (int i = 0; i < diff; i++)
+		{
+			auto object = debugObjects.back();
+			object->Destroy();
+			debugObjects.pop_back();
+
+			collisionPoints.pop_back();
+		}
+	}
+
 	for (int i = 0; i < points.size(); ++i)
 	{
-		if (collisionPoints.size() <= i)
+		if (i >= collisionPoints.size())
 			collisionPoints.push_back(mergedContacts[i]);
 		else
 			collisionPoints[i] = mergedContacts[i];
-		if (debugObjects.size() <= i)
+		if (i >= debugObjects.size())
 			AddDebugObject(mergedContacts[i].pos);
 		else
 			debugObjects[i]->SetPosition(mergedContacts[i].pos);
 	}
-
 }

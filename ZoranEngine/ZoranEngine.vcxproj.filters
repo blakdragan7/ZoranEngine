@@ -231,14 +231,17 @@
     <ClCompile Include="Physics\3D\Collision\AABBoxCollisionObject.cpp">
       <Filter>ZoranEngine\Physics\3D\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="Physics\2D\Collision\SatCollision2DObject.cpp">
-      <Filter>ZoranEngine\Physics\2D\Collision</Filter>
-    </ClCompile>
     <ClCompile Include="Physics\2D\Collision\Collision2D.cpp">
       <Filter>ZoranEngine\Physics\2D\Collision</Filter>
     </ClCompile>
     <ClCompile Include="OpenGL\DebugShader2D.cpp">
       <Filter>ZoranEngine\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\2D\DebugSceneObject2D.cpp">
+      <Filter>ZoranEngine\Core\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\2D\Collision\b2DCollision2DObject.cpp">
+      <Filter>ZoranEngine\Physics\2D\Collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -428,9 +431,6 @@
     <ClInclude Include="Physics\3D\Collision\AABBoxCollisionObject.h">
       <Filter>ZoranEngine\Physics\3D\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="Physics\2D\Collision\SatCollision2DObject.h">
-      <Filter>ZoranEngine\Physics\2D\Collision</Filter>
-    </ClInclude>
     <ClInclude Include="Physics\2D\Collision\CollisionFrame2D.h">
       <Filter>ZoranEngine\Physics\2D\Collision</Filter>
     </ClInclude>
@@ -442,6 +442,12 @@
     </ClInclude>
     <ClInclude Include="OpenGL\DebugShader2D.h">
       <Filter>ZoranEngine\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\2D\DebugSceneObject2D.h">
+      <Filter>ZoranEngine\Core\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\2D\Collision\b2DCollision2DObject.h">
+      <Filter>ZoranEngine\Physics\2D\Collision</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

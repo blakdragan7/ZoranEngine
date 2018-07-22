@@ -9,13 +9,13 @@
 #include <Rendering/RenderedObjectBase.h>
 #include <Physics/2D/PhysicsObject2DBase.h>
 #include <Physics/2D/Collision/AABBSquareCollisionObject.h>
-#include <Physics/2D/Collision/SatCollision2DObject.h>
+#include <Physics/2D/Collision/b2DCollision2DObject.h>
 
 TexturedSprite::TexturedSprite(std::string name) : SceneObject2D(name)
 {
 	texture = 0;
 	physicsObject = new PhysicsObject2DBase(this);
-	SatCollision2DObject* sat = new SatCollision2DObject(this);
+	b2DCollision2DObject* sat = new b2DCollision2DObject(this);
 	collision = sat;
 	startingSize = Vec2D(2,2);
 	SetScale(1,1);
@@ -27,8 +27,8 @@ TexturedSprite::TexturedSprite(std::string name) : SceneObject2D(name)
 	static const Vec2D points[4] = {
 		Vec2D(-1,-1),
 		Vec2D(-1,1),
-		Vec2D(1,-1),
-		Vec2D(1,1)
+		Vec2D(1,1),
+		Vec2D(1,-1)
 	};
 
 	sat->SetAsSquare(points,size);

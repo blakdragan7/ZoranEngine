@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include <string>
-#include "SatCollision2DObject.h"
+#include "b2DCollision2DObject.h"
 
 #include <Math/MathLib.h>
 #include <Core/2D/SceneObject2D.h>
@@ -12,49 +12,49 @@
 #define BOTTOM_RIGHT 2
 #define TOP_RIGHT 3
 
-bool SatCollision2DObject::SquareAgainstOtherSquare(SatCollision2DObject * other, Collision2D * response)
+bool b2DCollision2DObject::SquareAgainstOtherSquare(b2DCollision2DObject * other, Collision2D * response)
 {
 	return NewSATAlgorithim(other, response);
 }
 
-bool SatCollision2DObject::SquareAgainstOtherTriagnle(SatCollision2DObject * other, Collision2D * response)
+bool b2DCollision2DObject::SquareAgainstOtherTriagnle(b2DCollision2DObject * other, Collision2D * response)
 {
 	return NewSATAlgorithim(other, response);
 }
 
-bool SatCollision2DObject::SquareAgainstOtherCircle(SatCollision2DObject * other, Collision2D * response)
+bool b2DCollision2DObject::SquareAgainstOtherCircle(b2DCollision2DObject * other, Collision2D * response)
 {
 	return NewSATAlgorithim(other, response);
 }
 
-bool SatCollision2DObject::SquareAgainstOtherAABBSquare(AABBSquareCollisionObject * other, Collision2D * response)
+bool b2DCollision2DObject::SquareAgainstOtherAABBSquare(AABBSquareCollisionObject * other, Collision2D * response)
 {
 	// TODO optimize to use specific function
 
 	return NewSATAlgorithim(other, response);
 }
 
-bool SatCollision2DObject::SweepSquareAgainstOtherSquare(SatCollision2DObject* other, SweepCollision2D & response)
+bool b2DCollision2DObject::SweepSquareAgainstOtherSquare(b2DCollision2DObject* other, SweepCollision2D & response)
 {
 	return false;
 }
 
-bool SatCollision2DObject::SweepSquareAgainstOtherTriagnle(SatCollision2DObject* other, SweepCollision2D & response)
+bool b2DCollision2DObject::SweepSquareAgainstOtherTriagnle(b2DCollision2DObject* other, SweepCollision2D & response)
 {
 	return false;
 }
 
-bool SatCollision2DObject::SweepSquareAgainstOtherCircle(SatCollision2DObject* other, SweepCollision2D & response)
+bool b2DCollision2DObject::SweepSquareAgainstOtherCircle(b2DCollision2DObject* other, SweepCollision2D & response)
 {
 	return false;
 }
 
-bool SatCollision2DObject::SweepSquareAgainstOtherAABBSquare(AABBSquareCollisionObject* other, SweepCollision2D & response)
+bool b2DCollision2DObject::SweepSquareAgainstOtherAABBSquare(AABBSquareCollisionObject* other, SweepCollision2D & response)
 {
 	return false;
 }
 
-bool SatCollision2DObject::NewSATAlgorithim(CollisionObject2DBase * other, Collision2D * response)
+bool b2DCollision2DObject::NewSATAlgorithim(CollisionObject2DBase * other, Collision2D * response)
 {
 	// More effeicient SAT algorithim taking from Box 2ds Light,
 	// Previous algorithim is, find two axis and project all verts onto axes, check overlap between projected verts.
@@ -265,16 +265,16 @@ bool SatCollision2DObject::NewSATAlgorithim(CollisionObject2DBase * other, Colli
 	return response->collided;
 }
 
-SatCollision2DObject::SatCollision2DObject(SceneObject2D *object) : CollisionObject2DBase(object,CD_Dynamic,SAT_2D_COLLISION)
+b2DCollision2DObject::b2DCollision2DObject(SceneObject2D *object) : CollisionObject2DBase(object,CD_Dynamic,SAT_2D_COLLISION)
 {
 	polygonType = SATPT_Invalid;
 }
 
-SatCollision2DObject::~SatCollision2DObject()
+b2DCollision2DObject::~b2DCollision2DObject()
 {
 }
 
-void SatCollision2DObject::SetAsTriangle(const Vector2D points[3], const Vector2D size)
+void b2DCollision2DObject::SetAsTriangle(const Vector2D points[3], const Vector2D size)
 {
 	this->startingPoints[0] = points[0];
 	this->startingPoints[1] = points[1];
@@ -285,7 +285,7 @@ void SatCollision2DObject::SetAsTriangle(const Vector2D points[3], const Vector2
 	polygonType = SATPT_Triangle;
 }
 
-void SatCollision2DObject::SetAsSquare(const Vector2D points[4], const Vector2D size)
+void b2DCollision2DObject::SetAsSquare(const Vector2D points[4], const Vector2D size)
 {
 	this->startingPoints[0] = points[0];
 	this->startingPoints[1] = points[1];
@@ -297,14 +297,14 @@ void SatCollision2DObject::SetAsSquare(const Vector2D points[4], const Vector2D 
 	polygonType = SATPT_Square;
 }
 
-void SatCollision2DObject::SetAsCircle(float radius)
+void b2DCollision2DObject::SetAsCircle(float radius)
 {
 	this->radius = radius;
 
 	polygonType = SATPT_Circle;
 }
 
-void SatCollision2DObject::SetBoundsBySceneObject()
+void b2DCollision2DObject::SetBoundsBySceneObject()
 {
 	switch (polygonType)
 	{
@@ -369,6 +369,15 @@ void SatCollision2DObject::SetBoundsBySceneObject()
 		derivedPoints[1] = (derivedPoints[1] * scale) + pos;
 		derivedPoints[2] = (derivedPoints[2] * scale) + pos;
 		derivedPoints[3] = (derivedPoints[3] * scale) + pos;
+
+		float verts[12] = {
+			derivedPoints[0].x + 1.0,derivedPoints[0].y+ 1.0,0,
+			derivedPoints[1].x + 1.0,derivedPoints[1].y+ 1.0,0,
+			derivedPoints[2].x + 1.0,derivedPoints[2].y+ 1.0,0,
+			derivedPoints[3].x + 1.0,derivedPoints[3].y+ 1.0,0
+		};
+
+		UpdateDebugObject(verts,4);
 	}
 		break;
 	case SATPT_Circle:
@@ -379,22 +388,22 @@ void SatCollision2DObject::SetBoundsBySceneObject()
 		break;
 	case SATPT_Invalid:
 	default:
-		throw std::exception("SatCollision2DObject::SetBoundsBySceneObject Trying to Update Without setting type first !!");
+		throw std::exception("b2DCollision2DObject::SetBoundsBySceneObject Trying to Update Without setting type first !!");
 		break;
 	}
 }
 
-Vector2D SatCollision2DObject::GetSize()
+Vector2D b2DCollision2DObject::GetSize()
 {
 	return GetSceneObject()->GetScale();
 }
 
-bool SatCollision2DObject::CollidesWithNoCollision(CollisionObject2DBase * other)
+bool b2DCollision2DObject::CollidesWithNoCollision(CollisionObject2DBase * other)
 {
 	return false;
 }
 
-bool SatCollision2DObject::CollidesWith(CollisionObject2DBase * other, Collision2D * response)
+bool b2DCollision2DObject::CollidesWith(CollisionObject2DBase * other, Collision2D * response)
 {
 	switch (other->GetCollisionType())
 	{
@@ -405,7 +414,7 @@ bool SatCollision2DObject::CollidesWith(CollisionObject2DBase * other, Collision
 		break;
 	case SAT_2D_COLLISION:
 	{
-		SatCollision2DObject* satOther = (SatCollision2DObject*)other;
+		b2DCollision2DObject* satOther = (b2DCollision2DObject*)other;
 		switch (satOther->polygonType)
 		{
 		case SATPT_Triangle:
@@ -425,12 +434,12 @@ bool SatCollision2DObject::CollidesWith(CollisionObject2DBase * other, Collision
 	}
 }
 
-Vector2D SatCollision2DObject::GetClosestPointTo(Vector2D pos)
+Vector2D b2DCollision2DObject::GetClosestPointTo(Vector2D pos)
 {
 	return pos;
 }
 
-bool SatCollision2DObject::SweepCollidesWith(CollisionObject2DBase * other, Vector2D newPosition, SweepCollision2D & response)
+bool b2DCollision2DObject::SweepCollidesWith(CollisionObject2DBase * other, Vector2D newPosition, SweepCollision2D & response)
 {
 	switch (other->GetCollisionType())
 	{
@@ -441,7 +450,7 @@ bool SatCollision2DObject::SweepCollidesWith(CollisionObject2DBase * other, Vect
 	break;
 	case SAT_2D_COLLISION:
 	{
-		SatCollision2DObject* satOther = (SatCollision2DObject*)other;
+		b2DCollision2DObject* satOther = (b2DCollision2DObject*)other;
 		switch (satOther->polygonType)
 		{
 		case SATPT_Triangle:
@@ -461,7 +470,7 @@ bool SatCollision2DObject::SweepCollidesWith(CollisionObject2DBase * other, Vect
 	}
 }
 
-bool SatCollision2DObject::FastSweepCollidesWith(Vector2D newPosition)
+bool b2DCollision2DObject::FastSweepCollidesWith(Vector2D newPosition)
 {
 	return true;
 }
