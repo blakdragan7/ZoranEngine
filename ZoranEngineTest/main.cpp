@@ -47,7 +47,7 @@ int main(int argc, char* argv[])
 		pos.normalize();
 
 		//test->GetPhysics2D()->SetGravity(gravity[i]);
-		//test->GetPhysics2D()->SetGravity(gravity[i]);
+		//test->GetPhysics2D()->SetGravity(Vec2D(0,-100));
 		//test->GetPhysics2D()->SetGravity(pos * 100);
 		//test->GetPhysics2D()->ApplyForce(Vec2D(100,800));
 		test->GetPhysics2D()->SetSweptCollision(false);

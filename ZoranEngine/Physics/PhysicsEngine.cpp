@@ -112,6 +112,7 @@ void PhysicsEngine::UpdateAll(float deltaTime)
 	for (auto object : physicsObjects)
 	{
 		object->UpdateVelocities(deltaTime);
+		object->UpdatePositionsAndRotation(deltaTime);
 	}
 
 	if (collisionTree2D)
@@ -126,10 +127,9 @@ void PhysicsEngine::UpdateAll(float deltaTime)
 	CheckAllCollision();
 	ResolveAllCollisions(deltaTime);
 
-	for (auto object : physicsObjects)
+	/*for (auto object : physicsObjects)
 	{
-		object->UpdatePositionsAndRotation(deltaTime);
-	}
+	}*/
 
 }
 

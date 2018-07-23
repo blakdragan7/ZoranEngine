@@ -70,7 +70,7 @@ int ZoranEngine::MainLoop()
 
 	while (WM_QUIT != msg.message && shouldRun)
 	{
-		//float FPSTime = clock.GetDiffSeconds();
+		float FPSTime = clock.GetDiffSeconds();
 		float deltaTime = (1.0f / 60.0f);
 		clock.TakeClock();
 

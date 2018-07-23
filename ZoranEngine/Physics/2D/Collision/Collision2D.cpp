@@ -86,8 +86,8 @@ void Collision2D::PreUpdate(float inv_dt)
 		}
 	}
 
-	const float k_allowedPenetration = 0.02f * 100.0f;
-	static const float k_biasFactor = 0.4f;
+	const float k_allowedPenetration = 0.01f;
+	static const float k_biasFactor = 0.2f;
 
 	for (CollisionPoint& collisionPoint : collisionPoints)
 	{

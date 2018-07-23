@@ -21,6 +21,7 @@ int MathLib::ClipRangeToLine(ClipedVertex outPoints[2], ClipedVertex inPoints[2]
 		// Find intersection point of edge and plane
 		float interp = distance0 / (distance0 - distance1);
 		outPoints[numPoints].vertex = inPoints[0].vertex + interp * (inPoints[1].vertex - inPoints[0].vertex);
+		//outPoints[numPoints].vertex.x = roundf(outPoints[numPoints].vertex.x);
 		if (distance0 > 0.0f)
 		{
 			outPoints[numPoints].edge = inPoints[0].edge;
