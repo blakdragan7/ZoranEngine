@@ -12,59 +12,31 @@
 #define BOTTOM_RIGHT 2
 #define TOP_RIGHT 3
 
-bool b2DCollision2DObject::SquareAgainstOtherSquare(b2DCollision2DObject * other, Collision2D * response)
+b2DCollision2DObject::b2DCollision2DObject(SceneObject2D *object) : CollisionObject2DBase(object,CD_Dynamic, b2D_2D_COLLISION)
 {
-	return NewSATAlgorithim(other, response);
 }
 
-bool b2DCollision2DObject::SquareAgainstOtherTriagnle(b2DCollision2DObject * other, Collision2D * response)
+b2DCollision2DObject::~b2DCollision2DObject()
 {
-	return NewSATAlgorithim(other, response);
 }
 
-bool b2DCollision2DObject::SquareAgainstOtherCircle(b2DCollision2DObject * other, Collision2D * response)
+void b2DCollision2DObject::SetBoundsBySceneObject()
 {
-	return NewSATAlgorithim(other, response);
+	// unused
 }
 
-bool b2DCollision2DObject::SquareAgainstOtherAABBSquare(AABBSquareCollisionObject * other, Collision2D * response)
+Vector2D b2DCollision2DObject::GetSize()
 {
-	// TODO optimize to use specific function
-
-	return NewSATAlgorithim(other, response);
+	return GetSceneObject()->GetScale();
 }
 
-bool b2DCollision2DObject::SweepSquareAgainstOtherSquare(b2DCollision2DObject* other, SweepCollision2D & response)
+bool b2DCollision2DObject::CollidesWithNoCollision(CollisionObject2DBase * other)
 {
 	return false;
 }
 
-bool b2DCollision2DObject::SweepSquareAgainstOtherTriagnle(b2DCollision2DObject* other, SweepCollision2D & response)
+bool b2DCollision2DObject::CollidesWith(CollisionObject2DBase * other, Collision2D * response)
 {
-	return false;
-}
-
-bool b2DCollision2DObject::SweepSquareAgainstOtherCircle(b2DCollision2DObject* other, SweepCollision2D & response)
-{
-	return false;
-}
-
-bool b2DCollision2DObject::SweepSquareAgainstOtherAABBSquare(AABBSquareCollisionObject* other, SweepCollision2D & response)
-{
-	return false;
-}
-
-bool b2DCollision2DObject::NewSATAlgorithim(CollisionObject2DBase * other, Collision2D * response)
-{
-	// More effeicient SAT algorithim taking from Box 2ds Light,
-	// Previous algorithim is, find two axis and project all verts onto axes, check overlap between projected verts.
-	// New Algorithim, transform B into A's space (make B relative to A  including rotation) get distance between A and B and project it onto 
-	//	two axis. The axis is chosen based on B's location compared to A. Based on Axes, compute incident edge (the edge the collision happens on) and then use that information
-	//  to find cliped vertecies, verts projected to axes, which give collision points. If at any time no cliped vertecis can be 
-	//  found then there is no collision or if relative to A b.s positions are both negative there is no collision
-
-	// Setup
-
 	SceneObject2D* objectA = GetSceneObject();
 	SceneObject2D* objectB = other->GetSceneObject();
 
@@ -265,175 +237,6 @@ bool b2DCollision2DObject::NewSATAlgorithim(CollisionObject2DBase * other, Colli
 	return response->collided;
 }
 
-b2DCollision2DObject::b2DCollision2DObject(SceneObject2D *object) : CollisionObject2DBase(object,CD_Dynamic,SAT_2D_COLLISION)
-{
-	polygonType = SATPT_Invalid;
-}
-
-b2DCollision2DObject::~b2DCollision2DObject()
-{
-}
-
-void b2DCollision2DObject::SetAsTriangle(const Vector2D points[3], const Vector2D size)
-{
-	this->startingPoints[0] = points[0];
-	this->startingPoints[1] = points[1];
-	this->startingPoints[2] = points[2];
-
-	this->size = size;
-
-	polygonType = SATPT_Triangle;
-}
-
-void b2DCollision2DObject::SetAsSquare(const Vector2D points[4], const Vector2D size)
-{
-	this->startingPoints[0] = points[0];
-	this->startingPoints[1] = points[1];
-	this->startingPoints[2] = points[2];
-	this->startingPoints[3] = points[3];
-
-	this->size = size;
-
-	polygonType = SATPT_Square;
-}
-
-void b2DCollision2DObject::SetAsCircle(float radius)
-{
-	this->radius = radius;
-
-	polygonType = SATPT_Circle;
-}
-
-void b2DCollision2DObject::SetBoundsBySceneObject()
-{
-	switch (polygonType)
-	{
-	case SATPT_Triangle:
-	{
-		float sinfv = sinf(GetSceneObject()->GetRotationRad());
-		float cosfv = cosf(GetSceneObject()->GetRotationRad());
-
-		Vec2D scale = GetSceneObject()->GetScale();
-		Vec2D pos = GetScenePos();
-
-		scaledSize = scale * size;
-
-		Vec2D tempPoinnts[3] = {
-			startingPoints[0],
-			startingPoints[1],
-			startingPoints[2],
-		};
-
-		tempPoinnts[0] = (startingPoints[0] * scale);
-		tempPoinnts[1] = (startingPoints[1] * scale);
-		tempPoinnts[2] = (startingPoints[2] * scale);
-
-		derivedPoints[0].x = (cosfv * tempPoinnts[0].x) - (sinfv * tempPoinnts[0].y);
-		derivedPoints[0].y = (sinfv * tempPoinnts[0].x) + (cosfv * tempPoinnts[0].y);
-
-		derivedPoints[1].x = (cosfv * tempPoinnts[1].x) - (sinfv * tempPoinnts[1].y);
-		derivedPoints[1].y = (sinfv * tempPoinnts[1].x) + (cosfv * tempPoinnts[1].y);
-
-		derivedPoints[2].x = (cosfv * tempPoinnts[2].x) - (sinfv * tempPoinnts[2].y);
-		derivedPoints[2].y = (sinfv * tempPoinnts[2].x) + (cosfv * tempPoinnts[2].y);
-
-		derivedPoints[0] += pos;
-		derivedPoints[1] += pos;
-		derivedPoints[2] += pos;
-
-	}
-		break;
-	case SATPT_Square:
-	{
-		float sinfv = sinf(GetSceneObject()->GetRotationRad());
-		float cosfv = cosf(GetSceneObject()->GetRotationRad());
-
-		Vec2D scale = GetSceneObject()->GetScale();
-		Vec2D pos = GetScenePos();
-
-		scaledSize = scale * size;
-
-		derivedPoints[0].x = (cosfv * startingPoints[0].x) - (sinfv * startingPoints[0].y);
-		derivedPoints[0].y = (sinfv * startingPoints[0].x) + (cosfv * startingPoints[0].y);
-
-		derivedPoints[1].x = (cosfv * startingPoints[1].x) - (sinfv * startingPoints[1].y);
-		derivedPoints[1].y = (sinfv * startingPoints[1].x) + (cosfv * startingPoints[1].y);
-
-		derivedPoints[2].x = (cosfv * startingPoints[2].x) - (sinfv * startingPoints[2].y);
-		derivedPoints[2].y = (sinfv * startingPoints[2].x) + (cosfv * startingPoints[2].y);
-
-		derivedPoints[3].x = (cosfv * startingPoints[3].x) - (sinfv * startingPoints[3].y);
-		derivedPoints[3].y = (sinfv * startingPoints[3].x) + (cosfv * startingPoints[3].y);
-
-		derivedPoints[0] = (derivedPoints[0] * scale) + pos;
-		derivedPoints[1] = (derivedPoints[1] * scale) + pos;
-		derivedPoints[2] = (derivedPoints[2] * scale) + pos;
-		derivedPoints[3] = (derivedPoints[3] * scale) + pos;
-
-		float verts[12] = {
-			derivedPoints[0].x + 1.0,derivedPoints[0].y+ 1.0,0,
-			derivedPoints[1].x + 1.0,derivedPoints[1].y+ 1.0,0,
-			derivedPoints[2].x + 1.0,derivedPoints[2].y+ 1.0,0,
-			derivedPoints[3].x + 1.0,derivedPoints[3].y+ 1.0,0
-		};
-
-		UpdateDebugObject(verts,4);
-	}
-		break;
-	case SATPT_Circle:
-	{
-		Vec2D scale = GetSceneObject()->GetScale();
-		derivedRadius = radius * max(scale.x, scale.y);
-	}
-		break;
-	case SATPT_Invalid:
-	default:
-		throw std::exception("b2DCollision2DObject::SetBoundsBySceneObject Trying to Update Without setting type first !!");
-		break;
-	}
-}
-
-Vector2D b2DCollision2DObject::GetSize()
-{
-	return GetSceneObject()->GetScale();
-}
-
-bool b2DCollision2DObject::CollidesWithNoCollision(CollisionObject2DBase * other)
-{
-	return false;
-}
-
-bool b2DCollision2DObject::CollidesWith(CollisionObject2DBase * other, Collision2D * response)
-{
-	switch (other->GetCollisionType())
-	{
-	case SQUARE_COLLISION:
-	{
-		return SquareAgainstOtherAABBSquare((AABBSquareCollisionObject*)other, response);
-	}
-		break;
-	case SAT_2D_COLLISION:
-	{
-		b2DCollision2DObject* satOther = (b2DCollision2DObject*)other;
-		switch (satOther->polygonType)
-		{
-		case SATPT_Triangle:
-			return SquareAgainstOtherTriagnle(satOther, response);
-		case SATPT_Square:
-			return SquareAgainstOtherSquare(satOther, response);
-		case SATPT_Circle:
-			return SquareAgainstOtherCircle(satOther, response);
-		case SATPT_Invalid:
-		default:
-			return false;
-		}
-	}
-		break;
-	default:
-		return false;
-	}
-}
-
 Vector2D b2DCollision2DObject::GetClosestPointTo(Vector2D pos)
 {
 	return pos;
@@ -441,33 +244,7 @@ Vector2D b2DCollision2DObject::GetClosestPointTo(Vector2D pos)
 
 bool b2DCollision2DObject::SweepCollidesWith(CollisionObject2DBase * other, Vector2D newPosition, SweepCollision2D & response)
 {
-	switch (other->GetCollisionType())
-	{
-	case SQUARE_COLLISION:
-	{
-		return SweepSquareAgainstOtherAABBSquare((AABBSquareCollisionObject*)other, response);
-	}
-	break;
-	case SAT_2D_COLLISION:
-	{
-		b2DCollision2DObject* satOther = (b2DCollision2DObject*)other;
-		switch (satOther->polygonType)
-		{
-		case SATPT_Triangle:
-			return SweepSquareAgainstOtherTriagnle(satOther, response);
-		case SATPT_Square:
-			return SweepSquareAgainstOtherSquare(satOther, response);
-		case SATPT_Circle:
-			return SweepSquareAgainstOtherCircle(satOther, response);
-		case SATPT_Invalid:
-		default:
-			return false;
-		}
-	}
-	break;
-	default:
-		return false;
-	}
+	return false;
 }
 
 bool b2DCollision2DObject::FastSweepCollidesWith(Vector2D newPosition)

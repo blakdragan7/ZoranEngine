@@ -156,7 +156,7 @@ void Collision2D::UpdateForces()
 		// Apply contact impulse
 		Vector2D Pn = dPn * collisionPoint.normal;
 
-		b1->ApplyImpulseToVelocity(-Pn);
+ 		b1->ApplyImpulseToVelocity(-Pn);
 		b1->ApplyImpulseToAngularVelocity(-collisionPoint.r1.cross(Pn));
 
 		b2->ApplyImpulseToVelocity(Pn);

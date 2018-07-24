@@ -42,7 +42,7 @@ void PhysicsEngine::ResolveAllStaticCollisions(float dt)
 		collision->PreUpdate(inv_dt);
 		collision->frame++;
 
-		for (int i = 0; i < 10; ++i)
+		for (int i = 0; i < 100; ++i)
 		{
 			collision->UpdateForces();
 		}

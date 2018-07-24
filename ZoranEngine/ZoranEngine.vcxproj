@@ -61,6 +61,7 @@
     <ClCompile Include="Physics\2D\Collision\QuadTreeCollisionBucket.cpp" />
     <ClCompile Include="Physics\2D\Collision\AABBSquareCollisionObject.cpp" />
     <ClCompile Include="Physics\2D\Collision\b2DCollision2DObject.cpp" />
+    <ClCompile Include="Physics\2D\Collision\SatCollision2DObject.cpp" />
     <ClCompile Include="Physics\2D\PhysicsObject2DBase.cpp" />
     <ClCompile Include="Physics\3D\Collision\AABBoxCollisionObject.cpp" />
     <ClCompile Include="Physics\3D\Collision\CollisionBucket3DBase.cpp" />
@@ -134,6 +135,7 @@
     <ClInclude Include="Physics\2D\Collision\QuadTreeCollisionBucket.h" />
     <ClInclude Include="Physics\2D\Collision\AABBSquareCollisionObject.h" />
     <ClInclude Include="Physics\2D\Collision\b2DCollision2DObject.h" />
+    <ClInclude Include="Physics\2D\Collision\SatCollision2DObject.h" />
     <ClInclude Include="Physics\2D\PhysicsObject2DBase.h" />
     <ClInclude Include="Physics\3D\Collision\AABBoxCollisionObject.h" />
     <ClInclude Include="Physics\3D\Collision\CollisionBucket3DBase.h" />

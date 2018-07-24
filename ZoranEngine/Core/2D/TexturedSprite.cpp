@@ -10,12 +10,14 @@
 #include <Physics/2D/PhysicsObject2DBase.h>
 #include <Physics/2D/Collision/AABBSquareCollisionObject.h>
 #include <Physics/2D/Collision/b2DCollision2DObject.h>
+#include <Physics/2D/Collision/SatCollision2DObject.h>
 
 TexturedSprite::TexturedSprite(std::string name) : SceneObject2D(name)
 {
 	texture = 0;
 	physicsObject = new PhysicsObject2DBase(this);
-	b2DCollision2DObject* sat = new b2DCollision2DObject(this);
+	//b2DCollision2DObject* sat = new b2DCollision2DObject(this);
+	SatCollision2DObject* sat = new SatCollision2DObject(this);
 	collision = sat;
 	startingSize = Vec2D(2,2);
 	SetScale(1,1);

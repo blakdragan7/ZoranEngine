@@ -234,21 +234,12 @@ void PhysicsObject2DBase::UpdatePositionsAndRotation(float deltaTime)
 
 void PhysicsObject2DBase::ApplyImpulseToVelocity(Vector2D impulse)
 {
-	velocity += invMass * impulse * 1000;
-	if (sceneObject2D->GetCollision()->GetDynamics() == CD_Dynamic)
-	{
-		Log(LogLevel_Default, "name: %s, velocity: x=%f, y=%f\n", sceneObject2D->readableName.c_str(), velocity.x, velocity.y);
-	}
-	
+	velocity += invMass * impulse;
 }
 
 void PhysicsObject2DBase::ApplyImpulseToAngularVelocity(float impulse)
 {
-	angularVelocity += invInertia * impulse * 0.001;
-	if (sceneObject2D->GetCollision()->GetDynamics() == CD_Dynamic)
-	{
-		Log(LogLevel_Default, "name: %s, angularVelocity=%f\n", sceneObject2D->readableName.c_str(), angularVelocity);
-	}
+	//angularVelocity += invInertia * impulse;
 }
 
 Vec2D PhysicsObject2DBase::GetVelocity()
