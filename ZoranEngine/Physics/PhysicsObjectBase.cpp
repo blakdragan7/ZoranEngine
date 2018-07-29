@@ -24,11 +24,11 @@ PhysicsObjectBase::PhysicsObjectBase(SceneObject * object)
 	shouldSimulate = false;
 	drag = 0.99f;
 	otherFriction = 1.0f;
-	friction = 0.2f;
+	friction = 0.1f;
 	restitution = 0.9f;
 	isOnGround = false;
 	useSweptCollision = false;
-	calculatedFriction = sqrt(1.0f+0.99f);
+	calculatedFriction = sqrt(0.4);
 	SetMass(200);
 }
 

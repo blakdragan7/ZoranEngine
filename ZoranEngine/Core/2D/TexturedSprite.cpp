@@ -16,8 +16,8 @@ TexturedSprite::TexturedSprite(std::string name) : SceneObject2D(name)
 {
 	texture = 0;
 	physicsObject = new PhysicsObject2DBase(this);
-	//b2DCollision2DObject* sat = new b2DCollision2DObject(this);
-	SatCollision2DObject* sat = new SatCollision2DObject(this);
+	b2DCollision2DObject* sat = new b2DCollision2DObject(this);
+	//SatCollision2DObject* sat = new SatCollision2DObject(this);
 	collision = sat;
 	startingSize = Vec2D(2,2);
 	SetScale(1,1);
@@ -33,7 +33,7 @@ TexturedSprite::TexturedSprite(std::string name) : SceneObject2D(name)
 		Vec2D(1,-1)
 	};
 
-	sat->SetAsSquare(points,size);
+	//sat->SetAsSquare(points,size);
 }
 
 TexturedSprite::TexturedSprite(std::string name, const char* texture, RenderDataType type, RenderDataFormat format) : SceneObject2D(name)

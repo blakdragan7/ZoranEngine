@@ -41,6 +41,10 @@ public:
 	virtual void SetRestitution(float restitution);
 
 	float GetFriction() { return friction; }
+	float GetInvMass() { return invMass; }
+	float GetMass() { return mass; }
+	float GetInvInertia() { return invInertia; }
+	float GetInertia() { return inertia; }
 
 	void SetSweptCollision(bool newSwept);
 

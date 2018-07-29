@@ -73,43 +73,32 @@ bool SatCollision2DObject::TestAgainstOtherSquare(SatCollision2DObject * other, 
 		}
 	}
 
-	Vec2D normal = axis[normal_index];
-	int lowestIndex = -1;
-	float lowestPoint = std::numeric_limits<float>::infinity();
-	float highestPointA = -std::numeric_limits<float>::infinity();
-	float highestPointB = -std::numeric_limits<float>::infinity();
-	int highestIndexA = -1;
-	int highestIndexB = -1;
-	for (int i = 0; i < 4; i++)
+	Vec2D normal = axis[normal_index] * (isNegative ? -1.0f : 1.0f);
+
+	Vec2D CollisionPointA[2], CollisionPointB[2];
+
+	int numPoints = FindCollisionPoints(CollisionPointA, CollisionPointB, normal, other->derivedPoints);
+
+	CollisionPoint points[2];
+
+	if (numPoints > 0)
 	{
-		float projectionA = derivedPoints[i].dot(normal);
-		float projectionB = other->derivedPoints[i].dot(normal);
-
-
-		if (projectionA < lowestPoint)
-		{
-			lowestPoint = projectionA;
-			lowestIndex = i;
-		}
-
-		if (projectionB > highestPointB && projectionB < highestPointA)
-		{
-			highestPointB = projectionB;
-			highestIndexB = i;
-		}
-		if (projectionB > highestPointA)
-		{
-			highestPointB = highestPointA;
-			highestPointA = projectionB;
-
-			highestIndexB = highestIndexA;
-			highestIndexA = i;
-		}
+		points[0].normal = normal;
+		points[0].pos = CollisionPointA[0];
+		points[0].separation = penetration * (isNegative ? -1 : 1);;
+		response->AddCollisionPoint(points[0]);
+	}
+	if (numPoints > 1)
+	{
+		points[1].normal = normal;
+		points[1].pos = CollisionPointA[1];
+		points[1].separation = penetration * (isNegative ? -1 : 1);;
+		response->AddCollisionPoint(points[1]);
 	}
 
+	response->objects[0] = GetSceneObject();
+	response->objects[1] = other->GetSceneObject();
 	response->collided = true;
-	//response->normal = normal;
-	//response->penetration = -response.normal * penetration * (isNegative ? -1 : 1);
 	response->objectBounds[0] = this;
 	response->objectBounds[1] = other;
 	response->collidedObjects[0] = GetPhysicsObject();
@@ -205,25 +194,30 @@ bool SatCollision2DObject::TestAgainstOtherAABBSquare(AABBSquareCollisionObject 
 	int numPoints = FindCollisionPoints(CollisionPointA,CollisionPointB,normal, otherPoints);
 
 	CollisionPoint points[2];
-	points[0].normal = normal;
-	points[1].normal = normal;
-	points[0].pos = CollisionPointA[0];
-	points[1].pos = CollisionPointA[1];
+
+	if (numPoints > 0)
+	{
+		points[0].normal = normal;
+		points[0].pos = CollisionPointA[0];
+		points[0].separation = penetration * (isNegative ? -1 : 1);;
+		response->AddCollisionPoint(points[0]);
+	}
+	if (numPoints > 1)
+	{
+		points[1].normal = normal;
+		points[1].pos = CollisionPointA[1];
+		points[1].separation = penetration * (isNegative ? -1 : 1);;
+		response->AddCollisionPoint(points[1]);
+	}
 
 	response->objects[0] = GetSceneObject();
 	response->objects[1] = other->GetSceneObject();
-
 	response->collided = true;
-	if(numPoints > 0)
-		response->AddCollisionPoint(points[0]);
-	if (numPoints > 1)
-		response->AddCollisionPoint(points[1]);
-	//response->normal = axis[normal_index] * (isNegative ? -1 : 1);
- 	//response->penetration = -response->normal * penetration * (isNegative ? -1 : 1);
 	response->objectBounds[0] = this;
 	response->objectBounds[1] = other;
 	response->collidedObjects[0] = GetPhysicsObject();
 	response->collidedObjects[1] = other->GetPhysicsObject();
+	response->friction = sqrt(GetSceneObject()->GetPhysics()->GetFriction() * other->GetSceneObject()->GetPhysics()->GetFriction());
 
 	return true;
 }
@@ -340,7 +334,6 @@ bool SatCollision2DObject::SweepTestAgainstOtherAABBSquare(AABBSquareCollisionOb
 	if (maxEnterTime < minLeaveTime && normalTime <= 1 && normalTime >= 0)
 	{
 		response.Collision2D.collided = true;
-		//response.Collision2D.normal = axis[normal_index] * (isNegative ? 1 : -1);
 		response.Collision2D.objectBounds[0] = this;
 		response.Collision2D.objectBounds[1] = other;
 		response.Collision2D.collidedObjects[0] = GetPhysicsObject();
@@ -361,7 +354,7 @@ Vec2D SatCollision2DObject::ClosesPointOnSegment(const Vec2D& point, const Vec2D
 	{
 		newPoint.x = point.x;
 	}
-	else if (point.x < minp.x)
+	else if (point.x <= minp.x)
 	{
 		newPoint.x = minp.x;
 	}
@@ -374,7 +367,7 @@ Vec2D SatCollision2DObject::ClosesPointOnSegment(const Vec2D& point, const Vec2D
 	{
 		newPoint.y = point.y;
 	}
-	else if (point.y < minp.y)
+	else if (point.y <= minp.y)
 	{
 		newPoint.y = minp.y;
 	}
@@ -485,7 +478,7 @@ int SatCollision2DObject::FindCollisionPoints(Vector2D CollisionPointA[2], Vecto
 	else if (std::get<2>(Result1) && std::get<2>(Result2) == false)
 	{
 		A3 = *std::get<1>(Result1);
-		B4 = *std::get<1>(Result2);
+		B3 = *std::get<1>(Result2);
 
 		B4 = ClosesPointOnSegment(*std::get<1>(Result1), B1, B0);
 		A4 = ClosesPointOnSegment(*std::get<1>(Result2), A1, A0);
@@ -493,7 +486,7 @@ int SatCollision2DObject::FindCollisionPoints(Vector2D CollisionPointA[2], Vecto
 	else if (std::get<2>(Result1) == false && std::get<2>(Result2))
 	{
 		B3 = *std::get<1>(Result1);
-		A4 = *std::get<1>(Result2);
+		A3 = *std::get<1>(Result2);
 
 		A4 = ClosesPointOnSegment(*std::get<1>(Result1), A1, A0);
 		B4 = ClosesPointOnSegment(*std::get<1>(Result2), B1, B0);
@@ -628,6 +621,16 @@ void SatCollision2DObject::SetBoundsBySceneObject()
 		derivedPoints[1] = (derivedPoints[1] * scale) + pos;
 		derivedPoints[2] = (derivedPoints[2] * scale) + pos;
 		derivedPoints[3] = (derivedPoints[3] * scale) + pos;
+
+		float verts[12]
+		{
+			derivedPoints[0].x,derivedPoints[0].y,0,
+			derivedPoints[1].x,derivedPoints[1].y,0,
+			derivedPoints[2].x,derivedPoints[2].y,0,
+			derivedPoints[3].x,derivedPoints[3].y,0,
+		};
+
+		UpdateDebugObject(verts, 4);
 	}
 		break;
 	case SATPT_Circle:

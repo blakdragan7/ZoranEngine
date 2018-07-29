@@ -24,6 +24,8 @@ private:
 
 	bool is3D;
 
+	Accumulated2DVelocities aV;
+
 public:
 	PhysicsEngine();
 	~PhysicsEngine();

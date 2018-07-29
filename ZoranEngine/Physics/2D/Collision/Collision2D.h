@@ -77,13 +77,29 @@ struct  CollisionPoint
 	}
 };
 
+struct Accumulated2DVelocities
+{
+	Vec2D velocity[256];
+	float angularVelocity[256];
+
+	class PhysicsObject2DBase* objects[256];
+
+	unsigned numObjects;
+
+	unsigned AddObject(class PhysicsObject2DBase* object);
+};
+
 class ZoranEngine_EXPORT Collision2D
 {
-private:
+public:
 #pragma warning(push)
 #pragma warning(disable:4251)
 	std::vector<class DebugSceneObject2D*> debugObjects;
 	std::vector<CollisionPoint> collisionPoints;
+
+	unsigned aIndex;
+	unsigned bIndex;
+
 #pragma warning(pop)
 
 	bool shouldRender;
@@ -96,8 +112,6 @@ public:
 	bool collided;
 	bool wasUpdated;
 	int frame;
-	Vector2D velocitySnapshot[2];
-	Matrix22 rotationSnapshots[2];
 
 	class SceneObject2D* objects[2];
 	Matrix22 invRotationSnapshots[2];
@@ -115,8 +129,8 @@ public:
 	~Collision2D();
 	Collision2D* Reflection();
 	bool operator==(const Collision2D& other);
-	void PreUpdate(float inv_dt);
-	void UpdateForces();
+	void PreUpdate(float inv_dt, Accumulated2DVelocities& aV);
+	void UpdateForces(Accumulated2DVelocities& aV);
 	void Update(Collision2D* other);
 	size_t GetNumCollisionPoints() { return collisionPoints.size(); }
 };

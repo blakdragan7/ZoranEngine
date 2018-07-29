@@ -126,11 +126,6 @@ bool AABBSquareCollisionObject::CollidesWith(CollisionObject2DBase* other, Colli
 	response->AddCollisionPoint(contactPointsA[0]);
 	response->AddCollisionPoint(contactPointsA[1]);
 
-	if (GetPhysicsObject())
-		response->velocitySnapshot[0] = GetPhysicsObject()->GetVelocity();
-	if(other->GetPhysicsObject())
-		response->velocitySnapshot[1] = other->GetPhysicsObject()->GetVelocity();
-
 	return true;
 }
 
@@ -243,11 +238,6 @@ bool AABBSquareCollisionObject::SweepCollidesWith(CollisionObject2DBase * other,
 
 	response.Collision2D.AddCollisionPoint(points[0]);
 	response.Collision2D.AddCollisionPoint(points[1]);
-	
-	if (GetPhysicsObject())
-		response.Collision2D.velocitySnapshot[0] = GetPhysicsObject()->GetVelocity();
-	if (other->GetPhysicsObject())
-		response.Collision2D.velocitySnapshot[1] = other->GetPhysicsObject()->GetVelocity();
 
 	return true;
 

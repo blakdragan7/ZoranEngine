@@ -84,8 +84,8 @@ bool b2DCollision2DObject::CollidesWith(CollisionObject2DBase * other, Collision
 	separation = faceA.x;
 	normal = dA.x > 0.0f ? RotA.cols[0] : -RotA.cols[0];
 
-	const float relativeTol = 0.95f;
-	const float absoluteTol = 0.01f;
+	static const float relativeTol = 0.95f;
+	static const float absoluteTol = 0.01f;
 
 	if (faceA.y > relativeTol * separation + absoluteTol * halfA.y)
 	{
@@ -223,15 +223,9 @@ bool b2DCollision2DObject::CollidesWith(CollisionObject2DBase * other, Collision
 		response->collidedObjects[1] = other->GetPhysicsObject();
 		response->objectBounds[0] = this;
 		response->objectBounds[1] = other;
-		response->rotationSnapshots[0] = objectA->GetRotationMatrix();
-		response->rotationSnapshots[1] = objectB->GetRotationMatrix();
 		response->invRotationSnapshots[0] = objectA->GetInvRotationMatrix();
 		response->invRotationSnapshots[1] = objectB->GetInvRotationMatrix();
 		response->friction = sqrt(objectA->GetPhysics()->GetFriction() * objectB->GetPhysics()->GetFriction());
-		if (GetDynamics() != CD_Static)
-			response->velocitySnapshot[0] = response->collidedObjects[0]->GetVelocity();
-		if (other->GetDynamics() != CD_Static)
-			response->velocitySnapshot[1] = response->collidedObjects[1]->GetVelocity();
 	}
 
 	return response->collided;

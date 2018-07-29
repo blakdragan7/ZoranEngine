@@ -35,8 +35,6 @@ Collision2D::Collision2D()
 	collidedObjects[1] = 0;
 	objectBounds[0] = 0;
 	objectBounds[1] = 0;
-	velocitySnapshot[0] = 0;
-	velocitySnapshot[1] = 0;
 	friction = 0;
 	ID = sID++;
 	frame = 0;
@@ -64,8 +62,6 @@ Collision2D* Collision2D::Reflection()
 	res->collidedObjects[1] = collidedObjects[0];
 	res->objectBounds[0] = objectBounds[1];
 	res->objectBounds[1] = objectBounds[0];
-	res->velocitySnapshot[0] = velocitySnapshot[1];
-	res->velocitySnapshot[1] = velocitySnapshot[0];
 
 	return res;
 };
@@ -75,7 +71,7 @@ bool Collision2D::operator==(const Collision2D& other)
 	return ID == other.ID;
 }
 
-void Collision2D::PreUpdate(float inv_dt)
+void Collision2D::PreUpdate(float inv_dt, Accumulated2DVelocities& aV)
 {
 	if (shouldRender == false)
 	{
@@ -86,106 +82,114 @@ void Collision2D::PreUpdate(float inv_dt)
 		}
 	}
 
-	const float k_allowedPenetration = 0.01f;
-	static const float k_biasFactor = 0.2f;
+	static const float k_allowedPenetration = 0.1f;
+	static float k_biasFactor = 0.2f;
 
-	for (CollisionPoint& collisionPoint : collisionPoints)
+	for (CollisionPoint& c : collisionPoints)
 	{
-		PhysicsObject2DBase* objectA = collidedObjects[0];
-		PhysicsObject2DBase* objectB = collidedObjects[1];
-
-		Vector2D r1 = collisionPoint.pos - objects[0]->GetPosition();
-		Vector2D r2 = collisionPoint.pos - objects[1]->GetPosition();
+		Vec2D r1 = c.pos - collidedObjects[0]->GetScenePos();
+		Vec2D r2 = c.pos - collidedObjects[1]->GetScenePos();
 
 		// Precompute normal mass, tangent mass, and bias.
-		float rn1 = r1.dot(collisionPoint.normal);
-		float rn2 = r2.dot(collisionPoint.normal);
+		float rn1 = r1.dot(c.normal);
+		float rn2 = r2.dot(c.normal);
+		float kNormal = collidedObjects[0]->GetInvMass() + collidedObjects[1]->GetInvMass();
+		kNormal += collidedObjects[0]->GetInvInertia() * (r1.dot(r1) - rn1 * rn1) + collidedObjects[1]->GetInvInertia() * (r2.dot(r2) - rn2 * rn2);
+		c.massNormal = 1.0f / kNormal;
 
-		float kNormal = objectA->invMass + objectB->invMass;
-		kNormal += objectA->invMass * (r1.dot(r1) - rn1 * rn1) + objectB->invInertia * (r2.dot(r2) - rn2 * rn2);
-		if (kNormal == 0)collisionPoint.massNormal = 0;
-		else collisionPoint.massNormal = 1.0f / kNormal;
-
-		Vector2D tangent = collisionPoint.normal.crossRight(1.0f);
+		Vec2D tangent = c.normal.crossRight(1.0f);
 		float rt1 = r1.dot(tangent);
 		float rt2 = r2.dot(tangent);
-		float kTangent = objectA->invMass + objectB->invMass;
-		kTangent += objectA->invInertia * (r1.dot(r1) - rt1 * rt1) + objectB->invInertia * (r2.dot(r2) - rt2 * rt2);
-		if (kTangent == 0)collisionPoint.massTangent = 0;
-		else collisionPoint.massTangent = 1.0f / kTangent;
+		float kTangent = collidedObjects[0]->GetInvMass() + collidedObjects[1]->GetInvMass();
+		kTangent += collidedObjects[0]->GetInvInertia() * (r1.dot(r1) - rn1 * rn1) + collidedObjects[1]->GetInvInertia() * (r2.dot(r2) - rn2 * rn2);
+		c.massTangent = 1.0f / kTangent;
 
-		collisionPoint.bias = -k_biasFactor * inv_dt * min(0.0f, collisionPoint.separation + k_allowedPenetration);
+		c.bias = -k_biasFactor * inv_dt * min(0.0f, c.separation + k_allowedPenetration);
 
 		// Apply normal + friction impulse
-		Vector2D impulse = collisionPoint.normalImpulse * collisionPoint.normal + collisionPoint.normalTangetImpulses * tangent;
+		Vec2D P = c.normalImpulse * c.normal + c.normalTangetImpulses * tangent;
 
-		objectA->ApplyImpulseToVelocity(-impulse);
-		objectA->ApplyImpulseToAngularVelocity(-r1.cross(impulse));
+		//collidedObjects[0]->ApplyImpulseToVelocity(-P);
+		//collidedObjects[0]->ApplyImpulseToAngularVelocity(-c.r1.cross(P));
+		aV.velocity[aIndex] -= collidedObjects[0]->GetInvMass() * P;
+		aV.angularVelocity[aIndex] -= collidedObjects[0]->GetInvInertia() * r1.cross(P);
 
-		objectB->ApplyImpulseToVelocity(impulse);
-		objectB->ApplyImpulseToAngularVelocity(r2.cross(impulse));
-
+		//collidedObjects[1]->ApplyImpulseToVelocity(P);
+		//collidedObjects[1]->ApplyImpulseToAngularVelocity(c.r2.cross(P));
+		aV.velocity[bIndex] += collidedObjects[1]->GetInvMass() * P;
+		aV.angularVelocity[bIndex] += collidedObjects[1]->GetInvInertia() * r2.cross(P);
+		
 	}
 }
 
-void Collision2D::UpdateForces()
+void Collision2D::UpdateForces(Accumulated2DVelocities& aV)
 {
 	wasUpdated = false;
 
 	PhysicsObject2DBase* b1 = collidedObjects[0];
 	PhysicsObject2DBase* b2 = collidedObjects[1];
 
-	for (CollisionPoint& collisionPoint : collisionPoints)
+	for (CollisionPoint& c : collisionPoints)
 	{
-		collisionPoint.r1 = collisionPoint.pos - objects[0]->GetPosition();
-		collisionPoint.r2 = collisionPoint.pos - objects[1]->GetPosition();
+		c.r1 = c.pos - b1->GetScenePos();
+		c.r2 = c.pos - b2->GetScenePos();
 
 		// Relative velocity at contact
-		Vector2D dv = b2->GetVelocity() + collisionPoint.r2.crossLeft(b2->GetAngularVelocity()) - b1->GetVelocity() - collisionPoint.r1.crossLeft(b1->GetAngularVelocity());
+		//Vec2D dv = b2->GetVelocity() + c.r2.crossLeft(b2->GetAngularVelocity()) - b1->GetVelocity() - c.r1.crossLeft(b1->GetAngularVelocity());
+		Vec2D dv = aV.velocity[bIndex] + c.r2.crossLeft(aV.angularVelocity[bIndex]) - aV.velocity[aIndex] - c.r1.crossLeft(aV.angularVelocity[aIndex]);
 
 		// Compute normal impulse
-		float vn = dv.dot(collisionPoint.normal);
+		float vn = dv.dot(c.normal);
 
-		float dPn = collisionPoint.massNormal * (-vn + collisionPoint.bias);
-
+		float dPn = c.massNormal * (-vn + c.bias);
+		
 		// Clamp the accumulated impulse
-		float Pn0 = collisionPoint.normalImpulse;
-		collisionPoint.normalImpulse = max(Pn0 + dPn, 0.0f);
-		dPn = collisionPoint.normalImpulse - Pn0;
+		float Pn0 = c.normalImpulse;
+		c.normalImpulse = max(Pn0 + dPn, 0.0f);
+		dPn = c.normalImpulse - Pn0;
 
 		// Apply contact impulse
-		Vector2D Pn = dPn * collisionPoint.normal;
+		Vec2D Pn = dPn * c.normal;
 
- 		b1->ApplyImpulseToVelocity(-Pn);
-		b1->ApplyImpulseToAngularVelocity(-collisionPoint.r1.cross(Pn));
+		//b1->ApplyImpulseToVelocity(-Pn);
+		//b1->ApplyImpulseToAngularVelocity(-c.r1.cross(Pn));
+		aV.velocity[aIndex] -= b1->GetInvMass() * Pn;
+		aV.angularVelocity[aIndex] -= b1->GetInvInertia() * c.r1.cross(Pn);
 
-		b2->ApplyImpulseToVelocity(Pn);
-		b2->ApplyImpulseToAngularVelocity(collisionPoint.r2.cross(Pn));
+		//b1->ApplyImpulseToVelocity(Pn);
+		//b1->ApplyImpulseToAngularVelocity(c.r2.cross(Pn));
+		aV.velocity[bIndex] += b2->GetInvMass() * Pn;
+		aV.angularVelocity[bIndex] += b2->GetInvInertia() * c.r2.cross(Pn);
 
 		// Relative velocity at contact
-		dv = b2->GetVelocity() + collisionPoint.r2.crossLeft(b2->GetAngularVelocity()) - b1->GetVelocity() - collisionPoint.r1.crossLeft(b1->GetAngularVelocity());
+		//dv = b2->GetVelocity() + c.r2.crossLeft(b2->GetAngularVelocity()) - b1->GetVelocity() - c.r1.crossLeft(b1->GetAngularVelocity());
+		dv = aV.velocity[bIndex] + c.r2.crossLeft(aV.angularVelocity[bIndex]) - aV.velocity[aIndex] - c.r1.crossLeft(aV.angularVelocity[aIndex]);
 
-		Vector2D tangent = collisionPoint.normal.crossRight(1.0f);
+		Vec2D tangent = c.normal.crossRight(1.0f);
 		float vt = dv.dot(tangent);
-		float dPt = collisionPoint.massTangent * (-vt);
+		float dPt = c.massTangent * (-vt);
 
 		// Compute friction impulse
-		float maxPt = friction * collisionPoint.normalImpulse;
+		float maxPt = friction * c.normalImpulse;
 
-		//// Clamp friction
-		float oldTangentImpulse = collisionPoint.normalTangetImpulses;
-		collisionPoint.normalTangetImpulses = MathLib::Clamp(oldTangentImpulse + dPt, -maxPt, maxPt);
-		dPt = collisionPoint.normalTangetImpulses - oldTangentImpulse;
-
+		// Clamp friction
+		float oldTangentImpulse = c.normalTangetImpulses;
+		c.normalTangetImpulses = MathLib::Clamp(oldTangentImpulse + dPt, -maxPt, maxPt);
+		dPt = c.normalTangetImpulses - oldTangentImpulse;
 
 		// Apply contact impulse
-		Vector2D Pt = dPt * tangent;
+		Vec2D Pt = dPt * tangent;
 
-		b1->ApplyImpulseToVelocity(-Pt);
-		b1->ApplyImpulseToAngularVelocity(-collisionPoint.r1.cross(Pt));
+		//b1->ApplyImpulseToVelocity(-Pt);
+		//b1->ApplyImpulseToAngularVelocity(-c.r1.cross(Pt));
+		aV.velocity[aIndex] -= b1->GetInvMass() * Pt;
+		aV.angularVelocity[aIndex] -= b1->GetInvInertia() * c.r1.cross(Pt);
 
-		b2->ApplyImpulseToVelocity(Pt);
-		b2->ApplyImpulseToAngularVelocity(collisionPoint.r2.cross(Pt));
+		//b1->ApplyImpulseToVelocity(Pt);
+		//b1->ApplyImpulseToAngularVelocity(c.r2.cross(Pt));
+		aV.velocity[bIndex] += b2->GetInvMass() * Pt;
+		aV.angularVelocity[bIndex] += b2->GetInvInertia() * c.r2.cross(Pt);
+
 	}
 }
 
@@ -255,4 +259,23 @@ void Collision2D::Update(Collision2D* other)
 		else
 			debugObjects[i]->SetPosition(mergedContacts[i].pos);
 	}
+}
+
+unsigned Accumulated2DVelocities::AddObject(PhysicsObject2DBase * object)
+{
+	for (unsigned i = 0; i < numObjects; i++)
+	{
+		if (objects[i] == object)
+		{
+			return i;
+		}
+	}
+
+	unsigned index = numObjects++;
+
+	objects[index] = object;
+	velocity[index] = object->GetVelocity();
+	angularVelocity[index] = object->GetAngularVelocity();
+
+	return index;
 }

@@ -68,6 +68,11 @@ void PhysicsObject2DBase::SetVeloctiy(Vec2D Velocity)
 	this->velocity = Velocity;
 }
 
+void PhysicsObject2DBase::SetAngularVeloctiy(float Velocity)
+{
+	angularVelocity = Velocity;
+}
+
 void PhysicsObject2DBase::SetGravity(Vector2D gravity)
 {
 	this->gravity = gravity;
@@ -77,19 +82,24 @@ void PhysicsObject2DBase::SetGravity(Vector2D gravity)
 
 void PhysicsObject2DBase::SetMass(float mass)
 {
-	PhysicsObjectBase::SetMass(mass);
+ 	PhysicsObjectBase::SetMass(mass);
 
+	ReCalculateInertia();
+}
+
+void PhysicsObject2DBase::ReCalculateInertia()
+{
 	Vec2D size = sceneObject2D->GetSize();
 
-	if (mass >= FLT_MAX || mass == 0)
-	{
-		inertia = FLT_MAX;
-		invInertia = 0;
-	}
-	else
+ 	if (mass < FLT_MAX && mass != 0)
 	{
 		inertia = mass * (size.x*size.x + size.y*size.y) / 12.0f;
 		invInertia = 1.0f / inertia;
+	}
+	else
+	{
+		inertia = FLT_MAX;
+		invInertia = 0;
 	}
 }
 
@@ -101,7 +111,10 @@ void PhysicsObject2DBase::OnCollision(Collision2D &response)
 		CollisionObject2DBase* collision2 = response.objectBounds[1];
 
 		PhysicsObject2DBase* other = response.collidedObjects[1];
-		
+		/*for (auto collision : response.collisionPoints)
+		{
+			sceneObject2D->Translate(-collision.normal * collision.separation);
+		}*/
 		if (shouldSimulate)
 		{
 			/*Vec2D Vel = response.velocitySnapshot[0] - response.velocitySnapshot[1];
@@ -181,7 +194,6 @@ void PhysicsObject2DBase::ApplyForce(Vec2D Force)
 {
 	this->force += Force;
 	isOnGround = false;
-	otherFriction = 1.0;
 }
 
 void PhysicsObject2DBase::UpdateVelocities(float deltaTime)
@@ -239,7 +251,7 @@ void PhysicsObject2DBase::ApplyImpulseToVelocity(Vector2D impulse)
 
 void PhysicsObject2DBase::ApplyImpulseToAngularVelocity(float impulse)
 {
-	//angularVelocity += invInertia * impulse;
+	angularVelocity += invInertia * impulse;
 }
 
 Vec2D PhysicsObject2DBase::GetVelocity()

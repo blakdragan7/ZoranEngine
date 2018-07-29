@@ -12,6 +12,7 @@ SceneObject2D::SceneObject2D(std::string name) : SceneObject(name)
 	scale = Vector2D(1.0, 1.0);
 	rotation = 0;
 	collision = 0;
+	physicsObject = 0;
 
 	rotationMat.SetRotation(0);
 	invRotationMat.SetRotation(0);
@@ -23,6 +24,7 @@ SceneObject2D::SceneObject2D(std::string name, RenderEngineBase* engine) : Scene
 	scale = Vector2D(1.0, 1.0);
 	rotation = 0;
 	collision = 0;
+	physicsObject = 0;
 }
 
 SceneObject2D::~SceneObject2D()
@@ -42,6 +44,7 @@ void SceneObject2D::SetScale(Vector2D scale)
 	this->scale = scale;
 	this->size = (startingSize * scale).getAbs();
 	if (collision)pEngine->UpdateCollisionObject(collision);
+	if (physicsObject)physicsObject->ReCalculateInertia();
 }
 
 void SceneObject2D::SetPosition(float x, float y)
@@ -57,6 +60,7 @@ void SceneObject2D::SetScale(float x, float y)
 	this->scale.y = y;
 	this->size = (startingSize * scale).getAbs();
 	if (collision)pEngine->UpdateCollisionObject(collision);
+	if (physicsObject)physicsObject->ReCalculateInertia();
 }
 
 void SceneObject2D::SetRotation(float rotation)
@@ -85,6 +89,7 @@ void SceneObject2D::Scale(Vector2D scale)
 	this->scale *= scale;
 	this->size = (startingSize * scale).getAbs();
 	if (collision)pEngine->UpdateCollisionObject(collision);
+	if (physicsObject)physicsObject->ReCalculateInertia();
 }
 
 void SceneObject2D::Scale(float dx, float dy)
@@ -93,6 +98,7 @@ void SceneObject2D::Scale(float dx, float dy)
 	this->scale.y *= dy;
 	this->size = (startingSize * scale).getAbs();
 	if (collision)pEngine->UpdateCollisionObject(collision);
+	if (physicsObject)physicsObject->ReCalculateInertia();
 }
 
 void SceneObject2D::Rotate(float rotation)

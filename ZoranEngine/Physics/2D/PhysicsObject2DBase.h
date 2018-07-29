@@ -29,9 +29,12 @@ public:
 
 	void ApplyForce(Vec2D Force);
 	void SetVeloctiy(Vec2D Velocity);
+	void SetAngularVeloctiy(float Velocity);
 	void SetGravity(Vector2D gravity);
 
 	virtual void SetMass(float mass)override; // in KG
+
+	virtual void ReCalculateInertia();
 
 	void OnCollision(class Collision2D& response);
 	bool OnSweepCollision(struct SweepCollision2D& response, float deltaTime,int currentDepth=0,int maxDepth=10);

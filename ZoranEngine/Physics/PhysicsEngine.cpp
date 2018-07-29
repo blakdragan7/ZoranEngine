@@ -37,25 +37,32 @@ void PhysicsEngine::ResolveAllStaticCollisions(float dt)
 
 	for (auto& collisionIter : collisionFrame2D.collisions)
 	{
+		collisionIter.second->aIndex = aV.AddObject(collisionIter.second->collidedObjects[0]);
+		collisionIter.second->bIndex = aV.AddObject(collisionIter.second->collidedObjects[1]);
+	}
+
+	for (auto& collisionIter : collisionFrame2D.collisions)
+	{
 		std::cout << "Static Collision\n";
 		Collision2D* collision = collisionIter.second;
-		collision->PreUpdate(inv_dt);
+
+		collision->PreUpdate(inv_dt,aV);
 		collision->frame++;
 
-		for (int i = 0; i < 100; ++i)
+		for (int i = 0; i < 10; ++i)
 		{
-			collision->UpdateForces();
-		}
-
-		if (collision->objectBounds[0]->GetDynamics() != CD_Static)
-			collision->collidedObjects[0]->OnCollision(*collision);
-		if (collision->objectBounds[1]->GetDynamics() != CD_Static)
-		{
-			auto reflection = collision->Reflection();
-			collision->collidedObjects[1]->OnCollision(*reflection);
-			delete reflection;
+			collision->UpdateForces(aV);
 		}
 	}
+
+	// apply velocities
+	for (unsigned i = 0; i < aV.numObjects; i++)
+	{
+		aV.objects[i]->SetVeloctiy(aV.velocity[i]);
+		aV.objects[i]->SetAngularVeloctiy(aV.angularVelocity[i]);
+	}
+
+	aV.numObjects = 0;
 }
 
 void PhysicsEngine::ResolveAllSweptCollisions(float dt)
@@ -111,7 +118,15 @@ void PhysicsEngine::UpdateAll(float deltaTime)
 	
 	for (auto object : physicsObjects)
 	{
-		object->UpdateVelocities(deltaTime);
+		if(object->GetShouldSimulate())
+			object->UpdateVelocities(deltaTime);
+	}
+
+	CheckAllCollision();
+	ResolveAllCollisions(deltaTime);
+
+	for (auto object : physicsObjects)
+	{
 		object->UpdatePositionsAndRotation(deltaTime);
 	}
 
@@ -123,13 +138,6 @@ void PhysicsEngine::UpdateAll(float deltaTime)
 	{
 		collisionTree3D->UpdateAllObjects();
 	}
-
-	CheckAllCollision();
-	ResolveAllCollisions(deltaTime);
-
-	/*for (auto object : physicsObjects)
-	{
-	}*/
 
 }
 
