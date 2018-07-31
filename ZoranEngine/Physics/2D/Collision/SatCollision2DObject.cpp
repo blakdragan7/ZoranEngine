@@ -9,10 +9,10 @@
 
 #include <algorithm>
 
-#define BOTTOM_LEFT 0
-#define TOP_LEFT 1
-#define BOTTOM_RIGHT 2
-#define TOP_RIGHT 3
+char SatCollision2DObject::EdgeFromNormal(Vec2D Normal)
+{
+	return 0;
+}
 
 bool SatCollision2DObject::TestAgainstOtherSquare(SatCollision2DObject * other, Collision2D * response)
 {
@@ -75,25 +75,19 @@ bool SatCollision2DObject::TestAgainstOtherSquare(SatCollision2DObject * other, 
 
 	Vec2D normal = axis[normal_index] * (isNegative ? -1.0f : 1.0f);
 
-	Vec2D CollisionPointA[2], CollisionPointB[2];
+	CollisionPoint CollisionPointA[2];
 
-	int numPoints = FindCollisionPoints(CollisionPointA, CollisionPointB, normal, other->derivedPoints);
-
-	CollisionPoint points[2];
+	int numPoints = FindCollisionPoints(CollisionPointA, normal, other->derivedPoints);
 
 	if (numPoints > 0)
 	{
-		points[0].normal = normal;
-		points[0].pos = CollisionPointA[0];
-		points[0].separation = penetration * (isNegative ? -1 : 1);;
-		response->AddCollisionPoint(points[0]);
+		CollisionPointA[0].separation = penetration * (isNegative ? -1 : 1);;
+		response->AddCollisionPoint(CollisionPointA[0]);
 	}
 	if (numPoints > 1)
 	{
-		points[1].normal = normal;
-		points[1].pos = CollisionPointA[1];
-		points[1].separation = penetration * (isNegative ? -1 : 1);;
-		response->AddCollisionPoint(points[1]);
+		CollisionPointA[1].separation = penetration * (isNegative ? -1 : 1);;
+		response->AddCollisionPoint(CollisionPointA[1]);
 	}
 
 	response->objects[0] = GetSceneObject();
@@ -103,6 +97,7 @@ bool SatCollision2DObject::TestAgainstOtherSquare(SatCollision2DObject * other, 
 	response->objectBounds[1] = other;
 	response->collidedObjects[0] = GetPhysicsObject();
 	response->collidedObjects[1] = other->GetPhysicsObject();
+	response->friction = sqrt(GetSceneObject()->GetPhysics()->GetFriction() * other->GetSceneObject()->GetPhysics()->GetFriction());
 
 	return true;
 }
@@ -189,25 +184,19 @@ bool SatCollision2DObject::TestAgainstOtherAABBSquare(AABBSquareCollisionObject 
 
 	Vec2D normal = axis[normal_index] * (isNegative ? -1.0f : 1.0f);
 	
-	Vec2D CollisionPointA[2], CollisionPointB[2];
+	CollisionPoint CollisionPointA[2];
 
-	int numPoints = FindCollisionPoints(CollisionPointA,CollisionPointB,normal, otherPoints);
-
-	CollisionPoint points[2];
+	int numPoints = FindCollisionPoints(CollisionPointA,normal, otherPoints);
 
 	if (numPoints > 0)
 	{
-		points[0].normal = normal;
-		points[0].pos = CollisionPointA[0];
-		points[0].separation = penetration * (isNegative ? -1 : 1);;
-		response->AddCollisionPoint(points[0]);
+		CollisionPointA[0].separation = penetration * (isNegative ? -1 : 1);;
+		response->AddCollisionPoint(CollisionPointA[0]);
 	}
 	if (numPoints > 1)
 	{
-		points[1].normal = normal;
-		points[1].pos = CollisionPointA[1];
-		points[1].separation = penetration * (isNegative ? -1 : 1);;
-		response->AddCollisionPoint(points[1]);
+		CollisionPointA[1].separation = penetration * (isNegative ? -1 : 1);;
+		response->AddCollisionPoint(CollisionPointA[1]);
 	}
 
 	response->objects[0] = GetSceneObject();
@@ -386,7 +375,7 @@ bool compare(const pp&i,const pp&j)
 	return std::get<0>(i) < std::get<0>(j);
 }
 
-int SatCollision2DObject::FindCollisionPoints(Vector2D CollisionPointA[2], Vector2D CollisionPointB[2], const Vector2D & normal, const Vector2D otherVertecies[4])
+int SatCollision2DObject::FindCollisionPoints(CollisionPoint CollisionPointA[2], const Vector2D & normal, const Vector2D otherVertecies[4])
 {
 	
 	float lowestPointA = std::numeric_limits<float>::infinity();
@@ -502,17 +491,16 @@ int SatCollision2DObject::FindCollisionPoints(Vector2D CollisionPointA[2], Vecto
 
 	int numCollisionPoints = 0;
 
-	if (lowestPointA < highestPointB)
+	static const float elipson = 0.1f;
+
+	if (lowestPointA < (highestPointB + elipson))
 	{
-		CollisionPointA[numCollisionPoints++] = A3;
+		CollisionPointA[numCollisionPoints++].pos = A3;
 	}
-	if (lowestPointA < highestPointA)
+	if (lowestPointA < (highestPointB + elipson))
 	{
-		CollisionPointA[numCollisionPoints++] = A4;
+		CollisionPointA[numCollisionPoints++].pos = A4;
 	}
-	
-	CollisionPointB[0] = B3;
-	CollisionPointB[1] = B4;
 	
 	return numCollisionPoints;
 }

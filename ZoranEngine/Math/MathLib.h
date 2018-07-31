@@ -37,5 +37,6 @@ public:
 	static int ClipRangeToLine(ClipedVertex outPoints[2], ClipedVertex inPoints[2], const Vector2D& lineNormal, float offset, char clipEdge);
 	static void ComputeIncidentEdge(ClipedVertex c[2], const Vector2D& h, const Vector2D& pos,const Matrix22& Rot, const Vector2D& normal);
 	static float Clamp(float value, float minv, float max);
+	static Vector2D MathLib::Clamp(Vector2D value, Vector2D minv, Vector2D maxv);
 };
 

@@ -29,6 +29,8 @@ public:
 
 	void MakeFullScreenQuad()override;
 
+	virtual void SetAlphaEnabled(bool enabled);
+
 	// data is alloced
 	virtual bool GetVertDataAsfloat(float** data, unsigned &amount)override;
 	virtual bool GetVertEdgeIndexes(unsigned** indexes, unsigned &amount)override;

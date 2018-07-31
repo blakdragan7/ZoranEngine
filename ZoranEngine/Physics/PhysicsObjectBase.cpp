@@ -28,7 +28,7 @@ PhysicsObjectBase::PhysicsObjectBase(SceneObject * object)
 	restitution = 0.9f;
 	isOnGround = false;
 	useSweptCollision = false;
-	calculatedFriction = sqrt(0.4);
+	calculatedFriction = sqrtf(0.4);
 	SetMass(200);
 }
 

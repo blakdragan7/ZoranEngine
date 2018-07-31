@@ -238,6 +238,7 @@ void QuadTreeCollisionBucket::CheckAllCollision(struct CollisionFrame2D& frame)
 				else
 				{
 					frame.RemoveCollisionForObjects(object->GetSceneObject(), collisionObjects[j]->GetSceneObject());
+					delete response;
 				}
 			}
 		}

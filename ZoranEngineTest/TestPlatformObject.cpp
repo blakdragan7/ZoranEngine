@@ -5,10 +5,14 @@
 #include <Rendering/RenderEngineBase.h>
 #include <Physics/2D/Collision/CollisionObject2DBase.h>
 #include <Physics/2D/PhysicsObject2DBase.h>
+#include <Physics/2D/Collision/AABBSquareCollisionObject.h>
 
 static StandardShader2D* shader = 0;
 TestPlatformObject::TestPlatformObject(std::string name) : TexturedSprite(name, "test.png", RenderDataType::TYPE_RGBA_32, RenderDataFormat::FORMAT_UNSIGNED_BYTE)
 {
+	collision = new AABBSquareCollisionObject(Vec2D(0, 0), Vec2D(2, 2), this);
+	collision->SetPhysicsObject(GetPhysics2D());
+
 	if (shader == 0)shader = new StandardShader2D();
 	SetShaderProgram(shader);
 	

@@ -171,8 +171,9 @@ Vector2D Vector2D::getAbs()const
 
 Vector2D Vector2D::getNormal()const
 {
-	float mag = magnitude();
-	return Vector2D(x/mag,y/mag);
+	Vector2D ret = *this;
+	ret.normalize();
+	return ret;
 }
 
 void Vector2D::clear()

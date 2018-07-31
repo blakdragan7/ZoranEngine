@@ -47,5 +47,7 @@ public:
 	virtual bool GetVertDataAsfloat(float** data, unsigned &amount) = 0;
 	virtual bool GetVertEdgeIndexes(unsigned** indexes, unsigned &amount) = 0;
 	virtual void MakeFullScreenQuad() = 0;
+
+	virtual void SetAlphaEnabled(bool enabled) = 0;
 };
 

@@ -126,7 +126,7 @@ Vector2D SceneObject2D::GetPosition()
 
 Vector2D SceneObject2D::GetScale()
 {
-	return scale;
+	return scale.getAbs();
 }
 
 Vector2D SceneObject2D::GetSize()

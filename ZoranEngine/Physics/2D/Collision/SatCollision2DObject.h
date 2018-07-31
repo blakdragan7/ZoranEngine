@@ -25,6 +25,8 @@ private:
 	float derivedRadius;
 
 private:
+	char EdgeFromNormal(Vec2D Normal);
+
 	bool TestAgainstOtherSquare(SatCollision2DObject* other, Collision2D *  response);
 	bool TestAgainstOtherTriagnle(SatCollision2DObject* other, Collision2D *  response);
 	bool TestAgainstOtherCircle(SatCollision2DObject* other, Collision2D *  response);
@@ -36,7 +38,7 @@ private:
 	bool SweepTestAgainstOtherAABBSquare(class AABBSquareCollisionObject* other, SweepCollision2D & response);
 
 	Vec2D ClosesPointOnSegment(const Vec2D& point, const Vec2D& minp, const Vec2D& maxp);
-	int FindCollisionPoints(Vector2D CollisionPointA[2], Vector2D CollisionPointB[2], const Vector2D& CollisionNormal, const Vector2D otherVertecies[4]);
+	int FindCollisionPoints(CollisionPoint CollisionPointA[2], const Vector2D& CollisionNormal, const Vector2D otherVertecies[4]);
 
 public:
 	SatCollision2DObject(SceneObject2D *object);

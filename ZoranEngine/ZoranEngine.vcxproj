@@ -54,6 +54,7 @@
     <ClCompile Include="OpenGL\OpenGLTexture.cpp" />
     <ClCompile Include="OpenGL\StandardShader.cpp" />
     <ClCompile Include="OpenGL\StandardShader2D.cpp" />
+    <ClCompile Include="Physics\2D\Collision\CircleCollision2DObject.cpp" />
     <ClCompile Include="Physics\2D\Collision\CollisionBucket2DBase.cpp" />
     <ClCompile Include="Physics\2D\Collision\CollisionObject2DBase.cpp" />
     <ClCompile Include="Physics\2D\Collision\Collision2D.cpp" />
@@ -127,6 +128,7 @@
     <ClInclude Include="OpenGL\OpenGLTexture.h" />
     <ClInclude Include="OpenGL\StandardShader.h" />
     <ClInclude Include="OpenGL\StandardShader2D.h" />
+    <ClInclude Include="Physics\2D\Collision\CircleCollision2DObject.h" />
     <ClInclude Include="Physics\2D\Collision\CollisionBucket2DBase.h" />
     <ClInclude Include="Physics\2D\Collision\CollisionFrame2D.h" />
     <ClInclude Include="Physics\2D\Collision\CollisionObject2DBase.h" />

@@ -43,7 +43,6 @@ void PhysicsEngine::ResolveAllStaticCollisions(float dt)
 
 	for (auto& collisionIter : collisionFrame2D.collisions)
 	{
-		std::cout << "Static Collision\n";
 		Collision2D* collision = collisionIter.second;
 
 		collision->PreUpdate(inv_dt,aV);

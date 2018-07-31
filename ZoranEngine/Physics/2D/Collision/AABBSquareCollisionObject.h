@@ -5,7 +5,7 @@
 
 #define SQUARE_COLLISION 4
 
-class AABBSquareCollisionObject : public CollisionObject2DBase
+class ZoranEngine_EXPORT AABBSquareCollisionObject : public CollisionObject2DBase
 {
 private:
 	Vector2D minPos;

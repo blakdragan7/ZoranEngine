@@ -94,8 +94,11 @@ void OpenGLRenderEngine::DrawAll()
 	for (auto iter : renderMap)
 	{
 		ShaderProgramBase* program = iter.first;
+		program->BindProgram();
 		for (SceneObject* object : iter.second)
 		{
+			program->SetupShaderFromSceneObject(object);
+
 			object->PreRender();
 			object->RenderScene();
 			object->PostRender();
@@ -150,7 +153,7 @@ void OpenGLRenderEngine::SetupScene(Vector3D center, Vector3D size)
 TextureBase * OpenGLRenderEngine::CreateTexture(const char * path, RenderDataType bufferType, RenderDataFormat bufferFormat)
 {
 	OpenGLTexture* texture = new OpenGLTexture(this,bufferType,bufferFormat);
-	texture->LoadFromPath("test.png");
+	texture->LoadFromPath(path);
 	return texture;
 }
 

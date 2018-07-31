@@ -234,7 +234,7 @@ void Collision2D::Update(Collision2D* other)
 
 	 // slow ... optimize later
 
-	int diff = collisionPoints.size() - points.size();
+	size_t diff = collisionPoints.size() - points.size();
 
 	if (diff > 0)
 	{

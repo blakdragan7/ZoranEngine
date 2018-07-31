@@ -24,12 +24,18 @@
     <ClCompile Include="TestPlatformObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TestCircleObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestSceneObject.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="TestPlatformObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TestCircleObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

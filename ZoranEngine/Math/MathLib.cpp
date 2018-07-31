@@ -99,7 +99,15 @@ void MathLib::ComputeIncidentEdge(ClipedVertex c[2], const Vector2D & h, const V
 	c[1].vertex = pos + Rot * c[1].vertex;
 }
 
-float MathLib::Clamp(float value, float minv, float max)
+float MathLib::Clamp(float value, float minv, float maxv)
 {
-	return max(minv,min(value,max));
+	return max(minv,min(value,maxv));
+}
+
+Vector2D MathLib::Clamp(Vector2D value, Vector2D minv, Vector2D maxv)
+{
+	value.x = Clamp(value.x, minv.x, maxv.x);
+	value.y = Clamp(value.y,minv.y,maxv.y);
+
+	return value;
 }

@@ -132,10 +132,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="TestCircleObject.cpp" />
     <ClCompile Include="TestPlatformObject.cpp" />
     <ClCompile Include="TestSceneObject.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="TestCircleObject.h" />
     <ClInclude Include="TestPlatformObject.h" />
     <ClInclude Include="TestSceneObject.h" />
   </ItemGroup>

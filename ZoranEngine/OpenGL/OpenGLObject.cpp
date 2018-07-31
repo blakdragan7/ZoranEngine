@@ -199,6 +199,21 @@ void OpenGLObject::MakeFullScreenQuad()
 	renderEngine->CheckErrors("MakeFullScreenQuad");
 }
 
+void OpenGLObject::SetAlphaEnabled(bool enabled)
+{
+	if (enabled)
+	{
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	}
+	else
+	{
+		glDisable(GL_BLEND);
+	}
+
+	renderEngine->CheckErrors("SetAlphaEnabled");
+}
+
 bool OpenGLObject::GetVertDataAsfloat(float ** data, unsigned & amount)
 {
 	switch (this->vertType)

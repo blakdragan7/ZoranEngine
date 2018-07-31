@@ -1,13 +1,17 @@
 #pragma once
 #include <Physics\2D\Collision\CollisionObject2DBase.h>
 
-#define b2D_2D_COLLISION 7
+#define CIRCLE_COLLISION 10
 
-class ZoranEngine_EXPORT b2DCollision2DObject : public CollisionObject2DBase
+class ZoranEngine_EXPORT CircleCollision2DObject : public CollisionObject2DBase
 {
+private:
+	float radius;
+	float scaledRadius;
+
 public:
-	b2DCollision2DObject(SceneObject2D *object);
-	~b2DCollision2DObject();
+	CircleCollision2DObject(float radius,SceneObject2D* sceneObject,CollisionDynamics cd);
+	~CircleCollision2DObject();
 
 	void SetBoundsBySceneObject()override;
 

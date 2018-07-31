@@ -76,11 +76,6 @@ void SceneObject::RenderScene()
 
 void SceneObject::PreRender()
 {
-	if (shaderProgram)
-	{
-		shaderProgram->BindProgram();
-		shaderProgram->SetupShaderFromSceneObject(this);
-	}
 }
 
 void SceneObject::Destroy()

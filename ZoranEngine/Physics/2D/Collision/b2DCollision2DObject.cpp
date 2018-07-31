@@ -7,6 +7,8 @@
 #include <Physics/2D/Collision/AABBSquareCollisionObject.h>
 #include <Physics/2D/PhysicsObject2DBase.h>
 
+#include <Physics/2D/Collision/CircleCollision2DObject.h>
+
 #define BOTTOM_LEFT 0
 #define TOP_LEFT 1
 #define BOTTOM_RIGHT 2
@@ -37,6 +39,11 @@ bool b2DCollision2DObject::CollidesWithNoCollision(CollisionObject2DBase * other
 
 bool b2DCollision2DObject::CollidesWith(CollisionObject2DBase * other, Collision2D * response)
 {
+	if (other->GetCollisionType() == CIRCLE_COLLISION)
+	{
+		return other->CollidesWith(this,response);
+	}
+
 	SceneObject2D* objectA = GetSceneObject();
 	SceneObject2D* objectB = other->GetSceneObject();
 
@@ -223,8 +230,6 @@ bool b2DCollision2DObject::CollidesWith(CollisionObject2DBase * other, Collision
 		response->collidedObjects[1] = other->GetPhysicsObject();
 		response->objectBounds[0] = this;
 		response->objectBounds[1] = other;
-		response->invRotationSnapshots[0] = objectA->GetInvRotationMatrix();
-		response->invRotationSnapshots[1] = objectB->GetInvRotationMatrix();
 		response->friction = sqrt(objectA->GetPhysics()->GetFriction() * objectB->GetPhysics()->GetFriction());
 	}
 
