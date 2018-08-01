@@ -11,5 +11,7 @@ public:
 	~OrthoCamera();
 
 	virtual MatrixF GetModel()override;
+	virtual void ScreenResized(float screenWidth, float screenHeight)override;
+	virtual void ScreenResized(Vec2D Size)override;
 };
 

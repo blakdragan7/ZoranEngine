@@ -15,6 +15,7 @@ public:
 
 	Vector2D(void);
 	Vector2D(float x_, float y_);
+	Vector2D(const class Vector2L& other);
 
 	~Vector2D(void);
 

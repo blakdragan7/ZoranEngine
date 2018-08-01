@@ -15,7 +15,7 @@ private:
 
 public:
 
-	WindowsWindow(RenderEngineBase* engine);
+	WindowsWindow(ZoranEngine* engine);
 	~WindowsWindow();
 
 	virtual bool MakeWindow(const char* title,int x, int y, int w, int h)override;

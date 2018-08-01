@@ -6,7 +6,7 @@
 
 static LRESULT CALLBACK wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-WindowsWindow::WindowsWindow(RenderEngineBase* engine) :  WindowBase(engine)
+WindowsWindow::WindowsWindow(ZoranEngine* engine) :  WindowBase(engine)
 {
 	hwnd = 0;
 	dc = 0;

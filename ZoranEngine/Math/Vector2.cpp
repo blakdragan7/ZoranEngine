@@ -6,6 +6,12 @@
 Vector2D::Vector2D(void) : x(0), y(0) { }
 Vector2D::Vector2D(float x_, float y_) :x(x_), y(y_) { }
 
+Vector2D::Vector2D(const Vector2L & other)
+{
+	this->x = other.x;
+	this->y = other.y;
+}
+
 Vector2D::~Vector2D(void) {}
 
 void Vector2D::Set(float x, float y)

@@ -51,6 +51,7 @@ public:
 	void KeyEvent(KeyEventType type,unsigned key);
 	void MouseEvent(MouseEventType,float value);
 	void MouseMove(float x,float y);
+	void ScreenResized(float width, float height);
 
 	void Setup2DScene(float centerx, float centery, float width, float height); // in meters
 	void Setup2DScene(Vector2D center, Vector2D size); // in meters

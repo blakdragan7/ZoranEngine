@@ -7,6 +7,11 @@
 class SceneObject;
 class ZoranEngine_EXPORT CameraBase
 {
+protected:
+	Vec2D screenSize;
+	Vec2D cameraExtents;
+	Vec2D halfCameraExtents;
+
 public:
 	CameraBase();
 	virtual ~CameraBase();
@@ -20,5 +25,8 @@ public:
 	virtual void Rotate(float rotation) = 0;
 	virtual void Rotate(Vec3D euler) = 0;
 	virtual void Rotate(Quaternion quat) = 0;
+
+	virtual void ScreenResized(float screenWidth, float screenHeight) = 0;
+	virtual void ScreenResized(Vec2D Size) = 0;
 };
 

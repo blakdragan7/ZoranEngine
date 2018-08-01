@@ -5,6 +5,7 @@
 #include <Physics/2D/Collision/b2DCollision2DObject.h>
 #include <Physics/2D/Collision/AABBSquareCollisionObject.h>
 #include <Math/MathLib.h>
+
 CircleCollision2DObject::CircleCollision2DObject(float radius, SceneObject2D* sceneObject, CollisionDynamics cd) : CollisionObject2DBase(sceneObject,cd,CIRCLE_COLLISION)
 {
 	this->radius = radius;

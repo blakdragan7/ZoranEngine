@@ -41,6 +41,7 @@ ZoranEngine::ZoranEngine()
 	logger = new ConsoleLogger();
 	logger->SetLogLevel(LogLevel_Default);
 	step = false;
+	camera = 0;
 }
 
 ZoranEngine::~ZoranEngine()
@@ -87,7 +88,7 @@ int ZoranEngine::MainLoop()
 			if (step)
 			{
 				step = false;
-				//deltaTime = 0.033;
+				//deltaTime = 0.033; 
 			}
 			statisticsClock.TakeClock();
 			if (physicsEngine)physicsEngine->UpdateAll(deltaTime);
@@ -126,7 +127,7 @@ bool ZoranEngine::Init()
 	Random::Init();
 	
 	mainRenderEngine = new OpenGLRenderEngine();
-	WindowsWindow* window = new WindowsWindow(mainRenderEngine);
+	WindowsWindow* window = new WindowsWindow(this);
 	window->MakeWindow("test", 0, 0, 1920, 1080);
 	mainRenderEngine->InitEngine(window->GetHandle());
 
@@ -140,6 +141,7 @@ void ZoranEngine::Setup2DScene(float centerx, float centery, float width, float 
 	physicsEngine->SetupFor2D(Vec2D(centerx, centery), Vec2D(width, height));
 	camera = new OrthoCamera("camera", width, height, 0);
 	camera->Translate(centerx, centery, 0);
+	camera->ScreenResized(mainWindow->GetSize());
 }
 
 void ZoranEngine::Setup2DScene(Vector2D center, Vector2D size)
@@ -171,6 +173,9 @@ void ZoranEngine::KeyEvent(KeyEventType type, unsigned key)
 				isPaused = !isPaused;
 				break;
 			}
+			case VK_ESCAPE:
+				shouldRun = false;
+				break;
 			case 'P':
 				if (physicsEngine)physicsEngine->GetCollisionBucketRoot()->PrintAllContents();
 				if (physicsEngine)physicsEngine->GetCollisionBucketRoot()->PrintAllCollisions();
@@ -192,6 +197,11 @@ void ZoranEngine::MouseEvent(MouseEventType, float value)
 
 void ZoranEngine::MouseMove(float x, float y)
 {
+}
+
+void ZoranEngine::ScreenResized(float width, float height)
+{
+	if(camera)camera->ScreenResized(width, height);
 }
 
 void ZoranEngine::AddTickableObject(TickableObject * object)

@@ -5,10 +5,12 @@
 	WindowBase is an abstract base class that defines functions that all windows should have
 */
 
+class ZoranEngine;
 class RenderEngineBase;
 class ZoranEngine_EXPORT WindowBase
 {
 protected:
+	ZoranEngine* engine;
 	RenderEngineBase* renderEngine;
 	WindowHandle windowHandle;
 	bool isFullScreen;
@@ -22,7 +24,7 @@ protected:
 	void Resize(Vec2L size);
 
 public:
-	WindowBase(RenderEngineBase* engine);
+	WindowBase(ZoranEngine* zoranEngine);
 	virtual ~WindowBase();
 
 	void SetPosition(Vec2L position);

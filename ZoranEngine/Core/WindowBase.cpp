@@ -3,9 +3,11 @@
 #include "WindowBase.h"
 #include "Rendering/RenderEngineBase.h"
 
-WindowBase::WindowBase(RenderEngineBase* engine)
+WindowBase::WindowBase(ZoranEngine* zoranEngine)
 {
-	this->renderEngine = engine;
+	this->engine = zoranEngine;
+	this->renderEngine = zoranEngine->GetRenderer();
+
 	isFullScreen = false;
 	isMaximized = false;
 	windowHandle = 0;
@@ -19,6 +21,7 @@ void WindowBase::Resize(Vec2L size)
 {
 	SetWindowSizeNoExecute(size.w,size.h);
 	renderEngine->Resize(size.w, size.h);
+	engine->ScreenResized(size.w, size.h);
 }
 
 void WindowBase::SetPosition(Vec2L position)
