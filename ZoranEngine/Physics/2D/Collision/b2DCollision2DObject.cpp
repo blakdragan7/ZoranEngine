@@ -37,11 +37,11 @@ bool b2DCollision2DObject::CollidesWithNoCollision(CollisionObject2DBase * other
 	return false;
 }
 
-bool b2DCollision2DObject::CollidesWith(CollisionObject2DBase * other, Collision2D * response)
+Collision2D* b2DCollision2DObject::CollidesWith(CollisionObject2DBase * other)
 {
 	if (other->GetCollisionType() == CIRCLE_COLLISION)
 	{
-		return other->CollidesWith(this,response);
+		return other->CollidesWith(this);
 	}
 
 	SceneObject2D* objectA = GetSceneObject();
@@ -203,6 +203,9 @@ bool b2DCollision2DObject::CollidesWith(CollisionObject2DBase * other, Collision
 	// Now clipPoints2 contains the clipping points.
 	// Due to roundoff, it is possible that clipping removes all points.
 
+	CollisionPoint points[2];
+
+	unsigned numPoints = 0;
 	for (int i = 0; i < 2; ++i)
 	{
 		float separation = frontNormal.dot(clipPoints2[i].vertex) - front;
@@ -218,22 +221,30 @@ bool b2DCollision2DObject::CollidesWith(CollisionObject2DBase * other, Collision
 			point.edges = clipPoints2[i].edge;
 			if (axis == FACE_B_X || axis == FACE_B_Y)
 				point.edges.Flip();
-			response->AddCollisionPoint(point);
+
+			points[numPoints++] = point;
 		}
 	}
-	if (response->GetNumCollisionPoints() > 0)
+	if (numPoints > 0)
 	{
-		response->collided = true;
-		response->objects[0] = objectA;
-		response->objects[1] = objectB;
-		response->collidedObjects[0] = this->GetPhysicsObject();
-		response->collidedObjects[1] = other->GetPhysicsObject();
-		response->objectBounds[0] = this;
-		response->objectBounds[1] = other;
-		response->friction = sqrt(objectA->GetPhysics()->GetFriction() * objectB->GetPhysics()->GetFriction());
-	}
+		Collision2D* collision = new Collision2D();
 
-	return response->collided;
+		collision->collided = true;
+		collision->objects[0] = objectA;
+		collision->objects[1] = objectB;
+		collision->collidedObjects[0] = this->GetPhysicsObject();
+		collision->collidedObjects[1] = other->GetPhysicsObject();
+		collision->objectBounds[0] = this;
+		collision->objectBounds[1] = other;
+		for (unsigned i = 0; i < numPoints; i++)
+		{
+			collision->AddCollisionPoint(points[i]);
+		}
+		collision->friction = sqrt(objectA->GetPhysics()->GetFriction() * objectB->GetPhysics()->GetFriction());
+
+		return collision;
+	}
+	return 0;
 }
 
 Vector2D b2DCollision2DObject::GetClosestPointTo(Vector2D pos)

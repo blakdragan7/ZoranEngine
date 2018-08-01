@@ -47,7 +47,7 @@ void AABBSquareCollisionObject::SetBoundsBySceneObject()
 	UpdateDebugObject(verts,4);
 }
 
-bool AABBSquareCollisionObject::CollidesWith(CollisionObject2DBase* other, Collision2D* response)
+Collision2D* AABBSquareCollisionObject::CollidesWith(CollisionObject2DBase* other)
 {
 	Vec2D otherMin;
 	Vec2D otherMax;
@@ -93,7 +93,6 @@ bool AABBSquareCollisionObject::CollidesWith(CollisionObject2DBase* other, Colli
 		// box does not intersect face. So boxes don't intersect at all.
 		if (distances[i] < 0.0f)
 		{
-			response->collided = false;
 			return false;
 		}
 		// face of least intersection depth. That's our candidate.
@@ -106,27 +105,23 @@ bool AABBSquareCollisionObject::CollidesWith(CollisionObject2DBase* other, Colli
 			FillCollisionPoints(contactPointsA, otherMin, otherMax);
 
 			contactPointsA[0].normal = faces[i];
-			/*contactPointsA[0].penetrationDepth = distances[i];
-			contactPointsA[0].penetration = -contactPointsA[0].normal * distances[i];*/
-
-			
 			contactPointsA[1].normal = contactPointsA[0].normal;
-			/*contactPointsA[1].penetrationDepth = contactPointsA[0].penetrationDepth;
-			contactPointsA[1].penetration = contactPointsA[0].penetration;*/
 		}
 	}
 
-	response->collidedObjects[0] = GetPhysicsObject();
-	response->collidedObjects[1] = other->GetPhysicsObject();
-	response->objectBounds[0] = this;
-	response->objectBounds[1] = other;
-	response->collided = true;
-	response->objects[0] = GetSceneObject();
-	response->objects[1] = other->GetSceneObject();
-	response->AddCollisionPoint(contactPointsA[0]);
-	response->AddCollisionPoint(contactPointsA[1]);
+	Collision2D* collision = new Collision2D();
 
-	return true;
+	collision->collidedObjects[0] = GetPhysicsObject();
+	collision->collidedObjects[1] = other->GetPhysicsObject();
+	collision->objectBounds[0] = this;
+	collision->objectBounds[1] = other;
+	collision->collided = true;
+	collision->objects[0] = GetSceneObject();
+	collision->objects[1] = other->GetSceneObject();
+	collision->AddCollisionPoint(contactPointsA[0]);
+	collision->AddCollisionPoint(contactPointsA[1]);
+
+	return collision;
 }
 
 Vector2D AABBSquareCollisionObject::GetClosestPointTo(Vector2D pos)
@@ -260,8 +255,7 @@ bool AABBSquareCollisionObject::FastSweepCollidesWith(Vector2D newPosition)
 	sweepCollisionSquare->minPos.y = minPositiony - size.y;
 	sweepCollisionSquare->maxPos.y = maxPositiony + size.y;
 
-	static Collision2D *unused = new Collision2D();
-	return pEngine->GetCollisionBucketRootFor2D()->CheckObjectAgainstStaic(sweepCollisionSquare, unused);
+	return pEngine->GetCollisionBucketRootFor2D()->CheckObjectAgainstStaic(sweepCollisionSquare);
 }
 
 

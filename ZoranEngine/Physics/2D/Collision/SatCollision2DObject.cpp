@@ -14,7 +14,7 @@ char SatCollision2DObject::EdgeFromNormal(Vec2D Normal)
 	return 0;
 }
 
-bool SatCollision2DObject::TestAgainstOtherSquare(SatCollision2DObject * other, Collision2D * response)
+Collision2D* SatCollision2DObject::TestAgainstOtherSquare(SatCollision2DObject * other)
 {
 	float cosa = cosf(-GetSceneObject()->GetRotationRad());
 	float sina = sinf(-GetSceneObject()->GetRotationRad());
@@ -78,41 +78,44 @@ bool SatCollision2DObject::TestAgainstOtherSquare(SatCollision2DObject * other, 
 	CollisionPoint CollisionPointA[2];
 
 	int numPoints = FindCollisionPoints(CollisionPointA, normal, other->derivedPoints);
+	if (numPoints < 1) return 0;
+
+	Collision2D* collision = new Collision2D();
 
 	if (numPoints > 0)
 	{
 		CollisionPointA[0].separation = penetration * (isNegative ? -1 : 1);;
-		response->AddCollisionPoint(CollisionPointA[0]);
+		collision->AddCollisionPoint(CollisionPointA[0]);
 	}
 	if (numPoints > 1)
 	{
 		CollisionPointA[1].separation = penetration * (isNegative ? -1 : 1);;
-		response->AddCollisionPoint(CollisionPointA[1]);
+		collision->AddCollisionPoint(CollisionPointA[1]);
 	}
 
-	response->objects[0] = GetSceneObject();
-	response->objects[1] = other->GetSceneObject();
-	response->collided = true;
-	response->objectBounds[0] = this;
-	response->objectBounds[1] = other;
-	response->collidedObjects[0] = GetPhysicsObject();
-	response->collidedObjects[1] = other->GetPhysicsObject();
-	response->friction = sqrt(GetSceneObject()->GetPhysics()->GetFriction() * other->GetSceneObject()->GetPhysics()->GetFriction());
+	collision->objects[0] = GetSceneObject();
+	collision->objects[1] = other->GetSceneObject();
+	collision->collided = true;
+	collision->objectBounds[0] = this;
+	collision->objectBounds[1] = other;
+	collision->collidedObjects[0] = GetPhysicsObject();
+	collision->collidedObjects[1] = other->GetPhysicsObject();
+	collision->friction = sqrt(GetSceneObject()->GetPhysics()->GetFriction() * other->GetSceneObject()->GetPhysics()->GetFriction());
 
-	return true;
+	return collision;
 }
 
-bool SatCollision2DObject::TestAgainstOtherTriagnle(SatCollision2DObject * other, Collision2D * response)
+Collision2D* SatCollision2DObject::TestAgainstOtherTriagnle(SatCollision2DObject * other)
 {
 	return false;
 }
 
-bool SatCollision2DObject::TestAgainstOtherCircle(SatCollision2DObject * other, Collision2D * response)
+Collision2D* SatCollision2DObject::TestAgainstOtherCircle(SatCollision2DObject * other)
 {
 	return false;
 }
 
-bool SatCollision2DObject::TestAgainstOtherAABBSquare(AABBSquareCollisionObject * other, Collision2D * response)
+Collision2D* SatCollision2DObject::TestAgainstOtherAABBSquare(AABBSquareCollisionObject * other)
 {
 	float cosa = cosf(-GetSceneObject()->GetRotationRad());
 	float sina = sinf(-GetSceneObject()->GetRotationRad());
@@ -187,28 +190,31 @@ bool SatCollision2DObject::TestAgainstOtherAABBSquare(AABBSquareCollisionObject 
 	CollisionPoint CollisionPointA[2];
 
 	int numPoints = FindCollisionPoints(CollisionPointA,normal, otherPoints);
+	if (numPoints < 1) return 0;
+
+	Collision2D* collision = new Collision2D();
 
 	if (numPoints > 0)
 	{
 		CollisionPointA[0].separation = penetration * (isNegative ? -1 : 1);;
-		response->AddCollisionPoint(CollisionPointA[0]);
+		collision->AddCollisionPoint(CollisionPointA[0]);
 	}
 	if (numPoints > 1)
 	{
 		CollisionPointA[1].separation = penetration * (isNegative ? -1 : 1);;
-		response->AddCollisionPoint(CollisionPointA[1]);
+		collision->AddCollisionPoint(CollisionPointA[1]);
 	}
 
-	response->objects[0] = GetSceneObject();
-	response->objects[1] = other->GetSceneObject();
-	response->collided = true;
-	response->objectBounds[0] = this;
-	response->objectBounds[1] = other;
-	response->collidedObjects[0] = GetPhysicsObject();
-	response->collidedObjects[1] = other->GetPhysicsObject();
-	response->friction = sqrt(GetSceneObject()->GetPhysics()->GetFriction() * other->GetSceneObject()->GetPhysics()->GetFriction());
+	collision->objects[0] = GetSceneObject();
+	collision->objects[1] = other->GetSceneObject();
+	collision->collided = true;
+	collision->objectBounds[0] = this;
+	collision->objectBounds[1] = other;
+	collision->collidedObjects[0] = GetPhysicsObject();
+	collision->collidedObjects[1] = other->GetPhysicsObject();
+	collision->friction = sqrt(GetSceneObject()->GetPhysics()->GetFriction() * other->GetSceneObject()->GetPhysics()->GetFriction());
 
-	return true;
+	return collision;
 }
 
 bool SatCollision2DObject::SweepTestAgainstOtherSquare(SatCollision2DObject* other, SweepCollision2D & response)
@@ -639,13 +645,13 @@ Vector2D SatCollision2DObject::GetSize()
 	return GetSceneObject()->GetScale();
 }
 
-bool SatCollision2DObject::CollidesWith(CollisionObject2DBase * other, Collision2D * response)
+Collision2D* SatCollision2DObject::CollidesWith(CollisionObject2DBase * other)
 {
 	switch (other->GetCollisionType())
 	{
 	case SQUARE_COLLISION:
 	{
-		return TestAgainstOtherAABBSquare((AABBSquareCollisionObject*)other, response);
+		return TestAgainstOtherAABBSquare((AABBSquareCollisionObject*)other);
 	}
 		break;
 	case SAT_2D_COLLISION:
@@ -654,11 +660,11 @@ bool SatCollision2DObject::CollidesWith(CollisionObject2DBase * other, Collision
 		switch (satOther->polygonType)
 		{
 		case SATPT_Triangle:
-			return TestAgainstOtherTriagnle(satOther, response);
+			return TestAgainstOtherTriagnle(satOther);
 		case SATPT_Square:
-			return TestAgainstOtherSquare(satOther, response);
+			return TestAgainstOtherSquare(satOther);
 		case SATPT_Circle:
-			return TestAgainstOtherCircle(satOther, response);
+			return TestAgainstOtherCircle(satOther);
 		case SATPT_Invalid:
 		default:
 			return false;

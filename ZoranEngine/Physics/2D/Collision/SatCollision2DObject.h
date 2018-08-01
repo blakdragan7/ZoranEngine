@@ -27,10 +27,10 @@ private:
 private:
 	char EdgeFromNormal(Vec2D Normal);
 
-	bool TestAgainstOtherSquare(SatCollision2DObject* other, Collision2D *  response);
-	bool TestAgainstOtherTriagnle(SatCollision2DObject* other, Collision2D *  response);
-	bool TestAgainstOtherCircle(SatCollision2DObject* other, Collision2D *  response);
-	bool TestAgainstOtherAABBSquare(class AABBSquareCollisionObject* other, Collision2D *  response);
+	Collision2D* TestAgainstOtherSquare(SatCollision2DObject* other);
+	Collision2D* TestAgainstOtherTriagnle(SatCollision2DObject* other);
+	Collision2D* TestAgainstOtherCircle(SatCollision2DObject* other);
+	Collision2D* TestAgainstOtherAABBSquare(class AABBSquareCollisionObject* other);
 
 	bool SweepTestAgainstOtherSquare(SatCollision2DObject* other, SweepCollision2D & response);
 	bool SweepTestAgainstOtherTriagnle(SatCollision2DObject* other, SweepCollision2D & response);
@@ -51,7 +51,7 @@ public:
 	void SetBoundsBySceneObject()override;
 
 	virtual Vector2D GetSize()override;
-	virtual bool CollidesWith(CollisionObject2DBase* other, Collision2D * response)override;
+	virtual Collision2D* CollidesWith(CollisionObject2DBase* other)override;
 	virtual Vector2D GetClosestPointTo(Vector2D pos)override;
 
 	virtual bool SweepCollidesWith(CollisionObject2DBase* other, Vector2D newPosition, SweepCollision2D & response)override;

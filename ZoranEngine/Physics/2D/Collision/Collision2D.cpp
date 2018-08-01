@@ -6,50 +6,47 @@
 #include <Math/MathLib.h>
 #include <OpenGL/DebugShader2D.h>
 
-void Collision2D::AddDebugObject(Vec2D pos)
-{
-	if (shouldRender == false)return;
-	DebugSceneObject2D* debugObject = new DebugSceneObject2D("collision point");
-	debugObject->SetColor(Vec3D(0.0,1.0,0.0));
-
-	debugObject->GetRenderedObject()->MakeFullScreenQuad();
-	debugObject->SetScale(5, 5);
-	debugObject->SetPosition(pos);
-
-	zEngine->AddSceneObject(debugObject);
-
-	debugObjects.push_back(debugObject);
-}
-
 void Collision2D::AddCollisionPoint(CollisionPoint & point)
 {
-	collisionPoints.push_back(point);
-	AddDebugObject(point.pos);
+	assert(numCollisionPoints < 2);
+
+	if (shouldRender)
+	{
+		DebugSceneObject2D* db = new DebugSceneObject2D("Debug Collision Point");
+		db->GetRenderedObject()->MakeFullScreenQuad();
+		db->SetScale(5, 5);
+		db->SetColor(Vec3D(0.0, 1.0, 0.0));
+		db->SetPosition(point.pos);
+
+		debugObjects[numCollisionPoints] = db;
+		zEngine->AddSceneObject(db);
+	}
+	collisionPoints[numCollisionPoints++] =  point;
 }
 
 Collision2D::Collision2D()
 {
+	numCollisionPoints = 0;
 	collided = false;
 	wasUpdated = false;
+	shouldRender = false;
 	collidedObjects[0] = 0;
 	collidedObjects[1] = 0;
+	debugObjects[0] = 0;
+	debugObjects[1] = 0;
 	objectBounds[0] = 0;
 	objectBounds[1] = 0;
 	friction = 0;
 	ID = sID++;
 	frame = 0;
-	shouldRender = false;
 }
 
 Collision2D::~Collision2D()
 {
-	for(auto debugObject : debugObjects)
-	{
-		debugObject->Destroy();
-		debugObject = 0;
-	}
 
-	debugObjects.clear();
+	if (debugObjects[0])debugObjects[0]->Destroy();
+	if (debugObjects[1])debugObjects[1]->Destroy();
+	
 }
 
 Collision2D* Collision2D::Reflection()
@@ -76,12 +73,19 @@ void Collision2D::PreUpdate(float inv_dt, Accumulated2DVelocities& aV)
 	if (shouldRender == false)
 	{
 		shouldRender = true;
-		for (auto point : collisionPoints)
+		
+		for (unsigned i = 0; i < numCollisionPoints; i++)
 		{
-			AddDebugObject(point.pos);
+			DebugSceneObject2D* db = new DebugSceneObject2D("Debug Collision Point");
+			db->GetRenderedObject()->MakeFullScreenQuad();
+			db->SetScale(5, 5);
+			db->SetColor(Vec3D(0.0, 1.0, 0.0));
+			db->SetPosition(collisionPoints[i].pos);
+
+			debugObjects[i] = db;
+			zEngine->AddSceneObject(db);
 		}
 	}
-
 	static const float k_allowedPenetration = 0.1f;
 	static float k_biasFactor = 0.2f;
 
@@ -195,17 +199,17 @@ void Collision2D::UpdateForces(Accumulated2DVelocities& aV)
 
 void Collision2D::Update(Collision2D* other)
 {
-	std::vector<CollisionPoint>& points = other->collisionPoints;
+	CollisionPoint* points = other->collisionPoints;
 
 	wasUpdated = true;
 
 	CollisionPoint mergedContacts[2];
 
-	for (int i = 0; i < points.size(); ++i)
+	for (unsigned i = 0; i < other->numCollisionPoints; ++i)
 	{
 		CollisionPoint& cNew = points[i];
 		int k = -1;
-		for (int j = 0; j < collisionPoints.size(); ++j)
+		for (unsigned j = 0; j < numCollisionPoints; ++j)
 		{
 			CollisionPoint& cOld = collisionPoints[j];
 			if (cNew.edges.value == cOld.edges.value)
@@ -230,34 +234,31 @@ void Collision2D::Update(Collision2D* other)
 		{
 			mergedContacts[i] = points[i];
 		}
-	}
 
-	 // slow ... optimize later
-
-	size_t diff = collisionPoints.size() - points.size();
-
-	if (diff > 0)
-	{
-		for (int i = 0; i < diff; i++)
+		if (numCollisionPoints > other->numCollisionPoints)
 		{
-			auto object = debugObjects.back();
-			object->Destroy();
-			debugObjects.pop_back();
-
-			collisionPoints.pop_back();
+			for (unsigned i = other->numCollisionPoints; i < numCollisionPoints; i++)
+			{
+				debugObjects[i]->Destroy();
+				debugObjects[i] = 0;
+			}
 		}
-	}
+		else if (numCollisionPoints < other->numCollisionPoints)
+		{
+			for (unsigned i = numCollisionPoints; i < other->numCollisionPoints; i++)
+			{
+				DebugSceneObject2D* db = new DebugSceneObject2D("Debug Collision Point");
+				db->GetRenderedObject()->MakeFullScreenQuad();
+				db->SetScale(5, 5);
+				db->SetColor(Vec3D(0.0, 1.0, 0.0));
+				db->SetPosition(collisionPoints[i].pos);
 
-	for (int i = 0; i < points.size(); ++i)
-	{
-		if (i >= collisionPoints.size())
-			collisionPoints.push_back(mergedContacts[i]);
-		else
-			collisionPoints[i] = mergedContacts[i];
-		if (i >= debugObjects.size())
-			AddDebugObject(mergedContacts[i].pos);
-		else
-			debugObjects[i]->SetPosition(mergedContacts[i].pos);
+				debugObjects[i] = db;
+				zEngine->AddSceneObject(db);
+			}
+		}
+
+		numCollisionPoints = other->numCollisionPoints;
 	}
 }
 

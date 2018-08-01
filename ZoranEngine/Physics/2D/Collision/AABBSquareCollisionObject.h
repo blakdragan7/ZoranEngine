@@ -30,7 +30,7 @@ public:
 
 	virtual Vector2D GetSize()override;
 	virtual bool CollidesWithNoCollision(CollisionObject2DBase* other)override;
-	virtual bool CollidesWith(CollisionObject2DBase* other, Collision2D* response)override;
+	virtual  Collision2D* CollidesWith(CollisionObject2DBase* other)override;
 	virtual Vector2D GetClosestPointTo(Vector2D pos)override;
 
 	virtual bool SweepCollidesWith(CollisionObject2DBase* other, Vector2D newPosition, SweepCollision2D & response)override;

@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "CircleCollision2DObject.h"
 #include <Core/2D/SceneObject2D.h>
+#include <Physics/2D/PhysicsObject2DBase.h>
 #include <Physics/2D/Collision/b2DCollision2DObject.h>
 #include <Physics/2D/Collision/AABBSquareCollisionObject.h>
-
 #include <Math/MathLib.h>
 CircleCollision2DObject::CircleCollision2DObject(float radius, SceneObject2D* sceneObject, CollisionDynamics cd) : CollisionObject2DBase(sceneObject,cd,CIRCLE_COLLISION)
 {
@@ -30,7 +30,7 @@ bool CircleCollision2DObject::CollidesWithNoCollision(CollisionObject2DBase * ot
 	return false;
 }
 
-bool CircleCollision2DObject::CollidesWith(CollisionObject2DBase * other, Collision2D * response)
+Collision2D* CircleCollision2DObject::CollidesWith(CollisionObject2DBase * other)
 {
 	if (other->GetCollisionType() == SQUARE_COLLISION)
 	{
@@ -40,26 +40,30 @@ bool CircleCollision2DObject::CollidesWith(CollisionObject2DBase * other, Collis
 
 		float nearestX = max(otherPos.x - otherSize.x, min(pos.x, otherPos.x + otherSize.x));
 		float nearestY = max(otherPos.y - otherSize.y, min(pos.y, otherPos.y + otherSize.y));
+
 		float DeltaX = pos.x - nearestX;
 		float DeltaY = pos.y - nearestY;
 
 		if ((DeltaX * DeltaX + DeltaY * DeltaY) < (scaledRadius * scaledRadius))
 		{
-			response->collided = true;
-			response->collidedObjects[0] = GetPhysicsObject();
-			response->collidedObjects[1] = other->GetPhysicsObject();
-			response->objects[0] = GetSceneObject();
-			response->objects[1] = other->GetSceneObject();
-			response->objectBounds[0] = this;
-			response->objectBounds[1] = other;
+			Collision2D* collision = new Collision2D();
+
+			collision->collided = true;
+			collision->collidedObjects[0] = GetPhysicsObject();
+			collision->collidedObjects[1] = other->GetPhysicsObject();
+			collision->objects[0] = GetSceneObject();
+			collision->objects[1] = other->GetSceneObject();
+			collision->objectBounds[0] = this;
+			collision->objectBounds[1] = other;
+			collision->friction = sqrt(GetSceneObject()->GetPhysics()->GetFriction() * other->GetSceneObject()->GetPhysics()->GetFriction());
 
 			CollisionPoint cp;
 			cp.normal = -Vec2D(DeltaX,DeltaY).getNormal();
 			cp.pos = Vec2D(nearestX,nearestY);
 			cp.separation = Vec2D(DeltaX, DeltaY).magnitude() - scaledRadius;
 
-			response->AddCollisionPoint(cp);
-			return true;
+			collision->AddCollisionPoint(cp);
+			return collision;
 		}
 	}
 	else if (other->GetCollisionType() == b2D_2D_COLLISION)
@@ -86,13 +90,16 @@ bool CircleCollision2DObject::CollidesWith(CollisionObject2DBase * other, Collis
 
 		if (magSQR <= (scaledRadius * scaledRadius))
 		{
-			response->collided = true;
-			response->collidedObjects[0] = GetPhysicsObject();
-			response->collidedObjects[1] = other->GetPhysicsObject();
-			response->objects[0] = GetSceneObject();
-			response->objects[1] = other->GetSceneObject();
-			response->objectBounds[0] = this;
-			response->objectBounds[1] = other;
+			Collision2D* collision = new Collision2D();
+
+			collision->collided = true;
+			collision->collidedObjects[0] = GetPhysicsObject();
+			collision->collidedObjects[1] = other->GetPhysicsObject();
+			collision->objects[0] = GetSceneObject();
+			collision->objects[1] = other->GetSceneObject();
+			collision->objectBounds[0] = this;
+			collision->objectBounds[1] = other;
+			collision->friction = sqrt(GetSceneObject()->GetPhysics()->GetFriction() * other->GetSceneObject()->GetPhysics()->GetFriction());
 
 			float mag = sqrtf(magSQR);
 
@@ -100,9 +107,9 @@ bool CircleCollision2DObject::CollidesWith(CollisionObject2DBase * other, Collis
 			cp.normal = distance.getNormal();
 			cp.pos = unrotatedVector;
 			cp.separation = (mag - scaledRadius);
-			response->AddCollisionPoint(cp);
+			collision->AddCollisionPoint(cp);
 
-			return true;
+			return collision;
 		}
 	}
 	else if (other->GetCollisionType() == CIRCLE_COLLISION)
@@ -115,13 +122,16 @@ bool CircleCollision2DObject::CollidesWith(CollisionObject2DBase * other, Collis
 		
 		if (distanceSqr <= combinedRadius * combinedRadius)
 		{
-			response->collided = true;
-			response->collidedObjects[0] = GetPhysicsObject();
-			response->collidedObjects[1] = other->GetPhysicsObject();
-			response->objects[0] = GetSceneObject();
-			response->objects[1] = other->GetSceneObject();
-			response->objectBounds[0] = this;
-			response->objectBounds[1] = other;
+			Collision2D* collision = new Collision2D();
+
+			collision->collided = true;
+			collision->collidedObjects[0] = GetPhysicsObject();
+			collision->collidedObjects[1] = other->GetPhysicsObject();
+			collision->objects[0] = GetSceneObject();
+			collision->objects[1] = other->GetSceneObject();
+			collision->objectBounds[0] = this;
+			collision->objectBounds[1] = other;
+			collision->friction = sqrt(GetSceneObject()->GetPhysics()->GetFriction() * other->GetSceneObject()->GetPhysics()->GetFriction());
 
 			CollisionPoint cp;
 			float mag = sqrtf(distanceSqr);
@@ -129,13 +139,13 @@ bool CircleCollision2DObject::CollidesWith(CollisionObject2DBase * other, Collis
 			cp.pos = GetScenePos() + (cp.normal * scaledRadius);
 			cp.separation = mag- combinedRadius;
 
-			response->AddCollisionPoint(cp);
+			collision->AddCollisionPoint(cp);
 
-			return true;
+			return collision;
 		}
 	}
 
-	return false;
+	return 0;
 }
 
 Vector2D CircleCollision2DObject::GetClosestPointTo(Vector2D pos)

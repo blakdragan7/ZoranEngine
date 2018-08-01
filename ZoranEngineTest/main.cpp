@@ -36,25 +36,25 @@ int main(int argc, char* argv[])
 
 	Vec2D gravity[2] = { Vec2D(0,600),Vec2D(0,-600) };
 
-	//for (int i = 0; i < 1; i++)
-	//{
-	//	TestSceneObject* test = new TestSceneObject(std::string("dynamic ") + std::to_string(i));
-	//	test->SetScale(40.0f, -40.0f);
-	//	Vec2D pos(0, -300.0f + ((float)i * 120));
-	//	test->SetPosition(pos);
-	//	test->GetPhysics()->StartPhysicsSim();
+	for (int i = 0; i < 1; i++)
+	{
+		TestSceneObject* test = new TestSceneObject(std::string("dynamic ") + std::to_string(i));
+		test->SetScale(40.0f, -40.0f);
+		Vec2D pos(0, -300.0f + ((float)i * 120));
+		test->SetPosition(pos);
+		test->GetPhysics()->StartPhysicsSim();
 
-	//	pos = -pos;
-	//	pos.normalize();
+		pos = -pos;
+		pos.normalize();
 
-	//	test->GetPhysics2D()->SetGravity(gravity[0]);
-	//	//test->GetPhysics2D()->SetGravity(Vec2D(-500,0));
-	//	//test->GetPhysics2D()->SetGravity(pos * 100);
-	//	//test->GetPhysics2D()->ApplyForce(Vec2D(100,800));
-	//	test->GetPhysics2D()->SetSweptCollision(false);
-	//	//test->SetRotation(1.00);
-	//	zEngine->AddSceneObject(test);
-	//}
+		test->GetPhysics2D()->SetGravity(gravity[0]);
+		//test->GetPhysics2D()->SetGravity(Vec2D(-500,0));
+		//test->GetPhysics2D()->SetGravity(pos * 100);
+		//test->GetPhysics2D()->ApplyForce(Vec2D(100,800));
+		test->GetPhysics2D()->SetSweptCollision(false);
+		test->SetRotation(1.00);
+		zEngine->AddSceneObject(test);
+	}
 
 	for (int i = 0; i < 1; i++)
 	{
@@ -67,7 +67,7 @@ int main(int argc, char* argv[])
 		test->GetPhysics2D()->SetGravity(gravity[1]);
 		test->GetPhysics2D()->SetSweptCollision(false);
 		//test->SetRotation(1.00);
-		//test->GetPhysics2D()->SetAngularVeloctiy(1);
+		//test->GetPhysics2D()->SetAngularVeloctiy(10);
 		zEngine->AddSceneObject(test);
 	}
 	

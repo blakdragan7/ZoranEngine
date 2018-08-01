@@ -132,10 +132,16 @@ bool OpenGLRenderEngine::RemoveSceneObject(SceneObject* object)
 	if (renderMap.find(program) != renderMap.end())
 	{
 		std::vector<SceneObject*>& objects = renderMap[program];
-		auto iter = std::find(objects.begin(), objects.end(), object);
+		auto& iter = std::find(objects.begin(), objects.end(), object);
 		if (iter != objects.end())
 		{
 			objects.erase(iter);
+
+			if (objects.size() == 0)
+			{
+				renderMap.erase(program);
+			}
+
 			return true;
 		}
 	}

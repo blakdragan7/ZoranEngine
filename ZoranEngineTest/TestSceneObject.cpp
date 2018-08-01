@@ -7,7 +7,7 @@
 #include <Rendering/TextureBase.h>
 #include <Physics/2D/PhysicsObject2DBase.h>
 #include <Physics/2D/Collision/b2DCollision2DObject.h>
-static StandardShader2D* shader = 0;
+
 TestSceneObject::TestSceneObject(std::string name) : TexturedSprite(name)
 {
 	b2DCollision2DObject* sat = new b2DCollision2DObject(this);
@@ -24,7 +24,7 @@ TestSceneObject::TestSceneObject(std::string name) : TexturedSprite(name)
 	//sat->SetAsSquare(points,size);
 
 	//willEverTick = true;
-	if (shader == 0)shader = new StandardShader2D();
+	static ShaderProgramBase* shader = new StandardShader2D();
 	SetShaderProgram(shader);
 	
 	SetTexture("test.png", RenderDataType::TYPE_RGBA_32, RenderDataFormat::FORMAT_UNSIGNED_BYTE);

@@ -49,7 +49,7 @@ struct ClipedVertex
 	ClipedVertex() { edge.value = 0; }
 };
 
-struct  CollisionPoint
+struct  ZoranEngine_EXPORT CollisionPoint
 {
 	Vector2D pos;
 	Vector2D normal;
@@ -77,7 +77,7 @@ struct  CollisionPoint
 	}
 };
 
-struct Accumulated2DVelocities
+struct ZoranEngine_EXPORT Accumulated2DVelocities
 {
 	Vec2D velocity[256];
 	float angularVelocity[256];
@@ -92,20 +92,15 @@ struct Accumulated2DVelocities
 class ZoranEngine_EXPORT Collision2D
 {
 public:
-#pragma warning(push)
-#pragma warning(disable:4251)
-	std::vector<class DebugSceneObject2D*> debugObjects;
-	std::vector<CollisionPoint> collisionPoints;
+	class DebugSceneObject2D* debugObjects[2];
+	CollisionPoint collisionPoints[2];
 
 	unsigned aIndex;
 	unsigned bIndex;
 
-#pragma warning(pop)
+	unsigned numCollisionPoints;
 
 	bool shouldRender;
-
-private:
-	void AddDebugObject(Vec2D pos);
 
 public:
 
@@ -132,7 +127,7 @@ public:
 	void PreUpdate(float inv_dt, Accumulated2DVelocities& aV);
 	void UpdateForces(Accumulated2DVelocities& aV);
 	void Update(Collision2D* other);
-	size_t GetNumCollisionPoints() { return collisionPoints.size(); }
+	size_t GetNumCollisionPoints() { return numCollisionPoints; }
 };
 
 struct ZoranEngine_EXPORT Collision2DKey
