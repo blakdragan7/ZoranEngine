@@ -141,6 +141,8 @@ unsigned OpenGLObject::GLPrimitveFromPrimitiveType(PrimitiveType type) const
 	case PT_Line_Loop:
 		return GL_LINE_LOOP;
 	}
+
+	return 0;
 }
 
 void OpenGLObject::RenderObject()

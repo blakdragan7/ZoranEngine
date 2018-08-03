@@ -8,7 +8,7 @@ int CollisionBucket2DBase::FindObject(CollisionObject2DBase * object)
 	std::vector<CollisionObject2DBase*>::iterator iter = std::find(collisionObjects.begin(), collisionObjects.end(), object);
 	if (iter != collisionObjects.end())
 	{
-		return iter - collisionObjects.begin();
+		return static_cast<int>(iter - collisionObjects.begin());
 	}
 	else return -1;
 }

@@ -36,9 +36,9 @@ public:
 	virtual void SetupScene(Vector3D center, Vector3D size)override;
 
 	virtual TextureBase* CreateTexture(const char* path, RenderDataType bufferType, RenderDataFormat bufferFormat)override;
-	virtual TextureBase* CreateTexture(void* data, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2L size)override;
+	virtual TextureBase* CreateTexture(void* data, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2I size)override;
 	virtual RenderedObjectBase* CreateRenderedObject()override;
-	virtual bool CreateFrameBuffer(FrameBufferBase** outBuffer, TextureBase** outTexture, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2L size)override;
+	virtual bool CreateFrameBuffer(FrameBufferBase** outBuffer, TextureBase** outTexture, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2I size)override;
 	virtual ShaderProgramBase* CreateShaderProgram(const char* vertex, const char* fragment);
 
 	virtual void SetLineWidth(float width);

@@ -196,17 +196,17 @@ static LRESULT CALLBACK wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 		if (uMsg == WM_SIZE)
 		{
 
-			long width = LOWORD(lParam);
-			long height = HIWORD(lParam);
+			int width = LOWORD(lParam);
+			int height = HIWORD(lParam);
 
-			pThis->Resize(Vec2L(width, height));
+			pThis->Resize(Vec2I(width, height));
 			
 		}
 		if (uMsg == WM_MOVE)
 		{
 
-			long x = LOWORD(lParam);
-			long y = HIWORD(lParam);
+			int x = LOWORD(lParam);
+			int y = HIWORD(lParam);
 
 			pThis->SetWindowPosNoExecute(x, y);
 			

@@ -165,7 +165,7 @@ TextureBase * OpenGLRenderEngine::CreateTexture(const char * path, RenderDataTyp
 	return texture;
 }
 
-TextureBase * OpenGLRenderEngine::CreateTexture(void * data, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2L size)
+TextureBase * OpenGLRenderEngine::CreateTexture(void * data, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2I size)
 {
 	return nullptr;
 }
@@ -176,7 +176,7 @@ RenderedObjectBase * OpenGLRenderEngine::CreateRenderedObject()
 	return object;
 }
 
-bool OpenGLRenderEngine::CreateFrameBuffer(FrameBufferBase ** outBuffer, TextureBase ** outTexture, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2L size)
+bool OpenGLRenderEngine::CreateFrameBuffer(FrameBufferBase ** outBuffer, TextureBase ** outTexture, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2I size)
 {
 	return false;
 }
