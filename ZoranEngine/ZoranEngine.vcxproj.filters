@@ -1,0 +1,491 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ZoranEngine">
+      <UniqueIdentifier>{a69a893d-a817-463c-b6e7-374b7219562b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\Windows">
+      <UniqueIdentifier>{397f6fd4-2c7d-4c2c-8757-3eb050e90446}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\Physics">
+      <UniqueIdentifier>{30e7e209-5444-415e-a4bd-2a8f9ae862c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\Physics\2D">
+      <UniqueIdentifier>{5f84134e-3e51-490f-a0af-b439bfb08f62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\Physics\2D\Collision">
+      <UniqueIdentifier>{1c0fca7d-870c-4f4e-898a-4a6d36d1b3f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\Physics\3D">
+      <UniqueIdentifier>{26367d0d-c4df-4b28-bee2-1849d9556afb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\Physics\3D\Collision">
+      <UniqueIdentifier>{641e60cf-8b79-4f2e-b99a-ffdcac5550ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\Physics\Collision">
+      <UniqueIdentifier>{2090041e-0301-4e13-8ea9-42f588a36f20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\Core">
+      <UniqueIdentifier>{e56548e2-b514-4f86-b1b7-cd007730e3c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\Core\2D">
+      <UniqueIdentifier>{00acf636-d99f-44c3-bacc-ff447db98a84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\Core\3D">
+      <UniqueIdentifier>{a206a3f9-f253-4ed5-b8d2-29ff476fd865}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\Core\Events">
+      <UniqueIdentifier>{b2baf18f-3f65-4a08-a728-cdcb0f6d5b40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\Math">
+      <UniqueIdentifier>{5e014ac5-db1b-468b-b1c8-b65d6c696676}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\OpenGL">
+      <UniqueIdentifier>{4ffd9042-1758-4784-935c-1b356149662e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\Rendering">
+      <UniqueIdentifier>{d0a1a5aa-69ee-4aef-9105-f4872e713cee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\ThirdParty\loadong">
+      <UniqueIdentifier>{dc4f80bc-174c-4c35-a5c0-ab9b8bd64349}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\ThirdParty">
+      <UniqueIdentifier>{60b4b17d-9fa4-4124-ba7e-c1941d11ecf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\Utils">
+      <UniqueIdentifier>{e7d409d2-a687-46ec-8538-84babab395ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\Shaders\3D">
+      <UniqueIdentifier>{814c1995-200e-48bb-9f0d-b40fa28e886e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\Shaders">
+      <UniqueIdentifier>{44599598-4b39-46d8-abd1-1acf6193900a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\Shaders\2D">
+      <UniqueIdentifier>{aa194a0a-51c9-4821-89db-534c76fb7769}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>ZoranEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\WindowsThread.cpp">
+      <Filter>ZoranEngine\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\WindowsWindow.cpp">
+      <Filter>ZoranEngine\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\PhysicsEngine.cpp">
+      <Filter>ZoranEngine\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\PhysicsObjectBase.cpp">
+      <Filter>ZoranEngine\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\2D\PhysicsObject2DBase.cpp">
+      <Filter>ZoranEngine\Physics\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\2D\Collision\CollisionBucket2DBase.cpp">
+      <Filter>ZoranEngine\Physics\2D\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\2D\Collision\CollisionObject2DBase.cpp">
+      <Filter>ZoranEngine\Physics\2D\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\2D\Collision\QuadTreeCollision.cpp">
+      <Filter>ZoranEngine\Physics\2D\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\2D\Collision\QuadTreeCollisionBucket.cpp">
+      <Filter>ZoranEngine\Physics\2D\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\3D\PhysicsObject3DBase.cpp">
+      <Filter>ZoranEngine\Physics\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\3D\Collision\CollisionBucket3DBase.cpp">
+      <Filter>ZoranEngine\Physics\3D\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\3D\Collision\CollisionObject3DBase.cpp">
+      <Filter>ZoranEngine\Physics\3D\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\3D\Collision\SphereCollisionObject.cpp">
+      <Filter>ZoranEngine\Physics\3D\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\Collision\CollisionBucketBase.cpp">
+      <Filter>ZoranEngine\Physics\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\Collision\CollisionObjectBase.cpp">
+      <Filter>ZoranEngine\Physics\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\CameraBase.cpp">
+      <Filter>ZoranEngine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\CommonTypes.cpp">
+      <Filter>ZoranEngine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\SceneObject.cpp">
+      <Filter>ZoranEngine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\ThreadBase.cpp">
+      <Filter>ZoranEngine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\WindowBase.cpp">
+      <Filter>ZoranEngine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\ZoranEngine.cpp">
+      <Filter>ZoranEngine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\2D\Camera2D.cpp">
+      <Filter>ZoranEngine\Core\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\2D\OrthoCamera.cpp">
+      <Filter>ZoranEngine\Core\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\2D\SceneObject2D.cpp">
+      <Filter>ZoranEngine\Core\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\2D\TexturedSprite.cpp">
+      <Filter>ZoranEngine\Core\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\3D\Camera3D.cpp">
+      <Filter>ZoranEngine\Core\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\3D\SceneObject3D.cpp">
+      <Filter>ZoranEngine\Core\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Events\EventBase.cpp">
+      <Filter>ZoranEngine\Core\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Events\EventDispatcher.cpp">
+      <Filter>ZoranEngine\Core\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\MathHelper.cpp">
+      <Filter>ZoranEngine\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\MathLib.cpp">
+      <Filter>ZoranEngine\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Quaternion.cpp">
+      <Filter>ZoranEngine\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Vector2.cpp">
+      <Filter>ZoranEngine\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Vector3.cpp">
+      <Filter>ZoranEngine\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGL\OpenGLObject.cpp">
+      <Filter>ZoranEngine\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGL\OpenGLRenderEngine.cpp">
+      <Filter>ZoranEngine\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGL\OpenGLShaderProgramBase.cpp">
+      <Filter>ZoranEngine\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGL\OpenGLTexture.cpp">
+      <Filter>ZoranEngine\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGL\StandardShader.cpp">
+      <Filter>ZoranEngine\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGL\StandardShader2D.cpp">
+      <Filter>ZoranEngine\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\FrameBufferBase.cpp">
+      <Filter>ZoranEngine\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\RenderedObjectBase.cpp">
+      <Filter>ZoranEngine\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\RenderEngineBase.cpp">
+      <Filter>ZoranEngine\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\ShaderProgramBase.cpp">
+      <Filter>ZoranEngine\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\TextureBase.cpp">
+      <Filter>ZoranEngine\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\TextureManager.cpp">
+      <Filter>ZoranEngine\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\loadong\lodepng.cpp">
+      <Filter>ZoranEngine\ThirdParty\loadong</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\ConsoleLogger.cpp">
+      <Filter>ZoranEngine\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\HighPrecisionClock.cpp">
+      <Filter>ZoranEngine\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\LoggerBase.cpp">
+      <Filter>ZoranEngine\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\Random.cpp">
+      <Filter>ZoranEngine\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\3D\Collision\SATCollision3DObject.cpp">
+      <Filter>ZoranEngine\Physics\3D\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\2D\Collision\AABBSquareCollisionObject.cpp">
+      <Filter>ZoranEngine\Physics\2D\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\3D\Collision\AABBoxCollisionObject.cpp">
+      <Filter>ZoranEngine\Physics\3D\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\2D\Collision\Collision2D.cpp">
+      <Filter>ZoranEngine\Physics\2D\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGL\DebugShader2D.cpp">
+      <Filter>ZoranEngine\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\2D\DebugSceneObject2D.cpp">
+      <Filter>ZoranEngine\Core\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\2D\Collision\b2DCollision2DObject.cpp">
+      <Filter>ZoranEngine\Physics\2D\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\2D\Collision\SatCollision2DObject.cpp">
+      <Filter>ZoranEngine\Physics\2D\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\2D\Collision\CircleCollision2DObject.cpp">
+      <Filter>ZoranEngine\Physics\2D\Collision</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="resource.h">
+      <Filter>ZoranEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>ZoranEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Version.h">
+      <Filter>ZoranEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\WindowsThread.h">
+      <Filter>ZoranEngine\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\WindowsWindow.h">
+      <Filter>ZoranEngine\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\PhysicsEngine.h">
+      <Filter>ZoranEngine\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\PhysicsObjectBase.h">
+      <Filter>ZoranEngine\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\2D\PhysicsObject2DBase.h">
+      <Filter>ZoranEngine\Physics\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\2D\Collision\CollisionBucket2DBase.h">
+      <Filter>ZoranEngine\Physics\2D\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\2D\Collision\CollisionObject2DBase.h">
+      <Filter>ZoranEngine\Physics\2D\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\2D\Collision\QuadTreeCollision.h">
+      <Filter>ZoranEngine\Physics\2D\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\2D\Collision\QuadTreeCollisionBucket.h">
+      <Filter>ZoranEngine\Physics\2D\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\3D\PhysicsObject3DBase.h">
+      <Filter>ZoranEngine\Physics\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\3D\Collision\CollisionBucket3DBase.h">
+      <Filter>ZoranEngine\Physics\3D\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\3D\Collision\CollisionObject3DBase.h">
+      <Filter>ZoranEngine\Physics\3D\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\3D\Collision\SphereCollisionObject.h">
+      <Filter>ZoranEngine\Physics\3D\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\Collision\CollisionBucketBase.h">
+      <Filter>ZoranEngine\Physics\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\Collision\CollisionObjectBase.h">
+      <Filter>ZoranEngine\Physics\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\CameraBase.h">
+      <Filter>ZoranEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\CommomTypes.h">
+      <Filter>ZoranEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PlatformTypes.h">
+      <Filter>ZoranEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\SceneObject.h">
+      <Filter>ZoranEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ThreadBase.h">
+      <Filter>ZoranEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\TickableObject.h">
+      <Filter>ZoranEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\WindowBase.h">
+      <Filter>ZoranEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ZoranEngine.h">
+      <Filter>ZoranEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\2D\Camera2D.h">
+      <Filter>ZoranEngine\Core\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\2D\OrthoCamera.h">
+      <Filter>ZoranEngine\Core\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\2D\SceneObject2D.h">
+      <Filter>ZoranEngine\Core\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\2D\TexturedSprite.h">
+      <Filter>ZoranEngine\Core\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\3D\Camera3D.h">
+      <Filter>ZoranEngine\Core\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\3D\SceneObject3D.h">
+      <Filter>ZoranEngine\Core\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Events\EventBase.h">
+      <Filter>ZoranEngine\Core\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Events\EventDispatcher.h">
+      <Filter>ZoranEngine\Core\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\MathHelpers.h">
+      <Filter>ZoranEngine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\MathLib.h">
+      <Filter>ZoranEngine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Matrix.hpp">
+      <Filter>ZoranEngine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Quaternion.h">
+      <Filter>ZoranEngine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Vector2.h">
+      <Filter>ZoranEngine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Vector3.h">
+      <Filter>ZoranEngine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGL\OpenGLObject.h">
+      <Filter>ZoranEngine\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGL\OpenGLRenderEngine.h">
+      <Filter>ZoranEngine\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGL\OpenGLShaderProgramBase.h">
+      <Filter>ZoranEngine\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGL\OpenGLTexture.h">
+      <Filter>ZoranEngine\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGL\StandardShader.h">
+      <Filter>ZoranEngine\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGL\StandardShader2D.h">
+      <Filter>ZoranEngine\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\FrameBufferBase.h">
+      <Filter>ZoranEngine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\RenderedObjectBase.h">
+      <Filter>ZoranEngine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\RenderEngineBase.h">
+      <Filter>ZoranEngine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\RenderTypes.h">
+      <Filter>ZoranEngine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\ShaderProgramBase.h">
+      <Filter>ZoranEngine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\TextureBase.h">
+      <Filter>ZoranEngine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\TextureManager.h">
+      <Filter>ZoranEngine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\loadong\lodepng.h">
+      <Filter>ZoranEngine\ThirdParty\loadong</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\ConsoleLogger.h">
+      <Filter>ZoranEngine\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\HighPrecisionClock.h">
+      <Filter>ZoranEngine\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\LoggerBase.h">
+      <Filter>ZoranEngine\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\Random.h">
+      <Filter>ZoranEngine\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\VectorAddons.hpp">
+      <Filter>ZoranEngine\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\3D\Collision\SATCollision3DObject.h">
+      <Filter>ZoranEngine\Physics\3D\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\2D\Collision\AABBSquareCollisionObject.h">
+      <Filter>ZoranEngine\Physics\2D\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\3D\Collision\AABBoxCollisionObject.h">
+      <Filter>ZoranEngine\Physics\3D\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\2D\Collision\CollisionFrame2D.h">
+      <Filter>ZoranEngine\Physics\2D\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Matrix22.h">
+      <Filter>ZoranEngine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\2D\Collision\Collision2D.h">
+      <Filter>ZoranEngine\Physics\2D\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGL\DebugShader2D.h">
+      <Filter>ZoranEngine\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\2D\DebugSceneObject2D.h">
+      <Filter>ZoranEngine\Core\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\2D\Collision\b2DCollision2DObject.h">
+      <Filter>ZoranEngine\Physics\2D\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\2D\Collision\SatCollision2DObject.h">
+      <Filter>ZoranEngine\Physics\2D\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\2D\Collision\CircleCollision2DObject.h">
+      <Filter>ZoranEngine\Physics\2D\Collision</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ZoranEngine.rc">
+      <Filter>ZoranEngine</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\3D\standard.frag">
+      <Filter>ZoranEngine\Shaders\3D</Filter>
+    </None>
+    <None Include="Shaders\3D\standard.vert">
+      <Filter>ZoranEngine\Shaders\3D</Filter>
+    </None>
+    <None Include="Shaders\2D\standard.frag">
+      <Filter>ZoranEngine\Shaders\2D</Filter>
+    </None>
+    <None Include="Shaders\2D\standard.vert">
+      <Filter>ZoranEngine\Shaders\2D</Filter>
+    </None>
+    <None Include="..\README.md" />
+    <None Include="Shaders\2D\standard_debug.frag">
+      <Filter>ZoranEngine\Shaders\2D</Filter>
+    </None>
+    <None Include="Shaders\2D\standard_debug.vert">
+      <Filter>ZoranEngine\Shaders\2D</Filter>
+    </None>
+  </ItemGroup>
+</Project>

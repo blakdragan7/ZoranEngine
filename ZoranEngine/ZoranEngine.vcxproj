@@ -1,0 +1,299 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\README.md" />
+    <None Include="Shaders\2D\standard.frag" />
+    <None Include="Shaders\2D\standard.vert" />
+    <None Include="Shaders\2D\standard_debug.frag" />
+    <None Include="Shaders\2D\standard_debug.vert" />
+    <None Include="Shaders\3D\standard.frag" />
+    <None Include="Shaders\3D\standard.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Core\2D\Camera2D.cpp" />
+    <ClCompile Include="Core\2D\DebugSceneObject2D.cpp" />
+    <ClCompile Include="Core\2D\OrthoCamera.cpp" />
+    <ClCompile Include="Core\2D\SceneObject2D.cpp" />
+    <ClCompile Include="Core\2D\TexturedSprite.cpp" />
+    <ClCompile Include="Core\3D\Camera3D.cpp" />
+    <ClCompile Include="Core\3D\SceneObject3D.cpp" />
+    <ClCompile Include="Core\CameraBase.cpp" />
+    <ClCompile Include="Core\CommonTypes.cpp" />
+    <ClCompile Include="Core\Events\EventBase.cpp" />
+    <ClCompile Include="Core\Events\EventDispatcher.cpp" />
+    <ClCompile Include="Core\SceneObject.cpp" />
+    <ClCompile Include="Core\ThreadBase.cpp" />
+    <ClCompile Include="Core\WindowBase.cpp" />
+    <ClCompile Include="Core\ZoranEngine.cpp" />
+    <ClCompile Include="Math\MathHelper.cpp" />
+    <ClCompile Include="Math\MathLib.cpp" />
+    <ClCompile Include="Math\Quaternion.cpp" />
+    <ClCompile Include="Math\Vector2.cpp" />
+    <ClCompile Include="Math\Vector3.cpp" />
+    <ClCompile Include="OpenGL\DebugShader2D.cpp" />
+    <ClCompile Include="OpenGL\OpenGLObject.cpp" />
+    <ClCompile Include="OpenGL\OpenGLRenderEngine.cpp" />
+    <ClCompile Include="OpenGL\OpenGLShaderProgramBase.cpp" />
+    <ClCompile Include="OpenGL\OpenGLTexture.cpp" />
+    <ClCompile Include="OpenGL\StandardShader.cpp" />
+    <ClCompile Include="OpenGL\StandardShader2D.cpp" />
+    <ClCompile Include="Physics\2D\Collision\CircleCollision2DObject.cpp" />
+    <ClCompile Include="Physics\2D\Collision\CollisionBucket2DBase.cpp" />
+    <ClCompile Include="Physics\2D\Collision\CollisionObject2DBase.cpp" />
+    <ClCompile Include="Physics\2D\Collision\Collision2D.cpp" />
+    <ClCompile Include="Physics\2D\Collision\QuadTreeCollision.cpp" />
+    <ClCompile Include="Physics\2D\Collision\QuadTreeCollisionBucket.cpp" />
+    <ClCompile Include="Physics\2D\Collision\AABBSquareCollisionObject.cpp" />
+    <ClCompile Include="Physics\2D\Collision\b2DCollision2DObject.cpp" />
+    <ClCompile Include="Physics\2D\Collision\SatCollision2DObject.cpp" />
+    <ClCompile Include="Physics\2D\PhysicsObject2DBase.cpp" />
+    <ClCompile Include="Physics\3D\Collision\AABBoxCollisionObject.cpp" />
+    <ClCompile Include="Physics\3D\Collision\CollisionBucket3DBase.cpp" />
+    <ClCompile Include="Physics\3D\Collision\CollisionObject3DBase.cpp" />
+    <ClCompile Include="Physics\3D\Collision\SATCollision3DObject.cpp" />
+    <ClCompile Include="Physics\3D\Collision\SphereCollisionObject.cpp" />
+    <ClCompile Include="Physics\3D\PhysicsObject3DBase.cpp" />
+    <ClCompile Include="Physics\Collision\CollisionBucketBase.cpp" />
+    <ClCompile Include="Physics\Collision\CollisionObjectBase.cpp" />
+    <ClCompile Include="Physics\PhysicsEngine.cpp" />
+    <ClCompile Include="Physics\PhysicsObjectBase.cpp" />
+    <ClCompile Include="Rendering\FrameBufferBase.cpp" />
+    <ClCompile Include="Rendering\RenderedObjectBase.cpp" />
+    <ClCompile Include="Rendering\RenderEngineBase.cpp" />
+    <ClCompile Include="Rendering\ShaderProgramBase.cpp" />
+    <ClCompile Include="Rendering\TextureBase.cpp" />
+    <ClCompile Include="Rendering\TextureManager.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\loadong\lodepng.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Utils\ConsoleLogger.cpp" />
+    <ClCompile Include="Utils\HighPrecisionClock.cpp" />
+    <ClCompile Include="Utils\LoggerBase.cpp" />
+    <ClCompile Include="Utils\Random.cpp" />
+    <ClCompile Include="Windows\WindowsThread.cpp" />
+    <ClCompile Include="Windows\WindowsWindow.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Core\2D\Camera2D.h" />
+    <ClInclude Include="Core\2D\DebugSceneObject2D.h" />
+    <ClInclude Include="Core\2D\OrthoCamera.h" />
+    <ClInclude Include="Core\2D\SceneObject2D.h" />
+    <ClInclude Include="Core\2D\TexturedSprite.h" />
+    <ClInclude Include="Core\3D\Camera3D.h" />
+    <ClInclude Include="Core\3D\SceneObject3D.h" />
+    <ClInclude Include="Core\CameraBase.h" />
+    <ClInclude Include="Core\CommomTypes.h" />
+    <ClInclude Include="Core\Events\EventBase.h" />
+    <ClInclude Include="Core\Events\EventDispatcher.h" />
+    <ClInclude Include="Core\PlatformTypes.h" />
+    <ClInclude Include="Core\SceneObject.h" />
+    <ClInclude Include="Core\ThreadBase.h" />
+    <ClInclude Include="Core\TickableObject.h" />
+    <ClInclude Include="Core\WindowBase.h" />
+    <ClInclude Include="Core\ZoranEngine.h" />
+    <ClInclude Include="Math\MathHelpers.h" />
+    <ClInclude Include="Math\MathLib.h" />
+    <ClInclude Include="Math\Matrix.hpp" />
+    <ClInclude Include="Math\Matrix22.h" />
+    <ClInclude Include="Math\Quaternion.h" />
+    <ClInclude Include="Math\Vector2.h" />
+    <ClInclude Include="Math\Vector3.h" />
+    <ClInclude Include="OpenGL\DebugShader2D.h" />
+    <ClInclude Include="OpenGL\OpenGLObject.h" />
+    <ClInclude Include="OpenGL\OpenGLRenderEngine.h" />
+    <ClInclude Include="OpenGL\OpenGLShaderProgramBase.h" />
+    <ClInclude Include="OpenGL\OpenGLTexture.h" />
+    <ClInclude Include="OpenGL\StandardShader.h" />
+    <ClInclude Include="OpenGL\StandardShader2D.h" />
+    <ClInclude Include="Physics\2D\Collision\CircleCollision2DObject.h" />
+    <ClInclude Include="Physics\2D\Collision\CollisionBucket2DBase.h" />
+    <ClInclude Include="Physics\2D\Collision\CollisionFrame2D.h" />
+    <ClInclude Include="Physics\2D\Collision\CollisionObject2DBase.h" />
+    <ClInclude Include="Physics\2D\Collision\Collision2D.h" />
+    <ClInclude Include="Physics\2D\Collision\QuadTreeCollision.h" />
+    <ClInclude Include="Physics\2D\Collision\QuadTreeCollisionBucket.h" />
+    <ClInclude Include="Physics\2D\Collision\AABBSquareCollisionObject.h" />
+    <ClInclude Include="Physics\2D\Collision\b2DCollision2DObject.h" />
+    <ClInclude Include="Physics\2D\Collision\SatCollision2DObject.h" />
+    <ClInclude Include="Physics\2D\PhysicsObject2DBase.h" />
+    <ClInclude Include="Physics\3D\Collision\AABBoxCollisionObject.h" />
+    <ClInclude Include="Physics\3D\Collision\CollisionBucket3DBase.h" />
+    <ClInclude Include="Physics\3D\Collision\CollisionObject3DBase.h" />
+    <ClInclude Include="Physics\3D\Collision\SATCollision3DObject.h" />
+    <ClInclude Include="Physics\3D\Collision\SphereCollisionObject.h" />
+    <ClInclude Include="Physics\3D\PhysicsObject3DBase.h" />
+    <ClInclude Include="Physics\Collision\CollisionBucketBase.h" />
+    <ClInclude Include="Physics\Collision\CollisionObjectBase.h" />
+    <ClInclude Include="Physics\PhysicsEngine.h" />
+    <ClInclude Include="Physics\PhysicsObjectBase.h" />
+    <ClInclude Include="Rendering\FrameBufferBase.h" />
+    <ClInclude Include="Rendering\RenderedObjectBase.h" />
+    <ClInclude Include="Rendering\RenderEngineBase.h" />
+    <ClInclude Include="Rendering\RenderTypes.h" />
+    <ClInclude Include="Rendering\ShaderProgramBase.h" />
+    <ClInclude Include="Rendering\TextureBase.h" />
+    <ClInclude Include="Rendering\TextureManager.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="ThirdParty\loadong\lodepng.h" />
+    <ClInclude Include="Utils\ConsoleLogger.h" />
+    <ClInclude Include="Utils\HighPrecisionClock.h" />
+    <ClInclude Include="Utils\LoggerBase.h" />
+    <ClInclude Include="Utils\Random.h" />
+    <ClInclude Include="Utils\VectorAddons.hpp" />
+    <ClInclude Include="Version.h" />
+    <ClInclude Include="Windows\WindowsThread.h" />
+    <ClInclude Include="Windows\WindowsWindow.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ZoranEngine.rc" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{8FBCD129-6520-4BA5-B9D8-372599490DB9}</ProjectGuid>
+    <RootNamespace>ZoranEngine</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <ProjectName>ZoranEngine</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(ProjectDir);GL;$(IncludePath)</IncludePath>
+    <LibraryPath>libs;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>$(ProjectDir);GL;$(IncludePath)</IncludePath>
+    <LibraryPath>libs;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(ProjectDir);GL;$(IncludePath)</IncludePath>
+    <LibraryPath>libs;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(ProjectDir);GL;$(IncludePath)</IncludePath>
+    <LibraryPath>libs;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>BUILD_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>OpenGL32.lib;GLU32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PreprocessorDefinitions>BUILD_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>OpenGL32.lib;GLU32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>BUILD_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>OpenGL32.lib;GLU32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>BUILD_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>OpenGL32.lib;GLU32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
