@@ -26,7 +26,10 @@ public:
 	virtual void Rotate(Vec3D euler) = 0;
 	virtual void Rotate(Quaternion quat) = 0;
 
+	virtual Vec2D GetCameraViewingExtentsAtZ(float z) = 0;
 	virtual void ScreenResized(float screenWidth, float screenHeight) = 0;
 	virtual void ScreenResized(Vec2D Size) = 0;
+
+	
 };
 

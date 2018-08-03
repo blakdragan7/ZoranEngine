@@ -8,7 +8,7 @@
 DebugShader2D::DebugShader2D(DebugSceneObject2D* object)
 {
 	debugObject = object;
-	AddShaderFromSource("Shaders/2D/standard.vert", GL_VERTEX_SHADER);
+	AddShaderFromSource("Shaders/2D/standard_debug.vert", GL_VERTEX_SHADER);
 	AddShaderFromSource("Shaders/2D/standard_debug.frag", GL_FRAGMENT_SHADER);
 	Link();
 }

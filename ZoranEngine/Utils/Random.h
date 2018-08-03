@@ -10,5 +10,6 @@ public:
 	static int GetIntInRange(int low, int hi);
 	static long GetLongInRange(long low, long hi);
 	static unsigned GetUnsignedInRange(unsigned low, unsigned hi);
+	static bool GetBoolWithChance(float percent); // percent from 0 -> 1
 };
 

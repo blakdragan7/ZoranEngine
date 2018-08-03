@@ -32,3 +32,8 @@ unsigned Random::GetUnsignedInRange(unsigned low, unsigned hi)
 {
 	return low + static_cast <unsigned> (rand()) / (static_cast <unsigned> (RAND_MAX / (hi - low)));
 }
+
+bool Random::GetBoolWithChance(float percent)
+{
+	return GetfloatInRange(0,1000000) < (percent * 1000000);
+}

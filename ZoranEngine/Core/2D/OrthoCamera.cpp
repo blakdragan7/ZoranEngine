@@ -34,3 +34,8 @@ void OrthoCamera::ScreenResized(Vec2D Size)
 	float aspect = Size.y / Size.x;
 	orthoModel = MatrixF::GLOrthoMatrix(-halfCameraExtents.x, -halfCameraExtents.y*aspect, halfCameraExtents.x, halfCameraExtents.y*aspect, -1, 10);
 }
+
+Vec2D OrthoCamera::GetCameraViewingExtentsAtZ(float z)
+{
+	return Vec2D(halfCameraExtents.x, halfCameraExtents.y * screenSize.y / screenSize.x);
+}

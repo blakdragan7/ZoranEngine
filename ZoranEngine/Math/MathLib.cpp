@@ -107,7 +107,7 @@ float MathLib::Clamp(float value, float minv, float maxv)
 Vector2D MathLib::Clamp(Vector2D value, Vector2D minv, Vector2D maxv)
 {
 	value.x = Clamp(value.x, minv.x, maxv.x);
-	value.y = Clamp(value.y,minv.y,maxv.y);
+	value.y = Clamp(value.y, minv.y, maxv.y);
 
 	return value;
 }

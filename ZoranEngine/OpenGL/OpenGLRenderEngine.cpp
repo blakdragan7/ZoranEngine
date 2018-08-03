@@ -69,6 +69,8 @@ void OpenGLRenderEngine::InitEngine(WindowHandle handle)
 		std::cerr << "Could not Init Glew ! " << res << std::endl;
 		exit(0);
 	}
+
+	//glEnable(GL_DEPTH_TEST);
 #endif
 }
 

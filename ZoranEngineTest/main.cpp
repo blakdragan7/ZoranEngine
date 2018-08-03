@@ -36,61 +36,65 @@ int main(int argc, char* argv[])
 
 	Vec2D gravity[2] = { Vec2D(0,600),Vec2D(0,-600) };
 
-	/*for (int i = 0; i < 1; i++)
+	TestSceneObject* sqr = 0;
+
+	for (int i = 0; i < 1; i++)
 	{
 		TestSceneObject* test = new TestSceneObject(std::string("dynamic ") + std::to_string(i));
-		test->SetScale(40.0f, -40.0f);
-		Vec2D pos(0, -300.0f + ((float)i * 120));
+		test->SetScale(20.0f, -20.0f);
+		Vec2D pos(0, -100 + ((float)i * 60));
 		test->SetPosition(pos);
 		test->GetPhysics()->StartPhysicsSim();
 
 		pos = -pos;
 		pos.normalize();
 
-		test->GetPhysics2D()->SetGravity(gravity[0]);
+		//test->GetPhysics2D()->SetGravity(gravity[0]);
 		//test->GetPhysics2D()->SetGravity(Vec2D(-500,0));
 		//test->GetPhysics2D()->SetGravity(pos * 100);
 		//test->GetPhysics2D()->ApplyForce(Vec2D(100,800));
 		test->GetPhysics2D()->SetSweptCollision(false);
 		test->SetRotation(1.00);
 		zEngine->AddSceneObject(test);
-	}*/
+
+		sqr = test;
+	}
 
 	for (int i = 0; i < 1; i++)
 	{
 		TestCircleObject* test = new TestCircleObject(std::string("circle ") + std::to_string(i), 1.0);
-		test->SetScale(40.0f, -40.0f);
-		Vec2D pos(0, -300.0f + ((float)2 * 120));
+		test->SetScale(20.0f, -20.0f);
+		Vec2D pos(0, -100 + ((float)2 * 60));
 		test->SetPosition(pos);
 		test->GetPhysics()->StartPhysicsSim();
-
+		test->SetTarget(sqr);
 		//test->GetPhysics2D()->SetGravity(gravity[1]);
-		test->GetPhysics2D()->SetGravity(Vec2D(-600,0));
+		//test->GetPhysics2D()->SetGravity(Vec2D(-600,0));
 		test->GetPhysics2D()->SetSweptCollision(false);
 		//test->SetRotation(1.00);
-		//test->GetPhysics2D()->SetAngularVeloctiy(10);
+		test->GetPhysics2D()->SetAngularVeloctiy(10);
 		zEngine->AddSceneObject(test);
 	}
 	
-	/*TestPlatformObject* platform = new TestPlatformObject("Ground");
+	TestPlatformObject* platform = new TestPlatformObject("Ground");
 	platform->SetScale(500, -50);
-	platform->SetPosition(0, -500);
+	platform->SetPosition(0, -250);
 	zEngine->AddSceneObject(platform);
 
 	TestPlatformObject* platform2 = new TestPlatformObject("Ceiling");
 	platform2->SetScale(500, -40);
-	platform2->SetPosition(0, 500);
-	zEngine->AddSceneObject(platform2);*/
+	platform2->SetPosition(0, 250);
+	zEngine->AddSceneObject(platform2);
 
 	TestPlatformObject* platform3 = new TestPlatformObject("Left Wall");
 	platform3->SetScale(40, -500);
 	platform3->SetPosition(-500, 0);
 	zEngine->AddSceneObject(platform3);
 
-	/*TestPlatformObject* platform4 = new TestPlatformObject("Right Wall");
+	TestPlatformObject* platform4 = new TestPlatformObject("Right Wall");
 	platform4->SetScale(40, -500);
 	platform4->SetPosition(500, 0);
-	zEngine->AddSceneObject(platform4);*/
+	zEngine->AddSceneObject(platform4);
 
 	engine.SetPaused(true);
 	engine.MainLoop();

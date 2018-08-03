@@ -484,5 +484,8 @@
     <None Include="Shaders\2D\standard_debug.frag">
       <Filter>ZoranEngine\Shaders\2D</Filter>
     </None>
+    <None Include="Shaders\2D\standard_debug.vert">
+      <Filter>ZoranEngine\Shaders\2D</Filter>
+    </None>
   </ItemGroup>
 </Project>

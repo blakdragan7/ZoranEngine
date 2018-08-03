@@ -1,18 +1,27 @@
 #include "stdafx.h"
 #include "CircleCollision2DObject.h"
 #include <Core/2D/SceneObject2D.h>
+#include <Core/2D/DebugSceneObject2D.h>
 #include <Physics/2D/PhysicsObject2DBase.h>
 #include <Physics/2D/Collision/b2DCollision2DObject.h>
 #include <Physics/2D/Collision/AABBSquareCollisionObject.h>
+#include <Rendering/RenderedObjectBase.h>
 #include <Math/MathLib.h>
 
 CircleCollision2DObject::CircleCollision2DObject(float radius, SceneObject2D* sceneObject, CollisionDynamics cd) : CollisionObject2DBase(sceneObject,cd,CIRCLE_COLLISION)
 {
 	this->radius = radius;
+	db = new DebugSceneObject2D("Circle Collision Check Point");
+	db->GetRenderedObject()->MakeFullScreenQuad();
+	db->SetColor(Vec3D(0.0,0.0,1.0));
+	db->SetScale(5.0,5.0);
+
+	zEngine->AddSceneObject(db);
 }
 
 CircleCollision2DObject::~CircleCollision2DObject()
 {
+	db->Destroy();
 }
 
 void CircleCollision2DObject::SetBoundsBySceneObject()
@@ -69,7 +78,8 @@ Collision2D* CircleCollision2DObject::CollidesWith(CollisionObject2DBase * other
 	}
 	else if (other->GetCollisionType() == b2D_2D_COLLISION)
 	{
-		Vec2D distance = (other->GetScenePos() - GetScenePos());
+
+		Vec2D distance = GetScenePos() - other->GetScenePos();
 
 		Vec2D size = other->GetSize();
 
@@ -77,17 +87,22 @@ Collision2D* CircleCollision2DObject::CollidesWith(CollisionObject2DBase * other
 		float sn = sinf(other->GetSceneObject()->GetRotation());
 
 		float rotatedx = distance.x * cs + distance.y * sn;
-		float rotatedy = distance.x * sn + distance.y * cs;
+		float rotatedy = -distance.x * sn + distance.y * cs;
 
 		Vec2D rotatedDiff(rotatedx,rotatedy);
 		Vec2D clampedDiff = MathLib::Clamp(rotatedDiff, -size, size);
 
-		float unrotatedX = (clampedDiff.x * cs - clampedDiff.y * sn) + other->GetScenePos().x;
-		float unrotatedY = (-clampedDiff.x * sn - clampedDiff.y * cs) + other->GetScenePos().y;
+		float unrotatedX = (clampedDiff.x * cs - clampedDiff.y * sn);
+		float unrotatedY = (clampedDiff.x * sn + clampedDiff.y * cs);
 
-		Vec2D unrotatedVector(unrotatedX, unrotatedY);
+		float globalX = unrotatedX + other->GetScenePos().x;
+		float globalY = unrotatedY + other->GetScenePos().y;
+
+		Vec2D unrotatedVector(globalX, globalY);
 
 		float magSQR = (unrotatedVector - GetScenePos()).magnitudeSqr();
+
+		db->SetPosition(unrotatedVector);
 
 		if (magSQR <= (scaledRadius * scaledRadius))
 		{
@@ -105,9 +120,9 @@ Collision2D* CircleCollision2DObject::CollidesWith(CollisionObject2DBase * other
 			float mag = sqrtf(magSQR);
 
 			CollisionPoint cp;
-			cp.normal = distance.getNormal();
+			cp.normal = -distance.getNormal();
 			cp.pos = unrotatedVector;
-			cp.separation = (mag - scaledRadius);
+			cp.separation = -mag;
 			collision->AddCollisionPoint(cp);
 
 			return collision;
