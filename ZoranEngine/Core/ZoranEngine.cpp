@@ -1,7 +1,5 @@
 #include "stdafx.h"
 
-#include <vld.h>
-
 #include <Utils/Random.h>
 #include <Core/ZoranEngine.h>
 #include <Core/WindowBase.h>
@@ -128,8 +126,6 @@ int ZoranEngine::MainLoop()
 		if (mainWindow)mainWindow->MainDraw();
 		statistics = statisticsClock.GetDiffSeconds();
 		Log(LogLevel_Verbose, "mainWindow->MainDraw() took %f ms\n", statistics * 1000);
-
-		//std::cout << "fps " << 1.0 / FPSTime << std::endl;
 	}
 #endif
 

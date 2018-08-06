@@ -9,14 +9,14 @@ struct ZDoubleLinkedListNode
 	ZDoubleLinkedListNode* previous;
 	ZDoubleLinkedListNode* next;
 
-	ZDoubleLinkedListNode(const t& data) : data(data), precious(0), next(0) {}
+	ZDoubleLinkedListNode(const t& data) : data(data), previous(0), next(0) {}
 };
 
 template<typename t>
 class ZDoubleLinkedList
 {
 private:
-	typedef ZDoubleLinkedListNode node;
+	typedef ZDoubleLinkedListNode<t> node;
 	node* start;
 	node* end;
 
@@ -149,18 +149,18 @@ public:
 	{
 		IndexCheck(index);
 
-		node* n = GetNodeAtIndex(index - 1);
+		/*node* n = GetNodeAtIndex(index - 1);
 		void* mem = allocator->Allocate(sizeof(node));
 		node* newnode = new(mem) node(t);
 		newnode->next = n->next;
-		n->next = newnode;
+		n->next = newnode;*/
 
 		size++;
 	}
 
 	inline t PopLast()
 	{
-		assert(size != 0 && "Trying to PopLast with nothing inserted !!");
+		/*assert(size != 0 && "Trying to PopLast with nothing inserted !!");
 
 		t data = end->data;
 
@@ -179,7 +179,9 @@ public:
 
 		size--;
 
-		return data;
+		return data;*/
+
+		return t();
 	}
 
 	inline t& operator[](unsigned index)

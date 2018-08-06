@@ -23,7 +23,7 @@ struct CollisionFrame2D
 		}*/
 	}
 
-	void UpdateCollisionWithKey(Collision2DKey& key,Collision2D* collision)
+	inline void UpdateCollisionWithKey(Collision2DKey& key,Collision2D* collision)
 	{
 		auto iter = collisions.find(key);
 		if (iter == collisions.end())
@@ -33,10 +33,11 @@ struct CollisionFrame2D
 		else
 		{
 			iter->second->Update(collision);
+			delete collision;
 		}
 	}
 
-	void RemoveDullCollisions()
+	inline void RemoveDullCollisions()
 	{
 		auto itr = collisions.begin();
 		while (itr != collisions.end()) {

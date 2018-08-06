@@ -16,8 +16,6 @@
 #include <Utils/HighPrecisionClock.h>
 #include <string>
 #include <algorithm>
-#include <vld.h>
-
 
 void TestArrayStuff();
 void TestSceneStuff();
@@ -26,11 +24,9 @@ void TestDoubleLinkedListStuff();
 
 int main(int argc, char* argv[])
 {
-	TestLinkedListStuff();
-	//TestSceneStuff();
+	//TestLinkedListStuff();
+	TestSceneStuff();
 	//TestArrayStuff();
-
-	std::cin.get();
 }
 
 void TestDoubleLinkedListStuff()
@@ -134,7 +130,7 @@ void TestArrayStuff()
 
 	for (unsigned i = TestNum - 1; i > TestNum / 2; i--)
 	{
-		ints.Remove(i, true);
+		ints.RemoveAt(i);
 	}
 
 	double tm = cl.GetDiffSeconds();
@@ -152,14 +148,15 @@ void TestArrayStuff()
 
 	for (unsigned i = TestNum - 1; i > TestNum / 2; i--)
 	{
-		v.erase(std::find(v.begin(), v.end(), i));
+		v.erase(v.begin() + i);
+		//v.erase(std::find(v.begin(), v.end(), i));
 	}
 
 	double nl = cl.GetDiffSeconds();
 
 	std::cout << "Vector Took " << nl << " seconds\n";
 
-	std::cout << "ZArray is " << (nl / tm) - 1.0 << (nl < tm ? " Slower\n" : " Faster\n");
+	std::cout << "ZArray ratio is " << (nl / tm) << std::endl;
 
 	ints.Empty();
 }

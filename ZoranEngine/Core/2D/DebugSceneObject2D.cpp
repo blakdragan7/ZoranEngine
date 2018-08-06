@@ -4,7 +4,8 @@
 
 DebugSceneObject2D::DebugSceneObject2D(std::string name) : SceneObject2D(name)
 {
-	SetShaderProgram(new DebugShader2D(this));
+	static DebugShader2D* dbg = new DebugShader2D(this);
+	SetShaderProgram(dbg);
 }
 
 

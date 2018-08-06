@@ -57,10 +57,13 @@ SceneObject::SceneObject(std::string name, RenderEngineBase* engine)
 
 	hasCollision = false; 
 	renderEngine = engine;
+
+	renderedObject = 0;
 }
 
 SceneObject::~SceneObject()
 {
+	if(renderedObject)delete renderedObject;
 }
 
 

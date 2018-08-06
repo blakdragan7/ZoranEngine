@@ -103,6 +103,8 @@ public:
 			node* temp = start;
 			start = start->next;
 
+			temp->~node();
+
 			allocator->DeAllocate(temp);
 		}
 
@@ -140,7 +142,7 @@ public:
 		node* toDelete = n->next;
 		t data = toDelete->data;
 		n->next = toDelete->next;
-
+		toDelete->~node();
 		allocator->DeAllocate(toDelete);
 
 		size--;
@@ -155,7 +157,7 @@ public:
 		node* n = GetNodeAtIndex(index - 1);
 		node* toDelete = n->next;
 		n->next = toDelete->next;
-
+		toDelete->~node();
 		allocator->DeAllocate(toDelete);
 
 		size--;
@@ -179,7 +181,7 @@ public:
 		assert(size != 0 && "Trying to PopLast with nothing inserted !!");
 
 		t data = end->data;
-
+		end->~node();
 		allocator->DeAllocate(end);
 		if (size > 2)
 		{

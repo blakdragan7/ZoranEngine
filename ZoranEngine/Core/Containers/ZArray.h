@@ -113,6 +113,9 @@ public:
 
 	inline void RemoveAt(unsigned index, bool canShrink = false)
 	{
+		typedef t tt;
+		(arrayPointerStart + index)->~tt();
+
 		if (index + 1 == size)
 		{
 			size--;
@@ -189,6 +192,11 @@ public:
 
 	inline void Empty()
 	{
+		for (t* ptr = arrayPointerStart; ptr != arrayPointerEnd; ptr++)
+		{
+			typedef t tt;
+			ptr->~tt();
+		}
 		// zarray assumes you are managing the memory of the objects and it doesnt need to delete them here
 		size = 0;
 	}
