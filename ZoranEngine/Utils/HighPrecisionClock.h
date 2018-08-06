@@ -1,18 +1,21 @@
 #pragma once
 #include "Core/PlatformTypes.h"
+#include <chrono>
 
-class ZoranEngine_EXPORT HighPrecisionClock
+#define NANOSECONDS_PER_SECONDS 1e+9
+
+class HighPrecisionClock
 {
 private:
-	long long time;
+	std::chrono::time_point<std::chrono::steady_clock> first;
 
 public:
-	HighPrecisionClock();
-	~HighPrecisionClock();
+	HighPrecisionClock() { TakeClock(); }
+	~HighPrecisionClock() {}
 
-	void TakeClock();
+	inline void TakeClock() { first = std::chrono::steady_clock::now(); }
 
-	long long GetDiffNanoSeconds();
-	float GetDiffSeconds();
+	inline long long GetDiffNanoSeconds() { return (std::chrono::steady_clock::now() - first).count(); }
+	inline double GetDiffSeconds() {return (double)GetDiffNanoSeconds() / (double)NANOSECONDS_PER_SECONDS;}
 };
 

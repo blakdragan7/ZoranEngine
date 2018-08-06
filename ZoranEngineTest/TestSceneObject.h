@@ -3,6 +3,7 @@
 class TextureBase;
 class TestSceneObject : public TexturedSprite
 {
+	SceneObject2D* target;
 
 public:
 	TestSceneObject(std::string name);
@@ -10,5 +11,10 @@ public:
 
 	virtual void PreRender()override;
 	virtual void Tick(float dt)override;
+
+	inline void SetTarget(SceneObject2D* target)
+	{
+		this->target = target;
+	}
 };
 

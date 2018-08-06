@@ -1,5 +1,7 @@
 #include "stdafx.h"
 
+#include <vld.h>
+
 #include <Utils/Random.h>
 #include <Core/ZoranEngine.h>
 #include <Core/WindowBase.h>
@@ -12,6 +14,8 @@
 #include <Physics/PhysicsObjectBase.h>
 #include <Physics/Collision/CollisionObjectBase.h>
 #include <Physics/Collision/CollisionBucketBase.h>
+
+#include <Core/Allocators/CAllocator.h>
 
 #include <iostream>
 
@@ -42,18 +46,28 @@ ZoranEngine::ZoranEngine()
 	logger->SetLogLevel(LogLevel_Default);
 	step = false;
 	camera = 0;
+
+	defaultAllocator = new CAllocator();
+
+	allSceneObjects = new ZArray<SceneObject*>(defaultAllocator);
+	allTickables = new ZArray<TickableObject*>(defaultAllocator);
 }
 
 ZoranEngine::~ZoranEngine()
 {
-	for (auto object : allSceneObjects)
+	for (auto object : *allSceneObjects)
 	{
 		object->Destroy();
 	}
 
+	delete allSceneObjects;
+	delete allTickables;
+
 	if (mainWindow)delete mainWindow;
 	if (physicsEngine)delete physicsEngine;
 	if (mainRenderEngine)delete mainRenderEngine;
+
+	delete defaultAllocator;
 
 	delete logger;
 }
@@ -67,11 +81,11 @@ int ZoranEngine::MainLoop()
 
 	HighPrecisionClock clock;
 	HighPrecisionClock statisticsClock;
-	float statistics = 0;
+	double statistics = 0;
 
 	while (WM_QUIT != msg.message && shouldRun)
 	{
-		float FPSTime = clock.GetDiffSeconds();
+		double FPSTime = clock.GetDiffSeconds();
 		float deltaTime = (1.0f / 60.0f);
 		clock.TakeClock();
 
@@ -97,7 +111,7 @@ int ZoranEngine::MainLoop()
 			Log(LogLevel_Verbose, "physicsEngine->UpdateAll() took %f ms\n", statistics*1000);
 
 			statisticsClock.TakeClock();
-			for (auto object : allTickables)
+			for (auto object : *allTickables)
 			{
 				object->Tick(deltaTime);
 			}
@@ -206,7 +220,7 @@ void ZoranEngine::ScreenResized(float width, float height)
 
 void ZoranEngine::AddTickableObject(TickableObject * object)
 {
-	allTickables.push_back(object);
+	allTickables->Add(object);
 }
 
 void ZoranEngine::AddSceneObject(SceneObject * object)
@@ -222,6 +236,7 @@ void ZoranEngine::AddSceneObject(SceneObject * object)
 
 void ZoranEngine::DestroySceneObject(SceneObject * object)
 {
+	allSceneObjects->Remove(object);
 	mainRenderEngine->RemoveSceneObject(object);
 	if (object->GetPhysics())delete object->GetPhysics();
 	delete object;
@@ -229,7 +244,7 @@ void ZoranEngine::DestroySceneObject(SceneObject * object)
 
 void ZoranEngine::RemoveTickableObject(TickableObject * object)
 {
-	remove(allTickables,object);
+	allTickables->Remove(object);
 }
 
 const char * ZoranEngine::GetVersion()

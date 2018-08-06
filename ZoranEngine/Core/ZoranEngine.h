@@ -3,7 +3,7 @@
 #include "PlatformTypes.h"
 #include "CommomTypes.h"
 #include "Math/Vector3.h"
-#include <vector>
+#include <Core/Containers/ZArray.h>
 
 class ThreadBase;
 class WindowBase;
@@ -12,6 +12,7 @@ class PhysicsEngine;
 class SceneObject;
 class TickableObject;
 class CameraBase;
+class AllocatorBase;
 class ZoranEngine_EXPORT ZoranEngine
 {
 private:
@@ -26,11 +27,12 @@ private:
 	bool step;
 
 	PhysicsEngine* physicsEngine;
-#pragma warning(push)
-#pragma warning(disable:4251)
-	std::vector<TickableObject*> allTickables;
-	std::vector<SceneObject*> allSceneObjects;
-#pragma warning(pop)
+
+	ZArray<TickableObject*>* allTickables;
+	ZArray<SceneObject*>* allSceneObjects;
+
+public:
+	AllocatorBase * defaultAllocator;
 
 public:
 	ZoranEngine();

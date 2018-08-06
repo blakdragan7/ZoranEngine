@@ -7,18 +7,173 @@
 #include <Rendering/RenderEngineBase.h>
 #include <Physics/2D/PhysicsObject2DBase.h>
 
+#include <Core/Containers/ZArray.h>
+#include <Core/Containers/ZLinkedList.h>
+#include <Core/Containers/ZDoubleLinkedList.h>
+
+#include <Core/Allocators/CAllocator.h>
 #include <Utils/Random.h>
+#include <Utils/HighPrecisionClock.h>
 #include <string>
+#include <algorithm>
+#include <vld.h>
+
+
+void TestArrayStuff();
+void TestSceneStuff();
+void TestLinkedListStuff();
+void TestDoubleLinkedListStuff();
+
 int main(int argc, char* argv[])
+{
+	TestLinkedListStuff();
+	//TestSceneStuff();
+	//TestArrayStuff();
+
+	std::cin.get();
+}
+
+void TestDoubleLinkedListStuff()
+{
+	static const unsigned TestNum = 1000;
+
+	HighPrecisionClock cl;
+
+	ZDoubleLinkedList<unsigned> ints;
+
+	for (unsigned i = 0; i < TestNum; i++)
+	{
+		ints.Add(i);
+	}
+
+	for (unsigned i = TestNum - 1; i > TestNum / 2; i--)
+	{
+		ints.PopLast();
+	}
+
+	double tm = cl.GetDiffSeconds();
+
+	std::cout << "ZLinkedList Took " << tm << " seconds\n";
+
+	cl.TakeClock();
+
+	std::vector<unsigned> v;
+
+	for (unsigned i = 0; i < TestNum; i++)
+	{
+		v.push_back(i);
+	}
+
+	for (unsigned i = TestNum - 1; i > TestNum / 2; i--)
+	{
+		v.erase(std::find(v.begin(), v.end(), i));
+	}
+
+	double nl = cl.GetDiffSeconds();
+
+	std::cout << "Vector Took " << nl << " seconds\n";
+
+	std::cout << "ZLinkedList ratio is " << (nl / tm) << std::endl;
+}
+
+void TestLinkedListStuff()
+{
+	static const unsigned TestNum = 1000;
+
+	HighPrecisionClock cl;
+
+	ZLinkedList<unsigned> ints;
+
+	for (unsigned i = 0; i < TestNum; i++)
+	{
+		ints.Add(i);
+	}
+
+	for (unsigned i = TestNum - 1; i > TestNum / 2; i--)
+	{
+		ints.PopLast();
+	}
+
+	double tm = cl.GetDiffSeconds();
+
+	std::cout << "ZLinkedList Took " << tm << " seconds\n";
+
+	cl.TakeClock();
+
+	std::vector<unsigned> v;
+
+	for (unsigned i = 0; i < TestNum; i++)
+	{
+		v.push_back(i);
+	}
+
+	for (unsigned i = TestNum - 1; i > TestNum / 2; i--)
+	{
+		v.erase(std::find(v.begin(), v.end(), i));
+	}
+
+	double nl = cl.GetDiffSeconds();
+
+	std::cout << "Vector Took " << nl << " seconds\n";
+
+	std::cout << "ZLinkedList ratio is " << (nl / tm) << std::endl;
+}
+
+void TestArrayStuff()
+{
+	static const unsigned TestNum = 100000;
+
+	HighPrecisionClock cl;
+
+	ZArray<unsigned> ints(TestNum);
+
+	for (unsigned i = 0; i < TestNum; i++)
+	{
+		ints.Add(i);
+	}
+
+	for (unsigned i = TestNum - 1; i > TestNum / 2; i--)
+	{
+		ints.Remove(i, true);
+	}
+
+	double tm = cl.GetDiffSeconds();
+
+	std::cout << "ZArray Took " << tm << " seconds\n";
+
+	cl.TakeClock();
+
+	std::vector<unsigned> v(0);
+
+	for (unsigned i = 0; i < TestNum; i++)
+	{
+		v.push_back(i);
+	}
+
+	for (unsigned i = TestNum - 1; i > TestNum / 2; i--)
+	{
+		v.erase(std::find(v.begin(), v.end(), i));
+	}
+
+	double nl = cl.GetDiffSeconds();
+
+	std::cout << "Vector Took " << nl << " seconds\n";
+
+	std::cout << "ZArray is " << (nl / tm) - 1.0 << (nl < tm ? " Slower\n" : " Faster\n");
+
+	ints.Empty();
+}
+
+void TestSceneStuff()
 {
 	ZoranEngine engine;
 	engine.Init();
 	engine.Setup2DScene(0, 0, 2000, 2000);
-	
+
 	std::string name_base = "TestSceneObject-";
 
-	/*Vec2D CollisionPoint(0,0);
-	for (unsigned i = 0; i < 100; i++)
+	Vec2D CollisionPoint(0,0);
+	for (unsigned i = 0; i < 50; i++)
 	{
 		TestSceneObject* test = new TestSceneObject((name_base + std::to_string(i)));
 		test->SetScale(40, -40);
@@ -32,13 +187,13 @@ int main(int argc, char* argv[])
 		test->GetPhysics2D()->SetGravity(pos*200);
 		//test->GetPhysics2D()->ApplyForce(pos * 100);
 		zEngine->AddSceneObject(test);
-	}*/
+	}
 
 	Vec2D gravity[2] = { Vec2D(0,600),Vec2D(0,-600) };
 
 	TestSceneObject* sqr = 0;
 
-	for (int i = 0; i < 1; i++)
+	/*for (int i = 0; i < 1; i++)
 	{
 		TestSceneObject* test = new TestSceneObject(std::string("dynamic ") + std::to_string(i));
 		test->SetScale(20.0f, -20.0f);
@@ -68,14 +223,15 @@ int main(int argc, char* argv[])
 		test->SetPosition(pos);
 		test->GetPhysics()->StartPhysicsSim();
 		test->SetTarget(sqr);
+		sqr->SetTarget(test);
 		//test->GetPhysics2D()->SetGravity(gravity[1]);
 		//test->GetPhysics2D()->SetGravity(Vec2D(-600,0));
 		test->GetPhysics2D()->SetSweptCollision(false);
 		//test->SetRotation(1.00);
 		test->GetPhysics2D()->SetAngularVeloctiy(10);
 		zEngine->AddSceneObject(test);
-	}
-	
+	}*/
+
 	TestPlatformObject* platform = new TestPlatformObject("Ground");
 	platform->SetScale(500, -50);
 	platform->SetPosition(0, -250);

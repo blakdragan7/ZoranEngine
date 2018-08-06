@@ -1,0 +1,4 @@
+Visual Leak Detector Version 2.5.1 installed.
+    Outputting the report to D:\git\ZoranEngine\run\memory_leak_report.txt
+No memory leaks detected.
+Visual Leak Detector is now exiting.

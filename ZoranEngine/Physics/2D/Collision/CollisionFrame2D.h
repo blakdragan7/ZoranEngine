@@ -5,12 +5,12 @@ struct CollisionFrame2D
 {
 	typedef std::pair<Collision2DKey, Collision2D*> CollisionPair;
 	std::map<Collision2DKey,Collision2D*> collisions;
-	std::vector<SweepCollision2D> sweptCollisions;
+	ZArray<SweepCollision2D> sweptCollisions;
 
 	void Clear()
 	{
 		collisions.clear();
-		sweptCollisions.clear();
+		sweptCollisions.Empty();
 	}
 
 	void RemoveCollisionForObjects(SceneObject2D* object, SceneObject2D* object2)

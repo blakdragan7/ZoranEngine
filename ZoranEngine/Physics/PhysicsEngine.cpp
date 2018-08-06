@@ -66,14 +66,14 @@ void PhysicsEngine::ResolveAllStaticCollisions(float dt)
 
 void PhysicsEngine::ResolveAllSweptCollisions(float dt)
 {
-	if (collisionFrame2D.sweptCollisions.size() == 0)return;
+	if (collisionFrame2D.sweptCollisions.GetSize() == 0)return;
 
-	SweepCollision2D currentResponse = collisionFrame2D.sweptCollisions.front();
+	SweepCollision2D* currentResponse = collisionFrame2D.sweptCollisions.begin();
 
-	remove<SweepCollision2D>(collisionFrame2D.sweptCollisions, currentResponse);
+	collisionFrame2D.sweptCollisions.RemoveAt(0);
 
-	if (currentResponse.Collision2D.objectBounds[0]->GetDynamics() != CD_Static)
-		currentResponse.Collision2D.collidedObjects[0]->OnSweepCollision(currentResponse, currentResponse.Collision2D.collidedObjects[0]->GetCurrentDeltaTime());
+	if (currentResponse->Collision2D.objectBounds[0]->GetDynamics() != CD_Static)
+		currentResponse->Collision2D.collidedObjects[0]->OnSweepCollision(*currentResponse, currentResponse->Collision2D.collidedObjects[0]->GetCurrentDeltaTime());
 
 	ResolveAllSweptCollisions(dt);
 }

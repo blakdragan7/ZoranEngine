@@ -8,5 +8,5 @@ out vec2 coords_c;
 void main()                           
 {
 	coords_c = coords;                                     
-	gl_Position = MVP * vec4(vert,1.0,1.0);
+	gl_Position = MVP * vec4(vert,0.0,1.0);
 }

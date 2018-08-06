@@ -170,14 +170,17 @@ void OpenGLObject::MakeFullScreenQuad()
 	if (this->cpuUVData)
 		delete[] this->cpuUVData;
 
-	float vert[12] = { -1.0f,-1.0f, 0.0f,-1.0f,1.0f,0.0f,1.0f,-1.0f,0.0f,1.0f,1.0f,0.0f };
-	float coord[8] = { 0.0f,0.0f,0.0f,1.0f,1.0f,0.0f,1.0f,1.0f };
+	static float vert[12] = { -1.0f,-1.0f, 0.0f,-1.0f,1.0f,0.0f,1.0f,-1.0f,0.0f,1.0f,1.0f,0.0f };
+	static float coord[8] = { 0.0f,0.0f,0.0f,1.0f,1.0f,0.0f,1.0f,1.0f };
 
-	this->cpuVertData = malloc(sizeof(vert));
-	this->cpuUVData = malloc(sizeof(coord));
+	this->cpuVertData = vert;
+	this->cpuUVData = coord;
 
-	memcpy(this->cpuVertData, vert, sizeof(vert));
-	memcpy(this->cpuUVData, coord, sizeof(coord));
+	//this->cpuVertData = malloc(sizeof(vert));
+	//this->cpuUVData = malloc(sizeof(coord));
+
+	//memcpy(this->cpuVertData, vert, sizeof(vert));
+	//memcpy(this->cpuUVData, coord, sizeof(coord));
 
 	glGenBuffers(1, &vbo);
 	glGenBuffers(1, &tbo);

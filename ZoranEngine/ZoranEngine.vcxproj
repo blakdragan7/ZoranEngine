@@ -91,7 +91,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Utils\ConsoleLogger.cpp" />
-    <ClCompile Include="Utils\HighPrecisionClock.cpp" />
     <ClCompile Include="Utils\LoggerBase.cpp" />
     <ClCompile Include="Utils\Random.cpp" />
     <ClCompile Include="Windows\WindowsThread.cpp" />
@@ -105,8 +104,18 @@
     <ClInclude Include="Core\2D\TexturedSprite.h" />
     <ClInclude Include="Core\3D\Camera3D.h" />
     <ClInclude Include="Core\3D\SceneObject3D.h" />
+    <ClInclude Include="Core\Allocators\AllocatorBase.h" />
+    <ClInclude Include="Core\Allocators\CAllocator.h" />
+    <ClInclude Include="Core\Allocators\FreeListAllocator.h" />
+    <ClInclude Include="Core\Allocators\PoolAllocator.h" />
+    <ClInclude Include="Core\Allocators\StackAllocator.h" />
     <ClInclude Include="Core\CameraBase.h" />
     <ClInclude Include="Core\CommomTypes.h" />
+    <ClInclude Include="Core\Containers\ZArray.h" />
+    <ClInclude Include="Core\Containers\ZDictionary.h" />
+    <ClInclude Include="Core\Containers\ZDictionaryHash.h" />
+    <ClInclude Include="Core\Containers\ZDoubleLinkedList.h" />
+    <ClInclude Include="Core\Containers\ZLinkedList.h" />
     <ClInclude Include="Core\Events\EventBase.h" />
     <ClInclude Include="Core\Events\EventDispatcher.h" />
     <ClInclude Include="Core\PlatformTypes.h" />
@@ -168,6 +177,7 @@
     <ClInclude Include="Version.h" />
     <ClInclude Include="Windows\WindowsThread.h" />
     <ClInclude Include="Windows\WindowsWindow.h" />
+    <ClInclude Include="ZArray.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ZoranEngine.rc" />
@@ -249,6 +259,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>OpenGL32.lib;GLU32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -261,6 +272,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>OpenGL32.lib;GLU32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

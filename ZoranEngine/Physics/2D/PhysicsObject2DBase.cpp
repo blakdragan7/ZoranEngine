@@ -231,7 +231,7 @@ void PhysicsObject2DBase::UpdatePositionsAndRotation(float deltaTime)
 
 			SweepCollision2D response;
 			if (SweepToo(target, response))
-				pEngine->CurrentCollisionFrame2D().sweptCollisions.push_back(response);
+				pEngine->CurrentCollisionFrame2D().sweptCollisions.Add(response);
 			else
 				sceneObject2D->SetPosition(target);
 		}
