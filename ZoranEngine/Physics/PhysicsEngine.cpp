@@ -11,7 +11,8 @@
 #include <Physics/3D/Collision/CollisionBucket3DBase.h>
 #include <Physics/2D/Collision/QuadTreeCollisionBucket.h>
 
-#include <Core/Containers/ZArray.h>
+#include <vector>
+#include <Utils/VectorAddons.hpp>
 
 PhysicsEngine::PhysicsEngine()
 {
@@ -19,7 +20,7 @@ PhysicsEngine::PhysicsEngine()
 	collisionTree3D = 0;
 	is3D = false;
 
-	physicsObjects = new ZArray<PhysicsObjectBase*>();
+	physicsObjects = new std::vector<PhysicsObjectBase*>();
 	collisionFrame2D = new CollisionFrame2D();
 }
 
@@ -73,14 +74,13 @@ void PhysicsEngine::ResolveAllStaticCollisions(float dt)
 
 void PhysicsEngine::ResolveAllSweptCollisions(float dt)
 {
-	if (collisionFrame2D->sweptCollisions.GetSize() == 0)return;
+	if (collisionFrame2D->sweptCollisions.size() == 0)return;
 
-	SweepCollision2D* currentResponse = collisionFrame2D->sweptCollisions.begin();
+	SweepCollision2D currentResponse = collisionFrame2D->sweptCollisions.back();
+	collisionFrame2D->sweptCollisions.pop_back();
 
-	collisionFrame2D->sweptCollisions.RemoveAt(0);
-
-	if (currentResponse->Collision2D.objectBounds[0]->GetDynamics() != CD_Static)
-		currentResponse->Collision2D.collidedObjects[0]->OnSweepCollision(*currentResponse, currentResponse->Collision2D.collidedObjects[0]->GetCurrentDeltaTime());
+	if (currentResponse.Collision2D.objectBounds[0]->GetDynamics() != CD_Static)
+		currentResponse.Collision2D.collidedObjects[0]->OnSweepCollision(currentResponse, currentResponse.Collision2D.collidedObjects[0]->GetCurrentDeltaTime());
 
 	ResolveAllSweptCollisions(dt);
 }
@@ -149,7 +149,7 @@ void PhysicsEngine::UpdateAll(float deltaTime)
 
 void PhysicsEngine::AddPhysicsObject(PhysicsObjectBase * object)
 {
-	physicsObjects->Add(object);
+	physicsObjects->push_back(object);
 }
 
 void PhysicsEngine::AddCollisionObject(CollisionObjectBase * object)
@@ -185,6 +185,6 @@ CollisionObjectBase * PhysicsEngine::RemoveObject(CollisionObjectBase * object)
 
 PhysicsObjectBase * PhysicsEngine::RemoveObject(PhysicsObjectBase * object)
 {
-	physicsObjects->Remove(object);
+	remove(*physicsObjects, object);
 	return object;
 }

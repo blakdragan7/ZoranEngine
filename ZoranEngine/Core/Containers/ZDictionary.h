@@ -1,4 +1,5 @@
 #pragma once
+#ifdef CUSTOM_CONTAINERS
 #include <Core/Allocators/AllocatorBase.h>
 #include <Core/Containers/BasicContainers.h>
 #include <Core/Containers/ZArray.h>
@@ -146,3 +147,4 @@ public:
 
 template<typename k,typename v>
 std::hash<k> ZDictionary<k, v>::theHash = std::hash<k>();
+#endif

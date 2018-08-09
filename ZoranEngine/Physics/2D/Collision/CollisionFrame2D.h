@@ -1,16 +1,17 @@
 #pragma once
 #include <map>
 #include <Physics/2D/Collision/CollisionObject2DBase.h>
+#include <vector>
 struct CollisionFrame2D
 {
 	typedef std::pair<Collision2DKey, Collision2D*> CollisionPair;
 	std::map<Collision2DKey,Collision2D*> collisions;
-	ZArray<SweepCollision2D> sweptCollisions;
+	std::vector<SweepCollision2D> sweptCollisions;
 
 	void Clear()
 	{
 		collisions.clear();
-		sweptCollisions.Empty();
+		sweptCollisions.clear();
 	}
 
 	void RemoveCollisionForObjects(SceneObject2D* object, SceneObject2D* object2)

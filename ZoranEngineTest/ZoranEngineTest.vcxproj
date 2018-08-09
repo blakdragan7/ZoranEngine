@@ -71,19 +71,19 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>D:\Program Files (x86)\Visual Leak Detector\include;../ZoranEngine;$(IncludePath)</IncludePath>
+    <IncludePath>../ZoranEngine;../ZoranEngine/include;$(IncludePath)</IncludePath>
     <LibraryPath>D:\Program Files (x86)\Visual Leak Detector\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>D:\Program Files (x86)\Visual Leak Detector\include;../ZoranEngine;$(IncludePath)</IncludePath>
+    <IncludePath>../ZoranEngine;../ZoranEngine/include;$(IncludePath)</IncludePath>
     <LibraryPath>D:\Program Files (x86)\Visual Leak Detector\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>D:\Program Files (x86)\Visual Leak Detector\include;../ZoranEngine;$(IncludePath)</IncludePath>
+    <IncludePath>../ZoranEngine;../ZoranEngine/include;$(IncludePath)</IncludePath>
     <LibraryPath>D:\Program Files (x86)\Visual Leak Detector\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>D:\Program Files (x86)\Visual Leak Detector\include;../ZoranEngine;$(IncludePath)</IncludePath>
+    <IncludePath>../ZoranEngine;../ZoranEngine/include;$(IncludePath)</IncludePath>
     <LibraryPath>D:\Program Files (x86)\Visual Leak Detector\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

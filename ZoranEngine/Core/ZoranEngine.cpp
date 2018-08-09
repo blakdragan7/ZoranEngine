@@ -47,8 +47,8 @@ ZoranEngine::ZoranEngine()
 
 	defaultAllocator = new CAllocator();
 
-	allSceneObjects = new ZArray<SceneObject*>(8,defaultAllocator);
-	allTickables = new ZArray<TickableObject*>(8,defaultAllocator);
+	allSceneObjects = new std::vector<SceneObject*>(8);
+	allTickables = new std::vector<TickableObject*>(8);
 }
 
 ZoranEngine::~ZoranEngine()
@@ -216,7 +216,7 @@ void ZoranEngine::ScreenResized(float width, float height)
 
 void ZoranEngine::AddTickableObject(TickableObject * object)
 {
-	allTickables->Add(object);
+	allTickables->push_back(object);
 }
 
 void ZoranEngine::AddSceneObject(SceneObject * object)
@@ -232,7 +232,7 @@ void ZoranEngine::AddSceneObject(SceneObject * object)
 
 void ZoranEngine::DestroySceneObject(SceneObject * object)
 {
-	allSceneObjects->Remove(object);
+	remove(*allSceneObjects, object);
 	mainRenderEngine->RemoveSceneObject(object);
 	if (object->GetPhysics())delete object->GetPhysics();
 	delete object;
@@ -240,7 +240,7 @@ void ZoranEngine::DestroySceneObject(SceneObject * object)
 
 void ZoranEngine::RemoveTickableObject(TickableObject * object)
 {
-	allTickables->Remove(object);
+	remove(*allTickables, object);
 }
 
 const char * ZoranEngine::GetVersion()

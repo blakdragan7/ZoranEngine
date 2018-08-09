@@ -2,6 +2,7 @@
 #include "Math/Vector3.h"
 #include "Core/PlatformTypes.h"
 #include <Physics/2D/Collision/CollisionFrame2D.h>
+#include <vector>
 
 class PhysicsObjectBase;
 class CollisionObjectBase;
@@ -9,8 +10,7 @@ class CollisionBucket2DBase;
 class CollisionBucket3DBase;
 struct CollisionResponse3D;
 class SceneObject;
-template<typename t>
-class ZArray;
+
 class ZoranEngine_EXPORT PhysicsEngine
 {
 private:
@@ -18,7 +18,7 @@ private:
 	CollisionBucket3DBase * collisionTree3D;
 
 
-	ZArray<PhysicsObjectBase*>* physicsObjects;
+	std::vector<PhysicsObjectBase*>* physicsObjects;
 	CollisionFrame2D* collisionFrame2D;
 
 	bool is3D;

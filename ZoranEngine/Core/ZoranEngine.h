@@ -3,7 +3,7 @@
 #include "PlatformTypes.h"
 #include "CommomTypes.h"
 #include "Math/Vector3.h"
-#include <Core/Containers/ZArray.h>
+#include <vector>
 
 class ThreadBase;
 class WindowBase;
@@ -28,8 +28,8 @@ private:
 
 	PhysicsEngine* physicsEngine;
 
-	ZArray<TickableObject*>* allTickables;
-	ZArray<SceneObject*>* allSceneObjects;
+	std::vector<TickableObject*>* allTickables;
+	std::vector<SceneObject*>* allSceneObjects;
 
 public:
 	AllocatorBase * defaultAllocator;

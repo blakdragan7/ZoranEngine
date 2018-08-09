@@ -1,4 +1,5 @@
 #pragma once
+#ifdef CUSTOM_CONTAINERS
 #include <Core/Allocators/AllocatorBase.h>
 #include <Core/Allocators/CAllocator.h>
 #include <assert.h>
@@ -247,3 +248,4 @@ public:
 		return arrayPointerEnd;
 	}
 };
+#endif

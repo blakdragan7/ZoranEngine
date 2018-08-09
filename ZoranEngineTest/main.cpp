@@ -7,17 +7,11 @@
 #include <Rendering/RenderEngineBase.h>
 #include <Physics/2D/PhysicsObject2DBase.h>
 
-#include <Core/Containers/ZArray.h>
-#include <Core/Containers/ZLinkedList.h>
-#include <Core/Containers/ZDoubleLinkedList.h>
-#include <Core/Containers/ZDictionary.h>
-
 #include <Utils/Random.h>
 #include <Utils/HighPrecisionClock.h>
-#include <vector>
-#include <string>
 #include <algorithm>
-#include <map>
+
+#include <string>
 
 void TestArrayStuff();
 void TestSceneStuff();
@@ -30,15 +24,16 @@ static const unsigned TestNum = 1000;
 int main(int argc, char* argv[])
 {
 
-	//TestDictionaryStuff();
-	//TestDoubleLinkedListStuff();
-	//TestLinkedListStuff();
-	//TestSceneStuff();
-	//TestArrayStuff();
-
+#ifdef CUSTOM_CONTAINERS
+	TestDictionaryStuff();
+	TestDoubleLinkedListStuff();
+	TestLinkedListStuff();
+	TestArrayStuff();
+#endif
+	TestSceneStuff();
 	std::cin.get();
 }
-
+#ifdef CUSTOM_CONTAINERS
 void TestDictionaryStuff()
 {
 	HighPrecisionClock cl;
@@ -200,7 +195,7 @@ void TestArrayStuff()
 
 	ints.Empty();
 }
-
+#endif
 void TestSceneStuff()
 {
 	ZoranEngine engine;

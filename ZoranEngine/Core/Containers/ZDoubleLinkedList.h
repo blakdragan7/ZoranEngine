@@ -1,4 +1,5 @@
 #pragma once
+#ifdef CUSTOM_CONTAINERS
 #include <Core/Allocators/AllocatorBase.h>
 #include <assert.h>
 
@@ -226,3 +227,4 @@ public:
 		return current->data;
 	}
 };
+#endif
