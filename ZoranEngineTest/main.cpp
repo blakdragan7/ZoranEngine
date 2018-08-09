@@ -10,29 +10,72 @@
 #include <Core/Containers/ZArray.h>
 #include <Core/Containers/ZLinkedList.h>
 #include <Core/Containers/ZDoubleLinkedList.h>
+#include <Core/Containers/ZDictionary.h>
 
-#include <Core/Allocators/CAllocator.h>
 #include <Utils/Random.h>
 #include <Utils/HighPrecisionClock.h>
+#include <vector>
 #include <string>
 #include <algorithm>
+#include <map>
 
 void TestArrayStuff();
 void TestSceneStuff();
 void TestLinkedListStuff();
 void TestDoubleLinkedListStuff();
+void TestDictionaryStuff();
+
+static const unsigned TestNum = 1000;
 
 int main(int argc, char* argv[])
 {
+
+	//TestDictionaryStuff();
+	//TestDoubleLinkedListStuff();
 	//TestLinkedListStuff();
-	TestSceneStuff();
+	//TestSceneStuff();
 	//TestArrayStuff();
+
+	std::cin.get();
+}
+
+void TestDictionaryStuff()
+{
+	HighPrecisionClock cl;
+
+	ZDictionary<std::string, std::string> dict;
+
+	static const std::string vStart = "sss ";
+	for (unsigned i = 0; i < TestNum; i++)
+	{
+		dict.Add(vStart + std::to_string(i), vStart + std::to_string(i));
+	}
+
+	for (unsigned i = TestNum - 1; i > TestNum / 2; i--)
+	{
+		dict.Remove(vStart + std::to_string(i));
+	}
+
+	for (unsigned i = 0; i < TestNum/2.0; i++)
+	{
+		std::string val = dict[vStart + std::to_string(i)];
+	}
+	
+	double tm = cl.GetDiffSeconds();
+
+	std::cout << "ZDictionary Took " << tm << " seconds\n";
+
+	cl.TakeClock();
+
+	double nl = cl.GetDiffSeconds();
+
+	std::cout << "map Took " << nl << " seconds\n";
+
+	std::cout << "ZDictionary ratio is " << (nl / tm) << std::endl;
 }
 
 void TestDoubleLinkedListStuff()
 {
-	static const unsigned TestNum = 1000;
-
 	HighPrecisionClock cl;
 
 	ZDoubleLinkedList<unsigned> ints;
@@ -49,7 +92,7 @@ void TestDoubleLinkedListStuff()
 
 	double tm = cl.GetDiffSeconds();
 
-	std::cout << "ZLinkedList Took " << tm << " seconds\n";
+	std::cout << "ZDoubleLinkedList Took " << tm << " seconds\n";
 
 	cl.TakeClock();
 
@@ -69,12 +112,11 @@ void TestDoubleLinkedListStuff()
 
 	std::cout << "Vector Took " << nl << " seconds\n";
 
-	std::cout << "ZLinkedList ratio is " << (nl / tm) << std::endl;
+	std::cout << "ZDoubleLinkedList ratio is " << (nl / tm) << std::endl;
 }
 
 void TestLinkedListStuff()
 {
-	static const unsigned TestNum = 1000;
 
 	HighPrecisionClock cl;
 
@@ -117,15 +159,13 @@ void TestLinkedListStuff()
 
 void TestArrayStuff()
 {
-	static const unsigned TestNum = 100000;
-
 	HighPrecisionClock cl;
 
-	ZArray<unsigned> ints(TestNum);
+	ZArray<std::string> ints;
 
 	for (unsigned i = 0; i < TestNum; i++)
 	{
-		ints.Add(i);
+		ints.Add(std::to_string(i));
 	}
 
 	for (unsigned i = TestNum - 1; i > TestNum / 2; i--)
@@ -139,11 +179,11 @@ void TestArrayStuff()
 
 	cl.TakeClock();
 
-	std::vector<unsigned> v(0);
+	std::vector<std::string> v;
 
 	for (unsigned i = 0; i < TestNum; i++)
 	{
-		v.push_back(i);
+		v.push_back(std::to_string(i));
 	}
 
 	for (unsigned i = TestNum - 1; i > TestNum / 2; i--)

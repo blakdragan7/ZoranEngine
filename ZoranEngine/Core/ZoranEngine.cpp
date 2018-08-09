@@ -47,8 +47,8 @@ ZoranEngine::ZoranEngine()
 
 	defaultAllocator = new CAllocator();
 
-	allSceneObjects = new ZArray<SceneObject*>(defaultAllocator);
-	allTickables = new ZArray<TickableObject*>(defaultAllocator);
+	allSceneObjects = new ZArray<SceneObject*>(8,defaultAllocator);
+	allTickables = new ZArray<TickableObject*>(8,defaultAllocator);
 }
 
 ZoranEngine::~ZoranEngine()

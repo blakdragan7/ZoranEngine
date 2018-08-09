@@ -18,25 +18,8 @@ private:
 	bool deleteAllocator;
 
 public:
-	ZArray(AllocatorBase* allocator = 0)
-	{
-		if (allocator)
-		{
-			this->allocator = allocator;
-			deleteAllocator = false;
-		}
-		else
-		{
-			this->allocator = new CAllocator();
-			deleteAllocator = true;
-		}
-		maxSize = 0;
-		allocationSize = 0;
-		arrayPointerStart = 0;
-		arrayPointerEnd = 0;
-	}
 
-	ZArray(unsigned maxSize, AllocatorBase* allocator = 0)
+	ZArray(unsigned maxSize = 8, AllocatorBase* allocator = 0)
 	{
 		if (allocator)
 		{
@@ -51,8 +34,11 @@ public:
 
 		this->maxSize = maxSize;
 
+		size = 0;
+
 		allocationSize = sizeof(t) * maxSize;
-		arrayPointerStart = (t*)this->allocator->Allocate(allocationSize);
+		void* mem = (t*)this->allocator->Allocate((size_t&)allocationSize);
+		arrayPointerStart = new(mem) t[maxSize];
 		arrayPointerEnd = arrayPointerStart;
 	}
 
@@ -65,8 +51,8 @@ public:
 		}
 	}
 
-	inline unsigned GetSize() { return size; }
-	inline unsigned GetMaxSize() { return maxSize; }
+	inline unsigned GetSize()const { return size; }
+	inline unsigned GetMaxSize()const { return maxSize; }
 
 	inline t& operator[](unsigned index)
 	{
@@ -82,37 +68,39 @@ public:
 
 	inline void IndexCheck(unsigned index)
 	{
-		assert(index < size && "Index Greater Then Array size !!");
+		assert(index < maxSize && "Index Greater Then Array size !!");
 	}
 
 	inline void InsertAt(t& object,unsigned index)
 	{
+		IndexCheck(index);
 		size++;
 		if (size >= maxSize)
 		{
-			arrayPointerStart = allocator->ResizeAllocation(arrayPointerStart,size * sizeof(t), allocationSize);
-			arrayPointerEnd = arrayPointerStart + size;
-			maxSize = allocationSize / sizeof(t);
+			ResizeTo(maxSize*2);
 		}
 		// - 2 because we already ++ size
 		memmove(&arrayPointerStart[index+1],&arrayPointerStart[index], &arrayPointerStart[size-2] - &arrayPointerStart[index]);
 		arrayPointerStart[index] = object;
+
+		arrayPointerEnd = arrayPointerStart + size;
 	}
 
-	inline void Add(t& object)
+	inline void Add(const t& object)
 	{
 		size++;
 		if (size >= maxSize)
 		{
-			arrayPointerStart = (t*)allocator->ResizeAllocation(arrayPointerStart, size * sizeof(t), allocationSize);
-			arrayPointerEnd = arrayPointerStart + size;
-			maxSize = static_cast<unsigned>(allocationSize / sizeof(t));
+			ResizeTo(maxSize*2);
 		}
 		arrayPointerStart[size-1] = object;
+
+		arrayPointerEnd = arrayPointerStart + size;
 	}
 
 	inline void RemoveAt(unsigned index, bool canShrink = false)
 	{
+		IndexCheck(index);
 		typedef t tt;
 		(arrayPointerStart + index)->~tt();
 
@@ -127,10 +115,10 @@ public:
 
 		if (canShrink)
 		{
-			arrayPointerStart = (t*)allocator->ResizeAllocation(arrayPointerStart, size * sizeof(t), allocationSize);
-			arrayPointerEnd = arrayPointerStart + size;
-			maxSize = static_cast<unsigned>(allocationSize / sizeof(t));
+			ResizeTo(size);
 		}
+
+		arrayPointerEnd = arrayPointerStart + size;
 	}
 
 	inline void Remove(const t& object, bool canShrink = false)
@@ -149,7 +137,7 @@ public:
 		return object;
 	}
 
-	inline unsigned LastIndex()
+	inline unsigned LastIndex()const
 	{
 		return size - 1;
 	}
@@ -157,6 +145,16 @@ public:
 	inline t LastObject()
 	{
 		return arrayPointerStart[LastIndex()];
+	}
+
+	inline void ResizeTo(size_t newSize)
+	{
+		assert(newSize > size);
+
+		arrayPointerStart = (t*)allocator->ResizeAllocation(arrayPointerStart, newSize * sizeof(t), allocationSize);
+		arrayPointerEnd = arrayPointerStart + size;
+		maxSize = static_cast<unsigned>(allocationSize / sizeof(t));
+
 	}
 
 	// Currently O(N)
@@ -168,6 +166,40 @@ public:
 			if (arrayPointerStart[i] == object)
 			{
 				index = i;
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	inline void Append(const ZArray<t>& other)
+	{
+		size_t newsize = size + other.GetSize();
+		if (newsize >= maxSize)
+		{
+			ResizeTo(newsize);
+		}
+
+		memcpy(arrayPointerEnd,other.arrayPointerStart,other.GetSize() * sizeof(t));
+	}
+
+	inline void AddUnique(const t& object)
+	{
+		if (Contains(object) == false)
+		{
+			Add(object);
+		}
+	}
+
+	// Currently O(N)
+	inline bool Contains(const t& object)const
+	{
+		// ToDo make more efficient
+		for (unsigned i = 0; i < size; i++)
+		{
+			if (arrayPointerStart[i] == object)
+			{
 				return true;
 			}
 		}
@@ -188,6 +220,8 @@ public:
 		allocationSize = sizeof(t) * maxSize;
 		arrayPointerStart = (t*)this->allocator->Allocate(allocationSize);
 		arrayPointerEnd = arrayPointerStart;
+
+		size = 0;
 	}
 
 	inline void Empty()
@@ -200,6 +234,8 @@ public:
 		// zarray assumes you are managing the memory of the objects and it doesnt need to delete them here
 		size = 0;
 	}
+
+	// range based for loop functions
 
 	inline t* begin()
 	{

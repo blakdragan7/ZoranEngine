@@ -181,8 +181,7 @@ public:
 		assert(size != 0 && "Trying to PopLast with nothing inserted !!");
 
 		t data = end->data;
-		end->~node();
-		allocator->DeAllocate(end);
+		node* tmp = end;
 		if (size > 2)
 		{
 			node* n = GetNodeAtIndex(size - 2);
@@ -196,6 +195,9 @@ public:
 		}
 
 		size--;
+
+		tmp->~node();
+		allocator->DeAllocate(tmp);
 
 		return data;
 	}

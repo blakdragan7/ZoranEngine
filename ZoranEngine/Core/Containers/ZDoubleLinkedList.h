@@ -30,6 +30,37 @@ private:
 		assert(index < size && "Index is bigger then Size !!");
 	}
 
+	node* GetNodeAtIndex(unsigned index)
+	{
+		IndexCheck(index);
+
+		node* current;
+
+		if (index > size / 2) // iterate backwords to find the index faster
+		{
+			current = end;
+
+			for (unsigned i = size - 1; i >= index; i++)
+			{
+				assert(current->next != 0 && "Next node in [] operator is Null !!");
+				current = current->previous;
+			}
+		}
+		else
+		{
+			current = start;
+
+			for (unsigned i = 0; i < index; i++)
+			{
+				assert(current->next != 0 && "Next node in [] operator is Null !!");
+				current = current->next;
+			}
+		}
+		
+
+		return current;
+	}
+
 public:
 	ZDoubleLinkedList(AllocatorBase* allocator = 0)
 	{
@@ -86,7 +117,7 @@ public:
 		{
 			node* temp = start;
 			start = start->next;
-
+			temp->~node();
 			allocator->DeAllocate(temp);
 		}
 
@@ -104,6 +135,7 @@ public:
 
 		if (end)
 		{
+			n->previous = end;
 			end->next = n;
 			end = end->next;
 		}
@@ -124,7 +156,10 @@ public:
 		node* toDelete = n->next;
 		t data = toDelete->data;
 		n->next = toDelete->next;
+		if (toDelete->next)
+			toDelete->next->previous = n;
 
+		toDelete->~node();
 		allocator->DeAllocate(toDelete);
 
 		size--;
@@ -139,7 +174,10 @@ public:
 		node* n = GetNodeAtIndex(index - 1);
 		node* toDelete = n->next;
 		n->next = toDelete->next;
+		if(toDelete->next)
+			toDelete->next->previous = n;
 
+		toDelete->~node();
 		allocator->DeAllocate(toDelete);
 
 		size--;
@@ -149,52 +187,41 @@ public:
 	{
 		IndexCheck(index);
 
-		/*node* n = GetNodeAtIndex(index - 1);
+		node* n = GetNodeAtIndex(index - 1);
 		void* mem = allocator->Allocate(sizeof(node));
 		node* newnode = new(mem) node(t);
 		newnode->next = n->next;
-		n->next = newnode;*/
+		newnode->previous = n;
+		n->next = newnode;
+		if (newnode->next)
+			newnode->next->previous = newnode;
 
 		size++;
 	}
 
 	inline t PopLast()
 	{
-		/*assert(size != 0 && "Trying to PopLast with nothing inserted !!");
+		assert(size != 0 && "Trying to PopLast with nothing inserted !!");
+
+		node* tmp = end;
 
 		t data = end->data;
+		end = end->previous;
+		end->next = 0;
 
-		allocator->DeAllocate(end);
-		if (size > 2)
-		{
-			node* n = GetNodeAtIndex(size - 2);
-			end = n;
-			end->next = 0;
-		}
-		else
-		{
-			// there was only one left in the linked list so we just set everything to 0
-			start = end = 0;
-		}
-
+		tmp->~node();
+		allocator->DeAllocate(tmp);
+		
 		size--;
 
-		return data;*/
-
-		return t();
+		return data;
 	}
 
 	inline t& operator[](unsigned index)
 	{
 		IndexCheck(index);
 
-		node* current = start;
-
-		for (unsigned i = 0; i <= index; i++)
-		{
-			assert(current->next != 0 && "Next node in [] operator is Null !!")
-				current = current->next;
-		}
+		node* current = GetNodeAtIndex(index);
 
 		return current->data;
 	}
