@@ -4,6 +4,8 @@
 #include "GL/glew.h"
 #include "Core/SceneObject.h"
 
+#include <Utils/Statistics.h>
+
 StandardShader2D::StandardShader2D()
 {
 	AddShaderFromSource("Shaders/2D/standard.vert", GL_VERTEX_SHADER);

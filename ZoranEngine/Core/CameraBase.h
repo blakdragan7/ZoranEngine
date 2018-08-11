@@ -12,11 +12,13 @@ protected:
 	Vec2D cameraExtents;
 	Vec2D halfCameraExtents;
 
+	MatrixF cameraModelCache;
+
 public:
 	CameraBase();
 	virtual ~CameraBase();
-
-	virtual MatrixF GetModel() = 0;
+	
+	inline const MatrixF& GetModel() { return cameraModelCache; }
 
 	virtual void Translate(float deltax, float deltay, float deltaz) = 0;
 	virtual void Translate(Vec2D delta) = 0;

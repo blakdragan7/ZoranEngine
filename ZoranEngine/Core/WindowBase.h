@@ -43,5 +43,7 @@ public:
 
 	inline bool IsFullScreen() { return isFullScreen; };
 	inline bool IsMaxamized() { return isMaximized; };
+
+	friend class ZoranEngine;
 };
 

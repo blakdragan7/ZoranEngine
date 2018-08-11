@@ -29,6 +29,10 @@
 
 #endif
 
+#include <Utils/Statistics.h>
+#include <ThirdParty/imgui/imgui.h>
+#include <ThirdParty/imgui/imgui_impl_opengl3.h>
+
 ZoranEngine* ZoranEngine::instance = 0;
 
 ZoranEngine::ZoranEngine()
@@ -47,8 +51,8 @@ ZoranEngine::ZoranEngine()
 
 	defaultAllocator = new CAllocator();
 
-	allSceneObjects = new std::vector<SceneObject*>(8);
-	allTickables = new std::vector<TickableObject*>(8);
+	allSceneObjects = new std::vector<SceneObject*>();
+	allTickables = new std::vector<TickableObject*>();
 }
 
 ZoranEngine::~ZoranEngine()
@@ -61,9 +65,11 @@ ZoranEngine::~ZoranEngine()
 	delete allSceneObjects;
 	delete allTickables;
 
-	if (mainWindow)delete mainWindow;
+	mainWindow->renderEngine = 0;
+
 	if (physicsEngine)delete physicsEngine;
 	if (mainRenderEngine)delete mainRenderEngine;
+	if (mainWindow)delete mainWindow;
 
 	delete defaultAllocator;
 
@@ -77,15 +83,15 @@ int ZoranEngine::MainLoop()
 #ifdef _WIN32
 	MSG       msg = { 0 };
 
-	HighPrecisionClock clock;
-	HighPrecisionClock statisticsClock;
 	double statistics = 0;
 
 	while (WM_QUIT != msg.message && shouldRun)
 	{
-		double FPSTime = clock.GetDiffSeconds();
+		// Main body of the Demo window starts here.
+
+		DEBUG_BENCH_START
+
 		float deltaTime = (1.0f / 60.0f);
-		clock.TakeClock();
 
 		while (PeekMessageW(&msg, NULL, 0, 0, PM_REMOVE))
 		{
@@ -102,30 +108,19 @@ int ZoranEngine::MainLoop()
 				step = false;
 				//deltaTime = 0.033; 
 			}
-			statisticsClock.TakeClock();
 			if (physicsEngine)physicsEngine->UpdateAll(deltaTime);
 
-			statistics = statisticsClock.GetDiffSeconds();
-			Log(LogLevel_Verbose, "physicsEngine->UpdateAll() took %f ms\n", statistics*1000);
-
-			statisticsClock.TakeClock();
 			for (auto object : *allTickables)
 			{
 				object->Tick(deltaTime);
 			}
-
-			statistics = statisticsClock.GetDiffSeconds();
-			Log(LogLevel_Verbose, "All object->Tick()'s took %f ms\n", statistics*1000);
 		}
 		else
 		{
 
 		}
 
-		statisticsClock.TakeClock();
 		if (mainWindow)mainWindow->MainDraw();
-		statistics = statisticsClock.GetDiffSeconds();
-		Log(LogLevel_Verbose, "mainWindow->MainDraw() took %f ms\n", statistics * 1000);
 	}
 #endif
 
@@ -192,6 +187,9 @@ void ZoranEngine::KeyEvent(KeyEventType type, unsigned key)
 				break;
 			case 'S':
 				if (isPaused)step = true;
+				break;
+			case 'B':
+				std::cout << *BenchMarker::Singleton() << std::endl;
 				break;
 		}
 		break;

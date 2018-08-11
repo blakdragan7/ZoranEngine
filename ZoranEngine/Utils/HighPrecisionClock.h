@@ -10,7 +10,8 @@ private:
 	std::chrono::time_point<std::chrono::steady_clock> first;
 
 public:
-	HighPrecisionClock() { TakeClock(); }
+	HighPrecisionClock() { }
+	HighPrecisionClock(const HighPrecisionClock& other) : first(other.first) { }
 	~HighPrecisionClock() {}
 
 	inline void TakeClock() { first = std::chrono::steady_clock::now(); }

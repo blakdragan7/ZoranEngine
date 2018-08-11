@@ -15,8 +15,6 @@ public:
 	Camera3D(std::string name,Vec3D position,Vec3D scale,Vec3D rotation);
 	virtual ~Camera3D();
 
-	virtual MatrixF GetModel()override;
-
 	virtual void Translate(float deltax, float deltay, float deltaz)override;
 	virtual void Translate(Vec2D delta)override;
 	virtual void Translate(Vec3D delta)override;

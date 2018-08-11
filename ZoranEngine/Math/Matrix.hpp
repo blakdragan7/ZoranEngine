@@ -344,7 +344,7 @@ public:
 		}
 	}
 
-	Matrix operator +(const Matrix &other)
+	Matrix operator +(const Matrix &other)const
 	{
 		Matrix mat(cols, rows);
 		if (rows == other.rows && cols == other.cols)
@@ -357,7 +357,7 @@ public:
 		return mat;
 	}
 
-	Matrix operator -(const Matrix &other)
+	Matrix operator -(const Matrix &other)const
 	{
 		Matrix mat(rows, cols);
 		if (rows == other.rows && cols == other.cols)
@@ -370,7 +370,7 @@ public:
 		return mat;
 	}
 
-	Matrix operator *(Matrix &other)
+	Matrix operator *(const Matrix &other)const
 	{
 		Matrix res(rows, other.cols);
 		if (cols == other.rows)
@@ -426,6 +426,17 @@ public:
 	{
 		if (index >= array_size)
 			throw std::exception("Index Out of Bounds For Matrix");
+		return c_array[index];
+	}
+
+	const t& operator()(int row, int col)const
+	{
+		if (row >= rows)
+			throw std::exception("MATRIX OUT OF BOUNDS - row is not within row bounds");
+		if (col >= cols)
+			throw std::exception("MATRIX OUT OF BOUNDS - col is not within column bounds");
+		int index = (row*cols) + col;
+
 		return c_array[index];
 	}
 

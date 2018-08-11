@@ -5,6 +5,8 @@
 #include "Core/SceneObject.h"
 #include <Core/2D/DebugSceneObject2D.h>
 
+#include <Utils/HighPrecisionClock.h>
+
 DebugShader2D::DebugShader2D(DebugSceneObject2D* object)
 {
 	debugObject = object;
@@ -24,11 +26,6 @@ bool DebugShader2D::SetupShaderFromSceneObject(SceneObject * object)
 	model = zEngine->GetCamera()->GetModel() * model;
 	setUniformMat4("MVP",&model[0]);
 	setUniform("Color", &debugObject->GetColor());
-
-	if (object->readableName == "Collision Point Debug")
-	{
-		std::cout << "found it\n";
-	}
 
 	return true;
 }

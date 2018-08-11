@@ -20,7 +20,7 @@ WindowBase::~WindowBase()
 void WindowBase::Resize(Vec2I size)
 {
 	SetWindowSizeNoExecute(size.w,size.h);
-	renderEngine->Resize(size.w, size.h);
+	if(renderEngine)renderEngine->Resize(size.w, size.h);
 	engine->ScreenResized(static_cast<float>(size.w), static_cast<float>(size.h));
 }
 

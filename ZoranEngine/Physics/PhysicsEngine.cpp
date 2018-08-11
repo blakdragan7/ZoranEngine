@@ -14,6 +14,8 @@
 #include <vector>
 #include <Utils/VectorAddons.hpp>
 
+#include <Utils/Statistics.h>
+
 PhysicsEngine::PhysicsEngine()
 {
 	collisionTree2D = 0;
@@ -35,12 +37,15 @@ PhysicsEngine::~PhysicsEngine()
 
 void PhysicsEngine::CheckAllCollision()
 {
+	DEBUG_BENCH_LOW_START("PhysicsEngine", "CheckAllCollision");
 	if (collisionTree2D)collisionTree2D->CheckAllCollision(*collisionFrame2D);
 	if (collisionTree3D)collisionTree3D->CheckAllCollision(*collisionFrame2D);
+	DEBUG_TAKE_LOW_BENCH("PhysicsEngine", "CheckAllCollision")
 }
 
 void PhysicsEngine::ResolveAllStaticCollisions(float dt)
 {
+	DEBUG_BENCH_LOW_START("PhysicsEngine", "ResolveAllStaticCollisions");
 	float inv_dt = 1.0f / dt;
 
 	for (auto& collisionIter : collisionFrame2D->collisions)
@@ -70,10 +75,12 @@ void PhysicsEngine::ResolveAllStaticCollisions(float dt)
 	}
 
 	aV.numObjects = 0;
+	DEBUG_TAKE_LOW_BENCH("PhysicsEngine", "ResolveAllStaticCollisions")
 }
 
 void PhysicsEngine::ResolveAllSweptCollisions(float dt)
 {
+	DEBUG_BENCH_LOW_START("PhysicsEngine", "ResolveAllSweptCollisions");
 	if (collisionFrame2D->sweptCollisions.size() == 0)return;
 
 	SweepCollision2D currentResponse = collisionFrame2D->sweptCollisions.back();
@@ -83,6 +90,7 @@ void PhysicsEngine::ResolveAllSweptCollisions(float dt)
 		currentResponse.Collision2D.collidedObjects[0]->OnSweepCollision(currentResponse, currentResponse.Collision2D.collidedObjects[0]->GetCurrentDeltaTime());
 
 	ResolveAllSweptCollisions(dt);
+	DEBUG_TAKE_LOW_BENCH("PhysicsEngine", "ResolveAllSweptCollisions")
 }
 
 void PhysicsEngine::ResolveAllCollisions(float dt)
@@ -120,22 +128,30 @@ CollisionBucketBase * PhysicsEngine::GetCollisionBucketRoot()
 
 void PhysicsEngine::UpdateAll(float deltaTime)
 {
+	DEBUG_BENCH_TOP_START("PhysicsEngine")
+	DEBUG_BENCH_LOW_START("PhysicsEngine", "RemoveDullCollisions");
 	collisionFrame2D->RemoveDullCollisions();
-	
+	DEBUG_TAKE_LOW_BENCH("PhysicsEngine", "RemoveDullCollisions");
+
+	DEBUG_BENCH_LOW_START("PhysicsEngine", "Simulation - Velocties");
 	for (auto& object : *physicsObjects)
 	{
 		if(object->GetShouldSimulate())
 			object->UpdateVelocities(deltaTime);
 	}
+	DEBUG_TAKE_LOW_BENCH("PhysicsEngine", "Simulation - Velocties");
 
 	CheckAllCollision();
 	ResolveAllCollisions(deltaTime);
 
+	DEBUG_BENCH_LOW_START("PhysicsEngine", "UpdatePositionsAndRotation");
 	for (auto& object : *physicsObjects)
 	{
 		object->UpdatePositionsAndRotation(deltaTime);
 	}
+	DEBUG_TAKE_LOW_BENCH("PhysicsEngine", "UpdatePositionsAndRotation");
 
+	DEBUG_BENCH_LOW_START("PhysicsEngine", "UpdateAllObjects");
 	if (collisionTree2D)
 	{
 		collisionTree2D->UpdateAllObjects();
@@ -144,16 +160,20 @@ void PhysicsEngine::UpdateAll(float deltaTime)
 	{
 		collisionTree3D->UpdateAllObjects();
 	}
-
+	DEBUG_TAKE_LOW_BENCH("PhysicsEngine", "UpdateAllObjects");
+	DEBUG_TAKE_TOP_BENCH("PhysicsEngine")
 }
 
 void PhysicsEngine::AddPhysicsObject(PhysicsObjectBase * object)
 {
+	DEBUG_BENCH_LOW_START("PhysicsEngine", "AddPhysicsObject");
 	physicsObjects->push_back(object);
+	DEBUG_TAKE_LOW_BENCH("PhysicsEngine", "AddPhysicsObject")
 }
 
 void PhysicsEngine::AddCollisionObject(CollisionObjectBase * object)
 {
+	DEBUG_BENCH_LOW_START("PhysicsEngine", "AddCollisionObject");
 	if (is3D)
 	{
 		if (collisionTree3D)collisionTree3D->AddObject((CollisionObject3DBase*)object);
@@ -162,6 +182,7 @@ void PhysicsEngine::AddCollisionObject(CollisionObjectBase * object)
 	{
 		if (collisionTree2D)collisionTree2D->AddObject((CollisionObject2DBase*)object);
 	}
+	DEBUG_TAKE_LOW_BENCH("PhysicsEngine", "AddCollisionObject")
 }
 
 void PhysicsEngine::UpdateCollisionObject(CollisionObjectBase *object)
@@ -171,6 +192,7 @@ void PhysicsEngine::UpdateCollisionObject(CollisionObjectBase *object)
 
 CollisionObjectBase * PhysicsEngine::RemoveObject(CollisionObjectBase * object)
 {
+	DEBUG_BENCH_LOW_START("PhysicsEngine", "RemoveObject");
 	if (is3D)
 	{
 		if (collisionTree3D == NULL)return nullptr;
@@ -181,10 +203,13 @@ CollisionObjectBase * PhysicsEngine::RemoveObject(CollisionObjectBase * object)
 		if (collisionTree2D == NULL)return nullptr;
 		return collisionTree2D->RemoveObject((CollisionObject2DBase*)object);
 	}
+	DEBUG_TAKE_LOW_BENCH("PhysicsEngine", "RemoveObject")
 }
 
 PhysicsObjectBase * PhysicsEngine::RemoveObject(PhysicsObjectBase * object)
 {
+	DEBUG_BENCH_LOW_START("PhysicsEngine", "RemoveObject");
 	remove(*physicsObjects, object);
 	return object;
+	DEBUG_TAKE_LOW_BENCH("PhysicsEngine", "RemoveObject")
 }
