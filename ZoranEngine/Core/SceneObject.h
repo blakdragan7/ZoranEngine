@@ -41,6 +41,8 @@ protected:
 	void WaitForMutex();
 	void UnlockMutex();
 
+	MatrixF ModelMatrixCache;
+
 public:
 	SceneObject(std::string);
 	SceneObject(std::string, RenderEngineBase* engine);
@@ -56,6 +58,8 @@ public:
 	// default impl
 	virtual void Tick(float deltaTime)override {}
 
+	virtual void PreCaclModel() = 0;
+
     // Getter / Setter
 
 	void SetShaderProgram(ShaderProgramBase* newShaderProgram);
@@ -66,7 +70,7 @@ public:
 	inline RenderedObjectBase* GetRenderedObject() { return renderedObject; }
 	
 
-	virtual MatrixF GetModel() = 0;
+	inline const MatrixF& GetModel() { return ModelMatrixCache; };
 	virtual MatrixF GetScaleMatrix3x3() = 0;
 	virtual MatrixF GetScaleMatrix4x4() = 0;
 

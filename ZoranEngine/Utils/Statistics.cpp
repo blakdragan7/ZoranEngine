@@ -163,12 +163,12 @@ void BenchMarker::ImGuiDraw()
 	{
 		ImGui::Text(("\t" + x.first + ": " + std::to_string(((double)x.second.rootLevelClock / (double)totalNanoseconds) * 100.0)).c_str());
 		if(ShowGraph)
-			ImGui::PlotVar(x.first.c_str(),((double)x.second.rootLevelClock / (double)totalNanoseconds) * 100.0,0,1);
+			ImGui::PlotVar(x.first.c_str(),((double)x.second.rootLevelClock / (double)totalNanoseconds) * 100.0,0,100);
 		if (ImGui::CollapsingHeader(x.first.c_str()))
 		{
 			for (auto const& s : x.second.stats)
 			{
-				ImGui::Text((s.first + ": " + std::to_string(((double)s.second.nanoseconds / (double)totalNanoseconds) * 100.0)).c_str());
+				ImGui::Text(("\t\t" + s.first + ": " + std::to_string(((double)s.second.nanoseconds / (double)totalNanoseconds) * 100.0)).c_str());
 				if (ShowGraph)
 					ImGui::PlotVar(s.first.c_str(), ((double)s.second.nanoseconds / (double)totalNanoseconds) * 100.0, 0, 100);
 			}

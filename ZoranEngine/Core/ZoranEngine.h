@@ -34,6 +34,8 @@ private:
 public:
 	AllocatorBase * defaultAllocator;
 
+	static bool canRenderDebug;
+
 public:
 	ZoranEngine();
 	~ZoranEngine();

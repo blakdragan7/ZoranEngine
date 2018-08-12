@@ -22,7 +22,7 @@ private:
 	bool TraverseUpAddObject(CollisionObject2DBase* object);
 
 public:
-	QuadTreeCollisionBucket(std::string name, Vec2D pos,Vec2D size,unsigned maxObjects = 128,QuadTreeCollisionBucket * parent=0);
+	QuadTreeCollisionBucket(std::string name, Vec2D pos,Vec2D size,unsigned maxObjects = 64,QuadTreeCollisionBucket * parent=0);
 	~QuadTreeCollisionBucket();
 
 	bool AddObject(CollisionObject2DBase* object)override;

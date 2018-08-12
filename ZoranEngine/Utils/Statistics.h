@@ -91,9 +91,9 @@ extern std::ostream& operator<<(std::ostream& os, const BenchMarker& b);
 #define DEBUG_BENCH_START
 #define DEBUG_TAKE_BENCH
 #define DEBUG_BENCH_TOP_START(a)
-#define DEBUG_TAKE_TOP_BENCH(a)
-#define DEBUG_BENCH_START(a, b)
-#define DEBUG_TAKE_BENCH(a, b)
-#define DEBUG_ADD_STAT(a, b, c)
+#define DEBUG_TAKE_TOP_BENCH(a);
+#define DEBUG_BENCH_LOW_START(a,b)
+#define DEBUG_TAKE_LOW_BENCH(a,b)
+#define DEBUG_ADD_STAT(a,b,c)
 #define DEBUG_DRAW
 #endif	

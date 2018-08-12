@@ -35,6 +35,8 @@
 
 ZoranEngine* ZoranEngine::instance = 0;
 
+bool ZoranEngine::canRenderDebug = false;
+
 ZoranEngine::ZoranEngine()
 {
 	mainWindow = 0;
@@ -45,7 +47,7 @@ ZoranEngine::ZoranEngine()
 	mainRenderEngine = 0;
 	isPaused = false;
 	logger = new ConsoleLogger();
-	logger->SetLogLevel(LogLevel_Default);
+	logger->SetLogLevel(LogLevel_Debug);
 	step = false;
 	camera = 0;
 

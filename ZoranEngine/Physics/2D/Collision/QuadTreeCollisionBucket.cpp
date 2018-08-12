@@ -31,7 +31,7 @@ QuadTreeCollisionBucket::QuadTreeCollisionBucket(std::string name, Vec2D pos, Ve
 
 	Vec2D halfSize = size / 2.0;
 
-	collision = new AABBSquareCollisionObject(pos - halfSize,pos + halfSize, sceneObject,CD_Static);
+	collision = new QuadTreeCollision(pos - halfSize,pos + halfSize, sceneObject);
 
 	Log(LogLevel_Verbose,"Buckets: %i", numBuckets);
 }

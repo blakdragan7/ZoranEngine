@@ -70,7 +70,7 @@ bool Collision2D::operator==(const Collision2D& other)
 
 void Collision2D::PreUpdate(float inv_dt, Accumulated2DVelocities& aV)
 {
-	if (shouldRender == false)
+	if (shouldRender == false && ZoranEngine::canRenderDebug)
 	{
 		shouldRender = true;
 		
@@ -237,10 +237,13 @@ void Collision2D::Update(Collision2D* other)
 
 		if (numCollisionPoints > other->numCollisionPoints)
 		{
-			for (unsigned i = other->numCollisionPoints; i < numCollisionPoints; i++)
+			if (shouldRender)
 			{
-				debugObjects[i]->Destroy();
-				debugObjects[i] = 0;
+				for (unsigned i = other->numCollisionPoints; i < numCollisionPoints; i++)
+				{
+					debugObjects[i]->Destroy();
+					debugObjects[i] = 0;
+				}
 			}
 		}
 		else if (numCollisionPoints < other->numCollisionPoints)

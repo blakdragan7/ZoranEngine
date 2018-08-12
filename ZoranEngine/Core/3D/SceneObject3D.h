@@ -59,7 +59,7 @@ public:
 	void Translate(Vector3D delta);
 	void Scale(Vector3D scale);
 
-	virtual MatrixF GetModel()override;
+	virtual void PreCaclModel()override;
 	virtual MatrixF GetScaleMatrix3x3()override;
 	virtual MatrixF GetScaleMatrix4x4()override;
 

@@ -6,9 +6,6 @@
 class SceneObject2D;
 class PhysicsObject2DBase;
 
-
-
-
 struct ZoranEngine_EXPORT SweepCollision2D
 {
 	Collision2D Collision2D;

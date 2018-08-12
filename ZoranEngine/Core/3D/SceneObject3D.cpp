@@ -172,16 +172,15 @@ void SceneObject3D::Scale(Vector3D scale)
 	UnlockMutex();
 }
 
-MatrixF SceneObject3D::GetModel()
+void SceneObject3D::PreCaclModel()
 {
 	model.makeIdentity();
 
 	WaitForMutex();
 	model.translate(pos);
 	model.scale(scale);
-	model = model * rotation.AsRotationMatrix();
+	ModelMatrixCache = model * rotation.AsRotationMatrix();
 	UnlockMutex();
-	return model;
 }
 
 MatrixF SceneObject3D::GetScaleMatrix3x3()

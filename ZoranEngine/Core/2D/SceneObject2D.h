@@ -58,7 +58,8 @@ public:
 	Matrix22 GetRotationMatrix();
 	Matrix22 GetInvRotationMatrix();
 
-	virtual MatrixF GetModel()override;
+	virtual void PreCaclModel()override;
+
 	virtual MatrixF GetScaleMatrix3x3()override;
 	virtual MatrixF GetScaleMatrix4x4()override;
 

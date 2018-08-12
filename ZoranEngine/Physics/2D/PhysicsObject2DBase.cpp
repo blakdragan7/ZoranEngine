@@ -241,6 +241,9 @@ void PhysicsObject2DBase::UpdatePositionsAndRotation(float deltaTime)
 		}
 
 		sceneObject2D->Rotate(deltaTime * -angularVelocity);
+	
+		// optimization for calculating model matrix only once
+		sceneObject2D->PreCaclModel();
 	}
 }
 

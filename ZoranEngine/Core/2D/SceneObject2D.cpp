@@ -144,7 +144,7 @@ Matrix22 SceneObject2D::GetInvRotationMatrix()
 	return invRotationMat;
 }
 
-MatrixF SceneObject2D::GetModel()
+void SceneObject2D::PreCaclModel()
 {
 	model.makeIdentity();
 
@@ -152,7 +152,7 @@ MatrixF SceneObject2D::GetModel()
 	model.translate(pos);
 	model.scale(scale);
 
-	return model *rotMatrix;
+	ModelMatrixCache = model *rotMatrix;
 }
 
 MatrixF SceneObject2D::GetScaleMatrix3x3()
