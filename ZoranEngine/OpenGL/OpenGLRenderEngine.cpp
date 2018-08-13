@@ -8,6 +8,9 @@
 #include <Windows.h>
 #include <iostream>
 
+#include <Physics/PhysicsEngine.h>
+#include <Physics/2D/Collision/CollisionBucket2DBase.h>
+
 #include <Utils/Statistics.h>
 
 #include <ThirdParty/imgui/imgui.h>
@@ -148,6 +151,8 @@ void OpenGLRenderEngine::DrawAll()
 	DEBUG_TAKE_BENCH
 
 	DEBUG_DRAW;
+
+	//pEngine->GetCollisionBucketRootFor2D()->ImGuiDraw();
 
 	ImGui::Render();
 

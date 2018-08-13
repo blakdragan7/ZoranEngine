@@ -16,6 +16,8 @@
 #include <assert.h>
 #include <string>
 
+#include <ThirdParty/imgui/imgui.h>
+
 static unsigned long long numBuckets = 0;
 
 QuadTreeCollisionBucket::QuadTreeCollisionBucket(std::string name, Vec2D pos, Vec2D size, unsigned maxObjects,QuadTreeCollisionBucket * parent) : CollisionBucket2DBase(name,pos,maxObjects)
@@ -71,7 +73,7 @@ bool QuadTreeCollisionBucket::AddObject(CollisionObject2DBase * object)
 	{
 		if (hasSubdivided == false)Subdivide();
 		
-		for (unsigned i = 0; i < 4; i++)
+		for (unsigned i = 0; i < 4; ++i)
 		{
 			if (children[i]->AddObject(object))
 			{
@@ -107,7 +109,7 @@ CollisionObject2DBase * QuadTreeCollisionBucket::RemoveObject(CollisionObject2DB
 	}
 	if(hasSubdivided)
 	{
-		for (unsigned i = 0; i < 4; i++)
+		for (unsigned i = 0; i < 4; ++i)
 		{
 			if (children[i]->RemoveObject(object))
 			{
@@ -131,7 +133,7 @@ bool QuadTreeCollisionBucket::UpdateObject(CollisionObject2DBase * object)
 		bool wasAdded = false;
 		if (hasSubdivided)
 		{
-			for (unsigned i = 0; i < 4; i++)
+			for (unsigned i = 0; i < 4; ++i)
 			{
 				if (children[i]->AddObject(object))
 				{
@@ -158,7 +160,7 @@ bool QuadTreeCollisionBucket::UpdateObject(CollisionObject2DBase * object)
 	}
 	else if(hasSubdivided)
 	{
-		for (unsigned i = 0; i < 4; i++)
+		for (unsigned i = 0; i < 4; ++i)
 		{
 			if (children[i]->UpdateObject(object))
 			{
@@ -170,24 +172,7 @@ bool QuadTreeCollisionBucket::UpdateObject(CollisionObject2DBase * object)
 	return false;
 }
 
-void QuadTreeCollisionBucket::PrintAllContents(unsigned depth)
-{
-	for (unsigned int i = 0; i < depth; i++)Log(LogLevel_None,"\t");
-	Log(LogLevel_None, "%s Contains: \n", sceneObject->readableName.c_str());
-	for (auto object : collisionObjects)
-	{
-		for (unsigned int i = 0; i < depth; i++)Log(LogLevel_None, "\t");
-		Log(LogLevel_None, "\t%s\n", object->GetSceneObject()->readableName.c_str());
-	}
-	if (hasSubdivided)
-	{
-		int new_depth = depth + 1;
-		children[0]->PrintAllContents(new_depth);
-		children[1]->PrintAllContents(new_depth);
-		children[2]->PrintAllContents(new_depth);
-		children[3]->PrintAllContents(new_depth);
-	}
-}
+
 
 void QuadTreeCollisionBucket::UpdateAllObjects()
 {
@@ -218,16 +203,15 @@ void QuadTreeCollisionBucket::CheckAllCollision(struct CollisionFrame2D& frame)
 		children[3]->CheckAllCollision(frame);
 	}
 
-	for (unsigned i = 0;i<collisionObjects.size();i++)
+	for (unsigned i = 0;i<collisionObjects.size();++i)
 	{
 		CollisionObject2DBase* object = collisionObjects[i];
 		
-		if (object->isDirty == false || object->GetPhysicsObject()->GetIsSweptCollision() || object->GetDynamics() == CD_Static)continue;
-		object->isDirty = false;
+		if (object->GetPhysicsObject()->GetIsSweptCollision() || object->GetDynamics() == CD_Static)continue;
 
 		if (i < collisionObjects.size() - 1)
 		{
-			for (unsigned j = i+1; j < collisionObjects.size(); j++)
+			for (unsigned j = i+1; j < collisionObjects.size(); ++j)
 			{
 				if (auto collision = object->CollidesWith(collisionObjects[j]))
 				{
@@ -243,6 +227,7 @@ void QuadTreeCollisionBucket::CheckAllCollision(struct CollisionFrame2D& frame)
 			children[2]->CheckCollisionForObject(object, frame);
 			children[3]->CheckCollisionForObject(object, frame);
 		}
+
 		if (parent)parent->CheckCollisionForObjectTraverseUp(object, frame);
 	}
 
@@ -284,7 +269,7 @@ void QuadTreeCollisionBucket::Subdivide()
 	for (auto object : collisionObjects)
 	{
 		bool wasAdded = false;
-		for (unsigned i = 0; i < 4; i++)
+		for (unsigned i = 0; i < 4; ++i)
 		{
 			if (children[i]->AddObject(object))
 			{
@@ -307,7 +292,7 @@ void QuadTreeCollisionBucket::Subdivide()
 
 Collision2D* QuadTreeCollisionBucket::CheckCollisionForObjectNoFrame(CollisionObject2DBase * object)
 {
-	for (unsigned i = 0; i < collisionObjects.size(); i++)
+	for (unsigned i = 0; i < collisionObjects.size(); ++i)
 	{
 		if (auto collision = object->CollidesWith(collisionObjects[i]))
 		{
@@ -328,7 +313,7 @@ Collision2D* QuadTreeCollisionBucket::CheckCollisionForObjectNoFrame(CollisionOb
 
 void QuadTreeCollisionBucket::CheckCollisionForObject(CollisionObject2DBase * object, CollisionFrame2D& frame)
 {
-	for (unsigned i = 0; i < collisionObjects.size(); i++)
+	for (unsigned i = 0; i < collisionObjects.size(); ++i)
 	{
 		if (auto collision = object->CollidesWith(collisionObjects[i]))
 		{
@@ -347,7 +332,7 @@ void QuadTreeCollisionBucket::CheckCollisionForObject(CollisionObject2DBase * ob
 
 void QuadTreeCollisionBucket::CheckCollisionForObjectTraverseUp(CollisionObject2DBase * object, CollisionFrame2D & frame)
 {
-	for (unsigned i = 0; i < collisionObjects.size(); i++)
+	for (unsigned i = 0; i < collisionObjects.size(); ++i)
 	{
 		if (auto collision = object->CollidesWith(collisionObjects[i]))
 		{
@@ -434,7 +419,35 @@ Collision2D* QuadTreeCollisionBucket::CheckObjectAgainstStaic(CollisionObject2DB
 	return false;
 }
 
+bool QuadTreeCollisionBucket::TraverseUpAddObject(CollisionObject2DBase * object)
+{
+	if (AddObject(object) == false)
+		if(parent)
+			return parent->TraverseUpAddObject(object);
+
+	return true;
+}
+
 // Debug Prints
+
+void QuadTreeCollisionBucket::PrintAllContents(unsigned depth)
+{
+	for (unsigned int i = 0; i < depth; ++i)Log(LogLevel_None, "\t");
+	Log(LogLevel_None, "%s Contains: \n", sceneObject->readableName.c_str());
+	for (auto object : collisionObjects)
+	{
+		for (unsigned int j = 0; j < depth; ++j)Log(LogLevel_None, "\t");
+		Log(LogLevel_None, "\t%s\n", object->GetSceneObject()->readableName.c_str());
+	}
+	if (hasSubdivided)
+	{
+		int new_depth = depth + 1;
+		children[0]->PrintAllContents(new_depth);
+		children[1]->PrintAllContents(new_depth);
+		children[2]->PrintAllContents(new_depth);
+		children[3]->PrintAllContents(new_depth);
+	}
+}
 
 void QuadTreeCollisionBucket::PrintCollisionForObject(CollisionObject2DBase * object)
 {
@@ -470,10 +483,34 @@ void QuadTreeCollisionBucket::PrintCollisionForObjectTraverseUp(CollisionObject2
 	if (parent)parent->PrintCollisionForObjectTraverseUp(object);
 }
 
-bool QuadTreeCollisionBucket::TraverseUpAddObject(CollisionObject2DBase * object)
+void QuadTreeCollisionBucket::ImGuiDraw()
 {
-	if (AddObject(object) == false)return parent->TraverseUpAddObject(object);
-	return true;
+	ImGui::Begin("QuadTreeCollisionBucket Contents");
+
+	DrawImGuiDown();
+
+	ImGui::End();
+}
+
+void QuadTreeCollisionBucket::DrawImGuiDown(unsigned depth)
+{
+	if (ImGui::TreeNode(sceneObject->readableName.c_str()))
+	{
+		for (auto object : collisionObjects)
+		{
+			ImGui::Text((object->GetSceneObject()->readableName).c_str());
+		}
+
+		if (hasSubdivided)
+		{
+			children[0]->DrawImGuiDown(depth + 1);
+			children[1]->DrawImGuiDown(depth + 1);
+			children[2]->DrawImGuiDown(depth + 1);
+			children[3]->DrawImGuiDown(depth + 1);
+		}
+
+		ImGui::TreePop();
+	}
 }
 
 void QuadTreeCollisionBucket::PrintAllCollisions()

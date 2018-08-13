@@ -47,7 +47,7 @@ ZoranEngine::ZoranEngine()
 	mainRenderEngine = 0;
 	isPaused = false;
 	logger = new ConsoleLogger();
-	logger->SetLogLevel(LogLevel_Debug);
+	logger->SetLogLevel(LogLevel_Default);
 	step = false;
 	camera = 0;
 
@@ -86,14 +86,19 @@ int ZoranEngine::MainLoop()
 	MSG       msg = { 0 };
 
 	double statistics = 0;
+	//static HighPrecisionClock cl;
+	//cl.TakeClock();
 
 	while (WM_QUIT != msg.message && shouldRun)
 	{
 		// Main body of the Demo window starts here.
 
-		DEBUG_BENCH_START
+		DEBUG_BENCH_START;
 
+		//float deltaTime = (cl.GetDiffSeconds());
 		float deltaTime = (1.0f / 60.0f);
+		
+		//cl.TakeClock();
 
 		while (PeekMessageW(&msg, NULL, 0, 0, PM_REMOVE))
 		{

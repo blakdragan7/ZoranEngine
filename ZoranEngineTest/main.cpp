@@ -20,6 +20,7 @@ void TestDoubleLinkedListStuff();
 void TestDictionaryStuff();
 
 static const unsigned TestNum = 1000;
+static const unsigned ToSpawn = 200;
 
 int main(int argc, char* argv[])
 {
@@ -31,8 +32,8 @@ int main(int argc, char* argv[])
 	TestArrayStuff();
 #endif
 	TestSceneStuff();
-	std::cin.get();
 }
+
 #ifdef CUSTOM_CONTAINERS
 void TestDictionaryStuff()
 {
@@ -205,11 +206,11 @@ void TestSceneStuff()
 	std::string name_base = "TestSceneObject-";
 
 	Vec2D CollisionPoint(0,0);
-	for (unsigned i = 0; i < 50; i++)
+	for (unsigned i = 0; i < ToSpawn / 2; i++)
 	{
 		TestSceneObject* test = new TestSceneObject((name_base + std::to_string(i)));
-		test->SetScale(40, -40);
-		test->SetPosition(Random::GetfloatInRange(-300, 300), Random::GetfloatInRange(-300, 300));
+		test->SetScale(10, -10);
+		test->SetPosition(Random::GetfloatInRange(-150, 150), Random::GetfloatInRange(-150, 150));
 		test->GetPhysics()->StartPhysicsSim();
 		test->GetPhysics2D()->SetSweptCollision(false);
 		test->SetRotation(1);
@@ -218,6 +219,7 @@ void TestSceneStuff()
 		pos.normalize();
 		test->GetPhysics2D()->SetGravity(pos*200);
 		//test->GetPhysics2D()->ApplyForce(pos * 100);
+		test->PreCaclModel();
 		zEngine->AddSceneObject(test);
 	}
 
@@ -245,43 +247,52 @@ void TestSceneStuff()
 		zEngine->AddSceneObject(test);
 
 		sqr = test;
-	}
+	}*/
 
-	for (int i = 0; i < 1; i++)
+	for (int i = 0; i < ToSpawn / 2; i++)
 	{
 		TestCircleObject* test = new TestCircleObject(std::string("circle ") + std::to_string(i), 1.0);
-		test->SetScale(20.0f, -20.0f);
-		Vec2D pos(0, -100 + ((float)2 * 60));
-		test->SetPosition(pos);
+		test->SetScale(10.0f, -10.0f);
+		test->SetPosition(Random::GetfloatInRange(-150, 150), Random::GetfloatInRange(-150, 150));
 		test->GetPhysics()->StartPhysicsSim();
-		test->SetTarget(sqr);
-		sqr->SetTarget(test);
+		//test->SetTarget(sqr);
+		//sqr->SetTarget(test);
 		//test->GetPhysics2D()->SetGravity(gravity[1]);
 		//test->GetPhysics2D()->SetGravity(Vec2D(-600,0));
+		Vec2D pos = test->GetPosition();
+		pos = CollisionPoint - pos;
+		pos.normalize();
+		test->GetPhysics2D()->SetGravity(pos * 200);
+
 		test->GetPhysics2D()->SetSweptCollision(false);
 		//test->SetRotation(1.00);
 		test->GetPhysics2D()->SetAngularVeloctiy(10);
+		test->PreCaclModel();
 		zEngine->AddSceneObject(test);
-	}*/
+	}
 
 	TestPlatformObject* platform = new TestPlatformObject("Ground");
 	platform->SetScale(500, -50);
 	platform->SetPosition(0, -250);
+	platform->PreCaclModel();
 	zEngine->AddSceneObject(platform);
 
 	TestPlatformObject* platform2 = new TestPlatformObject("Ceiling");
 	platform2->SetScale(500, -40);
 	platform2->SetPosition(0, 250);
+	platform2->PreCaclModel();
 	zEngine->AddSceneObject(platform2);
 
 	TestPlatformObject* platform3 = new TestPlatformObject("Left Wall");
 	platform3->SetScale(40, -500);
 	platform3->SetPosition(-500, 0);
+	platform3->PreCaclModel();
 	zEngine->AddSceneObject(platform3);
 
 	TestPlatformObject* platform4 = new TestPlatformObject("Right Wall");
 	platform4->SetScale(40, -500);
 	platform4->SetPosition(500, 0);
+	platform4->PreCaclModel();
 	zEngine->AddSceneObject(platform4);
 
 	engine.SetPaused(true);
