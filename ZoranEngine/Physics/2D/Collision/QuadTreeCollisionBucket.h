@@ -25,7 +25,7 @@ private:
 	void DrawImGuiDown(unsigned depth=0);
 
 public:
-	QuadTreeCollisionBucket(std::string name, Vec2D pos,Vec2D size,unsigned maxObjects = 200,QuadTreeCollisionBucket * parent=0);
+	QuadTreeCollisionBucket(std::string name, Vec2D pos,Vec2D size,unsigned maxObjects = 128,QuadTreeCollisionBucket * parent=0);
 	~QuadTreeCollisionBucket();
 
 	bool AddObject(CollisionObject2DBase* object)override;
@@ -41,7 +41,7 @@ public:
 	virtual bool ObjectIsWithinBucket(CollisionObject2DBase* object)override;
 	virtual class Collision2D* CheckCollisionForObjectNoFrame(CollisionObject2DBase* object);
 	virtual void CheckCollisionForObject(CollisionObject2DBase* object, CollisionFrame2D& frame)override;
-	virtual void CheckCollisionForObjectTraverseUp(CollisionObject2DBase* object, CollisionFrame2D& frame);
+	virtual void CheckCollisionForObjectTraverseUp(CollisionObject2DBase* object, CollisionFrame2D* frame);
 	virtual class Collision2D* CheckObjectAgainstStaic(CollisionObject2DBase* object)override;
 	virtual bool SweepCollision(CollisionObject2DBase* object, Vec2D newPosition, struct SweepCollision2D& response)override;
 	virtual bool SweepCollisionHitTest(CollisionObject2DBase* object, Vec2D newPosition,struct SweepCollision2D& response)override;

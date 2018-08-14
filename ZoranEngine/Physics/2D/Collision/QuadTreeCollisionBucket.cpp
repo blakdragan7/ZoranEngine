@@ -125,7 +125,7 @@ CollisionObject2DBase * QuadTreeCollisionBucket::RemoveObject(CollisionObject2DB
 bool QuadTreeCollisionBucket::UpdateObject(CollisionObject2DBase * object)
 {
 	// Static collision objects don't need to be updated
-	if (object->GetDynamics() == CD_Static)return false;
+	//if (object->GetDynamics() == CD_Static)return false;
 	object->SetBoundsBySceneObject();
 	int index = FindObject(object);
 	if (index != -1)
@@ -178,7 +178,7 @@ void QuadTreeCollisionBucket::UpdateAllObjects()
 {
 	for (auto object : collisionObjects)
 	{
-		if (object->isDirty)
+		//if (object->isDirty)
 		{
 			UpdateObject(object);
 		}
@@ -209,10 +209,12 @@ void QuadTreeCollisionBucket::CheckAllCollision(struct CollisionFrame2D& frame)
 		
 		if (object->GetPhysicsObject()->GetIsSweptCollision() || object->GetDynamics() == CD_Static)continue;
 
-		if (i < collisionObjects.size() - 1)
+		if (i <= collisionObjects.size() - 1)
 		{
-			for (unsigned j = i+1; j < collisionObjects.size(); ++j)
+			unsigned limit = i + 1;
+			for (unsigned j = 0; j < collisionObjects.size(); ++j)
 			{
+				if (j < limit && collisionObjects[j]->GetDynamics() != CD_Static)continue;
 				if (auto collision = object->CollidesWith(collisionObjects[j]))
 				{
 					frame.UpdateCollisionWithKey(Collision2DKey(collision->objects[0], collision->objects[1]), collision);
@@ -228,7 +230,7 @@ void QuadTreeCollisionBucket::CheckAllCollision(struct CollisionFrame2D& frame)
 			children[3]->CheckCollisionForObject(object, frame);
 		}
 
-		if (parent)parent->CheckCollisionForObjectTraverseUp(object, frame);
+		if (parent)parent->CheckCollisionForObjectTraverseUp(object, &frame);
 	}
 
 }
@@ -330,13 +332,13 @@ void QuadTreeCollisionBucket::CheckCollisionForObject(CollisionObject2DBase * ob
 	}
 }
 
-void QuadTreeCollisionBucket::CheckCollisionForObjectTraverseUp(CollisionObject2DBase * object, CollisionFrame2D & frame)
+void QuadTreeCollisionBucket::CheckCollisionForObjectTraverseUp(CollisionObject2DBase * object, CollisionFrame2D * frame)
 {
 	for (unsigned i = 0; i < collisionObjects.size(); ++i)
 	{
 		if (auto collision = object->CollidesWith(collisionObjects[i]))
 		{
-			frame.UpdateCollisionWithKey(Collision2DKey(collision->objects[0], collision->objects[1]), collision);
+			frame->UpdateCollisionWithKey(Collision2DKey(collision->objects[0], collision->objects[1]), collision);
 		}
 	}
 
