@@ -211,6 +211,9 @@ void QuadTreeCollisionBucket::CheckAllCollision(struct CollisionFrame2D& frame)
 
 		if (i <= collisionObjects.size() - 1)
 		{
+			// TODO remove bandade and actually fix like below suggestion vvvv
+			// This is more of a bandade then anything
+			// Instead of this, static objects need there own array for efficiency
 			unsigned limit = i + 1;
 			for (unsigned j = 0; j < collisionObjects.size(); ++j)
 			{

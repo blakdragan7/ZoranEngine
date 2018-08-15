@@ -2,7 +2,7 @@
 
 #include <mutex>
 #include "Core/TickableObject.h"
-#include <Math/Matrix.hpp>
+#include <Math/Matrix44.hpp>
 /*
 * Very Basic Object, Essentially represents bare minmum needed to be rendered on the scene
 */
@@ -41,7 +41,7 @@ protected:
 	void WaitForMutex();
 	void UnlockMutex();
 
-	MatrixF ModelMatrixCache;
+	Matrix44 ModelMatrixCache;
 
 public:
 	SceneObject(std::string);
@@ -70,9 +70,9 @@ public:
 	inline RenderedObjectBase* GetRenderedObject() { return renderedObject; }
 	
 
-	inline const MatrixF& GetModel() { return ModelMatrixCache; };
-	virtual MatrixF GetScaleMatrix3x3() = 0;
-	virtual MatrixF GetScaleMatrix4x4() = 0;
+	inline const Matrix44& GetModel() { return ModelMatrixCache; };
+	//virtual MatrixF GetScaleMatrix3x3() = 0;
+	virtual Matrix44 GetScaleMatrix4x4() = 0;
 
 	virtual class CollisionObjectBase* GetCollision() = 0;
 	virtual class PhysicsObjectBase* GetPhysics() = 0;

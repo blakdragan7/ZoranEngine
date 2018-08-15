@@ -206,11 +206,12 @@ void TestSceneStuff()
 	std::string name_base = "TestSceneObject-";
 
 	Vec2D CollisionPoint(0,0);
-	for (unsigned i = 0; i < ToSpawn / 2; i++)
+	for (int i = 0; i < ToSpawn / 2; i++)
 	{
 		TestSceneObject* test = new TestSceneObject((name_base + std::to_string(i)));
 		test->SetScale(10, -10);
 		test->SetPosition(Random::GetfloatInRange(-150, 150), Random::GetfloatInRange(-150, 150));
+		//test->SetPosition(i*20 + -100,0);
 		test->GetPhysics()->StartPhysicsSim();
 		test->GetPhysics2D()->SetSweptCollision(false);
 		test->SetRotation(1);
@@ -253,6 +254,7 @@ void TestSceneStuff()
 	{
 		TestCircleObject* test = new TestCircleObject(std::string("circle ") + std::to_string(i), 1.0);
 		test->SetScale(10.0f, -10.0f);
+		//test->SetPosition(i * 20 + -100, 100);
 		test->SetPosition(Random::GetfloatInRange(-150, 150), Random::GetfloatInRange(-150, 150));
 		test->GetPhysics()->StartPhysicsSim();
 		//test->SetTarget(sqr);

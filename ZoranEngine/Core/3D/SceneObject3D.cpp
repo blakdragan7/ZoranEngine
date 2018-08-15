@@ -17,13 +17,13 @@ static unsigned long long NextID = 0;
 
 SceneObject3D::SceneObject3D(std::string name) : SceneObject(name)
 {
-	model = MatrixF::GLIdentityMatrix();
+	model = Matrix44::GLIdentityMatrix();
 	scale = Vector3D(1.0, 1.0, 1.0);
 }
 
 SceneObject3D::SceneObject3D(std::string name, RenderEngineBase* engine) : SceneObject(name, engine)
 {
-	model = MatrixF::GLIdentityMatrix();
+	model = Matrix44::GLIdentityMatrix();
 	scale = Vector3D(1.0, 1.0, 1.0);
 }
 
@@ -183,16 +183,16 @@ void SceneObject3D::PreCaclModel()
 	UnlockMutex();
 }
 
-MatrixF SceneObject3D::GetScaleMatrix3x3()
+/*MatrixF SceneObject3D::GetScaleMatrix3x3()
 {
 	MatrixF mat(3, 3);
 	mat.scale(scale);
 	return mat;
-}
+}*/
 
-MatrixF SceneObject3D::GetScaleMatrix4x4()
+Matrix44 SceneObject3D::GetScaleMatrix4x4()
 {
-	MatrixF mat(4, 4);
+	Matrix44 mat;
 	mat.scale(scale);
 	return mat;
 }

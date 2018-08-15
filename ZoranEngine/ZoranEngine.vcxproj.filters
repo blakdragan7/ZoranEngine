@@ -461,9 +461,6 @@
     <ClInclude Include="Math\MathLib.h">
       <Filter>ZoranEngine\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Math\Matrix.hpp">
-      <Filter>ZoranEngine\Math</Filter>
-    </ClInclude>
     <ClInclude Include="Math\Matrix22.h">
       <Filter>ZoranEngine\Math</Filter>
     </ClInclude>
@@ -544,6 +541,9 @@
     </ClInclude>
     <ClInclude Include="ThirdParty\imgui\imgui_impl_win32.h">
       <Filter>ZoranEngine\ThirdParty\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Matrix44.hpp">
+      <Filter>ZoranEngine\Math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

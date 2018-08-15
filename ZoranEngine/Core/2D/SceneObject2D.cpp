@@ -8,7 +8,7 @@
 #define PI 3.141592653589793
 SceneObject2D::SceneObject2D(std::string name) : SceneObject(name)
 {
-	model = MatrixF::GLIdentityMatrix();
+	model = Matrix44::GLIdentityMatrix();
 	scale = Vector2D(1.0, 1.0);
 	rotation = 0;
 	collision = 0;
@@ -20,7 +20,7 @@ SceneObject2D::SceneObject2D(std::string name) : SceneObject(name)
 
 SceneObject2D::SceneObject2D(std::string name, RenderEngineBase* engine) : SceneObject(name, engine)
 {
-	model = MatrixF::GLIdentityMatrix();
+	model = Matrix44::GLIdentityMatrix();
 	scale = Vector2D(1.0, 1.0);
 	rotation = 0;
 	collision = 0;
@@ -148,23 +148,23 @@ void SceneObject2D::PreCaclModel()
 {
 	model.makeIdentity();
 
-	MatrixF rotMatrix = MatrixF::GLRotationMatrix(rotation, Vector3D(0, 0, 1));
+	Matrix44 rotMatrix = Matrix44::GLRotationMatrix(rotation, Vector3D(0, 0, 1));
 	model.translate(pos);
 	model.scale(scale);
 
 	ModelMatrixCache = model *rotMatrix;
 }
 
-MatrixF SceneObject2D::GetScaleMatrix3x3()
+/*MatrixF SceneObject2D::GetScaleMatrix3x3()
 {
 	MatrixF mat(3, 3);
 	mat.scale(scale);
 	return mat;
-}
+}*/
 
-MatrixF SceneObject2D::GetScaleMatrix4x4()
+Matrix44 SceneObject2D::GetScaleMatrix4x4()
 {
-	MatrixF mat(4, 4);
+	Matrix44 mat;
 	mat.scale(scale);
 	return mat;
 }

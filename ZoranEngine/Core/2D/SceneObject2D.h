@@ -1,6 +1,6 @@
 #pragma once
 #include "Core\SceneObject.h"
-#include <Math/Matrix.hpp>
+#include <Math/Matrix44.hpp>
 #include <Math/Vector2.h>
 #include <Math/Matrix22.h>
 
@@ -13,7 +13,7 @@ class ZoranEngine_EXPORT SceneObject2D : public SceneObject
 {
 private:
 	// used to make GetModel more effecient
-	MatrixF model;
+	Matrix44 model;
 
 	Vector2D scale;
 	Vector2D pos;
@@ -60,8 +60,8 @@ public:
 
 	virtual void PreCaclModel()override;
 
-	virtual MatrixF GetScaleMatrix3x3()override;
-	virtual MatrixF GetScaleMatrix4x4()override;
+	//virtual MatrixF GetScaleMatrix3x3()override;
+	virtual Matrix44 GetScaleMatrix4x4()override;
 
 	inline CollisionObject2DBase* GetCollision2D() { return collision; }
 	inline class PhysicsObject2DBase* GetPhysics2D() { return physicsObject; }

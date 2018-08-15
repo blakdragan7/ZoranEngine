@@ -86,36 +86,36 @@ Quaternion Quaternion::Product(const Quaternion& rhs) const {
 		W()*rhs.W() - X()*rhs.X() - Y()*rhs.Y() - Z()*rhs.Z());
 }
 
-MatrixF Quaternion::AsMatrix() const {
+Matrix44 Quaternion::AsMatrix() const {
 	float m[16] = {
 		W(), -Z(),  Y(), X(),
 		Z(),  W(), -X(), Y(),
 		-Y(),  X(),  W(), Z(),
 		-X(), -Y(), -Z(), W()
 	};
-	MatrixF mat = MatrixF::MatrixFromArray(4, 4, m);
+	Matrix44 mat = Matrix44::MatrixFromArray(m);
 	return mat;
 }
 
-MatrixF Quaternion::AsRightMatrix() const {
+Matrix44 Quaternion::AsRightMatrix() const {
 	float m[16] = {
 		+W(), -Z(),  Y(), -X(),
 		+Z(),  W(), -X(), -Y(),
 		-Y(),  X(),  W(), -Z(),
 		+X(),  Y(),  Z(),  W()
 	};
-	MatrixF mat = MatrixF::MatrixFromArray(4, 4, m);
+	Matrix44 mat = Matrix44::MatrixFromArray(m);
 	return mat;
 }
 
-MatrixF Quaternion::AsRotationMatrix() const {
+Matrix44 Quaternion::AsRotationMatrix() const {
 	float m[16] = {
 		1 - 2 * Y()*Y() - 2 * Z()*Z(), 2 * X()*Y() - 2 * Z()*W(), 2 * X()*Z() + 2 * Y()*W(),0,
 		2 * X()*Y() + 2 * Z()*W(), 1 - 2 * X()*X() - 2 * Z()*Z(), 2 * Y()*Z() - 2 * X()*W(),0,
 		2 * X()*Z() - 2 * Y()*W(), 2 * Y()*Z() + 2 * X()*W(), 1 - 2 * X()*X() - 2 * Y()*Y(),0,
 		0,0,0,1
 	};
-	MatrixF mat = MatrixF::MatrixFromArray(4, 4, m);
+	Matrix44 mat = Matrix44::MatrixFromArray(m);
 	return mat;
 }
 

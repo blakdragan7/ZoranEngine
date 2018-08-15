@@ -19,7 +19,7 @@ StandardShader2D::~StandardShader2D()
 
 bool StandardShader2D::SetupShaderFromSceneObject(SceneObject * object)
 {
-	MatrixF model = object->GetModel();
+	Matrix44 model = object->GetModel();
 	model = zEngine->GetCamera()->GetModel() * model;
 	setUniformMat4("MVP",&model[0]);
 	return true;

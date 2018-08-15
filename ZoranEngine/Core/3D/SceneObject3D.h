@@ -1,7 +1,7 @@
 #pragma once
 #include <Core\SceneObject.h>
 #include <Math/Vector3.h>
-#include <Math/Matrix.hpp>
+#include <Math/Matrix44.hpp>
 #include <Math/Quaternion.h>
 
 class CollisionObjectBase;
@@ -12,7 +12,7 @@ class PhysicsObjectBase;
 class ZoranEngine_EXPORT SceneObject3D : public SceneObject
 {
 	// used to make GetModel more effecient
-	MatrixF model;
+	Matrix44 model;
 
 	Vector3D scale;
 	Vector3D pos;
@@ -60,8 +60,8 @@ public:
 	void Scale(Vector3D scale);
 
 	virtual void PreCaclModel()override;
-	virtual MatrixF GetScaleMatrix3x3()override;
-	virtual MatrixF GetScaleMatrix4x4()override;
+	//virtual Matrix44 GetScaleMatrix3x3()override;
+	virtual Matrix44 GetScaleMatrix4x4()override;
 
 	float DistanceTo(Vector3D pos);
 	float DistanceTo(SceneObject3D* other);

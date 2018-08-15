@@ -4,7 +4,7 @@
 class OrthoCamera : public Camera2D
 {
 private:
-	MatrixF orthoModel;
+	Matrix44 orthoModel;
 
 public:
 	OrthoCamera(std::string name,float width,float height,float rotation);

@@ -1,6 +1,6 @@
 #pragma once
 #include "Vector3.h"
-#include "Matrix.hpp"
+#include "Matrix44.hpp"
 #include "MathLib.h"
 
 #include "Core/PlatformTypes.h"
@@ -23,9 +23,9 @@ public:
 	Quaternion Product(const Quaternion& rhs) const;
 	float GetMagnitude() const;
 
-	MatrixF AsMatrix() const;
-	MatrixF AsRightMatrix() const;
-	MatrixF AsRotationMatrix() const;
+	Matrix44 AsMatrix() const;
+	Matrix44 AsRightMatrix() const;
+	Matrix44 AsRotationMatrix() const;
 	Vector3D RotatedVector(const Vector3D& v) const;
 
 	static Quaternion FromScaledAxis(Vector3D& w);
