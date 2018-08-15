@@ -46,8 +46,6 @@ SceneObject::SceneObject(std::string name)
 
 	this->readableName = name;
 	this->ID = NextID++;
-
-	ModelMatrixCache = Matrix44::GLIdentityMatrix();
 }
 
 SceneObject::SceneObject(std::string name, RenderEngineBase* engine)

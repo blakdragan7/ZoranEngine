@@ -17,13 +17,11 @@ static unsigned long long NextID = 0;
 
 SceneObject3D::SceneObject3D(std::string name) : SceneObject(name)
 {
-	model = Matrix44::GLIdentityMatrix();
 	scale = Vector3D(1.0, 1.0, 1.0);
 }
 
 SceneObject3D::SceneObject3D(std::string name, RenderEngineBase* engine) : SceneObject(name, engine)
 {
-	model = Matrix44::GLIdentityMatrix();
 	scale = Vector3D(1.0, 1.0, 1.0);
 }
 

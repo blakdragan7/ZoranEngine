@@ -139,8 +139,11 @@ bool ZoranEngine::Init()
 	Random::Init();
 	
 	mainRenderEngine = new OpenGLRenderEngine();
-	WindowsWindow* window = new WindowsWindow(this);
+	WindowBase* window;
+#ifdef _WIN32
+	window = new WindowsWindow(this);
 	window->MakeWindow("test", 0, 0, 1920, 1080);
+#endif
 	mainRenderEngine->InitEngine(window->GetHandle());
 
 	mainWindow = window;

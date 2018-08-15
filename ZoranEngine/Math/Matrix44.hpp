@@ -20,12 +20,6 @@ private:
 	static const int cols = 4;
 
 public:
-	static Matrix44 GLIdentityMatrix()
-	{
-		Matrix44 mat;
-		mat.makeIdentity();
-		return mat;
-	}
 	static Matrix44 MatrixFromArray(float* c_array)
 	{
 		Matrix44 mat = Matrix44();
@@ -34,7 +28,7 @@ public:
 	}
 	static Matrix44 GLOrthoMatrix(float xmin, float ymin, float xmax, float ymax, float znear, float zfar)
 	{
-		Matrix44 orthoMatrix = Matrix44::GLIdentityMatrix();
+		Matrix44 orthoMatrix;
 
 		orthoMatrix[0] = 2 / xmax;
 		orthoMatrix[5] = 2 / ymax;
@@ -45,7 +39,7 @@ public:
 	}
 	static Matrix44 GLProjectionMatrix(float fov, float ratio, float nearP, float farP)
 	{
-		Matrix44 projMatrix = Matrix44::GLIdentityMatrix();
+		Matrix44 projMatrix;
 
 		float f = 1.0f / tan(fov * (M_PI / 360.0f));
 
@@ -74,7 +68,7 @@ public:
 		up = right.cross(dir);
 		up.normalize();
 
-		Matrix44 viewMatrix = Matrix44::GLIdentityMatrix();
+		Matrix44 viewMatrix;
 
 		viewMatrix[0] = right.x;
 		viewMatrix[4] = right.y;

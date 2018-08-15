@@ -8,7 +8,6 @@
 #define PI 3.141592653589793
 SceneObject2D::SceneObject2D(std::string name) : SceneObject(name)
 {
-	model = Matrix44::GLIdentityMatrix();
 	scale = Vector2D(1.0, 1.0);
 	rotation = 0;
 	collision = 0;
@@ -20,7 +19,6 @@ SceneObject2D::SceneObject2D(std::string name) : SceneObject(name)
 
 SceneObject2D::SceneObject2D(std::string name, RenderEngineBase* engine) : SceneObject(name, engine)
 {
-	model = Matrix44::GLIdentityMatrix();
 	scale = Vector2D(1.0, 1.0);
 	rotation = 0;
 	collision = 0;
