@@ -115,7 +115,7 @@ void OpenGLRenderEngine::DrawAll()
 	long long bindProgram,SetupShader,PreRender,Render,PostRender;
 	bindProgram = SetupShader = PreRender = Render = PostRender = 0;
 
-	DEBUG_BENCH_TOP_START("OpenGLRenderEngine")
+	DEBUG_BENCH_START_TRACK("OpenGLRenderEngine")
 	for (auto iter : renderMap)
 	{
 		ShaderProgramBase* program = iter.first;
@@ -140,13 +140,13 @@ void OpenGLRenderEngine::DrawAll()
 		}
 	}
 
-	DEBUG_ADD_STAT("OpenGLRenderEngine", "BindProgram", bindProgram);
-	DEBUG_ADD_STAT("OpenGLRenderEngine", "SetupShader", SetupShader);
-	DEBUG_ADD_STAT("OpenGLRenderEngine", "PreRender", PreRender);
-	DEBUG_ADD_STAT("OpenGLRenderEngine", "RenderScene", Render);
-	DEBUG_ADD_STAT("OpenGLRenderEngine", "PostRender", PostRender);
+	DEBUG_ADD_STAT(bindProgram,"OpenGLRenderEngine", "BindProgram");
+	DEBUG_ADD_STAT(SetupShader,"OpenGLRenderEngine", "SetupShader");
+	DEBUG_ADD_STAT(PreRender,"OpenGLRenderEngine", "PreRender");
+	DEBUG_ADD_STAT(Render,"OpenGLRenderEngine", "RenderScene");
+	DEBUG_ADD_STAT(PostRender,"OpenGLRenderEngine", "PostRender");
 
-	DEBUG_TAKE_TOP_BENCH("OpenGLRenderEngine");
+	DEBUG_TRACK_TAKE_BENCH("OpenGLRenderEngine");
 
 	DEBUG_TAKE_BENCH
 

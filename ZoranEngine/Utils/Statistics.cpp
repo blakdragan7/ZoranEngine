@@ -5,8 +5,7 @@
 
 #include <ThirdParty/imgui/imgui.h>
 
-typedef std::pair<std::string, LowLevelStat> LowLevelPair;
-typedef std::pair<std::string, TopLevelStat> TopLevelPair;
+typedef std::pair<std::string, BenchStatChain> StatMapPair;
 
 BenchMarker* BenchMarker::singleton = 0;
 
@@ -20,128 +19,6 @@ BenchMarker::~BenchMarker()
 {
 }
 
-void BenchMarker::AddHighLevelStat(std::string key, long long nanoseconds)
-{
-	auto& iter = statsMap.find(key);
-	if (iter != statsMap.end())
-	{
-		iter->second.rootLevelClock = nanoseconds;
-	}
-	else
-	{
-		TopLevelStat stats(nanoseconds);
-		statsMap.insert(TopLevelPair(key, stats));
-	}
-}
-
-void BenchMarker::AddStat(std::string key, std::string statDescription, long long nanoseconds)
-{
-	LowLevelStat* stat = 0;
-
-	if (GetLowLevelStatFor(key, statDescription, &stat))
-	{
-		stat->nanoseconds = nanoseconds;
-	}
-	else
-	{
-		TopLevelStat* stat = 0;
-		if (GetTopLevelStatFor(key, &stat))
-		{
-			stat->stats.insert(LowLevelPair(statDescription, LowLevelStat(nanoseconds)));
-		}
-		else
-		{
-			TopLevelStat stat;
-			stat.stats.insert(LowLevelPair(statDescription, LowLevelStat(nanoseconds)));
-			statsMap.insert(TopLevelPair(key, stat));
-		}
-	}
-}
-
-void BenchMarker::StartStat(std::string key, std::string statDescription)
-{
-	LowLevelStat* stat = 0;
-
-	if (GetLowLevelStatFor(key, statDescription, &stat))
-	{
-		stat->StartClock();
-	}
-
-}
-
-void BenchMarker::TakeStat(std::string key, std::string statDescription)
-{
-	LowLevelStat* stat = 0;
-
-	if (GetLowLevelStatFor(key, statDescription, &stat))
-	{
-		stat->TakeClock();
-	}
-	else
-	{
-		TopLevelStat* stat = 0;
-		if (GetTopLevelStatFor(key, &stat))
-		{
-			stat->stats.insert(LowLevelPair(statDescription,LowLevelStat()));
-		}
-		else
-		{
-			TopLevelStat stat;
-			stat.stats.insert(LowLevelPair(statDescription, LowLevelStat()));
-			statsMap.insert(TopLevelPair(key, stat));
-		}
-	}
-}
-
-void BenchMarker::StartStat(std::string key)
-{
-	TopLevelStat* stat = 0;
-	if (GetTopLevelStatFor(key,&stat))
-	{
-		stat->StartClock();
-	}
-	else
-	{
-		statsMap.insert(TopLevelPair(key, TopLevelStat()));
-	}
-}
-
-void BenchMarker::TakeStat(std::string key)
-{
-	TopLevelStat* stat = 0;
-	if (GetTopLevelStatFor(key, &stat))
-	{
-		stat->TakeClock();
-	}
-}
-
-bool BenchMarker::GetLowLevelStatFor(const std::string & key, const std::string & statDescription, LowLevelStat** stat)
-{
-	auto& iter = statsMap.find(key);
-	if (iter != statsMap.end())
-	{
-		auto& initer = iter->second.stats.find(statDescription);
-		if (initer != iter->second.stats.end())
-		{
-			*stat = &initer->second;
-			return true;
-		}
-	}
-
-	return false;
-
-}
-
-bool BenchMarker::GetTopLevelStatFor(const std::string & key, TopLevelStat ** stat)
-{
-	auto& iter = statsMap.find(key);
-	if (iter != statsMap.end())
-	{
-		*stat = &iter->second;
-		return true;
-	}
-	return false;
-}
 
 void BenchMarker::ImGuiDraw()
 {
@@ -152,26 +29,23 @@ void BenchMarker::ImGuiDraw()
 
 	ImGui::Checkbox("Shoow Graphs", &ShowGraph);
 
-	ImGui::Text("FrameRate %f", 1.0 / ((double)totalNanoseconds / (double)NANOSECONDS_PER_SECONDS));
-	ImGui::Text("FrameTime %f", ((double)totalNanoseconds / (double)NANOSECONDS_PER_SECONDS));
+	ImGui::Text("FrameRate %f", 1.0 / ((double)rootChain.nanoseconds / (double)NANOSECONDS_PER_SECONDS));
+	ImGui::Text("FrameTime %f", ((double)rootChain.nanoseconds / (double)NANOSECONDS_PER_SECONDS));
 	if (ShowGraph)
-		ImGui::PlotVar("FrameTime", ((double)totalNanoseconds / (double)NANOSECONDS_PER_SECONDS),0,60,120);
+		ImGui::PlotVar("FrameTime", ((float)rootChain.nanoseconds / (float)NANOSECONDS_PER_SECONDS),0,60,120);
 
 	ImGui::Spacing();
+	ImGui::Spacing();
 
-	for (auto const& x : statsMap)
+	for (auto const& x : rootChain.map)
 	{
-		ImGui::Text(("\t" + x.first + ": " + std::to_string(((double)x.second.rootLevelClock / (double)totalNanoseconds) * 100.0)).c_str());
+		ImGui::Text(("\t" + x.first + ": " + std::to_string(((double)x.second.nanoseconds / (double)rootChain.nanoseconds) * 100.0)).c_str());
 		if(ShowGraph)
-			ImGui::PlotVar(x.first.c_str(),((double)x.second.rootLevelClock / (double)totalNanoseconds) * 100.0,0,100);
-		if (ImGui::CollapsingHeader(x.first.c_str()))
+			ImGui::PlotVar(x.first.c_str(),((float)x.second.nanoseconds / (float)rootChain.nanoseconds) * 100.0,0,100);
+		if (ImGui::TreeNode(x.first.c_str()))
 		{
-			for (auto const& s : x.second.stats)
-			{
-				ImGui::Text(("\t\t" + s.first + ": " + std::to_string(((double)s.second.nanoseconds / (double)totalNanoseconds) * 100.0)).c_str());
-				if (ShowGraph)
-					ImGui::PlotVar(s.first.c_str(), ((double)s.second.nanoseconds / (double)totalNanoseconds) * 100.0, 0, 100);
-			}
+			x.second.ImGuiDraw(ShowGraph, rootChain.nanoseconds);
+			ImGui::TreePop();
 		}
 
 		ImGui::Spacing();
@@ -184,18 +58,40 @@ void BenchMarker::ImGuiDraw()
 
 }
 
+void  BenchMarker::AddStat(std::initializer_list<std::string> keys, long long nanoseconds)
+{
+	std::list<std::string> keyList(keys);
+	rootChain.AddStat(keyList,nanoseconds);
+}
+
+void  BenchMarker::StartStatWithDepth(std::initializer_list<std::string> keys)
+{
+	std::list<std::string> keyList(keys);
+	rootChain.StartClock(keyList);
+}
+
+void  BenchMarker::TakeStatWithDepth(std::initializer_list<std::string> keys)
+{
+	std::list<std::string> keyList(keys);
+	rootChain.TakeClock(keyList);
+}
+
+void BenchMarker::AccumStatWithDepth(std::initializer_list<std::string> keys)
+{
+	std::list<std::string> keyList(keys);
+	rootChain.AccumClock(keyList);
+}
+
 std::string BenchMarker::serialze()const
 {
 	std::string total;
 
-	for (auto const& x : statsMap)
+	total += "FPS " + std::to_string(1.0 / (double)rootChain.nanoseconds) + "\n";
+	
+	for (auto const& x : rootChain.map)
 	{
-		total += x.first + ":" + std::to_string(x.second.rootLevelClock)  + "\n";
-
-		for (auto const& s : x.second.stats)
-		{
-			total += "\t" + s.first + ": " + std::to_string(s.second.nanoseconds) + "\n";
-		}
+		total += x.first + ":" + std::to_string(x.second.nanoseconds)  + "\n";
+		total += x.second.serizlize("");
 	}
 
 	return total;
@@ -205,4 +101,130 @@ std::ostream& operator<<(std::ostream& os, const BenchMarker& b)
 {
 	os << b.serialze();
 	return os;
+}
+
+std::string BenchStatChain::serizlize(std::string tabs)const
+{
+	std::string total;
+
+	tabs += "\n";
+
+	for (auto const& x : map)
+	{
+		total += tabs + x.first + ":" + std::to_string(x.second.nanoseconds) + "\n";
+		total += tabs + x.second.serizlize(tabs);
+	}
+
+	return total;
+}
+
+void BenchStatChain::ImGuiDraw(const bool& showGraph,const long long& totalNanoseconds) const
+{
+	for (auto const& x : map)
+	{
+		ImGui::Text(("\t" + x.first + ": " + std::to_string(((double)x.second.nanoseconds / (double)totalNanoseconds) * 100.0)).c_str());
+		if (showGraph)
+			ImGui::PlotVar(x.first.c_str(), ((float)x.second.nanoseconds / (float)totalNanoseconds) * 100.0, 0, 100);
+		if (ImGui::TreeNode(x.first.c_str()))
+		{
+			x.second.ImGuiDraw(showGraph,totalNanoseconds);
+			ImGui::TreePop();
+		}
+	}
+}
+
+void BenchStatChain::AddStat(std::list<std::string> keyList, const long long & nanoseconds)
+{
+	if (keyList.size() == 0)
+	{
+		this->nanoseconds = nanoseconds;
+		return;
+	}
+
+	const std::string firstKey = keyList.front();
+	keyList.pop_front();
+
+	auto& iter = map.find(firstKey);
+	if (iter != map.end())
+	{
+		iter->second.AddStat(keyList,nanoseconds);
+	}
+	else
+	{
+		BenchStatChain stat;
+		stat.AddStat(keyList, nanoseconds);
+		map.insert(StatMapPair(firstKey, stat));
+	}
+}
+
+void BenchStatChain::StartClock(std::list<std::string> keyList)
+{
+	if (keyList.size() == 0)
+	{
+		StartClock();
+		return;
+	}
+
+	const std::string firstKey = keyList.front();
+	keyList.pop_front();
+
+	auto& iter = map.find(firstKey);
+	if (iter != map.end())
+	{
+		iter->second.StartClock(keyList);
+	}
+	else
+	{
+		BenchStatChain stat;
+		stat.StartClock(keyList);
+		map.insert(StatMapPair(firstKey, stat));
+	}
+}
+
+void BenchStatChain::TakeClock(std::list<std::string> keyList)
+{
+	if (keyList.size() == 0)
+	{
+		TakeClock();
+		return;
+	}
+
+	const std::string firstKey = keyList.front();
+	keyList.pop_front();
+
+	auto& iter = map.find(firstKey);
+	if (iter != map.end())
+	{
+		iter->second.TakeClock(keyList);
+	}
+	else
+	{
+		BenchStatChain stat;
+		stat.TakeClock(keyList);
+		map.insert(StatMapPair(firstKey, stat));
+	}
+}
+
+void BenchStatChain::AccumClock(std::list<std::string> keyList)
+{
+	if (keyList.size() == 0)
+	{
+		AccumClock();
+		return;
+	}
+
+	const std::string firstKey = keyList.front();
+	keyList.pop_front();
+
+	auto& iter = map.find(firstKey);
+	if (iter != map.end())
+	{
+		iter->second.AccumClock(keyList);
+	}
+	else
+	{
+		BenchStatChain stat;
+		stat.AccumClock(keyList);
+		map.insert(StatMapPair(firstKey, stat));
+	}
 }

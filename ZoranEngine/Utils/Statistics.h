@@ -5,39 +5,32 @@
 #include <iostream>
 #include <string>
 
-struct LowLevelStat
+struct BenchStatChain
 {
 	HighPrecisionClock clock;
 	long long nanoseconds;
+	std::unordered_map<std::string,BenchStatChain> map;
 
-	LowLevelStat() :nanoseconds(0) {}
-	LowLevelStat(long long nanoseconds) : nanoseconds(nanoseconds) {}
+	BenchStatChain() :nanoseconds(0) {}
+	BenchStatChain(long long nanoseconds) : nanoseconds(nanoseconds) {}
 
-	inline void StartClock() { clock.TakeClock(); }
+	inline void StartClock() { clock.TakeClock(); nanoseconds = 0; }
 	inline void TakeClock() { nanoseconds = clock.GetDiffNanoSeconds(); }
-};
+	inline void AccumClock() { nanoseconds += clock.GetDiffNanoSeconds(); }
 
-struct TopLevelStat
-{
-	HighPrecisionClock clock;
-	long long rootLevelClock;
-	std::unordered_map<std::string, LowLevelStat> stats;
-
-	TopLevelStat() : rootLevelClock(0) {}
-	TopLevelStat(long long rootLevelClock) : rootLevelClock(rootLevelClock) {}
-
-	inline void StartClock() { clock.TakeClock(); }
-	inline void TakeClock() { rootLevelClock = clock.GetDiffNanoSeconds(); }
+	std::string serizlize(std::string tabs)const;
+	void ImGuiDraw(const bool& showGraph, const long long& totalNanoseconds)const;
+	void AddStat(std::list<std::string> keyList,const long long& nanoseconds);
+	void StartClock(std::list<std::string> keyList);
+	void TakeClock(std::list<std::string> keyList);
+	void AccumClock(std::list<std::string> keyList);
 };
 
 class BenchMarker
 {
 private:
 	static BenchMarker* singleton;
-	std::unordered_map<std::string, TopLevelStat> statsMap;
-
-	long long totalNanoseconds;
-	HighPrecisionClock clock;
+	BenchStatChain rootChain;
 
 	// Drawing Stuff
 	bool ShowGraph;
@@ -46,22 +39,15 @@ public:
 	BenchMarker();
 	~BenchMarker();
 
-	void AddHighLevelStat(std::string key,long long nanoseconds);
-	void AddStat(std::string key,std::string statDescription,long long nanoseconds);
-	
-	void StartStat(std::string key, std::string statDescription);
-	void TakeStat(std::string key, std::string statDescription);
+	void AddStat(std::initializer_list<std::string> keys,long long nanoseconds);
+	void StartStatWithDepth(std::initializer_list<std::string> keys);
+	void TakeStatWithDepth(std::initializer_list<std::string> keys);
+	void AccumStatWithDepth(std::initializer_list<std::string> keys);
 
-	void StartStat(std::string key);
-	void TakeStat(std::string key);
+	inline void StartBench() { rootChain.StartClock(); }
+	inline void TakeBench() { rootChain.TakeClock(); }
 
-	bool GetLowLevelStatFor(const std::string & key, const std::string& statDescription, LowLevelStat** stat);
-	bool GetTopLevelStatFor(const std::string & key, TopLevelStat** stat);
-
-	inline void StartBench() { clock.TakeClock(); }
-	inline void TakeBench() { totalNanoseconds = clock.GetDiffNanoSeconds(); }
-
-	inline long long GetTotalNanoSeconds() { return totalNanoseconds; }
+	inline long long GetTotalNanoSeconds() { return rootChain.nanoseconds; }
 
 	void ImGuiDraw();
 
@@ -78,22 +64,28 @@ extern std::ostream& operator<<(std::ostream& os, const BenchMarker& b);
 
 // only do bench marking if we specifiy we want to
 
-#if (defined(_DEBUG) || defined(_RELEASE_BENCH)) && defined(_BENCHMARKING)
+#if defined(_BENCHMARKING)
 #define DEBUG_BENCH_START BenchMarker::Singleton()->StartBench();
 #define DEBUG_TAKE_BENCH BenchMarker::Singleton()->TakeBench();
-#define DEBUG_BENCH_TOP_START(a) BenchMarker::Singleton()->StartStat(a);
-#define DEBUG_TAKE_TOP_BENCH(a) BenchMarker::Singleton()->TakeStat(a);
-#define DEBUG_BENCH_LOW_START(a,b) BenchMarker::Singleton()->StartStat(a,b);
-#define DEBUG_TAKE_LOW_BENCH(a,b) BenchMarker::Singleton()->TakeStat(a,b);
-#define DEBUG_ADD_STAT(a,b,c) BenchMarker::Singleton()->AddStat(a,b,c);
+#define DEBUG_ADD_STAT(a,...) BenchMarker::Singleton()->AddStat({__VA_ARGS__},a);
+#define DEBUG_BENCH_START_TRACK(...) BenchMarker::Singleton()->StartStatWithDepth({__VA_ARGS__});
+#define DEBUG_TRACK_TAKE_BENCH(...) BenchMarker::Singleton()->TakeStatWithDepth({__VA_ARGS__});
+#define DEBUG_TRACK_ACCUM_STAT(...) BenchMarker::Singleton()->AccumStatWithDepth({__VA_ARGS__});
+#define DEBUG_DRAW BenchMarker::Singleton()->ImGuiDraw();
+#elif defined(_FPSBENCHONLY)
+#define DEBUG_BENCH_START BenchMarker::Singleton()->StartBench();
+#define DEBUG_TAKE_BENCH BenchMarker::Singleton()->TakeBench();
+#define DEBUG_ADD_STAT(a,...)
+#define DEBUG_BENCH_START_TRACK(...)
+#define DEBUG_TRACK_TAKE_BENCH(...)
+#define DEBUG_TRACK_ACCUM_STAT(...)
 #define DEBUG_DRAW BenchMarker::Singleton()->ImGuiDraw();
 #else
-#define DEBUG_BENCH_START
-#define DEBUG_TAKE_BENCH
-#define DEBUG_BENCH_TOP_START(a)
-#define DEBUG_TAKE_TOP_BENCH(a);
-#define DEBUG_BENCH_LOW_START(a,b)
-#define DEBUG_TAKE_LOW_BENCH(a,b)
-#define DEBUG_ADD_STAT(a,b,c)
+#define DEBUG_BENCH_START 
+#define DEBUG_TAKE_BENCH 
+#define DEBUG_ADD_STAT(a,...)
+#define DEBUG_BENCH_START_TRACK(...)
+#define DEBUG_TRACK_TAKE_BENCH(...)
+#define DEBUG_TRACK_ACCUM_STAT(...)
 #define DEBUG_DRAW
 #endif	

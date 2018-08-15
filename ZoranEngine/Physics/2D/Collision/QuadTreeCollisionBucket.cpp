@@ -16,6 +16,8 @@
 #include <assert.h>
 #include <string>
 
+#include <Utils/Statistics.h>
+
 #include <ThirdParty/imgui/imgui.h>
 
 static unsigned long long numBuckets = 0;
@@ -127,6 +129,7 @@ bool QuadTreeCollisionBucket::UpdateObject(CollisionObject2DBase * object)
 	// Static collision objects don't need to be updated
 	//if (object->GetDynamics() == CD_Static)return false;
 	object->SetBoundsBySceneObject();
+	object->isDirty = false;
 	int index = FindObject(object);
 	if (index != -1)
 	{
@@ -178,7 +181,7 @@ void QuadTreeCollisionBucket::UpdateAllObjects()
 {
 	for (auto object : collisionObjects)
 	{
-		//if (object->isDirty)
+		if (object->isDirty)
 		{
 			UpdateObject(object);
 		}

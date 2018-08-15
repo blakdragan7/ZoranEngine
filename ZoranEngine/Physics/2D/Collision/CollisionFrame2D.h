@@ -1,7 +1,9 @@
 #pragma once
 #include <map>
 #include <Physics/2D/Collision/CollisionObject2DBase.h>
+#include <Utils/Statistics.h>
 #include <vector>
+
 struct CollisionFrame2D
 {
 	typedef std::pair<Collision2DKey, Collision2D*> CollisionPair;
