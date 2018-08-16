@@ -265,9 +265,9 @@ void Collision2D::Update(Collision2D* other)
 	}
 }
 
-unsigned Accumulated2DVelocities::AddObject(PhysicsObject2DBase * object)
+unsigned int Accumulated2DVelocities::AddObject(PhysicsObject2DBase * object)
 {
-	for (unsigned i = 0; i < numObjects; i++)
+	for (unsigned int i = 0; i < numObjects; i++)
 	{
 		if (objects[i] == object)
 		{
@@ -275,7 +275,7 @@ unsigned Accumulated2DVelocities::AddObject(PhysicsObject2DBase * object)
 		}
 	}
 
-	unsigned index = numObjects++;
+	unsigned int index = numObjects++;
 
 	objects[index] = object;
 	velocity[index] = object->GetVelocity();

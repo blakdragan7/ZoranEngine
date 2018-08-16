@@ -79,14 +79,14 @@ struct  ZoranEngine_EXPORT CollisionPoint
 
 struct ZoranEngine_EXPORT Accumulated2DVelocities
 {
-	Vec2D velocity[256];
-	float angularVelocity[256];
+	Vec2D velocity[65535];
+	float angularVelocity[65535];
 
-	class PhysicsObject2DBase* objects[256];
+	class PhysicsObject2DBase* objects[65535];
 
-	unsigned numObjects;
+	unsigned int numObjects;
 
-	unsigned AddObject(class PhysicsObject2DBase* object);
+	unsigned int AddObject(class PhysicsObject2DBase* object);
 };
 
 class ZoranEngine_EXPORT Collision2D
@@ -95,10 +95,10 @@ public:
 	class DebugSceneObject2D* debugObjects[2];
 	CollisionPoint collisionPoints[2];
 
-	unsigned aIndex;
-	unsigned bIndex;
+	unsigned int aIndex;
+	unsigned int bIndex;
 
-	unsigned numCollisionPoints;
+	unsigned int numCollisionPoints;
 
 	bool shouldRender;
 

@@ -25,7 +25,7 @@ private:
 	void DrawImGuiDown(unsigned depth=0);
 
 public:
-	QuadTreeCollisionBucket(std::string name, Vec2D pos,Vec2D size,unsigned maxObjects = 128,QuadTreeCollisionBucket * parent=0);
+	QuadTreeCollisionBucket(std::string name, Vec2D pos,Vec2D size,unsigned maxObjects = 10000,QuadTreeCollisionBucket * parent=0);
 	~QuadTreeCollisionBucket();
 
 	bool AddObject(CollisionObject2DBase* object)override;

@@ -67,8 +67,43 @@ Collision2D* CircleCollision2DObject::CollidesWith(CollisionObject2DBase * other
 			collision->objectBounds[1] = other;
 			collision->friction = sqrt(GetSceneObject()->GetPhysics()->GetFriction() * other->GetSceneObject()->GetPhysics()->GetFriction());
 
+
 			CollisionPoint cp;
-			cp.normal = -Vec2D(DeltaX,DeltaY).getNormal();
+			
+			if (DeltaX == 0 && DeltaY == 0)
+			{
+				unsigned index = 0;
+				Vec2D test[4] = {
+					Vec2D(pos.x, pos.y + otherSize.y),
+					Vec2D(pos.x, pos.y - otherSize.y),
+					Vec2D(pos.x - otherSize.x, pos.y),
+					Vec2D(pos.x + otherSize.x,pos.y + otherSize.y)
+				};
+
+				Vec2D axes[4] = 
+				{
+					Vec2D(0,1),
+					Vec2D(0,-1),
+					Vec2D(-1,0),
+					Vec2D(1,0)
+				};
+
+				float min = std::numeric_limits<float>::infinity();
+
+				for (unsigned i=0; i < 4; ++i)
+				{
+					float c = pos.distanceSquared(test[i]);
+					if (c < min)
+					{
+						min = c;
+						index = i;
+					}
+				}
+
+				cp.normal = axes[index];
+			}
+			else 
+				cp.normal = -Vec2D(DeltaX,DeltaY).getNormal();
 			cp.pos = Vec2D(nearestX,nearestY);
 			cp.separation = Vec2D(DeltaX, DeltaY).magnitude() - scaledRadius;
 

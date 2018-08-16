@@ -217,10 +217,10 @@ void QuadTreeCollisionBucket::CheckAllCollision(struct CollisionFrame2D& frame)
 			// TODO remove bandade and actually fix like below suggestion vvvv
 			// This is more of a bandade then anything
 			// Instead of this, static objects need there own array for efficiency
-			unsigned limit = i + 1;
+			unsigned limit = i;
 			for (unsigned j = 0; j < collisionObjects.size(); ++j)
 			{
-				if (j < limit && collisionObjects[j]->GetDynamics() != CD_Static)continue;
+				if ((j < limit && collisionObjects[j]->GetDynamics() != CD_Static) || j == i)continue;
 				if (auto collision = object->CollidesWith(collisionObjects[j]))
 				{
 					frame.UpdateCollisionWithKey(Collision2DKey(collision->objects[0], collision->objects[1]), collision);
