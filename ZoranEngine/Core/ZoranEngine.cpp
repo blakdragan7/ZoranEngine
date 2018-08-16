@@ -86,8 +86,8 @@ int ZoranEngine::MainLoop()
 	MSG       msg = { 0 };
 
 	double statistics = 0;
-	//static HighPrecisionClock cl;
-	//cl.TakeClock();
+	static HighPrecisionClock cl;
+	cl.TakeClock();
 
 	while (WM_QUIT != msg.message && shouldRun)
 	{
@@ -95,10 +95,10 @@ int ZoranEngine::MainLoop()
 
 		DEBUG_BENCH_START;
 
-		//float deltaTime = (cl.GetDiffSeconds());
-		float deltaTime = (1.0f / 60.0f);
+		float deltaTime = (cl.GetDiffSeconds());
+		deltaTime = min(1.0f / 60.0f , deltaTime);
 		
-		//cl.TakeClock();
+		cl.TakeClock();
 
 		while (PeekMessageW(&msg, NULL, 0, 0, PM_REMOVE))
 		{

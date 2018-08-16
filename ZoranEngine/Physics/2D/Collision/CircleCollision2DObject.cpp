@@ -74,10 +74,10 @@ Collision2D* CircleCollision2DObject::CollidesWith(CollisionObject2DBase * other
 			{
 				unsigned index = 0;
 				Vec2D test[4] = {
-					Vec2D(pos.x, pos.y + otherSize.y),
-					Vec2D(pos.x, pos.y - otherSize.y),
-					Vec2D(pos.x - otherSize.x, pos.y),
-					Vec2D(pos.x + otherSize.x,pos.y + otherSize.y)
+					Vec2D(otherPos.x, otherPos.y + otherSize.y),
+					Vec2D(otherPos.x, otherPos.y - otherSize.y),
+					Vec2D(otherPos.x - otherSize.x, otherPos.y),
+					Vec2D(otherPos.x + otherSize.x, otherPos.y)
 				};
 
 				Vec2D axes[4] = 
@@ -92,7 +92,7 @@ Collision2D* CircleCollision2DObject::CollidesWith(CollisionObject2DBase * other
 
 				for (unsigned i=0; i < 4; ++i)
 				{
-					float c = pos.distanceSquared(test[i]);
+					float c = pos.distance(test[i]);
 					if (c < min)
 					{
 						min = c;
@@ -100,7 +100,7 @@ Collision2D* CircleCollision2DObject::CollidesWith(CollisionObject2DBase * other
 					}
 				}
 
-				cp.normal = axes[index];
+				cp.normal = -axes[index];
 			}
 			else 
 				cp.normal = -Vec2D(DeltaX,DeltaY).getNormal();
