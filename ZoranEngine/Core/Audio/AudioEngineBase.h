@@ -34,6 +34,8 @@ public:
 	virtual AudioError  CreateAudioListener(const Vector3D& location, AudioListener* outListener) = 0;
 	/* Same as above but with z = 0 */
 	virtual AudioError  CreateAudioListener(const Vector2D& location, AudioListener* outListener) = 0;
+	/* Used to teardown audio listener and free all memory assosiated with it. */
+	virtual AudioError DestroyListener(AudioListener* listener) = 0;
 	/* Sets the currently active listener, using 0 means all listeners */
 	virtual AudioError  SetListener(AudioListener* listener) = 0;
 	/*  Plays a sound with 3D audio at a location. The current listener then receives audio in a >= 2.1 channel way if available*/
