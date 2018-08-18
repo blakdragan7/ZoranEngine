@@ -69,6 +69,8 @@ Opaque class the represents the AudioListener.
 Mianly used to pass around instance of audio listener without the
 user needing to know details about implementation
 
+You must NEVER call delete on an instance of this class
+
 ******/
 class AudioListener
 {
@@ -81,6 +83,8 @@ Sound Instance
 Opaque class the represents an instance of a loaded sound asset.
 Mianly used to pass around sounds without the
 user needing to know details about implementation
+
+You must NEVER call delete on an instance of this class
 
 ******/
 class SoundInstance
