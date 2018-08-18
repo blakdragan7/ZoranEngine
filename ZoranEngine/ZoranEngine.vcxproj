@@ -35,6 +35,7 @@
     <ClCompile Include="Core\2D\TexturedSprite.cpp" />
     <ClCompile Include="Core\3D\Camera3D.cpp" />
     <ClCompile Include="Core\3D\SceneObject3D.cpp" />
+    <ClCompile Include="Core\Audio\AudioEngineBase.cpp" />
     <ClCompile Include="Core\CameraBase.cpp" />
     <ClCompile Include="Core\CommonTypes.cpp" />
     <ClCompile Include="Core\Events\EventBase.cpp" />
@@ -125,6 +126,7 @@
     <ClInclude Include="Core\Allocators\FreeListAllocator.h" />
     <ClInclude Include="Core\Allocators\PoolAllocator.h" />
     <ClInclude Include="Core\Allocators\StackAllocator.h" />
+    <ClInclude Include="Core\Audio\AudioEngineBase.h" />
     <ClInclude Include="Core\CameraBase.h" />
     <ClInclude Include="Core\CommomTypes.h" />
     <ClInclude Include="Core\Containers\ZArray.h" />
