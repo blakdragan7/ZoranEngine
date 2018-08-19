@@ -1,10 +1,16 @@
 #pragma once
 #include <initializer_list>
+#include <list>
+
 class Vector2D;
 class Vector3D;
 class SoundInstance;
 class AudioListener;
+class AudioDevice;
 typedef unsigned AudioError;
+enum AudioBufferType;
+enum AudioFileType;
+enum AudioCapability;
 /*******
 
 Audio Engine Base
@@ -24,70 +30,52 @@ Because of that it is MUCH more efficient to bake the sound effects into the aud
 ********/
 class AudioEngineBase
 {
+protected: /* List of every device,listenr and sound created by the engine */
+	std::list<AudioDevice*> audioDevices;
+	std::list<AudioListener*> audioListeners;
+	std::list<SoundInstance*> soundInstances;
+
 public:
 	AudioEngineBase() {}
-	virtual ~AudioEngineBase() {}
+	virtual ~AudioEngineBase();
 
-	/* initialize sound engine and connect to default sound device */
-	virtual void Init() = 0;
+	/* initialize sound engine and connects to device. If device is 0, default audio device is used */
+	virtual AudioError Init(AudioDevice* device) = 0;
+	/* Switch to device destroying and re creating all objects assosiated with that device internally. 
+	The previously created listener and sound isntances will still be valid. this operation will be pretty 
+	slow so it should either be done in a background thread or warn the user it is happening. */
+	virtual AudioError SwitchToDevice(AudioDevice* toDevice, AudioDevice* fromDevice) = 0;
 	/* Creats an audio listener at location */
-	virtual AudioError  CreateAudioListener(const Vector3D& location, AudioListener* outListener) = 0;
+	virtual AudioError  CreateAudioListener(const Vector3D& location, AudioListener** outListener) = 0;
 	/* Same as above but with z = 0 */
-	virtual AudioError  CreateAudioListener(const Vector2D& location, AudioListener* outListener) = 0;
+	virtual AudioError  CreateAudioListener(const Vector2D& location, AudioListener** outListener) = 0;
 	/* Used to teardown audio listener and free all memory assosiated with it. */
 	virtual AudioError DestroyListener(AudioListener* listener) = 0;
 	/* Sets the currently active listener, using 0 means all listeners */
 	virtual AudioError  SetListener(AudioListener* listener) = 0;
 	/*  Plays a sound with 3D audio at a location. The current listener then receives audio in a >= 2.1 channel way if available*/
-	virtual AudioError  PlaySoundAtLocation(const Vector3D& location) = 0;
+	virtual AudioError  PlaySoundAtLocation(SoundInstance* sound, const Vector3D& location) = 0;
 	/* Same as above but always places z as the same as the listener */
-	virtual AudioError  PlaySoundAtLocation(const Vector2D& location) = 0;
+	virtual AudioError  PlaySoundAtLocation(SoundInstance* sound,const Vector2D& location) = 0;
 	/* Play non 3d sound, like background music */
-	virtual AudioError  PlaySound() = 0;
+	virtual AudioError  PlaySoundInstance(SoundInstance* sound) = 0;
 	/* stops a specific sound during play, if the sound isn't playing it just does nothing */
-	virtual void  StopSound() = 0;
+	virtual void  StopSound(SoundInstance* sound) = 0;
 	/* Asks the egnine if it supports a specific capability, like doppler effect */
-	virtual bool  QuerryCapability(enum Capability cap) = 0;
+	virtual bool  QuerryCapability(AudioCapability cap) = 0;
 	/* Turns a specific capability on. returns AE_NOT_SUPPORTED if not possible */
-	virtual AudioError  SetCapability(enum Capability cap) = 0;
+	virtual AudioError  SetCapability(AudioCapability cap) = 0;
 	/* Mass Select capabilites, if any of the capabilities are not supported the return result will be AE_NOT_SUPPORTED and none will be set*/
-	virtual AudioError  SetCapability(std::initializer_list<enum Capability> list) = 0;
+	virtual AudioError  SetCapability(std::initializer_list<AudioCapability> list) = 0;
 	/* Creates a sound and stores it in the audio engine with givent type. if the type is not supported, AE_NOT_SUPPORTED is returned. */
-	virtual AudioError CreateSoundFromFile(const char* file,enum AudioType type, SoundInstance* outSound) = 0;
+	virtual AudioError CreateSoundFromFile(const char* file,AudioFileType type, SoundInstance** outSound) = 0;
 	/* Same as above but from a buffer containing the audio instead */
-	virtual AudioError CreateSoundFromBuffer(void* buffer,enum AudioBufferType bType,enum AudioType aType, SoundInstance* outSound) = 0;
+	virtual AudioError CreateSoundFromBuffer(void* buffer,AudioBufferType bType, SoundInstance** outSound) = 0;
 	/* Destory instance of sound and frees memory assosiated with that sound, returns AE_INVALID_OPERATION if sound is not valid */
-	virtual AudioError DestroySound(SoundInstance* outSound) = 0;
+	virtual AudioError DestroySound(SoundInstance* sound) = 0;
 	/* Gives Human Readable string for error or 0 if not a valid error */
-	virtual const char* StringForError(AudioError error) = 0;
+	virtual const char* StringForError(AudioError error);
+	/* Returns all possible audio devices available for playback. */
+	inline const std::list<AudioDevice*>& GetPossibleDevices() { return audioDevices; }
 };
 
-/******
-Audio Listener
-
-Opaque class the represents the AudioListener.
-Mianly used to pass around instance of audio listener without the
-user needing to know details about implementation
-
-You must NEVER call delete on an instance of this class
-
-******/
-class AudioListener
-{
-
-};
-
-/******
-Sound Instance
-
-Opaque class the represents an instance of a loaded sound asset.
-Mianly used to pass around sounds without the
-user needing to know details about implementation
-
-You must NEVER call delete on an instance of this class
-
-******/
-class SoundInstance
-{
-
-};

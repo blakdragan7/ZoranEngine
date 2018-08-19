@@ -13,6 +13,7 @@ class SceneObject;
 class TickableObject;
 class CameraBase;
 class AllocatorBase;
+class AudioEngineBase;
 class ZoranEngine_EXPORT ZoranEngine
 {
 private:
@@ -30,6 +31,8 @@ private:
 
 	std::vector<TickableObject*>* allTickables;
 	std::vector<SceneObject*>* allSceneObjects;
+
+	AudioEngineBase* audioEngine;
 
 public:
 	AllocatorBase * defaultAllocator;

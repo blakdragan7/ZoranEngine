@@ -33,12 +33,15 @@
 #include <ThirdParty/imgui/imgui.h>
 #include <ThirdParty/imgui/imgui_impl_opengl3.h>
 
+#include <Core/Audio/AL/OALAudioEngine.h>
+
 ZoranEngine* ZoranEngine::instance = 0;
 
 bool ZoranEngine::canRenderDebug = false;
 
 ZoranEngine::ZoranEngine()
 {
+	audioEngine = 0;
 	mainWindow = 0;
 	if (instance)throw std::exception("There can only be one ZoranEngine instance !");
 	instance = this;
@@ -59,6 +62,8 @@ ZoranEngine::ZoranEngine()
 
 ZoranEngine::~ZoranEngine()
 {
+	if (audioEngine)delete audioEngine;
+
 	for (auto object : *allSceneObjects)
 	{
 		object->Destroy();
@@ -95,7 +100,7 @@ int ZoranEngine::MainLoop()
 
 		DEBUG_BENCH_START;
 
-		float deltaTime = (cl.GetDiffSeconds());
+		double deltaTime = (cl.GetDiffSeconds());
 		deltaTime = min(1.0f / 60.0f , deltaTime);
 		
 		cl.TakeClock();
@@ -147,6 +152,9 @@ bool ZoranEngine::Init()
 	mainRenderEngine->InitEngine(window->GetHandle());
 
 	mainWindow = window;
+
+	audioEngine = new OALAudioEngine();
+	audioEngine->Init(NULL);
 
 	return true;
 }

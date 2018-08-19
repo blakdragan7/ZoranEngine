@@ -2,87 +2,141 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="ZoranEngine">
-      <UniqueIdentifier>{238f11b4-cb71-44a2-b3b9-a6b256e70940}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ZoranEngine\Core\Audio">
-      <UniqueIdentifier>{2f93055f-cbcb-41aa-8739-e89a3723ab24}</UniqueIdentifier>
+      <UniqueIdentifier>{f71b9026-21df-4833-a5ec-ca337e267cf7}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Core">
-      <UniqueIdentifier>{1c982214-e3bd-4a74-b9b6-2b413df0ee01}</UniqueIdentifier>
+      <UniqueIdentifier>{93f414c5-cc58-48f6-b06b-13db437b3de6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ZoranEngine\ThirdParty\imgui">
-      <UniqueIdentifier>{2ec9bcd4-9a0d-4bc7-b7aa-118844d699b2}</UniqueIdentifier>
+    <Filter Include="ZoranEngine\Core\Audio">
+      <UniqueIdentifier>{abc6cbc4-cc7a-4547-abc1-6cc735d203ad}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ZoranEngine\ThirdParty">
-      <UniqueIdentifier>{20abe379-175f-42d4-80ce-674b26871a4f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ZoranEngine\ThirdParty\loadong">
-      <UniqueIdentifier>{31fecff2-b644-4905-8bfe-bce9c3b0e8b6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ZoranEngine\Windows">
-      <UniqueIdentifier>{82c2c7a8-2571-4cdb-9a8b-4160be6ec18f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ZoranEngine\Physics">
-      <UniqueIdentifier>{63953044-ef34-4b16-8c04-991a8e2db8ec}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ZoranEngine\Physics\2D">
-      <UniqueIdentifier>{41532f60-f8b2-4124-8389-8849bc60c325}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ZoranEngine\Physics\2D\Collision">
-      <UniqueIdentifier>{119e9209-e9e6-45dd-89a6-6a6ed85853fb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ZoranEngine\Physics\3D">
-      <UniqueIdentifier>{2298ae02-ec32-4312-af88-bc09d1abf632}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ZoranEngine\Physics\3D\Collision">
-      <UniqueIdentifier>{2d228144-052a-451a-8ce8-f8bf3a772842}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ZoranEngine\Physics\Collision">
-      <UniqueIdentifier>{6f48e9df-dc55-4a42-94f5-4ac733ab94e6}</UniqueIdentifier>
+    <Filter Include="ZoranEngine\Core\Audio\AL">
+      <UniqueIdentifier>{cb906df5-3c26-499d-b38b-2aac4a783338}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Core\2D">
-      <UniqueIdentifier>{2ddb0113-1bd3-43ae-a4b6-d613b33330f3}</UniqueIdentifier>
+      <UniqueIdentifier>{23db0b2c-0a35-44ba-bd9c-aad426ab05aa}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Core\3D">
-      <UniqueIdentifier>{0f885922-6be2-4f70-894f-f49ed4fd6581}</UniqueIdentifier>
+      <UniqueIdentifier>{c473e853-04af-4e02-9365-8378021c5f54}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Core\Events">
-      <UniqueIdentifier>{b341fa41-eabf-423c-8e3f-ba7e51c33d05}</UniqueIdentifier>
+      <UniqueIdentifier>{85c99b8c-ca3f-4ea1-ac1d-e3327658357f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\ThirdParty\imgui">
+      <UniqueIdentifier>{fb630115-c36b-46c0-9a2a-77e278e1c651}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\ThirdParty">
+      <UniqueIdentifier>{707ff4e0-1357-40b6-816d-6b8aef0c0c80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\ThirdParty\loadong">
+      <UniqueIdentifier>{1df8638d-737f-412c-a827-9ac4584516f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\Windows">
+      <UniqueIdentifier>{44eea14c-6e2a-4cad-9822-15edbfaeaa12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\Physics">
+      <UniqueIdentifier>{98a1f630-8200-4127-b58d-a99b02dbd53f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\Physics\2D">
+      <UniqueIdentifier>{1bcbe328-32ad-4bc3-8ced-d59b535eb196}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\Physics\2D\Collision">
+      <UniqueIdentifier>{32787b18-5df4-45ea-bd5d-eca3f0a38e6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\Physics\3D">
+      <UniqueIdentifier>{e1a0abeb-04a5-4820-bbb0-666a8290d57f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\Physics\3D\Collision">
+      <UniqueIdentifier>{978177c3-5e50-4eef-b1e9-e584bba51ac8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\Physics\Collision">
+      <UniqueIdentifier>{e19566a2-5fc5-4653-95c7-95598544356b}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Math">
-      <UniqueIdentifier>{3dab2e82-6f8f-469d-a665-3070735779e5}</UniqueIdentifier>
+      <UniqueIdentifier>{7eab592a-021a-439d-91c6-acfaee5902bb}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\OpenGL">
-      <UniqueIdentifier>{c520203f-b596-464d-ab8c-a37f7201793f}</UniqueIdentifier>
+      <UniqueIdentifier>{d17e3863-32f4-4ad7-a61d-8aed6505972b}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Rendering">
-      <UniqueIdentifier>{fd6eb368-3515-4de1-bf8b-a8447069dc68}</UniqueIdentifier>
+      <UniqueIdentifier>{b6c26b66-0585-4af2-9550-6a8022471da7}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Utils">
-      <UniqueIdentifier>{2ee81a15-c4b1-41b5-b2d6-c153e28610d4}</UniqueIdentifier>
+      <UniqueIdentifier>{5d083fea-6f53-4b28-8528-3f6f6a7b5619}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Core\Containers">
-      <UniqueIdentifier>{5fc13e96-505a-4be5-b8f8-a09a02574044}</UniqueIdentifier>
+      <UniqueIdentifier>{18f1cbe7-7d54-4531-b01b-8250a345117a}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Core\Allocators">
-      <UniqueIdentifier>{f0e18c06-da80-4652-88a2-fe6fc04046f8}</UniqueIdentifier>
+      <UniqueIdentifier>{d699844e-ae4d-4509-80db-8d5bf575bedc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\ThirdParty\AL">
+      <UniqueIdentifier>{2ae49d22-98a3-4da3-b73a-6de17224e21b}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Shaders\3D">
-      <UniqueIdentifier>{3bafa4aa-7e66-46a7-9e12-ec65597c7505}</UniqueIdentifier>
+      <UniqueIdentifier>{67244d9d-0e37-4730-93ec-23d37ff5f2cf}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Shaders">
-      <UniqueIdentifier>{4654aa98-ef70-478e-a44e-e3038bcda86f}</UniqueIdentifier>
+      <UniqueIdentifier>{6d98edcf-ba4d-4d7e-96f5-d733594637e3}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Shaders\2D">
-      <UniqueIdentifier>{c7382599-7be0-41b3-aaa9-7729bb361eb0}</UniqueIdentifier>
+      <UniqueIdentifier>{17c63087-d65a-4ed8-86ec-3f75b949b2ad}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>ZoranEngine</Filter>
     </ClCompile>
+    <ClCompile Include="Core\CameraBase.cpp">
+      <Filter>ZoranEngine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\CommonTypes.cpp">
+      <Filter>ZoranEngine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\SceneObject.cpp">
+      <Filter>ZoranEngine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\ThreadBase.cpp">
+      <Filter>ZoranEngine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\WindowBase.cpp">
+      <Filter>ZoranEngine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\ZoranEngine.cpp">
+      <Filter>ZoranEngine\Core</Filter>
+    </ClCompile>
     <ClCompile Include="Core\Audio\AudioEngineBase.cpp">
       <Filter>ZoranEngine\Core\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Audio\AL\OALAudioEngine.cpp">
+      <Filter>ZoranEngine\Core\Audio\AL</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\2D\Camera2D.cpp">
+      <Filter>ZoranEngine\Core\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\2D\DebugSceneObject2D.cpp">
+      <Filter>ZoranEngine\Core\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\2D\OrthoCamera.cpp">
+      <Filter>ZoranEngine\Core\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\2D\SceneObject2D.cpp">
+      <Filter>ZoranEngine\Core\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\2D\TexturedSprite.cpp">
+      <Filter>ZoranEngine\Core\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\3D\Camera3D.cpp">
+      <Filter>ZoranEngine\Core\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\3D\SceneObject3D.cpp">
+      <Filter>ZoranEngine\Core\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Events\EventBase.cpp">
+      <Filter>ZoranEngine\Core\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Events\EventDispatcher.cpp">
+      <Filter>ZoranEngine\Core\Events</Filter>
     </ClCompile>
     <ClCompile Include="ThirdParty\imgui\imgui.cpp">
       <Filter>ZoranEngine\ThirdParty\imgui</Filter>
@@ -168,51 +222,6 @@
     <ClCompile Include="Physics\Collision\CollisionObjectBase.cpp">
       <Filter>ZoranEngine\Physics\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="Core\CameraBase.cpp">
-      <Filter>ZoranEngine\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\CommonTypes.cpp">
-      <Filter>ZoranEngine\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\SceneObject.cpp">
-      <Filter>ZoranEngine\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\ThreadBase.cpp">
-      <Filter>ZoranEngine\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\WindowBase.cpp">
-      <Filter>ZoranEngine\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\ZoranEngine.cpp">
-      <Filter>ZoranEngine\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\2D\Camera2D.cpp">
-      <Filter>ZoranEngine\Core\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\2D\DebugSceneObject2D.cpp">
-      <Filter>ZoranEngine\Core\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\2D\OrthoCamera.cpp">
-      <Filter>ZoranEngine\Core\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\2D\SceneObject2D.cpp">
-      <Filter>ZoranEngine\Core\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\2D\TexturedSprite.cpp">
-      <Filter>ZoranEngine\Core\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\3D\Camera3D.cpp">
-      <Filter>ZoranEngine\Core\3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\3D\SceneObject3D.cpp">
-      <Filter>ZoranEngine\Core\3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Events\EventBase.cpp">
-      <Filter>ZoranEngine\Core\Events</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Events\EventDispatcher.cpp">
-      <Filter>ZoranEngine\Core\Events</Filter>
-    </ClCompile>
     <ClCompile Include="Math\MathHelper.cpp">
       <Filter>ZoranEngine\Math</Filter>
     </ClCompile>
@@ -293,8 +302,113 @@
     <ClInclude Include="ZArray.h">
       <Filter>ZoranEngine</Filter>
     </ClInclude>
+    <ClInclude Include="Core\CameraBase.h">
+      <Filter>ZoranEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\CommomTypes.h">
+      <Filter>ZoranEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PlatformTypes.h">
+      <Filter>ZoranEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\SceneObject.h">
+      <Filter>ZoranEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ThreadBase.h">
+      <Filter>ZoranEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\TickableObject.h">
+      <Filter>ZoranEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\WindowBase.h">
+      <Filter>ZoranEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ZoranEngine.h">
+      <Filter>ZoranEngine\Core</Filter>
+    </ClInclude>
     <ClInclude Include="Core\Audio\AudioEngineBase.h">
       <Filter>ZoranEngine\Core\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Audio\CommonAudioErrors.h">
+      <Filter>ZoranEngine\Core\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Audio\AL\OALAudioEngine.h">
+      <Filter>ZoranEngine\Core\Audio\AL</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\2D\Camera2D.h">
+      <Filter>ZoranEngine\Core\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\2D\DebugSceneObject2D.h">
+      <Filter>ZoranEngine\Core\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\2D\OrthoCamera.h">
+      <Filter>ZoranEngine\Core\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\2D\SceneObject2D.h">
+      <Filter>ZoranEngine\Core\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\2D\TexturedSprite.h">
+      <Filter>ZoranEngine\Core\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\3D\Camera3D.h">
+      <Filter>ZoranEngine\Core\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\3D\SceneObject3D.h">
+      <Filter>ZoranEngine\Core\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Events\EventBase.h">
+      <Filter>ZoranEngine\Core\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Events\EventDispatcher.h">
+      <Filter>ZoranEngine\Core\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Containers\ZArray.h">
+      <Filter>ZoranEngine\Core\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Containers\ZDictionary.h">
+      <Filter>ZoranEngine\Core\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Containers\ZDictionaryHash.h">
+      <Filter>ZoranEngine\Core\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Containers\ZDoubleLinkedList.h">
+      <Filter>ZoranEngine\Core\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Containers\ZLinkedList.h">
+      <Filter>ZoranEngine\Core\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Allocators\AllocatorBase.h">
+      <Filter>ZoranEngine\Core\Allocators</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Allocators\CAllocator.h">
+      <Filter>ZoranEngine\Core\Allocators</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Allocators\FreeListAllocator.h">
+      <Filter>ZoranEngine\Core\Allocators</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Allocators\PoolAllocator.h">
+      <Filter>ZoranEngine\Core\Allocators</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Allocators\StackAllocator.h">
+      <Filter>ZoranEngine\Core\Allocators</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\AL\al.h">
+      <Filter>ZoranEngine\ThirdParty\AL</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\AL\alc.h">
+      <Filter>ZoranEngine\ThirdParty\AL</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\AL\alext.h">
+      <Filter>ZoranEngine\ThirdParty\AL</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\AL\efx-creative.h">
+      <Filter>ZoranEngine\ThirdParty\AL</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\AL\efx-presets.h">
+      <Filter>ZoranEngine\ThirdParty\AL</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\AL\efx.h">
+      <Filter>ZoranEngine\ThirdParty\AL</Filter>
     </ClInclude>
     <ClInclude Include="ThirdParty\imgui\imconfig.h">
       <Filter>ZoranEngine\ThirdParty\imgui</Filter>
@@ -391,87 +505,6 @@
     </ClInclude>
     <ClInclude Include="Physics\Collision\CollisionObjectBase.h">
       <Filter>ZoranEngine\Physics\Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\CameraBase.h">
-      <Filter>ZoranEngine\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\CommomTypes.h">
-      <Filter>ZoranEngine\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\PlatformTypes.h">
-      <Filter>ZoranEngine\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\SceneObject.h">
-      <Filter>ZoranEngine\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\ThreadBase.h">
-      <Filter>ZoranEngine\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\TickableObject.h">
-      <Filter>ZoranEngine\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\WindowBase.h">
-      <Filter>ZoranEngine\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\ZoranEngine.h">
-      <Filter>ZoranEngine\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\2D\Camera2D.h">
-      <Filter>ZoranEngine\Core\2D</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\2D\DebugSceneObject2D.h">
-      <Filter>ZoranEngine\Core\2D</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\2D\OrthoCamera.h">
-      <Filter>ZoranEngine\Core\2D</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\2D\SceneObject2D.h">
-      <Filter>ZoranEngine\Core\2D</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\2D\TexturedSprite.h">
-      <Filter>ZoranEngine\Core\2D</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\3D\Camera3D.h">
-      <Filter>ZoranEngine\Core\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\3D\SceneObject3D.h">
-      <Filter>ZoranEngine\Core\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Events\EventBase.h">
-      <Filter>ZoranEngine\Core\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Events\EventDispatcher.h">
-      <Filter>ZoranEngine\Core\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Containers\ZArray.h">
-      <Filter>ZoranEngine\Core\Containers</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Containers\ZDictionary.h">
-      <Filter>ZoranEngine\Core\Containers</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Containers\ZDictionaryHash.h">
-      <Filter>ZoranEngine\Core\Containers</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Containers\ZDoubleLinkedList.h">
-      <Filter>ZoranEngine\Core\Containers</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Containers\ZLinkedList.h">
-      <Filter>ZoranEngine\Core\Containers</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Allocators\AllocatorBase.h">
-      <Filter>ZoranEngine\Core\Allocators</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Allocators\CAllocator.h">
-      <Filter>ZoranEngine\Core\Allocators</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Allocators\FreeListAllocator.h">
-      <Filter>ZoranEngine\Core\Allocators</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Allocators\PoolAllocator.h">
-      <Filter>ZoranEngine\Core\Allocators</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Allocators\StackAllocator.h">
-      <Filter>ZoranEngine\Core\Allocators</Filter>
     </ClInclude>
     <ClInclude Include="Math\MathHelpers.h">
       <Filter>ZoranEngine\Math</Filter>
@@ -579,5 +612,6 @@
     <None Include="Shaders\2D\standard_debug.vert">
       <Filter>ZoranEngine\Shaders\2D</Filter>
     </None>
+    <None Include="..\README.md" />
   </ItemGroup>
 </Project>
