@@ -142,6 +142,39 @@ Vector3D Quaternion::RotatedVector(const Vector3D& v) const {
 	return (((*this) * Quaternion(v, 0)) * GetConjugate()).GetComplex();
 }
 
+Vector3D Quaternion::GetForwardVector() const
+{
+	Vector3D forward;
+
+	forward.x = 2 * (vals[0] * vals[2] + vals[3] * vals[1]);
+	forward.y = 2 * (vals[1] * vals[2] - vals[3] * vals[0]);
+	forward.z = 1 - (2 * (vals[0]*vals[0] + vals[1] * vals[1]));
+
+	return forward;
+}
+
+Vector3D Quaternion::GetUpVector() const
+{
+	Vector3D up;
+
+	up.x = 2 * (vals[0] * vals[1] - vals[3] * vals[2]);
+	up.y = 1 - (2 * (vals[0] * vals[0] + vals[2] * vals[2]));
+	up.z = (2 * (vals[1] * vals[2] + vals[3] * vals[0]));
+
+	return up;
+}
+
+Vector3D Quaternion::GetLeftVector() const
+{
+	Vector3D left;
+
+	left.x = 1 - (2 * (vals[1] * vals[1] + vals[2] * vals[2]));
+	left.y = 2 * (vals[0] * vals[1] + vals[3] * vals[2]);
+	left.z = (2 * (vals[0] * vals[2] - vals[3] * vals[1]));
+
+	return left;
+}
+
 Quaternion Quaternion::FromEuler(float x,float y,float z) {
 	float c1 = cosf(z * 0.5f);
 	float c2 = cosf(y * 0.5f);

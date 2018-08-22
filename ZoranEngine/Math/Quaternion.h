@@ -28,6 +28,10 @@ public:
 	Matrix44 AsRotationMatrix() const;
 	Vector3D RotatedVector(const Vector3D& v) const;
 
+	Vector3D GetForwardVector()const;
+	Vector3D GetUpVector()const;
+	Vector3D GetLeftVector()const;
+
 	static Quaternion FromScaledAxis(Vector3D& w);
 	static Quaternion FromEuler(const Vector3D& euler);
 	static Quaternion FromEuler(float x, float y, float z);

@@ -49,14 +49,15 @@ public:
 
 	void Rotate(float rotation);
 
-	float GetRotationRad();
-	float GetRotation();
-	Vector2D GetPosition();
-	Vector2D GetScale();
-	Vector2D GetSize();
+	float GetRotationRad()const;
+	float GetRotation()const;
+	Vector2D GetPosition()const;
+	Vector2D GetVelocity()const;
+	Vector2D GetScale()const;
+	Vector2D GetSize()const;
 
-	Matrix22 GetRotationMatrix();
-	Matrix22 GetInvRotationMatrix();
+	Matrix22 GetRotationMatrix()const;
+	Matrix22 GetInvRotationMatrix()const;
 
 	virtual void PreCaclModel()override;
 

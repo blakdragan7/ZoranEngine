@@ -111,17 +111,27 @@ void SceneObject3D::SetScale(float x, float y, float z)
 	UnlockMutex();
 }
 
-Vector3D SceneObject3D::GetPosition()
+Vector3D SceneObject3D::GetPosition()const
 {
 	return pos;
 }
 
-Vector3D SceneObject3D::GetScale()
+Vector3D SceneObject3D::GetVelocity()const
+{
+	if(physicsObject)
+		return physicsObject->GetVelocity();
+	else
+	{
+		return Vector3D();
+	}
+}
+
+Vector3D SceneObject3D::GetScale()const
 {
 	return scale;
 }
 
-Vector3D SceneObject3D::GetRotationAsEulor()
+Vector3D SceneObject3D::GetRotationAsEulor()const
 {
 	return rotation.AsEuler();
 }

@@ -15,7 +15,14 @@ such as turning on a capability that this engine implementation doesnt supprot*/
 #define AE_INVALID_SOUND_INSTANCE 5
 /* Returned if an audio listener is passed to an engine when that audio listener was not created by that engine */
 #define AE_INVALID_AUDIO_LISTENER 6
-
+/* Returned if some part of the function was not found, for example unable to find default audio device */
+#define AE_NOT_FOUND 7
+/* ususally only returned if the underlying implementation, like openal returns unkown error */
+#define AE_UNKOWN_ERROR 8
+/* The engine ran out of memory */
+#define AE_NO_MEMORY 9
+/* there was an error with the backend implementation, probably a bug */
+#define AE_BACKEND_ERROR 10
 enum AudioFileType
 {
 	AFT_MP3,

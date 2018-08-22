@@ -18,8 +18,9 @@ class OALAudioListener : public AudioListener
 {
 private:
 	ALCcontext * context;
+	bool isListening;
 
-	OALAudioListener() : AudioListener(), context(0) { type = AEI_OAL; }
+	OALAudioListener() : AudioListener(), isListening(false), context(0) { type = AEI_OAL; }
 	~OALAudioListener() {}
 
 	friend class OALAudioEngine;

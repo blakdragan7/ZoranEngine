@@ -329,9 +329,6 @@
     <ClInclude Include="Core\Audio\AudioEngineBase.h">
       <Filter>ZoranEngine\Core\Audio</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Audio\CommonAudioErrors.h">
-      <Filter>ZoranEngine\Core\Audio</Filter>
-    </ClInclude>
     <ClInclude Include="Core\Audio\AL\OALAudioEngine.h">
       <Filter>ZoranEngine\Core\Audio\AL</Filter>
     </ClInclude>
@@ -586,6 +583,12 @@
     </ClInclude>
     <ClInclude Include="Utils\VectorAddons.hpp">
       <Filter>ZoranEngine\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Audio\Common.h">
+      <Filter>ZoranEngine\Core\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Audio\AL\OALImplementations.h">
+      <Filter>ZoranEngine\Core\Audio\AL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

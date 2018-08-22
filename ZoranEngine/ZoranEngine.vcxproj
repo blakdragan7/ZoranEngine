@@ -127,9 +127,10 @@
     <ClInclude Include="Core\Allocators\FreeListAllocator.h" />
     <ClInclude Include="Core\Allocators\PoolAllocator.h" />
     <ClInclude Include="Core\Allocators\StackAllocator.h" />
+    <ClInclude Include="Core\Audio\AL\OALImplementations.h" />
     <ClInclude Include="Core\Audio\AL\OALAudioEngine.h" />
     <ClInclude Include="Core\Audio\AudioEngineBase.h" />
-    <ClInclude Include="Core\Audio\CommonAudioErrors.h" />
+    <ClInclude Include="Core\Audio\Common.h" />
     <ClInclude Include="Core\CameraBase.h" />
     <ClInclude Include="Core\CommomTypes.h" />
     <ClInclude Include="Core\Containers\ZArray.h" />

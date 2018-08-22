@@ -7,6 +7,8 @@ class Vector3D;
 class SoundInstance;
 class AudioListener;
 class AudioDevice;
+class SceneObject3D;
+class SceneObject2D;
 typedef unsigned AudioError;
 enum AudioBufferType;
 enum AudioFileType;
@@ -45,14 +47,14 @@ public:
 	The previously created listener and sound isntances will still be valid. this operation will be pretty 
 	slow so it should either be done in a background thread or warn the user it is happening. */
 	virtual AudioError SwitchToDevice(AudioDevice* toDevice, AudioDevice* fromDevice) = 0;
-	/* Creats an audio listener at location */
-	virtual AudioError  CreateAudioListener(const Vector3D& location, AudioListener** outListener) = 0;
-	/* Same as above but with z = 0 */
-	virtual AudioError  CreateAudioListener(const Vector2D& location, AudioListener** outListener) = 0;
+	/* Creats an audio listener with location, orientation and veleocity of object, if there is no active listener then sets this listener active */
+	virtual AudioError  CreateAudioListener(const SceneObject3D * object, AudioListener** outListener) = 0;
+	/* Same as above but with a 2d scene object */
+	virtual AudioError  CreateAudioListener(const SceneObject2D * object, AudioListener** outListener) = 0;
+	/* makes the specific listener the one that receives sounds */
+	virtual AudioError MakeListenerActive(AudioListener* listener) = 0;
 	/* Used to teardown audio listener and free all memory assosiated with it. */
 	virtual AudioError DestroyListener(AudioListener* listener) = 0;
-	/* Sets the currently active listener, using 0 means all listeners */
-	virtual AudioError  SetListener(AudioListener* listener) = 0;
 	/*  Plays a sound with 3D audio at a location. The current listener then receives audio in a >= 2.1 channel way if available*/
 	virtual AudioError  PlaySoundAtLocation(SoundInstance* sound, const Vector3D& location) = 0;
 	/* Same as above but always places z as the same as the listener */

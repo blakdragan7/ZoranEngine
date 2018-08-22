@@ -44,12 +44,13 @@ public:
 	void SetScale(Vector3D scale);
 	void SetScale(float x, float y, float z);
 
-	Vector3D GetPosition();
-	Vector3D GetScale();
+	Vector3D GetPosition()const;
+	Vector3D GetVelocity()const;
+	Vector3D GetScale()const;
 
-	Vector3D GetRotationAsEulor();
+	Vector3D GetRotationAsEulor()const;
 
-	inline Quaternion GetRotation() { return rotation; }
+	inline Quaternion GetRotation()const { return rotation; }
 	void SetRotation(Quaternion quat);
 
 	void RotateByScaledAxis(Vector3D axis);
