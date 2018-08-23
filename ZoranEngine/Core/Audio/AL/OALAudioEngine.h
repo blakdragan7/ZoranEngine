@@ -11,9 +11,11 @@ private:
 	OALAudioListener * activeListener;
 
 	AudioError ALCenumToALError(int);
+	AudioError ALUTenumToALError(int);
 	unsigned AEBufferTypeToOAL(AudioBufferType bufferType);
 
-	AudioError CheckErrors(const char* func);
+	AudioError CheckALErrors(const char* func);
+	AudioError CheckALUTErrors(const char* func);
 
 public:
 	OALAudioEngine();
@@ -28,7 +30,7 @@ public:
 	virtual AudioError  PlaySoundAtLocation(SoundInstance* sound, const Vector3D& location)override;
 	virtual AudioError  PlaySoundAtLocation(SoundInstance* sound, const Vector2D& location)override;
 	virtual AudioError  PlaySoundInstance(SoundInstance* sound)override;
-	virtual void  StopSound(SoundInstance* sound)override;
+	virtual AudioError  StopSound(SoundInstance* sound)override;
 	virtual bool  QuerryCapability(AudioCapability cap)override;
 	virtual AudioError  SetCapability(AudioCapability cap)override;
 	virtual AudioError  SetCapability(std::initializer_list<AudioCapability> list)override;

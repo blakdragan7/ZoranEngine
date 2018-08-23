@@ -76,6 +76,7 @@ public:
 
 	inline RenderEngineBase* GetRenderer() { return mainRenderEngine; }
 	inline PhysicsEngine* GetPhysicsEngine() { return physicsEngine; }
+	inline AudioEngineBase* GetAudioEngine() { return audioEngine; }
 
 	static inline ZoranEngine* Instance() { return instance; }
 
@@ -94,4 +95,5 @@ public:
 #define zEngine ZoranEngine::Instance()
 #define pEngine zEngine->GetPhysicsEngine()
 #define rEngine zEngine->GetRenderer()
+#define aEngine zEngine->GetAudioEngine()
 #define Log(...) ZoranEngine::Instance()->logger->LogString(__VA_ARGS__);

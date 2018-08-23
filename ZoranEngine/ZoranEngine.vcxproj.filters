@@ -2,85 +2,85 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="ZoranEngine">
-      <UniqueIdentifier>{f71b9026-21df-4833-a5ec-ca337e267cf7}</UniqueIdentifier>
+      <UniqueIdentifier>{16e7a130-3ecb-4126-9236-766703d804b3}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Core">
-      <UniqueIdentifier>{93f414c5-cc58-48f6-b06b-13db437b3de6}</UniqueIdentifier>
+      <UniqueIdentifier>{bce6c3fb-0529-423d-baf5-abebcd975fca}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Core\Audio">
-      <UniqueIdentifier>{abc6cbc4-cc7a-4547-abc1-6cc735d203ad}</UniqueIdentifier>
+      <UniqueIdentifier>{5970256e-e69a-4d42-8b85-6278881a2a36}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Core\Audio\AL">
-      <UniqueIdentifier>{cb906df5-3c26-499d-b38b-2aac4a783338}</UniqueIdentifier>
+      <UniqueIdentifier>{c30fe25d-ce51-4a5b-b31f-2af87a354743}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Core\2D">
-      <UniqueIdentifier>{23db0b2c-0a35-44ba-bd9c-aad426ab05aa}</UniqueIdentifier>
+      <UniqueIdentifier>{b851a6a9-4772-445a-a98b-cb9eff0a434d}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Core\3D">
-      <UniqueIdentifier>{c473e853-04af-4e02-9365-8378021c5f54}</UniqueIdentifier>
+      <UniqueIdentifier>{89642975-3fee-4f38-a963-ccaa10c93977}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Core\Events">
-      <UniqueIdentifier>{85c99b8c-ca3f-4ea1-ac1d-e3327658357f}</UniqueIdentifier>
+      <UniqueIdentifier>{a7e03084-f704-41b3-b8d5-c77b34dd4015}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\ThirdParty\imgui">
-      <UniqueIdentifier>{fb630115-c36b-46c0-9a2a-77e278e1c651}</UniqueIdentifier>
+      <UniqueIdentifier>{7bf49823-73c2-4f37-818e-be1500d00068}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\ThirdParty">
-      <UniqueIdentifier>{707ff4e0-1357-40b6-816d-6b8aef0c0c80}</UniqueIdentifier>
+      <UniqueIdentifier>{f4073205-6bbd-4c69-a741-757167970921}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\ThirdParty\loadong">
-      <UniqueIdentifier>{1df8638d-737f-412c-a827-9ac4584516f3}</UniqueIdentifier>
+      <UniqueIdentifier>{dd9fb3dc-1784-4fe7-ba80-207829b60046}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Windows">
-      <UniqueIdentifier>{44eea14c-6e2a-4cad-9822-15edbfaeaa12}</UniqueIdentifier>
+      <UniqueIdentifier>{22d8e157-da0d-4972-aedc-dec8596ceb0a}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Physics">
-      <UniqueIdentifier>{98a1f630-8200-4127-b58d-a99b02dbd53f}</UniqueIdentifier>
+      <UniqueIdentifier>{b23449b9-1bd9-451c-84e5-567da04784ad}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Physics\2D">
-      <UniqueIdentifier>{1bcbe328-32ad-4bc3-8ced-d59b535eb196}</UniqueIdentifier>
+      <UniqueIdentifier>{bcf9122d-fefe-4e0a-9e40-a6d741805105}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Physics\2D\Collision">
-      <UniqueIdentifier>{32787b18-5df4-45ea-bd5d-eca3f0a38e6f}</UniqueIdentifier>
+      <UniqueIdentifier>{b444396b-e8f5-4628-a4b2-cb6fe38b49b1}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Physics\3D">
-      <UniqueIdentifier>{e1a0abeb-04a5-4820-bbb0-666a8290d57f}</UniqueIdentifier>
+      <UniqueIdentifier>{e1a9665c-c67c-403e-8fb5-487f59b0c0df}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Physics\3D\Collision">
-      <UniqueIdentifier>{978177c3-5e50-4eef-b1e9-e584bba51ac8}</UniqueIdentifier>
+      <UniqueIdentifier>{c707fa36-46d0-44c8-97eb-6cf982401a44}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Physics\Collision">
-      <UniqueIdentifier>{e19566a2-5fc5-4653-95c7-95598544356b}</UniqueIdentifier>
+      <UniqueIdentifier>{78d59ec1-efe2-4698-ab2d-e48b356126cf}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Math">
-      <UniqueIdentifier>{7eab592a-021a-439d-91c6-acfaee5902bb}</UniqueIdentifier>
+      <UniqueIdentifier>{48bdef0b-b9a4-4c60-9ed9-b9999755d8a5}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\OpenGL">
-      <UniqueIdentifier>{d17e3863-32f4-4ad7-a61d-8aed6505972b}</UniqueIdentifier>
+      <UniqueIdentifier>{f05fca43-712f-49f4-ab13-94506d1388de}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Rendering">
-      <UniqueIdentifier>{b6c26b66-0585-4af2-9550-6a8022471da7}</UniqueIdentifier>
+      <UniqueIdentifier>{95db5ad8-b0a0-45fa-84ba-8be8b00fa0cd}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Utils">
-      <UniqueIdentifier>{5d083fea-6f53-4b28-8528-3f6f6a7b5619}</UniqueIdentifier>
+      <UniqueIdentifier>{6e351a64-c209-4cbc-bea5-6a33dd413526}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Core\Containers">
-      <UniqueIdentifier>{18f1cbe7-7d54-4531-b01b-8250a345117a}</UniqueIdentifier>
+      <UniqueIdentifier>{59c7bee8-9f32-4329-a534-47dd3ee0a6ce}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Core\Allocators">
-      <UniqueIdentifier>{d699844e-ae4d-4509-80db-8d5bf575bedc}</UniqueIdentifier>
+      <UniqueIdentifier>{dbe27175-90f3-4704-b24b-da70d37f7177}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\ThirdParty\AL">
-      <UniqueIdentifier>{2ae49d22-98a3-4da3-b73a-6de17224e21b}</UniqueIdentifier>
+      <UniqueIdentifier>{3b9273d2-9a46-4bf0-8eba-f0cda4e6b1e5}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Shaders\3D">
-      <UniqueIdentifier>{67244d9d-0e37-4730-93ec-23d37ff5f2cf}</UniqueIdentifier>
+      <UniqueIdentifier>{79c42a75-bfdc-487f-90e1-dd7a2afc9ad9}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Shaders">
-      <UniqueIdentifier>{6d98edcf-ba4d-4d7e-96f5-d733594637e3}</UniqueIdentifier>
+      <UniqueIdentifier>{c52d60db-2be8-4d43-9e11-ea378edd6b09}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Shaders\2D">
-      <UniqueIdentifier>{17c63087-d65a-4ed8-86ec-3f75b949b2ad}</UniqueIdentifier>
+      <UniqueIdentifier>{f1432e19-4f32-4822-9443-c998013ed71c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -329,7 +329,13 @@
     <ClInclude Include="Core\Audio\AudioEngineBase.h">
       <Filter>ZoranEngine\Core\Audio</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Audio\Common.h">
+      <Filter>ZoranEngine\Core\Audio</Filter>
+    </ClInclude>
     <ClInclude Include="Core\Audio\AL\OALAudioEngine.h">
+      <Filter>ZoranEngine\Core\Audio\AL</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Audio\AL\OALImplementations.h">
       <Filter>ZoranEngine\Core\Audio\AL</Filter>
     </ClInclude>
     <ClInclude Include="Core\2D\Camera2D.h">
@@ -389,24 +395,6 @@
     <ClInclude Include="Core\Allocators\StackAllocator.h">
       <Filter>ZoranEngine\Core\Allocators</Filter>
     </ClInclude>
-    <ClInclude Include="ThirdParty\AL\al.h">
-      <Filter>ZoranEngine\ThirdParty\AL</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\AL\alc.h">
-      <Filter>ZoranEngine\ThirdParty\AL</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\AL\alext.h">
-      <Filter>ZoranEngine\ThirdParty\AL</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\AL\efx-creative.h">
-      <Filter>ZoranEngine\ThirdParty\AL</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\AL\efx-presets.h">
-      <Filter>ZoranEngine\ThirdParty\AL</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\AL\efx.h">
-      <Filter>ZoranEngine\ThirdParty\AL</Filter>
-    </ClInclude>
     <ClInclude Include="ThirdParty\imgui\imconfig.h">
       <Filter>ZoranEngine\ThirdParty\imgui</Filter>
     </ClInclude>
@@ -433,6 +421,24 @@
     </ClInclude>
     <ClInclude Include="ThirdParty\loadong\lodepng.h">
       <Filter>ZoranEngine\ThirdParty\loadong</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\AL\al.h">
+      <Filter>ZoranEngine\ThirdParty\AL</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\AL\alc.h">
+      <Filter>ZoranEngine\ThirdParty\AL</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\AL\alext.h">
+      <Filter>ZoranEngine\ThirdParty\AL</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\AL\efx-creative.h">
+      <Filter>ZoranEngine\ThirdParty\AL</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\AL\efx-presets.h">
+      <Filter>ZoranEngine\ThirdParty\AL</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\AL\efx.h">
+      <Filter>ZoranEngine\ThirdParty\AL</Filter>
     </ClInclude>
     <ClInclude Include="Windows\WindowsThread.h">
       <Filter>ZoranEngine\Windows</Filter>
@@ -583,12 +589,6 @@
     </ClInclude>
     <ClInclude Include="Utils\VectorAddons.hpp">
       <Filter>ZoranEngine\Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Audio\Common.h">
-      <Filter>ZoranEngine\Core\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Audio\AL\OALImplementations.h">
-      <Filter>ZoranEngine\Core\Audio\AL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

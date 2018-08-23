@@ -62,7 +62,7 @@ public:
 	/* Play non 3d sound, like background music */
 	virtual AudioError  PlaySoundInstance(SoundInstance* sound) = 0;
 	/* stops a specific sound during play, if the sound isn't playing it just does nothing */
-	virtual void  StopSound(SoundInstance* sound) = 0;
+	virtual AudioError  StopSound(SoundInstance* sound) = 0;
 	/* Asks the egnine if it supports a specific capability, like doppler effect */
 	virtual bool  QuerryCapability(AudioCapability cap) = 0;
 	/* Turns a specific capability on. returns AE_NOT_SUPPORTED if not possible */
