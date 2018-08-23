@@ -11,6 +11,8 @@ private:
 	OALAudioListener * activeListener;
 
 	AudioError ALCenumToALError(int);
+	unsigned AEBufferTypeToOAL(AudioBufferType bufferType);
+
 	AudioError CheckErrors(const char* func);
 
 public:
@@ -31,7 +33,7 @@ public:
 	virtual AudioError  SetCapability(AudioCapability cap)override;
 	virtual AudioError  SetCapability(std::initializer_list<AudioCapability> list)override;
 	virtual AudioError CreateSoundFromFile(const char* file, AudioFileType type, SoundInstance** outSound)override;
-	virtual AudioError CreateSoundFromBuffer(void* buffer, AudioBufferType bType, SoundInstance** outSound)override;
+	virtual AudioError CreateSoundFromBuffer(void* buffer, unsigned buffer_len, unsigned freq, AudioBufferType bType, SoundInstance** outSound)override;
 	virtual AudioError DestroySound(SoundInstance* outSound)override;
 	virtual const char* StringForError(AudioError error)override;
 };

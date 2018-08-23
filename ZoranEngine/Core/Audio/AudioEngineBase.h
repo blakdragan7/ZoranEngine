@@ -72,7 +72,7 @@ public:
 	/* Creates a sound and stores it in the audio engine with givent type. if the type is not supported, AE_NOT_SUPPORTED is returned. */
 	virtual AudioError CreateSoundFromFile(const char* file,AudioFileType type, SoundInstance** outSound) = 0;
 	/* Same as above but from a buffer containing the audio instead */
-	virtual AudioError CreateSoundFromBuffer(void* buffer,AudioBufferType bType, SoundInstance** outSound) = 0;
+	virtual AudioError CreateSoundFromBuffer(void* buffer, unsigned buffer_len, unsigned freq, AudioBufferType bType, SoundInstance** outSound) = 0;
 	/* Destory instance of sound and frees memory assosiated with that sound, returns AE_INVALID_OPERATION if sound is not valid */
 	virtual AudioError DestroySound(SoundInstance* sound) = 0;
 	/* Gives Human Readable string for error or 0 if not a valid error */

@@ -31,9 +31,11 @@ enum AudioFileType
 
 enum AudioBufferType
 {
-	ABT_LPCM8,
-	ABT_LPCM16,
-	ABT_LPCM32,
+	ABT_LPCM_MONO_8,
+	ABT_LPCM_MONO_16,
+	ABT_LPCM_STEREO_8,
+	ABT_LPCM_STEREO_16,
+	
 };
 
 enum AudioCapability

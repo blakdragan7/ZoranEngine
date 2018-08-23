@@ -28,8 +28,11 @@ private:
 
 class OALSoundInstace : public SoundInstance 
 {
-public:
-	OALSoundInstace() { type = AEI_OAL; }
+private:
+	ALuint buffer,source;
+	unsigned bufferSize;
+
+	OALSoundInstace() : bufferSize(0), buffer(0), source(0) { type = AEI_OAL; }
 	~OALSoundInstace() {}
 
 	friend class OALAudioEngine;

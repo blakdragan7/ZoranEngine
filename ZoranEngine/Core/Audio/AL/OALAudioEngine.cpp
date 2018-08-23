@@ -10,6 +10,8 @@
 #include <Core/2D/SceneObject2D.h>
 #include <Core/3D/SceneObject3D.h>
 
+#include <ThirdParty/libwav/wave.h>
+
 #include <assert.h>
 
 AudioError OALAudioEngine::ALCenumToALError(int error)
@@ -40,6 +42,29 @@ AudioError OALAudioEngine::ALCenumToALError(int error)
 	}
 
 	return AE_UNKOWN_ERROR;
+}
+
+unsigned OALAudioEngine::AEBufferTypeToOAL(AudioBufferType bufferType)
+{
+	switch (bufferType)
+	{
+	case ABT_LPCM_MONO_8:
+		return AL_FORMAT_MONO8;
+		break;
+	case ABT_LPCM_MONO_16:
+		return AL_FORMAT_MONO16;
+		break;
+	case ABT_LPCM_STEREO_8:
+		return AL_FORMAT_STEREO8;
+		break;
+	case ABT_LPCM_STEREO_16:
+		return AL_FORMAT_STEREO16;
+		break;
+	default:
+		return 0;
+	};
+
+	return 0;
 }
 
 AudioError OALAudioEngine::CheckErrors(const char* func)
@@ -185,7 +210,7 @@ AudioError OALAudioEngine::CreateAudioListener(const SceneObject2D * object, Aud
 
 AudioError OALAudioEngine::MakeListenerActive(AudioListener * listener)
 {
-	assert(listener->type != AEI_INVALID && "Device Type not set in implementation !");
+	assert(listener->type != AEI_INVALID && "AudioListener Type not set in implementation !");
 	if (listener->type != AEI_OAL)return AE_INVALID_AUDIO_DEVICE;
 
 	OALAudioListener* oalListener = (OALAudioListener*)listener;
@@ -204,6 +229,19 @@ AudioError OALAudioEngine::MakeListenerActive(AudioListener * listener)
 
 AudioError OALAudioEngine::DestroyListener(AudioListener * listener)
 {
+	assert(listener->type != AEI_INVALID && "AudioListener Type not set in implementation !");
+	if (listener->type != AEI_OAL)return AE_INVALID_AUDIO_DEVICE;
+
+	OALAudioListener* oalListener = (OALAudioListener*)listener;
+
+	if (oalListener->isListening)
+	{
+		alcMakeContextCurrent(NULL);
+		alcDestroyContext(oalListener->context);
+	}
+
+	delete oalListener;
+
 	return AudioError();
 }
 
@@ -243,7 +281,17 @@ AudioError OALAudioEngine::SetCapability(std::initializer_list<enum AudioCapabil
 
 AudioError OALAudioEngine::DestroySound(SoundInstance * sound)
 {
-	return AudioError();
+	assert(sound->type != AEI_INVALID && "SoundInstance Type not set in implementation !");
+	if (sound->type != AEI_OAL)return AE_INVALID_SOUND_INSTANCE;
+
+	OALSoundInstace* oalSound = (OALSoundInstace*)sound;
+
+	alDeleteSources(1, &oalSound->source);
+	alDeleteBuffers(1, &oalSound->buffer);
+
+	delete oalSound;
+
+	return AE_NO_ERROR;
 }
 
 const char * OALAudioEngine::StringForError(AudioError error)
@@ -251,12 +299,89 @@ const char * OALAudioEngine::StringForError(AudioError error)
 	return AudioEngineBase::StringForError(error);
 }
 
-AudioError OALAudioEngine::CreateSoundFromBuffer(void * buffer, AudioBufferType bType, SoundInstance ** outSound)
+AudioError OALAudioEngine::CreateSoundFromBuffer(void * buffer, unsigned buffer_len, unsigned freq, AudioBufferType bType, SoundInstance ** outSound)
 {
-	return AudioError();
+	if (buffer == 0 || buffer_len == 0) return AE_INVALID_OPERATION;
+
+	ALenum format = (ALenum)AEBufferTypeToOAL(bType);
+
+	if (format == 0)
+	{
+		return AE_NOT_SUPPORTED;
+	}
+
+	OALSoundInstace* instance = new OALSoundInstace();
+	instance->bufferSize = buffer_len;
+
+	alGenBuffers(1, &instance->buffer);
+
+	auto error = CheckErrors("OALAudioEngine::CreateSoundFromBuffer alGenBuffers");
+
+	if (error != AE_NO_ERROR)return error;
+
+	alBufferData(instance->buffer, format, buffer, buffer_len, freq);
+
+	error = CheckErrors("OALAudioEngine::CreateSoundFromBuffer alBufferData");
+
+	if (error != AE_NO_ERROR)return error;
+
+	alGenSources(1, &instance->source);
+	
+	error = CheckErrors("OALAudioEngine::CreateSoundFromBuffer alGenSources");
+
+	if (error != AE_NO_ERROR)return error;
+
+	alSourcei(instance->source, AL_BUFFER, instance->buffer);
+
+	error = CheckErrors("OALAudioEngine::CreateSoundFromBuffer alSourcei");
+
+	if (error != AE_NO_ERROR)return error;
+
+	*outSound = instance;
+
+	return AE_NO_ERROR;
 }
 
 AudioError OALAudioEngine::CreateSoundFromFile(const char * file, AudioFileType type, SoundInstance ** outSound)
 {
-	return AudioError();
+	if (file == 0) return AE_INVALID_OPERATION;
+	if (type != AFT_WAV) return AE_NOT_SUPPORTED;
+
+
+	ALenum format = 0;
+	ALuint buffer_len, freq;
+	buffer_len = freq = 0;
+	void* buffer = 0;
+
+	auto waveFile = wave_open((char*)file, "r");
+
+	OALSoundInstace* instance = new OALSoundInstace();
+
+	alGenBuffers(1, &instance->buffer);
+
+	auto error = CheckErrors("OALAudioEngine::CreateSoundFromBuffer alGenBuffers");
+
+	if (error != AE_NO_ERROR)return error;
+
+	alBufferData(instance->buffer, format, buffer, buffer_len, freq);
+
+	error = CheckErrors("OALAudioEngine::CreateSoundFromBuffer alBufferData");
+
+	if (error != AE_NO_ERROR)return error;
+
+	alGenSources(1, &instance->source);
+
+	error = CheckErrors("OALAudioEngine::CreateSoundFromBuffer alGenSources");
+
+	if (error != AE_NO_ERROR)return error;
+
+	alSourcei(instance->source, AL_BUFFER, instance->buffer);
+
+	error = CheckErrors("OALAudioEngine::CreateSoundFromBuffer alSourcei");
+
+	if (error != AE_NO_ERROR)return error;
+
+	*outSound = instance;
+
+	return AE_NO_ERROR;
 }
