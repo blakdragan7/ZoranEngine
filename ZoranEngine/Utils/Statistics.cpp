@@ -41,7 +41,7 @@ void BenchMarker::ImGuiDraw()
 	{
 		ImGui::Text(("\t" + x.first + ": " + std::to_string(((double)x.second.nanoseconds / (double)rootChain.nanoseconds) * 100.0)).c_str());
 		if(ShowGraph)
-			ImGui::PlotVar(x.first.c_str(),((float)x.second.nanoseconds / (float)rootChain.nanoseconds) * 100.0,0,100);
+			ImGui::PlotVar(x.first.c_str(),((float)x.second.nanoseconds / (float)rootChain.nanoseconds) * 100.0f,0,100);
 		if (ImGui::TreeNode(x.first.c_str()))
 		{
 			x.second.ImGuiDraw(ShowGraph, rootChain.nanoseconds);
@@ -124,7 +124,7 @@ void BenchStatChain::ImGuiDraw(const bool& showGraph,const long long& totalNanos
 	{
 		ImGui::Text(("\t" + x.first + ": " + std::to_string(((double)x.second.nanoseconds / (double)totalNanoseconds) * 100.0)).c_str());
 		if (showGraph)
-			ImGui::PlotVar(x.first.c_str(), ((float)x.second.nanoseconds / (float)totalNanoseconds) * 100.0, 0, 100);
+			ImGui::PlotVar(x.first.c_str(), ((float)x.second.nanoseconds / (float)totalNanoseconds) * 100.0f, 0, 100);
 		if (ImGui::TreeNode(x.first.c_str()))
 		{
 			x.second.ImGuiDraw(showGraph,totalNanoseconds);

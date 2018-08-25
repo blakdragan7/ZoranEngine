@@ -143,7 +143,7 @@ AudioError OALAudioEngine::CheckALErrors(const char* func)
 
 	if (error != AL_NO_ERROR)
 	{
-		Log(LogLevel_Default, "%s OpenAL error %s \n", func, alGetString(error) );
+		Log(LogLevel_Error, "%s OpenAL error %s \n", func, alGetString(error) );
 	}
 
 	return ALCenumToALError(error);
@@ -155,7 +155,7 @@ AudioError OALAudioEngine::CheckALUTErrors(const char * func)
 
 	if (error != ALUT_ERROR_NO_ERROR)
 	{
-		Log(LogLevel_Default, "%s OpenAL error %s \n", func, alutGetErrorString(error));
+		Log(LogLevel_Error, "%s OpenAL error %s \n", func, alutGetErrorString(error));
 	}
 
 	return ALUTenumToALError(error);

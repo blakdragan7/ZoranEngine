@@ -77,7 +77,7 @@ void OpenGLTexture::SetRenderDataFormat(RenderDataFormat newFormat)
 void OpenGLTexture::UseTexture(void * data)
 {
 #pragma warning(push)
-#pragma warning(disable:4302)
+#pragma warning(disable:4311)
 	BindTexture((unsigned)data);
 #pragma warning(pop)
 }
@@ -85,7 +85,7 @@ void OpenGLTexture::UseTexture(void * data)
 void OpenGLTexture::StopUsinfgTexture(void * data)
 {
 #pragma warning(push)
-#pragma warning(disable:4302)
+#pragma warning(disable:4311)
 	UnbindTexture((unsigned)data);
 #pragma warning(pop)
 }

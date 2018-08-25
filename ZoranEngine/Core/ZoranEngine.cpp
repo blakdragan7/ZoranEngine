@@ -50,7 +50,7 @@ ZoranEngine::ZoranEngine()
 	mainRenderEngine = 0;
 	isPaused = false;
 	logger = new ConsoleLogger();
-	logger->SetLogLevel(LogLevel_Default);
+	logger->SetLogLevel(LogLevel_Error);
 	step = false;
 	camera = 0;
 

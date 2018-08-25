@@ -131,7 +131,7 @@ bool PhysicsObject2DBase::OnSweepCollision(SweepCollision2D & response,float del
 	if (currentDepth >= maxDepth)
 	{
 		std::string name = response.Collision2D.collidedObjects[0]->GetSceneObject()->readableName;
-		Log(LogLevel_Default,"Error, Object %s exceeded maximum sweep Depth !! \n", name.c_str());
+		Log(LogLevel_Error,"Error, Object %s exceeded maximum sweep Depth !! \n", name.c_str());
 		return false;
 	}
 
@@ -257,7 +257,7 @@ void PhysicsObject2DBase::ApplyImpulseToAngularVelocity(float impulse)
 	angularVelocity += invInertia * impulse;
 }
 
-Vec2D PhysicsObject2DBase::GetVelocity()
+const Vec2D& PhysicsObject2DBase::GetVelocity()
 {
 	return velocity;
 }
@@ -267,6 +267,6 @@ float PhysicsObject2DBase::GetAngularVelocity()
 	return angularVelocity;
 }
 
-Vec2D PhysicsObject2DBase::GetScenePos() { return sceneObject2D->GetPosition(); }
+const Vec2D& PhysicsObject2DBase::GetScenePos() { return sceneObject2D->GetPosition(); }
 inline SceneObject2D* PhysicsObject2DBase::GetSceneObject() { 
 	return sceneObject2D; }

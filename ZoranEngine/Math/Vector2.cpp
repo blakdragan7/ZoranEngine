@@ -3,6 +3,9 @@
 
 #include <math.h>
 
+const Vector2D Vector2D::Zero;
+
+
 Vector2D::Vector2D(void) : x(0), y(0) { }
 Vector2D::Vector2D(float x_, float y_) :x(x_), y(y_) { }
 

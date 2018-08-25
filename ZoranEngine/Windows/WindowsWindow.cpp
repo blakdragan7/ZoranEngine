@@ -142,8 +142,8 @@ void WindowsWindow::SetSizeAndPositionByRect(RECT rect)
 
 unsigned WindowsWindow::ConvertWPARAMToKey(WPARAM key)
 {
-	if(key < 0x70 || key > 0x87)return key; // ascii
-	return key + 0x378;
+	if(key < 0x70 || key > 0x87)return static_cast<unsigned>(key); // ascii
+	return static_cast<unsigned>(key + 0x378);
 }
 
 void WindowsWindow::SetPosition(long x, long y)

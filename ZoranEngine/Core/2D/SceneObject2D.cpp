@@ -119,8 +119,8 @@ float SceneObject2D::GetRotation()const
 
 inline const Vector2D & SceneObject2D::GetVelocity() const
 {
-	if (physicsObject)physicsObject->GetVelocity(); 
-	else return Vec2D();
+	if (physicsObject)return physicsObject->GetVelocity(); 
+	else return Vector2D::Zero;
 }
 
 Matrix22 SceneObject2D::GetRotationMatrix()const

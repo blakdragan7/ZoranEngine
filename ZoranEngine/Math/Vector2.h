@@ -60,6 +60,8 @@ public:
 	float cross(const Vector2D& other)const;
 	Vector2D crossRight(float scalor)const;
 	Vector2D crossLeft(float scalor)const;
+
+	static const Vector2D Zero;
 };
 
 inline extern Vector2D operator*(float d,const Vector2D& v);
@@ -110,7 +112,9 @@ public:
 	float magnitude();
 	int distanceSquared(Vector2I other);
 	int perpDot(Vector2I other);
+
 };
+
 
 #define Vec2D Vector2D
 #define Vec2I Vector2I
