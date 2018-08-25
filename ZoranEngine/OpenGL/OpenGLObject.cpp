@@ -141,6 +141,8 @@ unsigned OpenGLObject::GLPrimitveFromPrimitiveType(PrimitiveType type) const
 	case PT_Line_Loop:
 		return GL_LINE_LOOP;
 	}
+
+	return 0;
 }
 
 void OpenGLObject::RenderObject()
@@ -168,8 +170,8 @@ void OpenGLObject::MakeFullScreenQuad()
 	if (this->cpuUVData)
 		delete[] this->cpuUVData;
 
-	float vert[12] = { -1.0f,-1.0f, 0.0f,-1.0f,1.0f,0.0f,1.0f,-1.0f,0.0f,1.0f,1.0f,0.0f };
-	float coord[8] = { 0.0f,0.0f,0.0f,1.0f,1.0f,0.0f,1.0f,1.0f };
+	static float vert[12] = { -1.0f,-1.0f, 0.0f,-1.0f,1.0f,0.0f,1.0f,-1.0f,0.0f,1.0f,1.0f,0.0f };
+	static float coord[8] = { 0.0f,0.0f,0.0f,1.0f,1.0f,0.0f,1.0f,1.0f };
 
 	this->cpuVertData = malloc(sizeof(vert));
 	this->cpuUVData = malloc(sizeof(coord));

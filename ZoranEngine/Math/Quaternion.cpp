@@ -86,36 +86,36 @@ Quaternion Quaternion::Product(const Quaternion& rhs) const {
 		W()*rhs.W() - X()*rhs.X() - Y()*rhs.Y() - Z()*rhs.Z());
 }
 
-MatrixF Quaternion::AsMatrix() const {
+Matrix44 Quaternion::AsMatrix() const {
 	float m[16] = {
 		W(), -Z(),  Y(), X(),
 		Z(),  W(), -X(), Y(),
 		-Y(),  X(),  W(), Z(),
 		-X(), -Y(), -Z(), W()
 	};
-	MatrixF mat = MatrixF::MatrixFromArray(4, 4, m);
+	Matrix44 mat = Matrix44::MatrixFromArray(m);
 	return mat;
 }
 
-MatrixF Quaternion::AsRightMatrix() const {
+Matrix44 Quaternion::AsRightMatrix() const {
 	float m[16] = {
 		+W(), -Z(),  Y(), -X(),
 		+Z(),  W(), -X(), -Y(),
 		-Y(),  X(),  W(), -Z(),
 		+X(),  Y(),  Z(),  W()
 	};
-	MatrixF mat = MatrixF::MatrixFromArray(4, 4, m);
+	Matrix44 mat = Matrix44::MatrixFromArray(m);
 	return mat;
 }
 
-MatrixF Quaternion::AsRotationMatrix() const {
+Matrix44 Quaternion::AsRotationMatrix() const {
 	float m[16] = {
 		1 - 2 * Y()*Y() - 2 * Z()*Z(), 2 * X()*Y() - 2 * Z()*W(), 2 * X()*Z() + 2 * Y()*W(),0,
 		2 * X()*Y() + 2 * Z()*W(), 1 - 2 * X()*X() - 2 * Z()*Z(), 2 * Y()*Z() - 2 * X()*W(),0,
 		2 * X()*Z() - 2 * Y()*W(), 2 * Y()*Z() + 2 * X()*W(), 1 - 2 * X()*X() - 2 * Y()*Y(),0,
 		0,0,0,1
 	};
-	MatrixF mat = MatrixF::MatrixFromArray(4, 4, m);
+	Matrix44 mat = Matrix44::MatrixFromArray(m);
 	return mat;
 }
 
@@ -140,6 +140,39 @@ Quaternion Quaternion::FromScaledAxis(Vector3D& w) {
 
 Vector3D Quaternion::RotatedVector(const Vector3D& v) const {
 	return (((*this) * Quaternion(v, 0)) * GetConjugate()).GetComplex();
+}
+
+Vector3D Quaternion::GetForwardVector() const
+{
+	Vector3D forward;
+
+	forward.x = 2 * (vals[0] * vals[2] + vals[3] * vals[1]);
+	forward.y = 2 * (vals[1] * vals[2] - vals[3] * vals[0]);
+	forward.z = 1 - (2 * (vals[0]*vals[0] + vals[1] * vals[1]));
+
+	return forward;
+}
+
+Vector3D Quaternion::GetUpVector() const
+{
+	Vector3D up;
+
+	up.x = 2 * (vals[0] * vals[1] - vals[3] * vals[2]);
+	up.y = 1 - (2 * (vals[0] * vals[0] + vals[2] * vals[2]));
+	up.z = (2 * (vals[1] * vals[2] + vals[3] * vals[0]));
+
+	return up;
+}
+
+Vector3D Quaternion::GetLeftVector() const
+{
+	Vector3D left;
+
+	left.x = 1 - (2 * (vals[1] * vals[1] + vals[2] * vals[2]));
+	left.y = 2 * (vals[0] * vals[1] + vals[3] * vals[2]);
+	left.z = (2 * (vals[0] * vals[2] - vals[3] * vals[1]));
+
+	return left;
 }
 
 Quaternion Quaternion::FromEuler(float x,float y,float z) {

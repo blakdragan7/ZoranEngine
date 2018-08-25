@@ -8,6 +8,14 @@
 #include <Windows.h>
 #include <iostream>
 
+#include <Physics/PhysicsEngine.h>
+#include <Physics/2D/Collision/CollisionBucket2DBase.h>
+
+#include <Utils/Statistics.h>
+
+#include <ThirdParty/imgui/imgui.h>
+#include <ThirdParty/imgui/imgui_impl_opengl3.h>
+
 OpenGLRenderEngine::OpenGLRenderEngine()
 {
 	context = 0;
@@ -15,6 +23,8 @@ OpenGLRenderEngine::OpenGLRenderEngine()
 
 OpenGLRenderEngine::~OpenGLRenderEngine()
 {
+	ImGui_ImplOpenGL3_Shutdown();
+
 #ifdef _WIN32
 	wglDeleteContext((HGLRC)context);
 #endif
@@ -70,6 +80,10 @@ void OpenGLRenderEngine::InitEngine(WindowHandle handle)
 		exit(0);
 	}
 
+	// Setup Dear ImGui binding
+	
+	ImGui_ImplOpenGL3_Init("#version 330");
+	ImGui::StyleColorsDark();
 	//glEnable(GL_DEPTH_TEST);
 #endif
 }
@@ -93,19 +107,57 @@ void OpenGLRenderEngine::ClearBuffers()
 
 void OpenGLRenderEngine::DrawAll()
 {
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui::NewFrame();
+
+	HighPrecisionClock clock;
+
+	long long bindProgram,SetupShader,PreRender,Render,PostRender;
+	bindProgram = SetupShader = PreRender = Render = PostRender = 0;
+
+	DEBUG_BENCH_START_TRACK("OpenGLRenderEngine")
 	for (auto iter : renderMap)
 	{
 		ShaderProgramBase* program = iter.first;
+		clock.TakeClock();
 		program->BindProgram();
+		bindProgram += clock.GetDiffNanoSeconds();
 		for (SceneObject* object : iter.second)
 		{
+			clock.TakeClock();
 			program->SetupShaderFromSceneObject(object);
+			SetupShader += clock.GetDiffNanoSeconds();
 
+			clock.TakeClock();
 			object->PreRender();
+			PreRender += clock.GetDiffNanoSeconds();
+			clock.TakeClock();
 			object->RenderScene();
+			Render += clock.GetDiffNanoSeconds();
+			clock.TakeClock();
 			object->PostRender();
+			PostRender += clock.GetDiffNanoSeconds();
 		}
 	}
+
+	DEBUG_ADD_STAT(bindProgram,"OpenGLRenderEngine", "BindProgram");
+	DEBUG_ADD_STAT(SetupShader,"OpenGLRenderEngine", "SetupShader");
+	DEBUG_ADD_STAT(PreRender,"OpenGLRenderEngine", "PreRender");
+	DEBUG_ADD_STAT(Render,"OpenGLRenderEngine", "RenderScene");
+	DEBUG_ADD_STAT(PostRender,"OpenGLRenderEngine", "PostRender");
+
+	DEBUG_TRACK_TAKE_BENCH("OpenGLRenderEngine");
+
+	DEBUG_TAKE_BENCH
+
+	DEBUG_DRAW;
+
+	//pEngine->GetCollisionBucketRootFor2D()->ImGuiDraw();
+
+	ImGui::Render();
+
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
 }
 
 void OpenGLRenderEngine::Resize(int x, int y)
@@ -165,7 +217,7 @@ TextureBase * OpenGLRenderEngine::CreateTexture(const char * path, RenderDataTyp
 	return texture;
 }
 
-TextureBase * OpenGLRenderEngine::CreateTexture(void * data, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2L size)
+TextureBase * OpenGLRenderEngine::CreateTexture(void * data, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2I size)
 {
 	return nullptr;
 }
@@ -176,7 +228,7 @@ RenderedObjectBase * OpenGLRenderEngine::CreateRenderedObject()
 	return object;
 }
 
-bool OpenGLRenderEngine::CreateFrameBuffer(FrameBufferBase ** outBuffer, TextureBase ** outTexture, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2L size)
+bool OpenGLRenderEngine::CreateFrameBuffer(FrameBufferBase ** outBuffer, TextureBase ** outTexture, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2I size)
 {
 	return false;
 }

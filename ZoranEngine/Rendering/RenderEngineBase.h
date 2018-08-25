@@ -34,10 +34,10 @@ public:
 	virtual bool RemoveSceneObject(SceneObject* object) = 0;
 	// Creates Texture Memory on GPU and returns a texture object.
 	virtual TextureBase* CreateTexture(const char* path, RenderDataType bufferType, RenderDataFormat bufferFormat) = 0;
-	virtual TextureBase* CreateTexture(void* data, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2L size) = 0;
+	virtual TextureBase* CreateTexture(void* data, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2I size) = 0;
 	virtual RenderedObjectBase* CreateRenderedObject() = 0;
 	// Create frame buffer for offscreen rendering and the texture that represents the result
-	virtual bool CreateFrameBuffer(FrameBufferBase** outBuffer, TextureBase** outTexture, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2L size) = 0;
+	virtual bool CreateFrameBuffer(FrameBufferBase** outBuffer, TextureBase** outTexture, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2I size) = 0;
 	// Creates a ShaderProgram in gpu memory and returns an instance to it
 	virtual ShaderProgramBase* CreateShaderProgram(const char* vertex, const char* fragment) = 0;
 

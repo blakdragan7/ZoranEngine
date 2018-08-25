@@ -1,6 +1,9 @@
 #pragma once
 #include <map>
 #include <Physics/2D/Collision/CollisionObject2DBase.h>
+#include <Utils/Statistics.h>
+#include <vector>
+
 struct CollisionFrame2D
 {
 	typedef std::pair<Collision2DKey, Collision2D*> CollisionPair;
@@ -23,7 +26,7 @@ struct CollisionFrame2D
 		}*/
 	}
 
-	void UpdateCollisionWithKey(Collision2DKey& key,Collision2D* collision)
+	inline void UpdateCollisionWithKey(Collision2DKey& key,Collision2D* collision)
 	{
 		auto iter = collisions.find(key);
 		if (iter == collisions.end())
@@ -33,10 +36,11 @@ struct CollisionFrame2D
 		else
 		{
 			iter->second->Update(collision);
+			delete collision;
 		}
 	}
 
-	void RemoveDullCollisions()
+	inline void RemoveDullCollisions()
 	{
 		auto itr = collisions.begin();
 		while (itr != collisions.end()) {

@@ -1,5 +1,5 @@
 #pragma once
-#include <Math/Matrix.hpp>
+#include <Math/Matrix44.hpp>
 #include <Math/Quaternion.h>
 #include <Math/Vector2.h>
 #include <string>
@@ -12,11 +12,13 @@ protected:
 	Vec2D cameraExtents;
 	Vec2D halfCameraExtents;
 
+	Matrix44 cameraModelCache;
+
 public:
 	CameraBase();
 	virtual ~CameraBase();
-
-	virtual MatrixF GetModel() = 0;
+	
+	inline const Matrix44& GetModel() { return cameraModelCache; }
 
 	virtual void Translate(float deltax, float deltay, float deltaz) = 0;
 	virtual void Translate(Vec2D delta) = 0;

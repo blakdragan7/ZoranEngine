@@ -2,7 +2,7 @@
 #include "AABBoxCollisionObject.h"
 #include "SphereCollisionObject.h"
 #include <Core/3D/SceneObject3D.h> 
-#include "Math/Matrix.hpp"
+#include "Math/Matrix44.hpp"
 
 AABBoxCollisionObject::AABBoxCollisionObject(Vector3D min, Vector3D max, SceneObject3D* object, CollisionDynamics dynamics, unsigned collisionType) : CollisionObject3DBase(object, dynamics,collisionType)
 {

@@ -10,17 +10,16 @@ class CollisionBucket2DBase;
 class CollisionBucket3DBase;
 struct CollisionResponse3D;
 class SceneObject;
+
 class ZoranEngine_EXPORT PhysicsEngine
 {
 private:
 	CollisionBucket2DBase * collisionTree2D;
 	CollisionBucket3DBase * collisionTree3D;
 
-#pragma warning(push)
-#pragma warning(disable:4251)
-	std::vector<PhysicsObjectBase*> physicsObjects;
-	CollisionFrame2D collisionFrame2D;
-#pragma warning(pop)
+
+	std::vector<PhysicsObjectBase*>* physicsObjects;
+	CollisionFrame2D* collisionFrame2D;
 
 	bool is3D;
 
@@ -49,5 +48,5 @@ public:
 
 	CollisionObjectBase* RemoveObject(CollisionObjectBase* object);
 	PhysicsObjectBase* RemoveObject(PhysicsObjectBase* object);
-	CollisionFrame2D& CurrentCollisionFrame2D() { return collisionFrame2D; }
+	CollisionFrame2D& CurrentCollisionFrame2D() { return *collisionFrame2D; }
 };

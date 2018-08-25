@@ -7,9 +7,12 @@
 #include <Rendering/TextureBase.h>
 #include <Physics/2D/PhysicsObject2DBase.h>
 #include <Physics/2D/Collision/b2DCollision2DObject.h>
+#include <Utils/Random.h>
 
 TestSceneObject::TestSceneObject(std::string name) : TexturedSprite(name)
 {
+	willEverTick = true;
+
 	b2DCollision2DObject* sat = new b2DCollision2DObject(this);
 	//SatCollision2DObject* sat = new SatCollision2DObject(this);
 	collision = sat;
@@ -23,7 +26,6 @@ TestSceneObject::TestSceneObject(std::string name) : TexturedSprite(name)
 
 	//sat->SetAsSquare(points,size);
 
-	//willEverTick = true;
 	static ShaderProgramBase* shader = new StandardShader2D();
 	SetShaderProgram(shader);
 	
@@ -31,6 +33,8 @@ TestSceneObject::TestSceneObject(std::string name) : TexturedSprite(name)
 	GetPhysics()->SetRestitution(1.0);
 	GetPhysics()->SetMass(200);
 	collision->SetPhysicsObject(GetPhysics2D());
+
+	target = 0;
 }
 
 
@@ -47,8 +51,14 @@ void TestSceneObject::PreRender()
 
 void TestSceneObject::Tick(float deltaTime)
 {
-	Vec2D pos = -GetPosition();
-	pos.normalize();
+	if (target)
+	{
+		Vec2D direction = (target->GetPosition() - GetPosition()).getNormal();
+		GetPhysics2D()->SetGravity(direction * 300);
 
-	GetPhysics2D()->SetGravity(pos * 100);
+		if (Random::GetBoolWithChance(0.01f))
+		{
+			GetPhysics2D()->ApplyForce(Vec2D(Random::GetFloatInRange(-10000, 10000), 1000000));
+		}
+	}
 }

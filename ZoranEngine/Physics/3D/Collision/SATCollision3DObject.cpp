@@ -18,7 +18,7 @@ void SATCollision3DObject::SetBoundsBySceneObject()
 	if (vertData)delete[] vertData;
 	if (GetSceneObject()->GetRenderedObject()->GetVertDataAsfloat(&vertData, numVerts) == false)
 	{
-		Log(LogLevel_Default,"SATCollisionObject::SetBoundsBySceneObject(): Error Getting VertData For Scene Object %s", GetSceneObject()->readableName);
+		Log(LogLevel_Error,"SATCollisionObject::SetBoundsBySceneObject(): Error Getting VertData For Scene Object %s", GetSceneObject()->readableName);
 	}
 
 	

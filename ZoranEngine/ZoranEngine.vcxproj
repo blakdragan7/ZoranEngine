@@ -29,14 +29,24 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\2D\Camera2D.cpp" />
+    <ClCompile Include="Core\2D\Components\Audio2DComponent.cpp" />
+    <ClCompile Include="Core\2D\Components\Collision2DComponent.cpp" />
     <ClCompile Include="Core\2D\DebugSceneObject2D.cpp" />
     <ClCompile Include="Core\2D\OrthoCamera.cpp" />
     <ClCompile Include="Core\2D\SceneObject2D.cpp" />
     <ClCompile Include="Core\2D\TexturedSprite.cpp" />
     <ClCompile Include="Core\3D\Camera3D.cpp" />
+    <ClCompile Include="Core\3D\Components\Audio3DComponent.cpp" />
+    <ClCompile Include="Core\3D\Components\Collision3DComponent.cpp" />
     <ClCompile Include="Core\3D\SceneObject3D.cpp" />
+    <ClCompile Include="Core\Audio\AL\OALAudioEngine.cpp" />
+    <ClCompile Include="Core\Audio\AL\OALAudioListener.cpp" />
+    <ClCompile Include="Core\Audio\AL\OALSoundInstance.cpp" />
+    <ClCompile Include="Core\Audio\AudioEngineBase.cpp" />
     <ClCompile Include="Core\CameraBase.cpp" />
     <ClCompile Include="Core\CommonTypes.cpp" />
+    <ClCompile Include="Core\Components\CollisionComponent.cpp" />
+    <ClCompile Include="Core\Components\ComponentBase.cpp" />
     <ClCompile Include="Core\Events\EventBase.cpp" />
     <ClCompile Include="Core\Events\EventDispatcher.cpp" />
     <ClCompile Include="Core\SceneObject.cpp" />
@@ -87,26 +97,67 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="ThirdParty\imgui\imgui.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\imgui\imgui_demo.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\imgui\imgui_draw.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\imgui\imgui_impl_opengl3.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\imgui\imgui_impl_win32.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="ThirdParty\loadong\lodepng.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Utils\ConsoleLogger.cpp" />
-    <ClCompile Include="Utils\HighPrecisionClock.cpp" />
     <ClCompile Include="Utils\LoggerBase.cpp" />
     <ClCompile Include="Utils\Random.cpp" />
+    <ClCompile Include="Utils\Statistics.cpp" />
     <ClCompile Include="Windows\WindowsThread.cpp" />
     <ClCompile Include="Windows\WindowsWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\2D\Camera2D.h" />
+    <ClInclude Include="Core\2D\Components\Audio2DComponent.h" />
+    <ClInclude Include="Core\2D\Components\Collision2DComponent.h" />
     <ClInclude Include="Core\2D\DebugSceneObject2D.h" />
     <ClInclude Include="Core\2D\OrthoCamera.h" />
     <ClInclude Include="Core\2D\SceneObject2D.h" />
     <ClInclude Include="Core\2D\TexturedSprite.h" />
     <ClInclude Include="Core\3D\Camera3D.h" />
+    <ClInclude Include="Core\3D\Components\Audio3DComponent.h" />
+    <ClInclude Include="Core\3D\Components\Collision3DComponent.h" />
     <ClInclude Include="Core\3D\SceneObject3D.h" />
+    <ClInclude Include="Core\Allocators\AllocatorBase.h" />
+    <ClInclude Include="Core\Allocators\CAllocator.h" />
+    <ClInclude Include="Core\Allocators\FreeListAllocator.h" />
+    <ClInclude Include="Core\Allocators\PoolAllocator.h" />
+    <ClInclude Include="Core\Allocators\StackAllocator.h" />
+    <ClInclude Include="Core\Audio\AL\OALAudioDevice.h" />
+    <ClInclude Include="Core\Audio\AL\OALAudioListener.h" />
+    <ClInclude Include="Core\Audio\AL\OALImplementations.h" />
+    <ClInclude Include="Core\Audio\AL\OALAudioEngine.h" />
+    <ClInclude Include="Core\Audio\AL\OALSoundInstance.h" />
+    <ClInclude Include="Core\Audio\AudioDevice.h" />
+    <ClInclude Include="Core\Audio\AudioEngineBase.h" />
+    <ClInclude Include="Core\Audio\AudioListener.h" />
+    <ClInclude Include="Core\Audio\Common.h" />
+    <ClInclude Include="Core\Audio\SoundInstance.h" />
     <ClInclude Include="Core\CameraBase.h" />
     <ClInclude Include="Core\CommomTypes.h" />
+    <ClInclude Include="Core\Components\CollisionComponent.h" />
+    <ClInclude Include="Core\Components\ComponentBase.h" />
+    <ClInclude Include="Core\Containers\ZArray.h" />
+    <ClInclude Include="Core\Containers\ZDictionary.h" />
+    <ClInclude Include="Core\Containers\ZDictionaryHash.h" />
+    <ClInclude Include="Core\Containers\ZDoubleLinkedList.h" />
+    <ClInclude Include="Core\Containers\ZLinkedList.h" />
     <ClInclude Include="Core\Events\EventBase.h" />
     <ClInclude Include="Core\Events\EventDispatcher.h" />
     <ClInclude Include="Core\PlatformTypes.h" />
@@ -117,7 +168,7 @@
     <ClInclude Include="Core\ZoranEngine.h" />
     <ClInclude Include="Math\MathHelpers.h" />
     <ClInclude Include="Math\MathLib.h" />
-    <ClInclude Include="Math\Matrix.hpp" />
+    <ClInclude Include="Math\Matrix44.hpp" />
     <ClInclude Include="Math\Matrix22.h" />
     <ClInclude Include="Math\Quaternion.h" />
     <ClInclude Include="Math\Vector2.h" />
@@ -159,15 +210,31 @@
     <ClInclude Include="Rendering\TextureManager.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="ThirdParty\AL\al.h" />
+    <ClInclude Include="ThirdParty\AL\alc.h" />
+    <ClInclude Include="ThirdParty\AL\alext.h" />
+    <ClInclude Include="ThirdParty\AL\efx-creative.h" />
+    <ClInclude Include="ThirdParty\AL\efx-presets.h" />
+    <ClInclude Include="ThirdParty\AL\efx.h" />
+    <ClInclude Include="ThirdParty\imgui\imconfig.h" />
+    <ClInclude Include="ThirdParty\imgui\imgui.h" />
+    <ClInclude Include="ThirdParty\imgui\imgui_impl_opengl3.h" />
+    <ClInclude Include="ThirdParty\imgui\imgui_impl_win32.h" />
+    <ClInclude Include="ThirdParty\imgui\imgui_internal.h" />
+    <ClInclude Include="ThirdParty\imgui\stb_rect_pack.h" />
+    <ClInclude Include="ThirdParty\imgui\stb_textedit.h" />
+    <ClInclude Include="ThirdParty\imgui\stb_truetype.h" />
     <ClInclude Include="ThirdParty\loadong\lodepng.h" />
     <ClInclude Include="Utils\ConsoleLogger.h" />
     <ClInclude Include="Utils\HighPrecisionClock.h" />
     <ClInclude Include="Utils\LoggerBase.h" />
     <ClInclude Include="Utils\Random.h" />
+    <ClInclude Include="Utils\Statistics.h" />
     <ClInclude Include="Utils\VectorAddons.hpp" />
     <ClInclude Include="Version.h" />
     <ClInclude Include="Windows\WindowsThread.h" />
     <ClInclude Include="Windows\WindowsWindow.h" />
+    <ClInclude Include="ZArray.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ZoranEngine.rc" />
@@ -249,6 +316,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>OpenGL32.lib;GLU32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -257,10 +325,11 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PreprocessorDefinitions>BUILD_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BUILD_DLL;_BENCHMARKING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>OpenGL32.lib;GLU32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OpenGL32.lib;GLU32.lib;glew32.lib;alut.lib;OpenAL32d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -285,12 +354,14 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>BUILD_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BUILD_DLL;_FPSBENCHONLY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <UndefinePreprocessorDefinitions>
+      </UndefinePreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>OpenGL32.lib;GLU32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OpenGL32.lib;GLU32.lib;glew32.lib;alut.lib;OpenAL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

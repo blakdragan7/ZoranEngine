@@ -8,6 +8,8 @@ unsigned long long Collision2D::sID = 0;
 
 void CollisionObject2DBase::UpdateDebugObject(float verts[], unsigned numVerts)
 {
+	if (ZoranEngine::canRenderDebug == false)return;
+
 	static bool once = true;
 	if (once)
 	{

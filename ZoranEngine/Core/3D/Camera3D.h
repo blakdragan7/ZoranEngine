@@ -1,5 +1,5 @@
 #pragma once
-#include <Math/Matrix.hpp>
+#include <Math/Matrix44.hpp>
 #include <Math/Quaternion.h>
 #include <Math/Vector2.h>
 #include <string>
@@ -14,8 +14,6 @@ private:
 public:
 	Camera3D(std::string name,Vec3D position,Vec3D scale,Vec3D rotation);
 	virtual ~Camera3D();
-
-	virtual MatrixF GetModel()override;
 
 	virtual void Translate(float deltax, float deltay, float deltaz)override;
 	virtual void Translate(Vec2D delta)override;

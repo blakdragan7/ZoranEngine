@@ -13,6 +13,8 @@
 #include <Physics/Collision/CollisionObjectBase.h>
 #include <Physics/Collision/CollisionBucketBase.h>
 
+#include <Core/Allocators/CAllocator.h>
+
 #include <iostream>
 
 #include "SceneObject.h"
@@ -27,10 +29,19 @@
 
 #endif
 
+#include <Utils/Statistics.h>
+#include <ThirdParty/imgui/imgui.h>
+#include <ThirdParty/imgui/imgui_impl_opengl3.h>
+
+#include <Core/Audio/AL/OALAudioEngine.h>
+
 ZoranEngine* ZoranEngine::instance = 0;
+
+bool ZoranEngine::canRenderDebug = false;
 
 ZoranEngine::ZoranEngine()
 {
+	audioEngine = 0;
 	mainWindow = 0;
 	if (instance)throw std::exception("There can only be one ZoranEngine instance !");
 	instance = this;
@@ -39,21 +50,35 @@ ZoranEngine::ZoranEngine()
 	mainRenderEngine = 0;
 	isPaused = false;
 	logger = new ConsoleLogger();
-	logger->SetLogLevel(LogLevel_Default);
+	logger->SetLogLevel(LogLevel_Error);
 	step = false;
 	camera = 0;
+
+	defaultAllocator = new CAllocator();
+
+	allSceneObjects = new std::vector<SceneObject*>();
+	allTickables = new std::vector<TickableObject*>();
 }
 
 ZoranEngine::~ZoranEngine()
 {
-	for (auto object : allSceneObjects)
+	if (audioEngine)delete audioEngine;
+
+	for (auto object : *allSceneObjects)
 	{
 		object->Destroy();
 	}
 
-	if (mainWindow)delete mainWindow;
+	delete allSceneObjects;
+	delete allTickables;
+
+	mainWindow->renderEngine = 0;
+
 	if (physicsEngine)delete physicsEngine;
 	if (mainRenderEngine)delete mainRenderEngine;
+	if (mainWindow)delete mainWindow;
+
+	delete defaultAllocator;
 
 	delete logger;
 }
@@ -65,15 +90,20 @@ int ZoranEngine::MainLoop()
 #ifdef _WIN32
 	MSG       msg = { 0 };
 
-	HighPrecisionClock clock;
-	HighPrecisionClock statisticsClock;
-	float statistics = 0;
+	double statistics = 0;
+	static HighPrecisionClock cl;
+	cl.TakeClock();
 
 	while (WM_QUIT != msg.message && shouldRun)
 	{
-		float FPSTime = clock.GetDiffSeconds();
-		float deltaTime = (1.0f / 60.0f);
-		clock.TakeClock();
+		// Main body of the Demo window starts here.
+
+		DEBUG_BENCH_START;
+
+		double deltaTime = (cl.GetDiffSeconds());
+		deltaTime = min(1.0f / 60.0f , deltaTime);
+		
+		cl.TakeClock();
 
 		while (PeekMessageW(&msg, NULL, 0, 0, PM_REMOVE))
 		{
@@ -90,32 +120,19 @@ int ZoranEngine::MainLoop()
 				step = false;
 				//deltaTime = 0.033; 
 			}
-			statisticsClock.TakeClock();
-			if (physicsEngine)physicsEngine->UpdateAll(deltaTime);
+			if (physicsEngine)physicsEngine->UpdateAll(static_cast<float>(deltaTime));
 
-			statistics = statisticsClock.GetDiffSeconds();
-			Log(LogLevel_Verbose, "physicsEngine->UpdateAll() took %f ms\n", statistics*1000);
-
-			statisticsClock.TakeClock();
-			for (auto object : allTickables)
+			for (auto object : *allTickables)
 			{
-				object->Tick(deltaTime);
+				object->Tick(static_cast<float>(deltaTime));
 			}
-
-			statistics = statisticsClock.GetDiffSeconds();
-			Log(LogLevel_Verbose, "All object->Tick()'s took %f ms\n", statistics*1000);
 		}
 		else
 		{
 
 		}
 
-		statisticsClock.TakeClock();
 		if (mainWindow)mainWindow->MainDraw();
-		statistics = statisticsClock.GetDiffSeconds();
-		Log(LogLevel_Verbose, "mainWindow->MainDraw() took %f ms\n", statistics * 1000);
-
-		//std::cout << "fps " << 1.0 / FPSTime << std::endl;
 	}
 #endif
 
@@ -127,11 +144,17 @@ bool ZoranEngine::Init()
 	Random::Init();
 	
 	mainRenderEngine = new OpenGLRenderEngine();
-	WindowsWindow* window = new WindowsWindow(this);
+	WindowBase* window;
+#ifdef _WIN32
+	window = new WindowsWindow(this);
 	window->MakeWindow("test", 0, 0, 1920, 1080);
+#endif
 	mainRenderEngine->InitEngine(window->GetHandle());
 
 	mainWindow = window;
+
+	audioEngine = new OALAudioEngine();
+	audioEngine->Init(NULL);
 
 	return true;
 }
@@ -183,6 +206,9 @@ void ZoranEngine::KeyEvent(KeyEventType type, unsigned key)
 			case 'S':
 				if (isPaused)step = true;
 				break;
+			case 'B':
+				std::cout << *BenchMarker::Singleton() << std::endl;
+				break;
 		}
 		break;
 	case KEY_UP:
@@ -206,7 +232,7 @@ void ZoranEngine::ScreenResized(float width, float height)
 
 void ZoranEngine::AddTickableObject(TickableObject * object)
 {
-	allTickables.push_back(object);
+	allTickables->push_back(object);
 }
 
 void ZoranEngine::AddSceneObject(SceneObject * object)
@@ -222,6 +248,7 @@ void ZoranEngine::AddSceneObject(SceneObject * object)
 
 void ZoranEngine::DestroySceneObject(SceneObject * object)
 {
+	remove(*allSceneObjects, object);
 	mainRenderEngine->RemoveSceneObject(object);
 	if (object->GetPhysics())delete object->GetPhysics();
 	delete object;
@@ -229,7 +256,7 @@ void ZoranEngine::DestroySceneObject(SceneObject * object)
 
 void ZoranEngine::RemoveTickableObject(TickableObject * object)
 {
-	remove(allTickables,object);
+	remove(*allTickables, object);
 }
 
 const char * ZoranEngine::GetVersion()

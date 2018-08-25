@@ -1,8 +1,13 @@
 #include "stdafx.h"
 #include "WindowsWindow.h"
-#include "Rendering/RenderEngineBase.h"
-#include "Core/ZoranEngine.h"
+#include <Rendering/RenderEngineBase.h>
+#include <Core/ZoranEngine.h>
 #include <iostream>
+
+#include <ThirdParty/imgui/imgui.h>
+#include <ThirdParty/imgui/imgui_impl_win32.h>
+
+extern IMGUI_IMPL_API LRESULT  ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 static LRESULT CALLBACK wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
@@ -16,8 +21,12 @@ WindowsWindow::~WindowsWindow()
 {
 	if (hwnd)
 	{
+		ImGui_ImplWin32_Shutdown();
+
 		CloseWindow(hwnd);
 		DestroyWindow(hwnd);
+
+		ImGui::DestroyContext();
 	}
 }
 
@@ -59,6 +68,12 @@ bool WindowsWindow::MakeWindow(const char* title,int x, int y, int w, int h)
 	ShowWindow(hwnd, 1);
 
 	dc = GetDC(hwnd);
+	
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+
+	ImGui_ImplWin32_Init(hwnd);
 
 	return true;
 }
@@ -71,8 +86,6 @@ void WindowsWindow::SetWindowFullScreen(bool isFullScreen_)
 		// Save current window information.  We force the window longo restored mode
 		// before going fullscreen because Windows doesn't seem to hide the
 		// taskbar if the window is in the maximized state.
-		
-		
 		SendMessage(hwnd, WM_SYSCOMMAND, SC_RESTORE, 0);
 		windowStyle = GetWindowLong(hwnd, GWL_STYLE);
 		windowEXStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
@@ -129,8 +142,8 @@ void WindowsWindow::SetSizeAndPositionByRect(RECT rect)
 
 unsigned WindowsWindow::ConvertWPARAMToKey(WPARAM key)
 {
-	if(key < 0x70 || key > 0x87)return key; // ascii
-	return key + 0x378;
+	if(key < 0x70 || key > 0x87)return static_cast<unsigned>(key); // ascii
+	return static_cast<unsigned>(key + 0x378);
 }
 
 void WindowsWindow::SetPosition(long x, long y)
@@ -157,9 +170,17 @@ void WindowsWindow::SwapBuffers()
 	::SwapBuffers(dc);
 }
 
+void WindowsWindow::MainDraw()
+{
+	ImGui_ImplWin32_NewFrame();
+
+	WindowBase::MainDraw();
+}
+
 static LRESULT CALLBACK wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-
+	ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam);
+	
 	WindowsWindow *pThis = 0;
 
 	if (uMsg == WM_NCCREATE)
@@ -196,17 +217,17 @@ static LRESULT CALLBACK wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 		if (uMsg == WM_SIZE)
 		{
 
-			long width = LOWORD(lParam);
-			long height = HIWORD(lParam);
+			int width = LOWORD(lParam);
+			int height = HIWORD(lParam);
 
-			pThis->Resize(Vec2L(width, height));
+			pThis->Resize(Vec2I(width, height));
 			
 		}
 		if (uMsg == WM_MOVE)
 		{
 
-			long x = LOWORD(lParam);
-			long y = HIWORD(lParam);
+			int x = LOWORD(lParam);
+			int y = HIWORD(lParam);
 
 			pThis->SetWindowPosNoExecute(x, y);
 			

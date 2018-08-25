@@ -12,6 +12,8 @@ class PhysicsEngine;
 class SceneObject;
 class TickableObject;
 class CameraBase;
+class AllocatorBase;
+class AudioEngineBase;
 class ZoranEngine_EXPORT ZoranEngine
 {
 private:
@@ -26,11 +28,16 @@ private:
 	bool step;
 
 	PhysicsEngine* physicsEngine;
-#pragma warning(push)
-#pragma warning(disable:4251)
-	std::vector<TickableObject*> allTickables;
-	std::vector<SceneObject*> allSceneObjects;
-#pragma warning(pop)
+
+	std::vector<TickableObject*>* allTickables;
+	std::vector<SceneObject*>* allSceneObjects;
+
+	AudioEngineBase* audioEngine;
+
+public:
+	AllocatorBase * defaultAllocator;
+
+	static bool canRenderDebug;
 
 public:
 	ZoranEngine();
@@ -69,6 +76,7 @@ public:
 
 	inline RenderEngineBase* GetRenderer() { return mainRenderEngine; }
 	inline PhysicsEngine* GetPhysicsEngine() { return physicsEngine; }
+	inline AudioEngineBase* GetAudioEngine() { return audioEngine; }
 
 	static inline ZoranEngine* Instance() { return instance; }
 
@@ -87,4 +95,5 @@ public:
 #define zEngine ZoranEngine::Instance()
 #define pEngine zEngine->GetPhysicsEngine()
 #define rEngine zEngine->GetRenderer()
+#define aEngine zEngine->GetAudioEngine()
 #define Log(...) ZoranEngine::Instance()->logger->LogString(__VA_ARGS__);

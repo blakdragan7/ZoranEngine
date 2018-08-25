@@ -17,12 +17,15 @@ private:
 
 private:
 	void Subdivide();
-	bool PrintCollisionForObject(CollisionObject2DBase * object);
+	void PrintCollisionForObject(CollisionObject2DBase * object);
+	void PrintCollisionForObjectTraverseUp(CollisionObject2DBase * object);
 
 	bool TraverseUpAddObject(CollisionObject2DBase* object);
 
+	void DrawImGuiDown(unsigned depth=0);
+
 public:
-	QuadTreeCollisionBucket(std::string name, Vec2D pos,Vec2D size,unsigned maxObjects = 128,QuadTreeCollisionBucket * parent=0);
+	QuadTreeCollisionBucket(std::string name, Vec2D pos,Vec2D size,unsigned maxObjects = 10000,QuadTreeCollisionBucket * parent=0);
 	~QuadTreeCollisionBucket();
 
 	bool AddObject(CollisionObject2DBase* object)override;
@@ -37,8 +40,11 @@ public:
 	virtual void CheckAllCollision(struct CollisionFrame2D& frame)override;
 	virtual bool ObjectIsWithinBucket(CollisionObject2DBase* object)override;
 	virtual class Collision2D* CheckCollisionForObjectNoFrame(CollisionObject2DBase* object);
-	virtual class Collision2D* CheckCollisionForObject(CollisionObject2DBase* object, CollisionFrame2D& frame)override;
+	virtual void CheckCollisionForObject(CollisionObject2DBase* object, CollisionFrame2D& frame)override;
+	virtual void CheckCollisionForObjectTraverseUp(CollisionObject2DBase* object, CollisionFrame2D* frame);
 	virtual class Collision2D* CheckObjectAgainstStaic(CollisionObject2DBase* object)override;
 	virtual bool SweepCollision(CollisionObject2DBase* object, Vec2D newPosition, struct SweepCollision2D& response)override;
 	virtual bool SweepCollisionHitTest(CollisionObject2DBase* object, Vec2D newPosition,struct SweepCollision2D& response)override;
+
+	virtual void ImGuiDraw()override;
 };

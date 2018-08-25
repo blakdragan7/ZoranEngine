@@ -17,13 +17,11 @@ static unsigned long long NextID = 0;
 
 SceneObject3D::SceneObject3D(std::string name) : SceneObject(name)
 {
-	model = MatrixF::GLIdentityMatrix();
 	scale = Vector3D(1.0, 1.0, 1.0);
 }
 
 SceneObject3D::SceneObject3D(std::string name, RenderEngineBase* engine) : SceneObject(name, engine)
 {
-	model = MatrixF::GLIdentityMatrix();
 	scale = Vector3D(1.0, 1.0, 1.0);
 }
 
@@ -113,17 +111,27 @@ void SceneObject3D::SetScale(float x, float y, float z)
 	UnlockMutex();
 }
 
-Vector3D SceneObject3D::GetPosition()
+Vector3D SceneObject3D::GetPosition()const
 {
 	return pos;
 }
 
-Vector3D SceneObject3D::GetScale()
+Vector3D SceneObject3D::GetVelocity()const
+{
+	if(physicsObject)
+		return physicsObject->GetVelocity();
+	else
+	{
+		return Vector3D();
+	}
+}
+
+Vector3D SceneObject3D::GetScale()const
 {
 	return scale;
 }
 
-Vector3D SceneObject3D::GetRotationAsEulor()
+Vector3D SceneObject3D::GetRotationAsEulor()const
 {
 	return rotation.AsEuler();
 }
@@ -172,28 +180,27 @@ void SceneObject3D::Scale(Vector3D scale)
 	UnlockMutex();
 }
 
-MatrixF SceneObject3D::GetModel()
+void SceneObject3D::PreCaclModel()
 {
 	model.makeIdentity();
 
 	WaitForMutex();
 	model.translate(pos);
 	model.scale(scale);
-	model = model * rotation.AsRotationMatrix();
+	ModelMatrixCache = model * rotation.AsRotationMatrix();
 	UnlockMutex();
-	return model;
 }
 
-MatrixF SceneObject3D::GetScaleMatrix3x3()
+/*MatrixF SceneObject3D::GetScaleMatrix3x3()
 {
 	MatrixF mat(3, 3);
 	mat.scale(scale);
 	return mat;
-}
+}*/
 
-MatrixF SceneObject3D::GetScaleMatrix4x4()
+Matrix44 SceneObject3D::GetScaleMatrix4x4()
 {
-	MatrixF mat(4, 4);
+	Matrix44 mat;
 	mat.scale(scale);
 	return mat;
 }

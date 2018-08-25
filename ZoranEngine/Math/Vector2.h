@@ -15,7 +15,7 @@ public:
 
 	Vector2D(void);
 	Vector2D(float x_, float y_);
-	Vector2D(const class Vector2L& other);
+	Vector2D(const class Vector2I& other);
 
 	~Vector2D(void);
 
@@ -60,58 +60,61 @@ public:
 	float cross(const Vector2D& other)const;
 	Vector2D crossRight(float scalor)const;
 	Vector2D crossLeft(float scalor)const;
+
+	static const Vector2D Zero;
 };
 
 inline extern Vector2D operator*(float d,const Vector2D& v);
 
-class ZoranEngine_EXPORT Vector2L
+class ZoranEngine_EXPORT Vector2I
 {
 public:
 	union {
-		long long x;
-		long long w;
+		int x;
+		int w;
 	};
 	union {
-		long long y;
-		long long h;
+		int y;
+		int h;
 	};
 
-	Vector2L(void);
-	Vector2L(long long x_, long long y_);
+	Vector2I(void);
+	Vector2I(int x_, int y_);
 
-	~Vector2L(void);
+	~Vector2I(void);
 
-	Vector2L operator -(Vector2L other);
-	Vector2L operator +(Vector2L other);
-	Vector2L operator *(Vector2L other);
-	Vector2L operator /(Vector2L other);
-	Vector2L operator =(Vector2L other);
-	Vector2L operator -=(Vector2L other);
-	Vector2L operator +=(Vector2L other);
-	Vector2L operator *=(Vector2L other);
-	Vector2L operator /=(Vector2L other);
+	Vector2I operator -(Vector2I other);
+	Vector2I operator +(Vector2I other);
+	Vector2I operator *(Vector2I other);
+	Vector2I operator /(Vector2I other);
+	Vector2I operator =(Vector2I other);
+	Vector2I operator -=(Vector2I other);
+	Vector2I operator +=(Vector2I other);
+	Vector2I operator *=(Vector2I other);
+	Vector2I operator /=(Vector2I other);
 
-	Vector2L operator -(long long scalor);
-	Vector2L operator +(long long scalor);
-	Vector2L operator *(long long scalor);
-	Vector2L operator /(long long scalor);
-	Vector2L operator -=(long long scalor);
-	Vector2L operator +=(long long scalor);
-	Vector2L operator *=(long long scalor);
-	Vector2L operator /=(long long scalor);
-	Vector2L operator =(long long scalor);
+	Vector2I operator -(int scalor);
+	Vector2I operator +(int scalor);
+	Vector2I operator *(int scalor);
+	Vector2I operator /(int scalor);
+	Vector2I operator -=(int scalor);
+	Vector2I operator +=(int scalor);
+	Vector2I operator *=(int scalor);
+	Vector2I operator /=(int scalor);
+	Vector2I operator =(int scalor);
 
-	Vector2D getAbs();
+	Vector2I getAbs();
 
-	bool operator ==(Vector2L other);
+	bool operator ==(Vector2I other);
 
-	float distance(Vector2L other);
+	float distance(Vector2I other);
 
-	long long magnitude();
-	long long distanceSquared(Vector2L other);
-	long long perpDot(Vector2L other);
-	void rotate(Vector2L origin, float angle /*radians*/);
+	float magnitude();
+	int distanceSquared(Vector2I other);
+	int perpDot(Vector2I other);
+
 };
 
+
 #define Vec2D Vector2D
-#define Vec2L Vector2L
+#define Vec2I Vector2I

@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "QuadTreeCollision.h"
 #include <Core/2D/SceneObject2D.h>
+#include <Physics/2D/Collision/b2DCollision2DObject.h>
+#include <Physics/2D/Collision/CircleCollision2DObject.h>
 #include <Physics/2D/Collision/AABBSquareCollisionObject.h>
-#include <Physics/3D/Collision/AABBoxCollisionObject.h>
-#include <Physics/3D/Collision/SphereCollisionObject.h>
 #include "Core/SceneObject.h"
 #include <Math/Vector2.h>
 
@@ -64,17 +64,26 @@ bool QuadTreeCollision::CollidesWithNoCollision(CollisionObject2DBase * other)
 
 	switch (other->GetCollisionType())
 	{
-	case AABBOX_COLLISION:
+	case b2D_2D_COLLISION:
 	{
-		AABBoxCollisionObject* otherBox = (AABBoxCollisionObject*)other;
+		b2DCollision2DObject* b2 = (b2DCollision2DObject*)other;
+		Vec2D pos = b2->GetScenePos();
+		Vec2D size = b2->GetSize() * 0.75;
+
+		return CollidesWith(pos - size) && CollidesWith(pos + size);
+	}
+		break;
+	case SQUARE_COLLISION:
+	{
+		AABBSquareCollisionObject* otherBox = (AABBSquareCollisionObject*)other;
 		collides = CollidesWith(otherBox->GetMinPos()) && CollidesWith(otherBox->GetMaxPos());
 	}
 	break;
-	case SPHERE_COLLISION:
+	case CIRCLE_COLLISION:
 	{
-		SphereCollisionObject* sphere = (SphereCollisionObject*)other;
+		CircleCollision2DObject* sphere = (CircleCollision2DObject*)other;
 		float r = sphere->GetRadius();
-		Vec3D pos = sphere->GetScenePos();
+		Vec2D pos = sphere->GetScenePos();
 
 		collides = CollidesWith(pos - r) && CollidesWith(pos + r);
 	}

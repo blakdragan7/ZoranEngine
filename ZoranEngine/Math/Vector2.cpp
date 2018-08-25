@@ -3,13 +3,16 @@
 
 #include <math.h>
 
+const Vector2D Vector2D::Zero;
+
+
 Vector2D::Vector2D(void) : x(0), y(0) { }
 Vector2D::Vector2D(float x_, float y_) :x(x_), y(y_) { }
 
-Vector2D::Vector2D(const Vector2L & other)
+Vector2D::Vector2D(const Vector2I & other)
 {
-	this->x = other.x;
-	this->y = other.y;
+	this->x = static_cast<float>(other.x);
+	this->y = static_cast<float>(other.y);
 }
 
 Vector2D::~Vector2D(void) {}
@@ -243,10 +246,7 @@ float Vector2D::magnitude()const
 
 float Vector2D::distance(const Vector2D& other)const
 {
-	float dx = other.x - x;
-	float dy = other.y - y;
-
-	return sqrt(pow(dx, 2) + pow(dy, 2));
+	return sqrtf(distanceSquared(other));
 }
 
 float Vector2D::distanceSquared(const Vector2D& other)const
@@ -254,7 +254,7 @@ float Vector2D::distanceSquared(const Vector2D& other)const
 	float dx = other.x - x;
 	float dy = other.y - y;
 
-	return (pow(dx, 2) + pow(dy, 2));
+	return (dx*dx) + (dy*dy);
 }
 
 void Vector2D::normalize()
@@ -268,48 +268,48 @@ inline Vector2D operator*(float d, const Vector2D& v)
 	return v * d;
 }
 
-Vector2L::Vector2L(void) : x(0), y(0) { }
-Vector2L::Vector2L(long long x_, long long y_) : x(x_), y(y_) { }
+Vector2I::Vector2I(void) : x(0), y(0) { }
+Vector2I::Vector2I(int x_, int y_) : x(x_), y(y_) { }
 
-Vector2L::~Vector2L(void) {}
+Vector2I::~Vector2I(void) {}
 
-Vector2L Vector2L::operator -(Vector2L other)
+Vector2I Vector2I::operator -(Vector2I other)
 {
-	Vector2L ret = *this;
+	Vector2I ret = *this;
 	ret.x -= other.x;
 	ret.y -= other.y;
 
 	return ret;
 }
 
-Vector2L Vector2L::operator +(Vector2L other)
+Vector2I Vector2I::operator +(Vector2I other)
 {
-	Vector2L ret = *this;
+	Vector2I ret = *this;
 	ret.x += other.x;
 	ret.y += other.y;
 
 	return ret;
 }
 
-Vector2L Vector2L::operator *(Vector2L other)
+Vector2I Vector2I::operator *(Vector2I other)
 {
-	Vector2L ret = *this;
+	Vector2I ret = *this;
 	ret.x *= other.x;
 	ret.y *= other.y;
 
 	return ret;
 }
 
-Vector2L Vector2L::operator /(Vector2L other)
+Vector2I Vector2I::operator /(Vector2I other)
 {
-	Vector2L ret = *this;
+	Vector2I ret = *this;
 	ret.x /= other.x;
 	ret.y /= other.y;
 
 	return ret;
 }
 
-Vector2L Vector2L::operator =(Vector2L other)
+Vector2I Vector2I::operator =(Vector2I other)
 {
 	x = other.x;
 	y = other.y;
@@ -317,7 +317,7 @@ Vector2L Vector2L::operator =(Vector2L other)
 	return *this;
 }
 
-Vector2L Vector2L::operator -=(Vector2L other)
+Vector2I Vector2I::operator -=(Vector2I other)
 {
 	x -= other.x;
 	y -= other.y;
@@ -325,7 +325,7 @@ Vector2L Vector2L::operator -=(Vector2L other)
 	return *this;
 }
 
-Vector2L Vector2L::operator +=(Vector2L other)
+Vector2I Vector2I::operator +=(Vector2I other)
 {
 	x += other.x;
 	y += other.y;
@@ -333,7 +333,7 @@ Vector2L Vector2L::operator +=(Vector2L other)
 	return *this;
 }
 
-Vector2L Vector2L::operator *=(Vector2L other)
+Vector2I Vector2I::operator *=(Vector2I other)
 {
 	x *= other.x;
 	y *= other.y;
@@ -341,7 +341,7 @@ Vector2L Vector2L::operator *=(Vector2L other)
 	return *this;
 }
 
-Vector2L Vector2L::operator /=(Vector2L other)
+Vector2I Vector2I::operator /=(Vector2I other)
 {
 	x /= other.x;
 	y /= other.y;
@@ -349,43 +349,43 @@ Vector2L Vector2L::operator /=(Vector2L other)
 	return *this;
 }
 
-Vector2L Vector2L::operator -(long long scalor)
+Vector2I Vector2I::operator -(int scalor)
 {
-	Vector2L ret = *this;
+	Vector2I ret = *this;
 	ret.x -= scalor;
 	ret.y -= scalor;
 
 	return ret;
 }
 
-Vector2L Vector2L::operator +(long long scalor)
+Vector2I Vector2I::operator +(int scalor)
 {
-	Vector2L ret = *this;
+	Vector2I ret = *this;
 	ret.x += scalor;
 	ret.y += scalor;
 
 	return ret;
 }
 
-Vector2L Vector2L::operator *(long long scalor)
+Vector2I Vector2I::operator *(int scalor)
 {
-	Vector2L ret = *this;
+	Vector2I ret = *this;
 	ret.x *= scalor;
 	ret.y *= scalor;
 
 	return ret;
 }
 
-Vector2L Vector2L::operator /(long long scalor)
+Vector2I Vector2I::operator /(int scalor)
 {
-	Vector2L ret = *this;
+	Vector2I ret = *this;
 	ret.x /= scalor;
 	ret.y /= scalor;
 
 	return ret;
 }
 
-Vector2L Vector2L::operator -=(long long scalor)
+Vector2I Vector2I::operator -=(int scalor)
 {
 	x -= scalor;
 	y -= scalor;
@@ -393,7 +393,7 @@ Vector2L Vector2L::operator -=(long long scalor)
 	return *this;
 }
 
-Vector2L Vector2L::operator +=(long long scalor)
+Vector2I Vector2I::operator +=(int scalor)
 {
 	x += scalor;
 	y += scalor;
@@ -401,7 +401,7 @@ Vector2L Vector2L::operator +=(long long scalor)
 	return *this;
 }
 
-Vector2L Vector2L::operator *=(long long scalor)
+Vector2I Vector2I::operator *=(int scalor)
 {
 	x *= scalor;
 	y *= scalor;
@@ -409,7 +409,7 @@ Vector2L Vector2L::operator *=(long long scalor)
 	return *this;
 }
 
-Vector2L Vector2L::operator /=(long long scalor)
+Vector2I Vector2I::operator /=(int scalor)
 {
 	x /= scalor;
 	y /= scalor;
@@ -417,7 +417,7 @@ Vector2L Vector2L::operator /=(long long scalor)
 	return *this;
 }
 
-Vector2L Vector2L::operator =(long long scalor)
+Vector2I Vector2I::operator =(int scalor)
 {
 	x = scalor;
 	y = scalor;
@@ -425,61 +425,35 @@ Vector2L Vector2L::operator =(long long scalor)
 	return *this;
 }
 
-Vector2D Vector2L::getAbs()
+Vector2I Vector2I::getAbs()
 {
-	return Vector2D(abs(x), abs(y));
+	return Vector2I(abs(x), abs(y));
 }
 
-bool Vector2L::operator ==(Vector2L other)
+bool Vector2I::operator ==(Vector2I other)
 {
 	return other.x == x && other.y == y;
 }
 
-void Vector2L::rotate(Vector2L origin, float angle /*radians*/)
+float Vector2I::magnitude()
 {
-	Vector2L p(*this);
-
-	float s = sinf(angle);
-	float c = cosf(angle);
-
-	// translate point back to origin:
-	p.x -= origin.x;
-	p.y -= origin.y;
-
-	// rotate point
-	float xnew = p.x * c - p.y * s;
-	float ynew = p.x * s + p.y * c;
-
-	// translate point back:
-	p.x = xnew + origin.x;
-	p.y = ynew + origin.y;
-
-	x = p.x;
-	y = p.y;
+	return sqrtf(static_cast<float>((x*x) + (y*y)));
 }
 
-long long Vector2L::magnitude()
+float Vector2I::distance(Vector2I other)
 {
-	return sqrt((x*x) + (y*y));
+	return sqrtf(static_cast<float>(distanceSquared(other)));
 }
 
-float Vector2L::distance(Vector2L other)
+int Vector2I::distanceSquared(Vector2I other)
 {
-	long long dx = other.x - x;
-	long long dy = other.y - y;
+	int dx = other.x - x;
+	int dy = other.y - y;
 
-	return sqrt(pow(dx, 2) + pow(dy, 2));
+	return (dx * x) + (dy*dy);
 }
 
-long long Vector2L::distanceSquared(Vector2L other)
-{
-	long long dx = other.x - x;
-	long long dy = other.y - y;
-
-	return (pow(dx, 2) + pow(dy, 2));
-}
-
-long long Vector2L::perpDot(Vector2L other)
+int Vector2I::perpDot(Vector2I other)
 {
 	return (x*other.y) - (y*other.x);
 }

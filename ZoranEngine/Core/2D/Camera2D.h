@@ -1,5 +1,5 @@
 #pragma once
-#include <Math/Matrix.hpp>
+#include <Math/Matrix44.hpp>
 #include <Math/Quaternion.h>
 #include <Math/Vector2.h>
 #include <string>
@@ -9,14 +9,12 @@
 class SceneObject2D;
 class ZoranEngine_EXPORT Camera2D : public CameraBase
 {
-private:
+protected:
 	SceneObject2D * sceneObject;
 
 public:
 	Camera2D(std::string name,Vec2D position,Vec2D scale,float rotation);
 	virtual ~Camera2D();
-
-	virtual MatrixF GetModel()override;
 
 	virtual void Translate(float deltax, float deltay, float deltaz)override;
 	virtual void Translate(Vec2D delta)override;

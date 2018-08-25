@@ -2,7 +2,7 @@
 enum ELogLevel {
 	LogLevel_Verbose = 0,
 	LogLevel_Debug = 1,
-	LogLevel_Default = 2,
+	LogLevel_Error = 2,
 	LogLevel_None = 3
 };
 
