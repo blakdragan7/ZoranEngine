@@ -315,6 +315,12 @@
     <ClCompile Include="Utils\Statistics.cpp">
       <Filter>ZoranEngine\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="Core\Audio\AL\OALSoundInstance.cpp">
+      <Filter>ZoranEngine\Core\Audio\AL</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Audio\AL\OALAudioListener.cpp">
+      <Filter>ZoranEngine\Core\Audio\AL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -635,6 +641,24 @@
     <ClInclude Include="Utils\VectorAddons.hpp">
       <Filter>ZoranEngine\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Audio\SoundInstance.h">
+      <Filter>ZoranEngine\Core\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Audio\AudioListener.h">
+      <Filter>ZoranEngine\Core\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Audio\AudioDevice.h">
+      <Filter>ZoranEngine\Core\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Audio\AL\OALAudioListener.h">
+      <Filter>ZoranEngine\Core\Audio\AL</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Audio\AL\OALSoundInstance.h">
+      <Filter>ZoranEngine\Core\Audio\AL</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Audio\AL\OALAudioDevice.h">
+      <Filter>ZoranEngine\Core\Audio\AL</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ZoranEngine.rc">
@@ -660,5 +684,6 @@
     <None Include="Shaders\2D\standard_debug.vert">
       <Filter>ZoranEngine\Shaders\2D</Filter>
     </None>
+    <None Include="..\README.md" />
   </ItemGroup>
 </Project>

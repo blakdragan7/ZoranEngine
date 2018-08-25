@@ -4,27 +4,7 @@
 
 AudioEngineBase::~AudioEngineBase()
 {
-	for (auto iter : audioDevices)
-	{
-		AudioDevice* device = iter;
-		delete device;
-	}
-
-	for (auto iter : audioListeners)
-	{
-		AudioListener* listener = iter;
-		delete listener;
-	}
-
-	for (auto iter : soundInstances)
-	{
-		SoundInstance* sound = iter;
-		delete sound;
-	}
-
-	audioDevices.clear();
-	audioListeners.clear();
-	soundInstances.clear();
+	
 }
 
 const char * AudioEngineBase::StringForError(AudioError error)

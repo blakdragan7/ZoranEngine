@@ -1,5 +1,5 @@
 #pragma once
-#include "ComponentBase.h"
+#include <Core/Components/ComponentBase.h>
 class Audio2DComponent : public ComponentBase
 {
 public:

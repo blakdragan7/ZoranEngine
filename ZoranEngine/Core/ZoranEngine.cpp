@@ -120,11 +120,11 @@ int ZoranEngine::MainLoop()
 				step = false;
 				//deltaTime = 0.033; 
 			}
-			if (physicsEngine)physicsEngine->UpdateAll(deltaTime);
+			if (physicsEngine)physicsEngine->UpdateAll(static_cast<float>(deltaTime));
 
 			for (auto object : *allTickables)
 			{
-				object->Tick(deltaTime);
+				object->Tick(static_cast<float>(deltaTime));
 			}
 		}
 		else

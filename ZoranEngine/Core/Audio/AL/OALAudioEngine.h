@@ -14,7 +14,6 @@ private:
 	AudioError ALUTenumToALError(int);
 	unsigned AEBufferTypeToOAL(AudioBufferType bufferType);
 
-	AudioError CheckALErrors(const char* func);
 	AudioError CheckALUTErrors(const char* func);
 
 	unsigned AECapabilityToOAL(AudioCapability cap);
@@ -22,6 +21,8 @@ private:
 public:
 	OALAudioEngine();
 	~OALAudioEngine();
+
+	AudioError CheckALErrors(const char* func);
 
 	virtual AudioError Init(AudioDevice * toDevice)override;
 	virtual AudioError SwitchToDevice(AudioDevice* toDevice, AudioDevice* fromDevice)override;
@@ -40,5 +41,7 @@ public:
 	virtual AudioError CreateSoundFromBuffer(void* buffer, unsigned buffer_len, unsigned freq, AudioBufferType bType, SoundInstance** outSound)override;
 	virtual AudioError DestroySound(SoundInstance* outSound)override;
 	virtual const char* StringForError(AudioError error)override;
+
+	void MakeActiveListenerActive();
 };
 
