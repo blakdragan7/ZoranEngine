@@ -51,10 +51,11 @@ public:
 
 	float GetRotationRad()const;
 	float GetRotation()const;
-	Vector2D GetPosition()const;
-	Vector2D GetVelocity()const;
-	Vector2D GetScale()const;
-	Vector2D GetSize()const;
+
+	inline const Vector2D& GetPosition()const { return pos; }
+	const Vector2D& GetVelocity()const;
+	inline const Vector2D& GetScale()const { return scale; }
+	inline const Vector2D& GetSize()const { return size; }
 
 	Matrix22 GetRotationMatrix()const;
 	Matrix22 GetInvRotationMatrix()const;

@@ -117,25 +117,10 @@ float SceneObject2D::GetRotation()const
 	return rotation;
 }
 
-Vector2D SceneObject2D::GetPosition()const
+inline const Vector2D & SceneObject2D::GetVelocity() const
 {
-	return pos;
-}
-
-Vector2D SceneObject2D::GetVelocity()const
-{
-	if (physicsObject)return physicsObject->GetVelocity();
-	else return Vector2D();
-}
-
-Vector2D SceneObject2D::GetScale()const
-{
-	return scale.getAbs();
-}
-
-Vector2D SceneObject2D::GetSize()const
-{
-	return size;
+	if (physicsObject)physicsObject->GetVelocity(); 
+	else return Vec2D();
 }
 
 Matrix22 SceneObject2D::GetRotationMatrix()const

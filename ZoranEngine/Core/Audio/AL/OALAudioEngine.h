@@ -17,6 +17,8 @@ private:
 	AudioError CheckALErrors(const char* func);
 	AudioError CheckALUTErrors(const char* func);
 
+	unsigned AECapabilityToOAL(AudioCapability cap);
+
 public:
 	OALAudioEngine();
 	~OALAudioEngine();
