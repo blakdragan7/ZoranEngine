@@ -9,6 +9,10 @@ class PhysicsObject2DBase;
 class CollisionObjectBase;
 class PhysicsObjectBase;
 
+/*
+*  2D scene objects scene objects who's coordinates are represented with 2D vectors and a single float for rotation
+*/
+
 class ZoranEngine_EXPORT SceneObject2D : public SceneObject
 {
 private:
@@ -23,14 +27,11 @@ private:
 	Matrix22 invRotationMat;
 
 protected:
-	CollisionObject2DBase * collision;
-	PhysicsObject2DBase* physicsObject;
 	Vector2D size;
 	Vector2D startingSize;
 
 public:
 	SceneObject2D(std::string name);
-	SceneObject2D(std::string name, RenderEngineBase* engine);
 	~SceneObject2D();
 
 	void SetPosition(Vector2D pos);
@@ -53,7 +54,6 @@ public:
 	float GetRotation()const;
 
 	inline const Vector2D& GetPosition()const { return pos; }
-	const Vector2D& GetVelocity()const;
 	inline const Vector2D& GetScale()const { return scale; }
 	inline const Vector2D& GetSize()const { return size; }
 
@@ -62,14 +62,7 @@ public:
 
 	virtual void PreCaclModel()override;
 
-	//virtual MatrixF GetScaleMatrix3x3()override;
 	virtual Matrix44 GetScaleMatrix4x4()override;
-
-	inline CollisionObject2DBase* GetCollision2D() { return collision; }
-	inline class PhysicsObject2DBase* GetPhysics2D() { return physicsObject; }
-
-	inline class CollisionObjectBase* GetCollision() { return (CollisionObjectBase*)collision; }
-	inline PhysicsObjectBase* GetPhysics() { return (PhysicsObjectBase*)physicsObject; }
 
 	virtual void Destroy()override;
 };

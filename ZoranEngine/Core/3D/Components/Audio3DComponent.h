@@ -1,6 +1,7 @@
 #pragma once
-#include <Core/Components/ComponentBase.h>
-class Audio3DComponent : public ComponentBase
+#include <Core\3D\Components\Component3DBase.h>
+
+class ZoranEngine_EXPORT Audio3DComponent : public Component3DBase
 {
 public:
 	Audio3DComponent();

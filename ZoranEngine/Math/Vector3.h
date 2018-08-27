@@ -1,6 +1,6 @@
 #pragma once
 
-#include "PlatformTypes.h"
+#include <Core/PlatformTypes.h>
 
 class Vector2D;
 class ZoranEngine_EXPORT Vector3D
@@ -22,54 +22,54 @@ public:
 	};
 
 	Vector3D(void);
-	Vector3D(Vector2D other);
+	Vector3D(const Vector2D& other);
 	Vector3D(float x_, float y_, float z_);
 	Vector3D::~Vector3D(void);
 
-	bool operator ==(Vector3D other);
-	bool operator !=(Vector3D other);
-	void operator =(Vector3D other);
-	void operator =(Vector2D other);
+	bool operator ==(const Vector3D& other)const;
+	bool operator !=(const Vector3D& other)const;
+	void operator =(const Vector2D& other);
+	void operator =(const Vector3D& other);
 
-	void operator +=(Vector3D &other);
-	void operator -=(Vector3D &other);
-	void operator *=(Vector3D &other);
-	void operator /=(Vector3D &other);
+	void operator +=(const Vector3D& other);
+	void operator -=(const Vector3D& other);
+	void operator *=(const Vector3D& other);
+	void operator /=(const Vector3D& other);
 
 	void operator +=(float scalor);
 	void operator -=(float scalor);
 	void operator *=(float scalor);
 	void operator /=(float scalor);
 
-	Vector3D operator -();
-	Vector3D operator +(Vector3D &other);
-	Vector3D operator -(Vector3D &other);
-	Vector3D operator *(Vector3D &other);
-	Vector3D operator /(Vector3D &other);
-	Vector3D operator +(float scalor);
-	Vector3D operator -(float scalor);
-	Vector3D operator *(float scalor);
-	Vector3D operator /(float scalor);
+	Vector3D operator -()const;
+	Vector3D operator +(const Vector3D &other)const;
+	Vector3D operator -(const Vector3D &other)const;
+	Vector3D operator *(const Vector3D &other)const;
+	Vector3D operator /(const Vector3D &other)const;
+	Vector3D operator +(float scalor)const;
+	Vector3D operator -(float scalor)const;
+	Vector3D operator *(float scalor)const;
+	Vector3D operator /(float scalor)const;
 
-	bool nearlyEquals(float other);
-	bool nearlyEquals(Vector3D other);
+	bool nearlyEquals(float other)const;
+	bool nearlyEquals(const Vector3D& other)const;
 
-	float getMagnitude();
-	float getMagnitudeSqr();
+	float getMagnitude()const;
+	float getMagnitudeSqr()const;
 	void normalize();
 
-	float dot(const Vector3D other);
-	Vector3D cross(const Vector3D other);
-	Vector3D getAbs();
+	float dot(const Vector3D& other)const;
+	Vector3D cross(const Vector3D& other)const;
+	Vector3D getAbs()const;
 
-	Vector2D GetXY();
-	Vector2D GetYZ();
-	Vector2D GetXZ();
+	Vector2D GetXY()const;
+	Vector2D GetYZ()const;
+	Vector2D GetXZ()const;
 
-	float distance(Vector3D other);
-	float distanceSqr(Vector3D other);
+	float distance(const Vector3D& other)const;
+	float distanceSqr(const Vector3D& other)const;
 };
 
 #define Vec3D Vector3D
 
-Vector3D operator*(float, Vector3D);
+Vector3D operator*(float, const Vector3D&);

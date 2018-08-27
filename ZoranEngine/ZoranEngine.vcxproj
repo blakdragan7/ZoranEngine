@@ -31,6 +31,8 @@
     <ClCompile Include="Core\2D\Camera2D.cpp" />
     <ClCompile Include="Core\2D\Components\Audio2DComponent.cpp" />
     <ClCompile Include="Core\2D\Components\Collision2DComponent.cpp" />
+    <ClCompile Include="Core\2D\Components\Component2DBase.cpp" />
+    <ClCompile Include="Core\2D\Components\Visible2DComponent.cpp" />
     <ClCompile Include="Core\2D\DebugSceneObject2D.cpp" />
     <ClCompile Include="Core\2D\OrthoCamera.cpp" />
     <ClCompile Include="Core\2D\SceneObject2D.cpp" />
@@ -38,6 +40,8 @@
     <ClCompile Include="Core\3D\Camera3D.cpp" />
     <ClCompile Include="Core\3D\Components\Audio3DComponent.cpp" />
     <ClCompile Include="Core\3D\Components\Collision3DComponent.cpp" />
+    <ClCompile Include="Core\3D\Components\Component3DBase.cpp" />
+    <ClCompile Include="Core\3D\Components\Visible3DComponent.cpp" />
     <ClCompile Include="Core\3D\SceneObject3D.cpp" />
     <ClCompile Include="Core\Audio\AL\OALAudioEngine.cpp" />
     <ClCompile Include="Core\Audio\AL\OALAudioListener.cpp" />
@@ -45,8 +49,8 @@
     <ClCompile Include="Core\Audio\AudioEngineBase.cpp" />
     <ClCompile Include="Core\CameraBase.cpp" />
     <ClCompile Include="Core\CommonTypes.cpp" />
-    <ClCompile Include="Core\Components\CollisionComponent.cpp" />
     <ClCompile Include="Core\Components\ComponentBase.cpp" />
+    <ClCompile Include="Core\Components\VisibleComponentBase.cpp" />
     <ClCompile Include="Core\Events\EventBase.cpp" />
     <ClCompile Include="Core\Events\EventDispatcher.cpp" />
     <ClCompile Include="Core\SceneObject.cpp" />
@@ -126,6 +130,8 @@
     <ClInclude Include="Core\2D\Camera2D.h" />
     <ClInclude Include="Core\2D\Components\Audio2DComponent.h" />
     <ClInclude Include="Core\2D\Components\Collision2DComponent.h" />
+    <ClInclude Include="Core\2D\Components\Component2DBase.h" />
+    <ClInclude Include="Core\2D\Components\Visible2DComponent.h" />
     <ClInclude Include="Core\2D\DebugSceneObject2D.h" />
     <ClInclude Include="Core\2D\OrthoCamera.h" />
     <ClInclude Include="Core\2D\SceneObject2D.h" />
@@ -133,6 +139,8 @@
     <ClInclude Include="Core\3D\Camera3D.h" />
     <ClInclude Include="Core\3D\Components\Audio3DComponent.h" />
     <ClInclude Include="Core\3D\Components\Collision3DComponent.h" />
+    <ClInclude Include="Core\3D\Components\Component3DBase.h" />
+    <ClInclude Include="Core\3D\Components\Visible3DComponent.h" />
     <ClInclude Include="Core\3D\SceneObject3D.h" />
     <ClInclude Include="Core\Allocators\AllocatorBase.h" />
     <ClInclude Include="Core\Allocators\CAllocator.h" />
@@ -151,8 +159,8 @@
     <ClInclude Include="Core\Audio\SoundInstance.h" />
     <ClInclude Include="Core\CameraBase.h" />
     <ClInclude Include="Core\CommomTypes.h" />
-    <ClInclude Include="Core\Components\CollisionComponent.h" />
     <ClInclude Include="Core\Components\ComponentBase.h" />
+    <ClInclude Include="Core\Components\VisibleComponentBase.h" />
     <ClInclude Include="Core\Containers\ZArray.h" />
     <ClInclude Include="Core\Containers\ZDictionary.h" />
     <ClInclude Include="Core\Containers\ZDictionaryHash.h" />

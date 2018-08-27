@@ -1,6 +1,7 @@
 #pragma once
-#include <Core/Components/ComponentBase.h>
-class Audio2DComponent : public ComponentBase
+#include <Core\2D\Components\Component2DBase.h>
+
+class ZoranEngine_EXPORT Audio2DComponent : public Component2DBase
 {
 public:
 	Audio2DComponent();

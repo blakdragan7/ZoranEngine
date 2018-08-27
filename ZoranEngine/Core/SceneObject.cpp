@@ -17,12 +17,12 @@ static unsigned long long NextID = 0;
 
 void SceneObject::WaitForMutex()
 {
-	while (mutex.try_lock() == false)ThreadBase::Sleep(0.01F);
+	while (mutex->try_lock() == false)ThreadBase::Sleep(0.01F);
 }
 
 void SceneObject::UnlockMutex()
 {
-	mutex.unlock();
+	mutex->unlock();
 }
 
 void SceneObject::SetShaderProgram(ShaderProgramBase * newShaderProgram)
@@ -30,55 +30,18 @@ void SceneObject::SetShaderProgram(ShaderProgramBase * newShaderProgram)
 	shaderProgram = newShaderProgram;
 }
 
-void SceneObject::SetRenderedObject(RenderedObjectBase * newRenderedObject)
+SceneObject::SceneObject(std::string name) : rootComponent(0) , willEverTick(false), hasCollision(false)
 {
-	renderedObject = newRenderedObject;
-}
-
-SceneObject::SceneObject(std::string name)
-{
-	willEverTick = false;
-
-	renderEngine = zEngine->GetRenderer();
-	renderedObject = renderEngine->CreateRenderedObject();
-
-	hasCollision = false;
-
-	this->readableName = name;
-	this->ID = NextID++;
-}
-
-SceneObject::SceneObject(std::string name, RenderEngineBase* engine)
-{
-	willEverTick = false;
-
-	this->readableName = name;
 	this->ID = NextID++;
 
-	hasCollision = false; 
-	renderEngine = engine;
-
-	renderedObject = 0;
+	this->mutex = new std::mutex();
+	this->readableName = new std::string(name);
 }
 
 SceneObject::~SceneObject()
 {
-	if(renderedObject)delete renderedObject;
-}
-
-
-void SceneObject::PostRender()
-{
-	// profit ?
-}
-
-void SceneObject::RenderScene()
-{
-	renderedObject->RenderObject();
-}
-
-void SceneObject::PreRender()
-{
+	delete readableName;
+	delete mutex;
 }
 
 void SceneObject::Destroy()

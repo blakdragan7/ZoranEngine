@@ -32,7 +32,7 @@ public:
 	Vector3D GetUpVector()const;
 	Vector3D GetLeftVector()const;
 
-	static Quaternion FromScaledAxis(Vector3D& w);
+	static Quaternion FromScaledAxis(const Vector3D& w);
 	static Quaternion FromEuler(const Vector3D& euler);
 	static Quaternion FromEuler(float x, float y, float z);
 

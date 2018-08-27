@@ -16,7 +16,5 @@ public:
 
 	void SetTexture(const char* path,RenderDataType type,RenderDataFormat format);
 	inline TextureBase* GetTexture() { return texture; }
-
-	void PreRender()override;
 };
 

@@ -119,7 +119,7 @@ Matrix44 Quaternion::AsRotationMatrix() const {
 	return mat;
 }
 
-Quaternion Quaternion::FromScaledAxis(Vector3D& w) {
+Quaternion Quaternion::FromScaledAxis(const Vector3D& w) {
 	float theta = w.getMagnitude();
 	Quaternion quat;
 	if (theta > 0.0001f) {

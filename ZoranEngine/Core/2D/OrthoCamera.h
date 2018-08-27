@@ -1,7 +1,7 @@
 #pragma once
 #include "Core/2D/Camera2D.h"
 
-class OrthoCamera : public Camera2D
+class ZoranEngine_EXPORT OrthoCamera : public Camera2D
 {
 private:
 	Matrix44 orthoModel;
