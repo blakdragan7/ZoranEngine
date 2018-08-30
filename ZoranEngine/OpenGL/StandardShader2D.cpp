@@ -6,21 +6,23 @@
 
 #include <Utils/Statistics.h>
 
-StandardShader2D::StandardShader2D()
+const ShaderInitMap StandardShader2D::initMap =
 {
-	AddShaderFromSource("Shaders/2D/standard.vert", GL_VERTEX_SHADER);
-	AddShaderFromSource("Shaders/2D/standard.frag", GL_FRAGMENT_SHADER);
-	Link();
+	{ GL_VERTEX_SHADER, "Shaders/2D/standard.vert" },
+	{ GL_FRAGMENT_SHADER, "Shaders/2D/standard.frag" }
+};
+
+StandardShader2D::StandardShader2D(ShaderInitMap initMap) : OpenGLShaderProgramBase(initMap)
+{
 }
 
 StandardShader2D::~StandardShader2D()
 {
 }
 
-bool StandardShader2D::SetupShaderFromSceneObject(SceneObject * object)
+void StandardShader2D::SetModelMatrix(const Matrix44 & world)
 {
-	Matrix44 model = object->GetModel();
-	model = zEngine->GetCamera()->GetModel() * model;
-	setUniformMat4("MVP",&model[0]);
-	return true;
+	Matrix44 model(false);
+	model = zEngine->GetCamera()->GetModel() * world;
+	setUniformMat4("MVP", &model[0]);
 }

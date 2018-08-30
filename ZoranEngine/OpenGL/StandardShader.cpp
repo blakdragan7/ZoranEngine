@@ -4,11 +4,14 @@
 #include "GL/glew.h"
 #include "Core/SceneObject.h"
 
-StandardShader::StandardShader()
+const ShaderInitMap StandardShader::initMap =
 {
-	AddShaderFromSource("Shaders/standard.vert", GL_VERTEX_SHADER);
-	AddShaderFromSource("Shaders/standard.frag", GL_FRAGMENT_SHADER);
-	Link();
+	{ GL_VERTEX_SHADER, "Shaders/standard.vert" },
+	{ GL_FRAGMENT_SHADER, "Shaders/standard.frag" }
+};
+
+StandardShader::StandardShader(ShaderInitMap initMap) : OpenGLShaderProgramBase(initMap)
+{
 }
 
 
@@ -16,12 +19,10 @@ StandardShader::~StandardShader()
 {
 }
 
-bool StandardShader::SetupShaderFromSceneObject(SceneObject * object)
+void StandardShader::SetModelMatrix(const Matrix44 & world)
 {
-
-	Matrix44 model = object->GetModel();
-	model = zEngine->GetCamera()->GetModel() * model;
-	setUniformMat4("MVP",&model[0]);
-	
-	return true;
+	Matrix44 model(false);
+	model = zEngine->GetCamera()->GetModel() * world;
+	setUniformMat4("MVP", &model[0]);
 }
+

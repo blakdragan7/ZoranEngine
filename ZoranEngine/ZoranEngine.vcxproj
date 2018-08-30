@@ -63,7 +63,7 @@
     <ClCompile Include="Math\Vector2.cpp" />
     <ClCompile Include="Math\Vector3.cpp" />
     <ClCompile Include="OpenGL\DebugShader2D.cpp" />
-    <ClCompile Include="OpenGL\OpenGLObject.cpp" />
+    <ClCompile Include="OpenGL\OpenGLRenderObject.cpp" />
     <ClCompile Include="OpenGL\OpenGLRenderEngine.cpp" />
     <ClCompile Include="OpenGL\OpenGLShaderProgramBase.cpp" />
     <ClCompile Include="OpenGL\OpenGLTexture.cpp" />
@@ -182,7 +182,7 @@
     <ClInclude Include="Math\Vector2.h" />
     <ClInclude Include="Math\Vector3.h" />
     <ClInclude Include="OpenGL\DebugShader2D.h" />
-    <ClInclude Include="OpenGL\OpenGLObject.h" />
+    <ClInclude Include="OpenGL\OpenGLRenderObject.h" />
     <ClInclude Include="OpenGL\OpenGLRenderEngine.h" />
     <ClInclude Include="OpenGL\OpenGLShaderProgramBase.h" />
     <ClInclude Include="OpenGL\OpenGLTexture.h" />

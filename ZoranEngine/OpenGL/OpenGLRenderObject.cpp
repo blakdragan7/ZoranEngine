@@ -1,22 +1,22 @@
 #include "stdafx.h"
-#include "OpenGLObject.h"
+#include "OpenGLRenderObject.h"
 #include "GL/glew.h"
 #include <stdexcept>
 #include "Rendering/RenderEngineBase.h"
+#include "OpenGLRenderEngine.h"
+#include "OpenGLShaderProgramBase.h"
 
-
-
-OpenGLObject::OpenGLObject()
+OpenGLRenderObject::OpenGLRenderObject(OpenGLRenderEngine* engine) : OGLEngine(engine), RenderedObjectBase(engine, OPENGL_IMPLEMENTATION)
 {
 	vbo = -1;
 	tbo = -1;
 	
 	glGenVertexArrays(1, &vao);
-	renderEngine->CheckErrors("OpenGLObject()");
+	OGLEngine->CheckErrors("OpenGLRenderObject()");
 }
 
 
-OpenGLObject::~OpenGLObject()
+OpenGLRenderObject::~OpenGLRenderObject()
 {
 	if(vbo != -1)glDeleteBuffers(1, &vbo);
 	if(tbo != -1)glDeleteBuffers(1, &tbo);
@@ -26,7 +26,7 @@ OpenGLObject::~OpenGLObject()
 	if (cpuUVData)free(cpuUVData);
 }
 
-void OpenGLObject::UpdateObjectFromMemory(unsigned numVerts, unsigned offset, void * verts, void * uv, bool copy)
+void OpenGLRenderObject::UpdateObjectFromMemory(unsigned numVerts, unsigned offset, void * verts, void * uv, bool copy)
 {
 	if (vbo != -1 && verts && numVerts > 0)
 	{
@@ -40,7 +40,7 @@ void OpenGLObject::UpdateObjectFromMemory(unsigned numVerts, unsigned offset, vo
 	}
 }
 
-void OpenGLObject::CreateObjectFromMemory(PrimitiveType pType, VertexType vertType, DrawType drawType, unsigned numVerts, void* verts, void* uv, bool copy)
+void OpenGLRenderObject::CreateObjectFromMemory(PrimitiveType pType, VertexType vertType, DrawType drawType, unsigned numVerts, void* verts, void* uv, bool copy)
 {
 	this->numVerts = numVerts;
 
@@ -97,7 +97,7 @@ void OpenGLObject::CreateObjectFromMemory(PrimitiveType pType, VertexType vertTy
 	renderEngine->CheckErrors("CreateObjectFromMemory");
 }
 
-unsigned OpenGLObject::GLDrawTypeFromDrawType(DrawType type)const
+unsigned OpenGLRenderObject::GLDrawTypeFromDrawType(DrawType type)const
 {
 	switch (type)
 	{
@@ -112,7 +112,7 @@ unsigned OpenGLObject::GLDrawTypeFromDrawType(DrawType type)const
 	}
 }
 
-unsigned OpenGLObject::GLVertexTypeFromVertexType(VertexType type)const
+unsigned OpenGLRenderObject::GLVertexTypeFromVertexType(VertexType type)const
 {
 	switch (type)
 	{
@@ -124,7 +124,7 @@ unsigned OpenGLObject::GLVertexTypeFromVertexType(VertexType type)const
 	}
 }
 
-unsigned OpenGLObject::GLPrimitveFromPrimitiveType(PrimitiveType type) const
+unsigned OpenGLRenderObject::GLPrimitveFromPrimitiveType(PrimitiveType type) const
 {
 	switch (type)
 	{
@@ -145,7 +145,7 @@ unsigned OpenGLObject::GLPrimitveFromPrimitiveType(PrimitiveType type) const
 	return 0;
 }
 
-void OpenGLObject::RenderObject()
+void OpenGLRenderObject::RenderObject()
 {
 	glBindVertexArray(vao);
 	
@@ -154,7 +154,7 @@ void OpenGLObject::RenderObject()
 	renderEngine->CheckErrors("RenderObject");
 }
 
-void OpenGLObject::MakeFullScreenQuad()
+void OpenGLRenderObject::MakeFullScreenQuad()
 {
 	this->numVerts = 4;
 
@@ -201,7 +201,7 @@ void OpenGLObject::MakeFullScreenQuad()
 	renderEngine->CheckErrors("MakeFullScreenQuad");
 }
 
-void OpenGLObject::SetAlphaEnabled(bool enabled)
+void OpenGLRenderObject::SetAlphaEnabled(bool enabled)
 {
 	if (enabled)
 	{
@@ -216,7 +216,7 @@ void OpenGLObject::SetAlphaEnabled(bool enabled)
 	renderEngine->CheckErrors("SetAlphaEnabled");
 }
 
-bool OpenGLObject::GetVertDataAsfloat(float ** data, unsigned & amount)
+bool OpenGLRenderObject::GetVertDataAsfloat(float ** data, unsigned & amount)
 {
 	switch (this->vertType)
 	{
@@ -232,10 +232,5 @@ bool OpenGLObject::GetVertDataAsfloat(float ** data, unsigned & amount)
 		return true;
 	}
 	}
-	return false;
-}
-
-bool OpenGLObject::GetVertEdgeIndexes(unsigned ** indexes, unsigned & amount)
-{
 	return false;
 }

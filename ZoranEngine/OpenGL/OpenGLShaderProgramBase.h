@@ -1,5 +1,6 @@
 #pragma once
 #include "Rendering/ShaderProgramBase.h"
+#include <map>
 
 class Vector2D;
 class Vector2I;
@@ -8,12 +9,20 @@ class SceneObject;
 class ZoranEngine_EXPORT OpenGLShaderProgramBase : public ShaderProgramBase
 {
 private:
+	unsigned shaders[12];
 	unsigned program;
+
+	unsigned currentShaderIndex;
 
 	static OpenGLShaderProgramBase* CurrentlyBoundShader;
 
+private:
+	// used to free up mempry after program is linked
+	void DeleteAllShaders();
+
 public:
 	OpenGLShaderProgramBase();
+	OpenGLShaderProgramBase(ShaderInitMap initMap);
 	virtual ~OpenGLShaderProgramBase();
 
 	bool Link();

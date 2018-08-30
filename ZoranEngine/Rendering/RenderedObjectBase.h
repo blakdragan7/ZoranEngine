@@ -1,6 +1,11 @@
 #pragma once
 #include "Core/PlatformTypes.h"
 
+/* all implementation must be added here */
+
+#define INVALID_IMPLEMENTATION 0u
+#define OPENGL_IMPLEMENTATION 1u
+
 enum VertexType
 {
 	VT_Float
@@ -26,6 +31,9 @@ enum PrimitiveType
 class RenderEngineBase;
 class ZoranEngine_EXPORT RenderedObjectBase
 {
+private:
+	unsigned renderObjectType;
+
 protected:
 	unsigned	numVerts;
 	
@@ -38,16 +46,17 @@ protected:
 	RenderEngineBase* renderEngine;
 
 public:
-	RenderedObjectBase();
+	RenderedObjectBase(RenderEngineBase* engine, unsigned type = INVALID_IMPLEMENTATION);
+	RenderedObjectBase(RenderEngineBase* engine,unsigned type = INVALID_IMPLEMENTATION);
 	virtual ~RenderedObjectBase();
 
+	virtual void RenderObject() = 0;
+	virtual void MakeFullScreenQuad() = 0;
+	virtual bool GetVertDataAsfloat(float** data, unsigned &amount) = 0;
 	virtual void UpdateObjectFromMemory(unsigned numVerts, unsigned offset, void* verts, void* uv, bool copy = true) = 0;
 	virtual void CreateObjectFromMemory(PrimitiveType pType, VertexType vertType, DrawType drawType, unsigned numVerts, void* verts, void* uv, bool copy = true) = 0;
-	virtual void RenderObject() = 0;
-	virtual bool GetVertDataAsfloat(float** data, unsigned &amount) = 0;
-	virtual bool GetVertEdgeIndexes(unsigned** indexes, unsigned &amount) = 0;
-	virtual void MakeFullScreenQuad() = 0;
 
 	virtual void SetAlphaEnabled(bool enabled) = 0;
-};
 
+	inline unsigned GetImplementationType() { return renderObjectType; }
+};

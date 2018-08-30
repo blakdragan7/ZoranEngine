@@ -14,36 +14,30 @@
 
 TexturedSprite::TexturedSprite(std::string name) : SceneObject2D(name)
 {
-	texture = 0;
+	/*texture = 0;
 	physicsObject = new PhysicsObject2DBase(this);
 	
 	startingSize = Vec2D(2,2);
 	SetScale(1,1);
 
-	renderedObject->MakeFullScreenQuad();
+	renderedObject->MakeFullScreenQuad();*/
 }
 
 TexturedSprite::TexturedSprite(std::string name, const char* texture, RenderDataType type, RenderDataFormat format) : SceneObject2D(name)
 {
-	startingSize = Vec2D(2, 2);
+	/*startingSize = Vec2D(2, 2);
 	SetScale(1,1);
 	physicsObject = new PhysicsObject2DBase(this);
-	this->texture = TextureManager::GetInstance()->TextureForFilePath(texture, type, format);
+	this->texture = TextureManager::GetInstance()->TextureForFilePath(texture, type, format);*/
 	
 }
 
 TexturedSprite::~TexturedSprite()
 {
-	if (texture)delete texture;
+	//if (texture)delete texture;
 }
 
 void TexturedSprite::SetTexture(const char* path, RenderDataType type, RenderDataFormat format)
 {
-	texture = TextureManager::GetInstance()->TextureForFilePath(path, type, format);
-}
-
-void TexturedSprite::PreRender()
-{
-	GetRenderedObject()->SetAlphaEnabled(true);
-	if (texture)texture->UseTexture(0);
+	//texture = TextureManager::GetInstance()->TextureForFilePath(path, type, format);
 }

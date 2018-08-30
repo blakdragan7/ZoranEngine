@@ -3,10 +3,11 @@
 
 class ZoranEngine_EXPORT DebugShader2D : public OpenGLShaderProgramBase
 {
-	class DebugSceneObject2D* debugObject;
 public:
-	DebugShader2D(DebugSceneObject2D* object);
+	DebugShader2D(ShaderInitMap initMap);
 	~DebugShader2D();
 
-	virtual bool SetupShaderFromSceneObject(SceneObject* object)override;
+	virtual void SetModelMatrix(const Matrix44& world)override;
+
+	static const ShaderInitMap initMap;
 };

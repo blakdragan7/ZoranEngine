@@ -276,9 +276,6 @@
     <ClCompile Include="OpenGL\DebugShader2D.cpp">
       <Filter>ZoranEngine\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="OpenGL\OpenGLObject.cpp">
-      <Filter>ZoranEngine\OpenGL</Filter>
-    </ClCompile>
     <ClCompile Include="OpenGL\OpenGLRenderEngine.cpp">
       <Filter>ZoranEngine\OpenGL</Filter>
     </ClCompile>
@@ -332,6 +329,9 @@
     </ClCompile>
     <ClCompile Include="Core\Components\VisibleComponentBase.cpp">
       <Filter>ZoranEngine\Core\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGL\OpenGLRenderObject.cpp">
+      <Filter>ZoranEngine\OpenGL</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -617,9 +617,6 @@
     <ClInclude Include="OpenGL\DebugShader2D.h">
       <Filter>ZoranEngine\OpenGL</Filter>
     </ClInclude>
-    <ClInclude Include="OpenGL\OpenGLObject.h">
-      <Filter>ZoranEngine\OpenGL</Filter>
-    </ClInclude>
     <ClInclude Include="OpenGL\OpenGLRenderEngine.h">
       <Filter>ZoranEngine\OpenGL</Filter>
     </ClInclude>
@@ -682,6 +679,9 @@
     </ClInclude>
     <ClInclude Include="Core\Components\VisibleComponentBase.h">
       <Filter>ZoranEngine\Core\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGL\OpenGLRenderObject.h">
+      <Filter>ZoranEngine\OpenGL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -11,6 +11,9 @@ protected:
 
 	Matrix44 localMatrix;
 
+private:
+	const Matrix44 GetWorldTraverseUp(const Matrix44& local)const;
+
 public:
 	ComponentBase();
 	virtual ~ComponentBase();
@@ -20,8 +23,9 @@ public:
 
 	const std::vector<ComponentBase*>& GetSubComponenets()const;
 	ComponentBase* GetSubComponenetAtIndex(unsigned index)const;
-
-	virtual const Matrix44& GetWorldMatrix()const = 0;
+	/* must be calculate every frame ... may need a better way to do this */
+	const Matrix44 GetWorldMatrix()const;
+	/* returns local transform matrix */
 	inline const Matrix44& GetLocalMatrix()const { return localMatrix; };
 };
 

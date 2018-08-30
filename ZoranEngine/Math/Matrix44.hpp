@@ -139,11 +139,11 @@ public:
 		return mat;
 	}
 
-	Matrix44(void)
+	Matrix44(bool makeIdentity = true)
 	{
 		// find better way to allocate this
 		//c_array = new float[array_size];
-		makeIdentity();
+		if(makeIdentity)this->makeIdentity();
 	}
 
 	~Matrix44(void) {  }

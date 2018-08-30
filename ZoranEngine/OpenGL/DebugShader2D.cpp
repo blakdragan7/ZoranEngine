@@ -7,25 +7,23 @@
 
 #include <Utils/HighPrecisionClock.h>
 
-DebugShader2D::DebugShader2D(DebugSceneObject2D* object)
+const ShaderInitMap DebugShader2D::initMap =
 {
-	debugObject = object;
-	AddShaderFromSource("Shaders/2D/standard_debug.vert", GL_VERTEX_SHADER);
-	AddShaderFromSource("Shaders/2D/standard_debug.frag", GL_FRAGMENT_SHADER);
-	Link();
+	{GL_VERTEX_SHADER, "Shaders/2D/standard_debug.vert" },
+	{GL_FRAGMENT_SHADER, "Shaders/2D/standard_debug.frag"}
+};
+
+DebugShader2D::DebugShader2D(ShaderInitMap initMap) : OpenGLShaderProgramBase(initMap)
+{
 }
 
 DebugShader2D::~DebugShader2D()
 {
 }
 
-bool DebugShader2D::SetupShaderFromSceneObject(SceneObject * object)
+void DebugShader2D::SetModelMatrix(const Matrix44 & world)
 {
-	Matrix44 model = object->GetModel();
-
-	model = zEngine->GetCamera()->GetModel() * model;
-	setUniformMat4("MVP",&model[0]);
-	setUniform("Color", &debugObject->GetColor());
-
-	return true;
+	Matrix44 model(false);
+	model = zEngine->GetCamera()->GetModel() * world;
+	setUniformMat4("MVP", &model[0]);
 }

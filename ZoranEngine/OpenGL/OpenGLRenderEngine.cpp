@@ -1,12 +1,19 @@
 #include "stdafx.h"
 #include "OpenGLRenderEngine.h"
-#include "GL\glew.h"
-#include "Core/SceneObject.h"
-#include "Rendering/ShaderProgramBase.h"
-#include "OpenGLObject.h"
+#include "OpenGLRenderObject.h"
 #include "OpenGLTexture.h"
+
+#ifdef _WIN32
 #include <Windows.h>
-#include <iostream>
+#endif
+
+#include "OpenGLShaderProgramBase.h"
+
+#include <GL\glew.h>
+
+#include <Core/Components/VisibleComponentBase.h>
+
+#include <Rendering/ShaderProgramBase.h>
 
 #include <Physics/PhysicsEngine.h>
 #include <Physics/2D/Collision/CollisionBucket2DBase.h>
@@ -19,11 +26,14 @@
 OpenGLRenderEngine::OpenGLRenderEngine()
 {
 	context = 0;
+	renderMap = new GLRenderMap();
 }
 
 OpenGLRenderEngine::~OpenGLRenderEngine()
 {
 	ImGui_ImplOpenGL3_Shutdown();
+
+	delete renderMap;
 
 #ifdef _WIN32
 	wglDeleteContext((HGLRC)context);
@@ -112,39 +122,19 @@ void OpenGLRenderEngine::DrawAll()
 
 	HighPrecisionClock clock;
 
-	long long bindProgram,SetupShader,PreRender,Render,PostRender;
-	bindProgram = SetupShader = PreRender = Render = PostRender = 0;
-
 	DEBUG_BENCH_START_TRACK("OpenGLRenderEngine")
-	for (auto iter : renderMap)
+	for (auto iter : *renderMap)
 	{
 		ShaderProgramBase* program = iter.first;
-		clock.TakeClock();
 		program->BindProgram();
-		bindProgram += clock.GetDiffNanoSeconds();
-		for (SceneObject* object : iter.second)
-		{
-			clock.TakeClock();
-			program->SetupShaderFromSceneObject(object);
-			SetupShader += clock.GetDiffNanoSeconds();
 
-			clock.TakeClock();
-			object->PreRender();
-			PreRender += clock.GetDiffNanoSeconds();
-			clock.TakeClock();
-			object->RenderScene();
-			Render += clock.GetDiffNanoSeconds();
-			clock.TakeClock();
-			object->PostRender();
-			PostRender += clock.GetDiffNanoSeconds();
+		for (VisibleComponentBase* component : iter.second)
+		{
+			component->PreRender();
+			component->Render();
+			component->PostRender();
 		}
 	}
-
-	DEBUG_ADD_STAT(bindProgram,"OpenGLRenderEngine", "BindProgram");
-	DEBUG_ADD_STAT(SetupShader,"OpenGLRenderEngine", "SetupShader");
-	DEBUG_ADD_STAT(PreRender,"OpenGLRenderEngine", "PreRender");
-	DEBUG_ADD_STAT(Render,"OpenGLRenderEngine", "RenderScene");
-	DEBUG_ADD_STAT(PostRender,"OpenGLRenderEngine", "PostRender");
 
 	DEBUG_TRACK_TAKE_BENCH("OpenGLRenderEngine");
 
@@ -165,49 +155,44 @@ void OpenGLRenderEngine::Resize(int x, int y)
 	glViewport(0, 0, x, y);
 }
 
-void OpenGLRenderEngine::AddSceneObject(SceneObject* object)
+void OpenGLRenderEngine::AddComponent(VisibleComponentBase* component)
 {
-	ShaderProgramBase* program = object->GetShaderProgram();
-	if (renderMap.find(program) != renderMap.end())
+	ShaderProgramBase* program = component->GetShaderProgram();
+	if (renderMap->find(program) != renderMap->end())
 	{
-		renderMap[program].push_back(object);
+		(*renderMap)[program].push_back(component);
 	}
 	else
 	{
-		std::vector<SceneObject*> objects;
-		objects.push_back(object);
-		renderMap.insert(GLRenderMapPair(program, objects));
+		std::vector<VisibleComponentBase*> objects;
+		objects.push_back(component);
+		renderMap->insert(GLRenderMapPair(program, objects));
 	}
 }
 
-bool OpenGLRenderEngine::RemoveSceneObject(SceneObject* object)
+bool OpenGLRenderEngine::RemoveComponent(VisibleComponentBase* component)
 {
-	ShaderProgramBase* program = object->GetShaderProgram();
-	if (renderMap.find(program) != renderMap.end())
+	ShaderProgramBase* program = component->GetShaderProgram();
+	if (renderMap->find(program) != renderMap->end())
 	{
-		std::vector<SceneObject*>& objects = renderMap[program];
-		auto& iter = std::find(objects.begin(), objects.end(), object);
+		std::vector<VisibleComponentBase*>& objects = (*renderMap)[program];
+		auto& iter = std::find(objects.begin(), objects.end(), component);
 		if (iter != objects.end())
 		{
 			objects.erase(iter);
 
 			if (objects.size() == 0)
 			{
-				renderMap.erase(program);
+				renderMap->erase(program);
 			}
 
 			return true;
 		}
 	}
 
-	std::cerr << "OpenGLRenderEngine::RemoveSceneObject Failed to find and remove SceneObject!\n";
+	Log(LogLevel_Error,"OpenGLRenderEngine::RemoveRenderObject Failed to find and remove RenderObject!\n");
 
 	return false;
-}
-
-void OpenGLRenderEngine::SetupScene(Vector3D center, Vector3D size)
-{
-
 }
 
 TextureBase * OpenGLRenderEngine::CreateTexture(const char * path, RenderDataType bufferType, RenderDataFormat bufferFormat)
@@ -219,23 +204,20 @@ TextureBase * OpenGLRenderEngine::CreateTexture(const char * path, RenderDataTyp
 
 TextureBase * OpenGLRenderEngine::CreateTexture(void * data, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2I size)
 {
-	return nullptr;
+	OpenGLTexture* texture = new OpenGLTexture(this,bufferType,bufferFormat);
+	texture->LoadFromMemory(size.x, size.y, data, bufferType, bufferFormat);
+	return texture;
 }
 
 RenderedObjectBase * OpenGLRenderEngine::CreateRenderedObject()
 {
-	OpenGLObject* object = new OpenGLObject();
+	OpenGLRenderObject* object = new OpenGLRenderObject(this);
 	return object;
 }
 
 bool OpenGLRenderEngine::CreateFrameBuffer(FrameBufferBase ** outBuffer, TextureBase ** outTexture, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2I size)
 {
 	return false;
-}
-
-ShaderProgramBase * OpenGLRenderEngine::CreateShaderProgram(const char * vertex, const char * fragment)
-{
-	return nullptr;
 }
 
 void OpenGLRenderEngine::SetLineWidth(float width)
@@ -250,7 +232,7 @@ void OpenGLRenderEngine::CheckErrors(const char* text)
 			const GLubyte* errorS = gluErrorString(error);
 			if (!errorS)
 				errorS = (const GLubyte*)" ";
-			std::cerr << "Error " << text << ": glError " << errorS << std::endl;
+			Log(LogLevel_Error,"%s GL Error %s",text,errorS);
 		}
 }
 

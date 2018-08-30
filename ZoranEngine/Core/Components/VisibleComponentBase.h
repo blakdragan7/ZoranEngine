@@ -7,16 +7,23 @@
 */
 class RenderedObjectBase;
 class RenderEngineBase;
+class ShaderProgramBase;
 class ZoranEngine_EXPORT VisibleComponentBase
 {
-private:
+protected:
+	ShaderProgramBase * program;
 	RenderedObjectBase * renderedObject;
 	RenderEngineBase * engine; // cache of current render engine
 
 public:
 	VisibleComponentBase(RenderEngineBase* engine = 0);
-	~VisibleComponentBase();
+	virtual ~VisibleComponentBase();
+
+	virtual void PreRender() = 0;
+	virtual void Render() = 0;
+	virtual void PostRender() = 0;
 
 	/* Allows render engine to have access to the rendered object */
 	inline RenderedObjectBase* GetRenderedObject()const { return renderedObject; }
+	inline ShaderProgramBase* GetShaderProgram()const { return program; }
 };

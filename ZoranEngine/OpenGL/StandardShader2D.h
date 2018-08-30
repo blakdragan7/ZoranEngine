@@ -4,8 +4,10 @@
 class ZoranEngine_EXPORT StandardShader2D : public OpenGLShaderProgramBase
 {
 public:
-	StandardShader2D();
+	StandardShader2D(ShaderInitMap initMap);
 	~StandardShader2D();
 
-	virtual bool SetupShaderFromSceneObject(SceneObject* object)override;
+	virtual void SetModelMatrix(const Matrix44& world)override;
+
+	static const ShaderInitMap initMap;
 };

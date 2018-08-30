@@ -5,15 +5,43 @@
 #include "Math/Vector3.h"
 #include "Rendering/RenderEngineBase.h"
 
-#include <iostream>
 #include <fstream>
+
+#include <assert.h>
 
 OpenGLShaderProgramBase* OpenGLShaderProgramBase::CurrentlyBoundShader = 0;
 
-OpenGLShaderProgramBase::OpenGLShaderProgramBase()
+void OpenGLShaderProgramBase::DeleteAllShaders()
+{
+	for (unsigned i = 0; i < currentShaderIndex; i++)
+	{
+		glDeleteShader(shaders[i]);
+		shaders[i] = 0;
+	}
+}
+
+OpenGLShaderProgramBase::OpenGLShaderProgramBase() : currentShaderIndex(0)
+{
+	memset(shaders,0,sizeof(shaders));
+
+	program = glCreateProgram();
+	engine->CheckErrors("OpenGLShaderProgramBase()");
+}
+
+OpenGLShaderProgramBase::OpenGLShaderProgramBase(ShaderInitMap initMap)
 {
 	program = glCreateProgram();
 	engine->CheckErrors("OpenGLShaderProgramBase()");
+
+	for (auto iter : initMap)
+	{
+		AddShaderFromSource(iter.second,iter.first);
+	}
+
+	if (Link() == false)
+	{
+		Log(LogLevel_Error,"Failed To Link OepnGL Shader Program !!");
+	}
 }
 
 
@@ -36,7 +64,7 @@ void OpenGLShaderProgramBase::UnBindProgram()
 {
 	if (CurrentlyBoundShader != this)
 	{
-		std::cerr << "Trying To Unbind Shader that isnt Bound !!\n";
+		Log(LogLevel_Error, "Trying To Unbind Shader that isnt Bound !!\n");
 		return;
 	}
 	glUseProgram(0);
@@ -56,21 +84,27 @@ bool OpenGLShaderProgramBase::Link()
 		//The maxLength includes the NULL character
 		GLchar* infoLog = new GLchar[maxLength];
 		glGetProgramInfoLog(program, maxLength, &maxLength, &infoLog[0]);
-		std::cout << "Program Link Error: " << infoLog << std::endl;
+		Log(LogLevel_Error,"Program Link Error: %s\n", infoLog);
+
+		DeleteAllShaders();
 
 		return false;
 	}
+
+	DeleteAllShaders();
 	return true;
 }
 
 bool OpenGLShaderProgramBase::AddShaderFromSource(const char * source, unsigned type)
 {
+	assert(currentShaderIndex < 11 && "Can not add another shader !!");
+
 	std::fstream File;
 	File.open(source, std::ios::in);
 	bool good = File.good();
 	if (!good)
 	{
-		std::cerr << "Error File not found: " << source << std::endl;
+		Log(LogLevel_Error, "Error File not found:  %s\n", source);
 		return false;
 	}
 	std::string cs;
@@ -94,16 +128,22 @@ bool OpenGLShaderProgramBase::AddShaderFromSource(const char * source, unsigned 
 		//The maxLength includes the NULL character
 		GLchar* infoLog = new GLchar[maxLength];
 		glGetShaderInfoLog(shader, maxLength, &maxLength, &infoLog[0]);
-		std::cerr << source << " Compile Error: " << infoLog << std::endl;
+		Log(LogLevel_Error, "%s Compile Error: %s\n",source,infoLog);
+		glDeleteShader(shader);
 		return false;
 	}
 	glAttachShader(program, shader);
-	glDeleteShader(shader);
+
+	shaders[currentShaderIndex] = shader;
+	++currentShaderIndex;
+
 	return true;
 }
 
 bool OpenGLShaderProgramBase::AddShaderFromConst(const char* const_, unsigned type)
 {
+	assert(currentShaderIndex < 11 && "Can not add another shader !!");
+
 	GLuint shader = glCreateShader(type);
 	glShaderSource(shader, 1, &const_, NULL);
 	glCompileShader(shader);
@@ -118,10 +158,16 @@ bool OpenGLShaderProgramBase::AddShaderFromConst(const char* const_, unsigned ty
 		//The maxLength includes the NULL character
 		char* infoLog = new char[maxLength];
 		glGetShaderInfoLog(shader, maxLength, &maxLength, &infoLog[0]);
-		std::cerr << "Shader Compile Error: " << infoLog << std::endl;
+		Log(LogLevel_Error, "Shader Compile Error: %s\n", infoLog);
+
+		glDeleteShader(shader);
 		return false;
 	}
 	glAttachShader(program, shader);
+
+	shaders[currentShaderIndex] = shader;
+	++currentShaderIndex;
+
 	return true;
 }
 

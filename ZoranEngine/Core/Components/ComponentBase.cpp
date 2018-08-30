@@ -3,6 +3,14 @@
 #include <assert.h>
 #include <Utils/VectorAddons.hpp>
 
+const Matrix44 ComponentBase::GetWorldTraverseUp(const Matrix44 & local)const
+{
+	Matrix44 world = this->localMatrix * local;
+	if(parent)
+		return parent->GetWorldTraverseUp(world);
+	else return world;
+}
+
 ComponentBase::ComponentBase() : parent(0)
 {
 	subComponents = new std::vector<ComponentBase*>();
@@ -38,4 +46,11 @@ ComponentBase * ComponentBase::GetSubComponenetAtIndex(unsigned index) const
 	if(index < subComponents->size())
 		return (*subComponents)[index];
 	else return 0;
+}
+
+const Matrix44 ComponentBase::GetWorldMatrix() const
+{
+	if(parent)
+		return parent->GetWorldTraverseUp(localMatrix);
+	else return localMatrix;
 }

@@ -1,6 +1,8 @@
 #pragma once
 #include "Rendering/RenderedObjectBase.h"
-class ZoranEngine_EXPORT OpenGLObject : public RenderedObjectBase
+
+class OpenGLRenderEngine;
+class ZoranEngine_EXPORT OpenGLRenderObject : public RenderedObjectBase
 {
 private:
 	static unsigned const vertLocation = 0;
@@ -14,14 +16,16 @@ private:
 	unsigned	glVertType;
 	unsigned	glBufferDrawType;
 
+	OpenGLRenderEngine* OGLEngine;
+
 private:
 	unsigned GLDrawTypeFromDrawType(DrawType type)const;
 	unsigned GLVertexTypeFromVertexType(VertexType type)const;
 	unsigned GLPrimitveFromPrimitiveType(PrimitiveType type)const;
 
 public:
-	OpenGLObject();
-	~OpenGLObject();
+	OpenGLRenderObject(OpenGLRenderEngine* engine);
+	~OpenGLRenderObject();
 
 	virtual void UpdateObjectFromMemory(unsigned numVerts, unsigned offset,void* verts, void* uv, bool copy = true)override;
 	virtual void CreateObjectFromMemory(PrimitiveType pType, VertexType vertType, DrawType drawType, unsigned numVerts, void* verts, void* uv, bool copy = true)override;
@@ -33,6 +37,5 @@ public:
 
 	// data is alloced
 	virtual bool GetVertDataAsfloat(float** data, unsigned &amount)override;
-	virtual bool GetVertEdgeIndexes(unsigned** indexes, unsigned &amount)override;
 };
 

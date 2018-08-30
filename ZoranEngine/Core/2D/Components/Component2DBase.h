@@ -23,7 +23,7 @@ public:
 	inline void SetOffset(const Vector2D& offset) { this->offset = offset; }
 
 	inline void Rotate(float rad) { rotation += rad; }
-	inline void RotateByDegree(float degree) { rotation += ((degree * 3.14159265359) / 180.0f); }
+	inline void RotateByDegree(float degree) { rotation += ((degree * 3.14159265359f) / 180.0f); }
 
 	// accessors
 

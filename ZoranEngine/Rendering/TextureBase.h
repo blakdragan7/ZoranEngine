@@ -45,6 +45,5 @@ public:
 	/* data argument is available in case d3d needs something to be passed to use OpenGL Textures just use this argument as an int*/
 	virtual void UseTexture(void* data) = 0;
 	virtual void StopUsinfgTexture(void* data)=0;
-	friend class RenderEngineBase;
 };
 
