@@ -32,6 +32,7 @@
     <ClCompile Include="Core\2D\Components\Audio2DComponent.cpp" />
     <ClCompile Include="Core\2D\Components\Collision2DComponent.cpp" />
     <ClCompile Include="Core\2D\Components\Component2DBase.cpp" />
+    <ClCompile Include="Core\2D\Components\TexturedSpriteComponent.cpp" />
     <ClCompile Include="Core\2D\Components\Visible2DComponent.cpp" />
     <ClCompile Include="Core\2D\DebugSceneObject2D.cpp" />
     <ClCompile Include="Core\2D\OrthoCamera.cpp" />
@@ -131,6 +132,7 @@
     <ClInclude Include="Core\2D\Components\Audio2DComponent.h" />
     <ClInclude Include="Core\2D\Components\Collision2DComponent.h" />
     <ClInclude Include="Core\2D\Components\Component2DBase.h" />
+    <ClInclude Include="Core\2D\Components\TexturedSpriteComponent.h" />
     <ClInclude Include="Core\2D\Components\Visible2DComponent.h" />
     <ClInclude Include="Core\2D\DebugSceneObject2D.h" />
     <ClInclude Include="Core\2D\OrthoCamera.h" />

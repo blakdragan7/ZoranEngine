@@ -1,15 +1,14 @@
 #pragma once
 #include <Core\2D\Components\Visible2DComponent.h>
 class TextureBase;
-class TexturedSpriteVisible2DComponent :
-	public Visible2DComponent
+class TexturedSpriteComponent : public Visible2DComponent
 {
 private:
 	TextureBase * texture;
 
 public:
-	TexturedSpriteVisible2DComponent();
-	~TexturedSpriteVisible2DComponent();
+	TexturedSpriteComponent();
+	~TexturedSpriteComponent();
 
 	virtual void PreRender()override;
 	virtual void Render()override;
