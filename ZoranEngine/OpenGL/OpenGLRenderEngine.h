@@ -28,6 +28,9 @@ public:
 	virtual void DrawAll()override;
 	virtual void Resize(int x, int y)override;
 
+	virtual void AddComponentsFromSceneObject(SceneObject* object)override;
+	virtual void RemoveComponentsForSceneObject(SceneObject* object)override;
+
 	virtual void AddComponent(VisibleComponentBase* component)override;
 	virtual bool RemoveComponent(VisibleComponentBase* component)override;
 

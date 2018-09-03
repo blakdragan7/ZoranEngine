@@ -3,18 +3,21 @@
 #include "b2DCollision2DObject.h"
 
 #include <Math/MathLib.h>
-#include <Core/2D/SceneObject2D.h>
+#include <Math/Matrix22.hpp>
+
 #include <Physics/2D/Collision/AABBSquareCollisionObject.h>
 #include <Physics/2D/PhysicsObject2DBase.h>
 
 #include <Physics/2D/Collision/CircleCollision2DObject.h>
+
+#include <Core/2D/Components/RigidBody2DComponent.h>
 
 #define BOTTOM_LEFT 0
 #define TOP_LEFT 1
 #define BOTTOM_RIGHT 2
 #define TOP_RIGHT 3
 
-b2DCollision2DObject::b2DCollision2DObject(SceneObject2D *object) : CollisionObject2DBase(object,CD_Dynamic, b2D_2D_COLLISION)
+b2DCollision2DObject::b2DCollision2DObject(Component2DBase *component) : CollisionObject2DBase(component,CD_Dynamic, b2D_2D_COLLISION)
 {
 }
 
@@ -29,7 +32,7 @@ void b2DCollision2DObject::SetBoundsBySceneObject()
 
 Vector2D b2DCollision2DObject::GetSize()
 {
-	return GetSceneObject()->GetScale();
+	return GetAffectedComponent()->GetScale();
 }
 
 bool b2DCollision2DObject::CollidesWithNoCollision(CollisionObject2DBase * other)
@@ -44,14 +47,14 @@ Collision2D* b2DCollision2DObject::CollidesWith(CollisionObject2DBase * other)
 		return other->CollidesWith(this);
 	}
 
-	SceneObject2D* objectA = GetSceneObject();
-	SceneObject2D* objectB = other->GetSceneObject();
+	RigidBody2DComponent* objectA = GetAffectedComponent();
+	RigidBody2DComponent* objectB = other->GetAffectedComponent();
 
 	Vector2D halfA = 0.5f * objectA->GetSize();
 	Vector2D halfB = 0.5f * objectB->GetSize();
 
-	Vector2D posA = objectA->GetPosition();
-	Vector2D posB = objectB->GetPosition();
+	Vector2D posA = objectA->GetWorldLocation();
+	Vector2D posB = objectB->GetWorldLocation();
 
 	Matrix22 RotA(objectA->GetRotation()), RotB(objectB->GetRotation());
 
@@ -240,7 +243,7 @@ Collision2D* b2DCollision2DObject::CollidesWith(CollisionObject2DBase * other)
 		{
 			collision->AddCollisionPoint(points[i]);
 		}
-		collision->friction = sqrt(objectA->GetPhysics()->GetFriction() * objectB->GetPhysics()->GetFriction());
+		collision->friction = sqrt(objectA->GetFriction() * objectB->GetFriction());
 
 		return collision;
 	}

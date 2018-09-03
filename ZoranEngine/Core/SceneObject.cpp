@@ -25,12 +25,15 @@ void SceneObject::UnlockMutex()
 	mutex->unlock();
 }
 
-void SceneObject::SetShaderProgram(ShaderProgramBase * newShaderProgram)
+SceneObject::SceneObject(std::string name) : rootComponent(0) , willEverTick(false), hasCollision(false)
 {
-	shaderProgram = newShaderProgram;
+	this->ID = NextID++;
+
+	this->mutex = new std::mutex();
+	this->readableName = new std::string(name);
 }
 
-SceneObject::SceneObject(std::string name) : rootComponent(0) , willEverTick(false), hasCollision(false)
+SceneObject::SceneObject(ComponentBase* rootComponent,std::string name) : rootComponent(rootComponent), willEverTick(false), hasCollision(false)
 {
 	this->ID = NextID++;
 

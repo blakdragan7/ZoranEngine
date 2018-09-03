@@ -1,23 +1,17 @@
 #include "stdafx.h"
-#include <Core/ThreadBase.h>
 #include <Core/ZoranEngine.h>
 #include <Core/3D/SceneObject3D.h>
-#include <Physics/PhysicsEngine.h>
-#include <Physics/PhysicsObjectBase.h>
-#include <Rendering/RenderEngineBase.h>
-#include <Rendering/ShaderProgramBase.h>
-#include <Rendering/RenderedObjectBase.h>
-#include <Physics/3D/PhysicsObject3DBase.h>
-#include <Physics/Collision/CollisionBucketBase.h>
-#include <Physics/Collision/CollisionObjectBase.h>
-#include <Physics/3D/Collision/AABBoxCollisionObject.h>
-#include <Physics/3D/Collision/SphereCollisionObject.h>
+
+#include <Core/3D/Components/Component3DBase.h>
 
 static unsigned long long NextID = 0;
 
-SceneObject3D::SceneObject3D(std::string name) : SceneObject(name)
+SceneObject3D::SceneObject3D(Component3DBase* rootComponent, std::string name) : root3DComponent(rootComponent), SceneObject(rootComponent,name)
 {
-	scale = Vector3D(1.0, 1.0, 1.0);
+}
+
+SceneObject3D::SceneObject3D(std::string name) : root3DComponent(0), SceneObject(name)
+{
 }
 
 SceneObject3D::~SceneObject3D()
@@ -30,24 +24,24 @@ void SceneObject3D::Destroy()
 	zEngine->DestroySceneObject(this);
 }
 
-void SceneObject3D::SetRotation(Vector3D eulor)
+void SceneObject3D::SetRotation(const Vector3D& euler)
 {
 	WaitForMutex();
-	rotation = Quaternion::FromEuler(eulor);
+	root3DComponent->SetRotationFromEuler(euler);
 	UnlockMutex();
 }
 
-void SceneObject3D::SetRotationFromAxis(Vector3D axis)
+void SceneObject3D::SetRotationFromAxis(const Vector3D& axis)
 {
 	WaitForMutex();
-	rotation = Quaternion::FromScaledAxis(axis);
+	root3DComponent->SetRotationFromScaleAxis(axis);
 	UnlockMutex();
 }
 
-void SceneObject3D::SetPosition(Vector3D pos)
+void SceneObject3D::SetPosition(const Vector3D& pos)
 {
 	WaitForMutex();
-	this->pos = pos;
+	root3DComponent->SetOffset(pos);
 	UnlockMutex();
 }
 
@@ -55,111 +49,97 @@ void SceneObject3D::SetPosition(float x, float y, float z)
 {
 	WaitForMutex();
 
-	this->pos.x = x;
-	this->pos.y = y;
-	this->pos.z = z;
+	root3DComponent->SetOffset(x, y, z);
 
 	UnlockMutex();
 }
 
-void SceneObject3D::SetScale(Vector3D scale)
+void SceneObject3D::SetScale(const Vector3D& scale)
 {
 	WaitForMutex();
-	scale = scale;
+	root3DComponent->SetScale(scale);
 	UnlockMutex();
 }
 
 void SceneObject3D::SetScale(float x, float y, float z)
 {
 	WaitForMutex();
-	scale.x = x;
-	scale.y = y;
-	scale.z = z;
+	root3DComponent->SetScale(x, y, z);
 	UnlockMutex();
 }
 
-Vector3D SceneObject3D::GetPosition()const
+void SceneObject3D::SetSize(const Vector3D & size)
 {
-	return pos;
+	root3DComponent->SetSize(size);
 }
 
-Vector3D SceneObject3D::GetScale()const
+void SceneObject3D::SetSize(float x, float y, float z)
 {
-	return scale;
+	root3DComponent->SetSize(x, y, z);
 }
 
-Vector3D SceneObject3D::GetRotationAsEulor()const
-{
-	return rotation.AsEuler();
-}
-
-inline void SceneObject3D::SetRotation(Quaternion quat)
+inline void SceneObject3D::SetRotation(const Quaternion& quat)
 {
 	WaitForMutex();
-	rotation = quat;
+	root3DComponent->SetRotation(quat);
 	UnlockMutex();
 }
 
-void SceneObject3D::RotateByScaledAxis(Vector3D axis)
+void SceneObject3D::RotateByScaledAxis(const Vector3D& axis)
 {
 	WaitForMutex();
-	rotation = Quaternion::FromScaledAxis(axis) * rotation;
+	root3DComponent->RotateByScaledAxis(axis);
 	UnlockMutex();
 }
 
-void SceneObject3D::RotateByQuat(Quaternion quat)
+void SceneObject3D::RotateByQuat(const Quaternion& quat)
 {
 	WaitForMutex();
-	rotation = quat * rotation;
+	root3DComponent->Rotate(quat);
 	UnlockMutex();
 }
 
-void SceneObject3D::RotateByEulor(Vector3D eulor)
+void SceneObject3D::RotateByEulor(const Vector3D& euler)
 {
 	WaitForMutex();
-	rotation = Quaternion::FromEuler(eulor) * rotation;
+	root3DComponent->Rotate(euler);
 	UnlockMutex();
 }
 
-void SceneObject3D::Translate(Vector3D delta)
+void SceneObject3D::Translate(const Vector3D& delta)
 {
 	WaitForMutex();
-	pos += delta;
+	root3DComponent->Translate(delta);
 	UnlockMutex();
 }
 
-void SceneObject3D::Scale(Vector3D scale)
+void SceneObject3D::Scale(const Vector3D& scale)
 {
 	WaitForMutex();
-	this->scale *= scale;
+	root3DComponent->Scale(scale);
 	UnlockMutex();
 }
 
 void SceneObject3D::PreCaclModel()
 {
-	model.makeIdentity();
-
 	WaitForMutex();
-	model.translate(pos);
-	model.scale(scale);
-	ModelMatrixCache = model * rotation.AsRotationMatrix();
+
+	ModelMatrixCache = root3DComponent->GetWorldMatrix();
 
 	UnlockMutex();
 }
 
 Matrix44 SceneObject3D::GetScaleMatrix4x4()
 {
-	Matrix44 mat;
-	mat.scale(scale);
-	return mat;
+	return Matrix44::ScaleMatrix(root3DComponent->GetScale());
 }
 
-float SceneObject3D::DistanceTo(Vector3D pos)
+float SceneObject3D::DistanceTo(const Vector3D& pos)
 {
-	return this->pos.distance(pos);
+	return root3DComponent->GetOffset().distance(pos);
 }
 
 float SceneObject3D::DistanceTo(SceneObject3D * other)
 {
-	return this->pos.distance(other->pos);
+	return root3DComponent->GetOffset().distance(other->GetPosition());
 }

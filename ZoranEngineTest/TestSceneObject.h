@@ -9,7 +9,6 @@ public:
 	TestSceneObject(std::string name);
 	~TestSceneObject();
 
-	virtual void PreRender()override;
 	virtual void Tick(float dt)override;
 
 	inline void SetTarget(SceneObject2D* target)

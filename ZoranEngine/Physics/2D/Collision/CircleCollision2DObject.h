@@ -8,15 +8,15 @@ class ZoranEngine_EXPORT CircleCollision2DObject : public CollisionObject2DBase
 private:
 	float radius;
 	float scaledRadius;
-	class DebugSceneObject2D* db;
 
 public:
-	CircleCollision2DObject(float radius,SceneObject2D* sceneObject,CollisionDynamics cd);
+	CircleCollision2DObject(float radius, Component2DBase* component,CollisionDynamics cd = CD_Dynamic);
 	~CircleCollision2DObject();
 
 	void SetBoundsBySceneObject()override;
 
 	inline float GetRadius() { return scaledRadius; }
+	inline float SetRadius(float radius) { radius = radius; }
 
 	virtual Vector2D GetSize()override;
 	virtual bool CollidesWithNoCollision(CollisionObject2DBase* other)override;

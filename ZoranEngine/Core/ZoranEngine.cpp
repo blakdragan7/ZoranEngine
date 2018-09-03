@@ -237,20 +237,15 @@ void ZoranEngine::AddTickableObject(TickableObject * object)
 
 void ZoranEngine::AddSceneObject(SceneObject * object)
 {
-	if (object->GetCollision())object->GetCollision()->SetBoundsBySceneObject();
-	if(object->willEverTick)AddTickableObject((TickableObject*)(object));
-	mainRenderEngine->AddSceneObject(object);
-	if(object->GetPhysics())
-		physicsEngine->AddPhysicsObject(object->GetPhysics());
-	CollisionObjectBase* collision = object->GetCollision();
-	if (collision)GetPhysicsEngine()->AddCollisionObject(collision);
+	mainRenderEngine->AddComponentsFromSceneObject(object);
+	physicsEngine->AddComponentedFromSceneObject(object);
 }
 
 void ZoranEngine::DestroySceneObject(SceneObject * object)
 {
 	remove(*allSceneObjects, object);
-	mainRenderEngine->RemoveSceneObject(object);
-	if (object->GetPhysics())delete object->GetPhysics();
+	mainRenderEngine->RemoveComponentsForSceneObject(object);
+	physicsEngine->RemoveComponentedFromSceneObject(object);
 	delete object;
 }
 

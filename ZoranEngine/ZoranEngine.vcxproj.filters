@@ -336,6 +336,24 @@
     <ClCompile Include="Utils\Statistics.cpp">
       <Filter>ZoranEngine\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="Core\Components\CollisionComponentBase.cpp">
+      <Filter>ZoranEngine\Core\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Components\RigidBodyComponent.cpp">
+      <Filter>ZoranEngine\Core\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\2D\Components\CircleCollisionComponent.cpp">
+      <Filter>ZoranEngine\Core\2D\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\3D\Components\RigidBody3DComponent.cpp">
+      <Filter>ZoranEngine\Core\3D\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\2D\Components\RigidBody2DComponent.cpp">
+      <Filter>ZoranEngine\Core\2D\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\2D\Components\OSquareCollisionComponent.cpp">
+      <Filter>ZoranEngine\Core\2D\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -614,9 +632,6 @@
     <ClInclude Include="Math\Matrix44.hpp">
       <Filter>ZoranEngine\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Math\Matrix22.h">
-      <Filter>ZoranEngine\Math</Filter>
-    </ClInclude>
     <ClInclude Include="Math\Quaternion.h">
       <Filter>ZoranEngine\Math</Filter>
     </ClInclude>
@@ -689,6 +704,27 @@
     <ClInclude Include="Utils\VectorAddons.hpp">
       <Filter>ZoranEngine\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Components\CollisionComponentBase.h">
+      <Filter>ZoranEngine\Core\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Components\RigidBodyComponent.h">
+      <Filter>ZoranEngine\Core\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\2D\Components\CircleCollisionComponent.h">
+      <Filter>ZoranEngine\Core\2D\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Matrix22.hpp">
+      <Filter>ZoranEngine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\3D\Components\RigidBody3DComponent.h">
+      <Filter>ZoranEngine\Core\3D\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\2D\Components\RigidBody2DComponent.h">
+      <Filter>ZoranEngine\Core\2D\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\2D\Components\OSquareCollisionComponent.h">
+      <Filter>ZoranEngine\Core\2D\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ZoranEngine.rc">
@@ -714,5 +750,6 @@
     <None Include="Shaders\2D\standard_debug.vert">
       <Filter>ZoranEngine\Shaders\2D</Filter>
     </None>
+    <None Include="..\README.md" />
   </ItemGroup>
 </Project>

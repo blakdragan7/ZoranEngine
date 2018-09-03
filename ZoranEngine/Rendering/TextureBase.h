@@ -18,6 +18,9 @@ protected:
 
 	unsigned width, height;
 
+public:
+	const char* path; // used for texture manager keying
+
 protected:
 	unsigned LoadFromPNG(const char* path,unsigned &x, unsigned &y, unsigned char ** data);
 

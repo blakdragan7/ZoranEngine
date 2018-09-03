@@ -3,7 +3,7 @@
 #include <Physics/2D/Collision/Collision2D.h>
 #include <Physics/Collision/CollisionObjectBase.h>
 
-class SceneObject2D;
+class Component2DBase;
 class PhysicsObject2DBase;
 
 struct ZoranEngine_EXPORT SweepCollision2D
@@ -22,10 +22,11 @@ struct ZoranEngine_EXPORT SweepCollision2D
 	}
 };
 
+class RigidBody2DComponent;
 class ZoranEngine_EXPORT CollisionObject2DBase : public CollisionObjectBase
 {
 private:
-	SceneObject2D * sceneObject2D;
+	Component2DBase * affectedComponent;
 	PhysicsObject2DBase* physicsObject2D;
 	class DebugSceneObject2D* debugObject;
 
@@ -33,10 +34,10 @@ protected:
 	void UpdateDebugObject(float verts[], unsigned numVerts);
 
 public:
-	CollisionObject2DBase(SceneObject2D *object, CollisionDynamics collisionDynamics = CD_Dynamic, unsigned collisionType = NO_COLLISION);
+	CollisionObject2DBase(Component2DBase* component, CollisionDynamics collisionDynamics = CD_Dynamic, unsigned collisionType = NO_COLLISION);
 	~CollisionObject2DBase();
 
-	void SetSceneObject(SceneObject2D* object);
+	void SetAffectedComponent(RigidBody2DComponent* object);
 	void SetPhysicsObject(PhysicsObject2DBase* object);
 
 	virtual bool CollidesWithNoCollision(CollisionObject2DBase* other) = 0;
@@ -47,7 +48,7 @@ public:
 	virtual bool SweepCollidesWith(CollisionObject2DBase* other, Vector2D newPosition, SweepCollision2D & response) = 0;
 	virtual bool FastSweepCollidesWith(Vector2D newPosition) = 0;
 
-	Vector2D GetScenePos();
-	SceneObject2D* GetSceneObject();
-	PhysicsObject2DBase* GetPhysicsObject();
+	const Vector2D& GetScenePos();
+	Component2DBase* CollisionObject2DBase::GetAffectedComponent() { return affectedComponent; }
+	PhysicsObject2DBase* CollisionObject2DBase::GetPhysicsObject() { return physicsObject2D; }
 };

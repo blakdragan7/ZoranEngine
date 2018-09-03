@@ -1,6 +1,5 @@
 #pragma once
 #include <Math/Vector2.h>
-#include <Math/Matrix22.h>
 
 enum Axis
 {
@@ -48,6 +47,8 @@ struct ClipedVertex
 	Vector2D vertex;
 	ClipedVertex() { edge.value = 0; }
 };
+
+class Component2DBase;
 
 struct  ZoranEngine_EXPORT CollisionPoint
 {
@@ -108,8 +109,7 @@ public:
 	bool wasUpdated;
 	int frame;
 
-	class SceneObject2D* objects[2];
-	Matrix22 invRotationSnapshots[2];
+	class Component2DBase* objects[2];
 	class PhysicsObject2DBase* collidedObjects[2];
 
 	class CollisionObject2DBase* objectBounds[2];
@@ -132,8 +132,8 @@ public:
 
 struct ZoranEngine_EXPORT Collision2DKey
 {
-	SceneObject2D* objectA,* objectB;
-	Collision2DKey(SceneObject2D* a, SceneObject2D* b)
+	Component2DBase* objectA,* objectB;
+	Collision2DKey(Component2DBase* a, Component2DBase* b)
 	{
 		if (a < b)
 		{

@@ -214,6 +214,7 @@ float Vector3D::dot(const Vector3D& other)const
 Vector3D Vector3D::cross(const Vector3D& other)const
 {
 	Vector3D res;
+
 	res.x = (y * other.z) - (other.y * z);
 	res.y = (z * other.x) - (other.z * x);
 	res.z = (x * other.y) - (other.x * y);

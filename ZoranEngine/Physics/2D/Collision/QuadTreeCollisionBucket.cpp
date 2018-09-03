@@ -68,7 +68,7 @@ bool QuadTreeCollisionBucket::AddObject(CollisionObject2DBase * object)
 			collisionObjects.push_back(object);
 			wasAdded = true;
 
-			Log(LogLevel_Debug,"Object %s Add To Bucket %s\n", object->GetSceneObject()->readableName.c_str(), sceneObject->readableName.c_str());
+			Log(LogLevel_Debug,"Object %s Add To Bucket %s\n", object->GetSceneObject()->readableName->c_str(), sceneObject->readableName->c_str());
 		}
 	}
 	else 
@@ -153,7 +153,7 @@ bool QuadTreeCollisionBucket::UpdateObject(CollisionObject2DBase * object)
 			{
 				if (parent)
 				{
-					Log(LogLevel_Debug, "Object %s No Longer in Bucket %s\n", object->GetSceneObject()->readableName.c_str(), sceneObject->readableName.c_str());
+					Log(LogLevel_Debug, "Object %s No Longer in Bucket %s\n", object->GetSceneObject()->readableName->c_str(), sceneObject->readableName->c_str());
 
 					remove(collisionObjects,index);
 					return parent->TraverseUpAddObject(object);
@@ -265,7 +265,7 @@ void QuadTreeCollisionBucket::Subdivide()
 	Vec2D TR = Vec2D(pos.x + (size.x / 4.0f), pos.y + (size.y / 4.0f));
 	Vec2D BR = Vec2D(pos.x + (size.x / 4.0f), pos.y - (size.y / 4.0f));
 
-	std::string sname = sceneObject->readableName;
+	std::string sname = *sceneObject->readableName;
 
 	children[TL_BUCKET] = new QuadTreeCollisionBucket((sname + ".topleft").c_str(),TL, subSize, maxObjects, this);
 	children[TR_BUCKET] = new QuadTreeCollisionBucket((sname + ".topright").c_str(),TR, subSize, maxObjects, this);
@@ -441,11 +441,11 @@ bool QuadTreeCollisionBucket::TraverseUpAddObject(CollisionObject2DBase * object
 void QuadTreeCollisionBucket::PrintAllContents(unsigned depth)
 {
 	for (unsigned int i = 0; i < depth; ++i)Log(LogLevel_None, "\t");
-	Log(LogLevel_None, "%s Contains: \n", sceneObject->readableName.c_str());
+	Log(LogLevel_None, "%s Contains: \n", sceneObject->readableName->c_str());
 	for (auto object : collisionObjects)
 	{
 		for (unsigned int j = 0; j < depth; ++j)Log(LogLevel_None, "\t");
-		Log(LogLevel_None, "\t%s\n", object->GetSceneObject()->readableName.c_str());
+		Log(LogLevel_None, "\t%s\n", object->GetSceneObject()->readableName->c_str());
 	}
 	if (hasSubdivided)
 	{
@@ -461,7 +461,7 @@ void QuadTreeCollisionBucket::PrintCollisionForObject(CollisionObject2DBase * ob
 {
 	for (unsigned i = 0; i < collisionObjects.size(); i++)
 	{
-		Log(LogLevel_None, "\tCheck Collision %s => %s\n", object->GetSceneObject()->readableName.c_str(), collisionObjects[i]->GetSceneObject()->readableName.c_str());
+		Log(LogLevel_None, "\tCheck Collision %s => %s\n", object->GetSceneObject()->readableName->c_str(), collisionObjects[i]->GetSceneObject()->readableName->c_str());
 		if (object->CollidesWithNoCollision(collisionObjects[i]))
 		{
 			Log(LogLevel_None, "Found Collision\n");
@@ -481,7 +481,7 @@ void QuadTreeCollisionBucket::PrintCollisionForObjectTraverseUp(CollisionObject2
 {
 	for (unsigned i = 0; i < collisionObjects.size(); i++)
 	{
-		Log(LogLevel_None, "\tCheck Collision %s => %s\n", object->GetSceneObject()->readableName.c_str(), collisionObjects[i]->GetSceneObject()->readableName.c_str());
+		Log(LogLevel_None, "\tCheck Collision %s => %s\n", object->GetSceneObject()->readableName->c_str(), collisionObjects[i]->GetSceneObject()->readableName->c_str());
 		if (object->CollidesWithNoCollision(collisionObjects[i]))
 		{
 			Log(LogLevel_None, "Found Collision\n");
@@ -502,11 +502,11 @@ void QuadTreeCollisionBucket::ImGuiDraw()
 
 void QuadTreeCollisionBucket::DrawImGuiDown(unsigned depth)
 {
-	if (ImGui::TreeNode(sceneObject->readableName.c_str()))
+	if (ImGui::TreeNode(sceneObject->readableName->c_str()))
 	{
 		for (auto object : collisionObjects)
 		{
-			ImGui::Text((object->GetSceneObject()->readableName).c_str());
+			ImGui::Text((object->GetSceneObject()->readableName)->c_str());
 		}
 
 		if (hasSubdivided)
@@ -541,7 +541,7 @@ void QuadTreeCollisionBucket::PrintAllCollisions()
 		{
 			for (unsigned j = i + 1; j < collisionObjects.size(); j++)
 			{
-				Log(LogLevel_None, "\tCheck Collision %s => %s\n", object->GetSceneObject()->readableName.c_str(), collisionObjects[j]->GetSceneObject()->readableName.c_str());
+				Log(LogLevel_None, "\tCheck Collision %s => %s\n", object->GetSceneObject()->readableName->c_str(), collisionObjects[j]->GetSceneObject()->readableName->c_str());
 
 				if (object->CollidesWithNoCollision(collisionObjects[j]))
 				{

@@ -6,6 +6,7 @@ class TestCircleObject : public TexturedSprite
 {
 private:
 	SceneObject2D * target;
+	class RigidBody2DComponent* rigidBody;
 
 public:
 

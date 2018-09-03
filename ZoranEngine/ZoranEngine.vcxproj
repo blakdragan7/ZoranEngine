@@ -30,8 +30,11 @@
   <ItemGroup>
     <ClCompile Include="Core\2D\Camera2D.cpp" />
     <ClCompile Include="Core\2D\Components\Audio2DComponent.cpp" />
+    <ClCompile Include="Core\2D\Components\CircleCollisionComponent.cpp" />
     <ClCompile Include="Core\2D\Components\Collision2DComponent.cpp" />
     <ClCompile Include="Core\2D\Components\Component2DBase.cpp" />
+    <ClCompile Include="Core\2D\Components\RigidBody2DComponent.cpp" />
+    <ClCompile Include="Core\2D\Components\OSquareCollisionComponent.cpp" />
     <ClCompile Include="Core\2D\Components\TexturedSpriteComponent.cpp" />
     <ClCompile Include="Core\2D\Components\Visible2DComponent.cpp" />
     <ClCompile Include="Core\2D\DebugSceneObject2D.cpp" />
@@ -42,6 +45,7 @@
     <ClCompile Include="Core\3D\Components\Audio3DComponent.cpp" />
     <ClCompile Include="Core\3D\Components\Collision3DComponent.cpp" />
     <ClCompile Include="Core\3D\Components\Component3DBase.cpp" />
+    <ClCompile Include="Core\3D\Components\RigidBody3DComponent.cpp" />
     <ClCompile Include="Core\3D\Components\Visible3DComponent.cpp" />
     <ClCompile Include="Core\3D\SceneObject3D.cpp" />
     <ClCompile Include="Core\Audio\AL\OALAudioEngine.cpp" />
@@ -50,7 +54,9 @@
     <ClCompile Include="Core\Audio\AudioEngineBase.cpp" />
     <ClCompile Include="Core\CameraBase.cpp" />
     <ClCompile Include="Core\CommonTypes.cpp" />
+    <ClCompile Include="Core\Components\CollisionComponentBase.cpp" />
     <ClCompile Include="Core\Components\ComponentBase.cpp" />
+    <ClCompile Include="Core\Components\RigidBodyComponent.cpp" />
     <ClCompile Include="Core\Components\VisibleComponentBase.cpp" />
     <ClCompile Include="Core\Events\EventBase.cpp" />
     <ClCompile Include="Core\Events\EventDispatcher.cpp" />
@@ -130,8 +136,11 @@
   <ItemGroup>
     <ClInclude Include="Core\2D\Camera2D.h" />
     <ClInclude Include="Core\2D\Components\Audio2DComponent.h" />
+    <ClInclude Include="Core\2D\Components\CircleCollisionComponent.h" />
     <ClInclude Include="Core\2D\Components\Collision2DComponent.h" />
     <ClInclude Include="Core\2D\Components\Component2DBase.h" />
+    <ClInclude Include="Core\2D\Components\RigidBody2DComponent.h" />
+    <ClInclude Include="Core\2D\Components\OSquareCollisionComponent.h" />
     <ClInclude Include="Core\2D\Components\TexturedSpriteComponent.h" />
     <ClInclude Include="Core\2D\Components\Visible2DComponent.h" />
     <ClInclude Include="Core\2D\DebugSceneObject2D.h" />
@@ -142,6 +151,7 @@
     <ClInclude Include="Core\3D\Components\Audio3DComponent.h" />
     <ClInclude Include="Core\3D\Components\Collision3DComponent.h" />
     <ClInclude Include="Core\3D\Components\Component3DBase.h" />
+    <ClInclude Include="Core\3D\Components\RigidBody3DComponent.h" />
     <ClInclude Include="Core\3D\Components\Visible3DComponent.h" />
     <ClInclude Include="Core\3D\SceneObject3D.h" />
     <ClInclude Include="Core\Allocators\AllocatorBase.h" />
@@ -161,7 +171,9 @@
     <ClInclude Include="Core\Audio\SoundInstance.h" />
     <ClInclude Include="Core\CameraBase.h" />
     <ClInclude Include="Core\CommomTypes.h" />
+    <ClInclude Include="Core\Components\CollisionComponentBase.h" />
     <ClInclude Include="Core\Components\ComponentBase.h" />
+    <ClInclude Include="Core\Components\RigidBodyComponent.h" />
     <ClInclude Include="Core\Components\VisibleComponentBase.h" />
     <ClInclude Include="Core\Containers\ZArray.h" />
     <ClInclude Include="Core\Containers\ZDictionary.h" />
@@ -179,7 +191,7 @@
     <ClInclude Include="Math\MathHelpers.h" />
     <ClInclude Include="Math\MathLib.h" />
     <ClInclude Include="Math\Matrix44.hpp" />
-    <ClInclude Include="Math\Matrix22.h" />
+    <ClInclude Include="Math\Matrix22.hpp" />
     <ClInclude Include="Math\Quaternion.h" />
     <ClInclude Include="Math\Vector2.h" />
     <ClInclude Include="Math\Vector3.h" />

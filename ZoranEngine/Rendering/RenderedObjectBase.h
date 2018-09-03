@@ -47,7 +47,6 @@ protected:
 
 public:
 	RenderedObjectBase(RenderEngineBase* engine, unsigned type = INVALID_IMPLEMENTATION);
-	RenderedObjectBase(RenderEngineBase* engine,unsigned type = INVALID_IMPLEMENTATION);
 	virtual ~RenderedObjectBase();
 
 	virtual void RenderObject() = 0;

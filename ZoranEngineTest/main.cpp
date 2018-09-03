@@ -11,6 +11,11 @@
 #include <Utils/HighPrecisionClock.h>
 #include <algorithm>
 
+#include <Core/Audio/AudioEngineBase.h>
+#include <Core/Audio/common.h>
+
+#include <Core/ThreadBase.h>
+
 #include <string>
 
 void TestArrayStuff();
@@ -18,10 +23,11 @@ void TestSceneStuff();
 void TestLinkedListStuff();
 void TestDoubleLinkedListStuff();
 void TestDictionaryStuff();
+void TestAudio();
 
 static const unsigned TestNum = 1000;
-static const unsigned ToSpawn = 200;
-
+static const unsigned ToSpawn = 100;
+static const float scale = 5.0f;
 int main(int argc, char* argv[])
 {
 
@@ -206,19 +212,19 @@ void TestSceneStuff()
 	std::string name_base = "TestSceneObject-";
 
 	Vec2D CollisionPoint(0,0);
-	for (int i = 0; i < ToSpawn / 2; i++)
+	for (int i = 0; i < ToSpawn / 1; i++)
 	{
 		TestSceneObject* test = new TestSceneObject((name_base + std::to_string(i)));
-		test->SetScale(10, -10);
+		test->SetScale(scale, -scale);
 		test->SetPosition(Random::GetfloatInRange(-150, 150), Random::GetfloatInRange(-150, 150));
-		//test->SetPosition(i*20 + -100,0);
+		//test->SetPosition(i*5 + -150,0);
 		test->GetPhysics()->StartPhysicsSim();
 		test->GetPhysics2D()->SetSweptCollision(false);
 		test->SetRotation(1);
 		Vec2D pos = test->GetPosition();
 		pos = CollisionPoint - pos;
 		pos.normalize();
-		test->GetPhysics2D()->SetGravity(pos*200);
+		//test->GetPhysics2D()->SetGravity(pos*200);
 		//test->GetPhysics2D()->ApplyForce(pos * 100);
 		test->PreCaclModel();
 		zEngine->AddSceneObject(test);
@@ -250,11 +256,11 @@ void TestSceneStuff()
 		sqr = test;
 	}*/
 
-	for (int i = 0; i < ToSpawn / 2; i++)
+	for (int i = 0; i < ToSpawn / 200000; i++)
 	{
 		TestCircleObject* test = new TestCircleObject(std::string("circle ") + std::to_string(i), 1.0);
-		test->SetScale(10.0f, -10.0f);
-		//test->SetPosition(i * 20 + -100, 100);
+		test->SetScale(scale, -scale);
+		//test->SetPosition(i * 5 + -150, 100);
 		test->SetPosition(Random::GetfloatInRange(-150, 150), Random::GetfloatInRange(-150, 150));
 		test->GetPhysics()->StartPhysicsSim();
 		//test->SetTarget(sqr);
@@ -264,10 +270,9 @@ void TestSceneStuff()
 		Vec2D pos = test->GetPosition();
 		pos = CollisionPoint - pos;
 		pos.normalize();
-		test->GetPhysics2D()->SetGravity(pos * 200);
+		//test->GetPhysics2D()->SetGravity(pos * 200);
 
-		test->GetPhysics2D()->SetSweptCollision(false);
-		//test->SetRotation(1.00);
+		test->SetRotation(1.00);
 		test->GetPhysics2D()->SetAngularVeloctiy(10);
 		test->PreCaclModel();
 		zEngine->AddSceneObject(test);
@@ -297,6 +302,24 @@ void TestSceneStuff()
 	platform4->PreCaclModel();
 	zEngine->AddSceneObject(platform4);
 
+	TestAudio();
+
 	engine.SetPaused(true);
 	engine.MainLoop();
+}
+
+void TestAudio()
+{
+	SceneObject2D * audioObj = new SceneObject2D("audio tester");
+	AudioListener* listener = 0;
+	SoundInstance* instance = 0;
+
+	aEngine->CreateAudioListener(audioObj, &listener);
+	aEngine->CreateSoundFromFile("test.wav",AFT_WAV,&instance);
+
+	aEngine->PlaySoundInstance(instance);
+
+	//ThreadBase::Sleep(0.5);
+
+	//aEngine->StopSound(instance);
 }

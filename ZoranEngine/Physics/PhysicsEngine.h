@@ -17,7 +17,6 @@ private:
 	CollisionBucket2DBase * collisionTree2D;
 	CollisionBucket3DBase * collisionTree3D;
 
-
 	std::vector<PhysicsObjectBase*>* physicsObjects;
 	CollisionFrame2D* collisionFrame2D;
 
@@ -41,6 +40,9 @@ public:
 	class CollisionBucketBase* GetCollisionBucketRoot();
 
 	void UpdateAll(float deltaTime);
+
+	void AddComponentedFromSceneObject(SceneObject* object);
+	void RemoveComponentedFromSceneObject(SceneObject* object);
 
 	void AddPhysicsObject(PhysicsObjectBase* object);
 	void AddCollisionObject(CollisionObjectBase* object);

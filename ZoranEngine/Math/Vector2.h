@@ -16,6 +16,7 @@ public:
 	Vector2D(void);
 	Vector2D(float x_, float y_);
 	Vector2D(const class Vector2I& other);
+	Vector2D(const class Vector3D& other); // this just ignores the z component
 
 	~Vector2D(void);
 

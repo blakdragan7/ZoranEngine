@@ -1,9 +1,10 @@
 #include "stdafx.h"
 #include "AABBSquareCollisionObject.h"
-#include <Core/2D/SceneObject2D.h>
 #include <Physics/PhysicsEngine.h>
 #include <Physics/2D/Collision/CollisionBucket2DBase.h>
 #include <Physics/2D/PhysicsObject2DBase.h>
+
+#include <Core/2D/Components/Component2DBase.h>
 
 void AABBSquareCollisionObject::FillCollisionPoints(CollisionPoint points[2], Vec2D otherMin, Vec2D otherMax)
 {
@@ -14,7 +15,7 @@ void AABBSquareCollisionObject::FillCollisionPoints(CollisionPoint points[2], Ve
 	points[1].pos.y = min(maxPos.y, otherMax.y);
 }
 
-AABBSquareCollisionObject::AABBSquareCollisionObject(Vector2D min, Vector2D max, SceneObject2D* object, CollisionDynamics dynamics,bool isRoot) : CollisionObject2DBase(object, dynamics, SQUARE_COLLISION)
+AABBSquareCollisionObject::AABBSquareCollisionObject(const Vector2D& min, const Vector2D& max, Component2DBase* object, CollisionDynamics dynamics,bool isRoot) : CollisionObject2DBase(object, dynamics, SQUARE_COLLISION)
 {
 	this->minPos = min;
 	this->maxPos = max;
@@ -32,7 +33,7 @@ AABBSquareCollisionObject::~AABBSquareCollisionObject()
 void AABBSquareCollisionObject::SetBoundsBySceneObject()
 {
 	Vector2D pos = GetScenePos();
-	Vector2D size = GetSceneObject()->GetSize();
+	Vector2D size = GetAffectedComponent()->GetSize();
 
 	minPos = pos - (size / 2);
 	maxPos = pos + (size / 2);
@@ -116,8 +117,8 @@ Collision2D* AABBSquareCollisionObject::CollidesWith(CollisionObject2DBase* othe
 	collision->objectBounds[0] = this;
 	collision->objectBounds[1] = other;
 	collision->collided = true;
-	collision->objects[0] = GetSceneObject();
-	collision->objects[1] = other->GetSceneObject();
+	collision->objects[0] = GetAffectedComponent();
+	collision->objects[1] = other->GetAffectedComponent();
 	collision->AddCollisionPoint(contactPointsA[0]);
 	collision->AddCollisionPoint(contactPointsA[1]);
 
@@ -240,8 +241,8 @@ bool AABBSquareCollisionObject::SweepCollidesWith(CollisionObject2DBase * other,
 
 bool AABBSquareCollisionObject::FastSweepCollidesWith(Vector2D newPosition)
 {
-	Vec2D startingPosition = GetSceneObject()->GetPosition();
-	Vec2D size = GetSceneObject()->GetCollision2D()->GetSize() / 2.0;
+	Vec2D startingPosition = GetAffectedComponent()->GetOffset();
+	Vec2D size = GetSize() / 2.0;
 
 	float minPositionx = min(startingPosition.x, newPosition.x);
 	float maxPositionx = max(startingPosition.x, newPosition.x);

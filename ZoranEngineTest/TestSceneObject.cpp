@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "TestSceneObject.h"
 #include <OpenGL/StandardShader2D.h>
-#include <OpenGL/OpenGLObject.h>
+#include <OpenGL/OpenGLRenderObject.h>
 #include <Core/ZoranEngine.h>
 #include <Physics/PhysicsObjectBase.h>
 #include <Rendering/TextureBase.h>
@@ -40,13 +40,6 @@ TestSceneObject::TestSceneObject(std::string name) : TexturedSprite(name)
 
 TestSceneObject::~TestSceneObject()
 {
-}
-
-void TestSceneObject::PreRender()
-{
-	SceneObject::PreRender();
-
-	GetTexture()->UseTexture(0);
 }
 
 void TestSceneObject::Tick(float deltaTime)

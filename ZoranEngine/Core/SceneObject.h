@@ -7,15 +7,14 @@
 *  Scene objects are objects that can be places in a level.
 *  They do not have to be renderable and do not have any render logic in them.
 */
-
-class CollisionObject2DBase;
+class VisibleComponentBase;
 class PhysicsObjectBase;
 class ComponentBase;
 
 class ZoranEngine_EXPORT SceneObject : public TickableObject
 {
 protected:
-	ComponentBase*		rootComponent;
+	ComponentBase * rootComponent;
 
 	unsigned long long ID;
 	std::mutex* mutex;
@@ -35,6 +34,7 @@ protected:
 
 public:
 	SceneObject(std::string);
+	SceneObject(ComponentBase* component, std::string);
 	virtual ~SceneObject();
 
 	// Destroys this object removeing it from any part of the engine that it needs to
@@ -50,7 +50,9 @@ public:
 	inline const Matrix44& GetModel() { return ModelMatrixCache; };
 	virtual Matrix44 GetScaleMatrix4x4() = 0;
 
-	virtual class CollisionObjectBase* GetCollision()const = 0;
-	virtual class PhysicsObjectBase* GetPhysics()const = 0;
+	inline const ComponentBase* GetRootComponent() { return rootComponent; }
+	inline const VisibleComponentBase* GetVisibleComponentRoot() { return rootVisibleComponent; }
+
+	friend class ZoranEngine;
 };
 

@@ -13,12 +13,12 @@
 #include <cmath>
 const float EulerConstant = std::exp(1.0f);
 
-bool PhysicsObject3DBase::SweepCollisionTo(Vec3D position, SweepCollisionResponse3D & response)
+bool PhysicsObject3DBase::SweepCollisionTo(const Vector3D& position, SweepCollisionResponse3D & response)
 {
 	return pEngine->GetCollisionBucketRootFor3D()->SweepCollision(sceneObject3D->GetCollision3D(), position, response);
 }
 
-bool PhysicsObject3DBase::FastSweepCollision(Vec3D position)
+bool PhysicsObject3DBase::FastSweepCollision(const Vector3D& position)
 {
 	Vec3D startingPosition = sceneObject3D->GetPosition();
 	Vec3D size = sceneObject3D->GetCollision3D()->GetSize() / 2.0;
@@ -62,12 +62,12 @@ PhysicsObject3DBase::~PhysicsObject3DBase()
 	delete sweepCollisionBox;
 }
 
-void PhysicsObject3DBase::SetVeloctiy(Vec3D Velocity)
+void PhysicsObject3DBase::SetVeloctiy(const Vector3D& Velocity)
 {
 	this->velocity = Velocity;
 }
 
-void PhysicsObject3DBase::SetGravity(Vector3D gravity)
+void PhysicsObject3DBase::SetGravity(const Vector3D& gravity)
 {
 	this->gravity = gravity;
 	gravityNormal = gravity;
@@ -111,7 +111,7 @@ void PhysicsObject3DBase::OnCollision(CollisionResponse3D &response)
 	}
 }
 
-bool PhysicsObject3DBase::SweepToo(Vec3D targetPosition, SweepCollisionResponse3D & response)
+bool PhysicsObject3DBase::SweepToo(const Vector3D& targetPosition, SweepCollisionResponse3D & response)
 {
 	if (FastSweepCollision(targetPosition))
 	{
@@ -121,7 +121,7 @@ bool PhysicsObject3DBase::SweepToo(Vec3D targetPosition, SweepCollisionResponse3
 	return false;
 }
 
-void PhysicsObject3DBase::ApplyForce(Vec3D Force)
+void PhysicsObject3DBase::ApplyForce(const Vector3D& Force)
 {
 	this->velocity += Force;
 	isOnGround = false;
@@ -163,10 +163,10 @@ void PhysicsObject3DBase::Update(float deltaTime)
 	}
 }
 
-Vec3D PhysicsObject3DBase::GetVelocity()
+const Vector3D& PhysicsObject3DBase::GetVelocity()
 {
 	return velocity;
 }
 
-Vec3D PhysicsObject3DBase::GetScenePos() { return sceneObject3D->GetPosition(); }
+const Vector3D& PhysicsObject3DBase::GetScenePos() { return sceneObject3D->GetPosition(); }
 SceneObject3D* PhysicsObject3DBase::GetSceneObject() { return sceneObject3D; }

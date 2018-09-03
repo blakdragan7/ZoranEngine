@@ -3,11 +3,11 @@
 #include "Math/Vector2.h"
 #include "Rendering/RenderTypes.h"
 
-class TextureBase;
+class TexturedSpriteComponent;
 class ZoranEngine_EXPORT TexturedSprite : public SceneObject2D
 {
-private:
-	TextureBase* texture;
+protected:
+	TexturedSpriteComponent * spriteComponent;
 
 public:
 	TexturedSprite(std::string name);
@@ -15,6 +15,5 @@ public:
 	virtual ~TexturedSprite();
 
 	void SetTexture(const char* path,RenderDataType type,RenderDataFormat format);
-	inline TextureBase* GetTexture() { return texture; }
 };
 

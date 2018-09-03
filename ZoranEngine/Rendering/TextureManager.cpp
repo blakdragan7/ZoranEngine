@@ -3,6 +3,8 @@
 #include "Core/ZoranEngine.h"
 #include "RenderEngineBase.h"
 
+#include <Rendering/TextureBase.h>
+
 TextureManager* TextureManager::instance = 0;
 
 TextureManager::TextureManager()
@@ -11,6 +13,23 @@ TextureManager::TextureManager()
 
 TextureManager::~TextureManager()
 {
+	for (auto& iter : textureMap)
+	{
+		delete iter.second;
+	}
+
+	textureMap.clear();
+}
+
+void TextureManager::DestroyTexture(TextureBase * texture)
+{
+	auto& iter = textureMap.find(texture->path);
+
+	if (iter != textureMap.end())
+	{
+		textureMap.erase(iter);
+		delete iter->second;
+	}
 }
 
 TextureBase * TextureManager::TextureForFilePath(const char* texture_path, RenderDataType type, RenderDataFormat format)
@@ -23,7 +42,7 @@ TextureBase * TextureManager::TextureForFilePath(const char* texture_path, Rende
 	else
 	{
 		TextureBase* texture = rEngine->CreateTexture(texture_path,type,format);
-
+		texture->path = texture_path;
 		std::pair<const char*, TextureBase*> entry(texture_path, texture);
 		textureMap.insert(entry);
 

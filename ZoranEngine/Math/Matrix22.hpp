@@ -6,22 +6,54 @@
 class ZoranEngine_EXPORT Matrix22
 {
 public:
-		Vector2D cols[2];
+	Vector2D cols[2];
 
 public:
 	Matrix22() {}
 	~Matrix22() {}
+
+	static Matrix22 ScaleMatrix(const Vector2D& scale)
+	{
+		Matrix22 mat;
+
+		mat.cols[0].x = scale.x;
+		mat.cols[0].y = 0;
+		mat.cols[1].x = 0;
+		mat.cols[1].y = scale.y;
+
+		return mat;
+	}
+
+	static Matrix22 RotationMatrix(const float& rotation)
+	{
+		Matrix22 mat;
+
+		float c = cosf(rotation);
+		float s = sinf(rotation);
+
+		mat.cols[0].x = c;
+		mat.cols[0].y = -s;
+		mat.cols[1].x = s;
+		mat.cols[1].y = c;
+
+		return mat;
+	}
+
+	Matrix22()
+	{
+	}
+
 	Matrix22(float rotation)
 	{
 		float c = cosf(rotation);
 		float s = sinf(rotation);
 
-		cols[0].x = c; 
+		cols[0].x = c;
 		cols[0].y = -s;
-		cols[1].x = s; 
+		cols[1].x = s;
 		cols[1].y = c;
-
 	}
+
 	Matrix22(float a, float b, float c, float d)
 	{
 		cols[0].x = a;
@@ -30,7 +62,7 @@ public:
 		cols[1].y = d;
 	}
 
-	Matrix22(Vector2D col1, Vector2D col2)
+	Matrix22(const Vector2D& col1, const Vector2D& col2)
 	{
 		cols[0] = col1;
 		cols[1] = col2;
@@ -44,21 +76,23 @@ public:
 		cols[1].y = d;
 	}
 
-	void Set(Vector2D col1, Vector2D col2)
+	void Set(const Vector2D& col1, const Vector2D& col2)
 	{
 		cols[0] = col1;
 		cols[1] = col2;
 	}
 
-	void SetRotation(float rotation)
+	void Rotate(float rotate)
 	{
-		float c = cosf(rotation);
-		float s = sinf(rotation);
+		Matrix22 rotation = RotationMatrix(rotate);
 
-		cols[0].x = c;
-		cols[0].y = s;
-		cols[1].x = -s;
-		cols[1].y = c;
+		*this = rotation * *this;
+	}
+
+	void Scale(const Vector2D& scale)
+	{
+		cols[0].x *= scale.x;
+		cols[1].y *= scale.y;
 	}
 
 	Matrix22 GetTranspose()const

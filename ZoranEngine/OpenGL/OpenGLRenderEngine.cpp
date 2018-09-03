@@ -12,6 +12,8 @@
 #include <GL\glew.h>
 
 #include <Core/Components/VisibleComponentBase.h>
+#include <Core/Components/ComponentBase.h>
+#include <Core/SceneObject.h>
 
 #include <Rendering/ShaderProgramBase.h>
 
@@ -153,6 +155,18 @@ void OpenGLRenderEngine::DrawAll()
 void OpenGLRenderEngine::Resize(int x, int y)
 {
 	glViewport(0, 0, x, y);
+}
+
+void OpenGLRenderEngine::AddComponentsFromSceneObject(SceneObject * object)
+{
+	const ComponentBase* root = object->GetRootComponent();
+	if(root)root->AddSubComponentsToRender(this);
+}
+
+void OpenGLRenderEngine::RemoveComponentsForSceneObject(SceneObject * object)
+{
+	const ComponentBase* root = object->GetRootComponent();
+	if (root)root->RemoveSubComponentsFromRender(this);
 }
 
 void OpenGLRenderEngine::AddComponent(VisibleComponentBase* component)

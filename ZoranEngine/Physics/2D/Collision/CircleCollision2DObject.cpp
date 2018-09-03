@@ -1,32 +1,25 @@
 #include "stdafx.h"
 #include "CircleCollision2DObject.h"
-#include <Core/2D/SceneObject2D.h>
-#include <Core/2D/DebugSceneObject2D.h>
 #include <Physics/2D/PhysicsObject2DBase.h>
 #include <Physics/2D/Collision/b2DCollision2DObject.h>
 #include <Physics/2D/Collision/AABBSquareCollisionObject.h>
 #include <Rendering/RenderedObjectBase.h>
 #include <Math/MathLib.h>
 
-CircleCollision2DObject::CircleCollision2DObject(float radius, SceneObject2D* sceneObject, CollisionDynamics cd) : CollisionObject2DBase(sceneObject,cd,CIRCLE_COLLISION)
+#include <Core/2D/Components/RigidBody2DComponent.h>
+
+CircleCollision2DObject::CircleCollision2DObject(float radius, Component2DBase* component, CollisionDynamics cd) : CollisionObject2DBase(component,cd,CIRCLE_COLLISION)
 {
 	this->radius = radius;
-	db = new DebugSceneObject2D("Circle Collision Check Point");
-	db->GetRenderedObject()->MakeFullScreenQuad();
-	db->SetColor(Vec3D(0.0,0.0,1.0));
-	db->SetScale(5.0,5.0);
-
-	zEngine->AddSceneObject(db);
 }
 
 CircleCollision2DObject::~CircleCollision2DObject()
 {
-	db->Destroy();
 }
 
 void CircleCollision2DObject::SetBoundsBySceneObject()
 {
-	Vec2D size = GetSceneObject()->GetScale();
+	Vec2D size = GetAffectedComponent()->GetScale();
   	scaledRadius = radius * max(size.x, size.y);
 }
 
@@ -61,11 +54,11 @@ Collision2D* CircleCollision2DObject::CollidesWith(CollisionObject2DBase * other
 			collision->collided = true;
 			collision->collidedObjects[0] = GetPhysicsObject();
 			collision->collidedObjects[1] = other->GetPhysicsObject();
-			collision->objects[0] = GetSceneObject();
-			collision->objects[1] = other->GetSceneObject();
+			collision->objects[0] = GetAffectedComponent();
+			collision->objects[1] = other->GetAffectedComponent();
 			collision->objectBounds[0] = this;
 			collision->objectBounds[1] = other;
-			collision->friction = sqrt(GetSceneObject()->GetPhysics()->GetFriction() * other->GetSceneObject()->GetPhysics()->GetFriction());
+			collision->friction = sqrt(GetAffectedComponent()->GetFriction() * other->GetAffectedComponent()->GetFriction());
 
 
 			CollisionPoint cp;
@@ -118,8 +111,8 @@ Collision2D* CircleCollision2DObject::CollidesWith(CollisionObject2DBase * other
 
 		Vec2D size = other->GetSize();
 
-		float cs = cosf(other->GetSceneObject()->GetRotation());
-		float sn = sinf(other->GetSceneObject()->GetRotation());
+		float cs = cosf(other->GetAffectedComponent()->GetRotation());
+		float sn = sinf(other->GetAffectedComponent()->GetRotation());
 
 		float rotatedx = distance.x * cs + distance.y * sn;
 		float rotatedy = -distance.x * sn + distance.y * cs;
@@ -137,8 +130,6 @@ Collision2D* CircleCollision2DObject::CollidesWith(CollisionObject2DBase * other
 
 		float magSQR = (unrotatedVector - GetScenePos()).magnitudeSqr();
 
-		db->SetPosition(unrotatedVector);
-
 		if (magSQR <= (scaledRadius * scaledRadius))
 		{
 			Collision2D* collision = new Collision2D();
@@ -146,11 +137,11 @@ Collision2D* CircleCollision2DObject::CollidesWith(CollisionObject2DBase * other
 			collision->collided = true;
 			collision->collidedObjects[0] = GetPhysicsObject();
 			collision->collidedObjects[1] = other->GetPhysicsObject();
-			collision->objects[0] = GetSceneObject();
-			collision->objects[1] = other->GetSceneObject();
+			collision->objects[0] = GetAffectedComponent();
+			collision->objects[1] = other->GetAffectedComponent();
 			collision->objectBounds[0] = this;
 			collision->objectBounds[1] = other;
-			collision->friction = sqrt(GetSceneObject()->GetPhysics()->GetFriction() * other->GetSceneObject()->GetPhysics()->GetFriction());
+			collision->friction = sqrt(GetAffectedComponent()->GetFriction() * other->GetAffectedComponent()->GetFriction());
 
 			float mag = sqrtf(magSQR);
 
@@ -178,11 +169,11 @@ Collision2D* CircleCollision2DObject::CollidesWith(CollisionObject2DBase * other
 			collision->collided = true;
 			collision->collidedObjects[0] = GetPhysicsObject();
 			collision->collidedObjects[1] = other->GetPhysicsObject();
-			collision->objects[0] = GetSceneObject();
-			collision->objects[1] = other->GetSceneObject();
+			collision->objects[0] = GetAffectedComponent();
+			collision->objects[1] = other->GetAffectedComponent();
 			collision->objectBounds[0] = this;
 			collision->objectBounds[1] = other;
-			collision->friction = sqrt(GetSceneObject()->GetPhysics()->GetFriction() * other->GetSceneObject()->GetPhysics()->GetFriction());
+			collision->friction = sqrt(GetAffectedComponent()->GetFriction() * other->GetAffectedComponent()->GetFriction());
 
 			CollisionPoint cp;
 			float mag = sqrtf(distanceSqr);

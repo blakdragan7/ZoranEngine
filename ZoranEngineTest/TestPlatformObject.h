@@ -3,9 +3,11 @@
 
 class TestPlatformObject : public TexturedSprite
 {
+private:
+	OSquareCollisionComponent * collision;
+	RigidBody2DComponent* rigid;
+
 public:
 	TestPlatformObject(std::string name);
 	~TestPlatformObject();
-
-	virtual void PreRender()override;
 };

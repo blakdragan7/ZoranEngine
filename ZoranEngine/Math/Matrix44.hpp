@@ -4,6 +4,7 @@
 #include <vector>
 #include <assert.h>
 #include "Vector3.h"
+#include "Vector2.h"
 
 #define M_PI 3.14159265359f
 
@@ -26,7 +27,8 @@ public:
 		memcpy(&mat.c_array[0], c_array, sizeof(float)*mat.array_size);
 		return mat;
 	}
-	static Matrix44 GLOrthoMatrix(float xmin, float ymin, float xmax, float ymax, float znear, float zfar)
+
+	static Matrix44 OrthoMatrix(float xmin, float ymin, float xmax, float ymax, float znear, float zfar)
 	{
 		Matrix44 orthoMatrix;
 
@@ -37,7 +39,8 @@ public:
 
 		return orthoMatrix;
 	}
-	static Matrix44 GLProjectionMatrix(float fov, float ratio, float nearP, float farP)
+
+	static Matrix44 ProjectionMatrix(float fov, float ratio, float nearP, float farP)
 	{
 		Matrix44 projMatrix;
 
@@ -52,7 +55,8 @@ public:
 
 		return projMatrix;
 	}
-	static Matrix44 GLCameraMatrix(Vector3D pos, Vector3D lookAt, Vector3D up)
+
+	static Matrix44 CameraMatrix(const Vector3D& pos, const Vector3D& lookAt, const Vector3D& up)
 	{
 		Vector3D dir, right;
 
@@ -65,8 +69,8 @@ public:
 		right = dir.cross(up);
 		right.normalize();
 
-		up = right.cross(dir);
-		up.normalize();
+		Vector3D right_up = right.cross(dir);
+		right.normalize();
 
 		Matrix44 viewMatrix;
 
@@ -75,9 +79,9 @@ public:
 		viewMatrix[8] = right.z;
 		viewMatrix[12] = 0.0f;
 
-		viewMatrix[1] = up.x;
-		viewMatrix[5] = up.y;
-		viewMatrix[9] = up.z;
+		viewMatrix[1] = right_up.x;
+		viewMatrix[5] = right_up.y;
+		viewMatrix[9] = right_up.z;
 		viewMatrix[13] = 0.0f;
 
 		viewMatrix[2] = -dir.x;
@@ -94,7 +98,8 @@ public:
 
 		return viewMatrix;
 	}
-	static Matrix44 GLRotationMatrix(float angle, Vector3D vectors)
+
+	static Matrix44 RotationMatrix(float angle, const Vector3D& vectors)
 	{
 		Matrix44 mat;
 		if (vectors.x != 0.0)
@@ -139,10 +144,41 @@ public:
 		return mat;
 	}
 
+	static Matrix44 TranslationMatrix(const Vector3D& translation)
+	{
+		Matrix44 mat;
+
+		mat(0, 3) = translation.x;
+		mat(1, 3) = translation.y;
+		mat(2, 3) = translation.z;
+
+		return mat;
+	}
+
+	static Matrix44 ScaleMatrix(const Vector3D& scale)
+	{
+		Matrix44 mat;
+
+		mat(0, 0) = scale.x;
+		mat(1, 1) = scale.y;
+		mat(2, 2) = scale.z;
+
+		return mat;
+	}
+
+	static Matrix44 ScaleMatrix(const Vector2D& scale)
+	{
+		Matrix44 mat;
+
+		mat(0, 0) = scale.x;
+		mat(1, 1) = scale.y;
+		mat(2, 2) = 1;
+
+		return mat;
+	}
+
 	Matrix44(bool makeIdentity = true)
 	{
-		// find better way to allocate this
-		//c_array = new float[array_size];
 		if(makeIdentity)this->makeIdentity();
 	}
 
@@ -162,40 +198,35 @@ public:
 		return Vector3D(this->operator()(0, 3), this->operator()(1, 3), this->operator()(2, 3));
 	}
 
-	Matrix44 translate(Vector3D trans)
+	void translate(const Vector3D& trans)
 	{
 		operator()(0, 3) += trans.x;
 		operator()(1, 3) += trans.y;
 		operator()(2, 3) += trans.z;
-
-		return *this;
 	}
 
-	Matrix44 scale(Vector3D scale)
+	void scale(const Vector3D& scale)
 	{
 		operator()(0, 0) *= scale.x;
 		operator()(1, 1) *= scale.y;
 		operator()(2, 2) *= scale.z;
-
-		return *this;
-
 	}
 
-	void rotate(Vec3D angles)
+	void rotate(const Vector3D& angles)
 	{
 		if (angles.x != 0.0)
 		{
-			Matrix44 mat = Matrix44::GLRotationMatrix(angles.x, Vector3D(1.0, 0.0, 0.0));
+			Matrix44 mat = Matrix44::RotationMatrix(angles.x, Vector3D(1.0, 0.0, 0.0));
 			*this *= mat;
 		}
 		if (angles.y != 0.0)
 		{
-			Matrix44 mat = Matrix44::GLRotationMatrix(angles.y, Vector3D(0.0, 1.0, 0.0));
+			Matrix44 mat = Matrix44::RotationMatrix(angles.y, Vector3D(0.0, 1.0, 0.0));
 			*this *= mat;
 		}
 		if (angles.z != 0.0)
 		{
-			Matrix44 mat = Matrix44::GLRotationMatrix(angles.z, Vector3D(0.0, 0.0, 1.0));
+			Matrix44 mat = Matrix44::RotationMatrix(angles.z, Vector3D(0.0, 0.0, 1.0));
 			*this *= mat;
 		}
 		
@@ -210,7 +241,7 @@ public:
 		c_array[15] = 1;
 	}
 
-	Matrix44 transpose()
+	Matrix44 transpose()const
 	{
 		Matrix44 ret;
 		for (int i = 0; i<rows; i++)
@@ -223,7 +254,7 @@ public:
 		return ret;
 	}
 
-	Matrix44 inverse()
+	Matrix44 inverse()const
 	{
 		return transpose();
 	}
@@ -284,6 +315,47 @@ public:
 		return res;
 	}
 
+	Vector3D operator *(const Vector3D &other)const
+	{
+		float res[4];
+
+		const Matrix44 &local = *this;
+
+		constexpr static const float w = 1;
+
+		res[0] = other.x*local[0] + other.y * local[1] + other.z * local[2] + w * local[3];
+		res[1] = other.x*local[4] + other.y * local[5] + other.z * local[6] + w * local[7];
+		res[2] = other.x*local[8] + other.y * local[9] + other.z * local[10] + w * local[11];
+		res[3] = other.x*local[12] + other.y * local[13] + other.z * local[14] + w * local[0];
+
+		res[0] /= res[3];
+		res[1] /= res[3];
+		res[2] /= res[3];
+
+		return Vector3D(res[0], res[1], res[2]);
+	}
+
+	Vector2D operator *(const Vector2D &other)const
+	{
+		float res[4];
+
+		const Matrix44 &local = *this;
+
+		constexpr static const float z = 1;
+		constexpr static const float w = 1;
+
+		res[0] = other.x*local[0] + other.y * local[1] + z * local[2] + w * local[3];
+		res[1] = other.x*local[4] + other.y * local[5] + z * local[6] + w * local[7];
+		res[2] = other.x*local[8] + other.y * local[9] + z * local[10] + w * local[11];
+		res[3] = other.x*local[12] + other.y * local[13] + z * local[14] + w * local[0];
+
+		res[0] /= res[3];
+		res[1] /= res[3];
+		res[2] /= res[3];
+
+		return Vector2D(res[0], res[1]);
+	}
+
 	void operator *=(const Matrix44 &other)
 	{
 		float new_Array[16];
@@ -310,6 +382,7 @@ public:
 		assert(index < array_size && "Index Greater Then Possible Matrix 4x4 Value !!");
 		return c_array[index];
 	}
+
 	float& operator[](int index)
 	{
 		assert(index < array_size && "Index Greater Then Possible Matrix 4x4 Value !!");

@@ -5,119 +5,90 @@
 #include <Physics/2D/PhysicsObject2DBase.h>
 #include <Physics/2D/Collision/CollisionObject2DBase.h>
 
-#define PI 3.141592653589793
-SceneObject2D::SceneObject2D(std::string name) : SceneObject(name)
-{
-	scale = Vector2D(1.0, 1.0);
-	rotation = 0;
+#include <Core/2D/Components/Component2DBase.h>
 
-	rotationMat.SetRotation(0);
-	invRotationMat.SetRotation(0);
+#define PI 3.141592653589793
+
+SceneObject2D::SceneObject2D(std::string name) : root2DComponent(0), SceneObject(root2DComponent, name)
+{
 }
 
+SceneObject2D::SceneObject2D(Component2DBase* root2DComponent, std::string name) : root2DComponent(root2DComponent), SceneObject(root2DComponent,name)
+{
+}
 
 SceneObject2D::~SceneObject2D()
 {
 }
 
-void SceneObject2D::SetPosition(Vector2D pos)
+void SceneObject2D::SetPosition(const Vector2D& pos)
 {
-	this->pos = pos;
+	root2DComponent->SetOffset(pos);
 }
 
-void SceneObject2D::SetScale(Vector2D scale)
+void SceneObject2D::SetScale(const Vector2D& scale)
 {
-	this->scale = scale;
-	this->size = (startingSize * scale).getAbs();
+	root2DComponent->SetScale(scale);
 }
 
 void SceneObject2D::SetPosition(float x, float y)
 {
-	this->pos.x = x;
-	this->pos.y = y;
+	root2DComponent->SetOffset(x,y);
 }
 
 void SceneObject2D::SetScale(float x, float y)
 {
-	this->scale.x = x;
-	this->scale.y = y;
-	this->size = (startingSize * scale).getAbs();
+	root2DComponent->SetScale(x, y);
 }
 
 void SceneObject2D::SetRotation(float rotation)
 {
-	this->rotation = rotation;
-	rotationMat.SetRotation(rotation);
-	invRotationMat = rotationMat.GetInversion();
+	root2DComponent->SetRotatation(rotation);
 }
 
-void SceneObject2D::Translate(Vector2D delta)
+void SceneObject2D::Translate(const Vector2D& delta)
 {
-	this->pos += delta;
+	root2DComponent->Translate(delta);
 }
 
 void SceneObject2D::Translate(float x, float y)
 {
-	this->pos.x += x;
-	this->pos.y += y;
+	root2DComponent->Translate(x, y);
 }
 
-void SceneObject2D::Scale(Vector2D scale)
+void SceneObject2D::Scale(const Vector2D& scale)
 {
-	this->scale *= scale;
-	this->size = (startingSize * scale).getAbs();
+	root2DComponent->Scale(scale);
 }
 
 void SceneObject2D::Scale(float dx, float dy)
 {
-	this->scale.x *= dx;
-	this->scale.y *= dy;
-	this->size = (startingSize * scale).getAbs();
+	root2DComponent->Scale(dx, dy);
 }
 
 void SceneObject2D::Rotate(float rotation)
 {
-	this->rotation += rotation;
-	rotationMat.SetRotation(rotation);
-	invRotationMat = rotationMat.GetInversion();
+	root2DComponent->Rotate(rotation);
 }
 
-float SceneObject2D::GetRotationRad()const
+float SceneObject2D::GetRotationDegree()const
 {
-	return rotation;
+	return (root2DComponent->GetRotation() * 180.0f) / 3.14159265359f;
 }
 
 float SceneObject2D::GetRotation()const
 {
-	return rotation;
-}
-
-Matrix22 SceneObject2D::GetRotationMatrix()const
-{
-	return rotationMat;
-}
-
-Matrix22 SceneObject2D::GetInvRotationMatrix()const
-{
-	return invRotationMat;
+	return root2DComponent->GetRotation();
 }
 
 void SceneObject2D::PreCaclModel()
 {
-	model.makeIdentity();
-
-	Matrix44 rotMatrix = Matrix44::GLRotationMatrix(rotation, Vector3D(0, 0, 1));
-	model.translate(pos);
-	model.scale(scale);
-
-	ModelMatrixCache = model *rotMatrix;
+	ModelMatrixCache = root2DComponent->GetWorldMatrix();
 }
 
 Matrix44 SceneObject2D::GetScaleMatrix4x4()
 {
-	Matrix44 mat;
-	mat.scale(scale);
-	return mat;
+	return Matrix44::ScaleMatrix(root2DComponent->GetScale());
 }
 
 void SceneObject2D::Destroy()

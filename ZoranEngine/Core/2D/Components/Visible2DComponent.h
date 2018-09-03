@@ -9,6 +9,6 @@ public:
 	Visible2DComponent();
 	~Visible2DComponent();
 
-	// mutators
+	virtual void PreRender()override;
 };
 

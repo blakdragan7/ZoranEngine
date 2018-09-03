@@ -15,6 +15,12 @@ Vector2D::Vector2D(const Vector2I & other)
 	this->y = static_cast<float>(other.y);
 }
 
+Vector2D::Vector2D(const Vector3D & other)
+{
+	x = other.x;
+	y = other.y;
+}
+
 Vector2D::~Vector2D(void) {}
 
 void Vector2D::Set(float x, float y)

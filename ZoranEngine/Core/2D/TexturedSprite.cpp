@@ -2,6 +2,7 @@
 #include "TexturedSprite.h"
 
 #include <Core/ZoranEngine.h>
+#include <Core/2D/Components/TexturedSpriteComponent.h>
 #include <Physics/PhysicsEngine.h>
 #include <Rendering/TextureBase.h>
 #include <Rendering/TextureManager.h>
@@ -14,30 +15,28 @@
 
 TexturedSprite::TexturedSprite(std::string name) : SceneObject2D(name)
 {
-	/*texture = 0;
-	physicsObject = new PhysicsObject2DBase(this);
-	
-	startingSize = Vec2D(2,2);
-	SetScale(1,1);
+	spriteComponent = new TexturedSpriteComponent();
+	spriteComponent->SetStartingSize(2, 2);
+	spriteComponent->SetScale(1, 1);
 
-	renderedObject->MakeFullScreenQuad();*/
+	rootComponent = spriteComponent;
 }
 
 TexturedSprite::TexturedSprite(std::string name, const char* texture, RenderDataType type, RenderDataFormat format) : SceneObject2D(name)
 {
-	/*startingSize = Vec2D(2, 2);
-	SetScale(1,1);
-	physicsObject = new PhysicsObject2DBase(this);
-	this->texture = TextureManager::GetInstance()->TextureForFilePath(texture, type, format);*/
-	
+	spriteComponent = new TexturedSpriteComponent(texture, type, format);
+	spriteComponent->SetStartingSize(2, 2);
+	spriteComponent->SetScale(1, 1);
+
+	rootComponent = spriteComponent;
 }
 
 TexturedSprite::~TexturedSprite()
 {
-	//if (texture)delete texture;
+	if (rootComponent)delete rootComponent;
 }
 
 void TexturedSprite::SetTexture(const char* path, RenderDataType type, RenderDataFormat format)
 {
-	//texture = TextureManager::GetInstance()->TextureForFilePath(path, type, format);
+	((TexturedSpriteComponent*)rootComponent)->SetTexture(path, type, format);
 }

@@ -15,7 +15,7 @@ private:
 	bool QuadTreeCollision::CollidesWith(Vector3D pos);
 
 public:
-	QuadTreeCollision(Vector2D min, Vector2D max, SceneObject2D* object);
+	QuadTreeCollision(Vector2D min, Vector2D max, Component2DBase* component);
 	~QuadTreeCollision();
 
 	void SetBoundsBySceneObject()override;

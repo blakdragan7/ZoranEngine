@@ -1,10 +1,11 @@
 #pragma once
 #include "Math/Vector3.h"
 
+class ComponentBase;
 class ZoranEngine_EXPORT PhysicsObjectBase
 {
 private:
-	SceneObject* sceneObject;
+	ComponentBase * affectedComponent;
 
 protected:
 	float currentDeltaTime;
@@ -30,7 +31,7 @@ private:
 	void RegisterPhysicsObject();
 
 public:
-	PhysicsObjectBase(SceneObject* object);
+	PhysicsObjectBase(ComponentBase * affectedComponent);
 	virtual ~PhysicsObjectBase();
 
 	void StartPhysicsSim();
@@ -55,7 +56,7 @@ public:
 	inline bool GetShouldSimulate() { return shouldSimulate; }
 	inline bool GetIsSweptCollision() { return useSweptCollision; }
 
-	SceneObject* GetSceneObject();
+	inline ComponentBase* GetSceneObject() { return affectedComponent; }
 
 	virtual void UpdateVelocities(float deltaTime) = 0;
 	virtual void UpdatePositionsAndRotation(float deltaTime) = 0;

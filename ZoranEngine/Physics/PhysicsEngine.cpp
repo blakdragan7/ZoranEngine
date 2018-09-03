@@ -11,6 +11,8 @@
 #include <Physics/3D/Collision/CollisionBucket3DBase.h>
 #include <Physics/2D/Collision/QuadTreeCollisionBucket.h>
 
+#include <Core/Components/ComponentBase.h>
+
 #include <vector>
 #include <Utils/VectorAddons.hpp>
 
@@ -164,6 +166,26 @@ void PhysicsEngine::UpdateAll(float deltaTime)
 	}
 	DEBUG_TRACK_TAKE_BENCH("PhysicsEngine", "UpdateAllObjects");
 	DEBUG_TRACK_TAKE_BENCH("PhysicsEngine")
+}
+
+void PhysicsEngine::AddComponentedFromSceneObject(SceneObject * object)
+{
+	const ComponentBase* root = object->GetRootComponent();
+	if (root)
+	{
+		root->AddComponentsToPhysics(this);
+		root->AddComponentsToCollision(this);
+	}
+}
+
+void PhysicsEngine::RemoveComponentedFromSceneObject(SceneObject * object)
+{
+	const ComponentBase* root = object->GetRootComponent();
+	if (root)
+	{
+		root->RemoveComponentsFromPhysics(this);
+		root->RemoveComponentsFromCollision(this);
+	}
 }
 
 void PhysicsEngine::AddPhysicsObject(PhysicsObjectBase * object)
