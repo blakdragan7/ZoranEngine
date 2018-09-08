@@ -1,9 +1,14 @@
 #pragma once
 #include <Core/2D/TexturedSprite.h>
 class TextureBase;
+class RigidBody2DComponent;
+class OSquareCollisionComponent;
+
 class TestSceneObject : public TexturedSprite
 {
 	SceneObject2D* target;
+	RigidBody2DComponent* rigid;
+	OSquareCollisionComponent* collision;
 
 public:
 	TestSceneObject(std::string name);
@@ -15,5 +20,8 @@ public:
 	{
 		this->target = target;
 	}
+
+	RigidBody2DComponent* GetPhysics() { return rigid; }
+
 };
 

@@ -1,10 +1,11 @@
 #include "stdafx.h"
 #include "Camera2D.h"
 #include <Core/2D/SceneObject2D.h>
+#include <Core/2D/Named2DSceneObject.h>
 
 Camera2D::Camera2D(std::string name, Vec2D position, Vec2D scale, float rotation)
 {
-	sceneObject = new SceneObject2D(name);
+	sceneObject = new Named2DSceneObject(name);
 	sceneObject->SetPosition(position);
 	sceneObject->SetScale(scale);
 	sceneObject->SetRotation(rotation);

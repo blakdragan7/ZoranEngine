@@ -3,7 +3,7 @@
 #include <Rendering/RenderTypes.h>
 
 class TextureBase;
-class TexturedSpriteComponent : public Visible2DComponent
+class ZoranEngine_EXPORT TexturedSpriteComponent : public Visible2DComponent
 {
 private:
 	TextureBase * texture;

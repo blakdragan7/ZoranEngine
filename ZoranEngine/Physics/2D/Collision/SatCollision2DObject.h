@@ -41,7 +41,7 @@ private:
 	int FindCollisionPoints(CollisionPoint CollisionPointA[2], const Vector2D& CollisionNormal, const Vector2D otherVertecies[4]);
 
 public:
-	SatCollision2DObject(SceneObject2D *object);
+	SatCollision2DObject(Component2DBase *object);
 	~SatCollision2DObject();
 
 	void SetAsTriangle(const Vector2D points[3], const Vector2D size);

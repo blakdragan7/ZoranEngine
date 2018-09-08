@@ -12,7 +12,7 @@ private:
 	float scaledRadius;
 
 public:
-	SphereCollisionObject(float radius, SceneObject3D* object, CollisionDynamics dynamics,unsigned collisionType = SPHERE_COLLISION);
+	SphereCollisionObject(float radius, Component3DBase* object, CollisionDynamics dynamics,unsigned collisionType = SPHERE_COLLISION);
 	~SphereCollisionObject();
 
 	virtual void SetBoundsBySceneObject()override;

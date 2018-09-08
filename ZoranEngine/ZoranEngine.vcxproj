@@ -38,6 +38,7 @@
     <ClCompile Include="Core\2D\Components\TexturedSpriteComponent.cpp" />
     <ClCompile Include="Core\2D\Components\Visible2DComponent.cpp" />
     <ClCompile Include="Core\2D\DebugSceneObject2D.cpp" />
+    <ClCompile Include="Core\2D\Named2DSceneObject.cpp" />
     <ClCompile Include="Core\2D\OrthoCamera.cpp" />
     <ClCompile Include="Core\2D\SceneObject2D.cpp" />
     <ClCompile Include="Core\2D\TexturedSprite.cpp" />
@@ -144,6 +145,7 @@
     <ClInclude Include="Core\2D\Components\TexturedSpriteComponent.h" />
     <ClInclude Include="Core\2D\Components\Visible2DComponent.h" />
     <ClInclude Include="Core\2D\DebugSceneObject2D.h" />
+    <ClInclude Include="Core\2D\Named2DSceneObject.h" />
     <ClInclude Include="Core\2D\OrthoCamera.h" />
     <ClInclude Include="Core\2D\SceneObject2D.h" />
     <ClInclude Include="Core\2D\TexturedSprite.h" />

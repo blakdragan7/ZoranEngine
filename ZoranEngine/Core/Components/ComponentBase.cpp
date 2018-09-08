@@ -7,6 +7,8 @@
 #include <assert.h>
 #include <Utils/VectorAddons.hpp>
 
+#include <Core/SceneObject.h>
+
 #include <Rendering/RenderEngineBase.h>
 
 #include <Physics/PhysicsEngine.h>
@@ -19,13 +21,18 @@ const Matrix44 ComponentBase::GetWorldTraverseUp(const Matrix44 & local)const
 	else return world;
 }
 
-ComponentBase::ComponentBase(ComponentType componentType) : componentType(componentType), parent(0), isDirty(false)
+ComponentBase::ComponentBase() : parent(0), isDirty(false)
 {
 	subComponents = new std::vector<ComponentBase*>();
 }
 
 ComponentBase::~ComponentBase()
 {
+	for (ComponentBase* component : *subComponents)
+	{
+		delete component;
+	}
+
 	delete subComponents;
 }
 
@@ -34,6 +41,7 @@ void ComponentBase::AddSubComponent(ComponentBase * component)
 	assert(component != 0 && "Can not Add NULL Sub Component");
 
 	component->parent = this;
+	component->SetOwner(owner);
 	subComponents->push_back(component);
 }
 
@@ -42,6 +50,7 @@ void ComponentBase::RemoveSubComponent(ComponentBase * component)
 	assert(component != 0 && "Can not Remove NULL Sub Component");
 
 	remove(*subComponents,component);
+	component->SetOwner(0);
 }
 
 const std::vector<ComponentBase*>& ComponentBase::GetSubComponenets() const
@@ -53,7 +62,11 @@ ComponentBase * ComponentBase::GetSubComponenetAtIndex(unsigned index) const
 {
 	if(index < subComponents->size())
 		return (*subComponents)[index];
-	else return 0;
+	else
+	{
+		Log(LogLevel_Error,"Trying to Get sub component at  %i when size is %i",index,subComponents->size());
+		return 0;
+	}
 }
 
 const Matrix44 ComponentBase::GetWorldMatrix() const
@@ -63,78 +76,22 @@ const Matrix44 ComponentBase::GetWorldMatrix() const
 	else return localMatrix;
 }
 
-void ComponentBase::AddSubComponentsToRender(RenderEngineBase * engine)const
+const char* ComponentBase::GetSceneName()
 {
-	if (GetIsVisibleComponent())
+	if (owner != NULL)
 	{
-		engine->AddComponent(((VisibleComponentBase*)this));
+		return owner->readableName->c_str();
 	}
-	for (unsigned i = 0; i < subComponents->size(); i++)
-	{
-		(*subComponents)[i]->AddSubComponentsToRender(engine);
-	}
+
+	return 0;
 }
 
-void ComponentBase::RemoveSubComponentsFromRender(RenderEngineBase * engine)const
+std::string *ComponentBase::GetSceneNameStr()
 {
-	if (GetIsVisibleComponent())
+	if (owner != NULL)
 	{
-		engine->RemoveComponent(((VisibleComponentBase*)this));
+		return owner->readableName;
 	}
-	for (unsigned i = 0; i < subComponents->size(); i++)
-	{
-		(*subComponents)[i]->RemoveSubComponentsFromRender(engine);
-	}
-}
 
-void ComponentBase::AddComponentsToPhysics(PhysicsEngine* engine)const
-{
-	if (GetIsPhysicsComponent())
-	{
-		RigidBodyComponent* rigid = (RigidBodyComponent*)this;
-		engine->AddPhysicsObject(rigid->GetPhyicsObject());
-	}
-	for (unsigned i = 0; i < subComponents->size(); i++)
-	{
-		(*subComponents)[i]->AddComponentsToPhysics(engine);
-	}
-}
-
-void ComponentBase::RemoveComponentsFromPhysics(PhysicsEngine* engine)const
-{
-	if (GetIsPhysicsComponent())
-	{
-		RigidBodyComponent* rigid = (RigidBodyComponent*)this;
-		engine->RemoveObject(rigid->GetPhyicsObject());
-	}
-	for (unsigned i = 0; i < subComponents->size(); i++)
-	{
-		(*subComponents)[i]->RemoveComponentsFromPhysics(engine);
-	}
-}
-
-void ComponentBase::AddComponentsToCollision(PhysicsEngine* engine)const
-{
-	if (GetIsCollisionComponent())
-	{
-		CollisionComponentBase* collision = (CollisionComponentBase*)this;
-		engine->AddCollisionObject(collision->GetCollisionObject());
-	}
-	for (unsigned i = 0; i < subComponents->size(); i++)
-	{
-		(*subComponents)[i]->AddComponentsToCollision(engine);
-	}
-}
-
-void ComponentBase::RemoveComponentsFromCollision(PhysicsEngine* engine)const
-{
-	if (GetIsCollisionComponent())
-	{
-		CollisionComponentBase* collision = (CollisionComponentBase*)this;
-		engine->RemoveObject(collision->GetCollisionObject());
-	}
-	for (unsigned i = 0; i < subComponents->size(); i++)
-	{
-		(*subComponents)[i]->RemoveComponentsFromCollision(engine);
-	}
+	return 0;
 }

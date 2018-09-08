@@ -39,10 +39,6 @@ public:
 		return mat;
 	}
 
-	Matrix22()
-	{
-	}
-
 	Matrix22(float rotation)
 	{
 		float c = cosf(rotation);

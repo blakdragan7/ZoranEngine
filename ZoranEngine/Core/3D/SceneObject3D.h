@@ -3,7 +3,7 @@
 #include <Math/Vector3.h>
 #include <Math/Quaternion.h>
 
-class Component3DBase;
+#include <Core/3D/Components/Component3DBase.h>
 /*
 *  3D scene objects scene objects who's coordinates are represented with 3D vectors and a quatornian for rotation
 */
@@ -52,7 +52,7 @@ public:
 	inline Quaternion GetRotation()const { return root3DComponent->GetRotation(); }
 	inline const Vector3D& GetPosition()const { return root3DComponent->GetOffset(); };
 	inline const Vector3D& GetScale()const { return root3DComponent->GetScale(); };
-	inline const Vector3D& GetSize()const { return root3DComponent->GetSize(); }
+	inline const Vector3D GetSize()const { return root3DComponent->GetSize(); }
 
 	float DistanceTo(const Vector3D& pos);
 	float DistanceTo(SceneObject3D* other);

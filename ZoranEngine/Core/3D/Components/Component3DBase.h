@@ -14,7 +14,7 @@ private:
 	Quaternion rotation;
 	
 public:
-	Component3DBase(ComponentType componentType);
+	Component3DBase();
 	~Component3DBase();
 
 	// mutators
@@ -51,8 +51,10 @@ public:
 	inline const Vector3D& GetScale()const { return scale; }
 	inline const Vector3D& GetOffset()const { return offset; }
 	inline const Quaternion& GetRotation()const { return rotation; }
-	inline const Vector3D& GetSize()const { return startingSize * scale; }
+	inline const Vector3D GetSize()const { return startingSize * scale; }
 
+	void SetWorldLocation(const Vector3D& location);
+	const Vector3D GetWorldLocation();
 	virtual void CalculateLocalMatrix()override;
 };
 

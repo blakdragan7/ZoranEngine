@@ -41,9 +41,6 @@ public:
 
 	void UpdateAll(float deltaTime);
 
-	void AddComponentedFromSceneObject(SceneObject* object);
-	void RemoveComponentedFromSceneObject(SceneObject* object);
-
 	void AddPhysicsObject(PhysicsObjectBase* object);
 	void AddCollisionObject(CollisionObjectBase* object);
 	void UpdateCollisionObject(CollisionObjectBase*);

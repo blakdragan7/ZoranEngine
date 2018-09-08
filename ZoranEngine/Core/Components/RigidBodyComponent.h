@@ -1,14 +1,17 @@
 #pragma once
 class PhysicsObjectBase;
 class ComponentBase;
-class RigidBodyComponent
+class ZoranEngine_EXPORT RigidBodyComponent
 {
-protected:
+private:
 	PhysicsObjectBase * physicsObject;
 	
 public:
+	RigidBodyComponent();
 	RigidBodyComponent(PhysicsObjectBase* pObject);
 	virtual ~RigidBodyComponent();
+
+	void SetPhysicsObject(PhysicsObjectBase* object);
 
 	inline PhysicsObjectBase* GetPhyicsObject()const { return physicsObject; }
 

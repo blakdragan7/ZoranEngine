@@ -4,13 +4,13 @@
 #include "GL/glew.h"
 #include "Core/SceneObject.h"
 
-const ShaderInitMap StandardShader::initMap =
+const ShaderInitMap* StandardShader::initMap = (new ShaderInitMap(
 {
 	{ GL_VERTEX_SHADER, "Shaders/standard.vert" },
 	{ GL_FRAGMENT_SHADER, "Shaders/standard.frag" }
-};
+}));
 
-StandardShader::StandardShader(ShaderInitMap initMap) : OpenGLShaderProgramBase(initMap)
+StandardShader::StandardShader(const ShaderInitMap* initMap) : OpenGLShaderProgramBase(initMap)
 {
 }
 

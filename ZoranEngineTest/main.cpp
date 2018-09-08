@@ -6,7 +6,8 @@
 #include "TestCircleObject.h"
 #include <Rendering/RenderEngineBase.h>
 #include <Physics/2D/PhysicsObject2DBase.h>
-
+#include <Core/2D/Components/RigidBody2DComponent.h>
+#include <Core/2D/Named2DSceneObject.h>
 #include <Utils/Random.h>
 #include <Utils/HighPrecisionClock.h>
 #include <algorithm>
@@ -26,7 +27,7 @@ void TestDictionaryStuff();
 void TestAudio();
 
 static const unsigned TestNum = 1000;
-static const unsigned ToSpawn = 100;
+static const unsigned ToSpawn = 1000;
 static const float scale = 5.0f;
 int main(int argc, char* argv[])
 {
@@ -212,14 +213,13 @@ void TestSceneStuff()
 	std::string name_base = "TestSceneObject-";
 
 	Vec2D CollisionPoint(0,0);
-	for (int i = 0; i < ToSpawn / 1; i++)
+	for (int i = 0; i < ToSpawn / 2; i++)
 	{
 		TestSceneObject* test = new TestSceneObject((name_base + std::to_string(i)));
 		test->SetScale(scale, -scale);
 		test->SetPosition(Random::GetfloatInRange(-150, 150), Random::GetfloatInRange(-150, 150));
 		//test->SetPosition(i*5 + -150,0);
-		test->GetPhysics()->StartPhysicsSim();
-		test->GetPhysics2D()->SetSweptCollision(false);
+		test->GetPhysics()->StartSimulation();
 		test->SetRotation(1);
 		Vec2D pos = test->GetPosition();
 		pos = CollisionPoint - pos;
@@ -256,13 +256,14 @@ void TestSceneStuff()
 		sqr = test;
 	}*/
 
-	for (int i = 0; i < ToSpawn / 200000; i++)
+	/*for (int i = 0; i < ToSpawn / 2; i++)
 	{
 		TestCircleObject* test = new TestCircleObject(std::string("circle ") + std::to_string(i), 1.0);
 		test->SetScale(scale, -scale);
 		//test->SetPosition(i * 5 + -150, 100);
 		test->SetPosition(Random::GetfloatInRange(-150, 150), Random::GetfloatInRange(-150, 150));
-		test->GetPhysics()->StartPhysicsSim();
+		test->GetPhysics()->StartSimulation();
+
 		//test->SetTarget(sqr);
 		//sqr->SetTarget(test);
 		//test->GetPhysics2D()->SetGravity(gravity[1]);
@@ -273,10 +274,10 @@ void TestSceneStuff()
 		//test->GetPhysics2D()->SetGravity(pos * 200);
 
 		test->SetRotation(1.00);
-		test->GetPhysics2D()->SetAngularVeloctiy(10);
+		test->GetPhysics()->SetAngularVeloctiy(10);
 		test->PreCaclModel();
 		zEngine->AddSceneObject(test);
-	}
+	}*/
 
 	TestPlatformObject* platform = new TestPlatformObject("Ground");
 	platform->SetScale(500, -50);
@@ -302,7 +303,7 @@ void TestSceneStuff()
 	platform4->PreCaclModel();
 	zEngine->AddSceneObject(platform4);
 
-	TestAudio();
+	//TestAudio();
 
 	engine.SetPaused(true);
 	engine.MainLoop();
@@ -310,7 +311,7 @@ void TestSceneStuff()
 
 void TestAudio()
 {
-	SceneObject2D * audioObj = new SceneObject2D("audio tester");
+	Named2DSceneObject * audioObj = new Named2DSceneObject("audio tester");
 	AudioListener* listener = 0;
 	SoundInstance* instance = 0;
 

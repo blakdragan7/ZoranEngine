@@ -19,7 +19,10 @@ TexturedSprite::TexturedSprite(std::string name) : SceneObject2D(name)
 	spriteComponent->SetStartingSize(2, 2);
 	spriteComponent->SetScale(1, 1);
 
-	rootComponent = spriteComponent;
+	root2DComponent = spriteComponent;
+
+	SetRootComponent(root2DComponent);
+
 }
 
 TexturedSprite::TexturedSprite(std::string name, const char* texture, RenderDataType type, RenderDataFormat format) : SceneObject2D(name)
@@ -28,7 +31,8 @@ TexturedSprite::TexturedSprite(std::string name, const char* texture, RenderData
 	spriteComponent->SetStartingSize(2, 2);
 	spriteComponent->SetScale(1, 1);
 
-	rootComponent = spriteComponent;
+	root2DComponent = spriteComponent;
+	SetRootComponent(root2DComponent);
 }
 
 TexturedSprite::~TexturedSprite()

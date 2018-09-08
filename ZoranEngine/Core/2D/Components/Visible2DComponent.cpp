@@ -2,7 +2,7 @@
 #include "Visible2DComponent.h"
 
 
-Visible2DComponent::Visible2DComponent() : Component2DBase(CT_Visible)
+Visible2DComponent::Visible2DComponent()
 {
 }
 
@@ -18,4 +18,12 @@ void Visible2DComponent::PreRender()
 		CalculateLocalMatrix();
 		isDirty = false;
 	}
+}
+
+void Visible2DComponent::Render()
+{
+}
+
+void Visible2DComponent::PostRender()
+{
 }

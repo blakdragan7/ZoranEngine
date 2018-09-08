@@ -48,7 +48,8 @@ public:
 	virtual bool SweepCollidesWith(CollisionObject2DBase* other, Vector2D newPosition, SweepCollision2D & response) = 0;
 	virtual bool FastSweepCollidesWith(Vector2D newPosition) = 0;
 
-	const Vector2D& GetScenePos();
+	const Vector2D GetScenePos();
+
 	Component2DBase* CollisionObject2DBase::GetAffectedComponent() { return affectedComponent; }
 	PhysicsObject2DBase* CollisionObject2DBase::GetPhysicsObject() { return physicsObject2D; }
 };

@@ -18,6 +18,8 @@ TestPlatformObject::TestPlatformObject(std::string name) : TexturedSprite(name, 
 	rigid->SetMass(FLT_MAX); // Static object has infinite mass 
 
 	root2DComponent->AddSubComponent(rigid);
+
+	collision->SetPhysicsObjectFrom2DRigidBody(rigid);
 }
 
 TestPlatformObject::~TestPlatformObject()

@@ -298,7 +298,7 @@ AudioError OALAudioEngine::CreateAudioListener(const SceneObject3D * object, Aud
 		activeListener = listener;
 
 		Vec3D location = object->GetPosition();
-		Vec3D veloctiy = object->GetVelocity();
+		//Vec3D veloctiy = object->GetVelocity();
 		Quaternion orientation = object->GetRotation();
 
 		Vec3D up = orientation.GetUpVector();
@@ -307,7 +307,7 @@ AudioError OALAudioEngine::CreateAudioListener(const SceneObject3D * object, Aud
 		float alOr[6] = { up.x,up.y,up.z,forward.x,forward.y,forward.z };
 
 		alListener3f(AL_POSITION, location.x, location.y, location.z);
-		alListener3f(AL_VELOCITY, veloctiy.x, veloctiy.y, veloctiy.z);
+		//alListener3f(AL_VELOCITY, veloctiy.x, veloctiy.y, veloctiy.z);
 		alListenerfv(AL_ORIENTATION, alOr);
 	}
 
@@ -331,10 +331,10 @@ AudioError OALAudioEngine::CreateAudioListener(const SceneObject2D * object, Aud
 		activeListener = listener;
 
 		Vec2D location = object->GetPosition();
-		Vec2D veloctiy = object->GetVelocity();
+		//Vec2D veloctiy = object->GetVelocity();
 
 		alListener3f(AL_POSITION, location.x, location.y, 0);
-		alListener3f(AL_VELOCITY, veloctiy.x, veloctiy.y, 0);
+		//alListener3f(AL_VELOCITY, veloctiy.x, veloctiy.y, 0);
 	}
 
 	audioListeners.push_back(listener);

@@ -15,5 +15,6 @@ public:
 	virtual ~TexturedSprite();
 
 	void SetTexture(const char* path,RenderDataType type,RenderDataFormat format);
+
 };
 

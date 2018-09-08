@@ -3,8 +3,8 @@
 
 #include <Core/ZoranEngine.h>
 #include <Math/MathHelpers.h>
-#include <Core/3D/SceneObject3D.h>
 #include <Physics/PhysicsEngine.h>
+#include <Core/3D/Components/Component3DBase.h>
 #include <Physics/3D/Collision/AABBoxCollisionObject.h>
 #include <Physics/3D/Collision/CollisionBucket3DBase.h>
 #include <Physics/3D/Collision/CollisionObject3DBase.h>
@@ -15,12 +15,13 @@ const float EulerConstant = std::exp(1.0f);
 
 bool PhysicsObject3DBase::SweepCollisionTo(const Vector3D& position, SweepCollisionResponse3D & response)
 {
-	return pEngine->GetCollisionBucketRootFor3D()->SweepCollision(sceneObject3D->GetCollision3D(), position, response);
+	//return pEngine->GetCollisionBucketRootFor3D()->SweepCollision(sceneObject3D->GetCollision3D(), position, response);
+	return false;
 }
 
 bool PhysicsObject3DBase::FastSweepCollision(const Vector3D& position)
 {
-	Vec3D startingPosition = sceneObject3D->GetPosition();
+	/*Vec3D startingPosition = sceneObject3D->GetPosition();
 	Vec3D size = sceneObject3D->GetCollision3D()->GetSize() / 2.0;
 
 	float minPositionx = min(startingPosition.x, position.x);
@@ -42,16 +43,14 @@ bool PhysicsObject3DBase::FastSweepCollision(const Vector3D& position)
 	sweepCollisionBox->maxPos.z = maxPositionz + size.z;
 
 	CollisionResponse3D unused;
-	return pEngine->GetCollisionBucketRootFor3D()->CheckObjectAgainstStaic(sweepCollisionBox, unused);
+	return pEngine->GetCollisionBucketRootFor3D()->CheckObjectAgainstStaic(sweepCollisionBox, unused);*/
+
+	return false;
 }
 
-PhysicsObject3DBase::PhysicsObject3DBase(SceneObject3D * object) : PhysicsObjectBase(object)
+PhysicsObject3DBase::PhysicsObject3DBase(Component3DBase* component) : gravity(0,-980,0), gravityNormal(0,-1,0), PhysicsObjectBase(component)
 {
-	sceneObject3D = object;
-	gravity = Vec3D(0, -980, 0);
-	gravityNormal = Vec3D(0, -1, 0);
-
-	sweepCollisionBox = new AABBoxCollisionObject(Vec3D(), Vec3D(), object, CD_Static, AABBOX_COLLISION);
+	sweepCollisionBox = new AABBoxCollisionObject(Vec3D(), Vec3D(), component, CD_Static, AABBOX_COLLISION);
 }
 
 PhysicsObject3DBase::~PhysicsObject3DBase()
@@ -85,7 +84,7 @@ void PhysicsObject3DBase::OnCollision(CollisionResponse3D &response)
 
 			PhysicsObject3DBase* other = response.collidedObjects[1];
 
-			sceneObject3D->Translate(response.penetration);
+			affected3DComponent->Translate(response.penetration);
 
 			Vec3D Vel = velocity - other->velocity;
 			Vector3D F = (-response.normal * ((1.0f + restitution) * Vel.dot(response.normal))) / (mass + other->mass);
@@ -139,12 +138,12 @@ void PhysicsObject3DBase::Update(float deltaTime)
 
 		if (useSweptCollision)
 		{
-			Vec3D target = sceneObject3D->GetPosition() + (velocity*deltaTime);
+			Vec3D target = affected3DComponent->GetWorldLocation() + (velocity*deltaTime);
 			SweepCollisionResponse3D response;
 			if (SweepToo(target, response))
 			{
 				Vec3D actual = GetScenePos() + (velocity * deltaTime * response.timeHit);
-				sceneObject3D->SetPosition(actual);
+				affected3DComponent->SetWorldLocation(actual);
 				if (response.timeHit < 1.0f)
 				{
 					float invTime = (1.0f - response.timeHit);
@@ -154,11 +153,11 @@ void PhysicsObject3DBase::Update(float deltaTime)
 
 			}
 			else
-				sceneObject3D->SetPosition(target);
+				affected3DComponent->SetWorldLocation(target);
 		}
 		else
 		{
-			sceneObject3D->Translate(velocity*deltaTime);
+			affected3DComponent->Translate(velocity*deltaTime);
 		}
 	}
 }
@@ -168,5 +167,5 @@ const Vector3D& PhysicsObject3DBase::GetVelocity()
 	return velocity;
 }
 
-const Vector3D& PhysicsObject3DBase::GetScenePos() { return sceneObject3D->GetPosition(); }
-SceneObject3D* PhysicsObject3DBase::GetSceneObject() { return sceneObject3D; }
+const Vector3D PhysicsObject3DBase::GetScenePos() { return affected3DComponent->GetWorldLocation(); }
+Component3DBase* PhysicsObject3DBase::GetAffected3DComponent() { return affected3DComponent; }

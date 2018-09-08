@@ -94,7 +94,7 @@ public:
 		viewMatrix[11] = 0.0f;
 		viewMatrix[15] = 1.0f;
 
-		viewMatrix = viewMatrix.translate(pos);
+		viewMatrix.translate(pos);
 
 		return viewMatrix;
 	}

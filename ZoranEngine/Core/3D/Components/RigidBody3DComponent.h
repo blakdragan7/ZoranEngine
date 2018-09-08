@@ -2,7 +2,7 @@
 #include <Core\Components\RigidBodyComponent.h>
 #include <Core\3D\Components\Component3DBase.h>
 class PhysicsObject3DBase;
-class RigidBody3DComponent : public RigidBodyComponent, public Component3DBase
+class ZoranEngine_EXPORT RigidBody3DComponent : public RigidBodyComponent, public Component3DBase
 {
 private:
 	PhysicsObject3DBase * physics3D;

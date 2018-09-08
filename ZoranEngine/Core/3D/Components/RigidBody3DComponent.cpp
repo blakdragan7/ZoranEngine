@@ -3,7 +3,7 @@
 
 #include <Physics/3D/PhysicsObject3DBase.h>
 
-RigidBody3DComponent::RigidBody3DComponent(PhysicsObject3DBase * physics3D) : physics3D(physics3D), RigidBodyComponent(physics3D), Component3DBase(CT_Physics)
+RigidBody3DComponent::RigidBody3DComponent(PhysicsObject3DBase * physics3D) : physics3D(physics3D), RigidBodyComponent(physics3D)
 {
 
 }

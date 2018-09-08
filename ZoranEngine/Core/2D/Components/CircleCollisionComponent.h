@@ -2,7 +2,7 @@
 #include <Core\2D\Components\Collision2DComponent.h>
 
 class CircleCollision2DObject;
-class CircleCollisionComponent : public Collision2DComponent
+class ZoranEngine_EXPORT CircleCollisionComponent : public Collision2DComponent
 {
 private:
 	CircleCollision2DObject * circleCollision;

@@ -8,11 +8,7 @@
 #include <Rendering/RenderEngineBase.h>
 #include <Rendering/ShaderProgramBase.h>
 #include <Rendering/RenderedObjectBase.h>
-#include <Physics/Collision/CollisionBucketBase.h>
-#include <Physics/Collision/CollisionObjectBase.h>
-#include <Physics/3D/Collision/AABBoxCollisionObject.h>
-#include <Physics/3D/Collision/SphereCollisionObject.h>
-
+#include <Core/Components/ComponentBase.h>
 static unsigned long long NextID = 0;
 
 void SceneObject::WaitForMutex()
@@ -51,4 +47,10 @@ void SceneObject::Destroy()
 {
 	zEngine->RemoveTickableObject(this);
 	zEngine->DestroySceneObject(this);
+}
+
+void SceneObject::SetRootComponent(ComponentBase * component)
+{
+	component->SetOwner(this);
+	rootComponent = component;
 }

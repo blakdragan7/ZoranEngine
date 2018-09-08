@@ -2,7 +2,7 @@
 #include "Component2DBase.h"
 
 
-Component2DBase::Component2DBase(ComponentType componentType) : ComponentBase(componentType)
+Component2DBase::Component2DBase()
 {
 }
 
@@ -11,7 +11,7 @@ Component2DBase::~Component2DBase()
 {
 }
 
-const Vector2D & Component2DBase::GetWorldLocation()
+const Vector2D Component2DBase::GetWorldLocation()
 {
 	if (parent != 0)
 	{
@@ -27,7 +27,7 @@ void Component2DBase::CalculateLocalMatrix()
 
 	Matrix44 scaleMat = Matrix44::ScaleMatrix(scale);
 	Matrix44 translateMat = Matrix44::TranslationMatrix(offset);
-	Matrix44 rotationMat = Matrix44::RotationMatrix(rotation, {0,0,1});
+	Matrix44 rotationMat = Matrix44::RotationMatrix(-rotation, {0,0,1});
 
 	localMatrix = translateMat * rotationMat * scaleMat;
 }

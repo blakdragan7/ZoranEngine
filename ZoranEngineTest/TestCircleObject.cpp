@@ -27,6 +27,8 @@ TestCircleObject::TestCircleObject(std::string name, float radius) : TexturedSpr
 	rigidBody->SetMass(200);
 
 	root2DComponent->AddSubComponent(rigidBody);
+
+	circleComponent->SetPhysicsObjectFrom2DRigidBody(rigidBody);
 }
 
 

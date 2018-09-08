@@ -4,9 +4,9 @@
 
 #include <Physics/2D/PhysicsObject2DBase.h>
 
-RigidBody2DComponent::RigidBody2DComponent(Component2DBase* affectComponent) : physics2D(new PhysicsObject2DBase(affectComponent)) , 
-RigidBodyComponent(physics2D), Component2DBase(CT_Physics)
+RigidBody2DComponent::RigidBody2DComponent(Component2DBase* affectComponent) : physics2D(new PhysicsObject2DBase(affectComponent))
 {
+	SetPhysicsObject(physics2D);
 }
 
 RigidBody2DComponent::~RigidBody2DComponent()

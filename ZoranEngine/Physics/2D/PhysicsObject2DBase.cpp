@@ -204,6 +204,8 @@ void PhysicsObject2DBase::UpdateVelocities(float deltaTime)
 {
 	if (shouldSimulate)
 	{
+		ReCalculateInertia();
+
 		currentDeltaTime = deltaTime;
 
 		if (isOnGround == false)
@@ -271,4 +273,4 @@ float PhysicsObject2DBase::GetAngularVelocity()
 	return angularVelocity;
 }
 
-const Vec2D& PhysicsObject2DBase::GetScenePos() { return affected2DComponent->GetWorldLocation(); }
+const Vec2D PhysicsObject2DBase::GetScenePos() { return affected2DComponent->GetWorldLocation(); }

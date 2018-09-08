@@ -2,13 +2,33 @@
 #include "Component3DBase.h"
 
 
-Component3DBase::Component3DBase(ComponentType componentType) : ComponentBase(componentType)
+Component3DBase::Component3DBase()
 {
 }
 
 
 Component3DBase::~Component3DBase()
 {
+}
+
+void Component3DBase::SetWorldLocation(const Vector3D & location)
+{
+	if (parent)
+		offset = GetWorldMatrix().inverse() * location;
+	else
+		offset = location;
+}
+
+const Vector3D Component3DBase::GetWorldLocation()
+{
+	if (parent)
+	{
+		return GetWorldMatrix() * offset;
+	}
+	else
+	{
+		return offset;
+	}
 }
 
 void Component3DBase::CalculateLocalMatrix()

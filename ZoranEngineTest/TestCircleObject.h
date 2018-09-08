@@ -19,5 +19,7 @@ public:
 	}
 
 	virtual void Tick(float dt)override;
+
+	RigidBody2DComponent* GetPhysics() { return rigidBody; }
 };
 

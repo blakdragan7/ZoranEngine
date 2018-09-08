@@ -58,7 +58,7 @@ Collision2D* CircleCollision2DObject::CollidesWith(CollisionObject2DBase * other
 			collision->objects[1] = other->GetAffectedComponent();
 			collision->objectBounds[0] = this;
 			collision->objectBounds[1] = other;
-			collision->friction = sqrt(GetAffectedComponent()->GetFriction() * other->GetAffectedComponent()->GetFriction());
+			collision->friction = sqrt(GetPhysicsObject()->GetFriction() * other->GetPhysicsObject()->GetFriction());
 
 
 			CollisionPoint cp;
@@ -141,7 +141,7 @@ Collision2D* CircleCollision2DObject::CollidesWith(CollisionObject2DBase * other
 			collision->objects[1] = other->GetAffectedComponent();
 			collision->objectBounds[0] = this;
 			collision->objectBounds[1] = other;
-			collision->friction = sqrt(GetAffectedComponent()->GetFriction() * other->GetAffectedComponent()->GetFriction());
+			collision->friction = sqrt(GetPhysicsObject()->GetFriction() * other->GetPhysicsObject()->GetFriction());
 
 			float mag = sqrtf(magSQR);
 
@@ -173,7 +173,7 @@ Collision2D* CircleCollision2DObject::CollidesWith(CollisionObject2DBase * other
 			collision->objects[1] = other->GetAffectedComponent();
 			collision->objectBounds[0] = this;
 			collision->objectBounds[1] = other;
-			collision->friction = sqrt(GetAffectedComponent()->GetFriction() * other->GetAffectedComponent()->GetFriction());
+			collision->friction = sqrt(GetPhysicsObject()->GetFriction() * other->GetPhysicsObject()->GetFriction());
 
 			CollisionPoint cp;
 			float mag = sqrtf(distanceSqr);

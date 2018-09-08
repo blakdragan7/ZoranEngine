@@ -2,7 +2,7 @@
 #include "Visible3DComponent.h"
 
 
-Visible3DComponent::Visible3DComponent() : Component3DBase(CT_Visible)
+Visible3DComponent::Visible3DComponent()
 {
 }
 

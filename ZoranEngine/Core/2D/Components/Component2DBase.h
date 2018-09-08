@@ -13,7 +13,7 @@ private:
 	float rotation;
 
 public:
-	Component2DBase(ComponentType componentType);
+	Component2DBase();
 	~Component2DBase();
 
 	// mutators
@@ -47,9 +47,9 @@ public:
 
 	inline const float& GetRotation()const { return rotation; }
 
-	inline const Vec2D& GetSize()const { return startingSize * scale; }
+	inline const Vec2D GetSize()const { return (startingSize * scale).getAbs(); }
 
-	const Vector2D& GetWorldLocation();
+	const Vector2D GetWorldLocation();
 
 	virtual void CalculateLocalMatrix()override;
 

@@ -62,7 +62,7 @@ void CollisionObject2DBase::SetPhysicsObject(PhysicsObject2DBase* object)
 	physicsObject2D = object;
 }
 
-const Vector2D& CollisionObject2DBase::GetScenePos()
+const Vector2D CollisionObject2DBase::GetScenePos()
 {
 	if (affectedComponent != NULL) return affectedComponent->GetWorldLocation();
 	else

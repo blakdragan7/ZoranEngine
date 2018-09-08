@@ -168,26 +168,6 @@ void PhysicsEngine::UpdateAll(float deltaTime)
 	DEBUG_TRACK_TAKE_BENCH("PhysicsEngine")
 }
 
-void PhysicsEngine::AddComponentedFromSceneObject(SceneObject * object)
-{
-	const ComponentBase* root = object->GetRootComponent();
-	if (root)
-	{
-		root->AddComponentsToPhysics(this);
-		root->AddComponentsToCollision(this);
-	}
-}
-
-void PhysicsEngine::RemoveComponentedFromSceneObject(SceneObject * object)
-{
-	const ComponentBase* root = object->GetRootComponent();
-	if (root)
-	{
-		root->RemoveComponentsFromPhysics(this);
-		root->RemoveComponentsFromCollision(this);
-	}
-}
-
 void PhysicsEngine::AddPhysicsObject(PhysicsObjectBase * object)
 {
 	DEBUG_BENCH_START_TRACK("PhysicsEngine", "AddPhysicsObject");

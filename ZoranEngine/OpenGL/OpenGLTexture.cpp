@@ -77,7 +77,7 @@ void OpenGLTexture::SetRenderDataFormat(RenderDataFormat newFormat)
 void OpenGLTexture::UseTexture(void * data)
 {
 #pragma warning(push)
-#pragma warning(disable:4311)
+#pragma warning(disable:4302)
 	BindTexture((unsigned)data);
 #pragma warning(pop)
 }

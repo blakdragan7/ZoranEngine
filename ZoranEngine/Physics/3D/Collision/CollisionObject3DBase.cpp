@@ -1,22 +1,21 @@
 #include "stdafx.h"
 #include "CollisionObject3DBase.h"
-#include "Core/3D/SceneObject3D.h"
+#include <Core/3D/Components/Component3DBase.h>
 
 #include <iostream>
 
-CollisionObject3DBase::CollisionObject3DBase(SceneObject3D* object, CollisionDynamics collisionDynamics, unsigned collisionType) : CollisionObjectBase(object, collisionDynamics,collisionType)
+CollisionObject3DBase::CollisionObject3DBase(Component3DBase* compomnent, CollisionDynamics collisionDynamics, unsigned collisionType) : 
+	physicsObject3D(0), affectedComponent(compomnent), CollisionObjectBase(collisionDynamics,collisionType)
 {
-	physicsObject3D = 0;
-	sceneObject3D = object;
 }
 
 CollisionObject3DBase::~CollisionObject3DBase()
 {
 }
 
-void CollisionObject3DBase::SetSceneObject(SceneObject3D* object)
+void CollisionObject3DBase::SetAffectedComponent(Component3DBase* compomnent)
 {
-	sceneObject3D = object;
+	affectedComponent = compomnent;
 }
 
 void CollisionObject3DBase::SetPhysicsObject(PhysicsObject3DBase* object)
@@ -26,7 +25,7 @@ void CollisionObject3DBase::SetPhysicsObject(PhysicsObject3DBase* object)
 
 Vector3D CollisionObject3DBase::GetScenePos()
 {
-	if (sceneObject3D != NULL) return sceneObject3D->GetPosition();
+	if (affectedComponent != NULL) return affectedComponent->GetWorldLocation();
 	else
 	{
 		std::cerr << "Getting Position Before SceneObject Set !\n";
@@ -34,5 +33,5 @@ Vector3D CollisionObject3DBase::GetScenePos()
 	}
 }
 
-SceneObject3D* CollisionObject3DBase::GetSceneObject() { return sceneObject3D; }
+Component3DBase* CollisionObject3DBase::GetAffectedComponent() { return affectedComponent; }
 PhysicsObject3DBase* CollisionObject3DBase::GetPhysicsObject() { return physicsObject3D; }

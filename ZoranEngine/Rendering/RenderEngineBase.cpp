@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "RenderEngineBase.h"
-
+#include <Rendering/ShaderProgramBase.h>
 
 RenderEngineBase::RenderEngineBase()
 {

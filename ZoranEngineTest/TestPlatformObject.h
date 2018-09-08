@@ -1,6 +1,8 @@
 #pragma once
 #include <Core/2D/TexturedSprite.h>
 
+class OSquareCollisionComponent;
+class RigidBody2DComponent;
 class TestPlatformObject : public TexturedSprite
 {
 private:

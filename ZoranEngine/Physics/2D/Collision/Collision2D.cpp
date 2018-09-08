@@ -10,7 +10,7 @@ void Collision2D::AddCollisionPoint(CollisionPoint & point)
 {
 	assert(numCollisionPoints < 2);
 
-	if (shouldRender)
+	/*if (shouldRender)
 	{
 		DebugSceneObject2D* db = new DebugSceneObject2D("Debug Collision Point");
 		db->GetRenderedObject()->MakeFullScreenQuad();
@@ -20,7 +20,7 @@ void Collision2D::AddCollisionPoint(CollisionPoint & point)
 
 		debugObjects[numCollisionPoints] = db;
 		zEngine->AddSceneObject(db);
-	}
+	}*/
 	collisionPoints[numCollisionPoints++] =  point;
 }
 
@@ -70,7 +70,7 @@ bool Collision2D::operator==(const Collision2D& other)
 
 void Collision2D::PreUpdate(float inv_dt, Accumulated2DVelocities& aV)
 {
-	if (shouldRender == false && ZoranEngine::canRenderDebug)
+	/*if (shouldRender == false && ZoranEngine::canRenderDebug)
 	{
 		shouldRender = true;
 		
@@ -85,7 +85,7 @@ void Collision2D::PreUpdate(float inv_dt, Accumulated2DVelocities& aV)
 			debugObjects[i] = db;
 			zEngine->AddSceneObject(db);
 		}
-	}
+	}*/
 	static const float k_allowedPenetration = 0.1f;
 	static float k_biasFactor = 0.2f;
 
@@ -248,7 +248,7 @@ void Collision2D::Update(Collision2D* other)
 		}
 		else if (numCollisionPoints < other->numCollisionPoints)
 		{
-			for (unsigned i = numCollisionPoints; i < other->numCollisionPoints; i++)
+			/*for (unsigned i = numCollisionPoints; i < other->numCollisionPoints; i++)
 			{
 				DebugSceneObject2D* db = new DebugSceneObject2D("Debug Collision Point");
 				db->GetRenderedObject()->MakeFullScreenQuad();
@@ -258,7 +258,7 @@ void Collision2D::Update(Collision2D* other)
 
 				debugObjects[i] = db;
 				zEngine->AddSceneObject(db);
-			}
+			}*/
 		}
 
 		numCollisionPoints = other->numCollisionPoints;

@@ -2,18 +2,23 @@
 enum CollisionDynamics;
 class CollisionObjectBase;
 class RigidBodyComponent;
-class CollisionComponentBase
+
+class ZoranEngine_EXPORT CollisionComponentBase
 {
-protected:
+private:
 	CollisionObjectBase * collision;
 
+protected:
+	void SetPhysicsObjectFromRigidBody(RigidBodyComponent* object);
+
 public:
+	CollisionComponentBase();
 	CollisionComponentBase(CollisionObjectBase * collision);
 	virtual ~CollisionComponentBase();
 
-	void SetPhysicsObjectFromRigidBody(RigidBodyComponent* object);
+	void SetCollisionObject(CollisionObjectBase* object);
 
-	unsigned GetCollisionLayer();
+	unsigned GetCollisionLayer()const;
 	void SetCollisionLayer(unsigned layer);
 
 	void SetDynamics(CollisionDynamics dynamics);

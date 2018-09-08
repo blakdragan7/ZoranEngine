@@ -47,8 +47,8 @@ Collision2D* b2DCollision2DObject::CollidesWith(CollisionObject2DBase * other)
 		return other->CollidesWith(this);
 	}
 
-	RigidBody2DComponent* objectA = GetAffectedComponent();
-	RigidBody2DComponent* objectB = other->GetAffectedComponent();
+	Component2DBase* objectA = GetAffectedComponent();
+	Component2DBase* objectB = other->GetAffectedComponent();
 
 	Vector2D halfA = 0.5f * objectA->GetSize();
 	Vector2D halfB = 0.5f * objectB->GetSize();
@@ -243,7 +243,7 @@ Collision2D* b2DCollision2DObject::CollidesWith(CollisionObject2DBase * other)
 		{
 			collision->AddCollisionPoint(points[i]);
 		}
-		collision->friction = sqrt(objectA->GetFriction() * objectB->GetFriction());
+		collision->friction = sqrt(GetPhysicsObject()->GetFriction() * other->GetPhysicsObject()->GetFriction());
 
 		return collision;
 	}

@@ -28,14 +28,17 @@ OpenGLShaderProgramBase::OpenGLShaderProgramBase() : currentShaderIndex(0)
 	engine->CheckErrors("OpenGLShaderProgramBase()");
 }
 
-OpenGLShaderProgramBase::OpenGLShaderProgramBase(ShaderInitMap initMap)
+OpenGLShaderProgramBase::OpenGLShaderProgramBase(const ShaderInitMap* initMap)
 {
 	program = glCreateProgram();
 	engine->CheckErrors("OpenGLShaderProgramBase()");
 
-	for (auto iter : initMap)
+	for (auto iter : *initMap)
 	{
-		AddShaderFromSource(iter.second,iter.first);
+		if (AddShaderFromSource(iter.second, iter.first) == false)
+		{
+			Log(LogLevel_Error, "Failed to add shader %s", iter.second);
+		}
 	}
 
 	if (Link() == false)
@@ -48,7 +51,7 @@ OpenGLShaderProgramBase::OpenGLShaderProgramBase(ShaderInitMap initMap)
 OpenGLShaderProgramBase::~OpenGLShaderProgramBase()
 {
 	glDeleteProgram(program);
-	engine->CheckErrors("~OpenGLShaderProgramBase()");
+	//engine->CheckErrors("~OpenGLShaderProgramBase()");
 }
 
 void OpenGLShaderProgramBase::BindProgram()

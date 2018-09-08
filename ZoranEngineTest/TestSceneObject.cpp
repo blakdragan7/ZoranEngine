@@ -1,40 +1,34 @@
 #include "stdafx.h"
 #include "TestSceneObject.h"
-#include <OpenGL/StandardShader2D.h>
-#include <OpenGL/OpenGLRenderObject.h>
 #include <Core/ZoranEngine.h>
-#include <Physics/PhysicsObjectBase.h>
-#include <Rendering/TextureBase.h>
-#include <Physics/2D/PhysicsObject2DBase.h>
-#include <Physics/2D/Collision/b2DCollision2DObject.h>
+#include <Core/2D/Components/OSquareCollisionComponent.h>
+#include <Core/2D/Components/RigidBody2DComponent.h>
+#include <Rendering/RenderEngineBase.h>
+#include <Physics/PhysicsEngine.h>
 #include <Utils/Random.h>
 
 TestSceneObject::TestSceneObject(std::string name) : TexturedSprite(name)
 {
 	willEverTick = true;
 
-	b2DCollision2DObject* sat = new b2DCollision2DObject(this);
-	//SatCollision2DObject* sat = new SatCollision2DObject(this);
-	collision = sat;
-
-	static const Vec2D points[4] = {
-		Vec2D(-1,-1),
-		Vec2D(-1,1),
-		Vec2D(1,1),
-		Vec2D(1,-1)
-	};
-
-	//sat->SetAsSquare(points,size);
-
-	static ShaderProgramBase* shader = new StandardShader2D();
-	SetShaderProgram(shader);
+	collision = new OSquareCollisionComponent(root2DComponent);
 	
-	SetTexture("test.png", RenderDataType::TYPE_RGBA_32, RenderDataFormat::FORMAT_UNSIGNED_BYTE);
-	GetPhysics()->SetRestitution(1.0);
-	GetPhysics()->SetMass(200);
-	collision->SetPhysicsObject(GetPhysics2D());
+	collision->SetStartingSize(2, 2);
+	collision->SetScale(1, 1);
+
+	root2DComponent->AddSubComponent(collision);
+
+	rigid = new RigidBody2DComponent(root2DComponent);
+	rigid->SetMass(200);
+	rigid->SetRestitution(1.0f);
+	
+	root2DComponent->AddSubComponent(rigid);
+
+	collision->SetPhysicsObjectFrom2DRigidBody(rigid);
 
 	target = 0;
+
+	SetTexture("test.png", RenderDataType::TYPE_RGBA_32, RenderDataFormat::FORMAT_UNSIGNED_BYTE);
 }
 
 
@@ -47,11 +41,11 @@ void TestSceneObject::Tick(float deltaTime)
 	if (target)
 	{
 		Vec2D direction = (target->GetPosition() - GetPosition()).getNormal();
-		GetPhysics2D()->SetGravity(direction * 300);
+		rigid->SetGravity(direction * 300);
 
 		if (Random::GetBoolWithChance(0.01f))
 		{
-			GetPhysics2D()->ApplyForce(Vec2D(Random::GetFloatInRange(-10000, 10000), 1000000));
+			rigid->ApplyForce(Vec2D(Random::GetFloatInRange(-10000, 10000), 1000000));
 		}
 	}
 }

@@ -354,6 +354,9 @@
     <ClCompile Include="Core\2D\Components\OSquareCollisionComponent.cpp">
       <Filter>ZoranEngine\Core\2D\Components</Filter>
     </ClCompile>
+    <ClCompile Include="Core\2D\Named2DSceneObject.cpp">
+      <Filter>ZoranEngine\Core\2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -724,6 +727,9 @@
     </ClInclude>
     <ClInclude Include="Core\2D\Components\OSquareCollisionComponent.h">
       <Filter>ZoranEngine\Core\2D\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\2D\Named2DSceneObject.h">
+      <Filter>ZoranEngine\Core\2D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

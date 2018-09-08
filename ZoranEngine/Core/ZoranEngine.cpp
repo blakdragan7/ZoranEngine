@@ -237,15 +237,13 @@ void ZoranEngine::AddTickableObject(TickableObject * object)
 
 void ZoranEngine::AddSceneObject(SceneObject * object)
 {
-	mainRenderEngine->AddComponentsFromSceneObject(object);
-	physicsEngine->AddComponentedFromSceneObject(object);
+	AddTickableObject(object);
 }
 
 void ZoranEngine::DestroySceneObject(SceneObject * object)
 {
 	remove(*allSceneObjects, object);
-	mainRenderEngine->RemoveComponentsForSceneObject(object);
-	physicsEngine->RemoveComponentedFromSceneObject(object);
+	RemoveTickableObject(object);
 	delete object;
 }
 

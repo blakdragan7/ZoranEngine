@@ -16,11 +16,11 @@ char SatCollision2DObject::EdgeFromNormal(Vec2D Normal)
 
 Collision2D* SatCollision2DObject::TestAgainstOtherSquare(SatCollision2DObject * other)
 {
-	float cosa = cosf(-GetSceneObject()->GetRotationRad());
-	float sina = sinf(-GetSceneObject()->GetRotationRad());
+	float cosa = cosf(-GetAffectedComponent()->GetRotation());
+	float sina = sinf(-GetAffectedComponent()->GetRotation());
 
-	float cosb = cosf(-other->GetSceneObject()->GetRotationRad());
-	float sinb = sinf(-other->GetSceneObject()->GetRotationRad());
+	float cosb = cosf(-other->GetAffectedComponent()->GetRotation());
+	float sinb = sinf(-other->GetAffectedComponent()->GetRotation());
 
 	Vec2D axis[4] = {
 		Vec2D(-cosa,sina).getNormal(),
@@ -93,14 +93,14 @@ Collision2D* SatCollision2DObject::TestAgainstOtherSquare(SatCollision2DObject *
 		collision->AddCollisionPoint(CollisionPointA[1]);
 	}
 
-	collision->objects[0] = GetSceneObject();
-	collision->objects[1] = other->GetSceneObject();
+	collision->objects[0] = GetAffectedComponent();
+	collision->objects[1] = other->GetAffectedComponent();
 	collision->collided = true;
 	collision->objectBounds[0] = this;
 	collision->objectBounds[1] = other;
 	collision->collidedObjects[0] = GetPhysicsObject();
 	collision->collidedObjects[1] = other->GetPhysicsObject();
-	collision->friction = sqrt(GetSceneObject()->GetPhysics()->GetFriction() * other->GetSceneObject()->GetPhysics()->GetFriction());
+	collision->friction = sqrt(GetPhysicsObject()->GetFriction() * other->GetPhysicsObject()->GetFriction());
 
 	return collision;
 }
@@ -117,8 +117,8 @@ Collision2D* SatCollision2DObject::TestAgainstOtherCircle(SatCollision2DObject *
 
 Collision2D* SatCollision2DObject::TestAgainstOtherAABBSquare(AABBSquareCollisionObject * other)
 {
-	float cosa = cosf(-GetSceneObject()->GetRotationRad());
-	float sina = sinf(-GetSceneObject()->GetRotationRad());
+	float cosa = cosf(-GetAffectedComponent()->GetRotation());
+	float sina = sinf(-GetAffectedComponent()->GetRotation());
 
 	float cosb = 1;
 	float sinb = 0;
@@ -205,14 +205,14 @@ Collision2D* SatCollision2DObject::TestAgainstOtherAABBSquare(AABBSquareCollisio
 		collision->AddCollisionPoint(CollisionPointA[1]);
 	}
 
-	collision->objects[0] = GetSceneObject();
-	collision->objects[1] = other->GetSceneObject();
+	collision->objects[0] = GetAffectedComponent();
+	collision->objects[1] = other->GetAffectedComponent();
 	collision->collided = true;
 	collision->objectBounds[0] = this;
 	collision->objectBounds[1] = other;
 	collision->collidedObjects[0] = GetPhysicsObject();
 	collision->collidedObjects[1] = other->GetPhysicsObject();
-	collision->friction = sqrt(GetSceneObject()->GetPhysics()->GetFriction() * other->GetSceneObject()->GetPhysics()->GetFriction());
+	collision->friction = sqrt(GetPhysicsObject()->GetFriction() * other->GetPhysicsObject()->GetFriction());
 
 	return collision;
 }
@@ -234,8 +234,8 @@ bool SatCollision2DObject::SweepTestAgainstOtherCircle(SatCollision2DObject* oth
 
 bool SatCollision2DObject::SweepTestAgainstOtherAABBSquare(AABBSquareCollisionObject* other, SweepCollision2D & response)
 {
-	float cosa = cosf(-GetSceneObject()->GetRotationRad());
-	float sina = sinf(-GetSceneObject()->GetRotationRad());
+	float cosa = cosf(-GetAffectedComponent()->GetRotation());
+	float sina = sinf(-GetAffectedComponent()->GetRotation());
 
 	float cosb = 1;
 	float sinb = 0;
@@ -511,7 +511,7 @@ int SatCollision2DObject::FindCollisionPoints(CollisionPoint CollisionPointA[2],
 	return numCollisionPoints;
 }
 
-SatCollision2DObject::SatCollision2DObject(SceneObject2D *object) : CollisionObject2DBase(object,CD_Dynamic,SAT_2D_COLLISION)
+SatCollision2DObject::SatCollision2DObject(Component2DBase *object) : CollisionObject2DBase(object,CD_Dynamic,SAT_2D_COLLISION)
 {
 	polygonType = SATPT_Invalid;
 }
@@ -556,10 +556,10 @@ void SatCollision2DObject::SetBoundsBySceneObject()
 	{
 	case SATPT_Triangle:
 	{
-		float sinv = sinf(GetSceneObject()->GetRotationRad());
-		float cosv = cosf(GetSceneObject()->GetRotationRad());
+		float sinv = sinf(GetAffectedComponent()->GetRotation());
+		float cosv = cosf(GetAffectedComponent()->GetRotation());
 
-		Vec2D scale = GetSceneObject()->GetScale();
+		Vec2D scale = GetAffectedComponent()->GetScale();
 		Vec2D pos = GetScenePos();
 
 		scaledSize = scale * size;
@@ -591,10 +591,10 @@ void SatCollision2DObject::SetBoundsBySceneObject()
 		break;
 	case SATPT_Square:
 	{
-		float sinv = sinf(GetSceneObject()->GetRotationRad());
-		float cosv = cosf(GetSceneObject()->GetRotationRad());
+		float sinv = sinf(GetAffectedComponent()->GetRotation());
+		float cosv = cosf(GetAffectedComponent()->GetRotation());
 
-		Vec2D scale = GetSceneObject()->GetScale();
+		Vec2D scale = GetAffectedComponent()->GetScale();
 		Vec2D pos = GetScenePos();
 
 		scaledSize = scale * size;
@@ -629,7 +629,7 @@ void SatCollision2DObject::SetBoundsBySceneObject()
 		break;
 	case SATPT_Circle:
 	{
-		Vec2D scale = GetSceneObject()->GetScale();
+		Vec2D scale = GetAffectedComponent()->GetScale();
 		derivedRadius = radius * max(scale.x, scale.y);
 	}
 		break;
@@ -642,7 +642,7 @@ void SatCollision2DObject::SetBoundsBySceneObject()
 
 Vector2D SatCollision2DObject::GetSize()
 {
-	return GetSceneObject()->GetScale();
+	return GetAffectedComponent()->GetSize();
 }
 
 Collision2D* SatCollision2DObject::CollidesWith(CollisionObject2DBase * other)

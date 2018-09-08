@@ -1,13 +1,13 @@
 #pragma once
 #include <Physics\PhysicsObjectBase.h>
 
-class SceneObject3D;
+class Component3DBase;
 class ZoranEngine_EXPORT PhysicsObject3DBase : public PhysicsObjectBase
 {
 private:
 	class AABBoxCollisionObject * sweepCollisionBox;
 
-	SceneObject3D* sceneObject3D;
+	Component3DBase* affected3DComponent;
 
 	Vector3D velocity;
 
@@ -19,7 +19,7 @@ protected:
 	bool FastSweepCollision(const Vector3D& newPosition); // Broad Sweep
 
 public:
-	PhysicsObject3DBase(SceneObject3D* object);
+	PhysicsObject3DBase(Component3DBase* component);
 	virtual ~PhysicsObject3DBase();
 
 	void ApplyForce(const Vector3D& Force);
@@ -32,8 +32,8 @@ public:
 	inline bool GetShouldSimulate() { return shouldSimulate; }
 
 	const Vector3D& GetVelocity();
-	const Vector3D& GetScenePos();
-	SceneObject3D* GetSceneObject();
+	const Vector3D GetScenePos();
+	Component3DBase* GetAffected3DComponent();
 
 	virtual void Update(float deltaTime);
 };

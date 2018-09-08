@@ -4,8 +4,9 @@
 #include <Physics/2D/Collision/CircleCollision2DObject.h>
 
 CircleCollisionComponent::CircleCollisionComponent(Component2DBase* affectedComponent) :
-	circleCollision(new CircleCollision2DObject(0, affectedComponent)), Collision2DComponent(circleCollision)
+	circleCollision(new CircleCollision2DObject(0, affectedComponent))
 {
+	SetCollision(circleCollision);
 }
 
 CircleCollisionComponent::~CircleCollisionComponent()

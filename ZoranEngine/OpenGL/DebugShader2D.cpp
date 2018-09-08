@@ -7,13 +7,13 @@
 
 #include <Utils/HighPrecisionClock.h>
 
-const ShaderInitMap DebugShader2D::initMap =
+const ShaderInitMap* DebugShader2D::initMap = (new ShaderInitMap(
 {
-	{GL_VERTEX_SHADER, "Shaders/2D/standard_debug.vert" },
-	{GL_FRAGMENT_SHADER, "Shaders/2D/standard_debug.frag"}
-};
+	{ GL_VERTEX_SHADER, "Shaders/2D/standard_debug.vert" },
+	{ GL_FRAGMENT_SHADER, "Shaders/2D/standard_debug.frag" }
+}));
 
-DebugShader2D::DebugShader2D(ShaderInitMap initMap) : OpenGLShaderProgramBase(initMap)
+DebugShader2D::DebugShader2D(const ShaderInitMap* initMap) : OpenGLShaderProgramBase(initMap)
 {
 }
 

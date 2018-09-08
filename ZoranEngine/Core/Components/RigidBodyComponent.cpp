@@ -2,13 +2,33 @@
 #include "RigidBodyComponent.h"
 
 #include <Physics/PhysicsObjectBase.h>
+#include <Physics/PhysicsEngine.h>
+
+RigidBodyComponent::RigidBodyComponent() : physicsObject(0)
+{
+}
 
 RigidBodyComponent::RigidBodyComponent(PhysicsObjectBase* pObject) : physicsObject(pObject)
 {
+	pEngine->AddPhysicsObject(physicsObject);
 }
 
 RigidBodyComponent::~RigidBodyComponent()
 {
+	pEngine->RemoveObject(physicsObject);
+	delete physicsObject;
+}
+
+void RigidBodyComponent::SetPhysicsObject(PhysicsObjectBase* object)
+{
+	if (physicsObject)
+	{
+		pEngine->RemoveObject(physicsObject);
+		delete physicsObject;
+	}
+
+	physicsObject = object;
+	pEngine->AddPhysicsObject(physicsObject);
 }
 
 void RigidBodyComponent::StartSimulation()

@@ -35,7 +35,7 @@ QuadTreeCollisionBucket::QuadTreeCollisionBucket(std::string name, Vec2D pos, Ve
 
 	Vec2D halfSize = size / 2.0;
 
-	collision = new QuadTreeCollision(pos - halfSize,pos + halfSize, sceneObject);
+	collision = new QuadTreeCollision(pos - halfSize,pos + halfSize, sceneObject->Get2DRoot());
 
 	Log(LogLevel_Verbose,"Buckets: %i", numBuckets);
 }
@@ -68,7 +68,7 @@ bool QuadTreeCollisionBucket::AddObject(CollisionObject2DBase * object)
 			collisionObjects.push_back(object);
 			wasAdded = true;
 
-			Log(LogLevel_Debug,"Object %s Add To Bucket %s\n", object->GetSceneObject()->readableName->c_str(), sceneObject->readableName->c_str());
+			Log(LogLevel_Debug,"Object %s Add To Bucket %s\n", object->GetAffectedComponent()->GetSceneName(), sceneObject->readableName->c_str());
 		}
 	}
 	else 
@@ -153,7 +153,7 @@ bool QuadTreeCollisionBucket::UpdateObject(CollisionObject2DBase * object)
 			{
 				if (parent)
 				{
-					Log(LogLevel_Debug, "Object %s No Longer in Bucket %s\n", object->GetSceneObject()->readableName->c_str(), sceneObject->readableName->c_str());
+					Log(LogLevel_Debug, "Object %s No Longer in Bucket %s\n", object->GetAffectedComponent()->GetSceneName(), sceneObject->readableName->c_str());
 
 					remove(collisionObjects,index);
 					return parent->TraverseUpAddObject(object);
@@ -214,7 +214,7 @@ void QuadTreeCollisionBucket::CheckAllCollision(struct CollisionFrame2D& frame)
 
 		if (i <= collisionObjects.size() - 1)
 		{
-			// TODO remove bandade and actually fix like below suggestion vvvv
+			// TODO remove bandade and actually fix like below suggestion 
 			// This is more of a bandade then anything
 			// Instead of this, static objects need there own array for efficiency
 			unsigned limit = i;
@@ -445,7 +445,7 @@ void QuadTreeCollisionBucket::PrintAllContents(unsigned depth)
 	for (auto object : collisionObjects)
 	{
 		for (unsigned int j = 0; j < depth; ++j)Log(LogLevel_None, "\t");
-		Log(LogLevel_None, "\t%s\n", object->GetSceneObject()->readableName->c_str());
+		Log(LogLevel_None, "\t%s\n", object->GetAffectedComponent()->GetSceneName());
 	}
 	if (hasSubdivided)
 	{
@@ -461,7 +461,7 @@ void QuadTreeCollisionBucket::PrintCollisionForObject(CollisionObject2DBase * ob
 {
 	for (unsigned i = 0; i < collisionObjects.size(); i++)
 	{
-		Log(LogLevel_None, "\tCheck Collision %s => %s\n", object->GetSceneObject()->readableName->c_str(), collisionObjects[i]->GetSceneObject()->readableName->c_str());
+		Log(LogLevel_None, "\tCheck Collision %s => %s\n", object->GetAffectedComponent()->GetSceneName(), collisionObjects[i]->GetAffectedComponent()->GetSceneName());
 		if (object->CollidesWithNoCollision(collisionObjects[i]))
 		{
 			Log(LogLevel_None, "Found Collision\n");
@@ -481,7 +481,7 @@ void QuadTreeCollisionBucket::PrintCollisionForObjectTraverseUp(CollisionObject2
 {
 	for (unsigned i = 0; i < collisionObjects.size(); i++)
 	{
-		Log(LogLevel_None, "\tCheck Collision %s => %s\n", object->GetSceneObject()->readableName->c_str(), collisionObjects[i]->GetSceneObject()->readableName->c_str());
+		Log(LogLevel_None, "\tCheck Collision %s => %s\n", object->GetAffectedComponent()->GetSceneName(), collisionObjects[i]->GetAffectedComponent()->GetSceneName());
 		if (object->CollidesWithNoCollision(collisionObjects[i]))
 		{
 			Log(LogLevel_None, "Found Collision\n");
@@ -506,7 +506,7 @@ void QuadTreeCollisionBucket::DrawImGuiDown(unsigned depth)
 	{
 		for (auto object : collisionObjects)
 		{
-			ImGui::Text((object->GetSceneObject()->readableName)->c_str());
+			ImGui::Text((object->GetAffectedComponent()->GetSceneName()));
 		}
 
 		if (hasSubdivided)
@@ -541,7 +541,7 @@ void QuadTreeCollisionBucket::PrintAllCollisions()
 		{
 			for (unsigned j = i + 1; j < collisionObjects.size(); j++)
 			{
-				Log(LogLevel_None, "\tCheck Collision %s => %s\n", object->GetSceneObject()->readableName->c_str(), collisionObjects[j]->GetSceneObject()->readableName->c_str());
+				Log(LogLevel_None, "\tCheck Collision %s => %s\n", object->GetAffectedComponent()->GetSceneName(), collisionObjects[j]->GetAffectedComponent()->GetSceneName());
 
 				if (object->CollidesWithNoCollision(collisionObjects[j]))
 				{

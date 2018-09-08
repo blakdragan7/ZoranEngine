@@ -47,12 +47,12 @@ public:
 
     // Getter / Setter
 
+	void SetRootComponent(ComponentBase* component);
+
 	inline const Matrix44& GetModel() { return ModelMatrixCache; };
 	virtual Matrix44 GetScaleMatrix4x4() = 0;
 
 	inline const ComponentBase* GetRootComponent() { return rootComponent; }
-	inline const VisibleComponentBase* GetVisibleComponentRoot() { return rootVisibleComponent; }
 
 	friend class ZoranEngine;
 };
-

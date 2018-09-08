@@ -22,7 +22,7 @@ private:
 
 public:
 	OpenGLShaderProgramBase();
-	OpenGLShaderProgramBase(ShaderInitMap initMap);
+	OpenGLShaderProgramBase(const ShaderInitMap* initMap);
 	virtual ~OpenGLShaderProgramBase();
 
 	bool Link();

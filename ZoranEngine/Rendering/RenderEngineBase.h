@@ -3,6 +3,8 @@
 #include "Rendering/RenderTypes.h"
 #include "Math/Vector2.h"
 #include <unordered_map>
+
+#include <Rendering/ShaderProgramBase.h>
 /*
 	RenderEngine, this is an abstract base class that allows common functionality across different render types such as OpenGL vs DirectX
 */
@@ -15,9 +17,8 @@ class RenderedObjectBase;
 class VisibleComponentBase;
 
 /* typedefs for dealing with shaders */
-typedef std::unordered_map<unsigned, const char*> ShaderInitMap;
-typedef std::unordered_map<ShaderInitMap, ShaderProgramBase*> ShaderMap;
-typedef std::pair<ShaderInitMap, ShaderProgramBase*> ShaderMapPair;
+typedef std::unordered_map<const ShaderInitMap*, ShaderProgramBase*> ShaderMap;
+typedef std::pair<const ShaderInitMap*, ShaderProgramBase*> ShaderMapPair;
 
 class ZoranEngine_EXPORT RenderEngineBase
 {
@@ -44,9 +45,6 @@ public:
 
 	/* Each implementation must implement way of adding Render Objects
 	*  ex. DirectX may have a different render loop style then OpenGL */
-	virtual void AddComponentsFromSceneObject(SceneObject* object) = 0;
-	virtual void RemoveComponentsForSceneObject(SceneObject* object) = 0;
-
 	virtual void AddComponent(VisibleComponentBase* component) = 0;
 	virtual bool RemoveComponent(VisibleComponentBase* component) = 0;
 
@@ -67,27 +65,27 @@ public:
 	*  I don't want to leave it up to the user because it's not effecient to create the shader multiple times so there must be
 	*  a map of some sort tracking the shader. 
 	*
-	*  To Do possibly re visit this and come up with a "better" way of handling creating shaders
+	*  TODO possibly re visit this and come up with a "better" way of handling creating shaders
 	*/
 
 	template<typename t>
-	ShaderProgramBase* CreateShaderProgram(ShaderInitMap map)
+	ShaderProgramBase* CreateShaderProgram(const ShaderInitMap* map)
 	{
-		t* program = ShaderProgramForMap(map);
-		if (program = NULL)
+		ShaderProgramBase* program = ShaderProgramForMap(map);
+		if (program == NULL)
 		{
-			program = new t(map);
+			program = static_cast<ShaderProgramBase*>(new t(map));
 			RegisterShaderProgram(program, map);
 		}
 		return program;
 	}
 
-	inline void RegisterShaderProgram(ShaderProgramBase* program, ShaderInitMap map)
+	inline void RegisterShaderProgram(ShaderProgramBase* program,const ShaderInitMap* map)
 	{
 		shaderMap->insert({ map,program });
 	}
 
-	inline ShaderProgramBase* ShaderProgramForMap(ShaderInitMap map)
+	inline ShaderProgramBase* ShaderProgramForMap(const ShaderInitMap* map)
 	{
 		ShaderMap::iterator iter = shaderMap->find(map);
 		if (iter != shaderMap->end())

@@ -1,10 +1,10 @@
 #include "stdafx.h"
 #include "SphereCollisionObject.h"
 #include "AABBoxCollisionObject.h"
-#include "Core/SceneObject.h"
 #include <Core/3D/SceneObject3D.h>
+#include <Core/3D/Components/Component3DBase.h> 
 
-SphereCollisionObject::SphereCollisionObject(float radius, SceneObject3D* object, CollisionDynamics dynamics, unsigned collisionType) : CollisionObject3DBase(object, dynamics, collisionType)
+SphereCollisionObject::SphereCollisionObject(float radius, Component3DBase* object, CollisionDynamics dynamics, unsigned collisionType) : CollisionObject3DBase(object, dynamics, collisionType)
 {
 	this->radius = radius;
 	this->radiusSqr = radius * radius;
@@ -17,7 +17,7 @@ SphereCollisionObject::~SphereCollisionObject()
 
 void SphereCollisionObject::SetBoundsBySceneObject()
 {
-	Vec3D scale = GetSceneObject()->GetScale().getAbs();
+	Vec3D scale = GetAffectedComponent()->GetScale().getAbs();
 
 	scaledRadius = radius * max(scale.x, max(scale.y, scale.z));
 	radiusSqr = scaledRadius * scaledRadius;

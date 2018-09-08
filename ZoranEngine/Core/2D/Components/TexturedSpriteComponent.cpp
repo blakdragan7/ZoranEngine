@@ -9,18 +9,22 @@
 
 TexturedSpriteComponent::TexturedSpriteComponent()
 {
-	program = rEngine->CreateShaderProgram<StandardShader2D>(StandardShader2D::initMap);
+	ShaderProgramBase* program = rEngine->CreateShaderProgram<StandardShader2D>(StandardShader2D::initMap);
 
 	renderedObject->MakeFullScreenQuad();
+
+	SetShaderProgram(program);
 }
 
 TexturedSpriteComponent::TexturedSpriteComponent(const char* texture, RenderDataType type, RenderDataFormat format)
 {
 	this->texture = TextureManager::GetInstance()->TextureForFilePath(texture, type, format);
 
-	program = rEngine->CreateShaderProgram<StandardShader2D>(StandardShader2D::initMap);
+	ShaderProgramBase* program = rEngine->CreateShaderProgram<StandardShader2D>(StandardShader2D::initMap);
 
 	renderedObject->MakeFullScreenQuad();
+
+	SetShaderProgram(program);
 }
 
 TexturedSpriteComponent::~TexturedSpriteComponent()
@@ -34,7 +38,7 @@ void TexturedSpriteComponent::PreRender()
 
 	if (texture)texture->UseTexture(0);
 
-	program->SetModelMatrix(GetWorldMatrix());
+	GetShaderProgram()->SetModelMatrix(GetWorldMatrix());
 }
 
 void TexturedSpriteComponent::Render()
