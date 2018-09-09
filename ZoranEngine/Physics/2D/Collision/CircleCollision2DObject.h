@@ -16,7 +16,7 @@ public:
 	void SetBoundsBySceneObject()override;
 
 	inline float GetRadius() { return scaledRadius; }
-	inline void SetRadius(float radius) { radius = radius; }
+	inline void SetRadius(float radius) { this->radius = radius; }
 
 	virtual Vector2D GetSize()override;
 	virtual bool CollidesWithNoCollision(CollisionObject2DBase* other)override;

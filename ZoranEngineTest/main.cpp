@@ -213,7 +213,7 @@ void TestSceneStuff()
 	std::string name_base = "TestSceneObject-";
 
 	Vec2D CollisionPoint(0,0);
-	for (int i = 0; i < ToSpawn / 2; i++)
+	for (int i = 0; i < ToSpawn / 20000; i++)
 	{
 		TestSceneObject* test = new TestSceneObject((name_base + std::to_string(i)));
 		test->SetScale(scale, -scale);
@@ -234,29 +234,7 @@ void TestSceneStuff()
 
 	TestSceneObject* sqr = 0;
 
-	/*for (int i = 0; i < 1; i++)
-	{
-		TestSceneObject* test = new TestSceneObject(std::string("dynamic ") + std::to_string(i));
-		test->SetScale(20.0f, -20.0f);
-		Vec2D pos(0, -100 + ((float)i * 60));
-		test->SetPosition(pos);
-		test->GetPhysics()->StartPhysicsSim();
-
-		pos = -pos;
-		pos.normalize();
-
-		//test->GetPhysics2D()->SetGravity(gravity[0]);
-		//test->GetPhysics2D()->SetGravity(Vec2D(-500,0));
-		//test->GetPhysics2D()->SetGravity(pos * 100);
-		//test->GetPhysics2D()->ApplyForce(Vec2D(100,800));
-		test->GetPhysics2D()->SetSweptCollision(false);
-		test->SetRotation(1.00);
-		zEngine->AddSceneObject(test);
-
-		sqr = test;
-	}*/
-
-	/*for (int i = 0; i < ToSpawn / 2; i++)
+	for (int i = 0; i < 1; i++)
 	{
 		TestCircleObject* test = new TestCircleObject(std::string("circle ") + std::to_string(i), 1.0);
 		test->SetScale(scale, -scale);
@@ -277,7 +255,7 @@ void TestSceneStuff()
 		test->GetPhysics()->SetAngularVeloctiy(10);
 		test->PreCaclModel();
 		zEngine->AddSceneObject(test);
-	}*/
+	}
 
 	TestPlatformObject* platform = new TestPlatformObject("Ground");
 	platform->SetScale(500, -50);
@@ -285,7 +263,7 @@ void TestSceneStuff()
 	platform->PreCaclModel();
 	zEngine->AddSceneObject(platform);
 
-	TestPlatformObject* platform2 = new TestPlatformObject("Ceiling");
+	/*TestPlatformObject* platform2 = new TestPlatformObject("Ceiling");
 	platform2->SetScale(500, -40);
 	platform2->SetPosition(0, 250);
 	platform2->PreCaclModel();
@@ -301,7 +279,7 @@ void TestSceneStuff()
 	platform4->SetScale(40, -500);
 	platform4->SetPosition(500, 0);
 	platform4->PreCaclModel();
-	zEngine->AddSceneObject(platform4);
+	zEngine->AddSceneObject(platform4);*/
 
 	//TestAudio();
 
