@@ -11,6 +11,8 @@ TexturedSpriteComponent::TexturedSpriteComponent()
 {
 	ShaderProgramBase* program = rEngine->CreateShaderProgram<StandardShader2D>(StandardShader2D::initMap);
 
+	rEngine->EnableAlpha();
+
 	renderedObject->MakeFullScreenQuad();
 
 	SetShaderProgram(program);

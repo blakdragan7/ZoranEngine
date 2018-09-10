@@ -29,10 +29,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\2D\Camera2D.cpp" />
+    <ClCompile Include="Core\2D\Components\AASquareCollisionComponent.cpp" />
     <ClCompile Include="Core\2D\Components\Audio2DComponent.cpp" />
     <ClCompile Include="Core\2D\Components\CircleCollisionComponent.cpp" />
     <ClCompile Include="Core\2D\Components\Collision2DComponent.cpp" />
     <ClCompile Include="Core\2D\Components\Component2DBase.cpp" />
+    <ClCompile Include="Core\2D\Components\DebugRenderComponent.cpp" />
     <ClCompile Include="Core\2D\Components\RigidBody2DComponent.cpp" />
     <ClCompile Include="Core\2D\Components\OSquareCollisionComponent.cpp" />
     <ClCompile Include="Core\2D\Components\TexturedSpriteComponent.cpp" />
@@ -136,10 +138,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\2D\Camera2D.h" />
+    <ClInclude Include="Core\2D\Components\AASquareCollisionComponent.h" />
     <ClInclude Include="Core\2D\Components\Audio2DComponent.h" />
     <ClInclude Include="Core\2D\Components\CircleCollisionComponent.h" />
     <ClInclude Include="Core\2D\Components\Collision2DComponent.h" />
     <ClInclude Include="Core\2D\Components\Component2DBase.h" />
+    <ClInclude Include="Core\2D\Components\DebugRenderComponent.h" />
     <ClInclude Include="Core\2D\Components\RigidBody2DComponent.h" />
     <ClInclude Include="Core\2D\Components\OSquareCollisionComponent.h" />
     <ClInclude Include="Core\2D\Components\TexturedSpriteComponent.h" />

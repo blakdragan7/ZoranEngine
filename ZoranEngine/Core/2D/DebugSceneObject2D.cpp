@@ -4,7 +4,8 @@
 
 DebugSceneObject2D::DebugSceneObject2D(std::string name) : SceneObject2D(name)
 {
-	// debug component
+	component = new DebugRenderComponent();
+	SetRootComponent(component);
 }
 
 

@@ -19,8 +19,9 @@ CircleCollision2DObject::~CircleCollision2DObject()
 
 void CircleCollision2DObject::SetBoundsBySceneObject()
 {
-	Vec2D size = GetAffectedComponent()->GetSize();
+	Vec2D size = GetAffectedComponent()->GetScale();
   	scaledRadius = radius * max(size.x, size.y);
+	scaledRadiusSqr = scaledRadius * scaledRadius;
 }
 
 Vector2D CircleCollision2DObject::GetSize()
@@ -35,7 +36,6 @@ bool CircleCollision2DObject::CollidesWithNoCollision(CollisionObject2DBase * ot
 
 Collision2D* CircleCollision2DObject::CollidesWith(CollisionObject2DBase * other)
 {
-	SetBoundsBySceneObject();
 	if (other->GetCollisionType() == SQUARE_COLLISION)
 	{
 		Vec2D pos = GetScenePos();
@@ -48,7 +48,7 @@ Collision2D* CircleCollision2DObject::CollidesWith(CollisionObject2DBase * other
 		float DeltaX = pos.x - nearestX;
 		float DeltaY = pos.y - nearestY;
 
-		if ((DeltaX * DeltaX + DeltaY * DeltaY) < (scaledRadius * scaledRadius))
+		if ((DeltaX * DeltaX + DeltaY * DeltaY) < scaledRadiusSqr)
 		{
 			Collision2D* collision = new Collision2D();
 
@@ -132,7 +132,7 @@ Collision2D* CircleCollision2DObject::CollidesWith(CollisionObject2DBase * other
 
 		float magSQR = distance.magnitudeSqr();
 
-		if (magSQR <= (scaledRadius * scaledRadius))
+		if (magSQR <= scaledRadiusSqr)
 		{
 			Collision2D* collision = new Collision2D();
 
@@ -148,47 +148,9 @@ Collision2D* CircleCollision2DObject::CollidesWith(CollisionObject2DBase * other
 
 			CollisionPoint cp;
 
-			Vec2D otherPos = other->GetScenePos();
-			Vec2D otherSize = other->GetSize();
-
-			if (distance.x == 0 && distance.y == 0)
-			{
-				unsigned index = 0;
-				Vec2D test[4] = {
-					Vec2D(unrotatedX, otherPos.y + otherSize.y),
-					Vec2D(unrotatedX, otherPos.y - otherSize.y),
-					Vec2D(otherPos.x - otherSize.x, unrotatedY),
-					Vec2D(otherPos.x + otherSize.x, unrotatedY)
-				};
-
-				Vec2D axes[4] =
-				{
-					Vec2D(0,1),
-					Vec2D(0,-1),
-					Vec2D(-1,0),
-					Vec2D(1,0)
-				};
-
-				float min = std::numeric_limits<float>::infinity();
-
-				Vec2D pos = GetScenePos();
-
-				for (unsigned i = 0; i < 4; ++i)
-				{
-					float c = pos.distanceSquared(test[i]);
-					if (c < min)
-					{
-						min = c;
-						index = i;
-					}
-				}
-
-				cp.normal = -axes[index];
-			}
-			else
-				cp.normal = -Vec2D(distance.x, distance.y).getNormal();
-			cp.pos = Vec2D(unrotatedX, unrotatedY);
-			cp.separation = Vec2D(distance.x, distance.y).magnitude() - scaledRadius;
+			cp.normal = -distance.getNormal();
+			cp.pos = unrotatedVector;
+			cp.separation = -sqrt(magSQR);
 
 			collision->AddCollisionPoint(cp);
 			return collision;

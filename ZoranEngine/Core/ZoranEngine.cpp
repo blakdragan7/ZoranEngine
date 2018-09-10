@@ -37,7 +37,7 @@
 
 ZoranEngine* ZoranEngine::instance = 0;
 
-bool ZoranEngine::canRenderDebug = false;
+bool ZoranEngine::canRenderDebug = true;
 
 ZoranEngine::ZoranEngine()
 {

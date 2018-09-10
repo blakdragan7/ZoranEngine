@@ -15,14 +15,19 @@ void AABBSquareCollisionObject::FillCollisionPoints(CollisionPoint points[2], Ve
 	points[1].pos.y = min(maxPos.y, otherMax.y);
 }
 
-AABBSquareCollisionObject::AABBSquareCollisionObject(const Vector2D& min, const Vector2D& max, Component2DBase* object, CollisionDynamics dynamics,bool isRoot) : CollisionObject2DBase(object, dynamics, SQUARE_COLLISION)
+AABBSquareCollisionObject::AABBSquareCollisionObject(Component2DBase * affectedComponent, CollisionDynamics dynamics, bool isRoot) : CollisionObject2DBase(affectedComponent, dynamics, SQUARE_COLLISION)
+{
+	if (isRoot)sweepCollisionSquare = new AABBSquareCollisionObject(Vec2D(), Vec2D(), affectedComponent, CD_Static, false);
+}
+
+AABBSquareCollisionObject::AABBSquareCollisionObject(const Vector2D& min, const Vector2D& max, Component2DBase* affectedComponent, CollisionDynamics dynamics,bool isRoot) : CollisionObject2DBase(affectedComponent, dynamics, SQUARE_COLLISION)
 {
 	this->minPos = min;
 	this->maxPos = max;
 
 	this->size = maxPos - minPos;
 
-	if(isRoot)sweepCollisionSquare = new AABBSquareCollisionObject(Vec2D(), Vec2D(), object, CD_Static,false);
+	if(isRoot)sweepCollisionSquare = new AABBSquareCollisionObject(Vec2D(), Vec2D(), affectedComponent, CD_Static,false);
 }
 
 AABBSquareCollisionObject::~AABBSquareCollisionObject()

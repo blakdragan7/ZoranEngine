@@ -20,7 +20,8 @@ private:
 	void FillCollisionPoints(CollisionPoint points[2], Vec2D otherMin, Vec2D otherMax);
 
 public:
-	AABBSquareCollisionObject(const Vector2D& min, const Vector2D& max, Component2DBase* object, CollisionDynamics dynamics = CD_Dynamic,bool isRoot = true);
+	AABBSquareCollisionObject(Component2DBase* affectedComponent, CollisionDynamics dynamics = CD_Dynamic, bool isRoot = true);
+	AABBSquareCollisionObject(const Vector2D& min, const Vector2D& max, Component2DBase* affectedComponent, CollisionDynamics dynamics = CD_Dynamic,bool isRoot = true);
 	~AABBSquareCollisionObject();
 
 	void SetBoundsBySceneObject()override;

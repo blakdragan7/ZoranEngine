@@ -181,7 +181,7 @@ void QuadTreeCollisionBucket::UpdateAllObjects()
 {
 	for (auto object : collisionObjects)
 	{
-		if (object->isDirty)
+		//if (object->isDirty)
 		{
 			UpdateObject(object);
 		}

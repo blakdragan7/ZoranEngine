@@ -8,6 +8,7 @@ class ZoranEngine_EXPORT CircleCollision2DObject : public CollisionObject2DBase
 private:
 	float radius;
 	float scaledRadius;
+	float scaledRadiusSqr;
 
 public:
 	CircleCollision2DObject(float radius, Component2DBase* component,CollisionDynamics cd = CD_Dynamic);
