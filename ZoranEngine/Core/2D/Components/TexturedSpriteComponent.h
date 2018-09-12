@@ -14,8 +14,6 @@ public:
 	~TexturedSpriteComponent();
 
 	virtual void PreRender()override;
-	virtual void Render()override;
-	virtual void PostRender()override;
 
 	void SetTexture(const char* texture, RenderDataType type, RenderDataFormat format);
 };

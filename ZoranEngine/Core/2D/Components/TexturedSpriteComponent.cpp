@@ -43,17 +43,6 @@ void TexturedSpriteComponent::PreRender()
 	GetShaderProgram()->SetModelMatrix(GetWorldMatrix());
 }
 
-void TexturedSpriteComponent::Render()
-{
-	Visible2DComponent::Render();
-	renderedObject->RenderObject();
-}
-
-void TexturedSpriteComponent::PostRender()
-{
-	Visible2DComponent::PostRender();
-}
-
 void TexturedSpriteComponent::SetTexture(const char * texture, RenderDataType type, RenderDataFormat format)
 {
 	this->texture = TextureManager::GetInstance()->TextureForFilePath(texture, type, format);

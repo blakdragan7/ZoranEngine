@@ -128,12 +128,14 @@ Collision2D* CircleCollision2DObject::CollidesWith(CollisionObject2DBase * other
 
 		Vec2D unrotatedVector(globalX, globalY);
 
-		Vec2D distance = (unrotatedVector - GetScenePos());
+		Vec2D distance = (GetScenePos() - unrotatedVector);
 
 		float magSQR = distance.magnitudeSqr();
 
 		if (magSQR <= scaledRadiusSqr)
 		{
+			Vector2D pos = GetScenePos();
+
 			Collision2D* collision = new Collision2D();
 
 			collision->collided = true;
@@ -145,12 +147,11 @@ Collision2D* CircleCollision2DObject::CollidesWith(CollisionObject2DBase * other
 			collision->objectBounds[1] = other;
 			collision->friction = sqrt(GetPhysicsObject()->GetFriction() * other->GetPhysicsObject()->GetFriction());
 
-
 			CollisionPoint cp;
 
 			cp.normal = -distance.getNormal();
 			cp.pos = unrotatedVector;
-			cp.separation = -sqrt(magSQR);
+			cp.separation = sqrtf(magSQR) - scaledRadius;
 
 			collision->AddCollisionPoint(cp);
 			return collision;

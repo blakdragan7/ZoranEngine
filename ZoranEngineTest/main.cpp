@@ -27,8 +27,9 @@ void TestDictionaryStuff();
 void TestAudio();
 
 static const unsigned TestNum = 1000;
-static const unsigned ToSpawn = 1000;
-static const float scale = 5.0f;
+static const unsigned SquareToSpawn = 0;
+static const unsigned CircleToSpawn = 1;
+static const float scale = 15.0f;
 int main(int argc, char* argv[])
 {
 
@@ -213,7 +214,7 @@ void TestSceneStuff()
 	std::string name_base = "TestSceneObject-";
 
 	Vec2D CollisionPoint(0,0);
-	for (int i = 0; i < ToSpawn / 20000; i++)
+	for (int i = 0; i < SquareToSpawn; i++)
 	{
 		TestSceneObject* test = new TestSceneObject((name_base + std::to_string(i)));
 		test->SetScale(scale, -scale);
@@ -234,12 +235,12 @@ void TestSceneStuff()
 
 	TestSceneObject* sqr = 0;
 
-	for (int i = 0; i < 1; i++)
+	for (int i = 0; i < CircleToSpawn; i++)
 	{
 		TestCircleObject* test = new TestCircleObject(std::string("circle ") + std::to_string(i), 1.0);
 		test->SetScale(scale, -scale);
 		//test->SetPosition(i * 5 + -150, 100);
-		test->SetPosition(Random::GetfloatInRange(-150, 150), Random::GetfloatInRange(-150, 150));
+		//test->SetPosition(Random::GetfloatInRange(-150, 150), Random::GetfloatInRange(-150, 150));
 		test->GetPhysics()->StartSimulation();
 
 		//test->SetTarget(sqr);

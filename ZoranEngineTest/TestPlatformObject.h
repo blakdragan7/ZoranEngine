@@ -7,7 +7,8 @@ class RigidBody2DComponent;
 class TestPlatformObject : public TexturedSprite
 {
 private:
-	OSquareCollisionComponent * collision;
+	//OSquareCollisionComponent * collision;
+	AASquareCollisionComponent * collision;
 	RigidBody2DComponent* rigid;
 
 public:

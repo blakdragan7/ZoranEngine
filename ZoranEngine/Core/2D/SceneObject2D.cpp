@@ -114,26 +114,37 @@ void SceneObject2D::Rotate(float rotation)
 
 float SceneObject2D::GetRotationDegree()const
 {
-	CheckRootComponent("SceneObject2D::SetPosition");
-	return (root2DComponent->GetRotation() * 180.0f) / 3.14159265359f;
+	if (CheckRootComponent("SceneObject2D::SetPosition"))
+	{
+		return (root2DComponent->GetRotation() * 180.0f) / 3.14159265359f;
+	}
+	else return 0;
 }
 
 float SceneObject2D::GetRotation()const
 {
-	CheckRootComponent("SceneObject2D::SetPosition");
-	return root2DComponent->GetRotation();
+	if (CheckRootComponent("SceneObject2D::SetPosition"))
+	{
+		return root2DComponent->GetRotation();
+	}
+	else return 0;
 }
 
 void SceneObject2D::PreCaclModel()
 {
-	CheckRootComponent("SceneObject2D::SetPosition");
-	ModelMatrixCache = root2DComponent->GetWorldMatrix();
+	if (CheckRootComponent("SceneObject2D::SetPosition"))
+	{
+		ModelMatrixCache = root2DComponent->GetWorldMatrix();
+	}
 }
 
 Matrix44 SceneObject2D::GetScaleMatrix4x4()
 {
-	CheckRootComponent("SceneObject2D::SetPosition");
-	return Matrix44::ScaleMatrix(root2DComponent->GetScale());
+	if (CheckRootComponent("SceneObject2D::SetPosition"))
+	{
+		return Matrix44::ScaleMatrix(root2DComponent->GetScale());
+	}
+	else return Matrix44();
 }
 
 void SceneObject2D::Destroy()

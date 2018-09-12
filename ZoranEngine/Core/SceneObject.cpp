@@ -9,6 +9,7 @@
 #include <Rendering/ShaderProgramBase.h>
 #include <Rendering/RenderedObjectBase.h>
 #include <Core/Components/ComponentBase.h>
+
 static unsigned long long NextID = 0;
 
 void SceneObject::WaitForMutex()
@@ -39,6 +40,7 @@ SceneObject::SceneObject(ComponentBase* rootComponent,std::string name) : rootCo
 
 SceneObject::~SceneObject()
 {
+	delete rootComponent;
 	delete readableName;
 	delete mutex;
 }

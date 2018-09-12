@@ -5,7 +5,8 @@
 DebugSceneObject2D::DebugSceneObject2D(std::string name) : SceneObject2D(name)
 {
 	component = new DebugRenderComponent();
-	SetRootComponent(component);
+	root2DComponent = component;
+	SetRootComponent(root2DComponent);
 }
 
 

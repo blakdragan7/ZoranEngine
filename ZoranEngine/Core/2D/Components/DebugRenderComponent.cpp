@@ -21,6 +21,6 @@ DebugRenderComponent::~DebugRenderComponent()
 void DebugRenderComponent::PreRender()
 {
 	shader->setUniform("Color",&color);
-
+	CalculateLocalMatrix();
 	GetShaderProgram()->SetModelMatrix(GetWorldMatrix());
 }

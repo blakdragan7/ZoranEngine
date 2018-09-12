@@ -96,7 +96,7 @@ void OpenGLRenderEngine::InitEngine(WindowHandle handle)
 	
 	ImGui_ImplOpenGL3_Init("#version 330");
 	ImGui::StyleColorsDark();
-	//glEnable(GL_DEPTH_TEST);
+	glEnable(GL_DEPTH_TEST);
 #endif
 }
 

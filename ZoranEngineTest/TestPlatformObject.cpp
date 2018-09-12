@@ -7,8 +7,8 @@
 
 TestPlatformObject::TestPlatformObject(std::string name) : TexturedSprite(name, "test.png", RenderDataType::TYPE_RGBA_32, RenderDataFormat::FORMAT_UNSIGNED_BYTE)
 {
-	collision = new OSquareCollisionComponent(root2DComponent);
-	//collision = new AASquareCollisionComponent(root2DComponent);
+	//collision = new OSquareCollisionComponent(root2DComponent);
+	collision = new AASquareCollisionComponent(root2DComponent);
 
 	collision->SetDynamics(CD_Static);
 	collision->SetCollisionLayer(COLLISION_LAYER_GROUND);
