@@ -1,7 +1,7 @@
 # ZoranEngine
 
 ZoranEngine Is a game engine designed with Multiplatform capabilities
-Is contains a main class ZoranEngine that Is what everything else funnels through
+It contains a main class ZoranEngine that Is what everything else funnels through
 
 Each *Engine class is an abstraction from implementation. So RenderEngine is an abstraction from rendering specifics
 Every *Engine class should be created from ZoranEngine itself and not by the user of the engine
