@@ -76,7 +76,18 @@ const Matrix44 ComponentBase::GetWorldMatrix() const
 	else return localMatrix;
 }
 
-const char* ComponentBase::GetSceneName()
+void ComponentBase::TransferSubComponentsTo(ComponentBase * component)
+{
+	for (unsigned i = 0; i < subComponents->size(); i++)
+	{
+		ComponentBase* comp = (*subComponents)[i];
+		component->AddSubComponent(comp);
+	}
+
+	subComponents->clear();
+}
+
+const char* ComponentBase::GetSceneName()const
 {
 	if (owner != NULL)
 	{
@@ -86,7 +97,7 @@ const char* ComponentBase::GetSceneName()
 	return 0;
 }
 
-std::string *ComponentBase::GetSceneNameStr()
+std::string *ComponentBase::GetSceneNameStr()const
 {
 	if (owner != NULL)
 	{

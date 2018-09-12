@@ -41,10 +41,12 @@ public:
 	   this is virtual because there is a difference in how it's created for 2d vs 3d */
 	virtual void CalculateLocalMatrix() = 0;
 
-	const char* GetSceneName();
-	std::string *GetSceneNameStr();
+	const char* GetSceneName()const;
+	std::string *GetSceneNameStr()const;
 
 	inline void SetOwner(SceneObject* owner) { this->owner = owner; }
-	inline SceneObject* GetOwner() { return owner; }
+	inline SceneObject* GetOwner()const { return owner; }
+
+	void TransferSubComponentsTo(ComponentBase* component);
 };
 

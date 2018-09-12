@@ -74,16 +74,16 @@ public:
 	void DestroySceneObject(SceneObject* object);
 	void RemoveTickableObject(TickableObject* object);
 
-	inline RenderEngineBase* GetRenderer() { return mainRenderEngine; }
-	inline PhysicsEngine* GetPhysicsEngine() { return physicsEngine; }
-	inline AudioEngineBase* GetAudioEngine() { return audioEngine; }
+	inline RenderEngineBase* GetRenderer()const { return mainRenderEngine; }
+	inline PhysicsEngine* GetPhysicsEngine()const { return physicsEngine; }
+	inline AudioEngineBase* GetAudioEngine()const { return audioEngine; }
 
 	static inline ZoranEngine* Instance() { return instance; }
 
-	void SetPaused(bool paused) { isPaused = paused; }
+	inline void SetPaused(bool paused) { isPaused = paused; }
 
-	const char* GetVersion();
-	void GetVersion(unsigned &Major,unsigned &Minor,unsigned &Revision);
+	const char* GetVersion()const;
+	void GetVersion(unsigned &Major,unsigned &Minor,unsigned &Revision)const;
 
 	// Creates a thread for the current platform and returns an instance to it.
 	// You must release this instance when it is done.

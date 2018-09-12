@@ -23,11 +23,6 @@
 
 #include "Version.h"
 #include "Utils/ConsoleLogger.h"
-#ifdef _WIN32
-#include "Windows/WindowsThread.h"
-#else
-
-#endif
 
 #include <Utils/Statistics.h>
 #include <ThirdParty/imgui/imgui.h>
@@ -252,25 +247,14 @@ void ZoranEngine::RemoveTickableObject(TickableObject * object)
 	remove(*allTickables, object);
 }
 
-const char * ZoranEngine::GetVersion()
+const char * ZoranEngine::GetVersion()const
 {
 	return Version;
 }
 
-void ZoranEngine::GetVersion(unsigned &Major, unsigned &Minor, unsigned &Revision)
+void ZoranEngine::GetVersion(unsigned &Major, unsigned &Minor, unsigned &Revision)const
 {
 	Major = VERSION_MAJOR;
 	Minor = VERSION_MINOR;
 	Revision = VERSION_REVISION;
-}
-
-ThreadBase * ZoranEngine::CreateThread()
-{
-	ThreadBase* thread = 0;
-#ifdef _WIN32
-	thread = new WindowsThread();
-#else
-	throw std::exception("Threads Not Implented For This Platform !");
-#endif
-	return thread;
 }

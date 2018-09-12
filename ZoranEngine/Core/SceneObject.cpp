@@ -54,5 +54,10 @@ void SceneObject::Destroy()
 void SceneObject::SetRootComponent(ComponentBase * component)
 {
 	component->SetOwner(this);
+	if (rootComponent)
+	{
+		rootComponent->TransferSubComponentsTo(component);
+		delete rootComponent;
+	}
 	rootComponent = component;
 }

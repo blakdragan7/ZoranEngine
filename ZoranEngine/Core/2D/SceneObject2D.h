@@ -44,6 +44,8 @@ public:
 	float GetRotationDegree()const;
 	float GetRotation()const;
 
+	inline void SetRoot2DComponent(Component2DBase* component) { root2DComponent = component; SetRootComponent(component); }
+
 	inline const Vector2D& GetPosition()const { return root2DComponent->GetOffset(); }
 	inline const Vector2D& GetScale()const { return root2DComponent->GetScale(); }
 	inline const Vector2D GetSize()const { return root2DComponent->GetSize(); }

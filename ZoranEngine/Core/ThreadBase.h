@@ -32,4 +32,6 @@ public:
 
 	virtual void StartThread(); // starts the thread
 	virtual void StopThread(); // blocks until thread is stopped
+
+	static ThreadBase* CreatePlatformThread();
 };
