@@ -363,6 +363,7 @@
     <ClCompile Include="Core\2D\Components\DebugRenderComponent.cpp">
       <Filter>ZoranEngine\Core\2D\Components</Filter>
     </ClCompile>
+    <ClCompile Include="SpeakerComponentBase.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -743,6 +744,7 @@
     <ClInclude Include="Core\2D\Components\DebugRenderComponent.h">
       <Filter>ZoranEngine\Core\2D\Components</Filter>
     </ClInclude>
+    <ClInclude Include="SpeakerComponentBase.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ZoranEngine.rc">

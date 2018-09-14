@@ -28,6 +28,7 @@ public:
 	virtual AudioError SwitchToDevice(AudioDevice* toDevice, AudioDevice* fromDevice)override;
 	virtual AudioError  CreateAudioListener(const SceneObject3D * object, AudioListener** outListener)override;
 	virtual AudioError  CreateAudioListener(const SceneObject2D * object, AudioListener** outListener)override;
+	virtual AudioError  CreateAudioListener(AudioListener** outListener)override;
 	virtual AudioError MakeListenerActive(AudioListener* listener)override;
 	virtual AudioError DestroyListener(AudioListener* listener)override;
 	virtual AudioError  PlaySoundAtLocation(SoundInstance* sound, const Vector3D& location)override;

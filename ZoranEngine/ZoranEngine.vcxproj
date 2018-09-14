@@ -28,6 +28,7 @@
     <None Include="Shaders\3D\standard.vert" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="SpeakerComponentBase.cpp" />
     <ClCompile Include="Core\2D\Camera2D.cpp" />
     <ClCompile Include="Core\2D\Components\AASquareCollisionComponent.cpp" />
     <ClCompile Include="Core\2D\Components\Audio2DComponent.cpp" />
@@ -137,6 +138,7 @@
     <ClCompile Include="Windows\WindowsWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SpeakerComponentBase.h" />
     <ClInclude Include="Core\2D\Camera2D.h" />
     <ClInclude Include="Core\2D\Components\AASquareCollisionComponent.h" />
     <ClInclude Include="Core\2D\Components\Audio2DComponent.h" />

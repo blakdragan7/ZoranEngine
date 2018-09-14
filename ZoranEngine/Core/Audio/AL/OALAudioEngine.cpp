@@ -288,9 +288,19 @@ AudioError OALAudioEngine::SwitchToDevice(AudioDevice * toDevice, AudioDevice * 
 
 AudioError OALAudioEngine::CreateAudioListener(const SceneObject3D * object, AudioListener ** outListener)
 {
+	if (currentDevice == 0)
+	{
+		return AE_NO_DEVICE;
+	}
+
 	OALAudioListener* listener = new OALAudioListener(this);
 
 	listener->context = alcCreateContext(currentDevice->oalDevice, 0);
+
+	if (AudioError err = CheckALErrors("alcCreateContext"))
+	{
+		return err;
+	}
 
 	if (activeListener == 0)
 	{
@@ -321,9 +331,19 @@ AudioError OALAudioEngine::CreateAudioListener(const SceneObject3D * object, Aud
 
 AudioError OALAudioEngine::CreateAudioListener(const SceneObject2D * object, AudioListener ** outListener)
 {
+	if (currentDevice == 0)
+	{
+		return AE_NO_DEVICE;
+	}
+
 	OALAudioListener* listener = new OALAudioListener(this);
 
 	listener->context = alcCreateContext(currentDevice->oalDevice, 0);
+
+	if (AudioError err = CheckALErrors("alcCreateContext"))
+	{
+		return err;
+	}
 
 	if (activeListener == 0)
 	{
@@ -335,6 +355,35 @@ AudioError OALAudioEngine::CreateAudioListener(const SceneObject2D * object, Aud
 
 		alListener3f(AL_POSITION, location.x, location.y, 0);
 		//alListener3f(AL_VELOCITY, veloctiy.x, veloctiy.y, 0);
+	}
+
+	audioListeners.push_back(listener);
+
+	*outListener = listener;
+
+	return AE_NO_ERROR;
+}
+
+AudioError OALAudioEngine::CreateAudioListener(AudioListener ** outListener)
+{
+	if (currentDevice == 0)
+	{
+		return AE_NO_DEVICE;
+	}
+
+	OALAudioListener* listener = new OALAudioListener(this);
+
+	listener->context = alcCreateContext(currentDevice->oalDevice, 0);
+
+	if (AudioError err = CheckALErrors("alcCreateContext"))
+	{
+		return err;
+	}
+
+	if (activeListener == 0)
+	{
+		alcMakeContextCurrent(listener->context);
+		activeListener = listener;
 	}
 
 	audioListeners.push_back(listener);

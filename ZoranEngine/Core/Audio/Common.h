@@ -23,6 +23,8 @@ such as turning on a capability that this engine implementation doesnt supprot*/
 #define AE_NO_MEMORY 9
 /* there was an error with the backend implementation, probably a bug */
 #define AE_BACKEND_ERROR 10
+/* A device specific function was called whithout an active device */
+#define AE_NO_DEVICE 11
 
 enum AudioFileType
 {
@@ -52,3 +54,5 @@ enum AEImplementation
 	AEI_INVALID,
 	AEI_OAL
 };
+
+typedef unsigned AudioError;
