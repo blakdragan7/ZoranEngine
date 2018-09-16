@@ -5,9 +5,6 @@
 
 WindowBase::WindowBase(ZoranEngine* zoranEngine)
 {
-	this->engine = zoranEngine;
-	this->renderEngine = zoranEngine->GetRenderer();
-
 	isFullScreen = false;
 	isMaximized = false;
 	windowHandle = 0;
@@ -20,8 +17,8 @@ WindowBase::~WindowBase()
 void WindowBase::Resize(Vec2I size)
 {
 	SetWindowSizeNoExecute(size.w,size.h);
-	if(renderEngine)renderEngine->Resize(size.w, size.h);
-	engine->ScreenResized(static_cast<float>(size.w), static_cast<float>(size.h));
+	if(rEngine)rEngine->Resize(size.w, size.h);
+	zEngine->ScreenResized(static_cast<float>(size.w), static_cast<float>(size.h));
 }
 
 void WindowBase::SetPosition(Vec2I position)
@@ -41,7 +38,7 @@ void WindowBase::MakeWindow(const char * title, Vec2I position, Vec2I size)
 
 void WindowBase::MainDraw()
 {
-	renderEngine->ClearBuffers();
-	renderEngine->DrawAll();
+	rEngine->ClearBuffers();
+	rEngine->DrawAll();
 	SwapBuffers();
 }

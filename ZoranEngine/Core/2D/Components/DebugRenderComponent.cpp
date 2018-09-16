@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "DebugRenderComponent.h"
 #include <Rendering/RenderEngineBase.h>
-#include <OpenGL\DebugShader2D.h>
+#include <OpenGL/2D/DebugShader2D.h>
 #include <Rendering/RenderedObjectBase.h>
 
 DebugRenderComponent::DebugRenderComponent()

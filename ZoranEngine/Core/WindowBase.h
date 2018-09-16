@@ -10,8 +10,6 @@ class RenderEngineBase;
 class ZoranEngine_EXPORT WindowBase
 {
 protected:
-	ZoranEngine* engine;
-	RenderEngineBase* renderEngine;
 	WindowHandle windowHandle;
 	bool isFullScreen;
 	bool isMaximized;

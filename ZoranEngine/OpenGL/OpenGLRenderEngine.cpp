@@ -11,8 +11,7 @@
 
 #include <GL\glew.h>
 
-#include <Core/Components/VisibleComponentBase.h>
-#include <Core/Components/ComponentBase.h>
+
 #include <Core/SceneObject.h>
 
 #include <Rendering/ShaderProgramBase.h>
@@ -28,14 +27,12 @@
 OpenGLRenderEngine::OpenGLRenderEngine()
 {
 	context = 0;
-	renderMap = new GLRenderMap();
 }
 
 OpenGLRenderEngine::~OpenGLRenderEngine()
 {
 	ImGui_ImplOpenGL3_Shutdown();
 
-	delete renderMap;
 
 #ifdef _WIN32
 	wglDeleteContext((HGLRC)context);
@@ -96,8 +93,17 @@ void OpenGLRenderEngine::InitEngine(WindowHandle handle)
 	
 	ImGui_ImplOpenGL3_Init("#version 330");
 	ImGui::StyleColorsDark();
-	glEnable(GL_DEPTH_TEST);
 #endif
+}
+
+void OpenGLRenderEngine::EnableDepthTesting()
+{
+	glEnable(GL_DEPTH_TEST);
+}
+
+void OpenGLRenderEngine::DisableDepthTesting()
+{
+	glDisable(GL_DEPTH_TEST);
 }
 
 void OpenGLRenderEngine::DisableAlpha()
@@ -117,84 +123,9 @@ void OpenGLRenderEngine::ClearBuffers()
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 }
 
-void OpenGLRenderEngine::DrawAll()
-{
-	ImGui_ImplOpenGL3_NewFrame();
-	ImGui::NewFrame();
-
-	HighPrecisionClock clock;
-
-	DEBUG_BENCH_START_TRACK("OpenGLRenderEngine")
-	for (auto iter : *renderMap)
-	{
-		ShaderProgramBase* program = iter.first;
-		program->BindProgram();
-
-		for (VisibleComponentBase* component : iter.second)
-		{
-			component->PreRender();
-			component->Render();
-			component->PostRender();
-		}
-	}
-
-	DEBUG_TRACK_TAKE_BENCH("OpenGLRenderEngine");
-
-	DEBUG_TAKE_BENCH
-
-	DEBUG_DRAW;
-
-	//pEngine->GetCollisionBucketRootFor2D()->ImGuiDraw();
-
-	ImGui::Render();
-
-	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-}
-
 void OpenGLRenderEngine::Resize(int x, int y)
 {
 	glViewport(0, 0, x, y);
-}
-
-void OpenGLRenderEngine::AddComponent(VisibleComponentBase* component)
-{
-	ShaderProgramBase* program = component->GetShaderProgram();
-	if (renderMap->find(program) != renderMap->end())
-	{
-		(*renderMap)[program].push_back(component);
-	}
-	else
-	{
-		std::vector<VisibleComponentBase*> objects;
-		objects.push_back(component);
-		renderMap->insert(GLRenderMapPair(program, objects));
-	}
-}
-
-bool OpenGLRenderEngine::RemoveComponent(VisibleComponentBase* component)
-{
-	ShaderProgramBase* program = component->GetShaderProgram();
-	if (renderMap->find(program) != renderMap->end())
-	{
-		std::vector<VisibleComponentBase*>& objects = (*renderMap)[program];
-		auto& iter = std::find(objects.begin(), objects.end(), component);
-		if (iter != objects.end())
-		{
-			objects.erase(iter);
-
-			if (objects.size() == 0)
-			{
-				renderMap->erase(program);
-			}
-
-			return true;
-		}
-	}
-
-	Log(LogLevel_Error,"OpenGLRenderEngine::RemoveRenderObject Failed to find and remove RenderObject!\n");
-
-	return false;
 }
 
 TextureBase * OpenGLRenderEngine::CreateTexture(const char * path, RenderDataType bufferType, RenderDataFormat bufferFormat)

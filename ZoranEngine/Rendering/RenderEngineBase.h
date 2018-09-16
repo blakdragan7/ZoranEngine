@@ -31,7 +31,10 @@ public:
 	virtual ~RenderEngineBase();
 
 	virtual void InitEngine(WindowHandle handle) = 0;
-
+	/* Enables Checking the z Value for rendering and clipping */
+	virtual void EnableDepthTesting() = 0;
+	/* Disabled Checking the z value for rnedering and clipping */
+	virtual void DisableDepthTesting() = 0;
 	/* turns off translucency */
 	virtual void DisableAlpha() = 0;
 	/* turns on translucency */
@@ -94,4 +97,6 @@ public:
 		}
 		return 0;
 	}
+
+	virtual const char* GetEngineReadableName() { return "Unimplemented Render Engine"; }
 };

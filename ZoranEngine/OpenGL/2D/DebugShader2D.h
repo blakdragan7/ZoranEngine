@@ -1,5 +1,5 @@
 #pragma once
-#include "OpenGLShaderProgramBase.h"
+#include <OpenGL/OpenGLShaderProgramBase.h>
 
 class ZoranEngine_EXPORT DebugShader2D : public OpenGLShaderProgramBase
 {

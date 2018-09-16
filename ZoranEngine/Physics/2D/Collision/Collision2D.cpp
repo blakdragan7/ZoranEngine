@@ -4,7 +4,7 @@
 #include <Rendering/RenderedObjectBase.h>
 #include <Physics/2D/PhysicsObject2DBase.h>
 #include <Math/MathLib.h>
-#include <OpenGL/DebugShader2D.h>
+#include <OpenGL/2D/DebugShader2D.h>
 
 void Collision2D::AddCollisionPoint(CollisionPoint & point)
 {
@@ -246,15 +246,18 @@ void Collision2D::Update(Collision2D* other)
 		}
 		else if (numCollisionPoints < other->numCollisionPoints)
 		{
-			for (unsigned i = numCollisionPoints; i < other->numCollisionPoints; i++)
+			if (shouldRender)
 			{
-				DebugSceneObject2D* db = new DebugSceneObject2D("Debug Collision Point");
-				db->SetScale(5, 5);
-				db->SetColor(Vec3D(0.0, 1.0, 0.0));
-				db->SetPosition(collisionPoints[i].pos);
+				for (unsigned i = numCollisionPoints; i < other->numCollisionPoints; i++)
+				{
+					DebugSceneObject2D* db = new DebugSceneObject2D("Debug Collision Point");
+					db->SetScale(5, 5);
+					db->SetColor(Vec3D(0.0, 1.0, 0.0));
+					db->SetPosition(collisionPoints[i].pos);
 
-				debugObjects[i] = db;
-				zEngine->AddSceneObject(db);
+					debugObjects[i] = db;
+					zEngine->AddSceneObject(db);
+				}
 			}
 		}
 

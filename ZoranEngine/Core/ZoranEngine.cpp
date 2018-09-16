@@ -8,8 +8,8 @@
 #include <Physics/PhysicsEngine.h>
 #include <Windows/WindowsWindow.h>
 #include <Utils/HighPrecisionClock.h>
-#include <OpenGL/OpenGLRenderEngine.h>
-#include <Physics/PhysicsObjectBase.h>
+#include <OpenGL/2D/OpenGL2DRenderEngine.h>
+
 #include <Physics/Collision/CollisionObjectBase.h>
 #include <Physics/Collision/CollisionBucketBase.h>
 
@@ -32,7 +32,7 @@
 
 ZoranEngine* ZoranEngine::instance = 0;
 
-bool ZoranEngine::canRenderDebug = true;
+bool ZoranEngine::canRenderDebug = false;
 
 ZoranEngine::ZoranEngine()
 {
@@ -67,8 +67,6 @@ ZoranEngine::~ZoranEngine()
 	delete allSceneObjects;
 	delete allTickables;
 
-	mainWindow->renderEngine = 0;
-
 	if (physicsEngine)delete physicsEngine;
 	if (mainRenderEngine)delete mainRenderEngine;
 	if (mainWindow)delete mainWindow;
@@ -91,8 +89,6 @@ int ZoranEngine::MainLoop()
 
 	while (WM_QUIT != msg.message && shouldRun)
 	{
-		// Main body of the Demo window starts here.
-
 		DEBUG_BENCH_START;
 
 		double deltaTime = (cl.GetDiffSeconds());
@@ -113,7 +109,6 @@ int ZoranEngine::MainLoop()
 			if (step)
 			{
 				step = false;
-				//deltaTime = 0.033; 
 			}
 			if (physicsEngine)physicsEngine->UpdateAll(static_cast<float>(deltaTime));
 
@@ -138,14 +133,11 @@ bool ZoranEngine::Init()
 {
 	Random::Init();
 	
-	mainRenderEngine = new OpenGLRenderEngine();
 	WindowBase* window;
 #ifdef _WIN32
 	window = new WindowsWindow(this);
 	window->MakeWindow("test", 0, 0, 1920, 1080);
 #endif
-	mainRenderEngine->InitEngine(window->GetHandle());
-
 	mainWindow = window;
 
 	audioEngine = new OALAudioEngine();
@@ -156,7 +148,11 @@ bool ZoranEngine::Init()
 
 void ZoranEngine::Setup2DScene(float centerx, float centery, float width, float height)
 {
+	mainRenderEngine = new OpenGL2DRenderEngine();
+	mainRenderEngine->InitEngine(mainWindow->GetHandle());
+
 	physicsEngine->SetupFor2D(Vec2D(centerx, centery), Vec2D(width, height));
+
 	camera = new OrthoCamera("camera", width, height, 0);
 	camera->Translate(centerx, centery, 0);
 	camera->ScreenResized(mainWindow->GetSize());

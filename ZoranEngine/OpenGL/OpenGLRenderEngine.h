@@ -5,15 +5,13 @@
 #include <map>
 #include <vector>
 
-typedef std::map  <ShaderProgramBase*, std::vector<VisibleComponentBase*>> GLRenderMap;
-typedef std::pair <ShaderProgramBase*, std::vector<VisibleComponentBase*>> GLRenderMapPair;
+
 
 class ZoranEngine_EXPORT OpenGLRenderEngine : public RenderEngineBase
 {
 private:
 	// in opengl we order the renderd object by shader program because it is much more effecient for rendering
 
-	GLRenderMap* renderMap;
 	void* context;
 
 public:
@@ -22,14 +20,12 @@ public:
 
 	virtual void InitEngine(WindowHandle handle)override;
 
+	virtual void EnableDepthTesting()override;
+	virtual void DisableDepthTesting()override;
 	virtual void DisableAlpha()override;
 	virtual void EnableAlpha()override;
 	virtual void ClearBuffers()override;
-	virtual void DrawAll()override;
 	virtual void Resize(int x, int y)override;
-
-	virtual void AddComponent(VisibleComponentBase* component)override;
-	virtual bool RemoveComponent(VisibleComponentBase* component)override;
 
 	virtual RenderedObjectBase* CreateRenderedObject()override;
 	virtual TextureBase* CreateTexture(const char* path, RenderDataType bufferType, RenderDataFormat bufferFormat)override;
@@ -40,4 +36,6 @@ public:
 
 	virtual void CheckErrors(const char* text)override;
 	virtual void ClearErrors()override;
+
+	virtual const char* GetEngineReadableName() { return "Unimplemented OpenGL RenderEngine"; };
 };

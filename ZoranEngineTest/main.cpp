@@ -19,192 +19,19 @@
 
 #include <string>
 
-void TestArrayStuff();
 void TestSceneStuff();
-void TestLinkedListStuff();
-void TestDoubleLinkedListStuff();
-void TestDictionaryStuff();
 void TestAudio();
 
 static const unsigned TestNum = 1000;
-static const unsigned SquareToSpawn = 0;
-static const unsigned CircleToSpawn = 1;
-static const float scale = 15.0f;
+static const unsigned SquareToSpawn = 200;
+static const unsigned CircleToSpawn = 200;
+static const float scale = 5.0f;
+
 int main(int argc, char* argv[])
 {
-
-#ifdef CUSTOM_CONTAINERS
-	TestDictionaryStuff();
-	TestDoubleLinkedListStuff();
-	TestLinkedListStuff();
-	TestArrayStuff();
-#endif
 	TestSceneStuff();
 }
 
-#ifdef CUSTOM_CONTAINERS
-void TestDictionaryStuff()
-{
-	HighPrecisionClock cl;
-
-	ZDictionary<std::string, std::string> dict;
-
-	static const std::string vStart = "sss ";
-	for (unsigned i = 0; i < TestNum; i++)
-	{
-		dict.Add(vStart + std::to_string(i), vStart + std::to_string(i));
-	}
-
-	for (unsigned i = TestNum - 1; i > TestNum / 2; i--)
-	{
-		dict.Remove(vStart + std::to_string(i));
-	}
-
-	for (unsigned i = 0; i < TestNum/2.0; i++)
-	{
-		std::string val = dict[vStart + std::to_string(i)];
-	}
-	
-	double tm = cl.GetDiffSeconds();
-
-	std::cout << "ZDictionary Took " << tm << " seconds\n";
-
-	cl.TakeClock();
-
-	double nl = cl.GetDiffSeconds();
-
-	std::cout << "map Took " << nl << " seconds\n";
-
-	std::cout << "ZDictionary ratio is " << (nl / tm) << std::endl;
-}
-
-void TestDoubleLinkedListStuff()
-{
-	HighPrecisionClock cl;
-
-	ZDoubleLinkedList<unsigned> ints;
-
-	for (unsigned i = 0; i < TestNum; i++)
-	{
-		ints.Add(i);
-	}
-
-	for (unsigned i = TestNum - 1; i > TestNum / 2; i--)
-	{
-		ints.PopLast();
-	}
-
-	double tm = cl.GetDiffSeconds();
-
-	std::cout << "ZDoubleLinkedList Took " << tm << " seconds\n";
-
-	cl.TakeClock();
-
-	std::vector<unsigned> v;
-
-	for (unsigned i = 0; i < TestNum; i++)
-	{
-		v.push_back(i);
-	}
-
-	for (unsigned i = TestNum - 1; i > TestNum / 2; i--)
-	{
-		v.erase(std::find(v.begin(), v.end(), i));
-	}
-
-	double nl = cl.GetDiffSeconds();
-
-	std::cout << "Vector Took " << nl << " seconds\n";
-
-	std::cout << "ZDoubleLinkedList ratio is " << (nl / tm) << std::endl;
-}
-
-void TestLinkedListStuff()
-{
-
-	HighPrecisionClock cl;
-
-	ZLinkedList<unsigned> ints;
-
-	for (unsigned i = 0; i < TestNum; i++)
-	{
-		ints.Add(i);
-	}
-
-	for (unsigned i = TestNum - 1; i > TestNum / 2; i--)
-	{
-		ints.PopLast();
-	}
-
-	double tm = cl.GetDiffSeconds();
-
-	std::cout << "ZLinkedList Took " << tm << " seconds\n";
-
-	cl.TakeClock();
-
-	std::vector<unsigned> v;
-
-	for (unsigned i = 0; i < TestNum; i++)
-	{
-		v.push_back(i);
-	}
-
-	for (unsigned i = TestNum - 1; i > TestNum / 2; i--)
-	{
-		v.erase(std::find(v.begin(), v.end(), i));
-	}
-
-	double nl = cl.GetDiffSeconds();
-
-	std::cout << "Vector Took " << nl << " seconds\n";
-
-	std::cout << "ZLinkedList ratio is " << (nl / tm) << std::endl;
-}
-
-void TestArrayStuff()
-{
-	HighPrecisionClock cl;
-
-	ZArray<std::string> ints;
-
-	for (unsigned i = 0; i < TestNum; i++)
-	{
-		ints.Add(std::to_string(i));
-	}
-
-	for (unsigned i = TestNum - 1; i > TestNum / 2; i--)
-	{
-		ints.RemoveAt(i);
-	}
-
-	double tm = cl.GetDiffSeconds();
-
-	std::cout << "ZArray Took " << tm << " seconds\n";
-
-	cl.TakeClock();
-
-	std::vector<std::string> v;
-
-	for (unsigned i = 0; i < TestNum; i++)
-	{
-		v.push_back(std::to_string(i));
-	}
-
-	for (unsigned i = TestNum - 1; i > TestNum / 2; i--)
-	{
-		v.erase(v.begin() + i);
-		//v.erase(std::find(v.begin(), v.end(), i));
-	}
-
-	double nl = cl.GetDiffSeconds();
-
-	std::cout << "Vector Took " << nl << " seconds\n";
-
-	std::cout << "ZArray ratio is " << (nl / tm) << std::endl;
-
-	ints.Empty();
-}
-#endif
 void TestSceneStuff()
 {
 	ZoranEngine engine;
@@ -240,7 +67,7 @@ void TestSceneStuff()
 		TestCircleObject* test = new TestCircleObject(std::string("circle ") + std::to_string(i), 1.0);
 		test->SetScale(scale, -scale);
 		//test->SetPosition(i * 5 + -150, 100);
-		//test->SetPosition(Random::GetfloatInRange(-150, 150), Random::GetfloatInRange(-150, 150));
+		test->SetPosition(Random::GetfloatInRange(-150, 150), Random::GetfloatInRange(-150, 150));
 		test->GetPhysics()->StartSimulation();
 
 		//test->SetTarget(sqr);
@@ -264,7 +91,7 @@ void TestSceneStuff()
 	platform->PreCaclModel();
 	zEngine->AddSceneObject(platform);
 
-	/*TestPlatformObject* platform2 = new TestPlatformObject("Ceiling");
+	TestPlatformObject* platform2 = new TestPlatformObject("Ceiling");
 	platform2->SetScale(500, -40);
 	platform2->SetPosition(0, 250);
 	platform2->PreCaclModel();
@@ -280,7 +107,7 @@ void TestSceneStuff()
 	platform4->SetScale(40, -500);
 	platform4->SetPosition(500, 0);
 	platform4->PreCaclModel();
-	zEngine->AddSceneObject(platform4);*/
+	zEngine->AddSceneObject(platform4);
 
 	//TestAudio();
 
