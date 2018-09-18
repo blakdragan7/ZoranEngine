@@ -13,5 +13,7 @@ public:
 	void SetColor(const Vec3D& color) { component->SetColor(color); }
 	void SetColor(float r, float g, float b) { component->SetColor(r, g, b); }
 	const Vec3D& GetColor() { return component->GetColor(); }
+
+	inline void SetVisible(bool visible) { component->SetIsVisible(visible); }
 };
 

@@ -4,6 +4,8 @@
 
 class ZoranEngine_EXPORT Visible2DComponent : public VisibleComponentBase, public Component2DBase
 {
+private:
+	bool shouldRender;
 
 public:
 	Visible2DComponent(unsigned renderLayer);
@@ -12,5 +14,8 @@ public:
 	virtual void PreRender()override;
 	virtual void Render()override;
 	virtual void PostRender()override;
+
+	inline void SetIsVisible(bool shouldRender) { this->shouldRender = shouldRender; }
+	inline bool GetIsVisible() { return shouldRender; }
 };
 

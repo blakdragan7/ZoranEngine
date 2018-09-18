@@ -107,12 +107,13 @@ Collision2D* CircleCollision2DObject::CollidesWith(CollisionObject2DBase * other
 	}
 	else if (other->GetCollisionType() == b2D_2D_COLLISION)
 	{
+		
 		Vec2D distancel = GetScenePos() - other->GetScenePos();
 
 		Vec2D size = other->GetSize();
 
-		float cs = cosf(other->GetAffectedComponent()->GetRotation());
-		float sn = sinf(other->GetAffectedComponent()->GetRotation());
+		float cs = cosf(-other->GetAffectedComponent()->GetRotation());
+		float sn = sinf(-other->GetAffectedComponent()->GetRotation());
 
 		float rotatedx = distancel.x * cs + distancel.y * sn;
 		float rotatedy = -distancel.x * sn + distancel.y * cs;
@@ -127,6 +128,12 @@ Collision2D* CircleCollision2DObject::CollidesWith(CollisionObject2DBase * other
 		float globalY = unrotatedY + other->GetScenePos().y;
 
 		Vec2D unrotatedVector(globalX, globalY);
+
+		if (ZoranEngine::canRenderDebug)
+		{
+			SetDebugPosition(unrotatedVector);
+			ShowDebug(true);
+		}
 
 		Vec2D distance = (GetScenePos() - unrotatedVector);
 

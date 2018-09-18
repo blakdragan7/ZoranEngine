@@ -44,12 +44,14 @@ void CollisionObject2DBase::UpdateDebugObject(float verts[], unsigned numVerts)
 }
 
 CollisionObject2DBase::CollisionObject2DBase(Component2DBase* component, CollisionDynamics collisionDynamics, unsigned collisionType) :
-	debugObject(0),physicsObject2D(0),affectedComponent(component),CollisionObjectBase(collisionDynamics, collisionType)
+	physicsObject2D(0),affectedComponent(component),CollisionObjectBase(collisionDynamics, collisionType)
 {
+	debugObject = new DebugSceneObject2D("2D Collision Debug Object");
 }
 
 CollisionObject2DBase::~CollisionObject2DBase()
 {
+	delete debugObject;
 }
 
 void CollisionObject2DBase::SetAffectedComponent(RigidBody2DComponent* component)
@@ -70,4 +72,19 @@ const Vector2D CollisionObject2DBase::GetScenePos()
 		Log(LogLevel_Error,"Getting Position Before SceneObject Set !\n");
 		return Vector2D::Zero;
 	}
+}
+
+void CollisionObject2DBase::SetDebugPosition(const Vec2D & pos)
+{
+	debugObject->SetPosition(pos);
+}
+
+void CollisionObject2DBase::SetDebugSize(const Vec2D & size)
+{
+	debugObject->SetScale(size);
+}
+
+void CollisionObject2DBase::ShowDebug(bool showDebug)
+{
+	debugObject->SetVisible(showDebug);
 }

@@ -8,7 +8,7 @@ class DebugRenderComponent : public Visible2DComponent
 private:
 	DebugShader2D * shader;
 	Vector3D color;
-
+	
 public:
 	DebugRenderComponent();
 	~DebugRenderComponent();

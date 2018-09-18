@@ -7,6 +7,9 @@ DebugSceneObject2D::DebugSceneObject2D(std::string name) : SceneObject2D(name)
 	component = new DebugRenderComponent();
 	root2DComponent = component;
 	SetRootComponent(root2DComponent);
+
+	component->SetIsVisible(false);
+	component->SetColor({ 0,0,1 });
 }
 
 

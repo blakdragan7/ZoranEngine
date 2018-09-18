@@ -3,6 +3,7 @@
 
 #define CIRCLE_COLLISION 10
 
+class DebugSceneObject;
 class ZoranEngine_EXPORT CircleCollision2DObject : public CollisionObject2DBase
 {
 private:

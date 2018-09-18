@@ -2,7 +2,7 @@
 #include "Visible2DComponent.h"
 #include <Rendering/RenderedObjectBase.h>
 
-Visible2DComponent::Visible2DComponent(unsigned renderLayer) : VisibleComponentBase(renderLayer)
+Visible2DComponent::Visible2DComponent(unsigned renderLayer) : shouldRender(true), VisibleComponentBase(renderLayer)
 {
 }
 
@@ -22,7 +22,8 @@ void Visible2DComponent::PreRender()
 
 void Visible2DComponent::Render()
 {
-	renderedObject->RenderObject();
+	if(shouldRender)
+		renderedObject->RenderObject();
 }
 
 void Visible2DComponent::PostRender()
