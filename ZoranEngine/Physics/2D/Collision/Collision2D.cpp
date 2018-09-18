@@ -4,7 +4,7 @@
 #include <Rendering/RenderedObjectBase.h>
 #include <Physics/2D/PhysicsObject2DBase.h>
 #include <Math/MathLib.h>
-#include <OpenGL/2D/DebugShader2D.h>
+#include <Rendering/OpenGL/2D/DebugShader2D.h>
 
 void Collision2D::AddCollisionPoint(CollisionPoint & point)
 {

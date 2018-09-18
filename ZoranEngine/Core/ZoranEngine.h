@@ -8,6 +8,8 @@
 class ThreadBase;
 class WindowBase;
 class RenderEngineBase;
+class RenderEngine2DBase;
+class RenderEngine3DBase;
 class PhysicsEngine;
 class SceneObject;
 class TickableObject;
@@ -18,7 +20,8 @@ class ZoranEngine_EXPORT ZoranEngine
 {
 private:
 	WindowBase* mainWindow;
-	RenderEngineBase* mainRenderEngine;
+	RenderEngine2DBase* main2DRenderEngine;
+	RenderEngine3DBase* main3DRenderEngine;
 
 	CameraBase* camera;
 
@@ -26,6 +29,7 @@ private:
 	bool shouldRun;
 	bool isPaused;
 	bool step;
+	bool is3D;
 
 	PhysicsEngine* physicsEngine;
 
@@ -62,7 +66,7 @@ public:
 
 	void Setup2DScene(float centerx, float centery, float width, float height); // in meters
 	void Setup2DScene(Vector2D center, Vector2D size); // in meters
-	void SetupScene(float centerx, float centery, float width, float height, float depth); // in meters
+	void SetupScene(float centerx, float centery, float centerz, float width, float height, float depth); // in meters
 	void SetupScene(Vector3D center, Vector3D size); // in meters
 
 	inline CameraBase* GetCamera() { return camera; }
@@ -74,7 +78,9 @@ public:
 	void DestroySceneObject(SceneObject* object);
 	void RemoveTickableObject(TickableObject* object);
 
-	inline RenderEngineBase* GetRenderer()const { return mainRenderEngine; }
+	inline RenderEngineBase* GetRenderer()const;
+	inline RenderEngine2DBase* GetRenderer2D()const { return main2DRenderEngine; }
+	inline RenderEngine3DBase* GetRenderer3D()const { return main3DRenderEngine; }
 	inline PhysicsEngine* GetPhysicsEngine()const { return physicsEngine; }
 	inline AudioEngineBase* GetAudioEngine()const { return audioEngine; }
 
@@ -84,10 +90,6 @@ public:
 
 	const char* GetVersion()const;
 	void GetVersion(unsigned &Major,unsigned &Minor,unsigned &Revision)const;
-
-	// Creates a thread for the current platform and returns an instance to it.
-	// You must release this instance when it is done.
-	ThreadBase* CreateThread();
 };
 
 // convenience defines
@@ -95,5 +97,7 @@ public:
 #define zEngine ZoranEngine::Instance()
 #define pEngine zEngine->GetPhysicsEngine()
 #define rEngine zEngine->GetRenderer()
+#define r2Engine zEngine->GetRenderer2D()
+#define r3Engine zEngine->GetRenderer3D()
 #define aEngine zEngine->GetAudioEngine()
 #define Log(...) ZoranEngine::Instance()->logger->LogString(__VA_ARGS__);

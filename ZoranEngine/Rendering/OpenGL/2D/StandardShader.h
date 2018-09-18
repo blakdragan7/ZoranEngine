@@ -1,5 +1,5 @@
 #pragma once
-#include <OpenGL/OpenGLShaderProgramBase.h>
+#include <Rendering/OpenGL/OpenGLShaderProgramBase.h>
 class ZoranEngine_EXPORT StandardShader : public OpenGLShaderProgramBase
 {
 public:

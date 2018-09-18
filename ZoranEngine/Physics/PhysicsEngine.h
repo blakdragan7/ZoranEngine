@@ -33,7 +33,7 @@ public:
 	void ResolveAllSweptCollisions(float dt);
 	void ResolveAllCollisions(float dt);
 	void SetupFor2D(Vector2D mapCenter, Vector2D mapSize);
-	void SetupFor3D();
+	void SetupFor3D(Vector3D mapCenter, Vector3D mapSize);
 
 	class CollisionBucket2DBase* GetCollisionBucketRootFor2D();
 	class CollisionBucket3DBase* GetCollisionBucketRootFor3D();

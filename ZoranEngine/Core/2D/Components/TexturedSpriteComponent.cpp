@@ -5,7 +5,7 @@
 #include <Rendering/TextureManager.h>
 #include <Rendering/RenderedObjectBase.h>
 #include <Rendering/RenderEngineBase.h>
-#include <OpenGL/2D/StandardShader2D.h>
+#include <Rendering/OpenGL/2D/StandardShader2D.h>
 
 TexturedSpriteComponent::TexturedSpriteComponent(unsigned renderLayer) : Visible2DComponent(renderLayer)
 {

@@ -2,18 +2,21 @@
 #include "Rendering/TextureBase.h"
 
 // as an opengl class this must be created on the draw thread, usually the main thread
-
+class OpenGLContext;
 class ZoranEngine_EXPORT OpenGLTexture : public TextureBase
 {
 private:
 	unsigned gl_texture;
+	OpenGLContext* OGL;
+	
 	static bool glTextureIsEnabled;
+
 private:
 	unsigned GLTypeFromRenderDataType(RenderDataType type);
 	unsigned GLFormatFromRenderDataFormat(RenderDataFormat format);
 
 public:
-	OpenGLTexture(RenderEngineBase* engine, RenderDataType type = TYPE_RGBA_32, RenderDataFormat format = FORMAT_UNSIGNED_BYTE);
+	OpenGLTexture(OpenGLContext* OGL, RenderDataType type = TYPE_RGBA_32, RenderDataFormat format = FORMAT_UNSIGNED_BYTE);
 	~OpenGLTexture();
 	// these may get moved to TextureBase it depends on how DirectX handles textures
 	void BindTexture(unsigned textureNumber);

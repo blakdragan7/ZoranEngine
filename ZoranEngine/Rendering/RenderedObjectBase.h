@@ -43,10 +43,8 @@ protected:
 	VertexType	vertType;
 	DrawType	drawType;
 
-	RenderEngineBase* renderEngine;
-
 public:
-	RenderedObjectBase(RenderEngineBase* engine, unsigned type = INVALID_IMPLEMENTATION);
+	RenderedObjectBase(unsigned type = INVALID_IMPLEMENTATION);
 	virtual ~RenderedObjectBase();
 
 	virtual void RenderObject() = 0;

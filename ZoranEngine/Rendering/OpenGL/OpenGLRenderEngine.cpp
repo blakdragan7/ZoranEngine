@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "OpenGLRenderEngine.h"
+#include "OpenGLContext.h"
 #include "OpenGLRenderObject.h"
 #include "OpenGLTexture.h"
 
@@ -24,22 +24,7 @@
 #include <ThirdParty/imgui/imgui.h>
 #include <ThirdParty/imgui/imgui_impl_opengl3.h>
 
-OpenGLRenderEngine::OpenGLRenderEngine()
-{
-	context = 0;
-}
-
-OpenGLRenderEngine::~OpenGLRenderEngine()
-{
-	ImGui_ImplOpenGL3_Shutdown();
-
-
-#ifdef _WIN32
-	wglDeleteContext((HGLRC)context);
-#endif
-}
-
-void OpenGLRenderEngine::InitEngine(WindowHandle handle)
+OpenGLContext::OpenGLContext(WindowHandle handle)
 {
 #ifdef _WIN32
 	HWND hwnd = static_cast<HWND>(handle);
@@ -90,75 +75,85 @@ void OpenGLRenderEngine::InitEngine(WindowHandle handle)
 	}
 
 	// Setup Dear ImGui binding
-	
+
 	ImGui_ImplOpenGL3_Init("#version 330");
 	ImGui::StyleColorsDark();
 #endif
 }
 
-void OpenGLRenderEngine::EnableDepthTesting()
+OpenGLContext::~OpenGLContext()
+{
+	ImGui_ImplOpenGL3_Shutdown();
+
+
+#ifdef _WIN32
+	wglDeleteContext((HGLRC)context);
+#endif
+}
+
+void OpenGLContext::EnableDepthTesting()
 {
 	glEnable(GL_DEPTH_TEST);
 }
 
-void OpenGLRenderEngine::DisableDepthTesting()
+void OpenGLContext::DisableDepthTesting()
 {
 	glDisable(GL_DEPTH_TEST);
 }
 
-void OpenGLRenderEngine::DisableAlpha()
+void OpenGLContext::DisableAlpha()
 {
 	glDisable(GL_BLEND);
 }
 
-void OpenGLRenderEngine::EnableAlpha()
+void OpenGLContext::EnableAlpha()
 {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
-void OpenGLRenderEngine::ClearBuffers()
+void OpenGLContext::ClearBuffers()
 {
 	glClearColor(1.0,0.0,0.0,1.0);
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 }
 
-void OpenGLRenderEngine::Resize(int x, int y)
+void OpenGLContext::Resize(int x, int y)
 {
 	glViewport(0, 0, x, y);
 }
 
-TextureBase * OpenGLRenderEngine::CreateTexture(const char * path, RenderDataType bufferType, RenderDataFormat bufferFormat)
+OpenGLTexture * OpenGLContext::CreateTexture(const char * path, RenderDataType bufferType, RenderDataFormat bufferFormat)
 {
 	OpenGLTexture* texture = new OpenGLTexture(this,bufferType,bufferFormat);
 	texture->LoadFromPath(path);
 	return texture;
 }
 
-TextureBase * OpenGLRenderEngine::CreateTexture(void * data, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2I size)
+OpenGLTexture * OpenGLContext::CreateTexture(void * data, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2I size)
 {
 	OpenGLTexture* texture = new OpenGLTexture(this,bufferType,bufferFormat);
 	texture->LoadFromMemory(size.x, size.y, data, bufferType, bufferFormat);
 	return texture;
 }
 
-RenderedObjectBase * OpenGLRenderEngine::CreateRenderedObject()
+RenderedObjectBase * OpenGLContext::CreateRenderedObject()
 {
 	OpenGLRenderObject* object = new OpenGLRenderObject(this);
 	return object;
 }
 
-bool OpenGLRenderEngine::CreateFrameBuffer(FrameBufferBase ** outBuffer, TextureBase ** outTexture, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2I size)
+bool OpenGLContext::CreateFrameBuffer(FrameBufferBase ** outBuffer, OpenGLTexture ** outTexture, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2I size)
 {
 	return false;
 }
 
-void OpenGLRenderEngine::SetLineWidth(float width)
+void OpenGLContext::SetLineWidth(float width)
 {
 	glLineWidth(width);
 }
 
-void OpenGLRenderEngine::CheckErrors(const char* text)
+void OpenGLContext::CheckErrors(const char* text)
 {
 		int error;
 		while ((error = glGetError()) != GL_NO_ERROR) {
@@ -169,7 +164,7 @@ void OpenGLRenderEngine::CheckErrors(const char* text)
 		}
 }
 
-void OpenGLRenderEngine::ClearErrors()
+void OpenGLContext::ClearErrors()
 {
 	int error;
 	while ((error = glGetError()) != GL_NO_ERROR) {

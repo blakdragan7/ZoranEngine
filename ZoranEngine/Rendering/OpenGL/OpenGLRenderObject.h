@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/RenderedObjectBase.h"
 
-class OpenGLRenderEngine;
+class OpenGLContext;
 class ZoranEngine_EXPORT OpenGLRenderObject : public RenderedObjectBase
 {
 private:
@@ -16,7 +16,7 @@ private:
 	unsigned	glVertType;
 	unsigned	glBufferDrawType;
 
-	OpenGLRenderEngine* OGLEngine;
+	OpenGLContext* OGLContext;
 
 private:
 	unsigned GLDrawTypeFromDrawType(DrawType type)const;
@@ -24,7 +24,7 @@ private:
 	unsigned GLPrimitveFromPrimitiveType(PrimitiveType type)const;
 
 public:
-	OpenGLRenderObject(OpenGLRenderEngine* engine);
+	OpenGLRenderObject(OpenGLContext* engine);
 	~OpenGLRenderObject();
 
 	virtual void UpdateObjectFromMemory(unsigned numVerts, unsigned offset,void* verts, void* uv, bool copy = true)override;

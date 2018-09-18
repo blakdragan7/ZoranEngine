@@ -8,7 +8,9 @@
 #include <Physics/PhysicsEngine.h>
 #include <Windows/WindowsWindow.h>
 #include <Utils/HighPrecisionClock.h>
-#include <OpenGL/2D/OpenGL2DRenderEngine.h>
+
+#include <Rendering/OpenGL/2D/OpenGL2DRenderEngine.h>
+#include <Rendering/OpenGL/3D/OpenGL3DRenderEngine.h>
 
 #include <Physics/Collision/CollisionObjectBase.h>
 #include <Physics/Collision/CollisionBucketBase.h>
@@ -32,17 +34,20 @@
 
 ZoranEngine* ZoranEngine::instance = 0;
 
-bool ZoranEngine::canRenderDebug = true;
+bool ZoranEngine::canRenderDebug = false;
 
 ZoranEngine::ZoranEngine()
 {
+	main2DRenderEngine = 0;
+	main3DRenderEngine = 0;
+
+	is3D = false;
 	audioEngine = 0;
 	mainWindow = 0;
 	if (instance)throw std::exception("There can only be one ZoranEngine instance !");
 	instance = this;
 	shouldRun = true;
 	physicsEngine = new PhysicsEngine();
-	mainRenderEngine = 0;
 	isPaused = false;
 	logger = new ConsoleLogger();
 	logger->SetLogLevel(LogLevel_Error);
@@ -68,7 +73,8 @@ ZoranEngine::~ZoranEngine()
 	delete allTickables;
 
 	if (physicsEngine)delete physicsEngine;
-	if (mainRenderEngine)delete mainRenderEngine;
+	if (main2DRenderEngine)delete main2DRenderEngine;
+	if (main3DRenderEngine)delete main3DRenderEngine;
 	if (mainWindow)delete mainWindow;
 
 	delete defaultAllocator;
@@ -148,8 +154,8 @@ bool ZoranEngine::Init()
 
 void ZoranEngine::Setup2DScene(float centerx, float centery, float width, float height)
 {
-	mainRenderEngine = new OpenGL2DRenderEngine();
-	mainRenderEngine->InitEngine(mainWindow->GetHandle());
+	main2DRenderEngine = new OpenGL2DRenderEngine();
+	main2DRenderEngine->InitEngine(mainWindow->GetHandle());
 
 	physicsEngine->SetupFor2D(Vec2D(centerx, centery), Vec2D(width, height));
 
@@ -160,19 +166,36 @@ void ZoranEngine::Setup2DScene(float centerx, float centery, float width, float 
 
 void ZoranEngine::Setup2DScene(Vector2D center, Vector2D size)
 {
+	main2DRenderEngine = new OpenGL2DRenderEngine();
+	main2DRenderEngine->InitEngine(mainWindow->GetHandle());
+
 	physicsEngine->SetupFor2D(center, size);
+
 	camera = new OrthoCamera("camera",size.x,size.y, 0);
 	camera->Translate(center.x, center.y, 0);
+	camera->ScreenResized(mainWindow->GetSize());
 }
 
-void ZoranEngine::SetupScene(float centerx, float centery, float width, float height, float depth)
+void ZoranEngine::SetupScene(float centerx, float centery, float centerz, float width, float height, float depth)
 {
-	throw std::exception("SetupScene Not Implemented yet !");
+	is3D = true;
+	main3DRenderEngine = new OpenGL3DRenderEngine();
+	main3DRenderEngine->InitEngine(mainWindow->GetHandle());
+
+	physicsEngine->SetupFor3D({ centerx,centery,centerz }, { width,height,depth });
+	// implement camera
+	//camera = 
 }
 
 void ZoranEngine::SetupScene(Vector3D center, Vector3D size)
 {
-	throw std::exception("SetupScene Not Implemented yet !");
+	is3D = true;
+	main3DRenderEngine = new OpenGL3DRenderEngine();
+	main3DRenderEngine->InitEngine(mainWindow->GetHandle());
+
+	physicsEngine->SetupFor3D(center, size);
+	// implement camera
+	//camera = 
 }
 
 void ZoranEngine::KeyEvent(KeyEventType type, unsigned key)
@@ -241,6 +264,14 @@ void ZoranEngine::DestroySceneObject(SceneObject * object)
 void ZoranEngine::RemoveTickableObject(TickableObject * object)
 {
 	remove(*allTickables, object);
+}
+
+inline RenderEngineBase * ZoranEngine::GetRenderer() const
+{
+	if (is3D)
+		return main3DRenderEngine;
+	else
+		return main2DRenderEngine;
 }
 
 const char * ZoranEngine::GetVersion()const

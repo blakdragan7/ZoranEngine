@@ -1,18 +1,16 @@
 #include "stdafx.h"
 #include "OpenGLRenderObject.h"
 #include "GL/glew.h"
-#include <stdexcept>
-#include "Rendering/RenderEngineBase.h"
-#include "OpenGLRenderEngine.h"
 #include "OpenGLShaderProgramBase.h"
+#include "OpenGLContext.h"
 
-OpenGLRenderObject::OpenGLRenderObject(OpenGLRenderEngine* engine) : OGLEngine(engine), RenderedObjectBase(engine, OPENGL_IMPLEMENTATION)
+OpenGLRenderObject::OpenGLRenderObject(OpenGLContext* engine) : OGLContext(engine), RenderedObjectBase(OPENGL_IMPLEMENTATION)
 {
 	vbo = -1;
 	tbo = -1;
 	
 	glGenVertexArrays(1, &vao);
-	OGLEngine->CheckErrors("OpenGLRenderObject()");
+	OGLContext->CheckErrors("OpenGLRenderObject()");
 }
 
 
@@ -94,7 +92,7 @@ void OpenGLRenderObject::CreateObjectFromMemory(PrimitiveType pType, VertexType 
 		cpuVertData = verts;
 		cpuUVData = uv;
 	}
-	renderEngine->CheckErrors("CreateObjectFromMemory");
+	OGLContext->CheckErrors("CreateObjectFromMemory");
 }
 
 unsigned OpenGLRenderObject::GLDrawTypeFromDrawType(DrawType type)const
@@ -151,7 +149,7 @@ void OpenGLRenderObject::RenderObject()
 	
 	glDrawArrays(glDrawType,0,numVerts);
 
-	renderEngine->CheckErrors("RenderObject");
+	OGLContext->CheckErrors("RenderObject");
 }
 
 void OpenGLRenderObject::MakeFullScreenQuad()
@@ -198,7 +196,7 @@ void OpenGLRenderObject::MakeFullScreenQuad()
 	glBindBuffer(GL_ARRAY_BUFFER, tbo);
 	glVertexAttribPointer(UVLocation, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
-	renderEngine->CheckErrors("MakeFullScreenQuad");
+	OGLContext->CheckErrors("MakeFullScreenQuad");
 }
 
 void OpenGLRenderObject::SetAlphaEnabled(bool enabled)
@@ -213,7 +211,7 @@ void OpenGLRenderObject::SetAlphaEnabled(bool enabled)
 		glDisable(GL_BLEND);
 	}
 
-	renderEngine->CheckErrors("SetAlphaEnabled");
+	OGLContext->CheckErrors("SetAlphaEnabled");
 }
 
 bool OpenGLRenderObject::GetVertDataAsfloat(float ** data, unsigned & amount)

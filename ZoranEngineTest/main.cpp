@@ -23,9 +23,9 @@ void TestSceneStuff();
 void TestAudio();
 
 static const unsigned TestNum = 1000;
-static const unsigned SquareToSpawn = 1;
-static const unsigned CircleToSpawn = 1;
-static const float scale = 15.0f;
+static const unsigned SquareToSpawn = 2;
+static const unsigned CircleToSpawn = 2;
+static const float scale = 5.0f;
 
 int main(int argc, char* argv[])
 {
@@ -45,15 +45,15 @@ void TestSceneStuff()
 	{
 		TestSceneObject* test = new TestSceneObject((name_base + std::to_string(i)));
 		test->SetScale(scale, -scale);
-		//test->SetPosition(Random::GetfloatInRange(-150, 150), Random::GetfloatInRange(-150, 150));
+		test->SetPosition(Random::GetfloatInRange(-150, 150), Random::GetfloatInRange(-150, 150));
 		//test->SetPosition(i*5 + -150,0);
-		test->SetPosition({ -100,0 });
+		//test->SetPosition({ -100,0 });
 		test->GetPhysics()->StartSimulation();
 		test->SetRotation(1);
 		Vec2D pos = test->GetPosition();
 		pos = CollisionPoint - pos;
 		pos.normalize();
-		test->GetPhysics()->SetGravity(pos*200);
+		//test->GetPhysics()->SetGravity(pos*200);
 		//test->GetPhysics2D()->SetGravity(pos*200);
 		//test->GetPhysics2D()->ApplyForce(pos * 100);
 		test->PreCaclModel();
@@ -69,9 +69,9 @@ void TestSceneStuff()
 		TestCircleObject* test = new TestCircleObject(std::string("circle ") + std::to_string(i), 1.0);
 		test->SetScale(scale, -scale);
 		//test->SetPosition(i * 5 + -150, 100);
-		//test->SetPosition(Random::GetfloatInRange(-150, 150), Random::GetfloatInRange(-150, 150));
+		test->SetPosition(Random::GetfloatInRange(-150, 150), Random::GetfloatInRange(-150, 150));
 		test->GetPhysics()->StartSimulation();
-		test->SetPosition({100,0});
+		//test->SetPosition({100,0});
 		//test->SetTarget(sqr);
 		//sqr->SetTarget(test);
 		//test->GetPhysics2D()->SetGravity(gravity[1]);
@@ -79,7 +79,7 @@ void TestSceneStuff()
 		Vec2D pos = test->GetPosition();
 		pos = CollisionPoint - pos;
 		pos.normalize();
-		test->GetPhysics()->SetGravity(pos * 200);
+		//test->GetPhysics()->SetGravity(pos * 200);
 
 		test->SetRotation(1.00);
 		test->GetPhysics()->SetAngularVeloctiy(10);

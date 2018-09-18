@@ -2,7 +2,7 @@
 #include "LoggerBase.h"
 
 
-LoggerBase::LoggerBase()
+LoggerBase::LoggerBase() : logLevel(LogLevel_Warning)
 {
 }
 

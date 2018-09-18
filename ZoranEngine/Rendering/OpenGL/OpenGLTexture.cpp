@@ -1,39 +1,36 @@
 #include "stdafx.h"
 #include "OpenGLTexture.h"
-#include "OpenGLRenderEngine.h"
+#include "OpenGLContext.h"
 
 #include "GL\glew.h"
 
-OpenGLTexture::OpenGLTexture(RenderEngineBase * engine, RenderDataType type_, RenderDataFormat format_) : TextureBase(engine,0,0,type_,format_)
+OpenGLTexture::OpenGLTexture(OpenGLContext* OGL, RenderDataType type_, RenderDataFormat format_) : OGL(OGL), TextureBase(0,0,type_,format_)
 {
-	OpenGLRenderEngine* oglEngine = dynamic_cast<OpenGLRenderEngine*>(engine);
-	if (oglEngine == 0)throw std::invalid_argument("OpenGLTexture::OpenGLTexture() Must pass an OpenGL Engine to OpenGLTexture Class !");
-
 	glEnable(GL_TEXTURE_2D);
 
 	glGenTextures(1, &gl_texture);
-	engine->CheckErrors("OpenGLTexture");
+	OGL->CheckErrors("OpenGLTexture");
 }
 
 
 OpenGLTexture::~OpenGLTexture()
 {
 	glDeleteTextures(1, &gl_texture);
-	engine->CheckErrors("~OpenGLTexture");
+	OGL->CheckErrors("~OpenGLTexture");
 }
 
 void OpenGLTexture::BindTexture(unsigned textureNumber)
 {
 	glActiveTexture(GL_TEXTURE0 + textureNumber);
 	glBindTexture(GL_TEXTURE_2D, gl_texture);
-	engine->CheckErrors("BindTexture");
+	OGL->CheckErrors("BindTexture");
 }
 
 void OpenGLTexture::UnbindTexture(unsigned textureNumber)
 {
 	glActiveTexture(GL_TEXTURE0 + textureNumber);
 	glBindTexture(GL_TEXTURE_2D, 0);
-	engine->CheckErrors("UnbindTexture");
+	OGL->CheckErrors("UnbindTexture");
 }
 
 void OpenGLTexture::LoadFromPath(const char * texture_path, RenderDataType type, RenderDataFormat format)
@@ -61,17 +58,17 @@ void OpenGLTexture::LoadFromMemory(unsigned w, unsigned h, void * data, RenderDa
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GLTypeFromRenderDataType(this->type), width, height, 0, GLTypeFromRenderDataType(type), GLFormatFromRenderDataFormat(format), data);
 
-	engine->CheckErrors("LoadFromMemory");
+	OGL->CheckErrors("LoadFromMemory");
 }
 
 void OpenGLTexture::SetRenderDataType(RenderDataType newType)
 {
-	engine->CheckErrors("SetRenderDataType");
+	OGL->CheckErrors("SetRenderDataType");
 }
 
 void OpenGLTexture::SetRenderDataFormat(RenderDataFormat newFormat)
 {
-	engine->CheckErrors("SetRenderDataFormat");
+	OGL->CheckErrors("SetRenderDataFormat");
 }
 
 void OpenGLTexture::UseTexture(void * data)
