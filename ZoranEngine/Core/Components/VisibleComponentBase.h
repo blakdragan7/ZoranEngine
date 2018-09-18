@@ -12,13 +12,20 @@ class ZoranEngine_EXPORT VisibleComponentBase
 {
 private:
 	ShaderProgramBase * program;
+	/*
+	*   renderLayer is used differently for 2d vs 3d. 
+	*	for 2D it determins the background position of the render. 
+	*	For example a backdrop might be 0 while the sprite level might be 4.
+	*	TODO: determine 3D use of render layer
+	*/
+	unsigned renderLayer;
 
 protected:
 	RenderedObjectBase * renderedObject;
 	RenderEngineBase * engine; // cache of current render engine
 
 public:
-	VisibleComponentBase(RenderEngineBase* engine = 0);
+	VisibleComponentBase(unsigned renderLayer, RenderEngineBase* engine = 0);
 	virtual ~VisibleComponentBase();
 
 	virtual void PreRender() = 0;
@@ -30,4 +37,7 @@ public:
 	/* Allows render engine to have access to the rendered object */
 	inline RenderedObjectBase* GetRenderedObject()const { return renderedObject; }
 	inline ShaderProgramBase* GetShaderProgram()const { return program; }
+
+	inline unsigned GetRenderLayer() { return renderLayer; }
+	void SetRenderLayer(unsigned renderLayer);
 };

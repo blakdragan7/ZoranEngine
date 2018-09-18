@@ -13,9 +13,9 @@
 #include <Physics/2D/Collision/b2DCollision2DObject.h>
 #include <Physics/2D/Collision/SatCollision2DObject.h>
 
-TexturedSprite::TexturedSprite(std::string name) : SceneObject2D(name)
+TexturedSprite::TexturedSprite(unsigned renderLayer, std::string name) : SceneObject2D(name)
 {
-	spriteComponent = new TexturedSpriteComponent();
+	spriteComponent = new TexturedSpriteComponent(renderLayer);
 	spriteComponent->SetStartingSize(2, 2);
 	spriteComponent->SetScale(1, 1);
 
@@ -25,9 +25,9 @@ TexturedSprite::TexturedSprite(std::string name) : SceneObject2D(name)
 
 }
 
-TexturedSprite::TexturedSprite(std::string name, const char* texture, RenderDataType type, RenderDataFormat format) : SceneObject2D(name)
+TexturedSprite::TexturedSprite(unsigned renderLayer, std::string name, const char* texture, RenderDataType type, RenderDataFormat format) : SceneObject2D(name)
 {
-	spriteComponent = new TexturedSpriteComponent(texture, type, format);
+	spriteComponent = new TexturedSpriteComponent(renderLayer, texture, type, format);
 	spriteComponent->SetStartingSize(2, 2);
 	spriteComponent->SetScale(1, 1);
 

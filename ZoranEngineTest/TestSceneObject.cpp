@@ -7,7 +7,7 @@
 #include <Physics/PhysicsEngine.h>
 #include <Utils/Random.h>
 
-TestSceneObject::TestSceneObject(std::string name) : TexturedSprite(name)
+TestSceneObject::TestSceneObject(std::string name) : TexturedSprite(100, name)
 {
 	willEverTick = true;
 

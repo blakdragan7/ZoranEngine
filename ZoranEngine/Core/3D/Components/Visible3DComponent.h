@@ -5,7 +5,7 @@
 class ZoranEngine_EXPORT Visible3DComponent : public VisibleComponentBase, public Component3DBase
 {
 public:
-	Visible3DComponent();
+	Visible3DComponent(unsigned renderLayer);
 	~Visible3DComponent();
 
 	virtual  void PreRender()override;

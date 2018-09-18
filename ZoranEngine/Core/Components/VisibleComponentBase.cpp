@@ -3,7 +3,7 @@
 #include <Rendering/RenderEngineBase.h>
 #include <Rendering/RenderedObjectBase.h>
 
-VisibleComponentBase::VisibleComponentBase(RenderEngineBase* engine) : program(0)
+VisibleComponentBase::VisibleComponentBase(unsigned renderLayer,RenderEngineBase* engine) : program(0) , renderLayer(renderLayer)
 {
 	if (engine)this->engine = engine;
 	else this->engine = rEngine;
@@ -26,4 +26,14 @@ void VisibleComponentBase::SetShaderProgram(ShaderProgramBase * program)
 	}
 	this->program = program;
 	this->engine->AddComponent(this);
+}
+
+void VisibleComponentBase::SetRenderLayer(unsigned renderLayer)
+{
+	//TODO: make this more efficient
+	if (this->program)
+	{
+		this->engine->RemoveComponent(this);
+		this->engine->AddComponent(this);
+	}
 }

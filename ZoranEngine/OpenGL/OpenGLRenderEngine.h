@@ -2,11 +2,6 @@
 #include "Core/PlatformTypes.h"
 #include "Rendering/RenderEngineBase.h"
 
-#include <map>
-#include <vector>
-
-
-
 class ZoranEngine_EXPORT OpenGLRenderEngine : public RenderEngineBase
 {
 private:

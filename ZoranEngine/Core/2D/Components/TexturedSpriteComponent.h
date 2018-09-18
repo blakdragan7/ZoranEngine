@@ -9,8 +9,8 @@ private:
 	TextureBase * texture;
 
 public:
-	TexturedSpriteComponent();
-	TexturedSpriteComponent(const char* texture, RenderDataType type, RenderDataFormat format);
+	TexturedSpriteComponent(unsigned renderLayer);
+	TexturedSpriteComponent(unsigned renderLayer, const char* texture, RenderDataType type, RenderDataFormat format);
 	~TexturedSpriteComponent();
 
 	virtual void PreRender()override;

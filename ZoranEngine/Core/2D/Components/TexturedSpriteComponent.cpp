@@ -7,7 +7,7 @@
 #include <Rendering/RenderEngineBase.h>
 #include <OpenGL/2D/StandardShader2D.h>
 
-TexturedSpriteComponent::TexturedSpriteComponent()
+TexturedSpriteComponent::TexturedSpriteComponent(unsigned renderLayer) : Visible2DComponent(renderLayer)
 {
 	ShaderProgramBase* program = rEngine->CreateShaderProgram<StandardShader2D>(StandardShader2D::initMap);
 
@@ -18,7 +18,8 @@ TexturedSpriteComponent::TexturedSpriteComponent()
 	SetShaderProgram(program);
 }
 
-TexturedSpriteComponent::TexturedSpriteComponent(const char* texture, RenderDataType type, RenderDataFormat format)
+TexturedSpriteComponent::TexturedSpriteComponent(unsigned renderLayer, const char* texture, RenderDataType type, RenderDataFormat format)
+	: Visible2DComponent(renderLayer)
 {
 	this->texture = TextureManager::GetInstance()->TextureForFilePath(texture, type, format);
 

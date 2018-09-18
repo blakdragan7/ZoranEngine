@@ -6,7 +6,7 @@ class ZoranEngine_EXPORT Visible2DComponent : public VisibleComponentBase, publi
 {
 
 public:
-	Visible2DComponent();
+	Visible2DComponent(unsigned renderLayer);
 	~Visible2DComponent();
 
 	virtual void PreRender()override;

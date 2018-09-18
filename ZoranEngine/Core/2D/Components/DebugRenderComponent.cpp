@@ -4,7 +4,7 @@
 #include <OpenGL/2D/DebugShader2D.h>
 #include <Rendering/RenderedObjectBase.h>
 
-DebugRenderComponent::DebugRenderComponent()
+DebugRenderComponent::DebugRenderComponent() : Visible2DComponent(100)
 {
 	shader = static_cast<DebugShader2D*>(rEngine->CreateShaderProgram<DebugShader2D>(DebugShader2D::initMap));
 

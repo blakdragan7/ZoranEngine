@@ -9,7 +9,7 @@
 
 #include <Utils/Random.h>
 
-TestCircleObject::TestCircleObject(std::string name, float radius) : TexturedSprite(name)
+TestCircleObject::TestCircleObject(std::string name, float radius) : TexturedSprite(100, name)
 {
 	willEverTick = true;
 
