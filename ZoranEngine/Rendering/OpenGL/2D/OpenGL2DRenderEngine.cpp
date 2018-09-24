@@ -11,8 +11,17 @@
 #include <Utils/ListAddons.hpp>
 #include <Utils/VectorAddons.hpp>
 
-#include <Rendering/OpenGL/OpenGLContext.h>
 #include <Rendering/OpenGL/OpenGLTexture.h>
+#include <Rendering/OpenGL/OpenGLContext.h>
+
+#include <Rendering/OpenGL/Renderers/OpenGLLineRenderer.h>
+#include <Rendering/OpenGL/Renderers/OpenGLQuadRenderer.h>
+#include <Rendering/OpenGL/Renderers/OpenGLModelRenderer.h>
+#include <Rendering/OpenGL/Renderers/OpenGLSpriteRenderer.h>
+#include <Rendering/OpenGL/Renderers/OpenGLTriangleRenderer.h>
+#include <Rendering/OpenGL/Renderers/OpenGLLineLoopRenderer.h>
+#include <Rendering/OpenGL/Renderers/OpenGLQuadStripRenderer.h>
+#include <Rendering/OpenGL/Renderers/OpenGLTriangleStripRenderer.h>
 
 OpenGL2DRenderEngine::OpenGL2DRenderEngine()
 {
@@ -200,17 +209,6 @@ void OpenGL2DRenderEngine::CheckErrors(const char* text)
 	}
 }
 
-RenderedObjectBase* OpenGL2DRenderEngine::CreateRenderedObject()
-{
-	if (context)
-		return context->CreateRenderedObject();
-	else
-	{
-		Log(LogLevel_Error, "OpenGL Context Not Created While Calling CreateRenderedObject  !! \n");
-		return 0;
-	}
-}
-
 TextureBase* OpenGL2DRenderEngine::CreateTexture(const char* path, RenderDataType bufferType, RenderDataFormat bufferFormat)
 {
 	if (context)
@@ -237,4 +235,50 @@ bool OpenGL2DRenderEngine::CreateFrameBuffer(FrameBufferBase** outBuffer, Textur
 {
 	Log(LogLevel_Warning, "CreateFrameBuffer Not Implemented in OpenGL Yet !! \n");
 	return false;
+}
+
+LineRenderer * OpenGL2DRenderEngine::CreateLineRenderer()
+{
+	//return new OpenGLLineRenderer(this);
+	return 0;
+}
+
+LineLoopRenderer * OpenGL2DRenderEngine::CreateLineLoopRenderer()
+{
+	//return new OpenGLLineLoopRenderer(this);
+	return 0;
+}
+
+ModelRenderer * OpenGL2DRenderEngine::CreateModelRenderer()
+{
+	//return OpenGLModelRenderer(this);
+	return 0;
+}
+
+QuadRenderer * OpenGL2DRenderEngine::CreateQuadRenderer()
+{
+	//return new OpenGLQuadRenderer(this);
+	return 0;
+}
+
+QuadStripRenderer * OpenGL2DRenderEngine::CreateQuadStripRenderer()
+{
+	//return new OpenGLQuadStripRenderer(this);
+	return 0;
+}
+
+SpriteRenderer * OpenGL2DRenderEngine::CreateSpriteRenderer()
+{
+	return context->CreateSpriteRenderer();
+}
+
+TriangleRenderer * OpenGL2DRenderEngine::CreateTriangleRenderer()
+{
+	//return new OpenGLTriangleRenderer(this);
+	return 0;
+}
+
+TriangleStripRenderer * OpenGL2DRenderEngine::CreateTriangleStripRenderer()
+{
+	return context->CreateTriangleStripRenderer();
 }

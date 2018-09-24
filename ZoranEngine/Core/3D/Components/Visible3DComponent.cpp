@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Visible3DComponent.h"
 
-#include <Rendering/3D/RenderEngine3DBase.h>
+#include <Rendering/RenderEngine3DBase.h>
 
 Visible3DComponent::Visible3DComponent(RenderEngine3DBase * engine3D) : engine3D(engine3D), VisibleComponentBase(engine3D)
 {

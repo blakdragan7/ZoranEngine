@@ -6,6 +6,7 @@
 #include <Rendering/RenderedObjectBase.h>
 #include <Rendering/RenderEngineBase.h>
 #include <Rendering/OpenGL/2D/StandardShader2D.h>
+#include <Rendering/Renderers/SpriteRenderer.h>
 
 TexturedSpriteComponent::TexturedSpriteComponent(unsigned renderLayer) : Visible2DComponent(renderLayer)
 {
@@ -13,7 +14,7 @@ TexturedSpriteComponent::TexturedSpriteComponent(unsigned renderLayer) : Visible
 
 	rEngine->EnableAlpha();
 
-	renderedObject->MakeFullScreenQuad();
+	renderedObject = rEngine->CreateSpriteRenderer();
 
 	SetShaderProgram(program);
 }
@@ -25,7 +26,7 @@ TexturedSpriteComponent::TexturedSpriteComponent(unsigned renderLayer, const cha
 
 	ShaderProgramBase* program = rEngine->CreateShaderProgram<StandardShader2D>(StandardShader2D::initMap);
 
-	renderedObject->MakeFullScreenQuad();
+	renderedObject = rEngine->CreateSpriteRenderer();
 
 	SetShaderProgram(program);
 }

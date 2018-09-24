@@ -8,8 +8,7 @@ OrthoCamera::OrthoCamera(std::string name, float width, float height, float rota
 	cameraExtents.y = height;
 
 	halfCameraExtents = cameraExtents / 2.0f;
-
-	cameraModelCache = orthoModel * cameraModelCache;
+	CalculateModelCache();
 }
 
 OrthoCamera::~OrthoCamera()
@@ -20,17 +19,23 @@ void OrthoCamera::ScreenResized(float screenWidth, float screenHeight)
 {
 	float aspect = screenHeight / screenWidth;
 	orthoModel = Matrix44::OrthoMatrix(-halfCameraExtents.x, -halfCameraExtents.y * aspect, halfCameraExtents.x, halfCameraExtents.y * aspect, -1, 10);
-	cameraModelCache = orthoModel * cameraModelCache;
+	CalculateModelCache();
 }
 
 void OrthoCamera::ScreenResized(Vec2D Size)
 {
 	float aspect = Size.y / Size.x;
 	orthoModel = Matrix44::OrthoMatrix(-halfCameraExtents.x, -halfCameraExtents.y*aspect, halfCameraExtents.x, halfCameraExtents.y*aspect, -1, 10);
-	cameraModelCache = orthoModel * cameraModelCache;
+	CalculateModelCache();
 }
 
 Vec2D OrthoCamera::GetCameraViewingExtentsAtZ(float z)
 {
 	return Vec2D(halfCameraExtents.x, halfCameraExtents.y * screenSize.y / screenSize.x);
+	CalculateModelCache();
+}
+
+void OrthoCamera::CalculateModelCache()
+{
+	cameraModelCache = orthoModel * cameraModelCache;
 }

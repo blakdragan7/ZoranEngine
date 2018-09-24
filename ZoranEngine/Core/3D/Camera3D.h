@@ -6,7 +6,7 @@
 #include <Core/CameraBase.h>
 
 class SceneObject3D;
-class ZoranEngine_EXPORT Camera3D : CameraBase
+class ZoranEngine_EXPORT Camera3D : public CameraBase
 {
 private:
 	SceneObject3D * sceneObject;

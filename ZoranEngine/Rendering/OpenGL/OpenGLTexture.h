@@ -3,7 +3,7 @@
 
 // as an opengl class this must be created on the draw thread, usually the main thread
 class OpenGLContext;
-class ZoranEngine_EXPORT OpenGLTexture : public TextureBase
+class OpenGLTexture : public TextureBase
 {
 private:
 	unsigned gl_texture;

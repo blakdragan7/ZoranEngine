@@ -15,6 +15,14 @@ class FrameBufferBase;
 class ShaderProgramBase;
 class RenderedObjectBase;
 class VisibleComponentBase;
+class LineRenderer;
+class LineLoopRenderer;
+class ModelRenderer;
+class QuadRenderer;
+class QuadStripRenderer;
+class SpriteRenderer;
+class TriangleRenderer;
+class TriangleStripRenderer;
 
 /* typedefs for dealing with shaders */
 typedef std::unordered_map<const ShaderInitMap*, ShaderProgramBase*> ShaderMap;
@@ -46,10 +54,20 @@ public:
 	/* resize viewport to screen */
 	virtual void Resize(int w, int h) = 0;
 
+	// Create Rendereres
+
+	virtual LineRenderer* CreateLineRenderer() = 0;
+	virtual LineLoopRenderer* CreateLineLoopRenderer() = 0;
+	virtual ModelRenderer* CreateModelRenderer() = 0;
+	virtual QuadRenderer* CreateQuadRenderer() = 0;
+	virtual QuadStripRenderer* CreateQuadStripRenderer() = 0;
+	virtual SpriteRenderer* CreateSpriteRenderer() = 0;
+	virtual TriangleRenderer* CreateTriangleRenderer() = 0;
+	virtual TriangleStripRenderer* CreateTriangleStripRenderer() = 0;
+
 	// Creates Texture Memory on GPU and returns a texture object.
 	virtual TextureBase* CreateTexture(const char* path, RenderDataType bufferType, RenderDataFormat bufferFormat) = 0;
 	virtual TextureBase* CreateTexture(void* data, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2I size) = 0;
-	virtual RenderedObjectBase* CreateRenderedObject() = 0;
 	// Create frame buffer for offscreen rendering and the texture that represents the result
 	virtual bool CreateFrameBuffer(FrameBufferBase** outBuffer, TextureBase** outTexture, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2I size) = 0;
 	/* Sets the line width for drawing raw lines like gl_line_loop or similiar */

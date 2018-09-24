@@ -21,40 +21,47 @@ void Camera2D::Translate(float deltax, float deltay, float deltaz)
 {
 	sceneObject->Translate(Vec2D(deltax,deltay));
 	cameraModelCache = sceneObject->GetModel();
+	CalculateModelCache();
 }
 
 void Camera2D::Translate(Vec2D delta)
 {
 	sceneObject->Translate(delta);
 	cameraModelCache = sceneObject->GetModel();
+	CalculateModelCache();
 }
 
 void Camera2D::Translate(Vec3D delta)
 {
 	sceneObject->Translate(delta.GetXY());
 	cameraModelCache = sceneObject->GetModel();
+	CalculateModelCache();
 }
 
 void Camera2D::Rotate(float rotx, float roty, float rotz)
 {
 	sceneObject->Rotate(rotx);
 	cameraModelCache = sceneObject->GetModel();
+	CalculateModelCache();
 }
 
 void Camera2D::Rotate(float rotation)
 {
 	sceneObject->Rotate(rotation);
 	cameraModelCache = sceneObject->GetModel();
+	CalculateModelCache();
 }
 
 void Camera2D::Rotate(Vec3D euler)
 {
 	sceneObject->Rotate(euler.x);
 	cameraModelCache = sceneObject->GetModel();
+	CalculateModelCache();
 }
 
 void Camera2D::Rotate(Quaternion quat)
 {
 	sceneObject->Rotate(quat.AsEuler().x);
 	cameraModelCache = sceneObject->GetModel();
+	CalculateModelCache();
 }

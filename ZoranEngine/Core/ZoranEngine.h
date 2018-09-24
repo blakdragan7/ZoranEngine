@@ -66,8 +66,7 @@ public:
 
 	void Setup2DScene(float centerx, float centery, float width, float height); // in meters
 	void Setup2DScene(Vector2D center, Vector2D size); // in meters
-	void SetupScene(float centerx, float centery, float centerz, float width, float height, float depth); // in meters
-	void SetupScene(Vector3D center, Vector3D size); // in meters
+	void Setup3DScene(Vector3D center, Vector3D size, float fov,float nearp,float farp); // in meters
 
 	inline CameraBase* GetCamera() { return camera; }
 	// do not add scene objects or any subclass of scene objects this way, instead use AddSceneObject

@@ -3,15 +3,14 @@
 #include <Rendering/RenderEngineBase.h>
 #include <Rendering/RenderedObjectBase.h>
 
-VisibleComponentBase::VisibleComponentBase(RenderEngineBase* engine) : program(0)
+VisibleComponentBase::VisibleComponentBase(RenderEngineBase* engine) : program(0), renderedObject(0)
 {
 	if (engine)this->engine = engine;
 	else this->engine = rEngine;
-
-	renderedObject = this->engine->CreateRenderedObject();
 }
 
 VisibleComponentBase::~VisibleComponentBase()
 {
-	delete renderedObject;
+	if(renderedObject)
+		delete renderedObject;
 }

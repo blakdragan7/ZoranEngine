@@ -3,7 +3,7 @@
 #include "RenderEngineBase.h"
 #include "Core/ZoranEngine.h"
 
-RenderedObjectBase::RenderedObjectBase(unsigned type) : cpuVertData(0), cpuUVData(0), renderObjectType(type)
+RenderedObjectBase::RenderedObjectBase(PrimitiveType pt, VertexType vt, DrawType dt) : primitiveType(pt), vertType(vt), drawType(dt)
 {
 }
 

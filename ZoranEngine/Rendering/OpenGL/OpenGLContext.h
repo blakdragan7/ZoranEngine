@@ -4,8 +4,15 @@
 
 class FrameBufferBase;
 class OpenGLTexture;
-class RenderedObjectBase;
-class ZoranEngine_EXPORT OpenGLContext
+class OpenGLLineRenderer;
+class OpenGLLineLoopRenderer;
+class OpenGLModelRenderer;
+class OpenGLQuadRenderer;
+class OpenGLQuadStripRenderer;
+class OpenGLSpriteRenderer;
+class OpenGLTriangleRenderer;
+class OpenGLTriangleStripRenderer;
+class OpenGLContext
 {
 private:
 	void* context;
@@ -21,7 +28,6 @@ public:
 	void ClearBuffers();
 	void Resize(int x, int y);
 
- 	RenderedObjectBase* CreateRenderedObject();
 	OpenGLTexture* CreateTexture(const char* path, RenderDataType bufferType, RenderDataFormat bufferFormat);
 	OpenGLTexture* CreateTexture(void* data, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2I size);
 
@@ -29,6 +35,15 @@ public:
 
 	void SetLineWidth(float width);
 
-	void CheckErrors(const char* text);
+	bool CheckErrors(const char* text);
 	void ClearErrors();
+
+	OpenGLLineRenderer* CreateLineRenderer();
+	OpenGLLineLoopRenderer* CreateLineLoopRenderer();
+	OpenGLModelRenderer* CreateModelRenderer();
+	OpenGLQuadRenderer* CreateQuadRenderer();
+	OpenGLQuadStripRenderer* CreateQuadStripRenderer();
+	OpenGLSpriteRenderer* CreateSpriteRenderer();
+	OpenGLTriangleRenderer* CreateTriangleRenderer();
+	OpenGLTriangleStripRenderer* CreateTriangleStripRenderer();
 };

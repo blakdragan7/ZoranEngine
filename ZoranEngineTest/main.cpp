@@ -19,20 +19,23 @@
 
 #include <string>
 
-void TestSceneStuff();
+void Test2DSceneStuff();
+void Test3DSceneStuff();
+void TestModelLoading();
 void TestAudio();
 
 static const unsigned TestNum = 1000;
-static const unsigned SquareToSpawn = 2;
-static const unsigned CircleToSpawn = 2;
+static const unsigned SquareToSpawn = 20;
+static const unsigned CircleToSpawn = 20;
 static const float scale = 5.0f;
 
 int main(int argc, char* argv[])
 {
-	TestSceneStuff();
+	Test2DSceneStuff();
+	TestModelLoading();
 }
 
-void TestSceneStuff()
+void Test2DSceneStuff()
 {
 	ZoranEngine engine;
 	engine.Init();
@@ -115,6 +118,21 @@ void TestSceneStuff()
 
 	engine.SetPaused(true);
 	engine.MainLoop();
+}
+
+void Test3DSceneStuff()
+{
+	ZoranEngine engine;
+	engine.Init();
+	engine.Setup3DScene({}, { 1,1,1 }, 90, -1, 100);
+
+	std::string name_base = "TestSceneObject-";
+}
+
+void TestModelLoading()
+{
+	//ModelRenderer render;
+	//render.LoadFile("teapot.obj");
 }
 
 void TestAudio()

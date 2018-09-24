@@ -1,234 +1,229 @@
 #include "stdafx.h"
-#include "OpenGLRenderObject.h"
-#include "GL/glew.h"
-#include "OpenGLShaderProgramBase.h"
 #include "OpenGLContext.h"
+#include "OpenGLTexture.h"
 
-OpenGLRenderObject::OpenGLRenderObject(OpenGLContext* engine) : OGLContext(engine), RenderedObjectBase(OPENGL_IMPLEMENTATION)
+#ifdef _WIN32
+#include <Windows.h>
+#endif
+
+#include "OpenGLShaderProgramBase.h"
+
+#include <GL\glew.h>
+#include <Core/SceneObject.h>
+
+#include "Renderers/OpenGLLineRenderer.h"
+#include "Renderers/OpenGLQuadRenderer.h"
+#include "Renderers/OpenGLModelRenderer.h"
+#include "Renderers/OpenGLSpriteRenderer.h"
+#include "Renderers/OpenGLTriangleRenderer.h"
+#include "Renderers/OpenGLLineLoopRenderer.h"
+#include "Renderers/OpenGLQuadStripRenderer.h"
+#include "Renderers/OpenGLTriangleStripRenderer.h"
+
+#include <Rendering/ShaderProgramBase.h>
+
+#include <Physics/PhysicsEngine.h>
+#include <Physics/2D/Collision/CollisionBucket2DBase.h>
+
+#include <Utils/Statistics.h>
+
+#include <ThirdParty/imgui/imgui.h>
+#include <ThirdParty/imgui/imgui_impl_opengl3.h>
+
+OpenGLContext::OpenGLContext(WindowHandle handle)
 {
-	vbo = -1;
-	tbo = -1;
-	
-	glGenVertexArrays(1, &vao);
-	OGLContext->CheckErrors("OpenGLRenderObject()");
+#ifdef _WIN32
+	HWND hwnd = static_cast<HWND>(handle);
+	HDC dc = GetDC(hwnd);
+
+	if (!dc)
+	{
+		std::cout << "Error Getting HDC of Window " << GetLastError() << "\n";
+	}
+
+	PIXELFORMATDESCRIPTOR pfd =
+	{
+		sizeof(PIXELFORMATDESCRIPTOR),  // Size Of This Pixel Format Descriptor
+		1,								// Version Number
+		PFD_DRAW_TO_WINDOW |            // Format Must Support Window
+		PFD_SUPPORT_OPENGL |            // Format Must Support OpenGL
+		PFD_DOUBLEBUFFER,               // Must Support float Buffering
+		PFD_TYPE_RGBA,                  // Request An RGBA Format
+		24,                             // Select Our Color Depth
+		0, 0, 0, 0, 0, 0,               // Color Bits Ignored
+		0,								// No Alpha Buffer
+		0,                              // Shift Bit Ignored
+		0,                              // No Accumulation Buffer
+		0, 0, 0, 0,                     // Accumulation Bits Ignored
+		16,                             // 16Bit Z-Buffer (Depth Buffer)
+		0,                              // No Stencil Buffer
+		0,                              // No Auxiliary Buffer
+		PFD_MAIN_PLANE,                 // Main Drawing Layer
+		0,                              // Reserved
+		0, 0, 0                         // Layer Masks Ignored
+	};
+
+	UpdateWindow(hwnd);
+
+	int pixelFormat = ChoosePixelFormat(dc, &pfd);
+
+	SetPixelFormat(dc, pixelFormat, &pfd);
+
+	HGLRC context = wglCreateContext(dc);
+
+	wglMakeCurrent(dc, context);
+
+	GLenum res = glewInit();
+	if (res != GLEW_OK)
+	{
+		std::cerr << "Could not Init Glew ! " << res << std::endl;
+		exit(0);
+	}
+
+	// Setup Dear ImGui binding
+
+	ImGui_ImplOpenGL3_Init("#version 330");
+	ImGui::StyleColorsDark();
+#endif
 }
 
-
-OpenGLRenderObject::~OpenGLRenderObject()
+OpenGLContext::~OpenGLContext()
 {
-	if(vbo != -1)glDeleteBuffers(1, &vbo);
-	if(tbo != -1)glDeleteBuffers(1, &tbo);
-	glDeleteVertexArrays(1, &vao);
+	ImGui_ImplOpenGL3_Shutdown();
 
-	if (cpuVertData)free(cpuVertData);
-	if (cpuUVData)free(cpuUVData);
+
+#ifdef _WIN32
+	wglDeleteContext((HGLRC)context);
+#endif
 }
 
-void OpenGLRenderObject::UpdateObjectFromMemory(unsigned numVerts, unsigned offset, void * verts, void * uv, bool copy)
+void OpenGLContext::EnableDepthTesting()
 {
-	if (vbo != -1 && verts && numVerts > 0)
-	{
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferSubData(GL_ARRAY_BUFFER, offset, sizeof(float)*numVerts * 3, verts);
-	}
-	if (tbo != -1 && uv && numVerts > 0)
-	{
-		glBindBuffer(GL_ARRAY_BUFFER, tbo);
-		glBufferSubData(GL_ARRAY_BUFFER, offset, sizeof(float)*numVerts * 2, uv);
-	}
+	glEnable(GL_DEPTH_TEST);
+	CheckErrors("EnableDepthTesting");
 }
 
-void OpenGLRenderObject::CreateObjectFromMemory(PrimitiveType pType, VertexType vertType, DrawType drawType, unsigned numVerts, void* verts, void* uv, bool copy)
+void OpenGLContext::DisableDepthTesting()
 {
-	this->numVerts = numVerts;
+	glDisable(GL_DEPTH_TEST);
+	CheckErrors("DisableDepthTesting");
+}
 
-	this->drawType = drawType;
-	this->vertType = vertType;
+void OpenGLContext::DisableAlpha()
+{
+	glDisable(GL_BLEND);
+	CheckErrors("DisableAlpha");
+}
 
-	this->glDrawType = GLPrimitveFromPrimitiveType(pType);
-	this->glBufferDrawType = GLDrawTypeFromDrawType(drawType);
-	this->glVertType = GLVertexTypeFromVertexType(vertType);
+void OpenGLContext::EnableAlpha()
+{
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	CheckErrors("EnableAlpha");
+}
 
-	if (verts)
-	{
-		glGenBuffers(1, &vbo);
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float)*numVerts * 3, verts, glBufferDrawType);
-	}
-	if (uv)
-	{
-		glGenBuffers(1, &tbo);
-		glBindBuffer(GL_ARRAY_BUFFER, tbo);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float)*numVerts * 2, uv, glBufferDrawType);
-	}
-	glBindVertexArray(vao);
-	if (vbo != -1)
-	{
-		glEnableVertexAttribArray(vertLocation);
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glVertexAttribPointer(vertLocation, 3, glVertType, GL_FALSE, 0, 0);
-	}
-	if (tbo != -1)
-	{
-		glEnableVertexAttribArray(UVLocation);
-		glBindBuffer(GL_ARRAY_BUFFER, tbo);
-		glVertexAttribPointer(UVLocation, 2, GL_FLOAT, GL_FALSE, 0, 0);
-	}
-	if (copy)
-	{
-		if (vbo)
-		{
-			cpuVertData = malloc(sizeof(float)*numVerts * 3);
-			memcpy(cpuVertData, verts, sizeof(float)*numVerts * 3);
+void OpenGLContext::ClearBuffers()
+{
+	glClearColor(1.0,0.0,0.0,1.0);
+	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+	CheckErrors("ClearBuffers");
+}
+
+void OpenGLContext::Resize(int x, int y)
+{
+	glViewport(0, 0, x, y);
+	CheckErrors("glViewport");
+}
+
+OpenGLTexture * OpenGLContext::CreateTexture(const char * path, RenderDataType bufferType, RenderDataFormat bufferFormat)
+{
+	OpenGLTexture* texture = new OpenGLTexture(this,bufferType,bufferFormat);
+	texture->LoadFromPath(path);
+	return texture;
+}
+
+OpenGLTexture * OpenGLContext::CreateTexture(void * data, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2I size)
+{
+	OpenGLTexture* texture = new OpenGLTexture(this,bufferType,bufferFormat);
+	texture->LoadFromMemory(size.x, size.y, data, bufferType, bufferFormat);
+	return texture;
+}
+
+bool OpenGLContext::CreateFrameBuffer(FrameBufferBase ** outBuffer, OpenGLTexture ** outTexture, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2I size)
+{
+	return false;
+}
+
+void OpenGLContext::SetLineWidth(float width)
+{
+	glLineWidth(width);
+	CheckErrors("EnableDepthTesting");
+}
+
+bool OpenGLContext::CheckErrors(const char* text)
+{
+		int error;
+		bool hasError = false;
+		while ((error = glGetError()) != GL_NO_ERROR) {
+			const GLubyte* errorS = gluErrorString(error);
+			if (!errorS)
+				errorS = (const GLubyte*)" ";
+			Log(LogLevel_Error,"%s GL Error %s",text,errorS);
+			hasError = true;
 		}
-		if (tbo != -1)
-		{
-			cpuUVData = malloc(sizeof(float)*numVerts * 2);
-			memcpy(cpuUVData, uv, sizeof(float)*numVerts * 2);
-		}
-	}
-	else
-	{
-		cpuVertData = verts;
-		cpuUVData = uv;
-	}
-	OGLContext->CheckErrors("CreateObjectFromMemory");
+
+		return hasError;
 }
 
-unsigned OpenGLRenderObject::GLDrawTypeFromDrawType(DrawType type)const
+void OpenGLContext::ClearErrors()
 {
-	switch (type)
-	{
-	case DT_Dynamic:
-		return GL_DYNAMIC_DRAW;
-		break;
-	case DT_Static:
-		return GL_STATIC_DRAW;
-		break;
-	default:
-		throw std::invalid_argument("OpenGLVertexBuffer::GLDrawTypeFromDrawType DrawType Not Recognized !!");
+	int error;
+	while ((error = glGetError()) != GL_NO_ERROR) {
 	}
 }
 
-unsigned OpenGLRenderObject::GLVertexTypeFromVertexType(VertexType type)const
+OpenGLLineRenderer * OpenGLContext::CreateLineRenderer()
 {
-	switch (type)
-	{
-	case VT_Float:
-		return GL_FLOAT;
-		break;
-	default:
-		throw std::invalid_argument("OpenGLVertexBuffer::GLVertexTypeFromVertexType VertexType Not Recognized !!");
-	}
-}
-
-unsigned OpenGLRenderObject::GLPrimitveFromPrimitiveType(PrimitiveType type) const
-{
-	switch (type)
-	{
-	case PT_Square:
-		return GL_QUADS;
-	case PT_Triangle_Strip:
-		return GL_TRIANGLE_STRIP;
-	case PT_Triangle:
-		return GL_TRIANGLES;
-	case PT_Dot:
-		return GL_POINTS;
-	case PT_Lines:
-		return GL_LINES;
-	case PT_Line_Loop:
-		return GL_LINE_LOOP;
-	}
-
+	//return new OpenGLLineRenderer(this);
 	return 0;
 }
 
-void OpenGLRenderObject::RenderObject()
+OpenGLLineLoopRenderer * OpenGLContext::CreateLineLoopRenderer()
 {
-	glBindVertexArray(vao);
-	
-	glDrawArrays(glDrawType,0,numVerts);
-
-	OGLContext->CheckErrors("RenderObject");
+	//return new OpenGLLineLoopRenderer(this);
+	return 0;
 }
 
-void OpenGLRenderObject::MakeFullScreenQuad()
+OpenGLModelRenderer * OpenGLContext::CreateModelRenderer()
 {
-	this->numVerts = 4;
-
-	this->drawType = DT_Dynamic;
-	this->vertType = VT_Float;
-
-	this->glDrawType = GL_TRIANGLE_STRIP;
-	this->glBufferDrawType = GLDrawTypeFromDrawType(drawType);
-	this->glVertType = GLVertexTypeFromVertexType(vertType);
-
-	if (this->cpuVertData)
-		delete[] this->cpuVertData;
-	if (this->cpuUVData)
-		delete[] this->cpuUVData;
-
-	static float vert[12] = { -1.0f,-1.0f, 0.0f,-1.0f,1.0f,0.0f,1.0f,-1.0f,0.0f,1.0f,1.0f,0.0f };
-	static float coord[8] = { 0.0f,0.0f,0.0f,1.0f,1.0f,0.0f,1.0f,1.0f };
-
-	this->cpuVertData = malloc(sizeof(vert));
-	this->cpuUVData = malloc(sizeof(coord));
-
-	memcpy(this->cpuVertData, vert, sizeof(vert));
-	memcpy(this->cpuUVData, coord, sizeof(coord));
-
-	glGenBuffers(1, &vbo);
-	glGenBuffers(1, &tbo);
-
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vert), this->cpuVertData, GL_DYNAMIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, tbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(coord), this->cpuUVData, GL_DYNAMIC_DRAW);
-
-	glBindVertexArray(vao);
-
-	glEnableVertexAttribArray(vertLocation);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glVertexAttribPointer(vertLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-
-	glEnableVertexAttribArray(UVLocation);
-	glBindBuffer(GL_ARRAY_BUFFER, tbo);
-	glVertexAttribPointer(UVLocation, 2, GL_FLOAT, GL_FALSE, 0, 0);
-
-	OGLContext->CheckErrors("MakeFullScreenQuad");
+	//return OpenGLModelRenderer(this);
+	return 0;
 }
 
-void OpenGLRenderObject::SetAlphaEnabled(bool enabled)
+OpenGLQuadRenderer * OpenGLContext::CreateQuadRenderer()
 {
-	if (enabled)
-	{
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	}
-	else
-	{
-		glDisable(GL_BLEND);
-	}
-
-	OGLContext->CheckErrors("SetAlphaEnabled");
+	//return new OpenGLQuadRenderer(this);
+	return 0;
 }
 
-bool OpenGLRenderObject::GetVertDataAsfloat(float ** data, unsigned & amount)
+OpenGLQuadStripRenderer * OpenGLContext::CreateQuadStripRenderer()
 {
-	switch (this->vertType)
-	{
-	case VT_Float:
-	{
-		float* floatData = new float[numVerts];
-		for (unsigned i = 0; i < numVerts; i++)
-		{
-			floatData[i] = ((float*)cpuVertData)[i];
-		}
-		*data = floatData;
-		amount = numVerts;
-		return true;
-	}
-	}
-	return false;
+	//return new OpenGLQuadStripRenderer(this);
+	return 0;
+}
+
+OpenGLSpriteRenderer * OpenGLContext::CreateSpriteRenderer()
+{
+	return new OpenGLSpriteRenderer(this);
+}
+
+OpenGLTriangleRenderer * OpenGLContext::CreateTriangleRenderer()
+{
+	//return new OpenGLTriangleRenderer(this);
+	return 0;
+}
+
+OpenGLTriangleStripRenderer * OpenGLContext::CreateTriangleStripRenderer()
+{
+	return new OpenGLTriangleStripRenderer(this);
 }

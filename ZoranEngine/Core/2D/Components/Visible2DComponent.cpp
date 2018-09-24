@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Visible2DComponent.h"
 #include <Rendering/RenderedObjectBase.h>
-#include <Rendering/2D/RenderEngine2DBase.h>
+#include <Rendering/RenderEngine2DBase.h>
 
 Visible2DComponent::Visible2DComponent(unsigned renderLayer, RenderEngine2DBase* engine) :
 	renderLayer(renderLayer), shouldRender(true), engine2D(engine), VisibleComponentBase(engine)

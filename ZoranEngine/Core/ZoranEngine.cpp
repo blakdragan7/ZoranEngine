@@ -5,6 +5,7 @@
 #include <Core/WindowBase.h>
 #include <Core/TickableObject.h>
 #include <Core/2D/OrthoCamera.h>
+#include <Core/3D/PerspectiveCamera.h>
 #include <Physics/PhysicsEngine.h>
 #include <Windows/WindowsWindow.h>
 #include <Utils/HighPrecisionClock.h>
@@ -176,26 +177,17 @@ void ZoranEngine::Setup2DScene(Vector2D center, Vector2D size)
 	camera->ScreenResized(mainWindow->GetSize());
 }
 
-void ZoranEngine::SetupScene(float centerx, float centery, float centerz, float width, float height, float depth)
-{
-	is3D = true;
-	main3DRenderEngine = new OpenGL3DRenderEngine();
-	main3DRenderEngine->InitEngine(mainWindow->GetHandle());
-
-	physicsEngine->SetupFor3D({ centerx,centery,centerz }, { width,height,depth });
-	// implement camera
-	//camera = 
-}
-
-void ZoranEngine::SetupScene(Vector3D center, Vector3D size)
+void ZoranEngine::Setup3DScene(Vector3D center, Vector3D size, float fov, float nearp, float farp)
 {
 	is3D = true;
 	main3DRenderEngine = new OpenGL3DRenderEngine();
 	main3DRenderEngine->InitEngine(mainWindow->GetHandle());
 
 	physicsEngine->SetupFor3D(center, size);
-	// implement camera
-	//camera = 
+	
+	camera = new PerspectiveCamera("camera", fov, size.x / size.y, nearp, farp);
+	camera->Translate(center);
+	camera->ScreenResized(mainWindow->GetSize());
 }
 
 void ZoranEngine::KeyEvent(KeyEventType type, unsigned key)

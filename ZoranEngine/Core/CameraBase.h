@@ -32,6 +32,6 @@ public:
 	virtual void ScreenResized(float screenWidth, float screenHeight) = 0;
 	virtual void ScreenResized(Vec2D Size) = 0;
 
-	
+	virtual void CalculateModelCache() = 0;
 };
 

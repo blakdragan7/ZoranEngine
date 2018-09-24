@@ -2,111 +2,186 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="ZoranEngine">
-      <UniqueIdentifier>{1437e3b1-f877-4798-8e39-3dd5d481d347}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ZoranEngine\Rendering\OpenGL\2D">
-      <UniqueIdentifier>{cc09969c-962a-4831-b596-0bae1b09b8cf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ZoranEngine\Rendering\OpenGL">
-      <UniqueIdentifier>{4d10735a-4332-4c14-805f-a1370d3e5295}</UniqueIdentifier>
+      <UniqueIdentifier>{faef7b42-8623-4795-a409-508a954da94a}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Rendering">
-      <UniqueIdentifier>{9b9d9970-c08a-45b1-bd37-1ec4d3eb630e}</UniqueIdentifier>
+      <UniqueIdentifier>{abc2b6ba-8ae3-4f97-ac2a-35968d40d6f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\Rendering\OpenGL">
+      <UniqueIdentifier>{12b3fa86-2e27-44c0-ab49-b9f382777fce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\Rendering\OpenGL\Renderers">
+      <UniqueIdentifier>{2db861cd-31b2-4a81-acf6-9fbdf504c4d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\Rendering\OpenGL\2D">
+      <UniqueIdentifier>{024a60b1-9b38-44bf-b159-234b1654a2f6}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Rendering\OpenGL\3D">
-      <UniqueIdentifier>{f8d722d7-6d6f-4b1a-b050-a75c799bf2f1}</UniqueIdentifier>
+      <UniqueIdentifier>{fe26ffce-2768-49c1-9b6e-b8e10fa03cc1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ZoranEngine\Rendering\3D">
-      <UniqueIdentifier>{f51dc40f-57e1-4340-ba1c-5adb22c4aff4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ZoranEngine\Rendering\2D">
-      <UniqueIdentifier>{bda052ed-8f79-4dc0-b7e2-4c52be6130c8}</UniqueIdentifier>
+    <Filter Include="ZoranEngine\Rendering\Renderers">
+      <UniqueIdentifier>{9596d51f-dfe6-40bb-ace4-ca508df448ee}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Core">
-      <UniqueIdentifier>{a341b158-e90a-4a8e-b1ea-22c487d53abb}</UniqueIdentifier>
+      <UniqueIdentifier>{2eeac70d-a30b-42f1-a3b2-95fd00f96ce6}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Core\2D">
-      <UniqueIdentifier>{12ba4660-33f2-4ffe-a893-66b3f1ff6d75}</UniqueIdentifier>
+      <UniqueIdentifier>{f71bf45d-7503-466a-9f0e-567f30d50d74}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Core\2D\Components">
-      <UniqueIdentifier>{e0dc4b32-7b4d-449c-9eaa-206036d8c549}</UniqueIdentifier>
+      <UniqueIdentifier>{2bdcb068-55e3-4c2c-94cf-1870177b5a15}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Core\3D">
-      <UniqueIdentifier>{aa06b139-fa67-46d8-8880-8404dbb57f1e}</UniqueIdentifier>
+      <UniqueIdentifier>{2d08822d-d8da-4a1a-9d62-5dcf40a5cf07}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Core\3D\Components">
-      <UniqueIdentifier>{66a031f4-aced-4893-8e56-3bc4db54ec15}</UniqueIdentifier>
+      <UniqueIdentifier>{c7f65cd5-8ed4-4a8a-bc14-3c15b7b49e69}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Core\Audio">
-      <UniqueIdentifier>{9a61e308-a8c7-4dfd-ac07-70e878477efa}</UniqueIdentifier>
+      <UniqueIdentifier>{cbcc82e5-d631-439a-9e63-ac6ec3f240ec}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Core\Audio\AL">
-      <UniqueIdentifier>{dfe69ce7-40b6-45f7-b5e2-5689d90b6c3a}</UniqueIdentifier>
+      <UniqueIdentifier>{9f9e38bb-539f-4946-9599-43ebe9376905}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Core\Components">
-      <UniqueIdentifier>{e1136202-fab7-42f6-93a2-8f8ca285c6af}</UniqueIdentifier>
+      <UniqueIdentifier>{08d088ad-1f07-48e1-b457-256b403d330d}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Core\Events">
-      <UniqueIdentifier>{fae59992-2314-4786-ac83-e143568b6809}</UniqueIdentifier>
+      <UniqueIdentifier>{0e937b73-8767-4379-a289-f872faef9ef1}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\ThirdParty\imgui">
-      <UniqueIdentifier>{554017cf-a196-44b8-8f61-a27c7ea92e7e}</UniqueIdentifier>
+      <UniqueIdentifier>{6cb84b94-f924-497f-ac6f-e8b0cd1de19c}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\ThirdParty">
-      <UniqueIdentifier>{8d335300-09bf-4ca2-a32e-9fb973bd1f83}</UniqueIdentifier>
+      <UniqueIdentifier>{27a88606-d025-4fd9-b3fc-e6956e9eea14}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\ThirdParty\loadong">
-      <UniqueIdentifier>{8c67092b-7130-4720-bead-1f3cfdee4d57}</UniqueIdentifier>
+      <UniqueIdentifier>{dc8da6ff-3d98-4532-87bd-cc26c3699606}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Windows">
-      <UniqueIdentifier>{32043cf3-3f16-491c-9e08-4b3fbc63b75e}</UniqueIdentifier>
+      <UniqueIdentifier>{32850b33-2f62-4c35-b537-97a255bf47c5}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Physics">
-      <UniqueIdentifier>{9da922f2-017b-417b-b637-2bbae2cf962c}</UniqueIdentifier>
+      <UniqueIdentifier>{f52e7f04-0170-446d-8486-de2afc900aff}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Physics\2D">
-      <UniqueIdentifier>{b7bb311e-c6fc-404e-9737-73e6d97128bd}</UniqueIdentifier>
+      <UniqueIdentifier>{762e4a1f-cd67-4e59-b9ac-9731264deaf0}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Physics\2D\Collision">
-      <UniqueIdentifier>{83d9cc52-81a9-48bd-aaf0-fb6cfa636a0a}</UniqueIdentifier>
+      <UniqueIdentifier>{78e5f895-7fd4-4e40-8e04-59caaad22f55}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Physics\3D">
-      <UniqueIdentifier>{b3842a69-604c-45e3-9c65-2f4665187cd1}</UniqueIdentifier>
+      <UniqueIdentifier>{59a7d905-53fb-4065-8fcf-dabc19744cbf}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Physics\3D\Collision">
-      <UniqueIdentifier>{6f85ba0e-ad7d-4313-991f-a04bef964784}</UniqueIdentifier>
+      <UniqueIdentifier>{fcf743f6-d61c-43a0-81af-b3c336cf3cf3}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Physics\Collision">
-      <UniqueIdentifier>{aa353c31-4ab0-4453-9ad4-9d992f9b01b2}</UniqueIdentifier>
+      <UniqueIdentifier>{9f63eac0-59d3-40ff-99bf-cd1e5b8cb543}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Math">
-      <UniqueIdentifier>{5be78413-7c83-40f4-bede-0805eaff8be6}</UniqueIdentifier>
+      <UniqueIdentifier>{35da86a1-0378-4549-829c-97a6c7945156}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Utils">
-      <UniqueIdentifier>{d2f52871-a4e7-43c7-a91b-e4154e4eb4a1}</UniqueIdentifier>
+      <UniqueIdentifier>{5c6797cc-3055-4167-a5ac-9b41167ff422}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Core\Allocators">
-      <UniqueIdentifier>{31af7703-944b-41c4-9c6f-c1374fcd944e}</UniqueIdentifier>
+      <UniqueIdentifier>{87867fbd-8376-4bf0-b038-d407d1187dfc}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Core\Containers">
-      <UniqueIdentifier>{1643543d-cbde-45bd-ba20-55bd39904e6f}</UniqueIdentifier>
+      <UniqueIdentifier>{79953618-f2f2-448d-b53b-d97c225aab5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\ThirdParty\assimp">
+      <UniqueIdentifier>{dc367268-7e81-433b-8599-c1db1f43e365}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\ThirdParty\assimp\Compiler">
+      <UniqueIdentifier>{76253027-0cd5-4547-831c-4160a1aceae9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\ThirdParty\assimp\port\AndroidJNI">
+      <UniqueIdentifier>{6d4b628f-419e-4204-b692-891f7e6793f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\ThirdParty\assimp\port">
+      <UniqueIdentifier>{156a1cf4-4399-4771-9d0c-24556c31fd68}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\ThirdParty\AL">
-      <UniqueIdentifier>{7661687e-2362-4dce-a7a7-683ddefa6921}</UniqueIdentifier>
+      <UniqueIdentifier>{ce60e258-c824-45cc-b49e-948c31686143}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Shaders\3D">
-      <UniqueIdentifier>{3ddc8d3a-a166-4210-9cab-302b49e9915c}</UniqueIdentifier>
+      <UniqueIdentifier>{fbcdc5da-4bf1-4f4a-a6a9-ccd167908cc1}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Shaders">
-      <UniqueIdentifier>{4e798cd7-9805-4bae-b28a-ea6c714aaccb}</UniqueIdentifier>
+      <UniqueIdentifier>{6c2165e1-2243-4c5e-9790-e4731b310a6f}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Shaders\2D">
-      <UniqueIdentifier>{03b531ec-b9de-4f38-afb6-2bccb2f79d04}</UniqueIdentifier>
+      <UniqueIdentifier>{7293fda2-8a1f-4961-b76d-0b56b2808218}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>ZoranEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\FrameBufferBase.cpp">
+      <Filter>ZoranEngine\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\RenderedObjectBase.cpp">
+      <Filter>ZoranEngine\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\RenderEngine2DBase.cpp">
+      <Filter>ZoranEngine\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\RenderEngine3DBase.cpp">
+      <Filter>ZoranEngine\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\RenderEngineBase.cpp">
+      <Filter>ZoranEngine\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\ShaderProgramBase.cpp">
+      <Filter>ZoranEngine\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\TextureBase.cpp">
+      <Filter>ZoranEngine\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\TextureManager.cpp">
+      <Filter>ZoranEngine\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\OpenGL\OpenGLBuffer.cpp">
+      <Filter>ZoranEngine\Rendering\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\OpenGL\OpenGLVertexGroup.cpp">
+      <Filter>ZoranEngine\Rendering\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\OpenGL\OpenGLContext.cpp">
+      <Filter>ZoranEngine\Rendering\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\OpenGL\OpenGLShaderProgramBase.cpp">
+      <Filter>ZoranEngine\Rendering\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\OpenGL\OpenGLTexture.cpp">
+      <Filter>ZoranEngine\Rendering\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\OpenGL\OpenGLVertexArray.cpp">
+      <Filter>ZoranEngine\Rendering\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\OpenGL\Renderers\OpenGLLineLoopRenderer.cpp">
+      <Filter>ZoranEngine\Rendering\OpenGL\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\OpenGL\Renderers\OpenGLLineRenderer.cpp">
+      <Filter>ZoranEngine\Rendering\OpenGL\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\OpenGL\Renderers\OpenGLModelRenderer.cpp">
+      <Filter>ZoranEngine\Rendering\OpenGL\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\OpenGL\Renderers\OpenGLQuadRenderer.cpp">
+      <Filter>ZoranEngine\Rendering\OpenGL\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\OpenGL\Renderers\OpenGLQuadStripRenderer.cpp">
+      <Filter>ZoranEngine\Rendering\OpenGL\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\OpenGL\Renderers\OpenGLSpriteRenderer.cpp">
+      <Filter>ZoranEngine\Rendering\OpenGL\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\OpenGL\Renderers\OpenGLTriangleRenderer.cpp">
+      <Filter>ZoranEngine\Rendering\OpenGL\Renderers</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\OpenGL\2D\DebugShader2D.cpp">
       <Filter>ZoranEngine\Rendering\OpenGL\2D</Filter>
@@ -123,20 +198,29 @@
     <ClCompile Include="Rendering\OpenGL\3D\OpenGL3DRenderEngine.cpp">
       <Filter>ZoranEngine\Rendering\OpenGL\3D</Filter>
     </ClCompile>
-    <ClCompile Include="Rendering\OpenGL\OpenGLRenderEngine.cpp">
-      <Filter>ZoranEngine\Rendering\OpenGL</Filter>
+    <ClCompile Include="Rendering\Renderers\LineRenderer.cpp">
+      <Filter>ZoranEngine\Rendering\Renderers</Filter>
     </ClCompile>
-    <ClCompile Include="Rendering\OpenGL\OpenGLShaderProgramBase.cpp">
-      <Filter>ZoranEngine\Rendering\OpenGL</Filter>
+    <ClCompile Include="Rendering\Renderers\ModelRenderer.cpp">
+      <Filter>ZoranEngine\Rendering\Renderers</Filter>
     </ClCompile>
-    <ClCompile Include="Rendering\OpenGL\OpenGLTexture.cpp">
-      <Filter>ZoranEngine\Rendering\OpenGL</Filter>
+    <ClCompile Include="Rendering\Renderers\QuadRenderer.cpp">
+      <Filter>ZoranEngine\Rendering\Renderers</Filter>
     </ClCompile>
-    <ClCompile Include="Rendering\3D\RenderEngine3DBase.cpp">
-      <Filter>ZoranEngine\Rendering\3D</Filter>
+    <ClCompile Include="Rendering\Renderers\QuadStripRenderer.cpp">
+      <Filter>ZoranEngine\Rendering\Renderers</Filter>
     </ClCompile>
-    <ClCompile Include="Rendering\2D\RenderEngine2DBase.cpp">
-      <Filter>ZoranEngine\Rendering\2D</Filter>
+    <ClCompile Include="Rendering\Renderers\SpriteRenderer.cpp">
+      <Filter>ZoranEngine\Rendering\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Renderers\TriangleRenderer.cpp">
+      <Filter>ZoranEngine\Rendering\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Renderers\TriangleStripRenderer.cpp">
+      <Filter>ZoranEngine\Rendering\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Renderers\LineLoopRenderer.cpp">
+      <Filter>ZoranEngine\Rendering\Renderers</Filter>
     </ClCompile>
     <ClCompile Include="Core\CameraBase.cpp">
       <Filter>ZoranEngine\Core</Filter>
@@ -205,6 +289,9 @@
       <Filter>ZoranEngine\Core\2D\Components</Filter>
     </ClCompile>
     <ClCompile Include="Core\3D\Camera3D.cpp">
+      <Filter>ZoranEngine\Core\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\3D\PerspectiveCamera.cpp">
       <Filter>ZoranEngine\Core\3D</Filter>
     </ClCompile>
     <ClCompile Include="Core\3D\SceneObject3D.cpp">
@@ -357,24 +444,6 @@
     <ClCompile Include="Math\Vector3.cpp">
       <Filter>ZoranEngine\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Rendering\FrameBufferBase.cpp">
-      <Filter>ZoranEngine\Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="Rendering\RenderedObjectBase.cpp">
-      <Filter>ZoranEngine\Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="Rendering\RenderEngineBase.cpp">
-      <Filter>ZoranEngine\Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="Rendering\ShaderProgramBase.cpp">
-      <Filter>ZoranEngine\Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="Rendering\TextureBase.cpp">
-      <Filter>ZoranEngine\Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="Rendering\TextureManager.cpp">
-      <Filter>ZoranEngine\Rendering</Filter>
-    </ClCompile>
     <ClCompile Include="Utils\ConsoleLogger.cpp">
       <Filter>ZoranEngine\Utils</Filter>
     </ClCompile>
@@ -387,8 +456,8 @@
     <ClCompile Include="Utils\Statistics.cpp">
       <Filter>ZoranEngine\Utils</Filter>
     </ClCompile>
-    <ClCompile Include="Rendering\OpenGL\OpenGLContext.cpp">
-      <Filter>ZoranEngine\Rendering\OpenGL</Filter>
+    <ClCompile Include="Rendering\OpenGL\Renderers\OpenGLTriangleStripRenderer.cpp">
+      <Filter>ZoranEngine\Rendering\OpenGL\Renderers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -403,6 +472,72 @@
     </ClInclude>
     <ClInclude Include="ZArray.h">
       <Filter>ZoranEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\FrameBufferBase.h">
+      <Filter>ZoranEngine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\RenderedObjectBase.h">
+      <Filter>ZoranEngine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\RenderEngine2DBase.h">
+      <Filter>ZoranEngine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\RenderEngine3DBase.h">
+      <Filter>ZoranEngine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\RenderEngineBase.h">
+      <Filter>ZoranEngine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\RenderTypes.h">
+      <Filter>ZoranEngine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\ShaderProgramBase.h">
+      <Filter>ZoranEngine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\TextureBase.h">
+      <Filter>ZoranEngine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\TextureManager.h">
+      <Filter>ZoranEngine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\OpenGL\OpenGLBuffer.h">
+      <Filter>ZoranEngine\Rendering\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\OpenGL\OpenGLContext.h">
+      <Filter>ZoranEngine\Rendering\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\OpenGL\OpenGLVertexGroup.h">
+      <Filter>ZoranEngine\Rendering\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\OpenGL\OpenGLShaderProgramBase.h">
+      <Filter>ZoranEngine\Rendering\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\OpenGL\OpenGLTexture.h">
+      <Filter>ZoranEngine\Rendering\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\OpenGL\OpenGLVertexArray.h">
+      <Filter>ZoranEngine\Rendering\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\OpenGL\Renderers\OpenGLLineLoopRenderer.h">
+      <Filter>ZoranEngine\Rendering\OpenGL\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\OpenGL\Renderers\OpenGLLineRenderer.h">
+      <Filter>ZoranEngine\Rendering\OpenGL\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\OpenGL\Renderers\OpenGLModelRenderer.h">
+      <Filter>ZoranEngine\Rendering\OpenGL\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\OpenGL\Renderers\OpenGLQuadRenderer.h">
+      <Filter>ZoranEngine\Rendering\OpenGL\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\OpenGL\Renderers\OpenGLQuadStripRenderer.h">
+      <Filter>ZoranEngine\Rendering\OpenGL\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\OpenGL\Renderers\OpenGLSpriteRenderer.h">
+      <Filter>ZoranEngine\Rendering\OpenGL\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\OpenGL\Renderers\OpenGLTriangleRenderer.h">
+      <Filter>ZoranEngine\Rendering\OpenGL\Renderers</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\OpenGL\2D\DebugShader2D.h">
       <Filter>ZoranEngine\Rendering\OpenGL\2D</Filter>
@@ -419,20 +554,29 @@
     <ClInclude Include="Rendering\OpenGL\3D\OpenGL3DRenderEngine.h">
       <Filter>ZoranEngine\Rendering\OpenGL\3D</Filter>
     </ClInclude>
-    <ClInclude Include="Rendering\OpenGL\OpenGLRenderObject.h">
-      <Filter>ZoranEngine\Rendering\OpenGL</Filter>
+    <ClInclude Include="Rendering\Renderers\LineRenderer.h">
+      <Filter>ZoranEngine\Rendering\Renderers</Filter>
     </ClInclude>
-    <ClInclude Include="Rendering\OpenGL\OpenGLShaderProgramBase.h">
-      <Filter>ZoranEngine\Rendering\OpenGL</Filter>
+    <ClInclude Include="Rendering\Renderers\ModelRenderer.h">
+      <Filter>ZoranEngine\Rendering\Renderers</Filter>
     </ClInclude>
-    <ClInclude Include="Rendering\OpenGL\OpenGLTexture.h">
-      <Filter>ZoranEngine\Rendering\OpenGL</Filter>
+    <ClInclude Include="Rendering\Renderers\QuadRenderer.h">
+      <Filter>ZoranEngine\Rendering\Renderers</Filter>
     </ClInclude>
-    <ClInclude Include="Rendering\3D\RenderEngine3DBase.h">
-      <Filter>ZoranEngine\Rendering\3D</Filter>
+    <ClInclude Include="Rendering\Renderers\QuadStripRenderer.h">
+      <Filter>ZoranEngine\Rendering\Renderers</Filter>
     </ClInclude>
-    <ClInclude Include="Rendering\2D\RenderEngine2DBase.h">
-      <Filter>ZoranEngine\Rendering\2D</Filter>
+    <ClInclude Include="Rendering\Renderers\SpriteRenderer.h">
+      <Filter>ZoranEngine\Rendering\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Renderers\TriangleRenderer.h">
+      <Filter>ZoranEngine\Rendering\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Renderers\TriangleStripRenderer.h">
+      <Filter>ZoranEngine\Rendering\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Renderers\LineLoopRenderer.h">
+      <Filter>ZoranEngine\Rendering\Renderers</Filter>
     </ClInclude>
     <ClInclude Include="Core\CameraBase.h">
       <Filter>ZoranEngine\Core</Filter>
@@ -507,6 +651,9 @@
       <Filter>ZoranEngine\Core\2D\Components</Filter>
     </ClInclude>
     <ClInclude Include="Core\3D\Camera3D.h">
+      <Filter>ZoranEngine\Core\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\3D\PerspectiveCamera.h">
       <Filter>ZoranEngine\Core\3D</Filter>
     </ClInclude>
     <ClInclude Include="Core\3D\SceneObject3D.h">
@@ -638,6 +785,231 @@
     <ClInclude Include="ThirdParty\loadong\lodepng.h">
       <Filter>ZoranEngine\ThirdParty\loadong</Filter>
     </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\ai_assert.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\anim.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\BaseImporter.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\Bitmap.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\BlobIOSystem.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\ByteSwapper.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\camera.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\cexport.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\cfileio.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\cimport.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\color4.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\config.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\CreateAnimMesh.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\DefaultIOStream.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\DefaultIOSystem.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\DefaultLogger.hpp">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\Defines.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\defs.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\Exceptional.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\Exporter.hpp">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\fast_atof.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\GenericProperty.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\Hash.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\Importer.hpp">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\importerdesc.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\IOStream.hpp">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\IOStreamBuffer.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\IOSystem.hpp">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\irrXMLWrapper.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\light.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\LineSplitter.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\LogAux.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\Logger.hpp">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\LogStream.hpp">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\Macros.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\material.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\MathFunctions.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\matrix3x3.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\matrix4x4.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\MemoryIOWrapper.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\mesh.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\metadata.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\NullLogger.hpp">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\ParsingUtils.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\pbrmaterial.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\postprocess.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\Profiler.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\ProgressHandler.hpp">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\qnan.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\quaternion.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\RemoveComments.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\scene.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\SceneCombiner.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\SGSpatialSort.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\SkeletonMeshBuilder.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\SmoothingGroups.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\SpatialSort.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\StandardShapes.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\StreamReader.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\StreamWriter.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\StringComparison.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\StringUtils.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\Subdivision.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\texture.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\TinyFormatter.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\types.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\vector2.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\vector3.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\version.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\Vertex.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\XMLTools.h">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\Compiler\poppack1.h">
+      <Filter>ZoranEngine\ThirdParty\assimp\Compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\Compiler\pstdint.h">
+      <Filter>ZoranEngine\ThirdParty\assimp\Compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\Compiler\pushpack1.h">
+      <Filter>ZoranEngine\ThirdParty\assimp\Compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\assimp\port\AndroidJNI\AndroidJNIIOSystem.h">
+      <Filter>ZoranEngine\ThirdParty\assimp\port\AndroidJNI</Filter>
+    </ClInclude>
     <ClInclude Include="ThirdParty\AL\al.h">
       <Filter>ZoranEngine\ThirdParty\AL</Filter>
     </ClInclude>
@@ -746,31 +1118,13 @@
     <ClInclude Include="Math\Vector3.h">
       <Filter>ZoranEngine\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Rendering\FrameBufferBase.h">
-      <Filter>ZoranEngine\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\RenderedObjectBase.h">
-      <Filter>ZoranEngine\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\RenderEngineBase.h">
-      <Filter>ZoranEngine\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\RenderTypes.h">
-      <Filter>ZoranEngine\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\ShaderProgramBase.h">
-      <Filter>ZoranEngine\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\TextureBase.h">
-      <Filter>ZoranEngine\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\TextureManager.h">
-      <Filter>ZoranEngine\Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="Utils\ConsoleLogger.h">
       <Filter>ZoranEngine\Utils</Filter>
     </ClInclude>
     <ClInclude Include="Utils\HighPrecisionClock.h">
+      <Filter>ZoranEngine\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\ListAddons.hpp">
       <Filter>ZoranEngine\Utils</Filter>
     </ClInclude>
     <ClInclude Include="Utils\LoggerBase.h">
@@ -785,11 +1139,8 @@
     <ClInclude Include="Utils\VectorAddons.hpp">
       <Filter>ZoranEngine\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="Utils\ListAddons.hpp">
-      <Filter>ZoranEngine\Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\OpenGL\OpenGLContext.h">
-      <Filter>ZoranEngine\Rendering\OpenGL</Filter>
+    <ClInclude Include="Rendering\OpenGL\Renderers\OpenGLTriangleStripRenderer.h">
+      <Filter>ZoranEngine\Rendering\OpenGL\Renderers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -798,6 +1149,30 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="ThirdParty\assimp\color4.inl">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </None>
+    <None Include="ThirdParty\assimp\material.inl">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </None>
+    <None Include="ThirdParty\assimp\matrix3x3.inl">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </None>
+    <None Include="ThirdParty\assimp\matrix4x4.inl">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </None>
+    <None Include="ThirdParty\assimp\quaternion.inl">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </None>
+    <None Include="ThirdParty\assimp\SmoothingGroups.inl">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </None>
+    <None Include="ThirdParty\assimp\vector2.inl">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </None>
+    <None Include="ThirdParty\assimp\vector3.inl">
+      <Filter>ZoranEngine\ThirdParty\assimp</Filter>
+    </None>
     <None Include="Shaders\3D\standard.frag">
       <Filter>ZoranEngine\Shaders\3D</Filter>
     </None>
