@@ -56,7 +56,7 @@ void OpenGLModelRenderer::NewModelLoaded()
 	//vertexGroup->AddBufferForAttr(1, uvBuffer);
 
 	vertexGroup->SetElementBuffer(indecieBuffer);
-	vertexGroup->SetNumVerts(indecies.size());
+	vertexGroup->SetNumVerts(static_cast<unsigned>(indecies.size()));
 }
 
 void OpenGLModelRenderer::RenderObject()

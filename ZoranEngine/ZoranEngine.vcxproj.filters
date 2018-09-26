@@ -2,109 +2,118 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="ZoranEngine">
-      <UniqueIdentifier>{faef7b42-8623-4795-a409-508a954da94a}</UniqueIdentifier>
+      <UniqueIdentifier>{6d312af9-cbd9-4097-8bed-8cbca2afdd33}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Rendering">
-      <UniqueIdentifier>{abc2b6ba-8ae3-4f97-ac2a-35968d40d6f3}</UniqueIdentifier>
+      <UniqueIdentifier>{c04d852f-df23-4e6c-95ff-f32e192ef06c}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Rendering\OpenGL">
-      <UniqueIdentifier>{12b3fa86-2e27-44c0-ab49-b9f382777fce}</UniqueIdentifier>
+      <UniqueIdentifier>{90a47717-13db-457a-8fe1-e6bfed14038e}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Rendering\OpenGL\Renderers">
-      <UniqueIdentifier>{2db861cd-31b2-4a81-acf6-9fbdf504c4d7}</UniqueIdentifier>
+      <UniqueIdentifier>{3a62a298-c0b1-4d90-9e3c-c611c7e1c035}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Rendering\OpenGL\2D">
-      <UniqueIdentifier>{024a60b1-9b38-44bf-b159-234b1654a2f6}</UniqueIdentifier>
+      <UniqueIdentifier>{82cf0282-8cd9-4d15-b932-cca5c81a5b3e}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Rendering\OpenGL\3D">
-      <UniqueIdentifier>{fe26ffce-2768-49c1-9b6e-b8e10fa03cc1}</UniqueIdentifier>
+      <UniqueIdentifier>{1ef255ed-35c5-49b2-814d-53d13c77ad99}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Rendering\Renderers">
-      <UniqueIdentifier>{9596d51f-dfe6-40bb-ace4-ca508df448ee}</UniqueIdentifier>
+      <UniqueIdentifier>{7723f96f-1634-4555-94b2-2cbb09111c46}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Core">
-      <UniqueIdentifier>{2eeac70d-a30b-42f1-a3b2-95fd00f96ce6}</UniqueIdentifier>
+      <UniqueIdentifier>{c9fd54a0-86e2-45a0-8c0a-8ea96ed333e4}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Core\2D">
-      <UniqueIdentifier>{f71bf45d-7503-466a-9f0e-567f30d50d74}</UniqueIdentifier>
+      <UniqueIdentifier>{b8ac4dfa-b979-4dc5-a656-9632a08b5715}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Core\2D\Components">
-      <UniqueIdentifier>{2bdcb068-55e3-4c2c-94cf-1870177b5a15}</UniqueIdentifier>
+      <UniqueIdentifier>{872c2c75-0c5d-4e1e-a7c3-286242978a9c}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Core\3D">
-      <UniqueIdentifier>{2d08822d-d8da-4a1a-9d62-5dcf40a5cf07}</UniqueIdentifier>
+      <UniqueIdentifier>{28c883a2-8c6c-4922-88d0-2ebda9e490ea}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Core\3D\Components">
-      <UniqueIdentifier>{c7f65cd5-8ed4-4a8a-bc14-3c15b7b49e69}</UniqueIdentifier>
+      <UniqueIdentifier>{fdc30131-7fd0-4045-8dfa-5d330d404389}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Core\Audio">
-      <UniqueIdentifier>{cbcc82e5-d631-439a-9e63-ac6ec3f240ec}</UniqueIdentifier>
+      <UniqueIdentifier>{1d57d2af-ca4a-475b-9a92-6adae1a6484d}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Core\Audio\AL">
-      <UniqueIdentifier>{9f9e38bb-539f-4946-9599-43ebe9376905}</UniqueIdentifier>
+      <UniqueIdentifier>{0fad0272-e39d-4df5-9d74-88ec68b7f1b7}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Core\Components">
-      <UniqueIdentifier>{08d088ad-1f07-48e1-b457-256b403d330d}</UniqueIdentifier>
+      <UniqueIdentifier>{dd7aebac-3b1f-4078-9352-0c5768933d08}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Core\Events">
-      <UniqueIdentifier>{0e937b73-8767-4379-a289-f872faef9ef1}</UniqueIdentifier>
+      <UniqueIdentifier>{92977b16-f6f4-456d-9c8c-8ad0038d6275}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\ThirdParty\imgui">
-      <UniqueIdentifier>{6cb84b94-f924-497f-ac6f-e8b0cd1de19c}</UniqueIdentifier>
+      <UniqueIdentifier>{ebce0a74-9281-4596-8603-5ee2cdb75d4c}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\ThirdParty">
-      <UniqueIdentifier>{27a88606-d025-4fd9-b3fc-e6956e9eea14}</UniqueIdentifier>
+      <UniqueIdentifier>{c25286cb-bcbe-484e-b52f-e5f68593528c}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\ThirdParty\loadong">
-      <UniqueIdentifier>{dc8da6ff-3d98-4532-87bd-cc26c3699606}</UniqueIdentifier>
+      <UniqueIdentifier>{c705f934-643c-432c-b0a3-497e7a1253f3}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Windows">
-      <UniqueIdentifier>{32850b33-2f62-4c35-b537-97a255bf47c5}</UniqueIdentifier>
+      <UniqueIdentifier>{75a8e2fb-da5e-4ac3-97fa-059b9e4b16f6}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Physics">
-      <UniqueIdentifier>{f52e7f04-0170-446d-8486-de2afc900aff}</UniqueIdentifier>
+      <UniqueIdentifier>{07233747-6152-486d-8652-e97850a3f7bc}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Physics\2D">
-      <UniqueIdentifier>{762e4a1f-cd67-4e59-b9ac-9731264deaf0}</UniqueIdentifier>
+      <UniqueIdentifier>{1e5cd8f5-0fb8-4c82-ba76-7d2da09a2de9}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Physics\2D\Collision">
-      <UniqueIdentifier>{78e5f895-7fd4-4e40-8e04-59caaad22f55}</UniqueIdentifier>
+      <UniqueIdentifier>{5a3bbeb0-786a-441c-8695-8a62c9fe41c7}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Physics\3D">
-      <UniqueIdentifier>{59a7d905-53fb-4065-8fcf-dabc19744cbf}</UniqueIdentifier>
+      <UniqueIdentifier>{66c93e58-6d0c-4222-9e24-be66f57f6a76}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Physics\3D\Collision">
-      <UniqueIdentifier>{fcf743f6-d61c-43a0-81af-b3c336cf3cf3}</UniqueIdentifier>
+      <UniqueIdentifier>{a9969f56-de53-476b-9773-26b3514d4c5c}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Physics\Collision">
-      <UniqueIdentifier>{9f63eac0-59d3-40ff-99bf-cd1e5b8cb543}</UniqueIdentifier>
+      <UniqueIdentifier>{36f850fe-fe5e-4909-b581-e73b0bf80a74}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Math">
-      <UniqueIdentifier>{35da86a1-0378-4549-829c-97a6c7945156}</UniqueIdentifier>
+      <UniqueIdentifier>{9b3d95e4-db67-4711-87cc-69308c6c3578}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Utils">
-      <UniqueIdentifier>{5c6797cc-3055-4167-a5ac-9b41167ff422}</UniqueIdentifier>
+      <UniqueIdentifier>{159ea2ff-d592-4b42-8bf0-a857f64ed709}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Core\Allocators">
-      <UniqueIdentifier>{87867fbd-8376-4bf0-b038-d407d1187dfc}</UniqueIdentifier>
+      <UniqueIdentifier>{40f423ef-8976-4f5d-a040-b9e63ef024fb}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Core\Containers">
-      <UniqueIdentifier>{79953618-f2f2-448d-b53b-d97c225aab5c}</UniqueIdentifier>
+      <UniqueIdentifier>{b6ba8975-9443-4537-a6d2-fc83ba536078}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\ThirdParty\assimp">
-      <UniqueIdentifier>{dc367268-7e81-433b-8599-c1db1f43e365}</UniqueIdentifier>
+      <UniqueIdentifier>{521b7aa8-dbd9-47da-b7f4-ce85316cac16}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\ThirdParty\assimp\Compiler">
-      <UniqueIdentifier>{76253027-0cd5-4547-831c-4160a1aceae9}</UniqueIdentifier>
+      <UniqueIdentifier>{b64d264c-42d9-4d52-a750-b6ef5751a971}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\ThirdParty\assimp\port\AndroidJNI">
-      <UniqueIdentifier>{6d4b628f-419e-4204-b692-891f7e6793f3}</UniqueIdentifier>
+      <UniqueIdentifier>{c1ce1624-1028-4599-a490-96fe765ca19e}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\ThirdParty\assimp\port">
-      <UniqueIdentifier>{156a1cf4-4399-4771-9d0c-24556c31fd68}</UniqueIdentifier>
+      <UniqueIdentifier>{1f79bcc2-b561-4db8-9de1-e87520f4f678}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\ThirdParty\AL">
-      <UniqueIdentifier>{ce60e258-c824-45cc-b49e-948c31686143}</UniqueIdentifier>
+      <UniqueIdentifier>{64a5c416-1bd1-4a70-a978-efd15c7e7d27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\Shaders\3D">
+      <UniqueIdentifier>{aca7b9d9-e050-4246-a952-878cddb7648b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\Shaders">
+      <UniqueIdentifier>{892514e0-80e7-495e-ade3-bd8eb4ce4d64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\Shaders\2D">
+      <UniqueIdentifier>{433dcefc-be4c-429f-aa1a-fe03a7631404}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -171,6 +180,9 @@
     <ClCompile Include="Rendering\OpenGL\Renderers\OpenGLSpriteRenderer.cpp">
       <Filter>ZoranEngine\Rendering\OpenGL\Renderers</Filter>
     </ClCompile>
+    <ClCompile Include="Rendering\OpenGL\Renderers\OpenGLTriangleStripRenderer.cpp">
+      <Filter>ZoranEngine\Rendering\OpenGL\Renderers</Filter>
+    </ClCompile>
     <ClCompile Include="Rendering\OpenGL\Renderers\OpenGLTriangleRenderer.cpp">
       <Filter>ZoranEngine\Rendering\OpenGL\Renderers</Filter>
     </ClCompile>
@@ -188,6 +200,12 @@
     </ClCompile>
     <ClCompile Include="Rendering\OpenGL\3D\OpenGL3DRenderEngine.cpp">
       <Filter>ZoranEngine\Rendering\OpenGL\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\OpenGL\3D\StandardShader3D.cpp">
+      <Filter>ZoranEngine\Rendering\OpenGL\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Renderers\LineLoopRenderer.cpp">
+      <Filter>ZoranEngine\Rendering\Renderers</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\Renderers\LineRenderer.cpp">
       <Filter>ZoranEngine\Rendering\Renderers</Filter>
@@ -208,9 +226,6 @@
       <Filter>ZoranEngine\Rendering\Renderers</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\Renderers\TriangleStripRenderer.cpp">
-      <Filter>ZoranEngine\Rendering\Renderers</Filter>
-    </ClCompile>
-    <ClCompile Include="Rendering\Renderers\LineLoopRenderer.cpp">
       <Filter>ZoranEngine\Rendering\Renderers</Filter>
     </ClCompile>
     <ClCompile Include="Core\CameraBase.cpp">
@@ -288,6 +303,12 @@
     <ClCompile Include="Core\3D\SceneObject3D.cpp">
       <Filter>ZoranEngine\Core\3D</Filter>
     </ClCompile>
+    <ClCompile Include="Core\3D\Named3DSceneObject.cpp">
+      <Filter>ZoranEngine\Core\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\3D\StaticModelSceneObj.cpp">
+      <Filter>ZoranEngine\Core\3D</Filter>
+    </ClCompile>
     <ClCompile Include="Core\3D\Components\Collision3DComponent.cpp">
       <Filter>ZoranEngine\Core\3D\Components</Filter>
     </ClCompile>
@@ -301,6 +322,9 @@
       <Filter>ZoranEngine\Core\3D\Components</Filter>
     </ClCompile>
     <ClCompile Include="Core\3D\Components\Visible3DComponent.cpp">
+      <Filter>ZoranEngine\Core\3D\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\3D\Components\StaticObjComponent.cpp">
       <Filter>ZoranEngine\Core\3D\Components</Filter>
     </ClCompile>
     <ClCompile Include="Core\Audio\AudioEngineBase.cpp">
@@ -447,21 +471,6 @@
     <ClCompile Include="Utils\Statistics.cpp">
       <Filter>ZoranEngine\Utils</Filter>
     </ClCompile>
-    <ClCompile Include="Rendering\OpenGL\Renderers\OpenGLTriangleStripRenderer.cpp">
-      <Filter>ZoranEngine\Rendering\OpenGL\Renderers</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\3D\Components\StaticObjComponent.cpp">
-      <Filter>ZoranEngine\Core\3D\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\3D\Named3DSceneObject.cpp">
-      <Filter>ZoranEngine\Core\3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\3D\StaticModelSceneObj.cpp">
-      <Filter>ZoranEngine\Core\3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Rendering\OpenGL\3D\StandardShader3D.cpp">
-      <Filter>ZoranEngine\Rendering\OpenGL\3D</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -471,9 +480,6 @@
       <Filter>ZoranEngine</Filter>
     </ClInclude>
     <ClInclude Include="Version.h">
-      <Filter>ZoranEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="ZArray.h">
       <Filter>ZoranEngine</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\FrameBufferBase.h">
@@ -539,6 +545,9 @@
     <ClInclude Include="Rendering\OpenGL\Renderers\OpenGLSpriteRenderer.h">
       <Filter>ZoranEngine\Rendering\OpenGL\Renderers</Filter>
     </ClInclude>
+    <ClInclude Include="Rendering\OpenGL\Renderers\OpenGLTriangleStripRenderer.h">
+      <Filter>ZoranEngine\Rendering\OpenGL\Renderers</Filter>
+    </ClInclude>
     <ClInclude Include="Rendering\OpenGL\Renderers\OpenGLTriangleRenderer.h">
       <Filter>ZoranEngine\Rendering\OpenGL\Renderers</Filter>
     </ClInclude>
@@ -556,6 +565,12 @@
     </ClInclude>
     <ClInclude Include="Rendering\OpenGL\3D\OpenGL3DRenderEngine.h">
       <Filter>ZoranEngine\Rendering\OpenGL\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\OpenGL\3D\StandardShader3D.h">
+      <Filter>ZoranEngine\Rendering\OpenGL\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Renderers\LineLoopRenderer.h">
+      <Filter>ZoranEngine\Rendering\Renderers</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\Renderers\LineRenderer.h">
       <Filter>ZoranEngine\Rendering\Renderers</Filter>
@@ -576,9 +591,6 @@
       <Filter>ZoranEngine\Rendering\Renderers</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\Renderers\TriangleStripRenderer.h">
-      <Filter>ZoranEngine\Rendering\Renderers</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\Renderers\LineLoopRenderer.h">
       <Filter>ZoranEngine\Rendering\Renderers</Filter>
     </ClInclude>
     <ClInclude Include="Core\CameraBase.h">
@@ -662,6 +674,12 @@
     <ClInclude Include="Core\3D\SceneObject3D.h">
       <Filter>ZoranEngine\Core\3D</Filter>
     </ClInclude>
+    <ClInclude Include="Core\3D\Named3DSceneObject.h">
+      <Filter>ZoranEngine\Core\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\3D\StaticModelSceneObj.h">
+      <Filter>ZoranEngine\Core\3D</Filter>
+    </ClInclude>
     <ClInclude Include="Core\3D\Components\Collision3DComponent.h">
       <Filter>ZoranEngine\Core\3D\Components</Filter>
     </ClInclude>
@@ -675,6 +693,9 @@
       <Filter>ZoranEngine\Core\3D\Components</Filter>
     </ClInclude>
     <ClInclude Include="Core\3D\Components\Visible3DComponent.h">
+      <Filter>ZoranEngine\Core\3D\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\3D\Components\StaticObjComponent.h">
       <Filter>ZoranEngine\Core\3D\Components</Filter>
     </ClInclude>
     <ClInclude Include="Core\Audio\AudioDevice.h">
@@ -1142,21 +1163,6 @@
     <ClInclude Include="Utils\VectorAddons.hpp">
       <Filter>ZoranEngine\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="Rendering\OpenGL\Renderers\OpenGLTriangleStripRenderer.h">
-      <Filter>ZoranEngine\Rendering\OpenGL\Renderers</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\3D\Components\StaticObjComponent.h">
-      <Filter>ZoranEngine\Core\3D\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\3D\Named3DSceneObject.h">
-      <Filter>ZoranEngine\Core\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\3D\StaticModelSceneObj.h">
-      <Filter>ZoranEngine\Core\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\OpenGL\3D\StandardShader3D.h">
-      <Filter>ZoranEngine\Rendering\OpenGL\3D</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ZoranEngine.rc">
@@ -1189,5 +1195,21 @@
       <Filter>ZoranEngine\ThirdParty\assimp</Filter>
     </None>
     <None Include="..\README.md" />
+    <None Include="Shaders\2D\standard.vert">
+      <Filter>ZoranEngine\Shaders\2D</Filter>
+    </None>
+    <None Include="Shaders\2D\standard_debug.frag">
+      <Filter>ZoranEngine\Shaders\2D</Filter>
+    </None>
+    <None Include="Shaders\2D\standard_debug.vert">
+      <Filter>ZoranEngine\Shaders\2D</Filter>
+    </None>
+    <None Include="Shaders\3D\standard.frag">
+      <Filter>ZoranEngine\Shaders\3D</Filter>
+    </None>
+    <None Include="Shaders\3D\standard.vert">
+      <Filter>ZoranEngine\Shaders\3D</Filter>
+    </None>
+    <None Include="Shaders\2D\standard.frag" />
   </ItemGroup>
 </Project>
