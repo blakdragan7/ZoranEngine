@@ -196,8 +196,7 @@ OpenGLLineLoopRenderer * OpenGLContext::CreateLineLoopRenderer()
 
 OpenGLModelRenderer * OpenGLContext::CreateModelRenderer()
 {
-	//return OpenGLModelRenderer(this);
-	return 0;
+	return new OpenGLModelRenderer(this);
 }
 
 OpenGLQuadRenderer * OpenGLContext::CreateQuadRenderer()

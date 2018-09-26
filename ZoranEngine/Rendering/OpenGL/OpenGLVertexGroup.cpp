@@ -7,13 +7,13 @@
 #include "OpenGLBuffer.h"
 
 OpenGLVertexGroup::OpenGLVertexGroup(unsigned vertexDrawType, OpenGLContext * context) :
-	numVerts(0), vertexDrawType(vertexDrawType), OGLContext(context)
+	numVerts(0), vertexDrawType(vertexDrawType), OGLContext(context), hasIndecies(false)
 {
 	vao = new OpenGLVertexArray(context);
 }
 
 OpenGLVertexGroup::OpenGLVertexGroup(unsigned vertexDrawType, unsigned numVertecies, OpenGLContext* context) :
-	numVerts(numVertecies), vertexDrawType(vertexDrawType), OGLContext(context)
+	numVerts(numVertecies), vertexDrawType(vertexDrawType), OGLContext(context), hasIndecies(false)
 {
 	vao = new OpenGLVertexArray(context);
 }
@@ -26,6 +26,11 @@ OpenGLVertexGroup::~OpenGLVertexGroup()
 		delete iter.second;
 	}
 	bufferMap.clear();
+
+	if (indexBuffer)
+	{
+		delete indexBuffer;
+	}
 }
 
 void OpenGLVertexGroup::RenderObject()
@@ -36,8 +41,13 @@ void OpenGLVertexGroup::RenderObject()
 	}
 
 	vao->EnableArray();
-	
-	glDrawArrays(vertexDrawType,0,numVerts);
+	if (hasIndecies)
+	{
+		indexBuffer->BindBuffer();
+		glDrawElements(vertexDrawType, numVerts, GL_UNSIGNED_INT, 0);
+	}
+	else
+		glDrawArrays(vertexDrawType,0,numVerts);
 
 	OGLContext->CheckErrors("RenderObject");
 }
@@ -45,15 +55,28 @@ void OpenGLVertexGroup::RenderObject()
 void OpenGLVertexGroup::AddBufferForAttr(unsigned attr, unsigned type, void * data, unsigned numComponents, size_t size, unsigned usage)
 {
 	OpenGLBuffer* buffer = new OpenGLBuffer(type, data, numComponents, usage, size, OGLContext);
-	bufferMap.insert({ attr, buffer });
-	vao->BindBufferForAttr(attr, buffer);
-	numVerts = size / numComponents;
+	AddBufferForAttr(attr, buffer);
 }
 
 void OpenGLVertexGroup::AddBufferForAttr(unsigned attr, OpenGLBuffer * buffer)
 {
+	if (bufferMap.find(attr) != bufferMap.end())
+	{
+		delete bufferMap[attr];
+	}
+
  	bufferMap.insert({ attr,buffer });
 	vao->BindBufferForAttr(attr, buffer);
+}
+
+void OpenGLVertexGroup::SetElementBuffer(OpenGLBuffer * buffer)
+{
+	if (indexBuffer)
+	{
+		delete indexBuffer;
+	}
+	indexBuffer = buffer;
+	hasIndecies = indexBuffer != 0;
 }
 
 OpenGLBuffer * OpenGLVertexGroup::GetBufferForAttr(unsigned attr)const
@@ -63,6 +86,6 @@ OpenGLBuffer * OpenGLVertexGroup::GetBufferForAttr(unsigned attr)const
 	{
 		return iter->second;
 	}
-	Log(LogLevel_Error,"Trying To Access GL Named Buffer that wasn't added !!\n");
+	Log(LogLevel_Error,"Trying To Access GL Buffer From Vertex Group that wasn't added !!\n");
 	return nullptr;
 }

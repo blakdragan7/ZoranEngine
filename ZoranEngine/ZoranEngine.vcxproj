@@ -20,12 +20,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />
-    <None Include="Shaders\2D\standard.frag" />
-    <None Include="Shaders\2D\standard.vert" />
-    <None Include="Shaders\2D\standard_debug.frag" />
-    <None Include="Shaders\2D\standard_debug.vert" />
-    <None Include="Shaders\3D\standard.frag" />
-    <None Include="Shaders\3D\standard.vert" />
     <None Include="ThirdParty\assimp\color4.inl" />
     <None Include="ThirdParty\assimp\material.inl" />
     <None Include="ThirdParty\assimp\matrix3x3.inl" />
@@ -57,9 +51,12 @@
     <ClCompile Include="Core\3D\Components\Component3DBase.cpp" />
     <ClCompile Include="Core\3D\Components\RigidBody3DComponent.cpp" />
     <ClCompile Include="Core\3D\Components\Speaker3DComponent.cpp" />
+    <ClCompile Include="Core\3D\Components\StaticObjComponent.cpp" />
     <ClCompile Include="Core\3D\Components\Visible3DComponent.cpp" />
+    <ClCompile Include="Core\3D\Named3DSceneObject.cpp" />
     <ClCompile Include="Core\3D\PerspectiveCamera.cpp" />
     <ClCompile Include="Core\3D\SceneObject3D.cpp" />
+    <ClCompile Include="Core\3D\StaticModelSceneObj.cpp" />
     <ClCompile Include="Core\Audio\AL\OALAudioEngine.cpp" />
     <ClCompile Include="Core\Audio\AL\OALAudioListener.cpp" />
     <ClCompile Include="Core\Audio\AL\OALSoundInstance.cpp" />
@@ -108,6 +105,7 @@
     <ClCompile Include="Rendering\OpenGL\2D\StandardShader.cpp" />
     <ClCompile Include="Rendering\OpenGL\2D\StandardShader2D.cpp" />
     <ClCompile Include="Rendering\OpenGL\3D\OpenGL3DRenderEngine.cpp" />
+    <ClCompile Include="Rendering\OpenGL\3D\StandardShader3D.cpp" />
     <ClCompile Include="Rendering\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="Rendering\OpenGL\OpenGLVertexGroup.cpp" />
     <ClCompile Include="Rendering\OpenGL\OpenGLContext.cpp" />
@@ -190,9 +188,12 @@
     <ClInclude Include="Core\3D\Components\Component3DBase.h" />
     <ClInclude Include="Core\3D\Components\RigidBody3DComponent.h" />
     <ClInclude Include="Core\3D\Components\Speaker3DComponent.h" />
+    <ClInclude Include="Core\3D\Components\StaticObjComponent.h" />
     <ClInclude Include="Core\3D\Components\Visible3DComponent.h" />
+    <ClInclude Include="Core\3D\Named3DSceneObject.h" />
     <ClInclude Include="Core\3D\PerspectiveCamera.h" />
     <ClInclude Include="Core\3D\SceneObject3D.h" />
+    <ClInclude Include="Core\3D\StaticModelSceneObj.h" />
     <ClInclude Include="Core\Allocators\AllocatorBase.h" />
     <ClInclude Include="Core\Allocators\CAllocator.h" />
     <ClInclude Include="Core\Allocators\FreeListAllocator.h" />
@@ -263,6 +264,7 @@
     <ClInclude Include="Rendering\OpenGL\2D\StandardShader.h" />
     <ClInclude Include="Rendering\OpenGL\2D\StandardShader2D.h" />
     <ClInclude Include="Rendering\OpenGL\3D\OpenGL3DRenderEngine.h" />
+    <ClInclude Include="Rendering\OpenGL\3D\StandardShader3D.h" />
     <ClInclude Include="Rendering\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="Rendering\OpenGL\OpenGLContext.h" />
     <ClInclude Include="Rendering\OpenGL\OpenGLVertexGroup.h" />

@@ -1,10 +1,10 @@
 #include "stdafx.h"
 #include "Camera3D.h"
-#include "SceneObject3D.h"
+#include "Named3DSceneObject.h"
 
 Camera3D::Camera3D(std::string name, Vec3D position, Vec3D scale, Vec3D rotation)
 {
-	sceneObject = new SceneObject3D(name);
+	sceneObject = new Named3DSceneObject(name);
 	sceneObject->SetPosition(position);
 	sceneObject->SetScale(scale);
 	sceneObject->SetRotation(rotation);

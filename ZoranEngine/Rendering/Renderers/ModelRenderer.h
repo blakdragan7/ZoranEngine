@@ -7,7 +7,7 @@ namespace Assimp
 }
 
 struct aiScene;
-class ZoranEngine_EXPORT ModelRenderer : RenderedObjectBase
+class ZoranEngine_EXPORT ModelRenderer : public RenderedObjectBase
 {
 private:
 	bool hasLoadedFile;
@@ -15,6 +15,9 @@ private:
 
 protected:
 	const aiScene* scene;
+
+protected:
+	virtual void NewModelLoaded() = 0;
 
 public:
 	ModelRenderer(PrimitiveType pt, DrawType dt);

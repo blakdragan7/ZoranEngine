@@ -179,9 +179,9 @@ void ZoranEngine::Setup2DScene(Vector2D center, Vector2D size)
 
 void ZoranEngine::Setup3DScene(Vector3D center, Vector3D size, float fov, float nearp, float farp)
 {
-	is3D = true;
 	main3DRenderEngine = new OpenGL3DRenderEngine();
 	main3DRenderEngine->InitEngine(mainWindow->GetHandle());
+	is3D = true;
 
 	physicsEngine->SetupFor3D(center, size);
 	

@@ -106,15 +106,6 @@
     <Filter Include="ZoranEngine\ThirdParty\AL">
       <UniqueIdentifier>{ce60e258-c824-45cc-b49e-948c31686143}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ZoranEngine\Shaders\3D">
-      <UniqueIdentifier>{fbcdc5da-4bf1-4f4a-a6a9-ccd167908cc1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ZoranEngine\Shaders">
-      <UniqueIdentifier>{6c2165e1-2243-4c5e-9790-e4731b310a6f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ZoranEngine\Shaders\2D">
-      <UniqueIdentifier>{7293fda2-8a1f-4961-b76d-0b56b2808218}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -458,6 +449,18 @@
     </ClCompile>
     <ClCompile Include="Rendering\OpenGL\Renderers\OpenGLTriangleStripRenderer.cpp">
       <Filter>ZoranEngine\Rendering\OpenGL\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\3D\Components\StaticObjComponent.cpp">
+      <Filter>ZoranEngine\Core\3D\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\3D\Named3DSceneObject.cpp">
+      <Filter>ZoranEngine\Core\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\3D\StaticModelSceneObj.cpp">
+      <Filter>ZoranEngine\Core\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\OpenGL\3D\StandardShader3D.cpp">
+      <Filter>ZoranEngine\Rendering\OpenGL\3D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1142,6 +1145,18 @@
     <ClInclude Include="Rendering\OpenGL\Renderers\OpenGLTriangleStripRenderer.h">
       <Filter>ZoranEngine\Rendering\OpenGL\Renderers</Filter>
     </ClInclude>
+    <ClInclude Include="Core\3D\Components\StaticObjComponent.h">
+      <Filter>ZoranEngine\Core\3D\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\3D\Named3DSceneObject.h">
+      <Filter>ZoranEngine\Core\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\3D\StaticModelSceneObj.h">
+      <Filter>ZoranEngine\Core\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\OpenGL\3D\StandardShader3D.h">
+      <Filter>ZoranEngine\Rendering\OpenGL\3D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ZoranEngine.rc">
@@ -1172,24 +1187,6 @@
     </None>
     <None Include="ThirdParty\assimp\vector3.inl">
       <Filter>ZoranEngine\ThirdParty\assimp</Filter>
-    </None>
-    <None Include="Shaders\3D\standard.frag">
-      <Filter>ZoranEngine\Shaders\3D</Filter>
-    </None>
-    <None Include="Shaders\3D\standard.vert">
-      <Filter>ZoranEngine\Shaders\3D</Filter>
-    </None>
-    <None Include="Shaders\2D\standard.frag">
-      <Filter>ZoranEngine\Shaders\2D</Filter>
-    </None>
-    <None Include="Shaders\2D\standard.vert">
-      <Filter>ZoranEngine\Shaders\2D</Filter>
-    </None>
-    <None Include="Shaders\2D\standard_debug.frag">
-      <Filter>ZoranEngine\Shaders\2D</Filter>
-    </None>
-    <None Include="Shaders\2D\standard_debug.vert">
-      <Filter>ZoranEngine\Shaders\2D</Filter>
     </None>
     <None Include="..\README.md" />
   </ItemGroup>

@@ -12,6 +12,8 @@
 #include <Utils/HighPrecisionClock.h>
 #include <algorithm>
 
+#include <Core/3D/StaticModelSceneObj.h>
+
 #include <Core/Audio/AudioEngineBase.h>
 #include <Core/Audio/common.h>
 
@@ -21,7 +23,6 @@
 
 void Test2DSceneStuff();
 void Test3DSceneStuff();
-void TestModelLoading();
 void TestAudio();
 
 static const unsigned TestNum = 1000;
@@ -31,8 +32,8 @@ static const float scale = 5.0f;
 
 int main(int argc, char* argv[])
 {
-	Test2DSceneStuff();
-	TestModelLoading();
+	//Test2DSceneStuff();
+	Test3DSceneStuff();
 }
 
 void Test2DSceneStuff()
@@ -124,15 +125,20 @@ void Test3DSceneStuff()
 {
 	ZoranEngine engine;
 	engine.Init();
-	engine.Setup3DScene({}, { 1,1,1 }, 90, -1, 100);
+	engine.Setup3DScene({}, { 1,1,1 }, 90, 1, 100);
 
 	std::string name_base = "TestSceneObject-";
-}
 
-void TestModelLoading()
-{
-	//ModelRenderer render;
-	//render.LoadFile("teapot.obj");
+	StaticModelSceneObj* test = new StaticModelSceneObj(name_base + "1");
+
+	test->SetPosition(0, 0, 20);
+	test->SetScale({ 1.0f,1.0f,1.0f });
+	test->SetMesh("teapot.obj");
+	test->PreCaclModel();
+
+	engine.AddSceneObject(test);
+
+	engine.MainLoop();
 }
 
 void TestAudio()

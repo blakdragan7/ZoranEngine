@@ -6,7 +6,7 @@
 
 unsigned OpenGLVertexArray::EnableVAO = -1;
 
-OpenGLVertexArray::OpenGLVertexArray(OpenGLContext * context)
+OpenGLVertexArray::OpenGLVertexArray(OpenGLContext * context) : context(context)
 {
 	glGenVertexArrays(1, &vao);
 	context->CheckErrors("glGenVertexArrays");

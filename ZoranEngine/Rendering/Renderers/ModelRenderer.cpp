@@ -35,6 +35,8 @@ void ModelRenderer::LoadFile(const char* file)
 	if (scene)
 	{
 		hasLoadedFile = true;
+
+		NewModelLoaded();
 	}
 	else
 	{

@@ -1,7 +1,7 @@
 #pragma once
 #include <Rendering/RenderedObjectBase.h>
 
-class ZoranEngine_EXPORT TriangleStripRenderer : RenderedObjectBase
+class ZoranEngine_EXPORT TriangleStripRenderer : public RenderedObjectBase
 {
 public:
 	TriangleStripRenderer(DrawType dt);

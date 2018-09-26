@@ -47,6 +47,7 @@ void OpenGLTriangleStripRenderer::EndTriangles()
 {
 	OpenGLBuffer* buffer = OpenGLBuffer::BufferFromVertexVector(triangleBuilder,context);
 	vertexGroup->AddBufferForAttr(0, buffer);
+	triangleBuilder.clear();
 }
 
 void OpenGLTriangleStripRenderer::RenderObject()
