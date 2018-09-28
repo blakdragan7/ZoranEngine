@@ -5,4 +5,4 @@
 #include "Utils/HighPrecisionClock.h"
 
 // count code lines in powershell from sln directory
-// (gci -include *.cpp,*.h,*.hpp -recurse | select-string .).Count
+// (Get-ChildItem -Recurse -include *.cpp,*.h,*.hpp | ?{ $_.fullname -notmatch "\\ThirdParty\\?" } | select-string .).Count
