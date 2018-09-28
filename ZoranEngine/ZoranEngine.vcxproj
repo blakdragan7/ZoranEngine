@@ -180,7 +180,58 @@
     <ClCompile Include="ThirdParty\imgui\imgui_impl_win32.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="ThirdParty\loadong\lodepng.cpp">
+    <ClCompile Include="ThirdParty\loadpng\lodepng.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\msdfgen\core\Bitmap.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\msdfgen\core\Contour.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\msdfgen\core\edge-coloring.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\msdfgen\core\edge-segments.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\msdfgen\core\EdgeHolder.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\msdfgen\core\equation-solver.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\msdfgen\core\msdfgen.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\msdfgen\core\render-sdf.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\msdfgen\core\save-bmp.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\msdfgen\core\shape-description.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\msdfgen\core\Shape.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\msdfgen\core\SignedDistance.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\msdfgen\core\mVector2.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\msdfgen\ext\import-font.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\msdfgen\ext\import-svg.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\msdfgen\ext\save-png.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\tinyxml2\tinyxml2.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Utils\ConsoleLogger.cpp" />
@@ -410,7 +461,27 @@
     <ClInclude Include="ThirdParty\imgui\stb_rect_pack.h" />
     <ClInclude Include="ThirdParty\imgui\stb_textedit.h" />
     <ClInclude Include="ThirdParty\imgui\stb_truetype.h" />
-    <ClInclude Include="ThirdParty\loadong\lodepng.h" />
+    <ClInclude Include="ThirdParty\loadpng\lodepng.h" />
+    <ClInclude Include="ThirdParty\msdfgen\core\arithmetics.hpp" />
+    <ClInclude Include="ThirdParty\msdfgen\core\Bitmap.h" />
+    <ClInclude Include="ThirdParty\msdfgen\core\Contour.h" />
+    <ClInclude Include="ThirdParty\msdfgen\core\edge-coloring.h" />
+    <ClInclude Include="ThirdParty\msdfgen\core\edge-segments.h" />
+    <ClInclude Include="ThirdParty\msdfgen\core\EdgeColor.h" />
+    <ClInclude Include="ThirdParty\msdfgen\core\EdgeHolder.h" />
+    <ClInclude Include="ThirdParty\msdfgen\core\equation-solver.h" />
+    <ClInclude Include="ThirdParty\msdfgen\core\render-sdf.h" />
+    <ClInclude Include="ThirdParty\msdfgen\core\save-bmp.h" />
+    <ClInclude Include="ThirdParty\msdfgen\core\shape-description.h" />
+    <ClInclude Include="ThirdParty\msdfgen\core\Shape.h" />
+    <ClInclude Include="ThirdParty\msdfgen\core\SignedDistance.h" />
+    <ClInclude Include="ThirdParty\msdfgen\core\Vector2.h" />
+    <ClInclude Include="ThirdParty\msdfgen\ext\import-font.h" />
+    <ClInclude Include="ThirdParty\msdfgen\ext\import-svg.h" />
+    <ClInclude Include="ThirdParty\msdfgen\ext\save-png.h" />
+    <ClInclude Include="ThirdParty\msdfgen\msdfgen-ext.h" />
+    <ClInclude Include="ThirdParty\msdfgen\msdfgen.h" />
+    <ClInclude Include="ThirdParty\tinyxml2\tinyxml2.h" />
     <ClInclude Include="Utils\ConsoleLogger.h" />
     <ClInclude Include="Utils\HighPrecisionClock.h" />
     <ClInclude Include="Utils\ListAddons.hpp" />
@@ -478,19 +549,19 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(ProjectDir);GL;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);GL;ThirdParty/msdfgen;$(IncludePath)</IncludePath>
     <LibraryPath>libs;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(ProjectDir);GL;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);GL;ThirdParty/msdfgen;$(IncludePath)</IncludePath>
     <LibraryPath>libs;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(ProjectDir);GL;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);GL;ThirdParty/msdfgen;$(IncludePath)</IncludePath>
     <LibraryPath>libs;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(ProjectDir);GL;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);GL;ThirdParty/msdfgen;$(IncludePath)</IncludePath>
     <LibraryPath>libs;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -501,7 +572,7 @@
       <PreprocessorDefinitions>BUILD_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>OpenGL32.lib;GLU32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OpenGL32.lib;GLU32.lib;glew32.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -514,7 +585,7 @@
       <PreprocessorDefinitions>BUILD_DLL;_BENCHMARKING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>OpenGL32.lib;GLU32.lib;glew32.lib;alut.lib;OpenAL32d.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OpenGL32.lib;GLU32.lib;glew32.lib;freetype.lib;alut.lib;OpenAL32d.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
     </Link>
     <CustomBuildStep>
@@ -539,7 +610,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>OpenGL32.lib;GLU32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OpenGL32.lib;GLU32.lib;glew32.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -556,7 +627,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>OpenGL32.lib;GLU32.lib;glew32.lib;alut.lib;OpenAL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OpenGL32.lib;GLU32.lib;glew32.lib;freetype.lib;alut.lib;OpenAL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <CustomBuildStep>
       <Command>cp -r $(ProjectDir)Shaders  $(SolutionDir)run</Command>

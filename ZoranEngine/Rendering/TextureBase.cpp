@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "TextureBase.h"
-#include <ThirdParty/loadong/lodepng.h>
+#include <ThirdParty/loadpng/lodepng.h>
 #include <stdexcept>
 
 unsigned TextureBase::LoadFromPNG(const char * path, unsigned & x, unsigned & y, unsigned char ** data)

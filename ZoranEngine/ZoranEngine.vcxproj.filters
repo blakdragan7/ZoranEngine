@@ -2,118 +2,130 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="ZoranEngine">
-      <UniqueIdentifier>{6d312af9-cbd9-4097-8bed-8cbca2afdd33}</UniqueIdentifier>
+      <UniqueIdentifier>{661653db-5d7c-4326-ad98-961a5651aa74}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Rendering">
-      <UniqueIdentifier>{c04d852f-df23-4e6c-95ff-f32e192ef06c}</UniqueIdentifier>
+      <UniqueIdentifier>{ae698e62-aa83-4b00-a645-76340c8073b7}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Rendering\OpenGL">
-      <UniqueIdentifier>{90a47717-13db-457a-8fe1-e6bfed14038e}</UniqueIdentifier>
+      <UniqueIdentifier>{18a26a9b-11d9-47d8-aa59-3f3e3848d093}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Rendering\OpenGL\Renderers">
-      <UniqueIdentifier>{3a62a298-c0b1-4d90-9e3c-c611c7e1c035}</UniqueIdentifier>
+      <UniqueIdentifier>{e33618b3-1c90-4058-aff3-2b1af5f87199}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Rendering\OpenGL\2D">
-      <UniqueIdentifier>{82cf0282-8cd9-4d15-b932-cca5c81a5b3e}</UniqueIdentifier>
+      <UniqueIdentifier>{d265cd01-9465-43b1-8841-495ba7dee031}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Rendering\OpenGL\3D">
-      <UniqueIdentifier>{1ef255ed-35c5-49b2-814d-53d13c77ad99}</UniqueIdentifier>
+      <UniqueIdentifier>{9d1af224-2f4d-4b1e-a5e7-d8f800dd83a1}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Rendering\Renderers">
-      <UniqueIdentifier>{7723f96f-1634-4555-94b2-2cbb09111c46}</UniqueIdentifier>
+      <UniqueIdentifier>{4d053122-adf8-475b-9091-fbd6e74f560e}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Core">
-      <UniqueIdentifier>{c9fd54a0-86e2-45a0-8c0a-8ea96ed333e4}</UniqueIdentifier>
+      <UniqueIdentifier>{2deee19e-2172-4fbe-ab3d-1e514d2c8788}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Core\2D">
-      <UniqueIdentifier>{b8ac4dfa-b979-4dc5-a656-9632a08b5715}</UniqueIdentifier>
+      <UniqueIdentifier>{387bb2b6-a7a0-4ab4-8322-0730d58f8901}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Core\2D\Components">
-      <UniqueIdentifier>{872c2c75-0c5d-4e1e-a7c3-286242978a9c}</UniqueIdentifier>
+      <UniqueIdentifier>{6b724c8f-06cc-4fd2-8ba4-6684452a75c0}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Core\3D">
-      <UniqueIdentifier>{28c883a2-8c6c-4922-88d0-2ebda9e490ea}</UniqueIdentifier>
+      <UniqueIdentifier>{92da75df-f352-4aad-ae05-390e59581fcb}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Core\3D\Components">
-      <UniqueIdentifier>{fdc30131-7fd0-4045-8dfa-5d330d404389}</UniqueIdentifier>
+      <UniqueIdentifier>{4f3e551e-3f9f-4faf-9053-acdb657cf2d8}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Core\Audio">
-      <UniqueIdentifier>{1d57d2af-ca4a-475b-9a92-6adae1a6484d}</UniqueIdentifier>
+      <UniqueIdentifier>{0c78733e-e45f-4e20-8a96-8dd0e3b2b634}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Core\Audio\AL">
-      <UniqueIdentifier>{0fad0272-e39d-4df5-9d74-88ec68b7f1b7}</UniqueIdentifier>
+      <UniqueIdentifier>{90424f3c-a164-43a3-94b4-f99a8833e66a}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Core\Components">
-      <UniqueIdentifier>{dd7aebac-3b1f-4078-9352-0c5768933d08}</UniqueIdentifier>
+      <UniqueIdentifier>{ad6f12ee-f78f-4834-857a-26ec39173167}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Core\Events">
-      <UniqueIdentifier>{92977b16-f6f4-456d-9c8c-8ad0038d6275}</UniqueIdentifier>
+      <UniqueIdentifier>{01a019c5-0418-4383-81c8-39ef26085983}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\ThirdParty\imgui">
-      <UniqueIdentifier>{ebce0a74-9281-4596-8603-5ee2cdb75d4c}</UniqueIdentifier>
+      <UniqueIdentifier>{4b33207e-80aa-4cda-a8c2-9f8fce245340}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\ThirdParty">
-      <UniqueIdentifier>{c25286cb-bcbe-484e-b52f-e5f68593528c}</UniqueIdentifier>
+      <UniqueIdentifier>{d27c10f9-1a76-4052-a3cb-f723cb45e8d4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ZoranEngine\ThirdParty\loadong">
-      <UniqueIdentifier>{c705f934-643c-432c-b0a3-497e7a1253f3}</UniqueIdentifier>
+    <Filter Include="ZoranEngine\ThirdParty\msdfgen\core">
+      <UniqueIdentifier>{5d7fa67a-bef6-4b2e-b4f1-6dc0aad76363}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\ThirdParty\msdfgen">
+      <UniqueIdentifier>{76d0ec97-89db-44fb-8d84-857c459bbd28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\ThirdParty\msdfgen\ext">
+      <UniqueIdentifier>{8b212441-beda-47af-a898-e7e0f5287272}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Windows">
-      <UniqueIdentifier>{75a8e2fb-da5e-4ac3-97fa-059b9e4b16f6}</UniqueIdentifier>
+      <UniqueIdentifier>{dfcde8bb-500c-4681-88e3-7cec02d7ece3}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Physics">
-      <UniqueIdentifier>{07233747-6152-486d-8652-e97850a3f7bc}</UniqueIdentifier>
+      <UniqueIdentifier>{09d6a2bf-b6d2-4076-b1d0-6cc97bcdcfdb}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Physics\2D">
-      <UniqueIdentifier>{1e5cd8f5-0fb8-4c82-ba76-7d2da09a2de9}</UniqueIdentifier>
+      <UniqueIdentifier>{b1014284-0ec4-4af0-b373-1bb707c9aee3}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Physics\2D\Collision">
-      <UniqueIdentifier>{5a3bbeb0-786a-441c-8695-8a62c9fe41c7}</UniqueIdentifier>
+      <UniqueIdentifier>{831748be-22b4-4e61-add3-82c4ef9ef082}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Physics\3D">
-      <UniqueIdentifier>{66c93e58-6d0c-4222-9e24-be66f57f6a76}</UniqueIdentifier>
+      <UniqueIdentifier>{df8b6008-1088-4832-b852-b9aa587809ac}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Physics\3D\Collision">
-      <UniqueIdentifier>{a9969f56-de53-476b-9773-26b3514d4c5c}</UniqueIdentifier>
+      <UniqueIdentifier>{a2748cf1-e2e3-413c-9c99-e183b26e1af6}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Physics\Collision">
-      <UniqueIdentifier>{36f850fe-fe5e-4909-b581-e73b0bf80a74}</UniqueIdentifier>
+      <UniqueIdentifier>{ac7ebe06-4906-460b-8a0d-e452596d6b5d}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Math">
-      <UniqueIdentifier>{9b3d95e4-db67-4711-87cc-69308c6c3578}</UniqueIdentifier>
+      <UniqueIdentifier>{7bac1857-b6c2-4e4b-b541-1f0710387519}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Utils">
-      <UniqueIdentifier>{159ea2ff-d592-4b42-8bf0-a857f64ed709}</UniqueIdentifier>
+      <UniqueIdentifier>{22a6d718-31d2-4e54-bdbd-c9b5f6829ef7}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Core\Allocators">
-      <UniqueIdentifier>{40f423ef-8976-4f5d-a040-b9e63ef024fb}</UniqueIdentifier>
+      <UniqueIdentifier>{c49d6f44-c41f-4519-a405-fb0d02228b03}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Core\Containers">
-      <UniqueIdentifier>{b6ba8975-9443-4537-a6d2-fc83ba536078}</UniqueIdentifier>
+      <UniqueIdentifier>{05dac21f-f3bd-4968-949b-cb190b4a9ce2}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\ThirdParty\assimp">
-      <UniqueIdentifier>{521b7aa8-dbd9-47da-b7f4-ce85316cac16}</UniqueIdentifier>
+      <UniqueIdentifier>{6076b378-46a9-45d4-9462-beef2639dbe9}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\ThirdParty\assimp\Compiler">
-      <UniqueIdentifier>{b64d264c-42d9-4d52-a750-b6ef5751a971}</UniqueIdentifier>
+      <UniqueIdentifier>{7575775d-837c-489d-ba7d-f8bb72364465}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\ThirdParty\assimp\port\AndroidJNI">
-      <UniqueIdentifier>{c1ce1624-1028-4599-a490-96fe765ca19e}</UniqueIdentifier>
+      <UniqueIdentifier>{d7c17a56-c991-4fc1-8352-9a066fc507ac}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\ThirdParty\assimp\port">
-      <UniqueIdentifier>{1f79bcc2-b561-4db8-9de1-e87520f4f678}</UniqueIdentifier>
+      <UniqueIdentifier>{b53ad4d8-2c65-4dc3-a74d-695e5a54fc15}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\ThirdParty\AL">
-      <UniqueIdentifier>{64a5c416-1bd1-4a70-a978-efd15c7e7d27}</UniqueIdentifier>
+      <UniqueIdentifier>{1eab9f88-edc0-41ec-a776-17a6b44fb48d}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Shaders\3D">
-      <UniqueIdentifier>{aca7b9d9-e050-4246-a952-878cddb7648b}</UniqueIdentifier>
+      <UniqueIdentifier>{a474c7fe-51c7-46a1-8574-c184b3ca3fa1}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Shaders">
-      <UniqueIdentifier>{892514e0-80e7-495e-ade3-bd8eb4ce4d64}</UniqueIdentifier>
+      <UniqueIdentifier>{d3160516-11a0-4dc0-b23c-28aca275df40}</UniqueIdentifier>
     </Filter>
     <Filter Include="ZoranEngine\Shaders\2D">
-      <UniqueIdentifier>{433dcefc-be4c-429f-aa1a-fe03a7631404}</UniqueIdentifier>
+      <UniqueIdentifier>{176118dc-288d-4654-a683-69c11b9a858c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\ThirdParty\loadpng">
+      <UniqueIdentifier>{75c5260d-8841-4c5d-b0d8-4d239a899b96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\ThirdParty\tinyxml2">
+      <UniqueIdentifier>{2bd48f75-46f5-4b2b-9087-f5628dab2c7c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -297,13 +309,13 @@
     <ClCompile Include="Core\3D\Camera3D.cpp">
       <Filter>ZoranEngine\Core\3D</Filter>
     </ClCompile>
+    <ClCompile Include="Core\3D\Named3DSceneObject.cpp">
+      <Filter>ZoranEngine\Core\3D</Filter>
+    </ClCompile>
     <ClCompile Include="Core\3D\PerspectiveCamera.cpp">
       <Filter>ZoranEngine\Core\3D</Filter>
     </ClCompile>
     <ClCompile Include="Core\3D\SceneObject3D.cpp">
-      <Filter>ZoranEngine\Core\3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\3D\Named3DSceneObject.cpp">
       <Filter>ZoranEngine\Core\3D</Filter>
     </ClCompile>
     <ClCompile Include="Core\3D\StaticModelSceneObj.cpp">
@@ -321,10 +333,10 @@
     <ClCompile Include="Core\3D\Components\Speaker3DComponent.cpp">
       <Filter>ZoranEngine\Core\3D\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Core\3D\Components\Visible3DComponent.cpp">
+    <ClCompile Include="Core\3D\Components\StaticObjComponent.cpp">
       <Filter>ZoranEngine\Core\3D\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Core\3D\Components\StaticObjComponent.cpp">
+    <ClCompile Include="Core\3D\Components\Visible3DComponent.cpp">
       <Filter>ZoranEngine\Core\3D\Components</Filter>
     </ClCompile>
     <ClCompile Include="Core\Audio\AudioEngineBase.cpp">
@@ -375,8 +387,53 @@
     <ClCompile Include="ThirdParty\imgui\imgui_impl_win32.cpp">
       <Filter>ZoranEngine\ThirdParty\imgui</Filter>
     </ClCompile>
-    <ClCompile Include="ThirdParty\loadong\lodepng.cpp">
-      <Filter>ZoranEngine\ThirdParty\loadong</Filter>
+    <ClCompile Include="ThirdParty\msdfgen\core\Bitmap.cpp">
+      <Filter>ZoranEngine\ThirdParty\msdfgen\core</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\msdfgen\core\Contour.cpp">
+      <Filter>ZoranEngine\ThirdParty\msdfgen\core</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\msdfgen\core\edge-coloring.cpp">
+      <Filter>ZoranEngine\ThirdParty\msdfgen\core</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\msdfgen\core\edge-segments.cpp">
+      <Filter>ZoranEngine\ThirdParty\msdfgen\core</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\msdfgen\core\EdgeHolder.cpp">
+      <Filter>ZoranEngine\ThirdParty\msdfgen\core</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\msdfgen\core\equation-solver.cpp">
+      <Filter>ZoranEngine\ThirdParty\msdfgen\core</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\msdfgen\core\msdfgen.cpp">
+      <Filter>ZoranEngine\ThirdParty\msdfgen\core</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\msdfgen\core\render-sdf.cpp">
+      <Filter>ZoranEngine\ThirdParty\msdfgen\core</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\msdfgen\core\save-bmp.cpp">
+      <Filter>ZoranEngine\ThirdParty\msdfgen\core</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\msdfgen\core\shape-description.cpp">
+      <Filter>ZoranEngine\ThirdParty\msdfgen\core</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\msdfgen\core\Shape.cpp">
+      <Filter>ZoranEngine\ThirdParty\msdfgen\core</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\msdfgen\core\SignedDistance.cpp">
+      <Filter>ZoranEngine\ThirdParty\msdfgen\core</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\msdfgen\core\mVector2.cpp">
+      <Filter>ZoranEngine\ThirdParty\msdfgen\core</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\msdfgen\ext\import-font.cpp">
+      <Filter>ZoranEngine\ThirdParty\msdfgen\ext</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\msdfgen\ext\import-svg.cpp">
+      <Filter>ZoranEngine\ThirdParty\msdfgen\ext</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\msdfgen\ext\save-png.cpp">
+      <Filter>ZoranEngine\ThirdParty\msdfgen\ext</Filter>
     </ClCompile>
     <ClCompile Include="Windows\WindowsThread.cpp">
       <Filter>ZoranEngine\Windows</Filter>
@@ -470,6 +527,12 @@
     </ClCompile>
     <ClCompile Include="Utils\Statistics.cpp">
       <Filter>ZoranEngine\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\loadpng\lodepng.cpp">
+      <Filter>ZoranEngine\ThirdParty\loadpng</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\tinyxml2\tinyxml2.cpp">
+      <Filter>ZoranEngine\ThirdParty\tinyxml2</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -668,13 +731,13 @@
     <ClInclude Include="Core\3D\Camera3D.h">
       <Filter>ZoranEngine\Core\3D</Filter>
     </ClInclude>
+    <ClInclude Include="Core\3D\Named3DSceneObject.h">
+      <Filter>ZoranEngine\Core\3D</Filter>
+    </ClInclude>
     <ClInclude Include="Core\3D\PerspectiveCamera.h">
       <Filter>ZoranEngine\Core\3D</Filter>
     </ClInclude>
     <ClInclude Include="Core\3D\SceneObject3D.h">
-      <Filter>ZoranEngine\Core\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\3D\Named3DSceneObject.h">
       <Filter>ZoranEngine\Core\3D</Filter>
     </ClInclude>
     <ClInclude Include="Core\3D\StaticModelSceneObj.h">
@@ -692,10 +755,10 @@
     <ClInclude Include="Core\3D\Components\Speaker3DComponent.h">
       <Filter>ZoranEngine\Core\3D\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Core\3D\Components\Visible3DComponent.h">
+    <ClInclude Include="Core\3D\Components\StaticObjComponent.h">
       <Filter>ZoranEngine\Core\3D\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Core\3D\Components\StaticObjComponent.h">
+    <ClInclude Include="Core\3D\Components\Visible3DComponent.h">
       <Filter>ZoranEngine\Core\3D\Components</Filter>
     </ClInclude>
     <ClInclude Include="Core\Audio\AudioDevice.h">
@@ -805,9 +868,6 @@
     </ClInclude>
     <ClInclude Include="ThirdParty\imgui\stb_truetype.h">
       <Filter>ZoranEngine\ThirdParty\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\loadong\lodepng.h">
-      <Filter>ZoranEngine\ThirdParty\loadong</Filter>
     </ClInclude>
     <ClInclude Include="ThirdParty\assimp\ai_assert.h">
       <Filter>ZoranEngine\ThirdParty\assimp</Filter>
@@ -1052,6 +1112,63 @@
     <ClInclude Include="ThirdParty\AL\efx.h">
       <Filter>ZoranEngine\ThirdParty\AL</Filter>
     </ClInclude>
+    <ClInclude Include="ThirdParty\msdfgen\core\arithmetics.hpp">
+      <Filter>ZoranEngine\ThirdParty\msdfgen\core</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\msdfgen\core\Bitmap.h">
+      <Filter>ZoranEngine\ThirdParty\msdfgen\core</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\msdfgen\core\Contour.h">
+      <Filter>ZoranEngine\ThirdParty\msdfgen\core</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\msdfgen\core\edge-coloring.h">
+      <Filter>ZoranEngine\ThirdParty\msdfgen\core</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\msdfgen\core\edge-segments.h">
+      <Filter>ZoranEngine\ThirdParty\msdfgen\core</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\msdfgen\core\EdgeColor.h">
+      <Filter>ZoranEngine\ThirdParty\msdfgen\core</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\msdfgen\core\EdgeHolder.h">
+      <Filter>ZoranEngine\ThirdParty\msdfgen\core</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\msdfgen\core\equation-solver.h">
+      <Filter>ZoranEngine\ThirdParty\msdfgen\core</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\msdfgen\core\render-sdf.h">
+      <Filter>ZoranEngine\ThirdParty\msdfgen\core</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\msdfgen\core\save-bmp.h">
+      <Filter>ZoranEngine\ThirdParty\msdfgen\core</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\msdfgen\core\shape-description.h">
+      <Filter>ZoranEngine\ThirdParty\msdfgen\core</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\msdfgen\core\Shape.h">
+      <Filter>ZoranEngine\ThirdParty\msdfgen\core</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\msdfgen\core\SignedDistance.h">
+      <Filter>ZoranEngine\ThirdParty\msdfgen\core</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\msdfgen\core\Vector2.h">
+      <Filter>ZoranEngine\ThirdParty\msdfgen\core</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\msdfgen\ext\import-font.h">
+      <Filter>ZoranEngine\ThirdParty\msdfgen\ext</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\msdfgen\ext\import-svg.h">
+      <Filter>ZoranEngine\ThirdParty\msdfgen\ext</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\msdfgen\ext\save-png.h">
+      <Filter>ZoranEngine\ThirdParty\msdfgen\ext</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\msdfgen\msdfgen.h">
+      <Filter>ZoranEngine\ThirdParty\msdfgen</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\msdfgen\msdfgen-ext.h">
+      <Filter>ZoranEngine\ThirdParty\msdfgen</Filter>
+    </ClInclude>
     <ClInclude Include="Windows\WindowsThread.h">
       <Filter>ZoranEngine\Windows</Filter>
     </ClInclude>
@@ -1163,6 +1280,12 @@
     <ClInclude Include="Utils\VectorAddons.hpp">
       <Filter>ZoranEngine\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="ThirdParty\loadpng\lodepng.h">
+      <Filter>ZoranEngine\ThirdParty\loadpng</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\tinyxml2\tinyxml2.h">
+      <Filter>ZoranEngine\ThirdParty\tinyxml2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ZoranEngine.rc">
@@ -1194,7 +1317,12 @@
     <None Include="ThirdParty\assimp\vector3.inl">
       <Filter>ZoranEngine\ThirdParty\assimp</Filter>
     </None>
-    <None Include="..\README.md" />
+    <None Include="Shaders\3D\standard.frag">
+      <Filter>ZoranEngine\Shaders\3D</Filter>
+    </None>
+    <None Include="Shaders\3D\standard.vert">
+      <Filter>ZoranEngine\Shaders\3D</Filter>
+    </None>
     <None Include="Shaders\2D\standard.vert">
       <Filter>ZoranEngine\Shaders\2D</Filter>
     </None>
@@ -1204,12 +1332,9 @@
     <None Include="Shaders\2D\standard_debug.vert">
       <Filter>ZoranEngine\Shaders\2D</Filter>
     </None>
-    <None Include="Shaders\3D\standard.frag">
-      <Filter>ZoranEngine\Shaders\3D</Filter>
+    <None Include="Shaders\2D\standard.frag">
+      <Filter>ZoranEngine\Shaders\2D</Filter>
     </None>
-    <None Include="Shaders\3D\standard.vert">
-      <Filter>ZoranEngine\Shaders\3D</Filter>
-    </None>
-    <None Include="Shaders\2D\standard.frag" />
+    <None Include="..\README.md" />
   </ItemGroup>
 </Project>
