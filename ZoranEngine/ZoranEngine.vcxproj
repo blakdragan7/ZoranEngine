@@ -44,6 +44,8 @@
       <FileType>Document</FileType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </None>
+    <None Include="Shaders\3D\standardNoTexture.frag" />
+    <None Include="Shaders\3D\standardNoTexture.vert" />
     <None Include="ThirdParty\assimp\color4.inl" />
     <None Include="ThirdParty\assimp\material.inl" />
     <None Include="ThirdParty\assimp\matrix3x3.inl" />
@@ -126,16 +128,18 @@
     <ClCompile Include="Rendering\FrameBufferBase.cpp" />
     <ClCompile Include="Rendering\OpenGL\2D\DebugShader2D.cpp" />
     <ClCompile Include="Rendering\OpenGL\2D\OpenGL2DRenderEngine.cpp" />
-    <ClCompile Include="Rendering\OpenGL\2D\StandardShader.cpp" />
     <ClCompile Include="Rendering\OpenGL\2D\StandardShader2D.cpp" />
     <ClCompile Include="Rendering\OpenGL\3D\OpenGL3DRenderEngine.cpp" />
+    <ClCompile Include="Rendering\OpenGL\3D\StandardNoTextureShader.cpp" />
     <ClCompile Include="Rendering\OpenGL\3D\StandardShader3D.cpp" />
     <ClCompile Include="Rendering\OpenGL\OpenGLBuffer.cpp" />
+    <ClCompile Include="Rendering\OpenGL\OpenGLFrameBuffer.cpp" />
     <ClCompile Include="Rendering\OpenGL\OpenGLVertexGroup.cpp" />
     <ClCompile Include="Rendering\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="Rendering\OpenGL\OpenGLShaderProgramBase.cpp" />
     <ClCompile Include="Rendering\OpenGL\OpenGLTexture.cpp" />
     <ClCompile Include="Rendering\OpenGL\OpenGLVertexArray.cpp" />
+    <ClCompile Include="Rendering\OpenGL\Renderers\OpenGLFontRenderer.cpp" />
     <ClCompile Include="Rendering\OpenGL\Renderers\OpenGLLineLoopRenderer.cpp" />
     <ClCompile Include="Rendering\OpenGL\Renderers\OpenGLLineRenderer.cpp" />
     <ClCompile Include="Rendering\OpenGL\Renderers\OpenGLModelRenderer.cpp" />
@@ -148,6 +152,7 @@
     <ClCompile Include="Rendering\RenderEngine2DBase.cpp" />
     <ClCompile Include="Rendering\RenderEngine3DBase.cpp" />
     <ClCompile Include="Rendering\RenderEngineBase.cpp" />
+    <ClCompile Include="Rendering\Renderers\FontRenderer.cpp" />
     <ClCompile Include="Rendering\Renderers\LineLoopRenderer.cpp" />
     <ClCompile Include="Rendering\Renderers\LineRenderer.cpp" />
     <ClCompile Include="Rendering\Renderers\ModelRenderer.cpp" />
@@ -336,16 +341,18 @@
     <ClInclude Include="Rendering\FrameBufferBase.h" />
     <ClInclude Include="Rendering\OpenGL\2D\DebugShader2D.h" />
     <ClInclude Include="Rendering\OpenGL\2D\OpenGL2DRenderEngine.h" />
-    <ClInclude Include="Rendering\OpenGL\2D\StandardShader.h" />
     <ClInclude Include="Rendering\OpenGL\2D\StandardShader2D.h" />
     <ClInclude Include="Rendering\OpenGL\3D\OpenGL3DRenderEngine.h" />
+    <ClInclude Include="Rendering\OpenGL\3D\StandardNoTextureShader.h" />
     <ClInclude Include="Rendering\OpenGL\3D\StandardShader3D.h" />
     <ClInclude Include="Rendering\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="Rendering\OpenGL\OpenGLContext.h" />
+    <ClInclude Include="Rendering\OpenGL\OpenGLFrameBuffer.h" />
     <ClInclude Include="Rendering\OpenGL\OpenGLVertexGroup.h" />
     <ClInclude Include="Rendering\OpenGL\OpenGLShaderProgramBase.h" />
     <ClInclude Include="Rendering\OpenGL\OpenGLTexture.h" />
     <ClInclude Include="Rendering\OpenGL\OpenGLVertexArray.h" />
+    <ClInclude Include="Rendering\OpenGL\Renderers\OpenGLFontRenderer.h" />
     <ClInclude Include="Rendering\OpenGL\Renderers\OpenGLLineLoopRenderer.h" />
     <ClInclude Include="Rendering\OpenGL\Renderers\OpenGLLineRenderer.h" />
     <ClInclude Include="Rendering\OpenGL\Renderers\OpenGLModelRenderer.h" />
@@ -358,6 +365,7 @@
     <ClInclude Include="Rendering\RenderEngine2DBase.h" />
     <ClInclude Include="Rendering\RenderEngine3DBase.h" />
     <ClInclude Include="Rendering\RenderEngineBase.h" />
+    <ClInclude Include="Rendering\Renderers\FontRenderer.h" />
     <ClInclude Include="Rendering\Renderers\LineLoopRenderer.h" />
     <ClInclude Include="Rendering\Renderers\LineRenderer.h" />
     <ClInclude Include="Rendering\Renderers\ModelRenderer.h" />

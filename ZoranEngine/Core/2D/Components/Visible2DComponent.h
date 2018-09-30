@@ -17,7 +17,7 @@ public:
 	~Visible2DComponent();
 
 	virtual void PreRender()override;
-	virtual void Render()override;
+	virtual void Render(const Matrix44& cameraMatrix)override;
 	virtual void PostRender()override;
 
 	inline void SetIsVisible(bool shouldRender) { this->shouldRender = shouldRender; }

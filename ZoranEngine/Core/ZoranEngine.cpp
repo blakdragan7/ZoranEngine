@@ -10,6 +10,15 @@
 #include <Windows/WindowsWindow.h>
 #include <Utils/HighPrecisionClock.h>
 
+#include <Rendering/TextureBase.h>
+
+#include <Rendering/Renderers/TriangleStripRenderer.h>
+
+#include <Rendering/ShaderProgramBase.h>
+
+#include <Rendering/FrameBufferBase.h>
+
+#include <Rendering/OpenGL/2D/StandardShader2D.h>
 #include <Rendering/OpenGL/2D/OpenGL2DRenderEngine.h>
 #include <Rendering/OpenGL/3D/OpenGL3DRenderEngine.h>
 
@@ -41,6 +50,7 @@ ZoranEngine::ZoranEngine()
 {
 	main2DRenderEngine = 0;
 	main3DRenderEngine = 0;
+	fullScreenRenderer = 0;
 
 	is3D = false;
 	audioEngine = 0;
@@ -158,11 +168,22 @@ void ZoranEngine::Setup2DScene(float centerx, float centery, float width, float 
 	main2DRenderEngine = new OpenGL2DRenderEngine();
 	main2DRenderEngine->InitEngine(mainWindow->GetHandle());
 
+	fullScreenProgram = main2DRenderEngine->CreateShaderProgram<StandardShader2D>(StandardShader2D::initMap);
+
 	physicsEngine->SetupFor2D(Vec2D(centerx, centery), Vec2D(width, height));
 
 	camera = new OrthoCamera("camera", width, height, 0);
 	camera->Translate(centerx, centery, 0);
 	camera->ScreenResized(mainWindow->GetSize());
+	FrameBufferBase* frameBuffer;
+	TextureBase* texture;
+	main2DRenderEngine->CreateFrameBuffer(&frameBuffer,&texture,mainWindow->GetSize());
+
+	frameBuffer->SetRenderFunction([](const Matrix44& cameraMatrix){
+		rEngine->DrawScene(cameraMatrix);
+	});
+
+	camera->SetSceneBuffer(frameBuffer);
 }
 
 void ZoranEngine::Setup2DScene(Vector2D center, Vector2D size)
@@ -170,11 +191,23 @@ void ZoranEngine::Setup2DScene(Vector2D center, Vector2D size)
 	main2DRenderEngine = new OpenGL2DRenderEngine();
 	main2DRenderEngine->InitEngine(mainWindow->GetHandle());
 
+	fullScreenProgram = main2DRenderEngine->CreateShaderProgram<StandardShader2D>(StandardShader2D::initMap);
+
 	physicsEngine->SetupFor2D(center, size);
 
 	camera = new OrthoCamera("camera",size.x,size.y, 0);
 	camera->Translate(center.x, center.y, 0);
 	camera->ScreenResized(mainWindow->GetSize());
+
+	FrameBufferBase* frameBuffer;
+	TextureBase* texture;
+	main2DRenderEngine->CreateFrameBuffer(&frameBuffer, &texture, mainWindow->GetSize());
+
+	frameBuffer->SetRenderFunction([](const Matrix44& cameraMatrix) {
+		rEngine->DrawScene(cameraMatrix);
+	});
+
+	camera->SetSceneBuffer(frameBuffer);
 }
 
 void ZoranEngine::Setup3DScene(Vector3D center, Vector3D size, float fov, float nearp, float farp)
@@ -183,11 +216,57 @@ void ZoranEngine::Setup3DScene(Vector3D center, Vector3D size, float fov, float 
 	main3DRenderEngine->InitEngine(mainWindow->GetHandle());
 	is3D = true;
 
+	fullScreenProgram = main3DRenderEngine->CreateShaderProgram<StandardShader2D>(StandardShader2D::initMap);
+
 	physicsEngine->SetupFor3D(center, size);
 	
 	camera = new PerspectiveCamera("camera", fov, size.x / size.y, nearp, farp);
 	camera->Translate(center);
 	camera->ScreenResized(mainWindow->GetSize());
+
+	FrameBufferBase* frameBuffer;
+	TextureBase* texture;
+	main3DRenderEngine->CreateFrameBuffer(&frameBuffer, &texture, { 1920,1080 });
+
+	frameBuffer->SetRenderFunction([](const Matrix44& cameraMatrix) {
+		rEngine->DrawScene(cameraMatrix);
+	});
+
+	camera->SetSceneBuffer(frameBuffer);
+}
+
+void ZoranEngine::DrawStep()
+{
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui::NewFrame();
+
+	if (camera)
+	{
+		if(is3D)GetRenderer()->EnableDepthTesting();
+	
+		camera->Render();
+
+		if (is3D)GetRenderer()->DisableDepthTesting();
+
+		if (const TextureBase* cameraTerxture = camera->GetCameraTexture())
+		{
+			if (fullScreenRenderer == 0)
+			{
+				fullScreenRenderer = GetRenderer()->CreateTriangleStripRenderer();
+				fullScreenRenderer->MakeFullScreenQuad();
+			}
+
+			GetRenderer()->ClearBuffers();
+			fullScreenProgram->BindProgram();
+			fullScreenProgram->SetMatricies(Matrix44::IdentityMatrix, Matrix44::IdentityMatrix);
+			cameraTerxture->UseTexture(0);
+			fullScreenRenderer->RenderObject(Matrix44::IdentityMatrix);
+		}
+	}
+
+	DEBUG_TAKE_BENCH
+
+	GetRenderer()->DrawDebugGUI();
 }
 
 void ZoranEngine::KeyEvent(KeyEventType type, unsigned key)

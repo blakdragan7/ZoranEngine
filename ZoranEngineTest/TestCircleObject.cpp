@@ -19,7 +19,7 @@ TestCircleObject::TestCircleObject(std::string name, float radius) : TexturedSpr
 
 	root2DComponent->AddSubComponent(circleComponent);
 
-	SetTexture("circle.png", RenderDataType::TYPE_RGBA_32, RenderDataFormat::FORMAT_UNSIGNED_BYTE);
+	SetTexture("circle.png", RenderDataType::Render_Data_Type_RGBA_32, RenderDataFormat::Render_Data_Format_Unsigned_Byte);
 	
 	rigidBody = new RigidBody2DComponent(root2DComponent);
 

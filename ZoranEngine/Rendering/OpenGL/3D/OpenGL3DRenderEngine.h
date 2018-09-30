@@ -25,10 +25,10 @@ public:
 	virtual void CheckErrors(const char* text)override;
 	virtual TextureBase* CreateTexture(const char* path, RenderDataType bufferType, RenderDataFormat bufferFormat)override;
 	virtual TextureBase* CreateTexture(void* data, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2I size)override;
-	virtual bool CreateFrameBuffer(FrameBufferBase** outBuffer, TextureBase** outTexture,
-		RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2I size)override;
+	virtual bool CreateFrameBuffer(FrameBufferBase** outBuffer, TextureBase** outTexture, Vec2I size, RenderDataType bufferType = Render_Data_Type_BGRA_32, RenderDataFormat bufferFormat = Render_Data_Format_Unsigned_Byte)override;
 
-	virtual void DrawAll()override;
+	virtual void DrawScene(const Matrix44& cameraMatrix)override;
+	virtual void DrawDebugGUI()override;
 
 	virtual void InitEngine(WindowHandle handle)override;
 

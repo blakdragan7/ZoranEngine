@@ -3,6 +3,7 @@
 #include "Rendering/RenderTypes.h"
 
 class FrameBufferBase;
+class TextureBase;
 class OpenGLTexture;
 class OpenGLLineRenderer;
 class OpenGLLineLoopRenderer;
@@ -31,7 +32,7 @@ public:
 	OpenGLTexture* CreateTexture(const char* path, RenderDataType bufferType, RenderDataFormat bufferFormat);
 	OpenGLTexture* CreateTexture(void* data, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2I size);
 
-	bool CreateFrameBuffer(FrameBufferBase** outBuffer, OpenGLTexture** outTexture, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2I size);
+	bool CreateFrameBuffer(FrameBufferBase** outBuffer, TextureBase** outTexture, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2I size);
 
 	void SetLineWidth(float width);
 

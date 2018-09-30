@@ -6,6 +6,7 @@
 #include <Rendering/Renderers/TriangleStripRenderer.h>
 
 #include <Rendering/OpenGL/3D/StandardShader3D.h>
+#include <Rendering/OpenGL/3D/StandardNoTextureShader.h>
 
 StaticObjComponent::StaticObjComponent()
 {
@@ -15,7 +16,7 @@ StaticObjComponent::StaticObjComponent()
 
 	test->MakeFullScreenQuad();
 
-	ShaderProgramBase* program = rEngine->CreateShaderProgram<StandardShader3D>(StandardShader3D::initMap);
+	ShaderProgramBase* program = rEngine->CreateShaderProgram<StandardNoTextureShader>(StandardNoTextureShader::initMap);
 
 	SetShaderProgram(program);
 }
@@ -49,11 +50,12 @@ void StaticObjComponent::PreRender()
 {
 	Visible3DComponent::PreRender();
 
-	GetShaderProgram()->SetModelMatrix(GetWorldMatrix());
+	program->setUniform("matColor", &Vector3D(0,0,1));
 }
 
-void StaticObjComponent::Render()
+void StaticObjComponent::Render(const Matrix44& cameraMatrix)
 {
+	program->SetMatricies(cameraMatrix, GetWorldMatrix());
 	//test->RenderObject();
-	modelRenderer->RenderObject();
+	modelRenderer->RenderObject(cameraMatrix);
 }

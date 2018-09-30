@@ -7,7 +7,5 @@ public:
 	DebugShader2D(const ShaderInitMap* initMap);
 	~DebugShader2D();
 
-	virtual void SetModelMatrix(const Matrix44& world)override;
-
 	static const ShaderInitMap* initMap;
 };

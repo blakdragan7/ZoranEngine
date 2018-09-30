@@ -12,6 +12,6 @@ public:
 	OpenGLSpriteRenderer(OpenGLContext* context);
 	~OpenGLSpriteRenderer();
 
-	virtual void RenderObject()override;
+	virtual void RenderObject(const Matrix44& cameraMatrix)override;
 };
 

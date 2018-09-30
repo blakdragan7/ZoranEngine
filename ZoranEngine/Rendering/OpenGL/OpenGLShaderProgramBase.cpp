@@ -1,9 +1,10 @@
 #include "stdafx.h"
-#include "GL/glew.h"
 #include "OpenGLShaderProgramBase.h"
-#include "Math/Vector2.h"
-#include "Math/Vector3.h"
-#include "Rendering/RenderEngineBase.h"
+#include <GL/glew.h>
+#include <Math/Vector2.h>
+#include <Math/Vector3.h>
+#include <Math/Matrix44.hpp>
+#include <Rendering/RenderEngineBase.h>
 
 #include <fstream>
 
@@ -72,6 +73,13 @@ void OpenGLShaderProgramBase::UnBindProgram()
 	}
 	glUseProgram(0);
 	CurrentlyBoundShader = 0;
+}
+
+void OpenGLShaderProgramBase::SetMatricies(const Matrix44 & cameraMatrix, const Matrix44 & world)
+{
+	Matrix44 model(false);
+	model = cameraMatrix * world;
+	setUniformMat4("MVP", &model[0]);
 }
 
 bool OpenGLShaderProgramBase::Link()

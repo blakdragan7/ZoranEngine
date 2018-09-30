@@ -13,6 +13,8 @@
 #include <Rendering/OpenGL/OpenGLContext.h>
 #include <Rendering/OpenGL/OpenGLTexture.h>
 
+#include <Rendering/OpenGL/OpenGLFrameBuffer.h>
+
 #include <Rendering/OpenGL/Renderers/OpenGLLineRenderer.h>
 #include <Rendering/OpenGL/Renderers/OpenGLQuadRenderer.h>
 #include <Rendering/OpenGL/Renderers/OpenGLModelRenderer.h>
@@ -33,10 +35,9 @@ OpenGL3DRenderEngine::~OpenGL3DRenderEngine()
 	delete renderMap;
 }
 
-void OpenGL3DRenderEngine::DrawAll()
+void OpenGL3DRenderEngine::DrawScene(const Matrix44& cameraMatrix)
 {
-	ImGui_ImplOpenGL3_NewFrame();
-	ImGui::NewFrame();
+	ClearBuffers();
 
 	DEBUG_BENCH_START_TRACK("OpenGLRenderEngine");
 
@@ -50,14 +51,16 @@ void OpenGL3DRenderEngine::DrawAll()
 		for (auto& innerIter : iter.second)
 		{
 			innerIter->PreRender();
-			innerIter->Render();
+			innerIter->Render(cameraMatrix);
 			innerIter->PostRender();
 		}
 	}
 
 
-	DEBUG_TAKE_BENCH;
+}
 
+void OpenGL3DRenderEngine::DrawDebugGUI()
+{
 	DEBUG_DRAW;
 
 	ImGui::Render();
@@ -195,10 +198,9 @@ TextureBase* OpenGL3DRenderEngine::CreateTexture(void* data, RenderDataType buff
 	}
 }
 
-bool OpenGL3DRenderEngine::CreateFrameBuffer(FrameBufferBase** outBuffer, TextureBase** outTexture, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2I size)
+bool OpenGL3DRenderEngine::CreateFrameBuffer(FrameBufferBase** outBuffer, TextureBase** outTexture, Vec2I size, RenderDataType bufferType, RenderDataFormat bufferFormat)
 {
-	Log(LogLevel_Warning, "CreateFrameBuffer Not Implemented in OpenGL Yet !! \n");
-	return false;
+	return context->CreateFrameBuffer(outBuffer, outTexture, bufferType, bufferFormat, size);
 }
 
 LineRenderer * OpenGL3DRenderEngine::CreateLineRenderer()

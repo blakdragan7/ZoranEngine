@@ -16,17 +16,19 @@ private:
 	unsigned GLFormatFromRenderDataFormat(RenderDataFormat format);
 
 public:
-	OpenGLTexture(OpenGLContext* OGL, RenderDataType type = TYPE_RGBA_32, RenderDataFormat format = FORMAT_UNSIGNED_BYTE);
+	OpenGLTexture(OpenGLContext* OGL, RenderDataType type = Render_Data_Type_BGRA_32, RenderDataFormat format = Render_Data_Format_Unsigned_Byte);
 	~OpenGLTexture();
 	// these may get moved to TextureBase it depends on how DirectX handles textures
-	void BindTexture(unsigned textureNumber);
-	void UnbindTexture(unsigned textureNumber);
+	void BindTexture(unsigned textureNumber)const;
+	void UnbindTexture(unsigned textureNumber)const;
 
-	virtual void LoadFromPath(const char* texture_path, RenderDataType type = TYPE_BGRA_32, RenderDataFormat format = FORMAT_UNSIGNED_BYTE)override;
-	virtual void LoadFromMemory(unsigned x, unsigned y, void* data, RenderDataType type = TYPE_BGRA_32, RenderDataFormat format = FORMAT_UNSIGNED_BYTE)override;
+	virtual void LoadFromPath(const char* texture_path, RenderDataType type = Render_Data_Type_BGRA_32, RenderDataFormat format = Render_Data_Format_Unsigned_Byte)override;
+	virtual void LoadFromMemory(unsigned x, unsigned y, void* data, RenderDataType type = Render_Data_Type_BGRA_32, RenderDataFormat format = Render_Data_Format_Unsigned_Byte)override;
 	virtual void SetRenderDataType(RenderDataType newType)override;
 	virtual void SetRenderDataFormat(RenderDataFormat newFormat)override;
 
-	virtual void UseTexture(void* data);
-	virtual void StopUsinfgTexture(void* data);
+	virtual void UseTexture(unsigned long data)const override;
+	virtual void StopUsingTexture(unsigned long  data)const override;
+
+	virtual unsigned GetTextureID()override;
 };

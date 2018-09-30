@@ -15,7 +15,7 @@ OpenGLSpriteRenderer::~OpenGLSpriteRenderer()
 	delete innerRenderer;
 }
 
-void OpenGLSpriteRenderer::RenderObject()
+void OpenGLSpriteRenderer::RenderObject(const Matrix44& cameraMatrix)
 {
-	innerRenderer->RenderObject();
+	innerRenderer->RenderObject(cameraMatrix);
 }

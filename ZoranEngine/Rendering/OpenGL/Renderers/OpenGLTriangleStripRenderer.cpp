@@ -50,7 +50,7 @@ void OpenGLTriangleStripRenderer::EndTriangles()
 	triangleBuilder.clear();
 }
 
-void OpenGLTriangleStripRenderer::RenderObject()
+void OpenGLTriangleStripRenderer::RenderObject(const Matrix44& cameraMatrix)
 {
 	vertexGroup->RenderObject();
 }

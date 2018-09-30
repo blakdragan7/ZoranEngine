@@ -17,7 +17,7 @@ public:
 	void LoadFile(const char* file);
 
 	virtual void PreRender()override;
-	virtual void Render()override;
+	virtual void Render(const Matrix44& cameraMatrix)override;
 	virtual void PostRender()override {}
 };
 

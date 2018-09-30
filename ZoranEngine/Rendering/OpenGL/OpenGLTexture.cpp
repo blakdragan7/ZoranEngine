@@ -19,14 +19,14 @@ OpenGLTexture::~OpenGLTexture()
 	OGL->CheckErrors("~OpenGLTexture");
 }
 
-void OpenGLTexture::BindTexture(unsigned textureNumber)
+void OpenGLTexture::BindTexture(unsigned textureNumber)const
 {
 	glActiveTexture(GL_TEXTURE0 + textureNumber);
 	glBindTexture(GL_TEXTURE_2D, gl_texture);
 	OGL->CheckErrors("BindTexture");
 }
 
-void OpenGLTexture::UnbindTexture(unsigned textureNumber)
+void OpenGLTexture::UnbindTexture(unsigned textureNumber)const
 {
 	glActiveTexture(GL_TEXTURE0 + textureNumber);
 	glBindTexture(GL_TEXTURE_2D, 0);
@@ -43,13 +43,16 @@ void OpenGLTexture::LoadFromPath(const char * texture_path, RenderDataType type,
 	width = w;
 	height = h;
 
-	LoadFromMemory(w, h, data, RenderDataType::TYPE_RGBA_32);
+	LoadFromMemory(w, h, data, RenderDataType::Render_Data_Type_RGBA_32);
 
 	free(data);
 }
 
 void OpenGLTexture::LoadFromMemory(unsigned w, unsigned h, void * data, RenderDataType type, RenderDataFormat format)
 {
+	width = w;
+	height = h;
+
 	glBindTexture(GL_TEXTURE_2D, gl_texture);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
@@ -71,7 +74,7 @@ void OpenGLTexture::SetRenderDataFormat(RenderDataFormat newFormat)
 	OGL->CheckErrors("SetRenderDataFormat");
 }
 
-void OpenGLTexture::UseTexture(void * data)
+void OpenGLTexture::UseTexture(unsigned long data)const
 {
 #pragma warning(push)
 #pragma warning(disable:4302)
@@ -79,7 +82,7 @@ void OpenGLTexture::UseTexture(void * data)
 #pragma warning(pop)
 }
 
-void OpenGLTexture::StopUsinfgTexture(void * data)
+void OpenGLTexture::StopUsingTexture(unsigned long data)const
 {
 #pragma warning(push)
 #pragma warning(disable:4311)
@@ -87,27 +90,33 @@ void OpenGLTexture::StopUsinfgTexture(void * data)
 #pragma warning(pop)
 }
 
+unsigned OpenGLTexture::GetTextureID()
+{
+	return gl_texture;
+}
+
 unsigned OpenGLTexture::GLTypeFromRenderDataType(RenderDataType type)
 {
 	switch (type)
 	{
-	case TYPE_BGRA_32:
+	case Render_Data_Type_BGRA_32:
 		return GL_BGRA;
 		break;
-	case TYPE_RGBA_32:
+	case Render_Data_Type_RGBA_32:
 		return GL_RGBA;
 		break;
-	case TYPE_RGB_24:
+	case Render_Data_Type_RGB_24:
 		return GL_RGB;
 		break;
-	case TYPE_RG_16:
+	case Render_Data_Type_RG_16:
 		return GL_RG;
 		break;
-	case TYPE_R_8:
+	case Render_Data_Type_R_8:
 		return GL_R;
 		break;
 	default:
-		throw std::invalid_argument("OpenGLTexture::GLTypeFromRenderDataType RenderDataType Not Recognized !");
+		Log(LogLevel_Error, "OpenGLTexture::GLTypeFromRenderDataType RenderDataType Not Recognized !");
+		return Render_Data_Type_BGRA_32;
 		break;
 	}
 }
@@ -116,16 +125,18 @@ unsigned OpenGLTexture::GLFormatFromRenderDataFormat(RenderDataFormat format)
 {
 	switch (format)
 	{
-	case FORMAT_BYTE:
+	case Render_Data_Format_Byte:
 		return GL_BYTE;
 		break;
-	case FORMAT_UNSIGNED_BYTE:
+	case Render_Data_Format_Unsigned_Byte:
 		return GL_UNSIGNED_BYTE;
-	case FORMAT_FLOAT:
+		break;
+	case Render_Data_Format_Float:
 		return GL_FLOAT;
 		break;
 	default:
-		throw std::invalid_argument("OpenGLTexture::GLFormatFromRenderDataFormat RenderDataFormat Not Recognized !!");
+		Log(LogLevel_Error,"OpenGLTexture::GLFormatFromRenderDataFormat RenderDataFormat Not Recognized !!");
+		return Render_Data_Format_Unsigned_Byte;
 		break;
 	}
 }

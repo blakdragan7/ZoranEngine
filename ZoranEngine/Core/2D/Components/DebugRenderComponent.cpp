@@ -19,10 +19,3 @@ DebugRenderComponent::DebugRenderComponent() : Visible2DComponent(200)
 DebugRenderComponent::~DebugRenderComponent()
 {
 }
-
-void DebugRenderComponent::PreRender()
-{
-	shader->setUniform("Color",&color);
-	CalculateLocalMatrix();
-	GetShaderProgram()->SetModelMatrix(GetWorldMatrix());
-}

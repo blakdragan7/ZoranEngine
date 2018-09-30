@@ -5,6 +5,8 @@
 #include <string>
 
 class SceneObject;
+class FrameBufferBase;
+class TextureBase;
 class ZoranEngine_EXPORT CameraBase
 {
 protected:
@@ -13,12 +15,15 @@ protected:
 	Vec2D halfCameraExtents;
 
 	Matrix44 cameraModelCache;
-
+	FrameBufferBase* sceneBuffer;
+	
 public:
 	CameraBase();
 	virtual ~CameraBase();
-	
-	inline const Matrix44& GetModel() { return cameraModelCache; }
+	/*Sets the scene buffer and deletes the current scene buffer if it exists*/
+	void SetSceneBuffer(FrameBufferBase* _sceneBuffer);
+	/* Returns the Camera Model Matrix */
+	inline const Matrix44& GetModel()const { return cameraModelCache; }
 
 	virtual void Translate(float deltax, float deltay, float deltaz) = 0;
 	virtual void Translate(Vec2D delta) = 0;
@@ -33,5 +38,8 @@ public:
 	virtual void ScreenResized(Vec2D Size) = 0;
 
 	virtual void CalculateModelCache() = 0;
+	virtual const TextureBase* GetCameraTexture()const;
+
+	virtual void Render();
 };
 

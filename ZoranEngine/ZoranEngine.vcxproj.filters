@@ -204,9 +204,6 @@
     <ClCompile Include="Rendering\OpenGL\2D\OpenGL2DRenderEngine.cpp">
       <Filter>ZoranEngine\Rendering\OpenGL\2D</Filter>
     </ClCompile>
-    <ClCompile Include="Rendering\OpenGL\2D\StandardShader.cpp">
-      <Filter>ZoranEngine\Rendering\OpenGL\2D</Filter>
-    </ClCompile>
     <ClCompile Include="Rendering\OpenGL\2D\StandardShader2D.cpp">
       <Filter>ZoranEngine\Rendering\OpenGL\2D</Filter>
     </ClCompile>
@@ -534,6 +531,18 @@
     <ClCompile Include="ThirdParty\tinyxml2\tinyxml2.cpp">
       <Filter>ZoranEngine\ThirdParty\tinyxml2</Filter>
     </ClCompile>
+    <ClCompile Include="Rendering\Renderers\FontRenderer.cpp">
+      <Filter>ZoranEngine\Rendering\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\OpenGL\Renderers\OpenGLFontRenderer.cpp">
+      <Filter>ZoranEngine\Rendering\OpenGL\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\OpenGL\OpenGLFrameBuffer.cpp">
+      <Filter>ZoranEngine\Rendering\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\OpenGL\3D\StandardNoTextureShader.cpp">
+      <Filter>ZoranEngine\Rendering\OpenGL\3D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -618,9 +627,6 @@
       <Filter>ZoranEngine\Rendering\OpenGL\2D</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\OpenGL\2D\OpenGL2DRenderEngine.h">
-      <Filter>ZoranEngine\Rendering\OpenGL\2D</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\OpenGL\2D\StandardShader.h">
       <Filter>ZoranEngine\Rendering\OpenGL\2D</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\OpenGL\2D\StandardShader2D.h">
@@ -1286,6 +1292,18 @@
     <ClInclude Include="ThirdParty\tinyxml2\tinyxml2.h">
       <Filter>ZoranEngine\ThirdParty\tinyxml2</Filter>
     </ClInclude>
+    <ClInclude Include="Rendering\Renderers\FontRenderer.h">
+      <Filter>ZoranEngine\Rendering\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\OpenGL\Renderers\OpenGLFontRenderer.h">
+      <Filter>ZoranEngine\Rendering\OpenGL\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\OpenGL\OpenGLFrameBuffer.h">
+      <Filter>ZoranEngine\Rendering\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\OpenGL\3D\StandardNoTextureShader.h">
+      <Filter>ZoranEngine\Rendering\OpenGL\3D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ZoranEngine.rc">
@@ -1336,5 +1354,11 @@
       <Filter>ZoranEngine\Shaders\2D</Filter>
     </None>
     <None Include="..\README.md" />
+    <None Include="Shaders\3D\standardNoTexture.frag">
+      <Filter>ZoranEngine\Shaders\3D</Filter>
+    </None>
+    <None Include="Shaders\3D\standardNoTexture.vert">
+      <Filter>ZoranEngine\Shaders\3D</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -38,7 +38,6 @@ void WindowBase::MakeWindow(const char * title, Vec2I position, Vec2I size)
 
 void WindowBase::MainDraw()
 {
-	rEngine->ClearBuffers();
-	rEngine->DrawAll();
+	zEngine->DrawStep();
 	SwapBuffers();
 }

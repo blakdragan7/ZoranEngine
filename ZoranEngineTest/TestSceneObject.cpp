@@ -28,7 +28,7 @@ TestSceneObject::TestSceneObject(std::string name) : TexturedSprite(100, name)
 
 	target = 0;
 
-	SetTexture("test.png", RenderDataType::TYPE_RGBA_32, RenderDataFormat::FORMAT_UNSIGNED_BYTE);
+	SetTexture("test.png", RenderDataType::Render_Data_Type_RGBA_32, RenderDataFormat::Render_Data_Format_Unsigned_Byte);
 }
 
 

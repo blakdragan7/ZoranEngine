@@ -36,3 +36,6 @@ Release/
 *.exe
 *.out
 *.app
+
+# runtime shaders
+run/Shaders

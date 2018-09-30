@@ -15,7 +15,7 @@ public:
 	~TextureManager();
 
 	void DestroyTexture(TextureBase* texture);
-	TextureBase* TextureForFilePath(const char* texture_path, RenderDataType type = TYPE_BGRA_32, RenderDataFormat format = FORMAT_UNSIGNED_BYTE);
+	TextureBase* TextureForFilePath(const char* texture_path, RenderDataType type = Render_Data_Type_BGRA_32, RenderDataFormat format = Render_Data_Format_Unsigned_Byte);
 
 	static TextureManager* GetInstance();
 };

@@ -50,7 +50,9 @@ public:
 	/* clear depth and color buffer */
 	virtual void ClearBuffers() = 0;
 	/* draw every registered component */
-	virtual void DrawAll() = 0;
+	virtual void DrawScene(const Matrix44& cameraMatrix) = 0;
+	/* Draw Debug GUI */
+	virtual void DrawDebugGUI() = 0;
 	/* resize viewport to screen */
 	virtual void Resize(int w, int h) = 0;
 
@@ -69,7 +71,7 @@ public:
 	virtual TextureBase* CreateTexture(const char* path, RenderDataType bufferType, RenderDataFormat bufferFormat) = 0;
 	virtual TextureBase* CreateTexture(void* data, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2I size) = 0;
 	// Create frame buffer for offscreen rendering and the texture that represents the result
-	virtual bool CreateFrameBuffer(FrameBufferBase** outBuffer, TextureBase** outTexture, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2I size) = 0;
+	virtual bool CreateFrameBuffer(FrameBufferBase** outBuffer, TextureBase** outTexture, Vec2I size, RenderDataType bufferType = Render_Data_Type_RGBA_32, RenderDataFormat bufferFormat = Render_Data_Format_Unsigned_Byte) = 0;
 	/* Sets the line width for drawing raw lines like gl_line_loop or similiar */
 	virtual void SetLineWidth(float width) = 0;
 	/* prints errors found within the render engine pre appending text to the message */

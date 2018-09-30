@@ -49,10 +49,12 @@ void Visible2DComponent::PreRender()
 	}
 }
 
-void Visible2DComponent::Render()
+void Visible2DComponent::Render(const Matrix44& cameraMatrix)
 {
+	program->SetMatricies(cameraMatrix, GetWorldMatrix());
+
 	if(shouldRender)
-		renderedObject->RenderObject();
+		renderedObject->RenderObject(cameraMatrix);
 }
 
 void Visible2DComponent::PostRender()

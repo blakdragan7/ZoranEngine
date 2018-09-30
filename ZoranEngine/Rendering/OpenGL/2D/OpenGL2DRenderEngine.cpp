@@ -11,6 +11,8 @@
 #include <Utils/ListAddons.hpp>
 #include <Utils/VectorAddons.hpp>
 
+#include <Rendering/OpenGL/OpenGLFrameBuffer.h>
+
 #include <Rendering/OpenGL/OpenGLTexture.h>
 #include <Rendering/OpenGL/OpenGLContext.h>
 
@@ -35,10 +37,8 @@ OpenGL2DRenderEngine::~OpenGL2DRenderEngine()
 	if (context)delete context;
 }
 
-void OpenGL2DRenderEngine::DrawAll()
+void OpenGL2DRenderEngine::DrawScene(const Matrix44& cameraMatrix)
 {
-	ImGui_ImplOpenGL3_NewFrame();
-	ImGui::NewFrame();
 
 	DEBUG_BENCH_START_TRACK("OpenGLRenderEngine");
 
@@ -52,22 +52,22 @@ void OpenGL2DRenderEngine::DrawAll()
 			for (VisibleComponentBase* component : iter.second)
 			{
 				component->PreRender();
-				component->Render();
+				component->Render(cameraMatrix);
 				component->PostRender();
 			}
 		}
 	}
 
 	DEBUG_TRACK_TAKE_BENCH("OpenGLRenderEngine");
+}
 
-	DEBUG_TAKE_BENCH;
-
+void OpenGL2DRenderEngine::DrawDebugGUI()
+{
 	DEBUG_DRAW;
 
 	ImGui::Render();
 
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
 }
 
 void OpenGL2DRenderEngine::AddComponent(Visible2DComponent* component)
@@ -231,10 +231,9 @@ TextureBase* OpenGL2DRenderEngine::CreateTexture(void* data, RenderDataType buff
 	}
 }
 
-bool OpenGL2DRenderEngine::CreateFrameBuffer(FrameBufferBase** outBuffer, TextureBase** outTexture, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2I size)
+bool OpenGL2DRenderEngine::CreateFrameBuffer(FrameBufferBase** outBuffer, TextureBase** outTexture, Vec2I size, RenderDataType bufferType , RenderDataFormat bufferFormat )
 {
-	Log(LogLevel_Warning, "CreateFrameBuffer Not Implemented in OpenGL Yet !! \n");
-	return false;
+	return context->CreateFrameBuffer(outBuffer, outTexture, bufferType, bufferFormat, size);
 }
 
 LineRenderer * OpenGL2DRenderEngine::CreateLineRenderer()

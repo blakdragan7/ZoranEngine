@@ -11,6 +11,8 @@
 #include <GL\glew.h>
 #include <Core/SceneObject.h>
 
+#include "OpenGLFrameBuffer.h"
+
 #include "Renderers/OpenGLLineRenderer.h"
 #include "Renderers/OpenGLQuadRenderer.h"
 #include "Renderers/OpenGLModelRenderer.h"
@@ -149,9 +151,13 @@ OpenGLTexture * OpenGLContext::CreateTexture(void * data, RenderDataType bufferT
 	return texture;
 }
 
-bool OpenGLContext::CreateFrameBuffer(FrameBufferBase ** outBuffer, OpenGLTexture ** outTexture, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2I size)
+bool OpenGLContext::CreateFrameBuffer(FrameBufferBase ** outBuffer, TextureBase ** outTexture, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2I size)
 {
-	return false;
+	OpenGLFrameBuffer* frameBuffer = new OpenGLFrameBuffer(size, bufferType, bufferFormat, this);
+	*outBuffer = frameBuffer;
+	*outTexture = frameBuffer->GetTargetTexture();
+
+	return true;
 }
 
 void OpenGLContext::SetLineWidth(float width)

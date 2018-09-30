@@ -20,10 +20,3 @@ DebugShader2D::DebugShader2D(const ShaderInitMap* initMap) : OpenGLShaderProgram
 DebugShader2D::~DebugShader2D()
 {
 }
-
-void DebugShader2D::SetModelMatrix(const Matrix44 & world)
-{
-	Matrix44 model(false);
-	model = zEngine->GetCamera()->GetModel() * world;
-	setUniformMat4("MVP", &model[0]);
-}

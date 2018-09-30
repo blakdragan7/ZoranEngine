@@ -21,6 +21,9 @@ private:
 	static const int cols = 4;
 
 public:
+	static Matrix44 IdentityMatrix;
+
+public:
 	static Matrix44 MatrixFromArray(float* c_array)
 	{
 		Matrix44 mat = Matrix44();

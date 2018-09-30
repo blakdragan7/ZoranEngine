@@ -8,6 +8,7 @@
 class RenderedObjectBase;
 class RenderEngineBase;
 class ShaderProgramBase;
+class Matrix44;
 class ZoranEngine_EXPORT VisibleComponentBase
 {
 protected:
@@ -20,7 +21,7 @@ public:
 	virtual ~VisibleComponentBase();
 
 	virtual void PreRender() = 0;
-	virtual void Render() = 0;
+	virtual void Render(const Matrix44& cameraMatrix) = 0;
 	virtual void PostRender() = 0;
 
 	virtual void SetShaderProgram(ShaderProgramBase* program) = 0;

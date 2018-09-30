@@ -41,8 +41,6 @@ void TexturedSpriteComponent::PreRender()
 	Visible2DComponent::PreRender();
 
 	if (texture)texture->UseTexture(0);
-
-	GetShaderProgram()->SetModelMatrix(GetWorldMatrix());
 }
 
 void TexturedSpriteComponent::SetTexture(const char * texture, RenderDataType type, RenderDataFormat format)

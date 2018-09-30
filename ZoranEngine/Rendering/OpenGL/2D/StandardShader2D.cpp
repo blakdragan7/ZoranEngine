@@ -19,10 +19,3 @@ StandardShader2D::StandardShader2D(const ShaderInitMap* initMap) : OpenGLShaderP
 StandardShader2D::~StandardShader2D()
 {
 }
-
-void StandardShader2D::SetModelMatrix(const Matrix44 & world)
-{
-	Matrix44 model(false);
-	model = zEngine->GetCamera()->GetModel() * world;
-	setUniformMat4("MVP", &model[0]);
-}

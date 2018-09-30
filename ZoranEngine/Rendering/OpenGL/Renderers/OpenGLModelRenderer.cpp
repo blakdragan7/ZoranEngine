@@ -59,7 +59,7 @@ void OpenGLModelRenderer::NewModelLoaded()
 	vertexGroup->SetNumVerts(static_cast<unsigned>(indecies.size()));
 }
 
-void OpenGLModelRenderer::RenderObject()
+void OpenGLModelRenderer::RenderObject(const Matrix44& cameraMatrix)
 {
 	vertexGroup->RenderObject();
 }

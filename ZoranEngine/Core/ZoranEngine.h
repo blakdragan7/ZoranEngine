@@ -16,12 +16,17 @@ class TickableObject;
 class CameraBase;
 class AllocatorBase;
 class AudioEngineBase;
+class TriangleStripRenderer;
+class ShaderProgramBase;
+
 class ZoranEngine_EXPORT ZoranEngine
 {
 private:
 	WindowBase* mainWindow;
 	RenderEngine2DBase* main2DRenderEngine;
 	RenderEngine3DBase* main3DRenderEngine;
+	TriangleStripRenderer* fullScreenRenderer;
+	ShaderProgramBase* fullScreenProgram;
 
 	CameraBase* camera;
 
@@ -67,6 +72,8 @@ public:
 	void Setup2DScene(float centerx, float centery, float width, float height); // in meters
 	void Setup2DScene(Vector2D center, Vector2D size); // in meters
 	void Setup3DScene(Vector3D center, Vector3D size, float fov,float nearp,float farp); // in meters
+
+	void DrawStep();
 
 	inline CameraBase* GetCamera() { return camera; }
 	// do not add scene objects or any subclass of scene objects this way, instead use AddSceneObject

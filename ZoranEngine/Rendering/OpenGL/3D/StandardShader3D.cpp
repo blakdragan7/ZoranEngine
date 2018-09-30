@@ -20,10 +20,3 @@ StandardShader3D::StandardShader3D(const ShaderInitMap* initMap) : OpenGLShaderP
 StandardShader3D::~StandardShader3D()
 {
 }
-
-void StandardShader3D::SetModelMatrix(const Matrix44 & world)
-{
-	Matrix44 model(false);
-	model = zEngine->GetCamera()->GetModel() * world;
-	setUniformMat4("MVP", &model[0]);
-}
