@@ -117,5 +117,5 @@ public:
 };
 
 
-#define Vec2D Vector2D
-#define Vec2I Vector2I
+#define Vec2D const Vector2D&
+#define Vec2I const Vector2I&

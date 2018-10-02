@@ -13,7 +13,7 @@ public:
 	DebugRenderComponent();
 	~DebugRenderComponent();
 
-	inline void SetColor(const Vec3D& color) { this->color = color; }
+	inline void SetColor(Vec3D color) { this->color = color; }
 	inline void SetColor(float r, float g, float b) { color.x = r; color.y = g; color.z = b; }
 
 	inline const Vector3D& GetColor() { return color; }

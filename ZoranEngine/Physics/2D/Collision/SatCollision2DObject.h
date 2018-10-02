@@ -37,7 +37,7 @@ private:
 	bool SweepTestAgainstOtherCircle(SatCollision2DObject* other, SweepCollision2D & response);
 	bool SweepTestAgainstOtherAABBSquare(class AABBSquareCollisionObject* other, SweepCollision2D & response);
 
-	Vec2D ClosesPointOnSegment(const Vec2D& point, const Vec2D& minp, const Vec2D& maxp);
+	Vector2D ClosesPointOnSegment(Vec2D point, Vec2D minp, Vec2D maxp);
 	int FindCollisionPoints(CollisionPoint CollisionPointA[2], const Vector2D& CollisionNormal, const Vector2D otherVertecies[4]);
 
 public:

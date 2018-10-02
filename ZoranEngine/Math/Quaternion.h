@@ -55,3 +55,4 @@ public:
 };
 
 Quaternion operator*(float s, const Quaternion& q);
+#define Quat const Quaternion&

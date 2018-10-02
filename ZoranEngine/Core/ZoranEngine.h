@@ -13,7 +13,7 @@ class RenderEngine3DBase;
 class PhysicsEngine;
 class SceneObject;
 class TickableObject;
-class CameraBase;
+class PlayerInstanceBase;
 class AllocatorBase;
 class AudioEngineBase;
 class TriangleStripRenderer;
@@ -28,7 +28,7 @@ private:
 	TriangleStripRenderer* fullScreenRenderer;
 	ShaderProgramBase* fullScreenProgram;
 
-	CameraBase* camera;
+	PlayerInstanceBase* mainPlayer;
 
 	static ZoranEngine* instance;
 	bool shouldRun;
@@ -75,7 +75,7 @@ public:
 
 	void DrawStep();
 
-	inline CameraBase* GetCamera() { return camera; }
+	inline PlayerInstanceBase* GetMainPlayer() { return mainPlayer; }
 	// do not add scene objects or any subclass of scene objects this way, instead use AddSceneObject
 	void AddTickableObject(TickableObject* object);
 	// add this scene object to the scene and updates it

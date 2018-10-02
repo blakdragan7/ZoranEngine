@@ -22,11 +22,11 @@ Collision2D* SatCollision2DObject::TestAgainstOtherSquare(SatCollision2DObject *
 	float cosb = cosf(-other->GetAffectedComponent()->GetRotation());
 	float sinb = sinf(-other->GetAffectedComponent()->GetRotation());
 
-	Vec2D axis[4] = {
-		Vec2D(-cosa,sina).getNormal(),
-		Vec2D(-sina,-cosa).getNormal(),
-		Vec2D(-cosb,sinb).getNormal(),
-		Vec2D(-sinb,-cosb).getNormal(),
+	Vector2D axis[4] = {
+		Vector2D(-cosa,sina).getNormal(),
+		Vector2D(-sina,-cosa).getNormal(),
+		Vector2D(-cosb,sinb).getNormal(),
+		Vector2D(-sinb,-cosb).getNormal(),
 	};
 
 	int normal_index = -1;
@@ -64,7 +64,7 @@ Collision2D* SatCollision2DObject::TestAgainstOtherSquare(SatCollision2DObject *
 			penetration = overlap;
 			normal_index = axes_index;
 
-			Vec2D dv(mina - minb, maxa - maxb);
+			Vector2D dv(mina - minb, maxa - maxb);
 
 			if (dv.dot(axis[axes_index]) < 0)
 			{
@@ -126,18 +126,18 @@ Collision2D* SatCollision2DObject::TestAgainstOtherAABBSquare(AABBSquareCollisio
 	Vec2D otherMin = other->GetMinPos();
 	Vec2D otherMax = other->GetMaxPos();
 
-	Vec2D otherPoints[4] = {
+	Vector2D otherPoints[4] = {
 		otherMin,
-		Vec2D(otherMin.x,otherMax.y),
-		Vec2D(otherMax.x,otherMin.y),
+		Vector2D(otherMin.x,otherMax.y),
+		Vector2D(otherMax.x,otherMin.y),
 		otherMax,
 	};
 
-	Vec2D axis[4] = {
-		Vec2D(-cosa,sina).getNormal(),
-		Vec2D(-sina,-cosa).getNormal(),
-		Vec2D(-cosb,sinb),
-		Vec2D(-sinb,-cosb),
+	Vector2D axis[4] = {
+		Vector2D(-cosa,sina).getNormal(),
+		Vector2D(-sina,-cosa).getNormal(),
+		Vector2D(-cosb,sinb),
+		Vector2D(-sinb,-cosb),
 	};
 
 	int normal_index = -1;
@@ -176,7 +176,7 @@ Collision2D* SatCollision2DObject::TestAgainstOtherAABBSquare(AABBSquareCollisio
 			penetration = overlap;
 			normal_index = axes_index;
 
-			Vec2D dv(mina - minb, maxa - maxb);
+			Vector2D dv(mina - minb, maxa - maxb);
 
 			if (dv.dot(axis[axes_index]) < 0)
 			{
@@ -243,18 +243,18 @@ bool SatCollision2DObject::SweepTestAgainstOtherAABBSquare(AABBSquareCollisionOb
 	Vec2D otherMin = other->GetMinPos();
 	Vec2D otherMax = other->GetMaxPos();
 
-	Vec2D otherPoints[4] = {
+	Vector2D otherPoints[4] = {
 		otherMin,
-		Vec2D(otherMin.x,otherMax.y),
-		Vec2D(otherMax.x,otherMin.y),
+		Vector2D(otherMin.x,otherMax.y),
+		Vector2D(otherMax.x,otherMin.y),
 		otherMax,
 	};
 
-	Vec2D axis[4] = {
-		Vec2D(-cosa,sina).getNormal(),
-		Vec2D(-sina,-cosa).getNormal(),
-		Vec2D(-cosb,sinb),
-		Vec2D(-sinb,-cosb),
+	Vector2D axis[4] = {
+		Vector2D(-cosa,sina).getNormal(),
+		Vector2D(-sina,-cosa).getNormal(),
+		Vector2D(-cosb,sinb),
+		Vector2D(-sinb,-cosb),
 	};
 
 	int normal_index = -1;
@@ -314,7 +314,7 @@ bool SatCollision2DObject::SweepTestAgainstOtherAABBSquare(AABBSquareCollisionOb
 			penetration = overlap;
 			normal_index = axes_index;
 
-			Vec2D dv(mina - minb, maxa - maxb);
+			Vector2D dv(mina - minb, maxa - maxb);
 
 			if (dv.dot(axis[axes_index]) < 0)
 			{
@@ -341,9 +341,9 @@ bool SatCollision2DObject::SweepTestAgainstOtherAABBSquare(AABBSquareCollisionOb
 	else return false;
 }
 
-Vec2D SatCollision2DObject::ClosesPointOnSegment(const Vec2D& point, const Vec2D& minp, const Vec2D& maxp)
+Vector2D SatCollision2DObject::ClosesPointOnSegment(Vec2D point, Vec2D minp, Vec2D maxp)
 {
-	Vec2D newPoint;
+	Vector2D newPoint;
 
 	if (point.x > minp.x && point.x < maxp.x)
 	{
@@ -375,7 +375,7 @@ Vec2D SatCollision2DObject::ClosesPointOnSegment(const Vec2D& point, const Vec2D
 	return newPoint;
 }
 
-typedef std::tuple<float, const Vec2D*,bool> pp;
+typedef std::tuple<float, const Vector2D*,bool> pp;
 bool compare(const pp&i,const pp&j)
 {
 	return std::get<0>(i) < std::get<0>(j);
@@ -440,10 +440,10 @@ int SatCollision2DObject::FindCollisionPoints(CollisionPoint CollisionPointA[2],
 		}
 	}
 
-	const Vec2D& A0 = otherVertecies[lowestIndexB];
-	const Vec2D& A1 = otherVertecies[lowestIndexA];
-	const Vec2D& B0 = derivedPoints[highestIndexB];
-	const Vec2D& B1 = derivedPoints[highestIndexA];
+	Vec2D A0 = otherVertecies[lowestIndexB];
+	Vec2D A1 = otherVertecies[lowestIndexA];
+	Vec2D B0 = derivedPoints[highestIndexB];
+	Vec2D B1 = derivedPoints[highestIndexA];
 
 	pp data[4] = {
 		pp(A0.dot(tangent),&A0,true),
@@ -457,10 +457,10 @@ int SatCollision2DObject::FindCollisionPoints(CollisionPoint CollisionPointA[2],
 	pp Result1 = data[1];
 	pp Result2 = data[2];
 
-	Vec2D B3;
-	Vec2D B4;
-	Vec2D A3;
-	Vec2D A4;
+	Vector2D B3;
+	Vector2D B4;
+	Vector2D A3;
+	Vector2D A4;
 
 	if (std::get<2>(Result1) && std::get<2>(Result2))
 	{
@@ -564,7 +564,7 @@ void SatCollision2DObject::SetBoundsBySceneObject()
 
 		scaledSize = scale * size;
 
-		Vec2D tempPoinnts[3] = {
+		Vector2D tempPoinnts[3] = {
 			startingPoints[0],
 			startingPoints[1],
 			startingPoints[2],

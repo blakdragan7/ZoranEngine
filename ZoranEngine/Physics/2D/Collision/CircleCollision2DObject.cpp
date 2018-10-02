@@ -26,7 +26,7 @@ void CircleCollision2DObject::SetBoundsBySceneObject()
 
 Vector2D CircleCollision2DObject::GetSize()
 {
-	return Vec2D(scaledRadius, scaledRadius);
+	return { scaledRadius, scaledRadius };
 }
 
 bool CircleCollision2DObject::CollidesWithNoCollision(CollisionObject2DBase * other)
@@ -67,19 +67,19 @@ Collision2D* CircleCollision2DObject::CollidesWith(CollisionObject2DBase * other
 			if (DeltaX == 0 && DeltaY == 0)
 			{
 				unsigned index = 0;
-				Vec2D test[4] = {
-					Vec2D(nearestX, otherPos.y + otherSize.y),
-					Vec2D(nearestX, otherPos.y - otherSize.y),
-					Vec2D(otherPos.x - otherSize.x, nearestY),
-					Vec2D(otherPos.x + otherSize.x, nearestY)
+				Vector2D test[4] = {
+					{nearestX, otherPos.y + otherSize.y},
+					{nearestX, otherPos.y - otherSize.y},
+					{otherPos.x - otherSize.x, nearestY},
+					{otherPos.x + otherSize.x, nearestY}
 				};
 
-				Vec2D axes[4] = 
+				Vector2D axes[4] =
 				{
-					Vec2D(0,1),
-					Vec2D(0,-1),
-					Vec2D(-1,0),
-					Vec2D(1,0)
+					{0,1},
+					{0,-1},
+					{-1,0},
+					{1,0}
 				};
 
 				float min = std::numeric_limits<float>::infinity();
@@ -97,9 +97,9 @@ Collision2D* CircleCollision2DObject::CollidesWith(CollisionObject2DBase * other
 				cp.normal = -axes[index];
 			}
 			else 
-				cp.normal = -Vec2D(DeltaX,DeltaY).getNormal();
-			cp.pos = Vec2D(nearestX,nearestY);
-			cp.separation = Vec2D(DeltaX, DeltaY).magnitude() - scaledRadius;
+				cp.normal = -Vector2D(DeltaX,DeltaY).getNormal();
+			cp.pos = Vector2D(nearestX,nearestY);
+			cp.separation = Vector2D(DeltaX, DeltaY).magnitude() - scaledRadius;
 
 			collision->AddCollisionPoint(cp);
 			return collision;
@@ -118,8 +118,8 @@ Collision2D* CircleCollision2DObject::CollidesWith(CollisionObject2DBase * other
 		float rotatedx = distancel.x * cs + distancel.y * sn;
 		float rotatedy = -distancel.x * sn + distancel.y * cs;
 
-		Vec2D rotatedDiff(rotatedx,rotatedy);
-		Vec2D clampedDiff = MathLib::Clamp(rotatedDiff, -size, size);
+		Vector2D rotatedDiff(rotatedx,rotatedy);
+		Vector2D clampedDiff = MathLib::Clamp(rotatedDiff, -size, size);
 
 		float unrotatedX = (clampedDiff.x * cs - clampedDiff.y * sn);
 		float unrotatedY = (clampedDiff.x * sn + clampedDiff.y * cs);
@@ -127,7 +127,7 @@ Collision2D* CircleCollision2DObject::CollidesWith(CollisionObject2DBase * other
 		float globalX = unrotatedX + other->GetScenePos().x;
 		float globalY = unrotatedY + other->GetScenePos().y;
 
-		Vec2D unrotatedVector(globalX, globalY);
+		Vector2D unrotatedVector(globalX, globalY);
 
 		if (ZoranEngine::canRenderDebug)
 		{

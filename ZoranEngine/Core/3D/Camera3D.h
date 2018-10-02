@@ -21,6 +21,8 @@ public:
 	virtual void Rotate(float rotx, float roty, float rotz)override;
 	virtual void Rotate(float rotation) override;
 	virtual void Rotate(Vec3D euler) override;
-	virtual void Rotate(Quaternion quat)override;
+	virtual void Rotate(Quat quat)override;
+	virtual void Scale(Vec3D scale)override;
+	virtual void Scale(Vec2D scale)override;
 };
 

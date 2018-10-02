@@ -70,6 +70,6 @@ public:
 	float distanceSqr(const Vector3D& other)const;
 };
 
-#define Vec3D Vector3D
+#define Vec3D const Vector3D&
 
 Vector3D operator*(float, const Vector3D&);

@@ -48,7 +48,7 @@ float RigidBody2DComponent::GetAngularVelocity()
 	return physics2D->GetAngularVelocity();
 }
 
-const Vec2D& RigidBody2DComponent::GetVelocity()
+Vector2D RigidBody2DComponent::GetVelocity()
 {
 	return physics2D->GetVelocity();
 }

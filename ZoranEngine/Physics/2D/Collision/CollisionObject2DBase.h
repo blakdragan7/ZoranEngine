@@ -53,7 +53,7 @@ public:
 	Component2DBase* CollisionObject2DBase::GetAffectedComponent() { return affectedComponent; }
 	PhysicsObject2DBase* CollisionObject2DBase::GetPhysicsObject() { return physicsObject2D; }
 
-	void SetDebugPosition(const Vec2D& pos);
-	void SetDebugSize(const Vec2D& size);
+	void SetDebugPosition(Vec2D pos);
+	void SetDebugSize(Vec2D size);
 	void ShowDebug(bool showDebug);
 };

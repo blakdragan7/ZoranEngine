@@ -2,7 +2,7 @@
 #include "OrthoCamera.h"
 #include "Core/SceneObject.h"
 
-OrthoCamera::OrthoCamera(std::string name, float width, float height, float rotation) : Camera2D(name,Vec2D(0,0), Vec2D(1,1), 0)
+OrthoCamera::OrthoCamera(std::string name, float width, float height, float rotation) : Camera2D(name, { 0,0 }, { 1, 1 }, 0)
 {
 	cameraExtents.x = width;
 	cameraExtents.y = height;
@@ -29,9 +29,9 @@ void OrthoCamera::ScreenResized(Vec2D Size)
 	CalculateModelCache();
 }
 
-Vec2D OrthoCamera::GetCameraViewingExtentsAtZ(float z)
+Vector2D OrthoCamera::GetCameraViewingExtentsAtZ(float z)
 {
-	return Vec2D(halfCameraExtents.x, halfCameraExtents.y * screenSize.y / screenSize.x);
+	return { halfCameraExtents.x, halfCameraExtents.y * screenSize.y / screenSize.x };
 	CalculateModelCache();
 }
 

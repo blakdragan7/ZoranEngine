@@ -47,7 +47,7 @@ public:
 
 	inline const float& GetRotation()const { return rotation; }
 
-	inline const Vec2D GetSize()const { return (startingSize * scale).getAbs(); }
+	inline Vector2D GetSize()const { return (startingSize * scale).getAbs(); }
 
 	const Vector2D GetWorldLocation();
 

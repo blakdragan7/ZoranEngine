@@ -14,7 +14,7 @@ void Collision2D::AddCollisionPoint(CollisionPoint & point)
 	{
 		DebugSceneObject2D* db = new DebugSceneObject2D("Debug Collision Point");
 		db->SetScale(5, 5);
-		db->SetColor(Vec3D(0.0, 1.0, 0.0));
+		db->SetColor({ 0.0, 1.0, 0.0 });
 		db->SetPosition(point.pos);
 
 		debugObjects[numCollisionPoints] = db;
@@ -77,7 +77,7 @@ void Collision2D::PreUpdate(float inv_dt, Accumulated2DVelocities& aV)
 		{
 			DebugSceneObject2D* db = new DebugSceneObject2D("Debug Collision Point");
 			db->SetScale(5, 5);
-			db->SetColor(Vec3D(0.0, 1.0, 0.0));
+			db->SetColor({ 0.0, 1.0, 0.0 });
 			db->SetPosition(collisionPoints[i].pos);
 
 			debugObjects[i] = db;
@@ -138,7 +138,7 @@ void Collision2D::UpdateForces(Accumulated2DVelocities& aV)
 
 		// Relative velocity at contact
 		//Vec2D dv = b2->GetVelocity() + c.r2.crossLeft(b2->GetAngularVelocity()) - b1->GetVelocity() - c.r1.crossLeft(b1->GetAngularVelocity());
-		Vec2D dv = aV.velocity[bIndex] + c.r2.crossLeft(aV.angularVelocity[bIndex]) - aV.velocity[aIndex] - c.r1.crossLeft(aV.angularVelocity[aIndex]);
+		Vector2D dv = aV.velocity[bIndex] + c.r2.crossLeft(aV.angularVelocity[bIndex]) - aV.velocity[aIndex] - c.r1.crossLeft(aV.angularVelocity[aIndex]);
 
 		// Compute normal impulse
 		float vn = dv.dot(c.normal);
@@ -252,7 +252,7 @@ void Collision2D::Update(Collision2D* other)
 				{
 					DebugSceneObject2D* db = new DebugSceneObject2D("Debug Collision Point");
 					db->SetScale(5, 5);
-					db->SetColor(Vec3D(0.0, 1.0, 0.0));
+					db->SetColor({ 0.0, 1.0, 0.0 });
 					db->SetPosition(collisionPoints[i].pos);
 
 					debugObjects[i] = db;

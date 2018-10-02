@@ -94,8 +94,10 @@
     <ClCompile Include="Core\Components\RigidBodyComponent.cpp" />
     <ClCompile Include="Core\Components\SpeakerComponentBase.cpp" />
     <ClCompile Include="Core\Components\VisibleComponentBase.cpp" />
+    <ClCompile Include="Core\DebugPlayerInstance.cpp" />
     <ClCompile Include="Core\Events\EventBase.cpp" />
     <ClCompile Include="Core\Events\EventDispatcher.cpp" />
+    <ClCompile Include="Core\PlayerInstanceBase.cpp" />
     <ClCompile Include="Core\SceneObject.cpp" />
     <ClCompile Include="Core\ThreadBase.cpp" />
     <ClCompile Include="Core\WindowBase.cpp" />
@@ -302,9 +304,11 @@
     <ClInclude Include="Core\Containers\ZDictionaryHash.h" />
     <ClInclude Include="Core\Containers\ZDoubleLinkedList.h" />
     <ClInclude Include="Core\Containers\ZLinkedList.h" />
+    <ClInclude Include="Core\DebugPlayerInstance.h" />
     <ClInclude Include="Core\Events\EventBase.h" />
     <ClInclude Include="Core\Events\EventDispatcher.h" />
     <ClInclude Include="Core\PlatformTypes.h" />
+    <ClInclude Include="Core\PlayerInstanceBase.h" />
     <ClInclude Include="Core\SceneObject.h" />
     <ClInclude Include="Core\ThreadBase.h" />
     <ClInclude Include="Core\TickableObject.h" />

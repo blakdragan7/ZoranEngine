@@ -54,8 +54,8 @@ void PhysicsObject2DBase::CheckIfOnGround(class Collision2D& response)
 
 PhysicsObject2DBase::PhysicsObject2DBase(Component2DBase* component) : affected2DComponent(component), PhysicsObjectBase(component)
 {
-	gravity = Vec2D(0, -980);
-	gravityNormal = Vec2D(0, -1);
+	gravity = Vector2D(0, -980);
+	gravityNormal = Vector2D(0, -1);
 	shouldSimulate = false;
 	torque = 0;
 }
@@ -263,7 +263,7 @@ void PhysicsObject2DBase::ApplyImpulseToAngularVelocity(float impulse)
 	angularVelocity += invInertia * impulse;
 }
 
-const Vec2D& PhysicsObject2DBase::GetVelocity()
+Vector2D PhysicsObject2DBase::GetVelocity()
 {
 	return velocity;
 }
@@ -273,4 +273,4 @@ float PhysicsObject2DBase::GetAngularVelocity()
 	return angularVelocity;
 }
 
-const Vec2D PhysicsObject2DBase::GetScenePos() { return affected2DComponent->GetWorldLocation(); }
+Vector2D PhysicsObject2DBase::GetScenePos() { return affected2DComponent->GetWorldLocation(); }

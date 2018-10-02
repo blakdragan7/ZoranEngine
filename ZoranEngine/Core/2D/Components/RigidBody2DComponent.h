@@ -22,7 +22,7 @@ public:
 
 	float GetAngularVelocity();
 
-	const Vec2D& GetVelocity();
+	Vector2D GetVelocity();
 
 	inline PhysicsObject2DBase* GetPhysics2D() { return physics2D; }
 };

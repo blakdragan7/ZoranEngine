@@ -260,10 +260,10 @@ void QuadTreeCollisionBucket::Subdivide()
 
 	Vec2D pos = collision->GetScenePos();
 
-	Vec2D TL = Vec2D(pos.x - (size.x / 4.0f), pos.y + (size.y / 4.0f));
-	Vec2D BL = Vec2D(pos.x - (size.x / 4.0f), pos.y - (size.y / 4.0f));
-	Vec2D TR = Vec2D(pos.x + (size.x / 4.0f), pos.y + (size.y / 4.0f));
-	Vec2D BR = Vec2D(pos.x + (size.x / 4.0f), pos.y - (size.y / 4.0f));
+	Vector2D TL = Vector2D(pos.x - (size.x / 4.0f), pos.y + (size.y / 4.0f));
+	Vector2D BL = Vector2D(pos.x - (size.x / 4.0f), pos.y - (size.y / 4.0f));
+	Vector2D TR = Vector2D(pos.x + (size.x / 4.0f), pos.y + (size.y / 4.0f));
+	Vector2D BR = Vector2D(pos.x + (size.x / 4.0f), pos.y - (size.y / 4.0f));
 
 	std::string sname = *sceneObject->readableName;
 
@@ -385,12 +385,12 @@ bool QuadTreeCollisionBucket::SweepCollision(CollisionObject2DBase * object, Vec
 
 bool QuadTreeCollisionBucket::SweepCollisionHitTest(CollisionObject2DBase * object, Vec2D newPosition, SweepCollision2D & response)
 {
-	Vec2D origin = object->GetScenePos();
-	Vec2D deltaPos = newPosition - origin;
-	Vec2D size = object->GetSize();
-
-	Vec2D InvEntry;
-	Vec2D InvExit;
+	Vector2D origin = object->GetScenePos();
+	Vector2D deltaPos = newPosition - origin;
+	Vector2D size = object->GetSize();
+	
+	Vector2D InvEntry;
+	Vector2D InvExit;
 
 	for (unsigned i = 0; i < collisionObjects.size(); i++)
 	{

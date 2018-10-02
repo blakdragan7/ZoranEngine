@@ -42,6 +42,9 @@
 
 #include <Core/Audio/AL/OALAudioEngine.h>
 
+#include <Core/PlayerInstanceBase.h>
+#include <Core/DebugPlayerInstance.h>
+
 ZoranEngine* ZoranEngine::instance = 0;
 
 bool ZoranEngine::canRenderDebug = false;
@@ -63,7 +66,7 @@ ZoranEngine::ZoranEngine()
 	logger = new ConsoleLogger();
 	logger->SetLogLevel(LogLevel_Error);
 	step = false;
-	camera = 0;
+	mainPlayer = 0;
 
 	defaultAllocator = new CAllocator();
 
@@ -170,11 +173,12 @@ void ZoranEngine::Setup2DScene(float centerx, float centery, float width, float 
 
 	fullScreenProgram = main2DRenderEngine->CreateShaderProgram<StandardShader2D>(StandardShader2D::initMap);
 
-	physicsEngine->SetupFor2D(Vec2D(centerx, centery), Vec2D(width, height));
+	physicsEngine->SetupFor2D({ centerx, centery }, { width, height });
 
-	camera = new OrthoCamera("camera", width, height, 0);
-	camera->Translate(centerx, centery, 0);
-	camera->ScreenResized(mainWindow->GetSize());
+	mainPlayer = new DebugPlayerInstance(new OrthoCamera("camera", width, height, 0));
+	mainPlayer->TranslateView({ centerx, centery });
+	mainPlayer->WindowResizedView(mainWindow->GetSize());
+
 	FrameBufferBase* frameBuffer;
 	TextureBase* texture;
 	main2DRenderEngine->CreateFrameBuffer(&frameBuffer,&texture,mainWindow->GetSize());
@@ -183,7 +187,7 @@ void ZoranEngine::Setup2DScene(float centerx, float centery, float width, float 
 		rEngine->DrawScene(cameraMatrix);
 	});
 
-	camera->SetSceneBuffer(frameBuffer);
+	mainPlayer->SetCameraSceneBuffer(frameBuffer);
 }
 
 void ZoranEngine::Setup2DScene(Vector2D center, Vector2D size)
@@ -195,9 +199,9 @@ void ZoranEngine::Setup2DScene(Vector2D center, Vector2D size)
 
 	physicsEngine->SetupFor2D(center, size);
 
-	camera = new OrthoCamera("camera",size.x,size.y, 0);
-	camera->Translate(center.x, center.y, 0);
-	camera->ScreenResized(mainWindow->GetSize());
+	mainPlayer = new DebugPlayerInstance(new OrthoCamera("camera", size.w, size.h, 0));
+	mainPlayer->TranslateView(center);
+	mainPlayer->WindowResizedView(mainWindow->GetSize());
 
 	FrameBufferBase* frameBuffer;
 	TextureBase* texture;
@@ -207,7 +211,7 @@ void ZoranEngine::Setup2DScene(Vector2D center, Vector2D size)
 		rEngine->DrawScene(cameraMatrix);
 	});
 
-	camera->SetSceneBuffer(frameBuffer);
+	mainPlayer->SetCameraSceneBuffer(frameBuffer);
 }
 
 void ZoranEngine::Setup3DScene(Vector3D center, Vector3D size, float fov, float nearp, float farp)
@@ -220,9 +224,9 @@ void ZoranEngine::Setup3DScene(Vector3D center, Vector3D size, float fov, float 
 
 	physicsEngine->SetupFor3D(center, size);
 	
-	camera = new PerspectiveCamera("camera", fov, size.x / size.y, nearp, farp);
-	camera->Translate(center);
-	camera->ScreenResized(mainWindow->GetSize());
+	mainPlayer = new DebugPlayerInstance(new PerspectiveCamera("camera", fov, size.x / size.y, nearp, farp));
+	mainPlayer->TranslateView(center);
+	mainPlayer->WindowResizedView(mainWindow->GetSize());
 
 	FrameBufferBase* frameBuffer;
 	TextureBase* texture;
@@ -232,7 +236,7 @@ void ZoranEngine::Setup3DScene(Vector3D center, Vector3D size, float fov, float 
 		rEngine->DrawScene(cameraMatrix);
 	});
 
-	camera->SetSceneBuffer(frameBuffer);
+	mainPlayer->SetCameraSceneBuffer(frameBuffer);
 }
 
 void ZoranEngine::DrawStep()
@@ -240,15 +244,15 @@ void ZoranEngine::DrawStep()
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui::NewFrame();
 
-	if (camera)
+	if (mainPlayer)
 	{
 		if(is3D)GetRenderer()->EnableDepthTesting();
 	
-		camera->Render();
+		mainPlayer->RenderPlayer();
 
 		if (is3D)GetRenderer()->DisableDepthTesting();
 
-		if (const TextureBase* cameraTerxture = camera->GetCameraTexture())
+		if (const TextureBase* cameraTerxture = mainPlayer->GetPlayerCamera()->GetCameraTexture())
 		{
 			if (fullScreenRenderer == 0)
 			{
@@ -312,7 +316,7 @@ void ZoranEngine::MouseMove(float x, float y)
 
 void ZoranEngine::ScreenResized(float width, float height)
 {
-	if(camera)camera->ScreenResized(width, height);
+	if(mainPlayer)mainPlayer->WindowResizedView(width, height);
 }
 
 void ZoranEngine::AddTickableObject(TickableObject * object)

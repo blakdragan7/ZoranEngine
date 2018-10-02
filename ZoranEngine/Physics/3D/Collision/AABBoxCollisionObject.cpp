@@ -32,8 +32,8 @@ void AABBoxCollisionObject::SetBoundsBySceneObject()
 
 bool AABBoxCollisionObject::CollidesWith(CollisionObject3DBase * other, CollisionResponse3D& response)
 {
-	Vec3D otherMin;
-	Vec3D otherMax;
+	Vector3D otherMin;
+	Vector3D otherMax;
 
 	if (other->GetCollisionType() == AABBOX_COLLISION)
 	{
@@ -70,7 +70,7 @@ bool AABBoxCollisionObject::CollidesWith(CollisionObject3DBase * other, Collisio
 	};
 
 	float penetration = 0;
-	Vec3D normal;
+	Vector3D normal;
 	int faceIndex = -1;
 
 	for (int i = 0; i < 4; i++)

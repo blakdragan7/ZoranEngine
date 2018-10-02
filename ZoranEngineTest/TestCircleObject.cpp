@@ -45,7 +45,7 @@ void TestCircleObject::Tick(float dt)
 
 		if (Random::GetBoolWithChance(0.01f))
 		{
-			rigidBody->ApplyForce(Vec2D(Random::GetFloatInRange(-10000,10000), 1000000));
+			rigidBody->ApplyForce(Vector2D(Random::GetFloatInRange(-10000,10000), 1000000));
 		}
 	}
 }

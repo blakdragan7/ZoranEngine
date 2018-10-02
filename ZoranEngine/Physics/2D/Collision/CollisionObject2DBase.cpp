@@ -74,12 +74,12 @@ const Vector2D CollisionObject2DBase::GetScenePos()
 	}
 }
 
-void CollisionObject2DBase::SetDebugPosition(const Vec2D & pos)
+void CollisionObject2DBase::SetDebugPosition(Vec2D pos)
 {
 	debugObject->SetPosition(pos);
 }
 
-void CollisionObject2DBase::SetDebugSize(const Vec2D & size)
+void CollisionObject2DBase::SetDebugSize(Vec2D size)
 {
 	debugObject->SetScale(size);
 }

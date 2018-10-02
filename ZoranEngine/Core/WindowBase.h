@@ -13,8 +13,8 @@ protected:
 	WindowHandle windowHandle;
 	bool isFullScreen;
 	bool isMaximized;
-	Vec2I position;
-	Vec2I size;
+	Vector2I position;
+	Vector2I size;
 
 protected:
 	void inline SetWindowPosNoExecute(int x, int y) { position.x = x; position.y = y; }

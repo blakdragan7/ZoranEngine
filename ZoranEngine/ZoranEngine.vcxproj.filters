@@ -543,6 +543,12 @@
     <ClCompile Include="Rendering\OpenGL\3D\StandardNoTextureShader.cpp">
       <Filter>ZoranEngine\Rendering\OpenGL\3D</Filter>
     </ClCompile>
+    <ClCompile Include="Core\PlayerInstanceBase.cpp">
+      <Filter>ZoranEngine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\DebugPlayerInstance.cpp">
+      <Filter>ZoranEngine\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -1303,6 +1309,12 @@
     </ClInclude>
     <ClInclude Include="Rendering\OpenGL\3D\StandardNoTextureShader.h">
       <Filter>ZoranEngine\Rendering\OpenGL\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PlayerInstanceBase.h">
+      <Filter>ZoranEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\DebugPlayerInstance.h">
+      <Filter>ZoranEngine\Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

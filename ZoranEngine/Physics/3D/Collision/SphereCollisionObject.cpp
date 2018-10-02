@@ -67,7 +67,7 @@ Vector3D SphereCollisionObject::GetClosestPointTo(Vector3D pos)
 	// because this is specifcally for collision and that could mess up collision checking
 
 	Vec3D myPos = GetScenePos();
-	Vec3D direction = (pos - myPos);
+	Vector3D direction = (pos - myPos);
 	direction.normalize();
 
 	return myPos + (direction * radius);

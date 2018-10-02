@@ -42,8 +42,8 @@ public:
 
 	float GetAngularVelocity();
 
-	inline const Vec2D& GetVelocity();
-	inline const Vec2D GetScenePos();
+	inline Vector2D GetVelocity();
+	inline Vector2D GetScenePos();
 
 	virtual void UpdateVelocities(float deltaTime)override;
 	virtual void UpdatePositionsAndRotation(float deltaTime)override;

@@ -220,7 +220,7 @@ static LRESULT CALLBACK wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 			int width = LOWORD(lParam);
 			int height = HIWORD(lParam);
 
-			pThis->Resize(Vec2I(width, height));
+			pThis->Resize({ width, height });
 			
 		}
 		if (uMsg == WM_MOVE)

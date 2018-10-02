@@ -50,7 +50,7 @@ bool PhysicsObject3DBase::FastSweepCollision(const Vector3D& position)
 
 PhysicsObject3DBase::PhysicsObject3DBase(Component3DBase* component) : gravity(0,-980,0), gravityNormal(0,-1,0), PhysicsObjectBase(component)
 {
-	sweepCollisionBox = new AABBoxCollisionObject(Vec3D(), Vec3D(), component, CD_Static, AABBOX_COLLISION);
+	sweepCollisionBox = new AABBoxCollisionObject(Vector3D(), Vector3D(), component, CD_Static, AABBOX_COLLISION);
 }
 
 PhysicsObject3DBase::~PhysicsObject3DBase()

@@ -44,7 +44,7 @@ void Test2DSceneStuff()
 
 	std::string name_base = "TestSceneObject-";
 
-	Vec2D CollisionPoint(0,0);
+	Vector2D CollisionPoint(0,0);
 	for (int i = 0; i < SquareToSpawn; i++)
 	{
 		TestSceneObject* test = new TestSceneObject((name_base + std::to_string(i)));
@@ -54,7 +54,7 @@ void Test2DSceneStuff()
 		//test->SetPosition({ -100,0 });
 		test->GetPhysics()->StartSimulation();
 		test->SetRotation(1);
-		Vec2D pos = test->GetPosition();
+		Vector2D pos = test->GetPosition();
 		pos = CollisionPoint - pos;
 		pos.normalize();
 		//test->GetPhysics()->SetGravity(pos*200);
@@ -64,7 +64,7 @@ void Test2DSceneStuff()
 		zEngine->AddSceneObject(test);
 	}
 
-	Vec2D gravity[2] = { Vec2D(0,600),Vec2D(0,-600) };
+	Vector2D gravity[2] = { Vector2D(0,600),Vector2D(0,-600) };
 
 	TestSceneObject* sqr = 0;
 
@@ -80,7 +80,7 @@ void Test2DSceneStuff()
 		//sqr->SetTarget(test);
 		//test->GetPhysics2D()->SetGravity(gravity[1]);
 		//test->GetPhysics2D()->SetGravity(Vec2D(-600,0));
-		Vec2D pos = test->GetPosition();
+		Vector2D pos = test->GetPosition();
 		pos = CollisionPoint - pos;
 		pos.normalize();
 		//test->GetPhysics()->SetGravity(pos * 200);

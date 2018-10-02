@@ -26,10 +26,10 @@ void PerspectiveCamera::ScreenResized(Vec2D Size)
 	CalculateModelCache();
 }
 
-Vec2D PerspectiveCamera::GetCameraViewingExtentsAtZ(float z)
+Vector2D PerspectiveCamera::GetCameraViewingExtentsAtZ(float z)
 {
 	Log(LogLevel_Error, "PerspectiveCamera does not have GetCameraViewingExtentsAtZ implemented !! \n");
-	return Vec2D();
+	return {};
 }
 
 void PerspectiveCamera::CalculateModelCache()

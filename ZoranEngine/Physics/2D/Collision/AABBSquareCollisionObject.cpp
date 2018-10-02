@@ -17,7 +17,7 @@ void AABBSquareCollisionObject::FillCollisionPoints(CollisionPoint points[2], Ve
 
 AABBSquareCollisionObject::AABBSquareCollisionObject(Component2DBase * affectedComponent, CollisionDynamics dynamics, bool isRoot) : CollisionObject2DBase(affectedComponent, dynamics, SQUARE_COLLISION)
 {
-	if (isRoot)sweepCollisionSquare = new AABBSquareCollisionObject(Vec2D(), Vec2D(), affectedComponent, CD_Static, false);
+	if (isRoot)sweepCollisionSquare = new AABBSquareCollisionObject(Vector2D(), Vector2D(), affectedComponent, CD_Static, false);
 }
 
 AABBSquareCollisionObject::AABBSquareCollisionObject(const Vector2D& min, const Vector2D& max, Component2DBase* affectedComponent, CollisionDynamics dynamics,bool isRoot) : CollisionObject2DBase(affectedComponent, dynamics, SQUARE_COLLISION)
@@ -27,7 +27,7 @@ AABBSquareCollisionObject::AABBSquareCollisionObject(const Vector2D& min, const 
 
 	this->size = maxPos - minPos;
 
-	if(isRoot)sweepCollisionSquare = new AABBSquareCollisionObject(Vec2D(), Vec2D(), affectedComponent, CD_Static,false);
+	if(isRoot)sweepCollisionSquare = new AABBSquareCollisionObject(Vector2D(), Vector2D(), affectedComponent, CD_Static,false);
 }
 
 AABBSquareCollisionObject::~AABBSquareCollisionObject()
@@ -55,8 +55,8 @@ void AABBSquareCollisionObject::SetBoundsBySceneObject()
 
 Collision2D* AABBSquareCollisionObject::CollidesWith(CollisionObject2DBase* other)
 {
-	Vec2D otherMin;
-	Vec2D otherMax;
+	Vector2D otherMin;
+	Vector2D otherMax;
 
 	if (other->GetCollisionType() == SQUARE_COLLISION)
 	{
@@ -89,7 +89,7 @@ Collision2D* AABBSquareCollisionObject::CollidesWith(CollisionObject2DBase* othe
 	};
 
 	float penetration = 0;
-	Vec2D normal;
+	Vector2D normal;
 	int faceIndex = -1;
 
 	CollisionPoint contactPointsA[2];
@@ -142,18 +142,18 @@ Vector2D AABBSquareCollisionObject::GetClosestPointTo(Vector2D pos)
 
 bool AABBSquareCollisionObject::SweepCollidesWith(CollisionObject2DBase * other, Vector2D newPosition, SweepCollision2D & response)
 {
-	Vec2D origin = GetScenePos();
-	Vec2D deltaPos = newPosition - origin;
-	Vec2D size = GetSize();
-
-	Vec2D InvEntry;
-	Vec2D InvExit;
-
-	Vec2D otherPos = other->GetScenePos();
-	Vec2D otherSize = other->GetSize();
-
-	Vec2D otherMin = otherPos - (otherSize / 2.0);
-	Vec2D otherMax = otherPos + (otherSize / 2.0);
+	Vector2D origin = GetScenePos();
+	Vector2D deltaPos = newPosition - origin;
+	Vector2D size = GetSize();
+	
+	Vector2D InvEntry;
+	Vector2D InvExit;
+	
+	Vector2D otherPos = other->GetScenePos();
+	Vector2D otherSize = other->GetSize();
+	
+	Vector2D otherMin = otherPos - (otherSize / 2.0);
+	Vector2D otherMax = otherPos + (otherSize / 2.0);
 
 	// determine closest and farthest axis
 
@@ -178,8 +178,8 @@ bool AABBSquareCollisionObject::SweepCollidesWith(CollisionObject2DBase * other,
 		InvExit.y = otherPos.y - (origin.y + size.h);
 	}
 
-	Vec2D entry;
-	Vec2D exit;
+	Vector2D entry;
+	Vector2D exit;
 
 	if (deltaPos.x == 0)
 	{
@@ -210,16 +210,16 @@ bool AABBSquareCollisionObject::SweepCollidesWith(CollisionObject2DBase * other,
 		return false;
 	}
 
-	Vec2D normal;
+	Vector2D normal;
 
 	if (entry.x > entry.y)
 	{
-		if (entry.x < 0) normal = Vec2D(-1, 0);
-		else normal = Vec2D(1, 0);
+		if (entry.x < 0) normal = Vector2D(-1, 0);
+		else normal = Vector2D(1, 0);
 	}
 	{
-		if (entry.y < 0) normal = Vec2D(0, -1);
-		else normal = Vec2D(0, 1);
+		if (entry.y < 0) normal = Vector2D(0, -1);
+		else normal = Vector2D(0, 1);
 	}
 
 	CollisionPoint points[2];
@@ -272,8 +272,8 @@ Vector2D AABBSquareCollisionObject::GetSize()
 
 bool AABBSquareCollisionObject::CollidesWithNoCollision(CollisionObject2DBase * other)
 {
-	Vec2D otherMin;
-	Vec2D otherMax;
+	Vector2D otherMin;
+	Vector2D otherMax;
 
 	if (other->GetCollisionType() == SQUARE_COLLISION)
 	{

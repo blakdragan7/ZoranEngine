@@ -80,7 +80,7 @@ struct  ZoranEngine_EXPORT CollisionPoint
 
 struct ZoranEngine_EXPORT Accumulated2DVelocities
 {
-	Vec2D velocity[65535];
+	Vector2D velocity[65535];
 	float angularVelocity[65535];
 
 	class PhysicsObject2DBase* objects[65535];

@@ -45,7 +45,7 @@ void TestSceneObject::Tick(float deltaTime)
 
 		if (Random::GetBoolWithChance(0.01f))
 		{
-			rigid->ApplyForce(Vec2D(Random::GetFloatInRange(-10000, 10000), 1000000));
+			rigid->ApplyForce(Vector2D(Random::GetFloatInRange(-10000, 10000), 1000000));
 		}
 	}
 }

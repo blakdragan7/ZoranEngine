@@ -10,9 +10,9 @@ class TextureBase;
 class ZoranEngine_EXPORT CameraBase
 {
 protected:
-	Vec2D screenSize;
-	Vec2D cameraExtents;
-	Vec2D halfCameraExtents;
+	Vector2D screenSize;
+	Vector2D cameraExtents;
+	Vector2D halfCameraExtents;
 
 	Matrix44 cameraModelCache;
 	FrameBufferBase* sceneBuffer;
@@ -31,9 +31,11 @@ public:
 	virtual void Rotate(float rotx, float roty, float rotz) = 0;
 	virtual void Rotate(float rotation) = 0;
 	virtual void Rotate(Vec3D euler) = 0;
-	virtual void Rotate(Quaternion quat) = 0;
+	virtual void Rotate(Quat quat) = 0;
+	virtual void Scale(Vec3D scale) = 0;
+	virtual void Scale(Vec2D scale) = 0;
 
-	virtual Vec2D GetCameraViewingExtentsAtZ(float z) = 0;
+	virtual Vector2D GetCameraViewingExtentsAtZ(float z) = 0;
 	virtual void ScreenResized(float screenWidth, float screenHeight) = 0;
 	virtual void ScreenResized(Vec2D Size) = 0;
 
