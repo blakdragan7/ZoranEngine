@@ -4,3 +4,6 @@
 [submodule "submodules\\msdfgen"]
 	path = submodules\\msdfgen
 	url = https://github.com/Chlumsky/msdfgen
+[submodule "submodules/icu"]
+	path = submodules/icu
+	url = https://github.com/unicode-org/icu

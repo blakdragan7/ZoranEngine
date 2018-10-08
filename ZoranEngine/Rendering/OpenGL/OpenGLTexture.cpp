@@ -4,6 +4,9 @@
 
 #include "GL\glew.h"
 
+#include <Utils/StringAddons.hpp>
+#include <ThirdParty/loadbmp/loadbmp.hpp>
+
 OpenGLTexture::OpenGLTexture(OpenGLContext* OGL, RenderDataType type_, RenderDataFormat format_) : OGL(OGL), TextureBase(0,0,type_,format_)
 {
 	glEnable(GL_TEXTURE_2D);
@@ -35,17 +38,50 @@ void OpenGLTexture::UnbindTexture(unsigned textureNumber)const
 
 void OpenGLTexture::LoadFromPath(const char * texture_path, RenderDataType type, RenderDataFormat format)
 {
-	unsigned w = 0;
-	unsigned h = 0;
-	unsigned char *data = 0;
-	unsigned error = LoadFromPNG(texture_path, w, h, &data);
+	std::string fileType = StringToLower(GetStringFileType(texture_path));
 
-	width = w;
-	height = h;
+	if (fileType == "png")
+	{
+		unsigned w = 0;
+		unsigned h = 0;
+		unsigned char *data = 0;
 
-	LoadFromMemory(w, h, data, RenderDataType::Render_Data_Type_RGBA_32);
+		unsigned error = LoadFromPNG(texture_path, w, h, &data);
 
-	free(data);
+		if (error)
+		{
+			Log(LogLevel_Error, "Could not load Texture %s error %i", texture_path, error);
+		}
+
+		width = w;
+		height = h;
+
+		LoadFromMemory(w, h, data, RenderDataType::Render_Data_Type_RGBA_32);
+		free(data);
+	}
+	else if (fileType == "bmp")
+	{
+		unsigned w = 0;
+		unsigned h = 0;
+		unsigned comp = 3;
+		unsigned char *data = 0;
+
+		unsigned error = loadbmp_decode_file(texture_path, &data, &w, &h, comp);
+
+		if (error)
+		{
+			Log(LogLevel_Error, "Could not load Texture %s error %i", texture_path, error);
+			return;
+		}
+
+		LoadFromMemory(w, h, data, RenderDataType::Render_Data_Type_RGB_24);
+		free(data);
+	}
+	else
+	{
+		Log(LogLevel_Error,"Incorrect File Type For Texture %s!", texture_path);
+		return;
+	}
 }
 
 void OpenGLTexture::LoadFromMemory(unsigned w, unsigned h, void * data, RenderDataType type, RenderDataFormat format)

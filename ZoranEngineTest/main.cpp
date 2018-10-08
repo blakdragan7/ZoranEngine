@@ -12,6 +12,11 @@
 #include <Utils/HighPrecisionClock.h>
 #include <algorithm>
 
+#include <Core/Resources/FontResource.h>
+#include <Core/Resources/ResourceManager.h>
+
+#include <Core/2D/TexturedSprite.h>
+
 #include <Core/3D/StaticModelSceneObj.h>
 
 #include <Core/Audio/AudioEngineBase.h>
@@ -23,17 +28,19 @@
 
 void Test2DSceneStuff();
 void Test3DSceneStuff();
+void TestGUIStuff();
 void TestAudio();
 
 static const unsigned TestNum = 1000;
-static const unsigned SquareToSpawn = 20;
-static const unsigned CircleToSpawn = 20;
+static const unsigned SquareToSpawn = 100;
+static const unsigned CircleToSpawn = 0;
 static const float scale = 5.0f;
 
 int main(int argc, char* argv[])
 {
 	//Test2DSceneStuff();
-	Test3DSceneStuff();
+	//Test3DSceneStuff();
+	TestGUIStuff();
 }
 
 void Test2DSceneStuff()
@@ -137,6 +144,32 @@ void Test3DSceneStuff()
 	test->PreCaclModel();
 
 	engine.AddSceneObject(test);
+
+	engine.MainLoop();
+}
+
+void TestGUIStuff()
+{
+	ZoranEngine engine;
+	engine.Init();
+	engine.Setup2DScene(0, 0, 2000, 2000);
+
+	ResourceManager man;
+	FontResource* font = man.FontForTTF("C:\\Windows\\Fonts\\arialbd.ttf");
+	font->CreateBMPForGlyphs({ '0', '1' , '2', '3', '4' });
+	font->CreateBMPForGlyphs({ '5', '6' , '7', '8'});
+	//font->CreateBMPForGlyphs({'0','4','3','2','1','5'});
+
+	TexturedSprite* test = new TexturedSprite(0, "test");
+	test->SetTexture("test.bmp",Render_Data_Type_RGBA_32,Render_Data_Format_Byte);
+	test->SetScale(150, -150);
+	
+	test->SetPosition(Random::GetfloatInRange(-150, 150), Random::GetfloatInRange(-150, 150));
+	
+	test->PreCaclModel();
+	
+	zEngine->AddSceneObject(test);
+	
 
 	engine.MainLoop();
 }

@@ -127,6 +127,15 @@
     <Filter Include="ZoranEngine\ThirdParty\tinyxml2">
       <UniqueIdentifier>{2bd48f75-46f5-4b2b-9087-f5628dab2c7c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ZoranEngine\ThirdParty\unicode">
+      <UniqueIdentifier>{619f39cd-9b97-411c-8a2a-951ea1c7d8a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\Core\Resources">
+      <UniqueIdentifier>{8bc80466-eb0c-44ab-b4e8-94a118a6a160}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\ThirdParty\loadbmp">
+      <UniqueIdentifier>{b33d141b-98fb-4949-aa87-b51647880bb5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -548,6 +557,15 @@
     </ClCompile>
     <ClCompile Include="Core\DebugPlayerInstance.cpp">
       <Filter>ZoranEngine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Resources\FontResource.cpp">
+      <Filter>ZoranEngine\Core\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Resources\ResourceBase.cpp">
+      <Filter>ZoranEngine\Core\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Resources\ResourceManager.cpp">
+      <Filter>ZoranEngine\Core\Resources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1315,6 +1333,564 @@
     </ClInclude>
     <ClInclude Include="Core\DebugPlayerInstance.h">
       <Filter>ZoranEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\alphaindex.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\appendable.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\basictz.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\brkiter.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\bytestream.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\bytestrie.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\bytestriebuilder.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\calendar.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\caniter.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\casemap.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\char16ptr.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\chariter.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\choicfmt.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\coleitr.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\coll.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\compactdecimalformat.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\curramt.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\currpinf.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\currunit.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\datefmt.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\dbbi.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\dcfmtsym.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\decimfmt.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\docmain.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\dtfmtsym.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\dtintrv.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\dtitvfmt.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\dtitvinf.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\dtptngen.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\dtrule.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\edits.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\enumset.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\errorcode.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\fieldpos.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\filteredbrk.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\fmtable.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\format.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\fpositer.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\gender.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\gregocal.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\icudataver.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\icuplug.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\idna.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\listformatter.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\localpointer.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\locdspnm.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\locid.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\measfmt.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\measunit.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\measure.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\messagepattern.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\msgfmt.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\normalizer2.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\normlzr.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\nounit.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\numberformatter.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\numfmt.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\numsys.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\parseerr.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\parsepos.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\platform.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\plurfmt.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\plurrule.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\ptypes.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\putil.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\rbbi.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\rbnf.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\rbtz.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\regex.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\region.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\reldatefmt.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\rep.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\resbund.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\schriter.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\scientificnumberformatter.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\search.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\selfmt.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\simpleformatter.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\simpletz.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\smpdtfmt.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\sortkey.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\std_string.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\strenum.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\stringoptions.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\stringpiece.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\stringtriebuilder.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\stsearch.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\symtable.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\tblcoll.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\timezone.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\tmunit.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\tmutamt.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\tmutfmt.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\translit.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\tzfmt.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\tznames.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\tzrule.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\tztrans.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\ubidi.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\ubiditransform.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\ubrk.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\ucal.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\ucasemap.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\ucat.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\uchar.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\ucharstrie.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\ucharstriebuilder.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\uchriter.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\uclean.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\ucnv.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\ucnvsel.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\ucnv_cb.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\ucnv_err.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\ucol.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\ucoleitr.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\uconfig.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\ucsdet.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\ucurr.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\udat.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\udata.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\udateintervalformat.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\udatpg.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\udisplaycontext.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\uenum.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\ufieldpositer.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\uformattable.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\ugender.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\uidna.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\uiter.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\uldnames.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\ulistformatter.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\uloc.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\ulocdata.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\umachine.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\umisc.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\umsg.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\unifilt.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\unifunct.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\unimatch.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\unirepl.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\uniset.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\unistr.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\unorm.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\unorm2.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\unum.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\unumberformatter.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\unumsys.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\uobject.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\upluralrules.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\uregex.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\uregion.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\ureldatefmt.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\urename.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\urep.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\ures.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\uscript.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\usearch.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\uset.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\usetiter.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\ushape.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\uspoof.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\usprep.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\ustdio.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\ustream.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\ustring.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\ustringtrie.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\utext.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\utf.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\utf16.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\utf32.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\utf8.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\utf_old.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\utmscale.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\utrace.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\utrans.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\utypes.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\uvernum.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\uversion.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\unicode\vtzone.h">
+      <Filter>ZoranEngine\ThirdParty\unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Resources\FontResource.h">
+      <Filter>ZoranEngine\Core\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Resources\ResourceBase.h">
+      <Filter>ZoranEngine\Core\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Resources\ResourceErrors.h">
+      <Filter>ZoranEngine\Core\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Resources\ResourceManager.h">
+      <Filter>ZoranEngine\Core\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\StringAddons.hpp">
+      <Filter>ZoranEngine\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\BitmapAddons.hpp">
+      <Filter>ZoranEngine\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\loadbmp\loadbmp.hpp">
+      <Filter>ZoranEngine\ThirdParty\loadbmp</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

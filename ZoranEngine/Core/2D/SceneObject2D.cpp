@@ -20,7 +20,7 @@ bool SceneObject2D::CheckRootComponent(const char* func)const
 	return true;
 }
 
-SceneObject2D::SceneObject2D(std::string name) : root2DComponent(0), SceneObject(root2DComponent, name)
+SceneObject2D::SceneObject2D(std::string name) : root2DComponent(0), SceneObject(name)
 {
 }
 

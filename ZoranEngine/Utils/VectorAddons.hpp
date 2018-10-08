@@ -2,14 +2,14 @@
 #include <vector>
 
 template <typename T>
-void remove(std::vector<T> &v, size_t i)
+static void remove(std::vector<T> &v, size_t i)
 {
 	std::swap(v[i], v.back());
 	v.pop_back();
 }
 
 template <typename T>
-bool remove(std::vector<T> &v, T object)
+static bool remove(std::vector<T> &v, T object)
 {
 	auto iter = std::find(v.begin(),v.end(),object);
 	if (iter != v.end())

@@ -1,6 +1,8 @@
 
 #pragma once
 
+#undef INFINITE
+
 namespace msdfgen {
 
 /// Represents a signed distance and alignment, which together can be compared to uniquely determine the closest edge segment.
