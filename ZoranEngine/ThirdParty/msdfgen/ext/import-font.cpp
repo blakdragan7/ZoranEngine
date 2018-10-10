@@ -132,7 +132,7 @@ bool loadGlyph(Shape &output, FontHandle *font, int unicode, double *advance) {
     output.contours.clear();
     output.inverseYAxis = false;
     if (advance)
-        *advance = font->face->glyph->advance.x/64.;
+        *advance = font->face->glyph->advance.x >> 6;
 
     FtContext context = { };
     context.shape = &output;

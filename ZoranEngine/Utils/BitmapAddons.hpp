@@ -3,7 +3,7 @@
 #include <ThirdParty/msdfgen/msdfgen.h>
 
 template<typename t>
-static void Insert(msdfgen::Bitmap<t>& dest,const msdfgen::Bitmap<t> &source, Vec2I offset)
+void Insert(msdfgen::Bitmap<t>& dest,const msdfgen::Bitmap<t> &source, Vec2I offset)
 {
 	if (dest.height() < (offset.y + source.height()) || dest.width() < (offset.x + source.width()))
 	{
@@ -18,4 +18,13 @@ static void Insert(msdfgen::Bitmap<t>& dest,const msdfgen::Bitmap<t> &source, Ve
 			dest(offset.x + x, offset.y + y) = source(x,y);
 		}
 	}
+}
+
+static float* PixDataForBitmap(msdfgen::Bitmap<msdfgen::FloatRGB>& source)
+{
+	float* pixData = static_cast<float*>(malloc(source.width() * source.height() * 3 * sizeof(float)));
+
+	memcpy(pixData,&source(0,0), source.width() * source.height() * 3 * sizeof(float));
+
+	return pixData;
 }

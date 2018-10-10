@@ -47,3 +47,8 @@ void TexturedSpriteComponent::SetTexture(const char * texture, RenderDataType ty
 {
 	this->texture = TextureManager::GetInstance()->TextureForFilePath(texture, type, format);
 }
+
+void TexturedSpriteComponent::SetTexture(TextureBase * texture)
+{
+	this->texture = texture;
+}

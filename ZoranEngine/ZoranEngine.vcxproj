@@ -46,6 +46,8 @@
     </None>
     <None Include="Shaders\3D\standardNoTexture.frag" />
     <None Include="Shaders\3D\standardNoTexture.vert" />
+    <None Include="Shaders\GUI\font.frag" />
+    <None Include="Shaders\GUI\font.vert" />
     <None Include="ThirdParty\assimp\color4.inl" />
     <None Include="ThirdParty\assimp\material.inl" />
     <None Include="ThirdParty\assimp\matrix3x3.inl" />
@@ -137,6 +139,7 @@
     <ClCompile Include="Rendering\OpenGL\3D\OpenGL3DRenderEngine.cpp" />
     <ClCompile Include="Rendering\OpenGL\3D\StandardNoTextureShader.cpp" />
     <ClCompile Include="Rendering\OpenGL\3D\StandardShader3D.cpp" />
+    <ClCompile Include="Rendering\OpenGL\GUI\OpenGLFontShader.cpp" />
     <ClCompile Include="Rendering\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="Rendering\OpenGL\OpenGLFrameBuffer.cpp" />
     <ClCompile Include="Rendering\OpenGL\OpenGLVertexGroup.cpp" />
@@ -356,6 +359,7 @@
     <ClInclude Include="Rendering\OpenGL\3D\OpenGL3DRenderEngine.h" />
     <ClInclude Include="Rendering\OpenGL\3D\StandardNoTextureShader.h" />
     <ClInclude Include="Rendering\OpenGL\3D\StandardShader3D.h" />
+    <ClInclude Include="Rendering\OpenGL\GUI\OpenGLFontShader.h" />
     <ClInclude Include="Rendering\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="Rendering\OpenGL\OpenGLContext.h" />
     <ClInclude Include="Rendering\OpenGL\OpenGLFrameBuffer.h" />
@@ -372,6 +376,7 @@
     <ClInclude Include="Rendering\OpenGL\Renderers\OpenGLSpriteRenderer.h" />
     <ClInclude Include="Rendering\OpenGL\Renderers\OpenGLTriangleStripRenderer.h" />
     <ClInclude Include="Rendering\OpenGL\Renderers\OpenGLTriangleRenderer.h" />
+    <ClInclude Include="Rendering\Primitives.h" />
     <ClInclude Include="Rendering\RenderedObjectBase.h" />
     <ClInclude Include="Rendering\RenderEngine2DBase.h" />
     <ClInclude Include="Rendering\RenderEngine3DBase.h" />

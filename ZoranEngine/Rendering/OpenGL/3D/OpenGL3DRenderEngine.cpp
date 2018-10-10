@@ -23,6 +23,7 @@
 #include <Rendering/OpenGL/Renderers/OpenGLLineLoopRenderer.h>
 #include <Rendering/OpenGL/Renderers/OpenGLQuadStripRenderer.h>
 #include <Rendering/OpenGL/Renderers/OpenGLTriangleStripRenderer.h>
+#include <Rendering/OpenGL/Renderers/OpenGLFontRenderer.h>
 
 OpenGL3DRenderEngine::OpenGL3DRenderEngine()
 {
@@ -246,4 +247,9 @@ TriangleRenderer * OpenGL3DRenderEngine::CreateTriangleRenderer()
 TriangleStripRenderer * OpenGL3DRenderEngine::CreateTriangleStripRenderer()
 {
 	return context->CreateTriangleStripRenderer();
+}
+
+FontRenderer * OpenGL3DRenderEngine::CreateFontRenderer()
+{
+	return context->CreateFontRenderer();
 }

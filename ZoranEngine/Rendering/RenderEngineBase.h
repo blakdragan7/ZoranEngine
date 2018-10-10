@@ -23,6 +23,7 @@ class QuadStripRenderer;
 class SpriteRenderer;
 class TriangleRenderer;
 class TriangleStripRenderer;
+class FontRenderer;
 
 /* typedefs for dealing with shaders */
 typedef std::unordered_map<const ShaderInitMap*, ShaderProgramBase*> ShaderMap;
@@ -66,6 +67,7 @@ public:
 	virtual SpriteRenderer* CreateSpriteRenderer() = 0;
 	virtual TriangleRenderer* CreateTriangleRenderer() = 0;
 	virtual TriangleStripRenderer* CreateTriangleStripRenderer() = 0;
+	virtual FontRenderer* CreateFontRenderer() = 0;
 
 	// Creates Texture Memory on GPU and returns a texture object.
 	virtual TextureBase* CreateTexture(const char* path, RenderDataType bufferType, RenderDataFormat bufferFormat) = 0;

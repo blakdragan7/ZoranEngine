@@ -4,12 +4,73 @@
 
 #include <GL/glew.h>
 
+#include <Rendering/OpenGL/OpenGLBuffer.h>
+
 OpenGLTriangleRenderer::OpenGLTriangleRenderer(OpenGLContext* context) : context(context), TriangleRenderer(DT_Dynamic)
 {
-	vertexGroup = new OpenGLVertexGroup(GL_QUAD_STRIP, context);
+	vertexGroup = new OpenGLVertexGroup(GL_TRIANGLES, context);
 }
 
 OpenGLTriangleRenderer::~OpenGLTriangleRenderer()
 {
 	delete vertexGroup;
+}
+
+void OpenGLTriangleRenderer::RenderObject(const Matrix44 & cameraMatrix)
+{
+	vertexGroup->RenderObject();
+}
+
+void OpenGLTriangleRenderer::MakeFullScreenQuad()
+{
+	static float vert[18] = { 
+		-1.0f,1.0f, 0.0f, // tl
+		-1.0f,-1.0f,0.0f, // bl
+		1.0f,-1.0f,0.0f, // br
+
+		1.0f,1.0f,0.0f, // tr
+		1.0f,-1.0f,0.0f, // br
+		-1.0f,1.0f,0.0f }; // tl
+
+	static float coord[12] = {
+		0.0f,1.0f,
+		0.0f,0.0f,
+		1.0f,0.0f,
+
+		1.0f,1.0f,
+		1.0f,0.0f,
+		0.0f,1.0f };
+
+	OpenGLBuffer* vbo = new OpenGLBuffer(GL_ARRAY_BUFFER, vert, 3, GL_DYNAMIC_DRAW, sizeof(vert), context);
+	OpenGLBuffer* tbo = new OpenGLBuffer(GL_ARRAY_BUFFER, coord, 2, GL_DYNAMIC_DRAW, sizeof(coord), context);
+
+	// TODO: not hardcode these attr values
+	vertexGroup->AddBufferForAttr(0, vbo);
+	vertexGroup->AddBufferForAttr(1, tbo);
+
+	vertexGroup->SetNumVerts(6);
+}
+
+void OpenGLTriangleRenderer::AddTriangles(const std::vector<TrianglePrimitive>& rectangles)
+{
+	size_t size = rectangles.size() * 3;
+
+	float* verts = new float[size * 3];
+	float* coords = new float[size * 2];
+	for (size_t i = 0; i < rectangles.size(); i++)
+	{
+		memcpy(&verts[i * 3 * 3], &rectangles[i].vertecies, sizeof(float) * 3 * 3);
+		memcpy(&coords[i * 3 * 2], &rectangles[i].coords, sizeof(float) * 3 * 2);
+	}
+
+	OpenGLBuffer* vbo = new OpenGLBuffer(GL_ARRAY_BUFFER, verts, 3, GL_DYNAMIC_DRAW, size * 3 * sizeof(float), context);
+	OpenGLBuffer* tbo = new OpenGLBuffer(GL_ARRAY_BUFFER, coords, 2, GL_DYNAMIC_DRAW, size * 2 * sizeof(float), context);
+
+	delete[] verts;
+	delete[] coords;
+
+	vertexGroup->AddBufferForAttr(0, vbo);
+	vertexGroup->AddBufferForAttr(1, tbo);
+
+	vertexGroup->SetNumVerts(static_cast<int>(size));
 }

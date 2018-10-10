@@ -11,9 +11,9 @@ ResourceManager::~ResourceManager()
 {
 }
 
-FontResource * ResourceManager::FontForTTF(const char * ttf)
+FontResource * ResourceManager::FontForTTF(const char * ttf, uint32_t resolution)
 {
-	FontResource* font = new FontResource();
+	FontResource* font = new FontResource(resolution);
 	font->LoadFromFile(ttf);
 	return font;
 }

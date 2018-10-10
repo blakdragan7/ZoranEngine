@@ -24,6 +24,9 @@
 #include <Rendering/OpenGL/Renderers/OpenGLLineLoopRenderer.h>
 #include <Rendering/OpenGL/Renderers/OpenGLQuadStripRenderer.h>
 #include <Rendering/OpenGL/Renderers/OpenGLTriangleStripRenderer.h>
+#include <Rendering/OpenGL/Renderers/OpenGLFontRenderer.h>
+
+#include <GL/glew.h>
 
 OpenGL2DRenderEngine::OpenGL2DRenderEngine()
 {
@@ -132,6 +135,11 @@ bool OpenGL2DRenderEngine::RemoveComponent(Visible2DComponent* component)
 void OpenGL2DRenderEngine::InitEngine(WindowHandle handle)
 {
 	context = new OpenGLContext(handle);
+
+	GLint maxl;
+	glGetIntegerv(GL_MAX_ARRAY_TEXTURE_LAYERS,&maxl);
+
+	Log(LogLevel_Verbose, "maxl %i", maxl);
 }
 
 
@@ -280,4 +288,9 @@ TriangleRenderer * OpenGL2DRenderEngine::CreateTriangleRenderer()
 TriangleStripRenderer * OpenGL2DRenderEngine::CreateTriangleStripRenderer()
 {
 	return context->CreateTriangleStripRenderer();
+}
+
+FontRenderer * OpenGL2DRenderEngine::CreateFontRenderer()
+{
+	return context->CreateFontRenderer();
 }

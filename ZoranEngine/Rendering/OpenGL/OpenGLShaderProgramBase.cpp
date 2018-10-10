@@ -239,28 +239,28 @@ void OpenGLShaderProgramBase::setUniform(const char* uniform, float value1, floa
 	glUniform4f(loc, value1, value2, value3, value4);
 	engine->CheckErrors("setUniform()");
 }
-void OpenGLShaderProgramBase::setUniformMat4(const char * uniform, float * value)
+void OpenGLShaderProgramBase::setUniformMat4(const char * uniform, const float * value)
 {
 	GLuint loc = glGetUniformLocation(program, uniform);
 	glUniformMatrix4fv(loc, 1, true, value);
 	engine->CheckErrors("setUniformMat4()");
 }
 
-void OpenGLShaderProgramBase::setUniformMat2(const char * uniform, float * value)
+void OpenGLShaderProgramBase::setUniformMat2(const char * uniform, const float * value)
 {
 	GLuint loc = glGetUniformLocation(program, uniform);
 	glUniformMatrix2fv(loc, 1, true, value);
 	engine->CheckErrors("setUniformMat2()");
 }
 
-void OpenGLShaderProgramBase::setUniformMat4(const char * uniform, double * value)
+void OpenGLShaderProgramBase::setUniformMat4(const char * uniform, const double * value)
 {
 	GLuint loc = glGetUniformLocation(program, uniform);
 	glUniformMatrix4dv(loc, 1, true, value);
 	engine->CheckErrors("setUniformMat4()");
 }
 
-void OpenGLShaderProgramBase::setUniformMat2(const char * uniform, double * value)
+void OpenGLShaderProgramBase::setUniformMat2(const char * uniform, const double * value)
 {
 	GLuint loc = glGetUniformLocation(program, uniform);
 	glUniformMatrix2dv(loc, 1, true, value);

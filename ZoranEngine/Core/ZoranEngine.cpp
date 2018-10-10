@@ -10,6 +10,8 @@
 #include <Windows/WindowsWindow.h>
 #include <Utils/HighPrecisionClock.h>
 
+#include <Math/Matrix44.hpp>
+
 #include <Rendering/TextureBase.h>
 
 #include <Rendering/Renderers/TriangleStripRenderer.h>
@@ -45,9 +47,16 @@
 #include <Core/PlayerInstanceBase.h>
 #include <Core/DebugPlayerInstance.h>
 
+#include <Core/Resources/ResourceManager.h>
+#include <Core/Resources/FontResource.h>
+
+#include <Rendering/Renderers/FontRenderer.h>
+
 ZoranEngine* ZoranEngine::instance = 0;
 
 bool ZoranEngine::canRenderDebug = false;
+
+static FontRenderer* fr;
 
 ZoranEngine::ZoranEngine()
 {
@@ -188,6 +197,19 @@ void ZoranEngine::Setup2DScene(float centerx, float centery, float width, float 
 	});
 
 	mainPlayer->SetCameraSceneBuffer(frameBuffer);
+
+	ResourceManager man;
+	FontResource* font = man.FontForTTF("C:\\Windows\\Fonts\\arialbd.ttf", 72);
+	//font->CreateBMPForASCII("is");
+	font->CreateBMPForASCII("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_-+=\\\"';:/?.>,<~` ");
+
+	fr = rEngine->CreateFontRenderer();
+
+	Font* f = new Font();
+	f->fontResource = font;
+	f->renderStart.x = -100;
+	//fr->AddAsciiToRender("Ts", f);
+	fr->AddAsciiToRender("This Is a Test !", f);
 }
 
 void ZoranEngine::Setup2DScene(Vector2D center, Vector2D size)
@@ -267,6 +289,10 @@ void ZoranEngine::DrawStep()
 			fullScreenRenderer->RenderObject(Matrix44::IdentityMatrix);
 		}
 	}
+
+	static Matrix44 screenMatrix = Matrix44::OrthoMatrix(0,0,mainWindow->GetSize().x, mainWindow->GetSize().y,-100,100);
+
+	fr->RenderObject(screenMatrix);
 
 	DEBUG_TAKE_BENCH
 

@@ -8,7 +8,7 @@
 typedef std::unordered_map  <ShaderProgramBase*, std::vector<Visible2DComponent*>> GL2DRenderMap;
 typedef std::pair <ShaderProgramBase*, std::vector<Visible2DComponent*>> GL2DRenderMapPair;
 typedef std::map<unsigned,GL2DRenderMap*> GL2DRenderLayers;
-
+ 
 class OpenGLContext;
 class OpenGL2DRenderEngine : public RenderEngine2DBase
 {
@@ -44,6 +44,7 @@ public:
 	virtual SpriteRenderer* CreateSpriteRenderer()override;
 	virtual TriangleRenderer* CreateTriangleRenderer()override;
 	virtual TriangleStripRenderer* CreateTriangleStripRenderer()override;
+	virtual FontRenderer* CreateFontRenderer()override;
 
 	virtual void DrawScene(const Matrix44& cameraMatrix)override;
 	virtual void DrawDebugGUI()override;

@@ -35,10 +35,10 @@ public:
 	{
 		Matrix44 orthoMatrix;
 
-		orthoMatrix[0] = 2 / xmax;
-		orthoMatrix[5] = 2 / ymax;
-		orthoMatrix[10] = 2 / (zfar - znear);
-		orthoMatrix[11] = (znear + zfar) / (znear - zfar);
+		orthoMatrix[0] = 2.0f / (xmax-xmin);
+		orthoMatrix[5] = 2.0f / (ymax-ymin);
+		orthoMatrix[10] = -2.0f / (zfar - znear);
+		orthoMatrix[11] = (zfar + znear) / (zfar - znear);
 
 		return orthoMatrix;
 	}

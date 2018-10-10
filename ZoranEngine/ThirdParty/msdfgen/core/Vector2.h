@@ -3,7 +3,7 @@
 
 #include <cstdlib>
 #include <cmath>
-
+class Vector2D;
 namespace msdfgen {
 
 /**
@@ -16,7 +16,8 @@ struct Vector2 {
     double x, y;
 
     Vector2(double val = 0);
-    Vector2(double x, double y);
+	Vector2(double x, double y);
+	Vector2(const Vector2D& other);
     /// Sets the vector to zero.
     void reset();
     /// Sets individual elements of the vector.

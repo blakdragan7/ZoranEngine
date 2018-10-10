@@ -16,6 +16,8 @@ public:
 	void MakeFullScreenQuad()override;
 	virtual void RenderObject(const Matrix44& cameraMatrix)override;
 
+	virtual void AddRectanglesToStrip(const std::vector<RectanglePrimitive>& rectangles)override;
+
 	virtual void BeginTriangles(Vector3D ll, Vector3D tc, Vector3D lr)override;
 	virtual void AddTriangleToStrip(Vector3D nextVertex)override;
 	virtual void EndTriangles()override;

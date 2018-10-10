@@ -44,3 +44,8 @@ void TexturedSprite::SetTexture(const char* path, RenderDataType type, RenderDat
 {
 	((TexturedSpriteComponent*)rootComponent)->SetTexture(path, type, format);
 }
+
+void TexturedSprite::SetTexture(TextureBase * texture)
+{
+	((TexturedSpriteComponent*)rootComponent)->SetTexture(texture);
+}

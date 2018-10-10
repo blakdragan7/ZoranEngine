@@ -16,5 +16,6 @@ public:
 	virtual void PreRender()override;
 
 	void SetTexture(const char* texture, RenderDataType type, RenderDataFormat format);
+	void SetTexture(TextureBase* texture);
 };
 

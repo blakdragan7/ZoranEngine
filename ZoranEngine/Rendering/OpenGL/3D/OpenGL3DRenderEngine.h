@@ -44,5 +44,6 @@ public:
 	virtual SpriteRenderer* CreateSpriteRenderer()override;
 	virtual TriangleRenderer* CreateTriangleRenderer()override;
 	virtual TriangleStripRenderer* CreateTriangleStripRenderer()override;
+	virtual FontRenderer* CreateFontRenderer()override;
 };
 

@@ -7,6 +7,7 @@ class TextureBase;
 class OpenGLTexture;
 class OpenGLLineRenderer;
 class OpenGLLineLoopRenderer;
+class OpenGLFontRenderer;
 class OpenGLModelRenderer;
 class OpenGLQuadRenderer;
 class OpenGLQuadStripRenderer;
@@ -47,4 +48,5 @@ public:
 	OpenGLSpriteRenderer* CreateSpriteRenderer();
 	OpenGLTriangleRenderer* CreateTriangleRenderer();
 	OpenGLTriangleStripRenderer* CreateTriangleStripRenderer();
+	OpenGLFontRenderer* CreateFontRenderer();
 };

@@ -38,10 +38,10 @@ public:
 	virtual void setUniform(const char* uniform, Vector2D* value)override;
 	virtual void setUniform(const char* uniform, Vector3D* value)override;
 	virtual void setUniform(const char* uniform, float value1, float value2, float value3, float value4)override;
-	virtual void setUniformMat4(const char* uniform, float *value)override;
-	virtual void setUniformMat2(const char * uniform, float *value)override;
-	virtual void setUniformMat4(const char* uniform, double *value)override;
-	virtual void setUniformMat2(const char * uniform, double *value)override;
+	virtual void setUniformMat4(const char* uniform, const float *value)override;
+	virtual void setUniformMat2(const char * uniform, const float *value)override;
+	virtual void setUniformMat4(const char* uniform, const double *value)override;
+	virtual void setUniformMat2(const char * uniform, const double *value)override;
 
 	void setPatchVertexCount(unsigned int count);
 

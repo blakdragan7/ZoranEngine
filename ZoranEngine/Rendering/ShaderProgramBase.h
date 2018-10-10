@@ -37,9 +37,9 @@ public:
 	virtual void setUniform(const char* uniform, Vector2D* value) = 0;
 	virtual void setUniform(const char* uniform, Vector3D* value) = 0;
 	virtual void setUniform(const char* uniform, float value1, float value2, float value3, float value4) = 0;
-	virtual void setUniformMat4(const char* uniform, float *value) = 0;
-	virtual void setUniformMat2(const char * uniform, float *value) = 0;
-	virtual void setUniformMat4(const char* uniform, double *value) = 0;
-	virtual void setUniformMat2(const char * uniform, double *value) = 0;
+	virtual void setUniformMat4(const char* uniform, const float *value) = 0;
+	virtual void setUniformMat2(const char * uniform, const float *value) = 0;
+	virtual void setUniformMat4(const char* uniform, const double *value) = 0;
+	virtual void setUniformMat2(const char * uniform, const double *value) = 0;
 };
 

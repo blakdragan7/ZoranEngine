@@ -136,6 +136,12 @@
     <Filter Include="ZoranEngine\ThirdParty\loadbmp">
       <UniqueIdentifier>{b33d141b-98fb-4949-aa87-b51647880bb5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ZoranEngine\Shaders\GUI">
+      <UniqueIdentifier>{0a29b677-cbf7-4c17-98c0-64948a316926}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\Rendering\OpenGL\GUI">
+      <UniqueIdentifier>{2ba99284-8ea2-43ec-9b55-d2142a9a7d7b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -566,6 +572,9 @@
     </ClCompile>
     <ClCompile Include="Core\Resources\ResourceManager.cpp">
       <Filter>ZoranEngine\Core\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\OpenGL\GUI\OpenGLFontShader.cpp">
+      <Filter>ZoranEngine\Rendering\OpenGL\GUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1892,6 +1901,12 @@
     <ClInclude Include="ThirdParty\loadbmp\loadbmp.hpp">
       <Filter>ZoranEngine\ThirdParty\loadbmp</Filter>
     </ClInclude>
+    <ClInclude Include="Rendering\OpenGL\GUI\OpenGLFontShader.h">
+      <Filter>ZoranEngine\Rendering\OpenGL\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Primitives.h">
+      <Filter>ZoranEngine\Rendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ZoranEngine.rc">
@@ -1947,6 +1962,12 @@
     </None>
     <None Include="Shaders\3D\standardNoTexture.vert">
       <Filter>ZoranEngine\Shaders\3D</Filter>
+    </None>
+    <None Include="Shaders\GUI\font.frag">
+      <Filter>ZoranEngine\Shaders\GUI</Filter>
+    </None>
+    <None Include="Shaders\GUI\font.vert">
+      <Filter>ZoranEngine\Shaders\GUI</Filter>
     </None>
   </ItemGroup>
 </Project>

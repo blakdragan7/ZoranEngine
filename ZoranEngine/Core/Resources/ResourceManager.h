@@ -16,6 +16,6 @@ public:
 	ResourceManager();
 	virtual ~ResourceManager();
 
-	FontResource* FontForTTF(const char* ttf);
+	FontResource* FontForTTF(const char* ttf,uint32_t resolution = 32);
 };
 
