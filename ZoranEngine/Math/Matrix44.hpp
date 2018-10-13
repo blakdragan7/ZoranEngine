@@ -155,9 +155,9 @@ public:
 	{
 		Matrix44 mat;
 
-		mat(0, 3) = translation.x;
-		mat(1, 3) = translation.y;
-		mat(2, 3) = translation.z;
+		mat(3, 0) = translation.x;
+		mat(3, 1) = translation.y;
+		mat(3, 2) = translation.z;
 
 		return mat;
 	}
@@ -313,9 +313,9 @@ public:
 		{
 			for (int row = 0; row < rows; ++row)
 			{
-				res(row, col) = 0;
+				res(col, row) = 0;
 				for (int n = 0; n < cols; n++)
-					res(row, col) += ((*this)(row, n)*other(n, col));
+					res(col, row) += ((*this)(n, row)*other(col, n));
 			}
 		}
 
@@ -399,7 +399,7 @@ public:
 	const float& operator()(int row, int col)const
 	{
 		assert(row < rows && col < cols && "row or col is greater then 4 in Mat44 operator() const!");
-		int index = (row*cols) + col;
+		int index = (col*rows) + row;
 
 		return c_array[index];
 	}
@@ -407,7 +407,7 @@ public:
 	float& operator()(int row, int col)
 	{
 		assert(row < rows && col < cols && "row or col is greater then 4 in Mat44 operator() !");
-		int index = (row*cols) + col;
+		int index = (col*rows) + row;
 
 		return c_array[index];
 	}

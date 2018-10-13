@@ -33,8 +33,8 @@ void TestAudio();
 
 static const unsigned TestNum = 1000;
 static const unsigned SquareToSpawn = 100;
-static const unsigned CircleToSpawn = 0;
-static const float scale = 5.0f;
+static const unsigned CircleToSpawn = 100;
+static const float scale = 40.0f;
 
 int main(int argc, char* argv[])
 {
@@ -56,7 +56,7 @@ void Test2DSceneStuff()
 	{
 		TestSceneObject* test = new TestSceneObject((name_base + std::to_string(i)));
 		test->SetScale(scale, -scale);
-		test->SetPosition(Random::GetfloatInRange(-150, 150), Random::GetfloatInRange(-150, 150));
+		test->SetPosition(Random::GetfloatInRange(-500, 500), Random::GetfloatInRange(-300, 300));
 		//test->SetPosition(i*5 + -150,0);
 		//test->SetPosition({ -100,0 });
 		test->GetPhysics()->StartSimulation();
@@ -80,7 +80,7 @@ void Test2DSceneStuff()
 		TestCircleObject* test = new TestCircleObject(std::string("circle ") + std::to_string(i), 1.0);
 		test->SetScale(scale, -scale);
 		//test->SetPosition(i * 5 + -150, 100);
-		test->SetPosition(Random::GetfloatInRange(-150, 150), Random::GetfloatInRange(-150, 150));
+		test->SetPosition(Random::GetfloatInRange(-500, 500), Random::GetfloatInRange(-300, 300));
 		test->GetPhysics()->StartSimulation();
 		//test->SetPosition({100,0});
 		//test->SetTarget(sqr);
@@ -99,26 +99,26 @@ void Test2DSceneStuff()
 	}
 
 	TestPlatformObject* platform = new TestPlatformObject("Ground");
-	platform->SetScale(500, -50);
-	platform->SetPosition(0, -250);
+	platform->SetScale(1000, -50);
+	platform->SetPosition(0, -500);
 	platform->PreCaclModel();
 	zEngine->AddSceneObject(platform);
 
 	TestPlatformObject* platform2 = new TestPlatformObject("Ceiling");
-	platform2->SetScale(500, -40);
-	platform2->SetPosition(0, 250);
+	platform2->SetScale(1000, -50);
+	platform2->SetPosition(0, 500);
 	platform2->PreCaclModel();
 	zEngine->AddSceneObject(platform2);
 
 	TestPlatformObject* platform3 = new TestPlatformObject("Left Wall");
-	platform3->SetScale(40, -500);
-	platform3->SetPosition(-500, 0);
+	platform3->SetScale(50, -1000);
+	platform3->SetPosition(-950, 0);
 	platform3->PreCaclModel();
 	zEngine->AddSceneObject(platform3);
 
 	TestPlatformObject* platform4 = new TestPlatformObject("Right Wall");
-	platform4->SetScale(40, -500);
-	platform4->SetPosition(500, 0);
+	platform4->SetScale(50, -1000);
+	platform4->SetPosition(950, 0);
 	platform4->PreCaclModel();
 	zEngine->AddSceneObject(platform4);
 
@@ -154,23 +154,18 @@ void TestGUIStuff()
 	engine.Init();
 	engine.Setup2DScene(0, 0, 2000, 2000);
 
-	ResourceManager man;
-	FontResource* font = man.FontForTTF("C:\\Windows\\Fonts\\arialbd.ttf");
-	font->CreateBMPForGlyphs({ '0', '1' , '2', '3', '4' });
-	font->CreateBMPForGlyphs({ '5', '6' , '7', '8'});
-	//font->CreateBMPForGlyphs({'0','4','3','2','1','5'});
-
-	TexturedSprite* test = new TexturedSprite(0, "test");
-	test->SetTexture("test.bmp",Render_Data_Type_RGBA_32,Render_Data_Format_Byte);
-	test->SetScale(150, -150);
+	/*ResourceManager man;
+	FontResource* font = man.FontForZFT("arial.zft");
 	
-	test->SetPosition(Random::GetfloatInRange(-150, 150), Random::GetfloatInRange(-150, 150));
+	TexturedSprite* test = new TexturedSprite(0, "test");
+	test->SetTexture(font->GetFontTexture());
+	test->SetPosition(0,0);
+	test->SetScale(1000, 800);
 	
 	test->PreCaclModel();
 	
-	zEngine->AddSceneObject(test);
+	zEngine->AddSceneObject(test);*/
 	
-
 	engine.MainLoop();
 }
 
