@@ -16,6 +16,7 @@ struct Glyph
 	Vector2D UVOffset; // un UV Coords [0-1]
 	Vector2D bearing; // in pixels
 	Vector2D size; // in pixels
+	Vector2D invScale; // in pixels
 	double advance; // in pixels
 	float uvAdvance; // in UV Coords
 };
@@ -27,8 +28,8 @@ private:
 	std::unordered_map<uint32_t, Glyph>* glyphMap;
 
 	FontResourceInternal* _data;
-	const char* sourcePath;
-	const char* zSourcePath;
+	std::string* sourcePath;
+	std::string* zSourcePath;
 
 	uint32_t	bmpResolution;
 

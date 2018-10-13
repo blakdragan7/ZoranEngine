@@ -199,16 +199,17 @@ void ZoranEngine::Setup2DScene(float centerx, float centery, float width, float 
 	mainPlayer->SetCameraSceneBuffer(frameBuffer);
 
 	ResourceManager man;
-	FontResource* font = man.FontForTTF("C:\\Windows\\Fonts\\arialbd.ttf", 72);
-	//font->CreateBMPForASCII("is");
+	FontResource* font = man.FontForZFT("arial.zft");
+	/*FontResource* font = man.FontForTTF("C:\\Windows\\Fonts\\arial.ttf", 72);
 	font->CreateBMPForASCII("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_-+=\\\"';:/?.>,<~` ");
+	font->SaveToFile("arial");*/
 
 	fr = rEngine->CreateFontRenderer();
 
 	Font* f = new Font();
 	f->fontResource = font;
-	f->renderStart.x = -100;
-	//fr->AddAsciiToRender("Ts", f);
+	f->renderStart.x = 800;
+	f->renderStart.y = 450;
 	fr->AddAsciiToRender("This Is a Test !", f);
 }
 
@@ -290,7 +291,7 @@ void ZoranEngine::DrawStep()
 		}
 	}
 
-	static Matrix44 screenMatrix = Matrix44::OrthoMatrix(0,0,mainWindow->GetSize().x, mainWindow->GetSize().y,-100,100);
+	static Matrix44 screenMatrix = Matrix44::OrthoMatrix(0, mainWindow->GetSize().x, 0 , mainWindow->GetSize().y,-100,100);
 
 	fr->RenderObject(screenMatrix);
 

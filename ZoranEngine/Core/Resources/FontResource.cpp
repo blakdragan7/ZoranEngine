@@ -2,7 +2,7 @@
 #include "FontResource.h"
 
 #include <fstream>
-
+#include <stdio.h>
 #include <ThirdParty/msdfgen/msdfgen.h>
 #include <ThirdParty/msdfgen/msdfgen-ext.h>
 
@@ -46,9 +46,13 @@ private:
 	friend class FontResource;
 };
 
-const std::string uvHeader = "zft_uv\n";
-const std::string bmpHeader = "zft_png\n";
-const std::string sourceHeader = "zft_source\n";
+const std::string resolutionHeader = "zft_resolution";
+const std::string zftHeader = "zft_version_1_0";
+const std::string sourceHeader = "zft_source";
+const std::string bmpHeader = "zft_png";
+const std::string uvHeader = "zft_uv";
+
+const unsigned numHeaders = 4;
 
 Glyph GlyphForShape(const Shape& shape, uint32_t uni, int resolution, double advance, float uvAdvance, Vector2 &scale);
 
@@ -57,6 +61,8 @@ FontResource::FontResource(uint32_t resolution)
 	_data = new FontResourceInternal();
 	glyphMap = new std::unordered_map<uint32_t, Glyph>();
 	bmpResolution = resolution;
+	sourcePath = new std::string;
+	zSourcePath = new std::string;
 }
 
 FontResource::~FontResource()
@@ -67,6 +73,8 @@ FontResource::~FontResource()
 		isLoaded = false;
 	}
 
+	delete zSourcePath;
+	delete sourcePath;
 	delete glyphMap;
 }
 
@@ -283,7 +291,7 @@ int FontResource::LoadFromFile(const std::string& file)
 	// we are loading a ttf file so we must generate the bmp for it
 	if (fileType == "ttf")
 	{
-		sourcePath = file.c_str();
+		*sourcePath = file.c_str();
 		FreetypeHandle* ft = initializeFreetype();
 		if (ft) 
 		{
@@ -303,7 +311,93 @@ int FontResource::LoadFromFile(const std::string& file)
 	// load already paresed fft file
 	else if (fileType == "zft")
 	{
-		zSourcePath = file.c_str();
+		*zSourcePath = file.c_str();
+
+		std::fstream fileS(file, std::ios::in | std::ios::binary);
+
+		std::string currentHeader;
+		std::getline(fileS, currentHeader, '\n');
+
+		if (currentHeader != zftHeader)
+		{
+			Log(LogLevel_Error, "File %s Does not Contain Correct Header !!\n",file);
+			zSourcePath->clear();
+
+			return RESOURCE_ERROR_ERROR_LOADING_FILE;
+		}
+
+		unsigned foundHeaders = 0;
+
+		while (fileS.eof() == false)
+		{
+			currentHeader.clear();
+			std::getline(fileS, currentHeader);
+
+			if (currentHeader == bmpHeader)
+			{
+				size_t size = 0;
+				fileS.read((char*)&size, sizeof(size_t));
+				char* cData = new char[size];
+				fileS.read(cData, size);
+
+				unsigned char* decoded = 0;
+				unsigned int w, h;
+
+				lodepng_decode_memory(&decoded, &w, &h, (unsigned char*)cData, size, LCT_RGB, 8);
+
+				fontTexture = rEngine->CreateTexture((void*)decoded, Render_Data_Type_RGB_24, Render_Data_Format_Unsigned_Byte, { (int)w,(int)h });
+
+				delete cData;
+				delete decoded;
+			}
+			else if (currentHeader == uvHeader)
+			{
+				size_t size = 0;
+				fileS.read((char*)&size, sizeof(size_t));
+
+				for (size_t i=0; i < size; i++)
+				{
+					Glyph glyph;
+					fileS.read((char*)&glyph, sizeof(Glyph));
+					glyphMap->insert({ glyph.glyph,glyph });
+				}
+			}
+			else if (currentHeader == sourceHeader)
+			{
+				std::getline(fileS, *sourcePath);
+			}
+			else if (currentHeader == resolutionHeader)
+			{
+				fileS.read((char*)&bmpResolution, sizeof(bmpResolution));
+			}
+			else if (currentHeader.empty())
+			{
+				continue;
+			}
+			else
+			{
+				Log(LogLevel_Error, "Invalid Line Loading %s\n", file);
+
+				zSourcePath->clear();
+				sourcePath->clear();
+				glyphMap->clear();
+
+				return RESOURCE_ERROR_ERROR_LOADING_FILE;
+			}
+
+			foundHeaders++;
+		}
+
+		if (foundHeaders != numHeaders)
+		{
+			Log(LogLevel_Error, "Didn't find all sections of file %s\n", file);
+
+			zSourcePath->clear();
+			sourcePath->clear();
+			glyphMap->clear();
+
+			return RESOURCE_ERROR_ERROR_LOADING_FILE;
+		}
 	}
 
 	isLoaded = true;
@@ -326,44 +420,56 @@ int FontResource::SaveToFile(const std::string & file)
 		filePath += ".zft";
 	}
 
-	std::string data = uvHeader;
+	std::string data = zftHeader + "\n";
 
-	for (auto iter : *glyphMap)
+	data += uvHeader + "\n";
 	{
-		uint32_t glyph = iter.first;
-		Vec2D uv = iter.second.UVOffset;
-		
-		char bytes[sizeof(glyph) + sizeof(uv)];
-		memcpy(bytes, &glyph, sizeof(glyph));
-		memcpy(bytes + sizeof(glyph), &uv, sizeof(uv));
+		size_t size = glyphMap->size();
+		data.append((const char*)&size, sizeof(size_t));
+		// for efficeicny
+		char bytes[sizeof(Glyph)];
 
-		data.append(bytes);
+		for (auto iter : *glyphMap)
+		{
+			Glyph glyph = iter.second;
+
+			memcpy(bytes, &glyph, sizeof(glyph));
+			data.append((char*)&glyph,sizeof(glyph));
+		}
+	}
+
+	data += resolutionHeader + "\n";
+	{
+		data.append((char*)&bmpResolution,sizeof(bmpResolution));
 		data += "\n";
 	}
 
-
-	data += bmpHeader;
-	
+	data += bmpHeader + "\n";
 	{
 		size_t outSize = 0;
 		unsigned char* bdata = 0;
 
 		encodePng(&bdata, &outSize, *_data->bitmapData);
 
+		data.append((const char*)&outSize,sizeof(outSize));
 		data.append(bdata, bdata + outSize);
 		data += "\n";
+
+		delete bdata;
 	}
 
-	data += sourceHeader;
-	data += sourcePath + std::string("\n");
+	data += sourceHeader + "\n";
+	{
+		data += *sourcePath + "\n";
+	}
 
-	zSourcePath = file.c_str();
+	*zSourcePath = filePath;
 
-	std::fstream fileh(zSourcePath,std::ios::out);
+	std::fstream files(*zSourcePath,std::ios::out | std::ios::trunc | std::ios::binary);
 
-	fileh.write(data.c_str(), data.size());
+	files.write(data.c_str(), data.size());
 
-	fileh.close();
+	files.close();
 
 	return RESOURCE_ERROR_NO_ERROR;
 
@@ -405,15 +511,16 @@ Glyph GlyphForShape(const Shape& shape, uint32_t uni, int resolution, double adv
 	Vector2 dims(r - l, t - b);
 
 	if (dims.x*frame.y < dims.y*frame.x) {
-		translate = Vector2D(.5*(frame.x / frame.y*dims.y - dims.x) - l, -b);
+		translate = Vector2D(.5f*(float)(frame.x / frame.y*dims.y - dims.x) - l, (float)-b);
 		scale = frame.y / dims.y ;
 	}
 	else {
-		translate = Vector2D(-l, .5*(frame.y / frame.x*dims.x - dims.y) - b);
+		translate = Vector2D(-l, .5f*(float)(frame.y / frame.x*dims.x - dims.y) - (float)b);
 		scale = frame.x / dims.x;
 	}
 
 	glyph.bearing = translate;
 	glyph.size = { (float)dims.x,(float)dims.y };
+	glyph.invScale =  1.0f / (float)scale.x;
 	return glyph;
 }

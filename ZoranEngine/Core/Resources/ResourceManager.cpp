@@ -17,3 +17,10 @@ FontResource * ResourceManager::FontForTTF(const char * ttf, uint32_t resolution
 	font->LoadFromFile(ttf);
 	return font;
 }
+
+FontResource * ResourceManager::FontForZFT(const char * zft)
+{
+	FontResource* font = new FontResource(0);
+	font->LoadFromFile(zft);
+	return font; return nullptr;
+}

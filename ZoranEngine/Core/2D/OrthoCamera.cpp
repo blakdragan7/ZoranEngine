@@ -18,21 +18,20 @@ OrthoCamera::~OrthoCamera()
 void OrthoCamera::ScreenResized(float screenWidth, float screenHeight)
 {
 	float aspect = screenHeight / screenWidth;
-	orthoModel = Matrix44::OrthoMatrix(-halfCameraExtents.x, -halfCameraExtents.y * aspect, halfCameraExtents.x, halfCameraExtents.y * aspect, -1, 10);
+	orthoModel = Matrix44::OrthoMatrix(-halfCameraExtents.x, halfCameraExtents.x, -halfCameraExtents.y * aspect, halfCameraExtents.y * aspect, -100, 100);
 	CalculateModelCache();
 }
 
 void OrthoCamera::ScreenResized(Vec2D Size)
 {
 	float aspect = Size.y / Size.x;
-	orthoModel = Matrix44::OrthoMatrix(-halfCameraExtents.x, -halfCameraExtents.y*aspect, halfCameraExtents.x, halfCameraExtents.y*aspect, -1, 10);
+	orthoModel = Matrix44::OrthoMatrix(-halfCameraExtents.x, halfCameraExtents.x, -halfCameraExtents.y * aspect, halfCameraExtents.y * aspect, -100, 10);
 	CalculateModelCache();
 }
 
 Vector2D OrthoCamera::GetCameraViewingExtentsAtZ(float z)
 {
 	return { halfCameraExtents.x, halfCameraExtents.y * screenSize.y / screenSize.x };
-	CalculateModelCache();
 }
 
 void OrthoCamera::CalculateModelCache()

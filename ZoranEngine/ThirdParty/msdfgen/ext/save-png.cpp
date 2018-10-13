@@ -30,13 +30,14 @@ bool savePng(const Bitmap<FloatRGB> &bitmap, const char *filename) {
 bool encodePng(unsigned char** data,size_t* size,const Bitmap<FloatRGB> &bitmap) {
 	std::vector<unsigned char> pixels(3 * bitmap.width()*bitmap.height());
 	std::vector<unsigned char>::iterator it = pixels.begin();
+	int inH = bitmap.height() - 1;
 	for (int y = bitmap.height() - 1; y >= 0; --y)
 		for (int x = 0; x < bitmap.width(); ++x) {
-			*it++ = clamp(int(bitmap(x, y).r * 0x100), 0xff);
-			*it++ = clamp(int(bitmap(x, y).g * 0x100), 0xff);
-			*it++ = clamp(int(bitmap(x, y).b * 0x100), 0xff);
+			*it++ = clamp(int(bitmap(x, inH - y).r * 0x100), 0xff);
+			*it++ = clamp(int(bitmap(x, inH - y).g * 0x100), 0xff);
+			*it++ = clamp(int(bitmap(x, inH - y).b * 0x100), 0xff);
 		}
-	return !lodepng_encode_memory(data, size, &pixels.at(0), bitmap.width(), bitmap.height(), LCT_RGB, 8);
+	return !lodepng_encode_memory(data, size, (unsigned char*)&pixels.at(0), bitmap.width(), bitmap.height(), LCT_RGB, 8);
 }
 
 }

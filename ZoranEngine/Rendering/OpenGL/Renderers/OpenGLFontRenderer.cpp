@@ -60,7 +60,7 @@ void OpenGLFontRenderer::RenderObject(const Matrix44 & cameraMatrix)
 
 void OpenGLFontRenderer::AddFontToRender(Font * font)
 {
-	static float scale = 5;
+	static float scale = 10;
 
 	FontRender* fr = new FontRender(font, context);
 
