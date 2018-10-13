@@ -31,14 +31,18 @@ public:
 		return mat;
 	}
 
-	static Matrix44 OrthoMatrix(float xmin, float ymin, float xmax, float ymax, float znear, float zfar)
+	static Matrix44 OrthoMatrix(float left, float right, float bottom, float top, float znear, float zfar)
 	{
-		Matrix44 orthoMatrix;
 
-		orthoMatrix[0] = 2.0f / (xmax-xmin);
-		orthoMatrix[5] = 2.0f / (ymax-ymin);
-		orthoMatrix[10] = -2.0f / (zfar - znear);
-		orthoMatrix[11] = (zfar + znear) / (zfar - znear);
+		Matrix44 orthoMatrix;
+		orthoMatrix.makeIdentity();
+
+		orthoMatrix(0,0) = 2.0f / (right - left);
+		orthoMatrix(1,1) = 2.0f / (top-bottom);
+		orthoMatrix(2,2) = -2.0f / (zfar-znear);
+		orthoMatrix(3,0) = -(right + left) / (right - left);
+		orthoMatrix(3,1) = -(top + bottom) / (top - bottom);
+		orthoMatrix(3,2) = -(zfar + znear) / (zfar - znear);
 
 		return orthoMatrix;
 	}
