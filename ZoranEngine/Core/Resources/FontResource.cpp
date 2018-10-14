@@ -54,7 +54,7 @@ const std::string uvHeader = "zft_uv";
 
 const unsigned numHeaders = 4;
 
-Glyph GlyphForShape(const Shape& shape, uint32_t uni, int resolution, double advance, float uvAdvance, Vector2 &scale);
+Glyph GlyphForShape(const Shape& shape, uint32_t uni, int resolution, double advance, float uvAdvance, Vector2 &translate, Vector2 &scale);
 
 FontResource::FontResource(uint32_t resolution)
 {
@@ -165,12 +165,12 @@ void FontResource::CreateBMPForGlyphs(const std::vector<uint32_t>& glyphs)
 			//           image width, height
 			Bitmap<FloatRGB>* msdf = new Bitmap<FloatRGB>(bmpResolution, bmpResolution);
 			
-			Vector2 scale;
+			Vector2 scale, translate;
 
-			Glyph glyph = GlyphForShape(shape, uni, bmpResolution, advance, 1.0f / (float)size_x, scale);
+			Glyph glyph = GlyphForShape(shape, uni, bmpResolution, advance, 1.0f / (float)size_x, translate, scale);
 
 			//                     range, scale, translation
-			generateMSDF(*msdf, shape, 4.0, scale, glyph.bearing);
+			generateMSDF(*msdf, shape, 4.0, scale, translate);
 
 			msdfs.push_back({ msdf ,{x,y} ,  glyph });
 
@@ -486,11 +486,11 @@ const char * FontResource::GetResourceDescription()const
 	return "FontResource - Wrapper for a loaded font that includes texture for rendering font and map of uv coords to each glyph";
 }
 
-Glyph GlyphForShape(const Shape& shape, uint32_t uni, int resolution, double advance, float uvAdvance, Vector2 &scale)
+Glyph GlyphForShape(const Shape& shape, uint32_t uni, int resolution, double advance, float uvAdvance, Vector2 &translate, Vector2 &scale)
 {
 	Glyph glyph;
 
-	glyph.advance = advance;
+	glyph.advance = advance / (double)resolution;
 	glyph.glyph = uni;
 	glyph.uvAdvance = uvAdvance;
 
@@ -502,30 +502,19 @@ Glyph GlyphForShape(const Shape& shape, uint32_t uni, int resolution, double adv
 
 	Vector2 frame(resolution, resolution);
 
-	Vector2D translate;
-
 	if (l >= r || b >= t)
 		l = 0, b = 0, r = 1, t = 1;
 	//if (frame.x <= 0 || frame.y <= 0)
 		//assert("Cannot fit the specified pixel range.");
 	Vector2 dims(r - l, t - b);
 
-	if (dims.x*frame.y < dims.y*frame.x) {
-		translate = Vector2D(.5f*(float)(frame.x / frame.y*dims.y - dims.x) - l, (float)-b);
-		scale = frame.y / dims.y ;
-	}
-	else {
-		translate = Vector2D(-l, .5f*(float)(frame.y / frame.x*dims.x - dims.y) - (float)b);
-		scale = frame.x / dims.x;
-	}
-
 	translate = Vector2D((float)-l, (float)-b);
 
 	//scale = frame.y / dims.y ;
 	scale = frame / dims;
 
-	glyph.bearing = translate;
-	glyph.size = { (float)dims.x,(float)dims.y };
+	glyph.bearing = { (float)translate.x / (float)resolution, (float)translate.y / (float)resolution };
+	glyph.size = { (float)dims.x / (float)resolution,(float)dims.y / (float)resolution };
 	glyph.invScale = { 1.0f / (float)scale.x, 1.0f / (float)scale.y };;
 	return glyph;
 }

@@ -199,10 +199,11 @@ void ZoranEngine::Setup2DScene(float centerx, float centery, float width, float 
 	mainPlayer->SetCameraSceneBuffer(frameBuffer);
 
 	ResourceManager man;
-	FontResource* font = man.FontForZFT("arial.zft");
-	//FontResource* font = man.FontForTTF("C:\\Windows\\Fonts\\arial.ttf", 72);
-	//font->CreateBMPForASCII("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_-+=\\\"';:/?.>,<~` ");
-	//font->SaveToFile("arial");
+	//FontResource* font = man.FontForZFT("arial.zft");
+	FontResource* font = man.FontForTTF("C:\\Windows\\Fonts\\arial.ttf", 72);
+	font->CreateBMPForASCII("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_-+=\\\"';:/?.>,<~` ");
+	//font->CreateBMPForASCII("a");
+	font->SaveToFile("arial");
 
 	fr = rEngine->CreateFontRenderer();
 
@@ -210,6 +211,7 @@ void ZoranEngine::Setup2DScene(float centerx, float centery, float width, float 
 	f->fontResource = font;
 	f->renderStart.x = 0;
 	f->renderStart.y = 450;
+	//fr->AddAsciiToRender("a", f);
 	fr->AddAsciiToRender("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_-+=\\\"';:/?.>,<~` ", f);
 }
 
