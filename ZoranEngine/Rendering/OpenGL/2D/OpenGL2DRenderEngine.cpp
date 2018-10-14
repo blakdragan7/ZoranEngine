@@ -140,6 +140,8 @@ void OpenGL2DRenderEngine::InitEngine(WindowHandle handle)
 	glGetIntegerv(GL_MAX_ARRAY_TEXTURE_LAYERS,&maxl);
 
 	Log(LogLevel_Verbose, "maxl %i", maxl);
+
+	context->EnableAlpha();
 }
 
 

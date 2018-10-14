@@ -60,7 +60,7 @@ void OpenGLFontRenderer::RenderObject(const Matrix44 & cameraMatrix)
 
 void OpenGLFontRenderer::AddFontToRender(Font * font)
 {
-	static float scale = 10;
+	static float scale = 1;
 
 	FontRender* fr = new FontRender(font, context);
 
@@ -87,7 +87,7 @@ void OpenGLFontRenderer::AddFontToRender(Font * font)
 		float u = glyph.UVOffset.x;
 		float v = glyph.UVOffset.y;
 
-		Vector2D bearing = -glyph.bearing;
+		Vector2D bearing = glyph.bearing;
 
 		float x = startX + (scale);
 		float y = startY - (bearing.y * scale);

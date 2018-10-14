@@ -519,8 +519,13 @@ Glyph GlyphForShape(const Shape& shape, uint32_t uni, int resolution, double adv
 		scale = frame.x / dims.x;
 	}
 
+	translate = Vector2D((float)-l, (float)-b);
+
+	//scale = frame.y / dims.y ;
+	scale = frame / dims;
+
 	glyph.bearing = translate;
 	glyph.size = { (float)dims.x,(float)dims.y };
-	glyph.invScale =  1.0f / (float)scale.x;
+	glyph.invScale = { 1.0f / (float)scale.x, 1.0f / (float)scale.y };;
 	return glyph;
 }
