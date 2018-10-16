@@ -48,6 +48,7 @@ public:
 	inline void TakeBench() { rootChain.TakeClock(); }
 
 	inline long long GetTotalNanoSeconds() { return rootChain.nanoseconds; }
+	float GetOneOverTotalSeconds();
 
 	void ImGuiDraw();
 

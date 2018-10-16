@@ -60,7 +60,9 @@ void OpenGLFontRenderer::RenderObject(const Matrix44 & cameraMatrix)
 
 void OpenGLFontRenderer::AddFontToRender(Font * font)
 {
-	static float scale = 100;
+	//TODO: optimize changed fonts
+
+	RemoveFontFromRender(font);
 
 	FontRender* fr = new FontRender(font, context);
 
@@ -68,6 +70,8 @@ void OpenGLFontRenderer::AddFontToRender(Font * font)
 
 	float startX = font->renderStart.x;
 	float startY = font->renderStart.y;
+
+	float scale = font->pptSize;
 
 	size_t i = 0;
 

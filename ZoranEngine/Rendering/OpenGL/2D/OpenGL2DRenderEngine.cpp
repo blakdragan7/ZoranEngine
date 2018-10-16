@@ -70,7 +70,7 @@ void OpenGL2DRenderEngine::DrawDebugGUI()
 
 	ImGui::Render();
 
-	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+	//ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
 void OpenGL2DRenderEngine::AddComponent(Visible2DComponent* component)

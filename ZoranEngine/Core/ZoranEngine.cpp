@@ -175,6 +175,8 @@ bool ZoranEngine::Init()
 	return true;
 }
 
+static Font* f;
+
 void ZoranEngine::Setup2DScene(float centerx, float centery, float width, float height)
 {
 	main2DRenderEngine = new OpenGL2DRenderEngine();
@@ -199,20 +201,20 @@ void ZoranEngine::Setup2DScene(float centerx, float centery, float width, float 
 	mainPlayer->SetCameraSceneBuffer(frameBuffer);
 
 	ResourceManager man;
-	//FontResource* font = man.FontForZFT("arial.zft");
-	FontResource* font = man.FontForTTF("C:\\Windows\\Fonts\\arial.ttf", 72);
-	font->CreateBMPForASCII("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_-+=\\\"';:/?.>,<~` ");
+	FontResource* font = man.FontForZFT("arial.zft");
+	//FontResource* font = man.FontForTTF("C:\\Windows\\Fonts\\arial.ttf", 72);
+	//font->CreateBMPForASCII("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_-+=\\\"';:/?.>,<~` ");
 	//font->CreateBMPForASCII("a");
-	font->SaveToFile("arial");
+	//font->SaveToFile("arial");
 
 	fr = rEngine->CreateFontRenderer();
 
-	Font* f = new Font();
+	f = new Font();
 	f->fontResource = font;
-	f->renderStart.x = 0;
-	f->renderStart.y = 450;
-	//fr->AddAsciiToRender("a", f);
-	fr->AddAsciiToRender("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_-+=\\\"';:/?.>,<~` ", f);
+	f->renderStart.x = 100;
+	f->renderStart.y = 900;
+	f->pptSize = 100;
+	
 }
 
 void ZoranEngine::Setup2DScene(Vector2D center, Vector2D size)
@@ -293,12 +295,16 @@ void ZoranEngine::DrawStep()
 		}
 	}
 
-	static Matrix44 screenMatrix = Matrix44::OrthoMatrix(0, mainWindow->GetSize().x, 0 , mainWindow->GetSize().y,-100,100);
+	DEBUG_TAKE_BENCH;
+
+	f->SetText("FPS: " + std::to_string(BenchMarker::Singleton()->GetOneOverTotalSeconds()));
+	//fr->AddAsciiToRender("a", f);
+	fr->AddFontToRender(f);
+
+	static Matrix44 screenMatrix = Matrix44::OrthoMatrix(0, (float)mainWindow->GetSize().x, 0, (float)mainWindow->GetSize().y, -100, 100);
 
 	fr->RenderObject(screenMatrix);
-
-	DEBUG_TAKE_BENCH
-
+		
 	GetRenderer()->DrawDebugGUI();
 }
 

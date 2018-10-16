@@ -20,6 +20,11 @@ BenchMarker::~BenchMarker()
 }
 
 
+float BenchMarker::GetOneOverTotalSeconds()
+{
+	return 1.0f / (float)(rootChain.nanoseconds / NANOSECONDS_PER_SECONDS);
+}
+
 void BenchMarker::ImGuiDraw()
 {
 	/*bool f = true;
