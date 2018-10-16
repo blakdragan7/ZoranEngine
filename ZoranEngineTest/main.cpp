@@ -38,9 +38,9 @@ static const float scale = 40.0f;
 
 int main(int argc, char* argv[])
 {
-	//Test2DSceneStuff();
+	Test2DSceneStuff();
 	//Test3DSceneStuff();
-	TestGUIStuff();
+	//TestGUIStuff();
 }
 
 void Test2DSceneStuff()
@@ -160,7 +160,7 @@ void TestGUIStuff()
 	TexturedSprite* test = new TexturedSprite(0, "test");
 	test->SetTexture(font->GetFontTexture());
 	test->SetPosition(0,0);
-	test->SetScale(1000, 800);
+	test->SetScale(500, -400);
 	
 	test->PreCaclModel();
 	
