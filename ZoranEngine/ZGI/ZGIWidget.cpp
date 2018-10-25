@@ -4,13 +4,16 @@
 
 void ZGIWidget::RecalculateModelCache()
 {
-	modelCache = translate * rotation * scale;
+	modelCache = translate * scale  * rotation;
 }
 
 ZGIWidget::ZGIWidget()
 {
+	modelCache.makeIdentity();
+	translate.makeIdentity();
+	rotation.makeIdentity();
+	scale.makeIdentity();
 }
-
 
 ZGIWidget::~ZGIWidget()
 {
@@ -18,15 +21,19 @@ ZGIWidget::~ZGIWidget()
 
 void ZGIWidget::SetSize(Vec2D size)
 {
-	scale.setScale({ size,1.0f });
+	Vector2D newSize = size / 2.0f;
+	newSize.y = -newSize.y;
+	scale.setScale({ newSize,1.0f });
+	this->size = size;
+	translate.setTranslate(position + (size / 2.0f));
 
 	RecalculateModelCache();
 }
 
 void ZGIWidget::SetPosition(Vec2D position)
 {
-	translate.setTranslate(position);
-
+	translate.setTranslate(position + (size / 2.0f));
+	this->position = position;
 	RecalculateModelCache();
 }
 

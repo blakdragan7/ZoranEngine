@@ -259,8 +259,6 @@
     <ClCompile Include="Utils\Statistics.cpp" />
     <ClCompile Include="Windows\WindowsThread.cpp" />
     <ClCompile Include="Windows\WindowsWindow.cpp" />
-    <ClCompile Include="ZGI\ZContainer.cpp" />
-    <ClCompile Include="ZGI\ZFrame.cpp" />
     <ClCompile Include="ZGI\ZGIBase.cpp" />
     <ClCompile Include="ZGI\ZGIGameVirtualWindow.cpp" />
     <ClCompile Include="ZGI\ZGIImageWidget.cpp" />
@@ -720,8 +718,6 @@
     <ClInclude Include="Version.h" />
     <ClInclude Include="Windows\WindowsThread.h" />
     <ClInclude Include="Windows\WindowsWindow.h" />
-    <ClInclude Include="ZGI\ZContainer.h" />
-    <ClInclude Include="ZGI\ZFrame.h" />
     <ClInclude Include="ZGI\ZGIBase.h" />
     <ClInclude Include="ZGI\ZGIGameVirtualWindow.h" />
     <ClInclude Include="ZGI\ZGIImageWidget.h" />

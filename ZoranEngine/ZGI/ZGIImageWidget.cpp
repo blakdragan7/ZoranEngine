@@ -23,7 +23,9 @@ void ZGIImageWidget::SetImage(const char * imagePath)
 {
 	if (image)TextureManager::GetInstance()->DestroyTexture(image);
 
-	image = TextureManager::GetInstance()->TextureForFilePath(imagePath);
+	image = TextureManager::GetInstance()->TextureForFilePath(imagePath, Render_Data_Type_RGBA_32);
+
+	SetSize(image->GetSize());
 }
 
 void ZGIImageWidget::SetImage(TextureBase * image)
@@ -31,6 +33,8 @@ void ZGIImageWidget::SetImage(TextureBase * image)
 	if (this->image)TextureManager::GetInstance()->DestroyTexture(this->image);
 
 	this->image = image;
+
+	SetSize(image->GetSize());
 }
 
 void ZGIImageWidget::ContainerResized(Vec2D newSize, Vec2D oldSize)
@@ -40,6 +44,7 @@ void ZGIImageWidget::ContainerResized(Vec2D newSize, Vec2D oldSize)
 
 void ZGIImageWidget::Render(const Matrix44 & projection)
 {
+	Matrix44 MVP = projection * modelCache;
 	if (image)image->UseTexture(0);
-	renderer->RenderObject(projection * modelCache);
+	renderer->RenderObject(MVP);
 }

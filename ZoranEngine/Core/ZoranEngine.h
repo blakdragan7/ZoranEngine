@@ -16,6 +16,7 @@ class ITickableObject;
 class PlayerInstanceBase;
 class AllocatorBase;
 class AudioEngineBase;
+class ResourceManager;
 
 class ZoranEngine_EXPORT ZoranEngine
 {
@@ -38,15 +39,14 @@ private:
 	AudioEngineBase* audioEngine;
 
 public:
-	AllocatorBase * defaultAllocator;
+	LoggerBase* logger;
+	ResourceManager* rm;
 
 	static bool canRenderDebug;
 
 public:
 	ZoranEngine();
 	~ZoranEngine();
-
-	LoggerBase* logger;
 
 	inline void StopRunning() { shouldRun = false; }
 
@@ -62,7 +62,7 @@ public:
 	void MouseEvent(MouseEventType,float value);
 	void MouseMove(float x,float y);
 	void ScreenResized(float width, float height);
-
+	// TODO: Eventually, these well be removed with a more custom way of choosing how the level is loaded
 	void Setup2DScene(float centerx, float centery, float width, float height); // in meters
 	void Setup2DScene(Vector2D center, Vector2D size); // in meters
 	void Setup3DScene(Vector3D center, Vector3D size, float fov,float nearp,float farp); // in meters
@@ -82,6 +82,7 @@ public:
 	inline RenderEngine3DBase* GetRenderer3D()const { return main3DRenderEngine; }
 	inline PhysicsEngine* GetPhysicsEngine()const { return physicsEngine; }
 	inline AudioEngineBase* GetAudioEngine()const { return audioEngine; }
+	inline WindowBase* GetMainWindow()const { return mainWindow; }
 
 	static inline ZoranEngine* Instance() { return instance; }
 

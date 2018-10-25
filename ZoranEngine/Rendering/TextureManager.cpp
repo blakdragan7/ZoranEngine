@@ -27,8 +27,8 @@ void TextureManager::DestroyTexture(TextureBase * texture)
 
 	if (iter != textureMap.end())
 	{
-		textureMap.erase(iter);
 		delete iter->second;
+		textureMap.erase(iter);
 	}
 }
 

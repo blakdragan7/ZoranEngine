@@ -180,17 +180,17 @@ Vector3D Matrix44::getTransform()
 
 void Matrix44::translate(const Vector3D& trans)
 {
-	operator()(0, 3) += trans.x;
-	operator()(1, 3) += trans.y;
-	operator()(2, 3) += trans.z;
+	operator()(3, 0) += trans.x;
+	operator()(3, 1) += trans.y;
+	operator()(3, 2) += trans.z;
 }
 
 
 void Matrix44::setTranslate(const Vector3D& trans)
 {
-	operator()(0, 3) = trans.x;
-	operator()(1, 3) = trans.y;
-	operator()(2, 3) = trans.z;
+	operator()(3, 0) = trans.x;
+	operator()(3, 1) = trans.y;
+	operator()(3, 2) = trans.z;
 }
 
 void Matrix44::scale(const Vector3D& scale)
@@ -256,13 +256,11 @@ Matrix44 Matrix44::inverse()const
 
 void Matrix44::print()
 {
-	std::cout << "Matrix: " << std::endl;
 	for (int i = 0; i<cols; i++)
 	{
-		std::cout << "Row: " << i << ": ";
 		for (int j = 0; j<rows; j++)
 		{
-			std::cout << c_array[(i*rows) + j] << " ";
+			std::cout << this->operator()(i,j) << " ";
 		}
 		std::cout << std::endl;
 	}

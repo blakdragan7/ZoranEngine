@@ -3,7 +3,7 @@
 
 class TextureBase;
 class GUIRenderer;
-class ZGIImageWidget : public ZGIWidget
+class ZoranEngine_EXPORT ZGIImageWidget : public ZGIWidget
 {
 private:
 	TextureBase * image;

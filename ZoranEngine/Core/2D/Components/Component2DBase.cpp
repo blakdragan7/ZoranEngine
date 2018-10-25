@@ -29,7 +29,7 @@ void Component2DBase::CalculateLocalMatrix()
 	Matrix44 translateMat = Matrix44::TranslationMatrix(offset);
 	Matrix44 rotationMat = Matrix44::RotationMatrix(-rotation, {0,0,1});
 
-	localMatrix = translateMat * rotationMat * scaleMat;
+	localMatrix = translateMat * scaleMat * rotationMat;
 }
 
 void Component2DBase::SetWorldLocation(float x, float y)

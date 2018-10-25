@@ -1,7 +1,7 @@
 #pragma once
 #include <ZGI\ZGIWidget.h>
 
-class ZGIPanel : public ZGIWidget
+class ZoranEngine_EXPORT ZGIPanel : public ZGIWidget
 {
 public:
 	ZGIPanel();

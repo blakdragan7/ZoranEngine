@@ -27,7 +27,7 @@ void ZGIVirtualViewport::WindowResized(Vec2I newWindowSize)
 void ZGIVirtualViewport::SetViewportActive(Vec2D globalOffset)
 {
 	
-	rEngine->SetViewport(globalOffset.x + position.x, globalOffset.y + position.y, size.w, size.h);
+	rEngine->SetViewport((int)(globalOffset.x + position.x), (int)(globalOffset.y + position.y), (int)size.w, (int)size.h);
 	
 }
 

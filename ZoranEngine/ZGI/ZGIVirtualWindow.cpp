@@ -35,6 +35,8 @@ void ZGIVirtualWindow::OSWindowWasResized(Vec2I newSize)
 void ZGIVirtualWindow::SetRootContent(ZGIWidget * widget)
 {
 	rootContent = widget;
+	rootContent->SetSize(viewport->GetSize());
+	rootContent->SetPosition({ 0,0 });
 }
 
 void ZGIVirtualWindow::AddSubWindow(ZGIVirtualWindow * subWindow)

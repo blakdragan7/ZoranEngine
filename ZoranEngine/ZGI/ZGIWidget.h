@@ -1,7 +1,7 @@
 #pragma once
 #include <ZGI\ZGIBase.h>
 
-class ZGIWidget : public ZGIBase
+class ZoranEngine_EXPORT ZGIWidget : public ZGIBase
 {
 protected:
 	Vector2D position;

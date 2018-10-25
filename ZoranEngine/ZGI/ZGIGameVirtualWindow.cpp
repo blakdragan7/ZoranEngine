@@ -19,7 +19,6 @@ ZGIGameVirtualWindow::ZGIGameVirtualWindow(Vec2D pos, Vec2D size, Vec2I OSWindow
 ZGIGameVirtualWindow::~ZGIGameVirtualWindow()
 {
 	if (player)delete player;
-	delete fullScreenProgram;
 	delete fullScreenRenderer;
 }
 
@@ -54,5 +53,5 @@ void ZGIGameVirtualWindow::RenderWindow(Vec2D globalOffset)
 
 void ZGIGameVirtualWindow::OSWindowWasResized(Vec2I newSize)
 {
-	if (player)player->WindowResizedView(newSize.w, newSize.h);
+	if (player)player->WindowResizedView((float)newSize.w, (float)newSize.h);
 }

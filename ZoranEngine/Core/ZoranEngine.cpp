@@ -21,8 +21,7 @@
 #include <Rendering/ShaderProgramBase.h>
 
 #include <Rendering/FrameBufferBase.h>
-
-#include <Rendering/OpenGL/2D/StandardShader2D.h>
+// TODO remove these and make a way for the user to decide which engine to use
 #include <Rendering/OpenGL/2D/OpenGL2DRenderEngine.h>
 #include <Rendering/OpenGL/3D/OpenGL3DRenderEngine.h>
 
@@ -33,12 +32,12 @@
 
 #include <iostream>
 
-#include "SceneObject.h"
+#include <Core/SceneObject.h>
 
-#include "Utils/VectorAddons.hpp"
+#include <Utils/VectorAddons.hpp>
 
-#include "Version.h"
-#include "Utils/ConsoleLogger.h"
+#include <Version.h>
+#include <Utils/ConsoleLogger.h>
 
 #include <Utils/Statistics.h>
 #include <ThirdParty/imgui/imgui.h>
@@ -75,8 +74,6 @@ ZoranEngine::ZoranEngine()
 	logger->SetLogLevel(LogLevel_Error);
 	step = false;
 
-	defaultAllocator = new CAllocator();
-
 	allSceneObjects = new std::vector<SceneObject*>();
 	allTickables = new std::vector<ITickableObject*>();
 }
@@ -97,8 +94,6 @@ ZoranEngine::~ZoranEngine()
 	if (main2DRenderEngine)delete main2DRenderEngine;
 	if (main3DRenderEngine)delete main3DRenderEngine;
 	if (mainWindow)delete mainWindow;
-
-	delete defaultAllocator;
 
 	delete logger;
 }

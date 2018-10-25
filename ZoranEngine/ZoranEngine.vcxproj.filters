@@ -585,12 +585,6 @@
     <ClCompile Include="Rendering\OpenGL\GUI\OpenGLFontShader.cpp">
       <Filter>ZoranEngine\Rendering\OpenGL\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="ZGI\ZContainer.cpp">
-      <Filter>ZoranEngine\ZGI</Filter>
-    </ClCompile>
-    <ClCompile Include="ZGI\ZFrame.cpp">
-      <Filter>ZoranEngine\ZGI</Filter>
-    </ClCompile>
     <ClCompile Include="ZGI\ZGIBase.cpp">
       <Filter>ZoranEngine\ZGI</Filter>
     </ClCompile>
@@ -1951,12 +1945,6 @@
     </ClInclude>
     <ClInclude Include="Rendering\Primitives.h">
       <Filter>ZoranEngine\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="ZGI\ZContainer.h">
-      <Filter>ZoranEngine\ZGI</Filter>
-    </ClInclude>
-    <ClInclude Include="ZGI\ZFrame.h">
-      <Filter>ZoranEngine\ZGI</Filter>
     </ClInclude>
     <ClInclude Include="ZGI\ZGIBase.h">
       <Filter>ZoranEngine\ZGI</Filter>
