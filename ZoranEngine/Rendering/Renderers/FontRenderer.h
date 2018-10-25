@@ -26,7 +26,16 @@ struct Font
 	/* overrides current glyphs and replaces them with contents of text */
 	void SetText(const std::wstring& text);
 	/* overrides current glyphs and replaces them with contents of text */
-	void SetFormat(const char* format,...);
+	template<typename ... Args>
+	void SetFormat(const char* format, Args ...args)
+	{
+		size_t size = snprintf(nullptr, 0, format, args ...) + 1; // Extra space for '\0'
+		char* buf = new char[size];
+		snprintf(buf, size, format, args ...);
+
+		SetText(buf);
+		delete[] buf;
+	}
 };
 
 class FontRenderer : public RenderedObjectBase

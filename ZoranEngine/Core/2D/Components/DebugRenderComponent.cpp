@@ -7,7 +7,7 @@
 
 DebugRenderComponent::DebugRenderComponent() : Visible2DComponent(200)
 {
-	shader = static_cast<DebugShader2D*>(rEngine->CreateShaderProgram<DebugShader2D>(DebugShader2D::initMap));
+	shader = static_cast<DebugShader2D*>(rEngine->CreateShaderProgram<DebugShader2D>());
 
 	renderedObject = rEngine->CreateSpriteRenderer();
 

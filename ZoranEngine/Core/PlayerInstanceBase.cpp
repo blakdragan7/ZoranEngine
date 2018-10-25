@@ -3,24 +3,22 @@
 
 #include <Core/CameraBase.h>
 
-PlayerInstanceBase::PlayerInstanceBase() : playerCamera(0)/*, playerGUI(0)*/
+PlayerInstanceBase::PlayerInstanceBase() : playerCamera(0)
 {
 }
 
-PlayerInstanceBase::PlayerInstanceBase(CameraBase * camera/*, SomGuiClass* gui*/) : playerCamera(camera)/*, playerGUI(gui)*/
+PlayerInstanceBase::PlayerInstanceBase(CameraBase * camera) : playerCamera(camera)
 {
 }
 
 PlayerInstanceBase::~PlayerInstanceBase()
 {
 	if (playerCamera)delete playerCamera;
-	/*if(playerGUI)delete playerGUI;*/
 }
 
 void PlayerInstanceBase::RenderPlayer()
 {
 	playerCamera->Render();
-	/*playerGUI->Render();*/
 }
 
 void PlayerInstanceBase::WindowResizedView(float w, float h)

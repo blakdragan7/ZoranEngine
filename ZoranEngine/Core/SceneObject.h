@@ -1,8 +1,8 @@
 #pragma once
 
 #include <mutex>
-#include "Core/TickableObject.h"
-#include <Math/Matrix44.hpp>
+#include <Interfaces/ITickableObject.h>
+#include <Math/Matrix44.h>
 /*
 *  Scene objects are objects that can be places in a level.
 *  They do not have to be renderable and do not have any render logic in them.
@@ -11,7 +11,7 @@ class VisibleComponentBase;
 class PhysicsObjectBase;
 class ComponentBase;
 
-class ZoranEngine_EXPORT SceneObject : public TickableObject
+class ZoranEngine_EXPORT SceneObject : public ITickableObject
 {
 protected:
 	ComponentBase * rootComponent;

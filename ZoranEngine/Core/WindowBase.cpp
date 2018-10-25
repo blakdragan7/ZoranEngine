@@ -1,17 +1,20 @@
 #include "stdafx.h"
 
 #include "WindowBase.h"
-#include "Rendering/RenderEngineBase.h"
+#include <ZGI/ZGIVirtualWindow.h>
+#include <Rendering/RenderEngineBase.h>
 
 WindowBase::WindowBase(ZoranEngine* zoranEngine)
 {
 	isFullScreen = false;
 	isMaximized = false;
 	windowHandle = 0;
+	rootVirtualWindow = 0;
 }
 
 WindowBase::~WindowBase()
 {
+	if (rootVirtualWindow)delete rootVirtualWindow;
 }
 
 void WindowBase::Resize(Vec2I size)
@@ -19,6 +22,7 @@ void WindowBase::Resize(Vec2I size)
 	SetWindowSizeNoExecute(size.w,size.h);
 	if(rEngine)rEngine->Resize(size.w, size.h);
 	zEngine->ScreenResized(static_cast<float>(size.w), static_cast<float>(size.h));
+	if (rootVirtualWindow)rootVirtualWindow->OSWindowWasResized(size);
 }
 
 void WindowBase::SetPosition(Vec2I position)
@@ -38,6 +42,13 @@ void WindowBase::MakeWindow(const char * title, Vec2I position, Vec2I size)
 
 void WindowBase::MainDraw()
 {
-	zEngine->DrawStep();
+	if (rootVirtualWindow)rootVirtualWindow->RenderWindow(Vector2I::Zero);
+	zEngine->DrawStep(); 
 	SwapBuffers();
+}
+
+void WindowBase::SetRootVirtualWindow(ZGIVirtualWindow * newWindow)
+{
+	if (rootVirtualWindow)delete rootVirtualWindow;
+	rootVirtualWindow = newWindow;
 }

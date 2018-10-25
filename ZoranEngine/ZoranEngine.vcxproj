@@ -48,6 +48,8 @@
     <None Include="Shaders\3D\standardNoTexture.vert" />
     <None Include="Shaders\GUI\font.frag" />
     <None Include="Shaders\GUI\font.vert" />
+    <None Include="Shaders\GUI\gui.frag" />
+    <None Include="Shaders\GUI\gui.vert" />
     <None Include="ThirdParty\assimp\color4.inl" />
     <None Include="ThirdParty\assimp\material.inl" />
     <None Include="ThirdParty\assimp\matrix3x3.inl" />
@@ -109,6 +111,7 @@
     <ClCompile Include="Core\ZoranEngine.cpp" />
     <ClCompile Include="Math\MathHelper.cpp" />
     <ClCompile Include="Math\MathLib.cpp" />
+    <ClCompile Include="Math\Matrix44.cpp" />
     <ClCompile Include="Math\Quaternion.cpp" />
     <ClCompile Include="Math\Vector2.cpp" />
     <ClCompile Include="Math\Vector3.cpp" />
@@ -140,6 +143,7 @@
     <ClCompile Include="Rendering\OpenGL\3D\StandardNoTextureShader.cpp" />
     <ClCompile Include="Rendering\OpenGL\3D\StandardShader3D.cpp" />
     <ClCompile Include="Rendering\OpenGL\GUI\OpenGLFontShader.cpp" />
+    <ClCompile Include="Rendering\OpenGL\GUI\OpenGLGUIShader.cpp" />
     <ClCompile Include="Rendering\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="Rendering\OpenGL\OpenGLFrameBuffer.cpp" />
     <ClCompile Include="Rendering\OpenGL\OpenGLVertexGroup.cpp" />
@@ -148,6 +152,7 @@
     <ClCompile Include="Rendering\OpenGL\OpenGLTexture.cpp" />
     <ClCompile Include="Rendering\OpenGL\OpenGLVertexArray.cpp" />
     <ClCompile Include="Rendering\OpenGL\Renderers\OpenGLFontRenderer.cpp" />
+    <ClCompile Include="Rendering\OpenGL\Renderers\OpenGLGUIRenderer.cpp" />
     <ClCompile Include="Rendering\OpenGL\Renderers\OpenGLLineLoopRenderer.cpp" />
     <ClCompile Include="Rendering\OpenGL\Renderers\OpenGLLineRenderer.cpp" />
     <ClCompile Include="Rendering\OpenGL\Renderers\OpenGLModelRenderer.cpp" />
@@ -161,6 +166,7 @@
     <ClCompile Include="Rendering\RenderEngine3DBase.cpp" />
     <ClCompile Include="Rendering\RenderEngineBase.cpp" />
     <ClCompile Include="Rendering\Renderers\FontRenderer.cpp" />
+    <ClCompile Include="Rendering\Renderers\GUIRenderer.cpp" />
     <ClCompile Include="Rendering\Renderers\LineLoopRenderer.cpp" />
     <ClCompile Include="Rendering\Renderers\LineRenderer.cpp" />
     <ClCompile Include="Rendering\Renderers\ModelRenderer.cpp" />
@@ -253,6 +259,16 @@
     <ClCompile Include="Utils\Statistics.cpp" />
     <ClCompile Include="Windows\WindowsThread.cpp" />
     <ClCompile Include="Windows\WindowsWindow.cpp" />
+    <ClCompile Include="ZGI\ZContainer.cpp" />
+    <ClCompile Include="ZGI\ZFrame.cpp" />
+    <ClCompile Include="ZGI\ZGIBase.cpp" />
+    <ClCompile Include="ZGI\ZGIGameVirtualWindow.cpp" />
+    <ClCompile Include="ZGI\ZGIImageWidget.cpp" />
+    <ClCompile Include="ZGI\ZGIPanel.cpp" />
+    <ClCompile Include="ZGI\ZGIUniformScalePanel.cpp" />
+    <ClCompile Include="ZGI\ZGIWidget.cpp" />
+    <ClCompile Include="ZGI\ZGIVirtualViewport.cpp" />
+    <ClCompile Include="ZGI\ZGIVirtualWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\2D\Camera2D.h" />
@@ -321,12 +337,14 @@
     <ClInclude Include="Core\Resources\ResourceManager.h" />
     <ClInclude Include="Core\SceneObject.h" />
     <ClInclude Include="Core\ThreadBase.h" />
-    <ClInclude Include="Core\TickableObject.h" />
     <ClInclude Include="Core\WindowBase.h" />
     <ClInclude Include="Core\ZoranEngine.h" />
+    <ClInclude Include="Interfaces\IJSONSerializable.h" />
+    <ClInclude Include="Interfaces\IStringSerializable.h" />
+    <ClInclude Include="Interfaces\ITickableObject.h" />
     <ClInclude Include="Math\MathHelpers.h" />
     <ClInclude Include="Math\MathLib.h" />
-    <ClInclude Include="Math\Matrix44.hpp" />
+    <ClInclude Include="Math\Matrix44.h" />
     <ClInclude Include="Math\Matrix22.hpp" />
     <ClInclude Include="Math\Quaternion.h" />
     <ClInclude Include="Math\Vector2.h" />
@@ -360,6 +378,7 @@
     <ClInclude Include="Rendering\OpenGL\3D\StandardNoTextureShader.h" />
     <ClInclude Include="Rendering\OpenGL\3D\StandardShader3D.h" />
     <ClInclude Include="Rendering\OpenGL\GUI\OpenGLFontShader.h" />
+    <ClInclude Include="Rendering\OpenGL\GUI\OpenGLGUIShader.h" />
     <ClInclude Include="Rendering\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="Rendering\OpenGL\OpenGLContext.h" />
     <ClInclude Include="Rendering\OpenGL\OpenGLFrameBuffer.h" />
@@ -368,6 +387,7 @@
     <ClInclude Include="Rendering\OpenGL\OpenGLTexture.h" />
     <ClInclude Include="Rendering\OpenGL\OpenGLVertexArray.h" />
     <ClInclude Include="Rendering\OpenGL\Renderers\OpenGLFontRenderer.h" />
+    <ClInclude Include="Rendering\OpenGL\Renderers\OpenGLGUIRenderer.h" />
     <ClInclude Include="Rendering\OpenGL\Renderers\OpenGLLineLoopRenderer.h" />
     <ClInclude Include="Rendering\OpenGL\Renderers\OpenGLLineRenderer.h" />
     <ClInclude Include="Rendering\OpenGL\Renderers\OpenGLModelRenderer.h" />
@@ -382,6 +402,7 @@
     <ClInclude Include="Rendering\RenderEngine3DBase.h" />
     <ClInclude Include="Rendering\RenderEngineBase.h" />
     <ClInclude Include="Rendering\Renderers\FontRenderer.h" />
+    <ClInclude Include="Rendering\Renderers\GUIRenderer.h" />
     <ClInclude Include="Rendering\Renderers\LineLoopRenderer.h" />
     <ClInclude Include="Rendering\Renderers\LineRenderer.h" />
     <ClInclude Include="Rendering\Renderers\ModelRenderer.h" />
@@ -506,6 +527,7 @@
     <ClInclude Include="ThirdParty\msdfgen\ext\save-png.h" />
     <ClInclude Include="ThirdParty\msdfgen\msdfgen-ext.h" />
     <ClInclude Include="ThirdParty\msdfgen\msdfgen.h" />
+    <ClInclude Include="ThirdParty\nlohmann\json.hpp" />
     <ClInclude Include="ThirdParty\tinyxml2\tinyxml2.h" />
     <ClInclude Include="ThirdParty\unicode\alphaindex.h" />
     <ClInclude Include="ThirdParty\unicode\appendable.h" />
@@ -698,6 +720,16 @@
     <ClInclude Include="Version.h" />
     <ClInclude Include="Windows\WindowsThread.h" />
     <ClInclude Include="Windows\WindowsWindow.h" />
+    <ClInclude Include="ZGI\ZContainer.h" />
+    <ClInclude Include="ZGI\ZFrame.h" />
+    <ClInclude Include="ZGI\ZGIBase.h" />
+    <ClInclude Include="ZGI\ZGIGameVirtualWindow.h" />
+    <ClInclude Include="ZGI\ZGIImageWidget.h" />
+    <ClInclude Include="ZGI\ZGIPanel.h" />
+    <ClInclude Include="ZGI\ZGIUniformScalePanel.h" />
+    <ClInclude Include="ZGI\ZGIWidget.h" />
+    <ClInclude Include="ZGI\ZGIVirtualViewport.h" />
+    <ClInclude Include="ZGI\ZGIVirtualWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ZoranEngine.rc" />

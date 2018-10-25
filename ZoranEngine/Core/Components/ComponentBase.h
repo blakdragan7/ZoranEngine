@@ -1,6 +1,6 @@
 #pragma once
 #include <Core/PlatformTypes.h>
-#include <Math/Matrix44.hpp>
+#include <Math/Matrix44.h>
 #include <vector>
 
 class RenderEngineBase;

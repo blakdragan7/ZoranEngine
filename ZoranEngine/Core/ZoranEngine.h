@@ -12,12 +12,10 @@ class RenderEngine2DBase;
 class RenderEngine3DBase;
 class PhysicsEngine;
 class SceneObject;
-class TickableObject;
+class ITickableObject;
 class PlayerInstanceBase;
 class AllocatorBase;
 class AudioEngineBase;
-class TriangleStripRenderer;
-class ShaderProgramBase;
 
 class ZoranEngine_EXPORT ZoranEngine
 {
@@ -25,10 +23,6 @@ private:
 	WindowBase* mainWindow;
 	RenderEngine2DBase* main2DRenderEngine;
 	RenderEngine3DBase* main3DRenderEngine;
-	TriangleStripRenderer* fullScreenRenderer;
-	ShaderProgramBase* fullScreenProgram;
-
-	PlayerInstanceBase* mainPlayer;
 
 	static ZoranEngine* instance;
 	bool shouldRun;
@@ -38,7 +32,7 @@ private:
 
 	PhysicsEngine* physicsEngine;
 
-	std::vector<TickableObject*>* allTickables;
+	std::vector<ITickableObject*>* allTickables;
 	std::vector<SceneObject*>* allSceneObjects;
 
 	AudioEngineBase* audioEngine;
@@ -75,14 +69,13 @@ public:
 
 	void DrawStep();
 
-	inline PlayerInstanceBase* GetMainPlayer() { return mainPlayer; }
 	// do not add scene objects or any subclass of scene objects this way, instead use AddSceneObject
-	void AddTickableObject(TickableObject* object);
+	void AddTickableObject(ITickableObject* object);
 	// add this scene object to the scene and updates it
 	void AddSceneObject(SceneObject* object);
 	// Scene Object MUST NEVER BE DELETED OUTSIDE OF THIS FUNCTION
 	void DestroySceneObject(SceneObject* object);
-	void RemoveTickableObject(TickableObject* object);
+	void RemoveTickableObject(ITickableObject* object);
 
 	inline RenderEngineBase* GetRenderer()const;
 	inline RenderEngine2DBase* GetRenderer2D()const { return main2DRenderEngine; }

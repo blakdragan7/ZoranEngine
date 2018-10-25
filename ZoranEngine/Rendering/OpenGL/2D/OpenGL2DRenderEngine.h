@@ -21,6 +21,7 @@ public:
 	OpenGL2DRenderEngine();
 	~OpenGL2DRenderEngine();
 
+	virtual void SetViewport(int x, int y, int width, int height)override;
 
 	virtual void ClearErrors()override;
 	virtual void EnableAlpha()override;
@@ -45,6 +46,7 @@ public:
 	virtual TriangleRenderer* CreateTriangleRenderer()override;
 	virtual TriangleStripRenderer* CreateTriangleStripRenderer()override;
 	virtual FontRenderer* CreateFontRenderer()override;
+	virtual GUIRenderer* CreateGUIRenderer()override;
 
 	virtual void DrawScene(const Matrix44& cameraMatrix)override;
 	virtual void DrawDebugGUI()override;

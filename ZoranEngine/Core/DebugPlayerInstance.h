@@ -8,6 +8,6 @@ protected:
 
 public:
 	DebugPlayerInstance();
-	DebugPlayerInstance(CameraBase* camera/*, SomGuiClass* gui*/);
+	DebugPlayerInstance(CameraBase* camera);
 	~DebugPlayerInstance();
 };

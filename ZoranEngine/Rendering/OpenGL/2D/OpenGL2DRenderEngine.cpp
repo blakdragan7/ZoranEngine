@@ -25,6 +25,7 @@
 #include <Rendering/OpenGL/Renderers/OpenGLQuadStripRenderer.h>
 #include <Rendering/OpenGL/Renderers/OpenGLTriangleStripRenderer.h>
 #include <Rendering/OpenGL/Renderers/OpenGLFontRenderer.h>
+#include <Rendering/OpenGL/Renderers/OpenGLGUIRenderer.h>
 
 #include <GL/glew.h>
 
@@ -38,6 +39,11 @@ OpenGL2DRenderEngine::~OpenGL2DRenderEngine()
 {
 	delete renderLayers;
 	if (context)delete context;
+}
+
+void OpenGL2DRenderEngine::SetViewport(int x, int y, int width, int height)
+{
+	context->Resize(x, y, width, height);
 }
 
 void OpenGL2DRenderEngine::DrawScene(const Matrix44& cameraMatrix)
@@ -180,7 +186,7 @@ void OpenGL2DRenderEngine::ClearBuffers()
 void OpenGL2DRenderEngine::Resize(int w, int h)
 {
 	if (context)
-		context->Resize(w, h);
+		context->Resize(0, 0, w, h);
 	else
 		Log(LogLevel_Error, "OpenGL Context Not Created While Calling Resize  !! \n");
 }
@@ -295,4 +301,9 @@ TriangleStripRenderer * OpenGL2DRenderEngine::CreateTriangleStripRenderer()
 FontRenderer * OpenGL2DRenderEngine::CreateFontRenderer()
 {
 	return context->CreateFontRenderer();
+}
+
+GUIRenderer * OpenGL2DRenderEngine::CreateGUIRenderer()
+{
+	return context->CreateGUIRenderer();
 }

@@ -1,11 +1,11 @@
 #pragma once
 
-#include <Core/TickableObject.h>
+#include <Interfaces/ITickableObject.h>
 
 #include <Core/Audio/Common.h>
 
 class AudioListener;
-class ZoranEngine_EXPORT SpeakerComponentBase : public TickableObject
+class ZoranEngine_EXPORT SpeakerComponentBase : public ITickableObject
 {
 private:
 	AudioListener * internalListener;

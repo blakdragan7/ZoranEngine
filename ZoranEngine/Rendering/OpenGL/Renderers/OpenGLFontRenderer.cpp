@@ -5,7 +5,7 @@
 #include <Rendering/OpenGL/GUI/OpenGLFontShader.h>
 #include <Core/Resources/FontResource.h>
 #include <Rendering/TextureBase.h>
-#include <Math/Matrix44.hpp>
+#include <Math/Matrix44.h>
 #include "OpenGLTriangleRenderer.h"
 
 class FontRender
@@ -38,7 +38,7 @@ FontRender * OpenGLFontRenderer::FindFont(Font* font)
 
 OpenGLFontRenderer::OpenGLFontRenderer(OpenGLContext * context) :  context(context)
 {
-	shader = static_cast<OpenGLFontShader*>(rEngine->CreateShaderProgram<OpenGLFontShader>(OpenGLFontShader::initMap));
+	shader = static_cast<OpenGLFontShader*>(rEngine->CreateShaderProgram<OpenGLFontShader>());
 }
 
 OpenGLFontRenderer::~OpenGLFontRenderer()

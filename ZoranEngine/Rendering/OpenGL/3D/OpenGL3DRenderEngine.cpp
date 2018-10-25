@@ -6,7 +6,6 @@
 
 #include <Core/3D/Components/Visible3DComponent.h>
 
-
 #include <ThirdParty/imgui/imgui.h>
 #include <ThirdParty/imgui/imgui_impl_opengl3.h>
 
@@ -24,6 +23,7 @@
 #include <Rendering/OpenGL/Renderers/OpenGLQuadStripRenderer.h>
 #include <Rendering/OpenGL/Renderers/OpenGLTriangleStripRenderer.h>
 #include <Rendering/OpenGL/Renderers/OpenGLFontRenderer.h>
+#include <Rendering/OpenGL/Renderers/OpenGLGUIRenderer.h>
 
 OpenGL3DRenderEngine::OpenGL3DRenderEngine()
 {
@@ -34,6 +34,11 @@ OpenGL3DRenderEngine::OpenGL3DRenderEngine()
 OpenGL3DRenderEngine::~OpenGL3DRenderEngine()
 {
 	delete renderMap;
+}
+
+void OpenGL3DRenderEngine::SetViewport(int x, int y, int width, int height)
+{
+	context->Resize(x, y, width, height);
 }
 
 void OpenGL3DRenderEngine::DrawScene(const Matrix44& cameraMatrix)
@@ -138,7 +143,7 @@ void OpenGL3DRenderEngine::ClearBuffers()
 void OpenGL3DRenderEngine::Resize(int w, int h)
 {
 	if (context)
-		context->Resize(w, h);
+		context->Resize(0, 0, w, h);
 	else
 		Log(LogLevel_Error, "OpenGL Context Not Created While Calling Resize  !! \n");
 }
@@ -252,4 +257,9 @@ TriangleStripRenderer * OpenGL3DRenderEngine::CreateTriangleStripRenderer()
 FontRenderer * OpenGL3DRenderEngine::CreateFontRenderer()
 {
 	return context->CreateFontRenderer();
+}
+
+GUIRenderer * OpenGL3DRenderEngine::CreateGUIRenderer()
+{
+	return context->CreateGUIRenderer();
 }

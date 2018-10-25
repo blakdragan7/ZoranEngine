@@ -16,7 +16,7 @@ StaticObjComponent::StaticObjComponent()
 
 	test->MakeFullScreenQuad();
 
-	ShaderProgramBase* program = rEngine->CreateShaderProgram<StandardNoTextureShader>(StandardNoTextureShader::initMap);
+	ShaderProgramBase* program = rEngine->CreateShaderProgram<StandardNoTextureShader>();
 
 	SetShaderProgram(program);
 }
@@ -29,7 +29,7 @@ StaticObjComponent::StaticObjComponent(const char * file)
 
 	test->MakeFullScreenQuad();
 
-	ShaderProgramBase* program = rEngine->CreateShaderProgram<StandardShader3D>(StandardShader3D::initMap);
+	ShaderProgramBase* program = rEngine->CreateShaderProgram<StandardShader3D>();
 
 	SetShaderProgram(program);
 

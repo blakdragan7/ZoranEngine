@@ -84,36 +84,38 @@ public:
 
 	~Vector2I(void);
 
-	Vector2I operator -(Vector2I other);
-	Vector2I operator +(Vector2I other);
-	Vector2I operator *(Vector2I other);
-	Vector2I operator /(Vector2I other);
-	Vector2I operator =(Vector2I other);
-	Vector2I operator -=(Vector2I other);
-	Vector2I operator +=(Vector2I other);
-	Vector2I operator *=(Vector2I other);
-	Vector2I operator /=(Vector2I other);
+	Vector2I operator -(const Vector2I& other)const;
+	Vector2I operator +(const Vector2I& other)const;
+	Vector2I operator *(const Vector2I& other)const;
+	Vector2I operator *(const Vector2D& other)const;
+	Vector2I operator /(const Vector2I& other)const;
+	Vector2I operator =(const Vector2I& other);
+	Vector2I operator -=(const Vector2I& other);
+	Vector2I operator +=(const Vector2I& other);
+	Vector2I operator *=(const Vector2I& other);
+	Vector2I operator /=(const Vector2I& other);
 
-	Vector2I operator -(int scalor);
-	Vector2I operator +(int scalor);
-	Vector2I operator *(int scalor);
-	Vector2I operator /(int scalor);
+	Vector2I operator -(int scalor)const;
+	Vector2I operator +(int scalor)const;
+	Vector2I operator *(int scalor)const;
+	Vector2I operator /(int scalor)const;
 	Vector2I operator -=(int scalor);
 	Vector2I operator +=(int scalor);
 	Vector2I operator *=(int scalor);
 	Vector2I operator /=(int scalor);
 	Vector2I operator =(int scalor);
 
-	Vector2I getAbs();
+	Vector2I getAbs()const;
 
-	bool operator ==(Vector2I other);
+	bool operator ==(const Vector2I& other)const;
 
-	float distance(Vector2I other);
+	float distance(const Vector2I& other)const;
 
-	float magnitude();
-	int distanceSquared(Vector2I other);
-	int perpDot(Vector2I other);
+	float magnitude()const;
+	int distanceSquared(const Vector2I& other)const;
+	int perpDot(const Vector2I& other)const;
 
+	static const Vector2I Zero;
 };
 
 

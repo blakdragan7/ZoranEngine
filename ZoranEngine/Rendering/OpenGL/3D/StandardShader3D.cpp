@@ -3,7 +3,7 @@
 
 #include <GL/glew.h>
 
-#include <Math/Matrix44.hpp>
+#include <Math/Matrix44.h>
 #include <Core/ZoranEngine.h>
 #include <Core/CameraBase.h>
 

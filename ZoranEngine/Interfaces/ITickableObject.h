@@ -1,6 +1,6 @@
 #pragma once
 
-class TickableObject
+class ITickableObject
 {
 public:
 	virtual void Tick(float deltaTime) = 0;

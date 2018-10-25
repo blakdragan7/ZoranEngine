@@ -18,5 +18,5 @@ public:
 
 	FontResource* FontForTTF(const char* ttf, uint32_t resolution = 32);
 	FontResource* FontForZFT(const char* zft);
-};
 
+};

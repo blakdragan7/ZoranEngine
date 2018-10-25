@@ -14,6 +14,7 @@ class OpenGLQuadStripRenderer;
 class OpenGLSpriteRenderer;
 class OpenGLTriangleRenderer;
 class OpenGLTriangleStripRenderer;
+class OpenGLGUIRenderer;
 class OpenGLContext
 {
 private:
@@ -28,7 +29,7 @@ public:
 	void DisableAlpha();
 	void EnableAlpha();
 	void ClearBuffers();
-	void Resize(int x, int y);
+	void Resize(int x, int y, int width, int height);
 
 	OpenGLTexture* CreateTexture(const char* path, RenderDataType bufferType, RenderDataFormat bufferFormat);
 	OpenGLTexture* CreateTexture(void* data, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2I size);
@@ -49,4 +50,5 @@ public:
 	OpenGLTriangleRenderer* CreateTriangleRenderer();
 	OpenGLTriangleStripRenderer* CreateTriangleStripRenderer();
 	OpenGLFontRenderer* CreateFontRenderer();
+	OpenGLGUIRenderer* CreateGUIRenderer();
 };

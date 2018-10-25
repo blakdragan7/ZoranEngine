@@ -10,7 +10,7 @@
 
 TexturedSpriteComponent::TexturedSpriteComponent(unsigned renderLayer) : Visible2DComponent(renderLayer)
 {
-	ShaderProgramBase* program = rEngine->CreateShaderProgram<StandardShader2D>(StandardShader2D::initMap);
+	ShaderProgramBase* program = rEngine->CreateShaderProgram<StandardShader2D>();
 
 	rEngine->EnableAlpha();
 
@@ -24,7 +24,7 @@ TexturedSpriteComponent::TexturedSpriteComponent(unsigned renderLayer, const cha
 {
 	this->texture = TextureManager::GetInstance()->TextureForFilePath(texture, type, format);
 
-	ShaderProgramBase* program = rEngine->CreateShaderProgram<StandardShader2D>(StandardShader2D::initMap);
+	ShaderProgramBase* program = rEngine->CreateShaderProgram<StandardShader2D>();
 
 	renderedObject = rEngine->CreateSpriteRenderer();
 

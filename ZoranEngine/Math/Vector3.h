@@ -23,6 +23,7 @@ public:
 
 	Vector3D(void);
 	Vector3D(const Vector2D& other);
+	Vector3D(const Vector2D& other, float z);
 	Vector3D(float x_, float y_, float z_);
 	Vector3D::~Vector3D(void);
 

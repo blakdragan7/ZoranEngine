@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include <Math/Matrix44.hpp>
+#include <Math/Matrix44.h>
 
 Matrix44 Matrix44::IdentityMatrix = Matrix44(true);
 

@@ -14,6 +14,8 @@ public:
 	OpenGL3DRenderEngine();
 	~OpenGL3DRenderEngine();
 
+	virtual void SetViewport(int x, int y, int width, int height)override;
+
 	virtual void ClearErrors()override;
 	virtual void EnableAlpha()override;
 	virtual void DisableAlpha()override;
@@ -45,5 +47,6 @@ public:
 	virtual TriangleRenderer* CreateTriangleRenderer()override;
 	virtual TriangleStripRenderer* CreateTriangleStripRenderer()override;
 	virtual FontRenderer* CreateFontRenderer()override;
+	virtual GUIRenderer* CreateGUIRenderer()override;
 };
 

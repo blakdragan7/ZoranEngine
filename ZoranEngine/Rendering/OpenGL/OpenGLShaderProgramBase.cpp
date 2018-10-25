@@ -3,7 +3,7 @@
 #include <GL/glew.h>
 #include <Math/Vector2.h>
 #include <Math/Vector3.h>
-#include <Math/Matrix44.hpp>
+#include <Math/Matrix44.h>
 #include <Rendering/RenderEngineBase.h>
 
 #include <fstream>

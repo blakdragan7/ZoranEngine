@@ -3,14 +3,16 @@
 #include <Utils/Random.h>
 #include <Core/ZoranEngine.h>
 #include <Core/WindowBase.h>
-#include <Core/TickableObject.h>
+#include <Interfaces/ITickableObject.h>
 #include <Core/2D/OrthoCamera.h>
 #include <Core/3D/PerspectiveCamera.h>
 #include <Physics/PhysicsEngine.h>
 #include <Windows/WindowsWindow.h>
 #include <Utils/HighPrecisionClock.h>
 
-#include <Math/Matrix44.hpp>
+#include <ZGI/ZGIGameVirtualWindow.h>
+
+#include <Math/Matrix44.h>
 
 #include <Rendering/TextureBase.h>
 
@@ -56,13 +58,10 @@ ZoranEngine* ZoranEngine::instance = 0;
 
 bool ZoranEngine::canRenderDebug = false;
 
-static FontRenderer* fr;
-
 ZoranEngine::ZoranEngine()
 {
 	main2DRenderEngine = 0;
 	main3DRenderEngine = 0;
-	fullScreenRenderer = 0;
 
 	is3D = false;
 	audioEngine = 0;
@@ -75,12 +74,11 @@ ZoranEngine::ZoranEngine()
 	logger = new ConsoleLogger();
 	logger->SetLogLevel(LogLevel_Error);
 	step = false;
-	mainPlayer = 0;
 
 	defaultAllocator = new CAllocator();
 
 	allSceneObjects = new std::vector<SceneObject*>();
-	allTickables = new std::vector<TickableObject*>();
+	allTickables = new std::vector<ITickableObject*>();
 }
 
 ZoranEngine::~ZoranEngine()
@@ -107,13 +105,13 @@ ZoranEngine::~ZoranEngine()
 
 int ZoranEngine::MainLoop()
 {
-	// Each Os will have it's own main loop
-	// should probably move these to there own functions
+	// Each OS will have it's own main loop
+	// TODO: move each OS implementation to there own functions
 #ifdef _WIN32
 	MSG       msg = { 0 };
 
 	double statistics = 0;
-	static HighPrecisionClock cl;
+	HighPrecisionClock cl;
 	cl.TakeClock();
 
 	while (WM_QUIT != msg.message && shouldRun)
@@ -175,18 +173,14 @@ bool ZoranEngine::Init()
 	return true;
 }
 
-static Font* f;
-
 void ZoranEngine::Setup2DScene(float centerx, float centery, float width, float height)
 {
 	main2DRenderEngine = new OpenGL2DRenderEngine();
 	main2DRenderEngine->InitEngine(mainWindow->GetHandle());
 
-	fullScreenProgram = main2DRenderEngine->CreateShaderProgram<StandardShader2D>(StandardShader2D::initMap);
-
 	physicsEngine->SetupFor2D({ centerx, centery }, { width, height });
 
-	mainPlayer = new DebugPlayerInstance(new OrthoCamera("camera", width, height, 0));
+	PlayerInstanceBase* mainPlayer = new DebugPlayerInstance(new OrthoCamera("camera", width, height, 0));
 	mainPlayer->TranslateView({ centerx, centery });
 	mainPlayer->WindowResizedView(mainWindow->GetSize());
 
@@ -200,21 +194,17 @@ void ZoranEngine::Setup2DScene(float centerx, float centery, float width, float 
 
 	mainPlayer->SetCameraSceneBuffer(frameBuffer);
 
+	ZGIGameVirtualWindow* vWindow = new ZGIGameVirtualWindow({ 0,0 }, mainWindow->GetSize(), mainWindow->GetSize());
+	vWindow->SetPlayerInstance(mainPlayer);
+	mainWindow->SetRootVirtualWindow(vWindow);
+	
 	ResourceManager man;
-	FontResource* font = man.FontForZFT("arial.zft");
+	//FontResource* font = man.FontForZFT("arial.zft");
 	//FontResource* font = man.FontForTTF("C:\\Windows\\Fonts\\arial.ttf", 72);
 	//font->CreateBMPForASCII("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_-+=\\\"';:/?.>,<~` ");
 	//font->CreateBMPForASCII("a");
 	//font->SaveToFile("arial");
 
-	fr = rEngine->CreateFontRenderer();
-
-	f = new Font();
-	f->fontResource = font;
-	f->renderStart.x = 100;
-	f->renderStart.y = 900;
-	f->pptSize = 100;
-	
 }
 
 void ZoranEngine::Setup2DScene(Vector2D center, Vector2D size)
@@ -222,11 +212,9 @@ void ZoranEngine::Setup2DScene(Vector2D center, Vector2D size)
 	main2DRenderEngine = new OpenGL2DRenderEngine();
 	main2DRenderEngine->InitEngine(mainWindow->GetHandle());
 
-	fullScreenProgram = main2DRenderEngine->CreateShaderProgram<StandardShader2D>(StandardShader2D::initMap);
-
 	physicsEngine->SetupFor2D(center, size);
 
-	mainPlayer = new DebugPlayerInstance(new OrthoCamera("camera", size.w, size.h, 0));
+	PlayerInstanceBase* mainPlayer = new DebugPlayerInstance(new OrthoCamera("camera", size.w, size.h, 0));
 	mainPlayer->TranslateView(center);
 	mainPlayer->WindowResizedView(mainWindow->GetSize());
 
@@ -239,6 +227,10 @@ void ZoranEngine::Setup2DScene(Vector2D center, Vector2D size)
 	});
 
 	mainPlayer->SetCameraSceneBuffer(frameBuffer);
+
+	ZGIGameVirtualWindow* vWindow = new ZGIGameVirtualWindow({ 0,0 }, mainWindow->GetSize(), mainWindow->GetSize());
+	vWindow->SetPlayerInstance(mainPlayer);
+	mainWindow->SetRootVirtualWindow(vWindow);
 }
 
 void ZoranEngine::Setup3DScene(Vector3D center, Vector3D size, float fov, float nearp, float farp)
@@ -247,11 +239,9 @@ void ZoranEngine::Setup3DScene(Vector3D center, Vector3D size, float fov, float 
 	main3DRenderEngine->InitEngine(mainWindow->GetHandle());
 	is3D = true;
 
-	fullScreenProgram = main3DRenderEngine->CreateShaderProgram<StandardShader2D>(StandardShader2D::initMap);
-
 	physicsEngine->SetupFor3D(center, size);
 	
-	mainPlayer = new DebugPlayerInstance(new PerspectiveCamera("camera", fov, size.x / size.y, nearp, farp));
+	PlayerInstanceBase* mainPlayer = new DebugPlayerInstance(new PerspectiveCamera("camera", fov, size.x / size.y, nearp, farp));
 	mainPlayer->TranslateView(center);
 	mainPlayer->WindowResizedView(mainWindow->GetSize());
 
@@ -264,48 +254,17 @@ void ZoranEngine::Setup3DScene(Vector3D center, Vector3D size, float fov, float 
 	});
 
 	mainPlayer->SetCameraSceneBuffer(frameBuffer);
+
+	ZGIGameVirtualWindow* vWindow = new ZGIGameVirtualWindow({ 0,0 }, mainWindow->GetSize(), mainWindow->GetSize(), true);
+	vWindow->SetPlayerInstance(mainPlayer);
+	mainWindow->SetRootVirtualWindow(vWindow);
 }
 
 void ZoranEngine::DrawStep()
 {
-	ImGui_ImplOpenGL3_NewFrame();
-	ImGui::NewFrame();
-
-	if (mainPlayer)
-	{
-		if(is3D)GetRenderer()->EnableDepthTesting();
-	
-		mainPlayer->RenderPlayer();
-
-		if (is3D)GetRenderer()->DisableDepthTesting();
-
-		if (const TextureBase* cameraTerxture = mainPlayer->GetPlayerCamera()->GetCameraTexture())
-		{
-			if (fullScreenRenderer == 0)
-			{
-				fullScreenRenderer = GetRenderer()->CreateTriangleStripRenderer();
-				fullScreenRenderer->MakeFullScreenQuad();
-			}
-
-			GetRenderer()->ClearBuffers();
-			fullScreenProgram->BindProgram();
-			fullScreenProgram->SetMatricies(Matrix44::IdentityMatrix, Matrix44::IdentityMatrix);
-			cameraTerxture->UseTexture(0);
-			fullScreenRenderer->RenderObject(Matrix44::IdentityMatrix);
-		}
-	}
-
 	DEBUG_TAKE_BENCH;
 
-	f->SetText("FPS: " + std::to_string(BenchMarker::Singleton()->GetOneOverTotalSeconds()));
-	//fr->AddAsciiToRender("a", f);
-	fr->AddFontToRender(f);
-
-	static Matrix44 screenMatrix = Matrix44::OrthoMatrix(0, (float)mainWindow->GetSize().x, 0, (float)mainWindow->GetSize().y, -100, 100);
-
-	fr->RenderObject(screenMatrix);
-		
-	GetRenderer()->DrawDebugGUI();
+	//GetRenderer()->DrawDebugGUI();
 }
 
 void ZoranEngine::KeyEvent(KeyEventType type, unsigned key)
@@ -351,10 +310,9 @@ void ZoranEngine::MouseMove(float x, float y)
 
 void ZoranEngine::ScreenResized(float width, float height)
 {
-	if(mainPlayer)mainPlayer->WindowResizedView(width, height);
 }
 
-void ZoranEngine::AddTickableObject(TickableObject * object)
+void ZoranEngine::AddTickableObject(ITickableObject * object)
 {
 	allTickables->push_back(object);
 }
@@ -371,7 +329,7 @@ void ZoranEngine::DestroySceneObject(SceneObject * object)
 	delete object;
 }
 
-void ZoranEngine::RemoveTickableObject(TickableObject * object)
+void ZoranEngine::RemoveTickableObject(ITickableObject * object)
 {
 	remove(*allTickables, object);
 }

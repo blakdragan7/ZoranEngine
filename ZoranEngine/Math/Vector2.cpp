@@ -4,7 +4,7 @@
 #include <math.h>
 
 const Vector2D Vector2D::Zero;
-
+const Vector2I Vector2I::Zero;
 
 Vector2D::Vector2D(void) : x(0), y(0) { }
 Vector2D::Vector2D(float x_, float y_) :x(x_), y(y_) { }
@@ -279,7 +279,7 @@ Vector2I::Vector2I(int x_, int y_) : x(x_), y(y_) { }
 
 Vector2I::~Vector2I(void) {}
 
-Vector2I Vector2I::operator -(Vector2I other)
+Vector2I Vector2I::operator -(const Vector2I& other)const
 {
 	Vector2I ret = *this;
 	ret.x -= other.x;
@@ -288,7 +288,7 @@ Vector2I Vector2I::operator -(Vector2I other)
 	return ret;
 }
 
-Vector2I Vector2I::operator +(Vector2I other)
+Vector2I Vector2I::operator +(const Vector2I& other)const
 {
 	Vector2I ret = *this;
 	ret.x += other.x;
@@ -297,7 +297,7 @@ Vector2I Vector2I::operator +(Vector2I other)
 	return ret;
 }
 
-Vector2I Vector2I::operator *(Vector2I other)
+Vector2I Vector2I::operator *(const Vector2I& other)const
 {
 	Vector2I ret = *this;
 	ret.x *= other.x;
@@ -306,7 +306,12 @@ Vector2I Vector2I::operator *(Vector2I other)
 	return ret;
 }
 
-Vector2I Vector2I::operator /(Vector2I other)
+Vector2I Vector2I::operator*(const Vector2D& other)const
+{
+	return Vector2I((int)((float)this->x * other.x),(int)((float)this->y * other.y));
+}
+
+Vector2I Vector2I::operator /(const Vector2I& other)const
 {
 	Vector2I ret = *this;
 	ret.x /= other.x;
@@ -315,7 +320,7 @@ Vector2I Vector2I::operator /(Vector2I other)
 	return ret;
 }
 
-Vector2I Vector2I::operator =(Vector2I other)
+Vector2I Vector2I::operator =(const Vector2I& other)
 {
 	x = other.x;
 	y = other.y;
@@ -323,7 +328,7 @@ Vector2I Vector2I::operator =(Vector2I other)
 	return *this;
 }
 
-Vector2I Vector2I::operator -=(Vector2I other)
+Vector2I Vector2I::operator -=(const Vector2I& other)
 {
 	x -= other.x;
 	y -= other.y;
@@ -331,7 +336,7 @@ Vector2I Vector2I::operator -=(Vector2I other)
 	return *this;
 }
 
-Vector2I Vector2I::operator +=(Vector2I other)
+Vector2I Vector2I::operator +=(const Vector2I& other)
 {
 	x += other.x;
 	y += other.y;
@@ -339,7 +344,7 @@ Vector2I Vector2I::operator +=(Vector2I other)
 	return *this;
 }
 
-Vector2I Vector2I::operator *=(Vector2I other)
+Vector2I Vector2I::operator *=(const Vector2I& other)
 {
 	x *= other.x;
 	y *= other.y;
@@ -347,7 +352,7 @@ Vector2I Vector2I::operator *=(Vector2I other)
 	return *this;
 }
 
-Vector2I Vector2I::operator /=(Vector2I other)
+Vector2I Vector2I::operator /=(const Vector2I& other)
 {
 	x /= other.x;
 	y /= other.y;
@@ -355,7 +360,7 @@ Vector2I Vector2I::operator /=(Vector2I other)
 	return *this;
 }
 
-Vector2I Vector2I::operator -(int scalor)
+Vector2I Vector2I::operator -(int scalor)const
 {
 	Vector2I ret = *this;
 	ret.x -= scalor;
@@ -364,7 +369,7 @@ Vector2I Vector2I::operator -(int scalor)
 	return ret;
 }
 
-Vector2I Vector2I::operator +(int scalor)
+Vector2I Vector2I::operator +(int scalor)const
 {
 	Vector2I ret = *this;
 	ret.x += scalor;
@@ -373,7 +378,7 @@ Vector2I Vector2I::operator +(int scalor)
 	return ret;
 }
 
-Vector2I Vector2I::operator *(int scalor)
+Vector2I Vector2I::operator *(int scalor)const
 {
 	Vector2I ret = *this;
 	ret.x *= scalor;
@@ -382,7 +387,7 @@ Vector2I Vector2I::operator *(int scalor)
 	return ret;
 }
 
-Vector2I Vector2I::operator /(int scalor)
+Vector2I Vector2I::operator /(int scalor)const
 {
 	Vector2I ret = *this;
 	ret.x /= scalor;
@@ -431,27 +436,27 @@ Vector2I Vector2I::operator =(int scalor)
 	return *this;
 }
 
-Vector2I Vector2I::getAbs()
+Vector2I Vector2I::getAbs()const
 {
 	return Vector2I(abs(x), abs(y));
 }
 
-bool Vector2I::operator ==(Vector2I other)
+bool Vector2I::operator ==(const Vector2I& other)const
 {
 	return other.x == x && other.y == y;
 }
 
-float Vector2I::magnitude()
+float Vector2I::magnitude()const
 {
 	return sqrtf(static_cast<float>((x*x) + (y*y)));
 }
 
-float Vector2I::distance(Vector2I other)
+float Vector2I::distance(const Vector2I& other)const
 {
 	return sqrtf(static_cast<float>(distanceSquared(other)));
 }
 
-int Vector2I::distanceSquared(Vector2I other)
+int Vector2I::distanceSquared(const Vector2I& other)const
 {
 	int dx = other.x - x;
 	int dy = other.y - y;
@@ -459,7 +464,7 @@ int Vector2I::distanceSquared(Vector2I other)
 	return (dx * x) + (dy*dy);
 }
 
-int Vector2I::perpDot(Vector2I other)
+int Vector2I::perpDot(const Vector2I& other)const
 {
 	return (x*other.y) - (y*other.x);
 }

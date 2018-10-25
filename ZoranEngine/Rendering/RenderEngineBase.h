@@ -24,7 +24,7 @@ class SpriteRenderer;
 class TriangleRenderer;
 class TriangleStripRenderer;
 class FontRenderer;
-
+class GUIRenderer;
 /* typedefs for dealing with shaders */
 typedef std::unordered_map<const ShaderInitMap*, ShaderProgramBase*> ShaderMap;
 typedef std::pair<const ShaderInitMap*, ShaderProgramBase*> ShaderMapPair;
@@ -40,6 +40,8 @@ public:
 	virtual ~RenderEngineBase();
 
 	virtual void InitEngine(WindowHandle handle) = 0;
+	/* Moves The Current NDC to this location winthin the window */
+	virtual void SetViewport(int x, int y, int width, int height) = 0;
 	/* Enables Checking the z Value for rendering and clipping */
 	virtual void EnableDepthTesting() = 0;
 	/* Disabled Checking the z value for rnedering and clipping */
@@ -52,10 +54,18 @@ public:
 	virtual void ClearBuffers() = 0;
 	/* draw every registered component */
 	virtual void DrawScene(const Matrix44& cameraMatrix) = 0;
+	/* Draw All GUI Objects */
+	/* All Gui Objects are agnostic to what owns them */
+	//virtual void DrawAllGUIs(const Matrix44& viewportMatrix) = 0;
 	/* Draw Debug GUI */
 	virtual void DrawDebugGUI() = 0;
 	/* resize viewport to screen */
 	virtual void Resize(int w, int h) = 0;
+
+	// GUI Handling
+
+	//virtual void AddGUIToRender();
+	//virtual void RemoveGUIFromRender();
 
 	// Create Rendereres
 
@@ -68,6 +78,7 @@ public:
 	virtual TriangleRenderer* CreateTriangleRenderer() = 0;
 	virtual TriangleStripRenderer* CreateTriangleStripRenderer() = 0;
 	virtual FontRenderer* CreateFontRenderer() = 0;
+	virtual GUIRenderer* CreateGUIRenderer() = 0;
 
 	// Creates Texture Memory on GPU and returns a texture object.
 	virtual TextureBase* CreateTexture(const char* path, RenderDataType bufferType, RenderDataFormat bufferFormat) = 0;
@@ -89,13 +100,13 @@ public:
 	*/
 
 	template<typename t>
-	ShaderProgramBase* CreateShaderProgram(const ShaderInitMap* map)
+	ShaderProgramBase* CreateShaderProgram()
 	{
-		ShaderProgramBase* program = ShaderProgramForMap(map);
+		ShaderProgramBase* program = ShaderProgramForMap(t::initMap);
 		if (program == NULL)
 		{
-			program = static_cast<ShaderProgramBase*>(new t(map));
-			RegisterShaderProgram(program, map);
+			program = static_cast<ShaderProgramBase*>(new t(t::initMap));
+			RegisterShaderProgram(program, t::initMap);
 		}
 		return program;
 	}

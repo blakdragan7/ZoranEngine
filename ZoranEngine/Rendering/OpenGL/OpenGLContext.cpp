@@ -22,6 +22,7 @@
 #include "Renderers/OpenGLQuadStripRenderer.h"
 #include "Renderers/OpenGLTriangleStripRenderer.h"
 #include "Renderers/OpenGLFontRenderer.h"
+#include "Renderers/OpenGLGUIRenderer.h"
 
 #include <Rendering/ShaderProgramBase.h>
 
@@ -132,9 +133,9 @@ void OpenGLContext::ClearBuffers()
 	CheckErrors("ClearBuffers");
 }
 
-void OpenGLContext::Resize(int x, int y)
+void OpenGLContext::Resize(int x, int y,int width, int height)
 {
-	glViewport(0, 0, x, y);
+	glViewport(x, y, width, height);
 	CheckErrors("glViewport");
 }
 
@@ -237,4 +238,9 @@ OpenGLTriangleStripRenderer * OpenGLContext::CreateTriangleStripRenderer()
 OpenGLFontRenderer * OpenGLContext::CreateFontRenderer()
 {
 	return new OpenGLFontRenderer(this);
+}
+
+OpenGLGUIRenderer * OpenGLContext::CreateGUIRenderer()
+{
+	return new OpenGLGUIRenderer(this);
 }

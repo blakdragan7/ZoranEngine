@@ -4,6 +4,7 @@
 #include <assert.h>
 
 #include <ThirdParty/imgui/imgui.h>
+#include <ThirdParty/imgui/imgui_impl_opengl3.h>
 
 typedef std::pair<std::string, BenchStatChain> StatMapPair;
 
@@ -85,6 +86,14 @@ void BenchMarker::AccumStatWithDepth(std::initializer_list<std::string> keys)
 {
 	std::list<std::string> keyList(keys);
 	rootChain.AccumClock(keyList);
+}
+
+void BenchMarker::StartBench()
+{
+	//ImGui_ImplOpenGL3_NewFrame();
+	//ImGui::NewFrame();
+
+	rootChain.StartClock();
 }
 
 std::string BenchMarker::serialze()const

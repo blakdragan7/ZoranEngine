@@ -17,7 +17,6 @@ class PlayerInstanceBase
 {
 protected:
 	CameraBase * playerCamera;
-	/*SomeGuiClass   playerGUI*/
 
 protected:
 	/* Call back for player controllers view frustrum being resized, generally because of a window resize. */
@@ -25,10 +24,10 @@ protected:
 
 public:
 	PlayerInstanceBase();
-	PlayerInstanceBase(CameraBase* camera/*, SomGuiClass* gui*/);
+	PlayerInstanceBase(CameraBase* camera);
 	virtual ~PlayerInstanceBase();
 
-	/* Renders the Player camera, and the player GUI */
+	/* Renders the Player camera */
 	virtual void RenderPlayer();
 	
 	void WindowResizedView(float w, float h);

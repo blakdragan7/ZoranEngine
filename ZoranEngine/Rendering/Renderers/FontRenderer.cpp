@@ -62,8 +62,3 @@ void Font::SetText(const std::wstring & text)
 		glyphs.push_back(c);
 	}
 }
-
-void Font::SetFormat(const char * format, ...)
-{
-	
-}

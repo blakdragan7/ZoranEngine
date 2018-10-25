@@ -7,10 +7,13 @@
 
 class ZoranEngine;
 class RenderEngineBase;
+class ZGIVirtualWindow;
 class ZoranEngine_EXPORT WindowBase
 {
 protected:
 	WindowHandle windowHandle;
+	ZGIVirtualWindow* rootVirtualWindow;
+
 	bool isFullScreen;
 	bool isMaximized;
 	Vector2I position;
@@ -38,6 +41,9 @@ public:
 	virtual inline WindowHandle GetHandle() { return windowHandle; }
 	virtual void SwapBuffers() = 0;
 	virtual void MainDraw();
+
+	inline ZGIVirtualWindow* GetRootVirtualWindow() { return rootVirtualWindow; }
+	void SetRootVirtualWindow(ZGIVirtualWindow* newWindow);
 
 	inline bool IsFullScreen() { return isFullScreen; };
 	inline bool IsMaxamized() { return isMaximized; };

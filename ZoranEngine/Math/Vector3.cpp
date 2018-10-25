@@ -7,6 +7,10 @@ Vector3D::Vector3D(void) :x(0), y(0), z(0) {}
 
 Vector3D::Vector3D(const Vector2D& other) :x(other.x), y(other.y), z(0) {}
 
+Vector3D::Vector3D(const Vector2D & other, float z) : x(other.x), y(other.y), z(z)
+{
+}
+
 Vector3D::Vector3D(float x_, float y_, float z_) :x(x_), y(y_), z(z_) {}
 
 Vector3D::Vector3D::~Vector3D(void) {}

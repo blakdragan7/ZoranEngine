@@ -44,7 +44,7 @@ public:
 	void TakeStatWithDepth(std::initializer_list<std::string> keys);
 	void AccumStatWithDepth(std::initializer_list<std::string> keys);
 
-	inline void StartBench() { rootChain.StartClock(); }
+	void StartBench();
 	inline void TakeBench() { rootChain.TakeClock(); }
 
 	inline long long GetTotalNanoSeconds() { return rootChain.nanoseconds; }
