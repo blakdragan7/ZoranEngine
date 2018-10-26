@@ -1,5 +1,5 @@
 #pragma once
-#include <ZGI\ZGIBase.h>
+#include <ZGI\Core\ZGIBase.h>
 
 class ZoranEngine_EXPORT ZGIWidget : public ZGIBase
 {

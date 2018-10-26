@@ -16,5 +16,5 @@ public:
 	~OpenGLGUIRenderer();
 
 	virtual void RenderObject(const Matrix44& cameraMatrix)override;
+	virtual ShaderProgramBase* GetShaderProgram()const override;
 };
-

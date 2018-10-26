@@ -79,3 +79,24 @@ void OpenGLBuffer::ReCreateBuiffer(void * data, size_t size, unsigned numCompone
 	this->bufferSize = size;
 	this->numComponents = numComponents;
 }
+
+void OpenGLBuffer::ClearBuffer()
+{
+	GLenum format;
+	GLenum type;
+
+	switch (numComponents)
+	{
+	case 1:
+		format = 
+	}
+
+	BindBuffer();
+	glClearBufferData(bufferType, format, format, type, 0);
+}
+
+void OpenGLBuffer::ClearBuffer(size_t offset, size_t size)
+{
+	BindBuffer();
+	glClearBufferSubData(bufferType, )
+}

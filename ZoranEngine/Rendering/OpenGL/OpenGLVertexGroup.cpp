@@ -86,6 +86,6 @@ OpenGLBuffer * OpenGLVertexGroup::GetBufferForAttr(unsigned attr)const
 	{
 		return iter->second;
 	}
-	Log(LogLevel_Error,"Trying To Access GL Buffer From Vertex Group that wasn't added !!\n");
+	Log(LogLevel_Warning,"Trying To Access GL Buffer From Vertex Group that wasn't added !!\n");
 	return nullptr;
 }

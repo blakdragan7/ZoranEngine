@@ -1,5 +1,5 @@
 #pragma once
-#include <ZGI\ZGIPanel.h>
+#include <ZGI\Panels\ZGIPanel.h>
 
 class ZoranEngine_EXPORT ZGIUniformScalePanel : public ZGIPanel
 {
@@ -13,10 +13,13 @@ public:
 	~ZGIUniformScalePanel();
 
 	/* Pannel Override */
-	virtual bool CanAddWidget(ZGIWidget* widget)override;
+	virtual bool CanAddWidget(ZGIWidget* widget)const override;
 	/* This assumes CanAddWidget was already called. Calling this in release mode without first checking CanAddWidget can result in a memory leak. */
 	virtual void AddWidget(ZGIWidget* widget)override;
 	virtual void RemoveWidget(ZGIWidget* widget)override;
+
+	virtual int GetNumberOfWidgets()const override;
+	virtual int GetMaxNumberOfWidgets()const override;
 
 	/* Widget Override */
 

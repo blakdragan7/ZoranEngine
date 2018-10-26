@@ -259,14 +259,14 @@
     <ClCompile Include="Utils\Statistics.cpp" />
     <ClCompile Include="Windows\WindowsThread.cpp" />
     <ClCompile Include="Windows\WindowsWindow.cpp" />
-    <ClCompile Include="ZGI\ZGIBase.cpp" />
-    <ClCompile Include="ZGI\ZGIGameVirtualWindow.cpp" />
-    <ClCompile Include="ZGI\ZGIImageWidget.cpp" />
-    <ClCompile Include="ZGI\ZGIPanel.cpp" />
-    <ClCompile Include="ZGI\ZGIUniformScalePanel.cpp" />
-    <ClCompile Include="ZGI\ZGIWidget.cpp" />
-    <ClCompile Include="ZGI\ZGIVirtualViewport.cpp" />
-    <ClCompile Include="ZGI\ZGIVirtualWindow.cpp" />
+    <ClCompile Include="ZGI\Core\ZGIBase.cpp" />
+    <ClCompile Include="ZGI\Core\ZGIGameVirtualWindow.cpp" />
+    <ClCompile Include="ZGI\Core\ZGIVirtualViewport.cpp" />
+    <ClCompile Include="ZGI\Core\ZGIVirtualWindow.cpp" />
+    <ClCompile Include="ZGI\Panels\ZGIPanel.cpp" />
+    <ClCompile Include="ZGI\Panels\ZGIUniformScalePanel.cpp" />
+    <ClCompile Include="ZGI\Widgets\ZGIImageWidget.cpp" />
+    <ClCompile Include="ZGI\Widgets\ZGIWidget.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\2D\Camera2D.h" />
@@ -718,14 +718,14 @@
     <ClInclude Include="Version.h" />
     <ClInclude Include="Windows\WindowsThread.h" />
     <ClInclude Include="Windows\WindowsWindow.h" />
-    <ClInclude Include="ZGI\ZGIBase.h" />
-    <ClInclude Include="ZGI\ZGIGameVirtualWindow.h" />
-    <ClInclude Include="ZGI\ZGIImageWidget.h" />
-    <ClInclude Include="ZGI\ZGIPanel.h" />
-    <ClInclude Include="ZGI\ZGIUniformScalePanel.h" />
-    <ClInclude Include="ZGI\ZGIWidget.h" />
-    <ClInclude Include="ZGI\ZGIVirtualViewport.h" />
-    <ClInclude Include="ZGI\ZGIVirtualWindow.h" />
+    <ClInclude Include="ZGI\Core\ZGIBase.h" />
+    <ClInclude Include="ZGI\Core\ZGIGameVirtualWindow.h" />
+    <ClInclude Include="ZGI\Core\ZGIVirtualViewport.h" />
+    <ClInclude Include="ZGI\Core\ZGIVirtualWindow.h" />
+    <ClInclude Include="ZGI\Panels\ZGIPanel.h" />
+    <ClInclude Include="ZGI\Panels\ZGIUniformScalePanel.h" />
+    <ClInclude Include="ZGI\Widgets\ZGIImageWidget.h" />
+    <ClInclude Include="ZGI\Widgets\ZGIWidget.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ZoranEngine.rc" />

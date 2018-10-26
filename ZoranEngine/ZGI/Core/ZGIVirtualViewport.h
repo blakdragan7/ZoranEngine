@@ -1,6 +1,6 @@
 #pragma once
 
-#include <ZGI/ZGIBase.h>
+#include <ZGI\Core\ZGIBase.h>
 
 class ZGIVirtualViewport : public ZGIBase
 {

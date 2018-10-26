@@ -1,5 +1,5 @@
 #pragma once
-#include <ZGI\ZGIVirtualWindow.h>
+#include <ZGI\Core\ZGIVirtualWindow.h>
 
 /*  
 *	ZGIGameVirtualWindow is the window that the game view is rendered in. Specifically,					* 

@@ -151,6 +151,15 @@
     <Filter Include="ZoranEngine\Interfaces">
       <UniqueIdentifier>{7bfe53d4-157f-43ea-8157-b719a782a344}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ZoranEngine\ZGI\Panels">
+      <UniqueIdentifier>{0c8e265b-fe4a-4b9d-a5e5-2e055df3c9bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\ZGI\Widgets">
+      <UniqueIdentifier>{c06e31ff-ecb5-46d9-9808-b5a91d963e36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZoranEngine\ZGI\Core">
+      <UniqueIdentifier>{bf2cfe13-e792-4790-acc6-a2b0a8d5d9c9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -585,29 +594,8 @@
     <ClCompile Include="Rendering\OpenGL\GUI\OpenGLFontShader.cpp">
       <Filter>ZoranEngine\Rendering\OpenGL\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="ZGI\ZGIBase.cpp">
-      <Filter>ZoranEngine\ZGI</Filter>
-    </ClCompile>
     <ClCompile Include="Math\Matrix44.cpp">
       <Filter>ZoranEngine\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="ZGI\ZGIWidget.cpp">
-      <Filter>ZoranEngine\ZGI</Filter>
-    </ClCompile>
-    <ClCompile Include="ZGI\ZGIVirtualViewport.cpp">
-      <Filter>ZoranEngine\ZGI</Filter>
-    </ClCompile>
-    <ClCompile Include="ZGI\ZGIVirtualWindow.cpp">
-      <Filter>ZoranEngine\ZGI</Filter>
-    </ClCompile>
-    <ClCompile Include="ZGI\ZGIUniformScalePanel.cpp">
-      <Filter>ZoranEngine\ZGI</Filter>
-    </ClCompile>
-    <ClCompile Include="ZGI\ZGIPanel.cpp">
-      <Filter>ZoranEngine\ZGI</Filter>
-    </ClCompile>
-    <ClCompile Include="ZGI\ZGIImageWidget.cpp">
-      <Filter>ZoranEngine\ZGI</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\Renderers\GUIRenderer.cpp">
       <Filter>ZoranEngine\Rendering\Renderers</Filter>
@@ -618,8 +606,29 @@
     <ClCompile Include="Rendering\OpenGL\GUI\OpenGLGUIShader.cpp">
       <Filter>ZoranEngine\Rendering\OpenGL\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="ZGI\ZGIGameVirtualWindow.cpp">
-      <Filter>ZoranEngine\ZGI</Filter>
+    <ClCompile Include="ZGI\Widgets\ZGIImageWidget.cpp">
+      <Filter>ZoranEngine\ZGI\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="ZGI\Widgets\ZGIWidget.cpp">
+      <Filter>ZoranEngine\ZGI\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="ZGI\Panels\ZGIPanel.cpp">
+      <Filter>ZoranEngine\ZGI\Panels</Filter>
+    </ClCompile>
+    <ClCompile Include="ZGI\Panels\ZGIUniformScalePanel.cpp">
+      <Filter>ZoranEngine\ZGI\Panels</Filter>
+    </ClCompile>
+    <ClCompile Include="ZGI\Core\ZGIBase.cpp">
+      <Filter>ZoranEngine\ZGI\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="ZGI\Core\ZGIGameVirtualWindow.cpp">
+      <Filter>ZoranEngine\ZGI\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="ZGI\Core\ZGIVirtualViewport.cpp">
+      <Filter>ZoranEngine\ZGI\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="ZGI\Core\ZGIVirtualWindow.cpp">
+      <Filter>ZoranEngine\ZGI\Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1946,26 +1955,8 @@
     <ClInclude Include="Rendering\Primitives.h">
       <Filter>ZoranEngine\Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="ZGI\ZGIBase.h">
-      <Filter>ZoranEngine\ZGI</Filter>
-    </ClInclude>
     <ClInclude Include="Math\Matrix44.h">
       <Filter>ZoranEngine\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="ZGI\ZGIWidget.h">
-      <Filter>ZoranEngine\ZGI</Filter>
-    </ClInclude>
-    <ClInclude Include="ZGI\ZGIVirtualViewport.h">
-      <Filter>ZoranEngine\ZGI</Filter>
-    </ClInclude>
-    <ClInclude Include="ZGI\ZGIVirtualWindow.h">
-      <Filter>ZoranEngine\ZGI</Filter>
-    </ClInclude>
-    <ClInclude Include="ZGI\ZGIUniformScalePanel.h">
-      <Filter>ZoranEngine\ZGI</Filter>
-    </ClInclude>
-    <ClInclude Include="ZGI\ZGIPanel.h">
-      <Filter>ZoranEngine\ZGI</Filter>
     </ClInclude>
     <ClInclude Include="ThirdParty\nlohmann\json.hpp">
       <Filter>ZoranEngine\ThirdParty\nlohmann</Filter>
@@ -1979,9 +1970,6 @@
     <ClInclude Include="Interfaces\ITickableObject.h">
       <Filter>ZoranEngine\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="ZGI\ZGIImageWidget.h">
-      <Filter>ZoranEngine\ZGI</Filter>
-    </ClInclude>
     <ClInclude Include="Rendering\Renderers\GUIRenderer.h">
       <Filter>ZoranEngine\Rendering\Renderers</Filter>
     </ClInclude>
@@ -1991,8 +1979,29 @@
     <ClInclude Include="Rendering\OpenGL\GUI\OpenGLGUIShader.h">
       <Filter>ZoranEngine\Rendering\OpenGL\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="ZGI\ZGIGameVirtualWindow.h">
-      <Filter>ZoranEngine\ZGI</Filter>
+    <ClInclude Include="ZGI\Widgets\ZGIImageWidget.h">
+      <Filter>ZoranEngine\ZGI\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="ZGI\Widgets\ZGIWidget.h">
+      <Filter>ZoranEngine\ZGI\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="ZGI\Panels\ZGIPanel.h">
+      <Filter>ZoranEngine\ZGI\Panels</Filter>
+    </ClInclude>
+    <ClInclude Include="ZGI\Panels\ZGIUniformScalePanel.h">
+      <Filter>ZoranEngine\ZGI\Panels</Filter>
+    </ClInclude>
+    <ClInclude Include="ZGI\Core\ZGIBase.h">
+      <Filter>ZoranEngine\ZGI\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="ZGI\Core\ZGIGameVirtualWindow.h">
+      <Filter>ZoranEngine\ZGI\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="ZGI\Core\ZGIVirtualViewport.h">
+      <Filter>ZoranEngine\ZGI\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="ZGI\Core\ZGIVirtualWindow.h">
+      <Filter>ZoranEngine\ZGI\Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

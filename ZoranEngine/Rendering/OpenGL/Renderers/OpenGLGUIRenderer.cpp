@@ -28,3 +28,8 @@ void OpenGLGUIRenderer::RenderObject(const Matrix44 & cameraMatrix)
 
 	internalRenderer->RenderObject(cameraMatrix);
 }
+
+ShaderProgramBase * OpenGLGUIRenderer::GetShaderProgram() const
+{
+	return shader;
+}

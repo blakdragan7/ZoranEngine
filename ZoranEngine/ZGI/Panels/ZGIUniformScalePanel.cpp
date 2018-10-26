@@ -12,7 +12,7 @@ ZGIUniformScalePanel::~ZGIUniformScalePanel()
 	if (content)delete content;
 }
 
-bool ZGIUniformScalePanel::CanAddWidget(ZGIWidget * widget)
+bool ZGIUniformScalePanel::CanAddWidget(ZGIWidget * widget)const
 {
 	return content == 0;
 }
@@ -38,6 +38,16 @@ void ZGIUniformScalePanel::RemoveWidget(ZGIWidget * widget)
 		delete content;
 		content = 0;
 	}
+}
+
+int ZGIUniformScalePanel::GetNumberOfWidgets() const
+{
+	return content == 0 ? 0 : 1;
+}
+
+int ZGIUniformScalePanel::GetMaxNumberOfWidgets() const
+{
+	return 1;
 }
 
 void ZGIUniformScalePanel::ContainerResized(Vec2D newSize, Vec2D oldSize)

@@ -1,5 +1,5 @@
 #pragma once
-#include <ZGI\ZGIWidget.h>
+#include <ZGI\Widgets\ZGIWidget.h>
 
 class TextureBase;
 class GUIRenderer;

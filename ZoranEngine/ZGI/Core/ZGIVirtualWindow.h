@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 
-#include <ZGI/ZGIBase.h>
+#include <ZGI\Core\ZGIBase.h>
 
 class ZGIVirtualViewport;
 class ZGIWidget;
