@@ -1,13 +1,19 @@
 #include "stdafx.h"
 #include "OpenGLLineLoopRenderer.h"
+#include <Rendering/RenderEngineBase.h>
 #include <Rendering/OpenGL/OpenGLVertexGroup.h>
 #include <Rendering/OpenGL/OpenGLBuffer.h>
 #include <Rendering/OpenGL/OpenGLContext.h>
+#include <Rendering/OpenGL/3D/StandardShader3D.h>
 #include <GL/glew.h>
+
+#include <Math/Matrix44.h>
 
 OpenGLLineLoopRenderer::OpenGLLineLoopRenderer(OpenGLContext * context) : context(context), isAddingSegments(false), LineLoopRenderer(DT_Dynamic)
 {
 	vertexGroup = new OpenGLVertexGroup(GL_LINE_LOOP, context);
+	shader = (OpenGLShaderProgramBase*)rEngine->CreateShaderProgram<StandardShader3D>();
+	SetLineWidth(200);
 }
 
 OpenGLLineLoopRenderer::~OpenGLLineLoopRenderer()
@@ -15,7 +21,7 @@ OpenGLLineLoopRenderer::~OpenGLLineLoopRenderer()
 	delete vertexGroup;
 }
 
-void OpenGLLineLoopRenderer::BeginLineAddingSegments()
+void OpenGLLineLoopRenderer::BeginAddingSegments()
 {
 	isAddingSegments = true;
 	segments.clear();
@@ -56,13 +62,18 @@ void OpenGLLineLoopRenderer::EndAddingSegments()
 	{
 		size_t floatSize = segments.size() * 2 * 3 * sizeof(float);
 
-		if (floatSize < buf->GetBufferSize())
+		if (floatSize <= buf->GetBufferSize())
 		{
-
+			buf->UpdateBuffer(data, 0, floatSize);
+		}
+		else
+		{
+			buf->ReCreateBuffer(data, floatSize, 3, GL_DYNAMIC_DRAW);
 		}
 	}
 
 	delete[] data;
+	vertexGroup->SetNumVerts((unsigned)segments.size() * 2);
 }
 
 void OpenGLLineLoopRenderer::AddSegment(const LineSegment & segment)
@@ -84,4 +95,11 @@ void OpenGLLineLoopRenderer::SetLineWidth(float width)
 const std::vector<LineSegment>& OpenGLLineLoopRenderer::GetLineSegments() const
 {
 	return segments;
+}
+
+void OpenGLLineLoopRenderer::RenderObject(const Matrix44 & cameraMatrix)
+{
+	shader->setUniformMat4("MVP", &cameraMatrix[0]);
+
+	vertexGroup->RenderObject();
 }

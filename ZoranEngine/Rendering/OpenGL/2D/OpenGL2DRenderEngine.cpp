@@ -260,8 +260,7 @@ LineRenderer * OpenGL2DRenderEngine::CreateLineRenderer()
 
 LineLoopRenderer * OpenGL2DRenderEngine::CreateLineLoopRenderer()
 {
-	//return new OpenGLLineLoopRenderer(this);
-	return 0;
+	return context->CreateLineLoopRenderer();
 }
 
 ModelRenderer * OpenGL2DRenderEngine::CreateModelRenderer()

@@ -38,7 +38,7 @@ struct Font
 	}
 };
 
-class FontRenderer : public RenderedObjectBase
+class ZoranEngine_EXPORT FontRenderer : public RenderedObjectBase
 {
 public:
 	FontRenderer();

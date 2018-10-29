@@ -19,7 +19,7 @@ public:
 
 	void BindBuffer();
 	void UpdateBuffer(void* data, size_t offset, size_t size);
-	void ReCreateBuiffer(void* data,size_t size, unsigned numComponents,unsigned usage);
+	void ReCreateBuffer(void* data,size_t size, unsigned numComponents,unsigned usage);
 	void ClearBuffer();
 	void ClearBuffer(size_t offset, size_t size);
 	inline unsigned GetNumComponents()const { return numComponents; }

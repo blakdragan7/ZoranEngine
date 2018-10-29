@@ -23,6 +23,7 @@ public:
 	~OpenGLVertexGroup();
 
 	inline void SetNumVerts(unsigned numVerts) { this->numVerts = numVerts; }
+	inline unsigned GetNumVerts() { return numVerts; }
 
 	void RenderObject();
 	void AddBufferForAttr(unsigned attr, unsigned type, void * data, unsigned numComponents, size_t size, unsigned usage);
@@ -30,5 +31,6 @@ public:
 	void SetElementBuffer(OpenGLBuffer* buffer);
 
 	OpenGLBuffer* GetBufferForAttr(unsigned attr)const;
+
 };
 

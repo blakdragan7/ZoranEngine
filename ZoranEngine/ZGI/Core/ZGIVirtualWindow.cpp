@@ -2,7 +2,7 @@
 #include "ZGIVirtualWindow.h"
 
 #include "ZGIVirtualViewport.h"
-#include "ZGIWIdget.h"
+#include <ZGI\Widgets\ZGIWidget.h>
 
 #include <Utils/VectorAddons.hpp>
 
@@ -29,6 +29,7 @@ ZGIVirtualWindow::~ZGIVirtualWindow()
 
 void ZGIVirtualWindow::OSWindowWasResized(Vec2I newSize)
 {
+	rootContent->ContainerResized(newSize, viewport->GetSize());
 	viewport->WindowResized(newSize);
 }
 

@@ -54,4 +54,6 @@ void ZGIGameVirtualWindow::RenderWindow(Vec2D globalOffset)
 void ZGIGameVirtualWindow::OSWindowWasResized(Vec2I newSize)
 {
 	if (player)player->WindowResizedView((float)newSize.w, (float)newSize.h);
+
+	ZGIVirtualWindow::OSWindowWasResized(newSize);
 }

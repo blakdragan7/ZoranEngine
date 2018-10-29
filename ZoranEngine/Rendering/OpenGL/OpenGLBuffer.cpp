@@ -41,7 +41,7 @@ OpenGLBuffer::OpenGLBuffer(unsigned bufferType, void* data, unsigned numComponen
 	glGenBuffers(1, &glBuffer);
 	context->CheckErrors("glGenBuffers");
 
-	ReCreateBuiffer(data, size, numComponents, usage);
+	ReCreateBuffer(data, size, numComponents, usage);
 }
 
 OpenGLBuffer::~OpenGLBuffer()
@@ -58,7 +58,7 @@ void OpenGLBuffer::BindBuffer()
 
 void OpenGLBuffer::UpdateBuffer(void * data, size_t offset, size_t size)
 {
-	if (size + offset < bufferSize - 1)
+	if (size + offset <= bufferSize)
 	{
 		glBufferSubData(bufferType, offset, size, data);
 		context->CheckErrors("glBufferSubData");
@@ -69,7 +69,7 @@ void OpenGLBuffer::UpdateBuffer(void * data, size_t offset, size_t size)
 	}
 }
 
-void OpenGLBuffer::ReCreateBuiffer(void * data, size_t size, unsigned numComponents, unsigned usage)
+void OpenGLBuffer::ReCreateBuffer(void * data, size_t size, unsigned numComponents, unsigned usage)
 {
 	BindBuffer();
 	glBufferData(bufferType, size, data, usage);
@@ -83,20 +83,49 @@ void OpenGLBuffer::ReCreateBuiffer(void * data, size_t size, unsigned numCompone
 void OpenGLBuffer::ClearBuffer()
 {
 	GLenum format;
-	GLenum type;
 
 	switch (numComponents)
 	{
 	case 1:
-		format = 
+		format = GL_R;
+		break;
+	case 2:
+		format = GL_RG;
+		break;
+	case 3:
+		format = GL_RGB;
+		break;
+	case 4:
+		format = GL_RGBA;
+		break;
 	}
 
 	BindBuffer();
-	glClearBufferData(bufferType, format, format, type, 0);
+	glClearBufferData(bufferType, format, format, GL_UNSIGNED_BYTE, 0);
+	context->CheckErrors("ClearBuffer");
 }
 
 void OpenGLBuffer::ClearBuffer(size_t offset, size_t size)
 {
+	GLenum format;
+
+	switch (numComponents)
+	{
+	case 1:
+		format = GL_R;
+		break;
+	case 2:
+		format = GL_RG;
+		break;
+	case 3:
+		format = GL_RGB;
+		break;
+	case 4:
+		format = GL_RGBA;
+		break;
+	}
+
 	BindBuffer();
-	glClearBufferSubData(bufferType, )
+	glClearBufferSubData(bufferType, format, offset, size, format, GL_UNSIGNED_BYTE, 0);
+	context->CheckErrors("ClearBuffer withOffset");
 }

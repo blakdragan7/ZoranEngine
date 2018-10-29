@@ -217,8 +217,7 @@ LineRenderer * OpenGL3DRenderEngine::CreateLineRenderer()
 
 LineLoopRenderer * OpenGL3DRenderEngine::CreateLineLoopRenderer()
 {
-	//return new OpenGLLineLoopRenderer(this);
-	return 0;
+	return context->CreateLineLoopRenderer();
 }
 
 ModelRenderer * OpenGL3DRenderEngine::CreateModelRenderer()

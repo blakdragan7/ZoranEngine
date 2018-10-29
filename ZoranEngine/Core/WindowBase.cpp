@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 #include "WindowBase.h"
-#include <ZGI/ZGIVirtualWindow.h>
+#include <ZGI/Core/ZGIVirtualWindow.h>
 #include <Rendering/RenderEngineBase.h>
 
 WindowBase::WindowBase(ZoranEngine* zoranEngine)
