@@ -5,6 +5,7 @@
 #include <Math/Vector3.h>
 #include <Math/Matrix44.h>
 #include <Rendering/RenderEngineBase.h>
+#include <Rendering/Primitives.h>
 
 #include <fstream>
 
@@ -230,6 +231,14 @@ void OpenGLShaderProgramBase::setUniform(const char* uniform, Vector3D* value)
 	engine->CheckErrors("");
 	GLuint loc = glGetUniformLocation(program, uniform);
 	glUniform3f(loc, value->x, value->y, value->z);
+	engine->CheckErrors("setUniform()");
+}
+
+void OpenGLShaderProgramBase::setUniform(const char * uniform, Color * value)
+{
+	engine->CheckErrors("");
+	GLuint loc = glGetUniformLocation(program, uniform);
+	glUniform4f(loc, value->r, value->g, value->b, value->a);
 	engine->CheckErrors("setUniform()");
 }
 

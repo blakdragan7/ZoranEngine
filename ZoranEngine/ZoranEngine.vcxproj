@@ -99,8 +99,6 @@
     <ClCompile Include="Core\Components\SpeakerComponentBase.cpp" />
     <ClCompile Include="Core\Components\VisibleComponentBase.cpp" />
     <ClCompile Include="Core\DebugPlayerInstance.cpp" />
-    <ClCompile Include="Core\Events\EventBase.cpp" />
-    <ClCompile Include="Core\Events\EventDispatcher.cpp" />
     <ClCompile Include="Core\PlayerInstanceBase.cpp" />
     <ClCompile Include="Core\Resources\FontResource.cpp" />
     <ClCompile Include="Core\Resources\ResourceBase.cpp" />
@@ -161,6 +159,7 @@
     <ClCompile Include="Rendering\OpenGL\Renderers\OpenGLSpriteRenderer.cpp" />
     <ClCompile Include="Rendering\OpenGL\Renderers\OpenGLTriangleStripRenderer.cpp" />
     <ClCompile Include="Rendering\OpenGL\Renderers\OpenGLTriangleRenderer.cpp" />
+    <ClCompile Include="Rendering\Primitives.cpp" />
     <ClCompile Include="Rendering\RenderedObjectBase.cpp" />
     <ClCompile Include="Rendering\RenderEngine2DBase.cpp" />
     <ClCompile Include="Rendering\RenderEngine3DBase.cpp" />
@@ -325,8 +324,7 @@
     <ClInclude Include="Core\Containers\ZDoubleLinkedList.h" />
     <ClInclude Include="Core\Containers\ZLinkedList.h" />
     <ClInclude Include="Core\DebugPlayerInstance.h" />
-    <ClInclude Include="Core\Events\EventBase.h" />
-    <ClInclude Include="Core\Events\EventDispatcher.h" />
+    <ClInclude Include="Core\MouseInstance.h" />
     <ClInclude Include="Core\PlatformTypes.h" />
     <ClInclude Include="Core\PlayerInstanceBase.h" />
     <ClInclude Include="Core\Resources\FontResource.h" />
@@ -338,6 +336,8 @@
     <ClInclude Include="Core\WindowBase.h" />
     <ClInclude Include="Core\ZoranEngine.h" />
     <ClInclude Include="Interfaces\IJSONSerializable.h" />
+    <ClInclude Include="Interfaces\IKeyboardEvents.h" />
+    <ClInclude Include="Interfaces\IMouseEventHandler.h" />
     <ClInclude Include="Interfaces\IStringSerializable.h" />
     <ClInclude Include="Interfaces\ITickableObject.h" />
     <ClInclude Include="Math\MathHelpers.h" />

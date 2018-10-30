@@ -85,6 +85,11 @@ int ZGIUniformScalePanel::GetMaxNumberOfWidgets() const
 	return 1;
 }
 
+ZGIWidget * ZGIUniformScalePanel::WidgetForPosition(Vec2D pos)
+{
+	return content->HitTest(pos) ? content : 0;
+}
+
 void ZGIUniformScalePanel::ContainerResized(Vec2D newSize, Vec2D oldSize)
 {
 	// TODO: some kind of anchering system

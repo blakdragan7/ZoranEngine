@@ -13,6 +13,8 @@ OpenGLGUIRenderer::OpenGLGUIRenderer(OpenGLContext * context) : context(context)
 	internalRenderer->MakeFullScreenQuad();
 
 	shader = (OpenGLGUIShader*)rEngine->CreateShaderProgram<OpenGLGUIShader>();
+
+	tint = Color::Blue;
 }
 
 
@@ -23,7 +25,10 @@ OpenGLGUIRenderer::~OpenGLGUIRenderer()
 
 void OpenGLGUIRenderer::RenderObject(const Matrix44 & cameraMatrix)
 {
+	shader->BindProgram();
+
 	shader->setUniformMat4("MVP", &cameraMatrix[0]);
+	shader->setUniform("tint", &tint);
 	shader->setUniform("image", 0);
 
 	internalRenderer->RenderObject(cameraMatrix);

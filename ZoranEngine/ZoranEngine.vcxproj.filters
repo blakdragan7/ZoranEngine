@@ -46,9 +46,6 @@
     <Filter Include="ZoranEngine\Core\Components">
       <UniqueIdentifier>{ad6f12ee-f78f-4834-857a-26ec39173167}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ZoranEngine\Core\Events">
-      <UniqueIdentifier>{01a019c5-0418-4383-81c8-39ef26085983}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ZoranEngine\ThirdParty\imgui">
       <UniqueIdentifier>{4b33207e-80aa-4cda-a8c2-9f8fce245340}</UniqueIdentifier>
     </Filter>
@@ -396,12 +393,6 @@
     <ClCompile Include="Core\Components\VisibleComponentBase.cpp">
       <Filter>ZoranEngine\Core\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Events\EventBase.cpp">
-      <Filter>ZoranEngine\Core\Events</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Events\EventDispatcher.cpp">
-      <Filter>ZoranEngine\Core\Events</Filter>
-    </ClCompile>
     <ClCompile Include="ThirdParty\imgui\imgui.cpp">
       <Filter>ZoranEngine\ThirdParty\imgui</Filter>
     </ClCompile>
@@ -629,6 +620,9 @@
     </ClCompile>
     <ClCompile Include="ZGI\Core\ZGIVirtualWindow.cpp">
       <Filter>ZoranEngine\ZGI\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Primitives.cpp">
+      <Filter>ZoranEngine\Rendering</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -895,12 +889,6 @@
     </ClInclude>
     <ClInclude Include="Core\Components\VisibleComponentBase.h">
       <Filter>ZoranEngine\Core\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Events\EventBase.h">
-      <Filter>ZoranEngine\Core\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Events\EventDispatcher.h">
-      <Filter>ZoranEngine\Core\Events</Filter>
     </ClInclude>
     <ClInclude Include="Core\Allocators\AllocatorBase.h">
       <Filter>ZoranEngine\Core\Allocators</Filter>
@@ -2002,6 +1990,15 @@
     </ClInclude>
     <ClInclude Include="ZGI\Core\ZGIVirtualWindow.h">
       <Filter>ZoranEngine\ZGI\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\MouseInstance.h">
+      <Filter>ZoranEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Interfaces\IMouseEventHandler.h">
+      <Filter>ZoranEngine\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Interfaces\IKeyboardEvents.h">
+      <Filter>ZoranEngine\Interfaces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

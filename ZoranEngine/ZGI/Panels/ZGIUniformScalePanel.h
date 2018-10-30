@@ -26,6 +26,8 @@ public:
 	virtual int GetNumberOfWidgets()const override;
 	virtual int GetMaxNumberOfWidgets()const override;
 
+	virtual ZGIWidget* WidgetForPosition(Vec2D pos)override;
+
 	/* Widget Override */
 
 	virtual void ContainerResized(Vec2D newSize, Vec2D oldSize)override;

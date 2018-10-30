@@ -43,3 +43,8 @@ void ZGIWidget::SetRotation(float rotation)
 
 	RecalculateModelCache();
 }
+
+bool ZGIWidget::HitTest(Vec2D pos)
+{
+	return (position.x <= pos.x && (position.x + size.w) >= pos.x && position.y <= pos.y && (position.y+size.h) >= pos.y);
+}

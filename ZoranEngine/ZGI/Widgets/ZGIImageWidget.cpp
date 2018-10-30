@@ -6,6 +6,7 @@
 #include <Rendering/Renderers/GUIRenderer.h>
 #include <Rendering/TextureManager.h>
 
+#include <Rendering/Primitives.h>
 
 ZGIImageWidget::ZGIImageWidget()
 {
@@ -47,4 +48,14 @@ void ZGIImageWidget::Render(const Matrix44 & projection)
 	Matrix44 MVP = projection * modelCache;
 	if (image)image->UseTexture(0);
 	renderer->RenderObject(MVP);
+}
+
+void ZGIImageWidget::MouseEnterd(const MouseInstance &)
+{
+	renderer->SetTint(Color::White);
+}
+
+void ZGIImageWidget::MouseLeft(const MouseInstance &)
+{
+	renderer->SetTint(Color::Transparent);
 }

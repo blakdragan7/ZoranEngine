@@ -16,6 +16,8 @@ class Matrix44;
 class Vector2I;
 class Vector2D;
 class Vector3D;
+class Color;
+
 class ZoranEngine_EXPORT ShaderProgramBase
 {
 protected:
@@ -36,6 +38,7 @@ public:
 	virtual void setUniform(const char* uniform, Vector2I* value) = 0;
 	virtual void setUniform(const char* uniform, Vector2D* value) = 0;
 	virtual void setUniform(const char* uniform, Vector3D* value) = 0;
+	virtual void setUniform(const char* uniform, Color* value) = 0;
 	virtual void setUniform(const char* uniform, float value1, float value2, float value3, float value4) = 0;
 	virtual void setUniformMat4(const char* uniform, const float *value) = 0;
 	virtual void setUniformMat2(const char * uniform, const float *value) = 0;
