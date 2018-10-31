@@ -2,10 +2,12 @@
 #include <vector>
 
 #include <ZGI\Core\ZGIBase.h>
+#include <Interfaces/IKeyboardEventHandler.h>
+#include <Interfaces/IMouseEventHandler.h>
 
 class ZGIVirtualViewport;
 class ZGIWidget;
-class ZoranEngine_EXPORT ZGIVirtualWindow : public ZGIBase
+class ZoranEngine_EXPORT ZGIVirtualWindow : public ZGIBase, public IKeyboardEventHandler, public IMouseEventHandler
 {
 private:
 	ZGIVirtualViewport * viewport;
@@ -35,5 +37,18 @@ public:
 	virtual void RenderWindow(Vec2D globalOffset);
 
 	inline ZGIVirtualViewport* GetViewport() { return viewport; }
+
+	/*IMouseEventHandler Defaults*/
+
+	virtual void MouseDown(const PlatformMouseBase *)override;
+	virtual void MouseMove(const PlatformMouseBase *)override;
+	virtual void MouseUp(const PlatformMouseBase *)override;
+
+	virtual void MouseEnterd(const PlatformMouseBase *)override;
+	virtual void MouseLeft(const PlatformMouseBase *)override;
+
+	/*IKeyboardEvents Defaults*/
+
+	virtual void KeyEvent(KeyEventType type, unsigned key)override;
 };
 

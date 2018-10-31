@@ -1,13 +1,13 @@
 #include "stdafx.h"
 #include "ZGIWidget.h"
-
+#include <Core/PlatformMouseBase.h>
 
 void ZGIWidget::RecalculateModelCache()
 {
 	modelCache = translate * scale  * rotation;
 }
 
-ZGIWidget::ZGIWidget()
+ZGIWidget::ZGIWidget() : mouseHasEntered(false)
 {
 	modelCache.makeIdentity();
 	translate.makeIdentity();
@@ -44,7 +44,37 @@ void ZGIWidget::SetRotation(float rotation)
 	RecalculateModelCache();
 }
 
-bool ZGIWidget::HitTest(Vec2D pos)
+ZGIWidget* ZGIWidget::HitTest(Vec2D pos)
 {
-	return (position.x <= pos.x && (position.x + size.w) >= pos.x && position.y <= pos.y && (position.y+size.h) >= pos.y);
+	return (position.x <= pos.x && (position.x + size.w) >= pos.x && position.y <= pos.y && (position.y+size.h) >= pos.y) ? this : 0;
+}
+
+void ZGIWidget::MouseMove(const PlatformMouseBase* m)
+{
+	if (m->GetAnyButtonIsPressed())
+	{
+		if (mouseHasEntered)
+		{
+			MouseLeft(m);
+			mouseHasEntered = false;
+		}
+		return;
+	}
+
+	if (mouseHasEntered == false)
+	{
+		if (HitTest(m->GetWindowSpacePosition()) == this)
+		{
+			mouseHasEntered = true;
+			MouseEnterd(m);
+		}
+	}
+	if (mouseHasEntered == true)
+	{
+		if (HitTest(m->GetWindowSpacePosition()) == 0)
+		{
+			mouseHasEntered = false;
+			MouseLeft(m);
+		}
+	}
 }

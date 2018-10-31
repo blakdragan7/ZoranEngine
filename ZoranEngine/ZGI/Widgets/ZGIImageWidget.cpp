@@ -50,12 +50,12 @@ void ZGIImageWidget::Render(const Matrix44 & projection)
 	renderer->RenderObject(MVP);
 }
 
-void ZGIImageWidget::MouseEnterd(const MouseInstance &)
+void ZGIImageWidget::MouseEnterd(const PlatformMouseBase *)
 {
-	renderer->SetTint(Color::White);
+	renderer->SetTint(Color::Blue);
 }
 
-void ZGIImageWidget::MouseLeft(const MouseInstance &)
+void ZGIImageWidget::MouseLeft(const PlatformMouseBase *)
 {
 	renderer->SetTint(Color::Transparent);
 }

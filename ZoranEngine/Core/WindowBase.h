@@ -8,6 +8,7 @@
 class ZoranEngine;
 class RenderEngineBase;
 class ZGIVirtualWindow;
+class PlatformMouseBase;
 class ZoranEngine_EXPORT WindowBase
 {
 protected:
@@ -18,6 +19,7 @@ protected:
 	bool isMaximized;
 	Vector2I position;
 	Vector2I size;
+	PlatformMouseBase* m;
 
 protected:
 	void inline SetWindowPosNoExecute(int x, int y) { position.x = x; position.y = y; }

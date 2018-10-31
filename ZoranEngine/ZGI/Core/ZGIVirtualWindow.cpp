@@ -90,3 +90,33 @@ void ZGIVirtualWindow::RenderWindow(Vec2D globalOffset)
 		subWindow->RenderWindow(newOffset);
 	}
 }
+
+void ZGIVirtualWindow::MouseDown(const PlatformMouseBase *m)
+{
+	rootContent->MouseDown(m);
+}
+
+void ZGIVirtualWindow::MouseMove(const PlatformMouseBase *m)
+{
+	rootContent->MouseMove(m);
+}
+
+void ZGIVirtualWindow::MouseUp(const PlatformMouseBase *m)
+{
+	rootContent->MouseUp(m);
+}
+
+void ZGIVirtualWindow::MouseEnterd(const PlatformMouseBase *m)
+{
+	rootContent->MouseEnterd(m);
+}
+
+void ZGIVirtualWindow::MouseLeft(const PlatformMouseBase *m)
+{
+	rootContent->MouseLeft(m);
+}
+
+void ZGIVirtualWindow::KeyEvent(KeyEventType type, unsigned key)
+{
+	rootContent->KeyEvent(type, key);
+}

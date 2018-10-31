@@ -99,6 +99,7 @@
     <ClCompile Include="Core\Components\SpeakerComponentBase.cpp" />
     <ClCompile Include="Core\Components\VisibleComponentBase.cpp" />
     <ClCompile Include="Core\DebugPlayerInstance.cpp" />
+    <ClCompile Include="Core\PlatformMouseBase.cpp" />
     <ClCompile Include="Core\PlayerInstanceBase.cpp" />
     <ClCompile Include="Core\Resources\FontResource.cpp" />
     <ClCompile Include="Core\Resources\ResourceBase.cpp" />
@@ -256,6 +257,7 @@
     <ClCompile Include="Utils\LoggerBase.cpp" />
     <ClCompile Include="Utils\Random.cpp" />
     <ClCompile Include="Utils\Statistics.cpp" />
+    <ClCompile Include="Windows\WindowsMouse.cpp" />
     <ClCompile Include="Windows\WindowsThread.cpp" />
     <ClCompile Include="Windows\WindowsWindow.cpp" />
     <ClCompile Include="ZGI\Core\ZGIBase.cpp" />
@@ -324,7 +326,7 @@
     <ClInclude Include="Core\Containers\ZDoubleLinkedList.h" />
     <ClInclude Include="Core\Containers\ZLinkedList.h" />
     <ClInclude Include="Core\DebugPlayerInstance.h" />
-    <ClInclude Include="Core\MouseInstance.h" />
+    <ClInclude Include="Core\PlatformMouseBase.h" />
     <ClInclude Include="Core\PlatformTypes.h" />
     <ClInclude Include="Core\PlayerInstanceBase.h" />
     <ClInclude Include="Core\Resources\FontResource.h" />
@@ -336,7 +338,7 @@
     <ClInclude Include="Core\WindowBase.h" />
     <ClInclude Include="Core\ZoranEngine.h" />
     <ClInclude Include="Interfaces\IJSONSerializable.h" />
-    <ClInclude Include="Interfaces\IKeyboardEvents.h" />
+    <ClInclude Include="Interfaces\IKeyboardEventHandler.h" />
     <ClInclude Include="Interfaces\IMouseEventHandler.h" />
     <ClInclude Include="Interfaces\IStringSerializable.h" />
     <ClInclude Include="Interfaces\ITickableObject.h" />
@@ -716,6 +718,7 @@
     <ClInclude Include="Utils\StringAddons.hpp" />
     <ClInclude Include="Utils\VectorAddons.hpp" />
     <ClInclude Include="Version.h" />
+    <ClInclude Include="Windows\WindowsMouse.h" />
     <ClInclude Include="Windows\WindowsThread.h" />
     <ClInclude Include="Windows\WindowsWindow.h" />
     <ClInclude Include="ZGI\Core\ZGIBase.h" />

@@ -4,15 +4,15 @@
 	Mouse Events require implementation of these events
 */
 
-class MouseInstance;
+class PlatformMouseBase;
 class ZoranEngine_EXPORT IMouseEventHandler
 {
 public:
-	virtual void MouseDown(const MouseInstance&) = 0;
-	virtual void MouseMove(const MouseInstance&) = 0;
-	virtual void MouseUp(const MouseInstance&) = 0;
+	virtual void MouseDown(const PlatformMouseBase*) = 0;
+	virtual void MouseMove(const PlatformMouseBase*) = 0;
+	virtual void MouseUp(const PlatformMouseBase*) = 0;
 
 	// mouse
-	virtual void MouseEnterd(const MouseInstance&) = 0;
-	virtual void MouseLeft(const MouseInstance&) = 0;
+	virtual void MouseEnterd(const PlatformMouseBase*) = 0;
+	virtual void MouseLeft(const PlatformMouseBase*) = 0;
 };

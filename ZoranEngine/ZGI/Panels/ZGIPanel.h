@@ -16,4 +16,8 @@ public:
 
 	// Generally, calls hittest on every widget with pos and returns the first to return true or 0 if none do
 	virtual ZGIWidget* WidgetForPosition(Vec2D pos) = 0;
+
+	// widget override
+	virtual ZGIWidget* HitTest(Vec2D pos)override;
+	virtual void MouseMove(const PlatformMouseBase* m)override;
 };

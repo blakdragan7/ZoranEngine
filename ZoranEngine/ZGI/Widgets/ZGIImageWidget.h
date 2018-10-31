@@ -21,8 +21,8 @@ public:
 	virtual void ContainerResized(Vec2D newSize, Vec2D oldSize)override;
 	virtual void Render(const Matrix44& projection)override;
 
-	virtual void MouseEnterd(const MouseInstance&)override;
-	virtual void MouseLeft(const MouseInstance&)override;
+	virtual void MouseEnterd(const PlatformMouseBase *)override;
+	virtual void MouseLeft(const PlatformMouseBase *)override;
 
 };
 

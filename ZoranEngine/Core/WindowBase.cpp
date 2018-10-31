@@ -10,11 +10,13 @@ WindowBase::WindowBase(ZoranEngine* zoranEngine)
 	isMaximized = false;
 	windowHandle = 0;
 	rootVirtualWindow = 0;
+	m = 0;
 }
 
 WindowBase::~WindowBase()
 {
 	if (rootVirtualWindow)delete rootVirtualWindow;
+	if(m)delete m;
 }
 
 void WindowBase::Resize(Vec2I size)

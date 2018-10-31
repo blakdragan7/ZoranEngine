@@ -1,10 +1,9 @@
 #pragma once
 #include <ZGI\Core\ZGIBase.h>
 #include <Interfaces/IMouseEventHandler.h>
-#include <Interfaces/IKeyboardEvents.h>
+#include <Interfaces/IKeyboardEventHandler.h>
 
-class MouseInstance;
-class ZoranEngine_EXPORT ZGIWidget : public ZGIBase, public IMouseEventHandler, public IKeyboardEvents
+class ZoranEngine_EXPORT ZGIWidget : public ZGIBase, public IMouseEventHandler, public IKeyboardEventHandler
 {
 protected:
 	Vector2D position;
@@ -13,6 +12,8 @@ protected:
 	Matrix44 translate;
 	Matrix44 rotation;
 	Matrix44 modelCache;
+
+	bool mouseHasEntered;
 
 protected:
 	void RecalculateModelCache();
@@ -36,16 +37,16 @@ public:
 
 	// standard 2d hit test
 	// note the default does not take into account rotation
-	virtual bool HitTest(Vec2D pos);
+	virtual ZGIWidget* HitTest(Vec2D pos);
 
 	/*IMouseEventHandler Defaults*/
 
-	virtual void MouseDown(const MouseInstance&) {};
-	virtual void MouseMove(const MouseInstance&) {};
-	virtual void MouseUp(const MouseInstance&) {};
+	virtual void MouseDown(const PlatformMouseBase*) {};
+	virtual void MouseUp(const PlatformMouseBase*) {};
+	virtual void MouseMove(const PlatformMouseBase*);
 
-	virtual void MouseEnterd(const MouseInstance&) {}
-	virtual void MouseLeft(const MouseInstance&) {}
+	virtual void MouseEnterd(const PlatformMouseBase*) {}
+	virtual void MouseLeft(const PlatformMouseBase*) {}
 
 	/*IKeyboardEvents Defaults*/
 

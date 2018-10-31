@@ -4,6 +4,10 @@
 #include <Core/ZoranEngine.h>
 #include <iostream>
 
+#include <Windows/WindowsMouse.h>
+
+#include <ZGI/Core/ZGIVirtualWindow.h>
+
 #include <ThirdParty/imgui/imgui.h>
 #include <ThirdParty/imgui/imgui_impl_win32.h>
 
@@ -15,6 +19,7 @@ WindowsWindow::WindowsWindow(ZoranEngine* engine) :  WindowBase(engine)
 {
 	hwnd = 0;
 	dc = 0;
+	m = new WindowsMouse;
 }
 
 WindowsWindow::~WindowsWindow()
@@ -235,30 +240,45 @@ static LRESULT CALLBACK wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 		if (uMsg == WM_KEYDOWN)
 		{
 			zEngine->KeyEvent(KEY_DOWN, pThis->ConvertWPARAMToKey(wParam));
+			pThis->rootVirtualWindow->KeyEvent(KEY_DOWN, pThis->ConvertWPARAMToKey(wParam));
 		}
 		if (uMsg == WM_KEYUP)
 		{
 			zEngine->KeyEvent(KEY_UP, pThis->ConvertWPARAMToKey(wParam));
+			pThis->rootVirtualWindow->KeyEvent(KEY_UP, pThis->ConvertWPARAMToKey(wParam));
 		}
 		if (uMsg == WM_LBUTTONDOWN)
 		{
 			zEngine->MouseEvent(MOUSE_L_DOWN, 0);
+			pThis->m->SetLeftMouseIsPressed(true);
+			pThis->rootVirtualWindow->MouseDown(pThis->m);
 		}
 		if (uMsg == WM_RBUTTONDOWN)
 		{
 			zEngine->MouseEvent(MOUSE_R_DOWN, 0);
+			pThis->m->SetRightMouseIsPressed(true);
+			pThis->rootVirtualWindow->MouseDown(pThis->m);
 		}
 		if (uMsg == WM_LBUTTONUP)
 		{
 			zEngine->MouseEvent(MOUSE_L_UP, 0);
+			pThis->m->SetLeftMouseIsPressed(false);
+			pThis->rootVirtualWindow->MouseUp(pThis->m);
 		}
 		if (uMsg == WM_RBUTTONUP)
 		{
 			zEngine->MouseEvent(MOUSE_R_UP, 0);
+			pThis->m->SetRightMouseIsPressed(false);
+			pThis->rootVirtualWindow->MouseUp(pThis->m);
 		}
 		if (uMsg == WM_MOUSEMOVE)
 		{
+			float x = static_cast<float>(LOWORD(lParam));
+			float y = static_cast<float>(HIWORD(lParam));
+
 			zEngine->MouseMove(LOWORD(lParam),HIWORD(lParam));
+			pThis->m->SetWindowSpacePosition({ x, y});
+			pThis->rootVirtualWindow->MouseMove(pThis->m);
 		}
 	}
 

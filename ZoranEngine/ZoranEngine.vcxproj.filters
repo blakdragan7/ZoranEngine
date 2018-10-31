@@ -624,6 +624,12 @@
     <ClCompile Include="Rendering\Primitives.cpp">
       <Filter>ZoranEngine\Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="Core\PlatformMouseBase.cpp">
+      <Filter>ZoranEngine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\WindowsMouse.cpp">
+      <Filter>ZoranEngine\Windows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -1991,14 +1997,17 @@
     <ClInclude Include="ZGI\Core\ZGIVirtualWindow.h">
       <Filter>ZoranEngine\ZGI\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Core\MouseInstance.h">
-      <Filter>ZoranEngine\Core</Filter>
-    </ClInclude>
     <ClInclude Include="Interfaces\IMouseEventHandler.h">
       <Filter>ZoranEngine\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="Interfaces\IKeyboardEvents.h">
+    <ClInclude Include="Interfaces\IKeyboardEventHandler.h">
       <Filter>ZoranEngine\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PlatformMouseBase.h">
+      <Filter>ZoranEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\WindowsMouse.h">
+      <Filter>ZoranEngine\Windows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

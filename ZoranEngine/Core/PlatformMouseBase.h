@@ -9,7 +9,7 @@
 	Mouse Instance is used to track the mouse information on the window
 */
 
-class MouseInstance
+class PlatformMouseBase
 {
 private:
 	Vector2D position;
@@ -27,12 +27,13 @@ private:
 	}otherButtons[15];
 
 public:
-	MouseInstance(Vec2D pos) : position(pos) {}
-	~MouseInstance() {}
+	PlatformMouseBase();
+	PlatformMouseBase(Vec2D pos);
+	virtual ~PlatformMouseBase() {}
 
 	inline void SetWindowSpacePosition(Vec2D pos) { deltaPosition = (pos - position); position = pos; }
 
-	inline Vec2D WindowSpacePosition()const { return position; }
+	inline Vec2D GetWindowSpacePosition()const { return position; }
 	inline Vec2D GetWindowSpaceDelta()const { return deltaPosition; }
 
 	inline void SetIsExplicit(bool isExplicit) { this->isExplicit = isExplicit; }
@@ -44,12 +45,18 @@ public:
 
 	inline void SetOtherButtonIsPressed(unsigned button,bool isPressed) { otherButtons[button].isPushed = isPressed; }
 
-	inline bool GetIsExplicit() { return isExplicit; }
-	inline bool GetIsVisisble() { return isVisible; }
+	inline bool GetIsExplicit()const { return isExplicit; }
+	inline bool GetIsVisisble()const { return isVisible; }
 
-	inline bool GetLeftMouseIsPressed() { return leftMouseIsPressed; }
-	inline bool GetMiddleMouseIsPressed() { return middleMouseIsPressed; }
-	inline bool GetRightMouseIsPressed() { return rightMouseIsPressed; }
+	inline bool GetLeftMouseIsPressed()const { return leftMouseIsPressed; }
+	inline bool GetMiddleMouseIsPressed()const { return middleMouseIsPressed; }
+	inline bool GetRightMouseIsPressed()const { return rightMouseIsPressed; }
 
-	inline bool GetOtherButtonIsPressed(unsigned button) { return otherButtons[button].isPushed; }
+	inline bool GetOtherButtonIsPressed(unsigned button)const { return otherButtons[button].isPushed; }
+
+	// Doesn't Include other Buttons
+	inline bool GetAnyButtonIsPressed()const { return leftMouseIsPressed || rightMouseIsPressed || middleMouseIsPressed; }
+
+	virtual void MoveMouse(Vec2I pos) = 0;
+	virtual void SetMouseHidden(bool isHidden) = 0;
 };
