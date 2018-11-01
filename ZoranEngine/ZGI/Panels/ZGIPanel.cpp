@@ -19,26 +19,38 @@ ZGIWidget * ZGIPanel::HitTest(Vec2D pos)
 	return ZGIWidget::HitTest(pos);
 }
 
-void ZGIPanel::MouseMove(const PlatformMouseBase *m)
+bool ZGIPanel::MouseMove(const PlatformMouseBase *m)
 {
 	ZGIWidget* widget = WidgetForPosition(m->GetWindowSpacePosition());
 	if(widget == 0)widget = WidgetForPosition(m->GetWindowSpacePosition() - m->GetWindowSpaceDelta());
 
-	if (widget)widget->MouseMove(m);
+	if (widget)
+	{
+		widget->MouseMove(m);
+		return true;
+	}
+
+	return false;
 }
 
-void ZGIPanel::MouseDown(const PlatformMouseBase *m)
+bool ZGIPanel::MouseDown(const PlatformMouseBase *m)
 {
 	if (ZGIWidget* w = WidgetForPosition(m->GetWindowSpacePosition()))
 	{
 		w->MouseDown(m);
+		return true;
 	}
+
+	return false;
 }
 
-void ZGIPanel::MouseUp(const PlatformMouseBase *m)
+bool ZGIPanel::MouseUp(const PlatformMouseBase *m)
 {
 	if (ZGIWidget* w = WidgetForPosition(m->GetWindowSpacePosition()))
 	{
 		w->MouseUp(m);
+		return true;
 	}
+
+	return false;
 }

@@ -40,15 +40,15 @@ public:
 
 	/*IMouseEventHandler Defaults*/
 
-	virtual void MouseDown(const PlatformMouseBase *)override;
-	virtual void MouseMove(const PlatformMouseBase *)override;
-	virtual void MouseUp(const PlatformMouseBase *)override;
+	virtual bool MouseDown(const PlatformMouseBase *)override;
+	virtual bool MouseMove(const PlatformMouseBase *)override;
+	virtual bool MouseUp(const PlatformMouseBase *)override;
 
-	virtual void MouseEnterd(const PlatformMouseBase *)override;
-	virtual void MouseLeft(const PlatformMouseBase *)override;
+	virtual bool MouseEnterd(const PlatformMouseBase *)override;
+	virtual bool MouseLeft(const PlatformMouseBase *)override;
 
 	/*IKeyboardEvents Defaults*/
 
-	virtual void KeyEvent(KeyEventType type, unsigned key)override;
+	virtual bool KeyEvent(KeyEventType type, unsigned key)override;
 };
 

@@ -3,6 +3,7 @@
 #include "WindowBase.h"
 #include <ZGI/Core/ZGIVirtualWindow.h>
 #include <Rendering/RenderEngineBase.h>
+#include <Core/PlatformMouseBase.h>
 
 WindowBase::WindowBase(ZoranEngine* zoranEngine)
 {

@@ -42,16 +42,16 @@ public:
 
 	/*IMouseEventHandler Defaults*/
 
-	virtual void MouseDown(const PlatformMouseBase*) {}
-	virtual void MouseUp(const PlatformMouseBase*) {}
-	virtual void MouseMove(const PlatformMouseBase*);
-
-	virtual void MouseEnterd(const PlatformMouseBase*) {}
-	virtual void MouseLeft(const PlatformMouseBase*) {}
+	virtual bool MouseDown(const PlatformMouseBase*)override { return false; }
+	virtual bool MouseUp(const PlatformMouseBase*)override { return false; }
+	virtual bool MouseMove(const PlatformMouseBase*);
+			
+	virtual bool MouseEnterd(const PlatformMouseBase*)override { return false; }
+	virtual bool MouseLeft(const PlatformMouseBase*)override { return false; }
 
 	/*IKeyboardEvents Defaults*/
 
-	virtual void KeyEvent(KeyEventType type, unsigned key) {};
+	virtual bool KeyEvent(KeyEventType type, unsigned key)override { return false; };
 
 	inline bool GetContainsMouse()const { return mouseHasEntered; }
 };

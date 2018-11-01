@@ -6,11 +6,10 @@
 
 #include <Utils/VectorAddons.hpp>
 
-ZGIVirtualWindow::ZGIVirtualWindow(Vec2D pos, Vec2D size, Vec2I OSWindowSize, ZGIVirtualWindow* parent) : parent(parent)
+ZGIVirtualWindow::ZGIVirtualWindow(Vec2D pos, Vec2D size, Vec2I OSWindowSize, ZGIVirtualWindow* parent) : parent(parent), rootContent(0)
 {
 	subWindows = new std::vector<ZGIVirtualWindow*>();
 	viewport = new ZGIVirtualViewport(pos, size, OSWindowSize);
-	rootContent = 0;
 }
 
 ZGIVirtualWindow::~ZGIVirtualWindow()
@@ -29,12 +28,14 @@ ZGIVirtualWindow::~ZGIVirtualWindow()
 
 void ZGIVirtualWindow::OSWindowWasResized(Vec2I newSize)
 {
-	rootContent->ContainerResized(newSize, viewport->GetSize());
+	if (rootContent)rootContent->ContainerResized(newSize, viewport->GetSize());
 	viewport->WindowResized(newSize);
 }
 
 void ZGIVirtualWindow::SetRootContent(ZGIWidget * widget)
 {
+	if (rootContent)delete rootContent;
+
 	rootContent = widget;
 	rootContent->SetSize(viewport->GetSize());
 	rootContent->SetPosition({ 0,0 });
@@ -91,32 +92,116 @@ void ZGIVirtualWindow::RenderWindow(Vec2D globalOffset)
 	}
 }
 
-void ZGIVirtualWindow::MouseDown(const PlatformMouseBase *m)
+bool ZGIVirtualWindow::MouseDown(const PlatformMouseBase *m)
 {
-	rootContent->MouseDown(m);
+	bool capturedEvent = false;
+
+	for (auto& window : *subWindows)
+	{
+		if (window->MouseDown(m))
+		{
+			capturedEvent = true;
+			break;
+		}
+	}
+
+	if(rootContent && capturedEvent == false)
+		capturedEvent = rootContent->MouseDown(m);
+
+	return capturedEvent;
 }
 
-void ZGIVirtualWindow::MouseMove(const PlatformMouseBase *m)
+bool ZGIVirtualWindow::MouseMove(const PlatformMouseBase *m)
 {
-	rootContent->MouseMove(m);
+	bool capturedEvent = false;
+
+	for (auto& window : *subWindows)
+	{
+		if (window->MouseMove(m))
+		{
+			capturedEvent = true;
+			break;
+		}
+	}
+
+	if (rootContent && capturedEvent == false)
+		capturedEvent = rootContent->MouseMove(m);
+
+	return capturedEvent;
 }
 
-void ZGIVirtualWindow::MouseUp(const PlatformMouseBase *m)
+bool ZGIVirtualWindow::MouseUp(const PlatformMouseBase *m)
 {
-	rootContent->MouseUp(m);
+	bool capturedEvent = false;
+
+	for (auto& window : *subWindows)
+	{
+		if (window->MouseUp(m))
+		{
+			capturedEvent = true;
+			break;
+		}
+	}
+
+	if (rootContent && capturedEvent == false)
+		capturedEvent = rootContent->MouseUp(m);
+
+	return capturedEvent;
 }
 
-void ZGIVirtualWindow::MouseEnterd(const PlatformMouseBase *m)
+bool ZGIVirtualWindow::MouseEnterd(const PlatformMouseBase *m)
 {
-	rootContent->MouseEnterd(m);
+	bool capturedEvent = false;
+
+	for (auto& window : *subWindows)
+	{
+		if (window->MouseEnterd(m))
+		{
+			capturedEvent = true;
+			break;
+		}
+	}
+
+	if (rootContent && capturedEvent == false)
+		capturedEvent = rootContent->MouseEnterd(m);
+
+	return capturedEvent;
 }
 
-void ZGIVirtualWindow::MouseLeft(const PlatformMouseBase *m)
+bool ZGIVirtualWindow::MouseLeft(const PlatformMouseBase *m)
 {
-	rootContent->MouseLeft(m);
+	bool capturedEvent = false;
+
+	for (auto& window : *subWindows)
+	{
+		if (window->MouseLeft(m))
+		{
+			capturedEvent = true;
+			break;
+		}
+	}
+
+	if (rootContent && capturedEvent == false)
+		capturedEvent = rootContent->MouseLeft(m);
+
+	return capturedEvent;
 }
 
-void ZGIVirtualWindow::KeyEvent(KeyEventType type, unsigned key)
+bool ZGIVirtualWindow::KeyEvent(KeyEventType type, unsigned key)
 {
-	rootContent->KeyEvent(type, key);
+	bool capturedEvent = false;
+
+	for (auto& window : *subWindows)
+	{
+		if (window->KeyEvent(type, key))
+		{
+			capturedEvent = true;
+			break;
+		}
+	}
+
+	if (rootContent && capturedEvent == false)
+		capturedEvent = rootContent->KeyEvent(type, key);
+
+	return capturedEvent;
 }

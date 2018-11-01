@@ -49,7 +49,7 @@ ZGIWidget* ZGIWidget::HitTest(Vec2D pos)
 	return (position.x <= pos.x && (position.x + size.w) >= pos.x && position.y <= pos.y && (position.y+size.h) >= pos.y) ? this : 0;
 }
 
-void ZGIWidget::MouseMove(const PlatformMouseBase* m)
+bool ZGIWidget::MouseMove(const PlatformMouseBase* m)
 {
 	if (m->GetAnyButtonIsPressed())
 	{
@@ -58,7 +58,6 @@ void ZGIWidget::MouseMove(const PlatformMouseBase* m)
 			MouseLeft(m);
 			mouseHasEntered = false;
 		}
-		return;
 	}
 
 	if (mouseHasEntered == false)
@@ -77,4 +76,8 @@ void ZGIWidget::MouseMove(const PlatformMouseBase* m)
 			MouseLeft(m);
 		}
 	}
+	
+	//TODO: optimize this better so that it doesn't have to give this event to every UI element
+
+	return false;
 }
