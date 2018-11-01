@@ -3,10 +3,9 @@
 
 #include <Core/PlatformMouseBase.h>
 
-ZGIPanel::ZGIPanel()
+ZGIPanel::ZGIPanel(): drawDebugView(false), drawEditorView(false)
 {
 }
-
 
 ZGIPanel::~ZGIPanel()
 {
@@ -14,7 +13,10 @@ ZGIPanel::~ZGIPanel()
 
 ZGIWidget * ZGIPanel::HitTest(Vec2D pos)
 {
-	return WidgetForPosition(pos);
+	if (ZGIWidget * w = WidgetForPosition(pos))
+		return w;
+
+	return ZGIWidget::HitTest(pos);
 }
 
 void ZGIPanel::MouseMove(const PlatformMouseBase *m)
@@ -23,4 +25,20 @@ void ZGIPanel::MouseMove(const PlatformMouseBase *m)
 	if(widget == 0)widget = WidgetForPosition(m->GetWindowSpacePosition() - m->GetWindowSpaceDelta());
 
 	if (widget)widget->MouseMove(m);
+}
+
+void ZGIPanel::MouseDown(const PlatformMouseBase *m)
+{
+	if (ZGIWidget* w = WidgetForPosition(m->GetWindowSpacePosition()))
+	{
+		w->MouseDown(m);
+	}
+}
+
+void ZGIPanel::MouseUp(const PlatformMouseBase *m)
+{
+	if (ZGIWidget* w = WidgetForPosition(m->GetWindowSpacePosition()))
+	{
+		w->MouseUp(m);
+	}
 }

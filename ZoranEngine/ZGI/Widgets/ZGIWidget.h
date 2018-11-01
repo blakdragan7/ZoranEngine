@@ -5,6 +5,9 @@
 
 class ZoranEngine_EXPORT ZGIWidget : public ZGIBase, public IMouseEventHandler, public IKeyboardEventHandler
 {
+private:
+	bool mouseHasEntered;
+
 protected:
 	Vector2D position;
 	Vector2D size;
@@ -12,8 +15,6 @@ protected:
 	Matrix44 translate;
 	Matrix44 rotation;
 	Matrix44 modelCache;
-
-	bool mouseHasEntered;
 
 protected:
 	void RecalculateModelCache();
@@ -41,8 +42,8 @@ public:
 
 	/*IMouseEventHandler Defaults*/
 
-	virtual void MouseDown(const PlatformMouseBase*) {};
-	virtual void MouseUp(const PlatformMouseBase*) {};
+	virtual void MouseDown(const PlatformMouseBase*) {}
+	virtual void MouseUp(const PlatformMouseBase*) {}
 	virtual void MouseMove(const PlatformMouseBase*);
 
 	virtual void MouseEnterd(const PlatformMouseBase*) {}
@@ -51,5 +52,7 @@ public:
 	/*IKeyboardEvents Defaults*/
 
 	virtual void KeyEvent(KeyEventType type, unsigned key) {};
+
+	inline bool GetContainsMouse()const { return mouseHasEntered; }
 };
 

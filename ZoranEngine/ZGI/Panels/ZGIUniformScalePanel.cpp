@@ -139,7 +139,9 @@ void ZGIUniformScalePanel::Render(const Matrix44 & projection)
 		UpdateRender();
 	}
 
-	content->Render(projection);
+	if(content)
+		content->Render(projection);
 
-	renderer->RenderObject(projection);
+	if(drawDebugView || drawEditorView)
+		renderer->RenderObject(projection);
 }
