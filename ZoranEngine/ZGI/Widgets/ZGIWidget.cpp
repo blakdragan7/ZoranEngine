@@ -1,13 +1,14 @@
 #include "stdafx.h"
 #include "ZGIWidget.h"
 #include <Core/PlatformMouseBase.h>
+#include <ZGI/Windows/ZGIVirtualWindow.h>
 
 void ZGIWidget::RecalculateModelCache()
 {
 	modelCache = translate * scale  * rotation;
 }
 
-ZGIWidget::ZGIWidget() : mouseHasEntered(false)
+ZGIWidget::ZGIWidget(ZGIVirtualWindow* owningWindow) : mouseHasEntered(false), owningWindow(owningWindow)
 {
 	modelCache.makeIdentity();
 	translate.makeIdentity();
@@ -60,9 +61,11 @@ bool ZGIWidget::MouseMove(const PlatformMouseBase* m)
 		}
 	}
 
+	Vector2D translatedPos = owningWindow->ConvertAbsoluteToVirtual(m->GetPosition());
+
 	if (mouseHasEntered == false)
 	{
-		if (HitTest(m->GetWindowSpacePosition()) == this)
+		if (HitTest(translatedPos) == this)
 		{
 			mouseHasEntered = true;
 			MouseEnterd(m);
@@ -70,7 +73,7 @@ bool ZGIWidget::MouseMove(const PlatformMouseBase* m)
 	}
 	if (mouseHasEntered == true)
 	{
-		if (HitTest(m->GetWindowSpacePosition()) == 0)
+		if (HitTest(translatedPos) == 0)
 		{
 			mouseHasEntered = false;
 			MouseLeft(m);

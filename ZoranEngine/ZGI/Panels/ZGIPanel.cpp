@@ -2,8 +2,9 @@
 #include "ZGIPanel.h"
 
 #include <Core/PlatformMouseBase.h>
+#include <ZGI/Windows/ZGIVirtualWindow.h>
 
-ZGIPanel::ZGIPanel(): drawDebugView(false), drawEditorView(false)
+ZGIPanel::ZGIPanel(ZGIVirtualWindow* owningWindow): drawDebugView(false), drawEditorView(false), ZGIWidget(owningWindow)
 {
 }
 
@@ -21,8 +22,10 @@ ZGIWidget * ZGIPanel::HitTest(Vec2D pos)
 
 bool ZGIPanel::MouseMove(const PlatformMouseBase *m)
 {
-	ZGIWidget* widget = WidgetForPosition(m->GetWindowSpacePosition());
-	if(widget == 0)widget = WidgetForPosition(m->GetWindowSpacePosition() - m->GetWindowSpaceDelta());
+	Vector2D pos = owningWindow->ConvertAbsoluteToVirtual(m->GetPosition());
+
+	ZGIWidget* widget = WidgetForPosition(pos);
+	if(widget == 0)widget = WidgetForPosition(pos - m->GetDelta());
 
 	if (widget)
 	{
@@ -35,7 +38,9 @@ bool ZGIPanel::MouseMove(const PlatformMouseBase *m)
 
 bool ZGIPanel::MouseDown(const PlatformMouseBase *m)
 {
-	if (ZGIWidget* w = WidgetForPosition(m->GetWindowSpacePosition()))
+	Vector2D pos = owningWindow->ConvertAbsoluteToVirtual(m->GetPosition());
+
+	if (ZGIWidget* w = WidgetForPosition(pos))
 	{
 		w->MouseDown(m);
 		return true;
@@ -46,7 +51,9 @@ bool ZGIPanel::MouseDown(const PlatformMouseBase *m)
 
 bool ZGIPanel::MouseUp(const PlatformMouseBase *m)
 {
-	if (ZGIWidget* w = WidgetForPosition(m->GetWindowSpacePosition()))
+	Vector2D pos = owningWindow->ConvertAbsoluteToVirtual(m->GetPosition());
+
+	if (ZGIWidget* w = WidgetForPosition(pos))
 	{
 		w->MouseUp(m);
 		return true;

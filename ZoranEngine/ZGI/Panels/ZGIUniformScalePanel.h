@@ -14,7 +14,7 @@ private:
 	void RepositionContent();
 
 public:
-	ZGIUniformScalePanel();
+	ZGIUniformScalePanel(ZGIVirtualWindow* owningWindow);
 	~ZGIUniformScalePanel();
 
 	/* Pannel Override */

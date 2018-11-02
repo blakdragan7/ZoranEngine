@@ -8,9 +8,8 @@
 
 #include <Rendering/Primitives.h>
 
-ZGIImageWidget::ZGIImageWidget()
+ZGIImageWidget::ZGIImageWidget(ZGIVirtualWindow* owningWindow) : image(0), ZGIWidget(owningWindow)
 {
-	image = 0;
 	renderer = rEngine->CreateGUIRenderer();
 }
 

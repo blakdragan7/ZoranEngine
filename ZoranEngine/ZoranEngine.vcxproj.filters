@@ -157,6 +157,9 @@
     <Filter Include="ZoranEngine\ZGI\Core">
       <UniqueIdentifier>{bf2cfe13-e792-4790-acc6-a2b0a8d5d9c9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ZoranEngine\ZGI\Windows">
+      <UniqueIdentifier>{b44b0d32-6f0b-4729-9d6d-105073e192f6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -612,13 +615,7 @@
     <ClCompile Include="ZGI\Core\ZGIBase.cpp">
       <Filter>ZoranEngine\ZGI\Core</Filter>
     </ClCompile>
-    <ClCompile Include="ZGI\Core\ZGIGameVirtualWindow.cpp">
-      <Filter>ZoranEngine\ZGI\Core</Filter>
-    </ClCompile>
     <ClCompile Include="ZGI\Core\ZGIVirtualViewport.cpp">
-      <Filter>ZoranEngine\ZGI\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="ZGI\Core\ZGIVirtualWindow.cpp">
       <Filter>ZoranEngine\ZGI\Core</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\Primitives.cpp">
@@ -630,6 +627,16 @@
     <ClCompile Include="Windows\WindowsMouse.cpp">
       <Filter>ZoranEngine\Windows</Filter>
     </ClCompile>
+    <ClCompile Include="ZGI\Windows\ZGIGameVirtualWindow.cpp">
+      <Filter>ZoranEngine\ZGI\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="ZGI\Windows\ZGIVirtualWindow.cpp">
+      <Filter>ZoranEngine\ZGI\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="ZGI\Windows\ZGIDebugWindow.cpp">
+      <Filter>ZoranEngine\ZGI\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="ZGILabelWidget.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -1988,13 +1995,7 @@
     <ClInclude Include="ZGI\Core\ZGIBase.h">
       <Filter>ZoranEngine\ZGI\Core</Filter>
     </ClInclude>
-    <ClInclude Include="ZGI\Core\ZGIGameVirtualWindow.h">
-      <Filter>ZoranEngine\ZGI\Core</Filter>
-    </ClInclude>
     <ClInclude Include="ZGI\Core\ZGIVirtualViewport.h">
-      <Filter>ZoranEngine\ZGI\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="ZGI\Core\ZGIVirtualWindow.h">
       <Filter>ZoranEngine\ZGI\Core</Filter>
     </ClInclude>
     <ClInclude Include="Interfaces\IMouseEventHandler.h">
@@ -2009,6 +2010,16 @@
     <ClInclude Include="Windows\WindowsMouse.h">
       <Filter>ZoranEngine\Windows</Filter>
     </ClInclude>
+    <ClInclude Include="ZGI\Windows\ZGIGameVirtualWindow.h">
+      <Filter>ZoranEngine\ZGI\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="ZGI\Windows\ZGIVirtualWindow.h">
+      <Filter>ZoranEngine\ZGI\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="ZGI\Windows\ZGIDebugWindow.h">
+      <Filter>ZoranEngine\ZGI\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="ZGILabelWidget.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ZoranEngine.rc">

@@ -16,6 +16,8 @@ private:
 
 	ZGIWidget* rootContent;
 
+	Vector2D globalOffsetCache;
+
 public:
 	ZGIVirtualWindow(Vec2D pos, Vec2D size, Vec2I OSWindowSize, ZGIVirtualWindow* parent = 0);
 	virtual ~ZGIVirtualWindow();
@@ -30,6 +32,8 @@ public:
 	
 	void SetWindowPosition(Vec2D newPosition);
 	void ResizeVirtualWindow(Vec2D newSize);
+
+	Vector2D ConvertAbsoluteToVirtual(Vec2D pos)const;
 
 	Vec2D GetWindowSize()const;
 	Vec2D GetWindowPosition()const;

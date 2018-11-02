@@ -8,7 +8,7 @@ protected:
 	bool drawEditorView;
 
 public:
-	ZGIPanel();
+	ZGIPanel(ZGIVirtualWindow* owningWindow);
 	~ZGIPanel();
 
 	virtual bool CanAddWidget(ZGIWidget* widget)const = 0;

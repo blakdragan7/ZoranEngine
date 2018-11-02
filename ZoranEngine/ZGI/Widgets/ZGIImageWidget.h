@@ -10,7 +10,7 @@ private:
 	GUIRenderer* renderer;
 
 public:
-	ZGIImageWidget();
+	ZGIImageWidget(ZGIVirtualWindow* owningWindow);
 	~ZGIImageWidget();
 
 	inline TextureBase* GetImage() { return image; }

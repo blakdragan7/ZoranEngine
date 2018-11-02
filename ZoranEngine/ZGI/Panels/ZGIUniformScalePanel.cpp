@@ -36,7 +36,7 @@ void ZGIUniformScalePanel::RepositionContent()
 	content->SetPosition({ x,y });
 }
 
-ZGIUniformScalePanel::ZGIUniformScalePanel() : content(0), isDirty(false)
+ZGIUniformScalePanel::ZGIUniformScalePanel(ZGIVirtualWindow* owningWindow) : content(0), isDirty(false), ZGIPanel(owningWindow)
 {
 	renderer = rEngine->CreateLineLoopRenderer();
 }

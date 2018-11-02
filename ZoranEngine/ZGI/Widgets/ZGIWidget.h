@@ -3,6 +3,7 @@
 #include <Interfaces/IMouseEventHandler.h>
 #include <Interfaces/IKeyboardEventHandler.h>
 
+class ZGIVirtualWindow;
 class ZoranEngine_EXPORT ZGIWidget : public ZGIBase, public IMouseEventHandler, public IKeyboardEventHandler
 {
 private:
@@ -12,15 +13,20 @@ protected:
 	Vector2D position;
 	Vector2D size;
 	Matrix44 scale;
+
+	// render cache
 	Matrix44 translate;
 	Matrix44 rotation;
 	Matrix44 modelCache;
+
+	// owming window
+	ZGIVirtualWindow* owningWindow;
 
 protected:
 	void RecalculateModelCache();
 
 public:
-	ZGIWidget();
+	ZGIWidget(ZGIVirtualWindow* owningWindow);
 	~ZGIWidget();
 
 	virtual void ContainerResized(Vec2D newSize, Vec2D oldSize) = 0;
@@ -38,6 +44,7 @@ public:
 
 	// standard 2d hit test
 	// note the default does not take into account rotation
+	// This also assumes that pos is in the owningWindow's virtual space and not absolute space
 	virtual ZGIWidget* HitTest(Vec2D pos);
 
 	/*IMouseEventHandler Defaults*/

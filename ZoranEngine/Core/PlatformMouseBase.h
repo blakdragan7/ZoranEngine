@@ -1,8 +1,6 @@
 #pragma once
 #include <Math/Vector2.h>
 
-/* Mouse Flags */
-
 /*  
 	Mouse Instance 
 
@@ -31,10 +29,10 @@ public:
 	PlatformMouseBase(Vec2D pos);
 	virtual ~PlatformMouseBase() {}
 
-	inline void SetWindowSpacePosition(Vec2D pos) { deltaPosition = (pos - position); position = pos; }
+	inline void SetPosition(Vec2D pos) { deltaPosition = (pos - position); position = pos; }
+	inline Vec2D GetPosition()const { return position; }
 
-	inline Vec2D GetWindowSpacePosition()const { return position; }
-	inline Vec2D GetWindowSpaceDelta()const { return deltaPosition; }
+	inline Vec2D GetDelta()const { return deltaPosition; }
 
 	inline void SetIsExplicit(bool isExplicit) { this->isExplicit = isExplicit; }
 	inline void SetIsVisisble(bool isVisible) { this->isVisible = isVisible; }
@@ -57,6 +55,6 @@ public:
 	// Doesn't Include other Buttons
 	inline bool GetAnyButtonIsPressed()const { return leftMouseIsPressed || rightMouseIsPressed || middleMouseIsPressed; }
 
-	virtual void MoveMouse(Vec2I pos) = 0;
+	virtual void SetMousePos(Vec2I pos) = 0;
 	virtual void SetMouseHidden(bool isHidden) = 0;
 };

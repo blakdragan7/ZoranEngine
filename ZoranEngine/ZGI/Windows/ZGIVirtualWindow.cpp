@@ -4,6 +4,8 @@
 #include "ZGIVirtualViewport.h"
 #include <ZGI\Widgets\ZGIWidget.h>
 
+#include <Core/PlatformMouseBase.h>
+
 #include <Utils/VectorAddons.hpp>
 
 ZGIVirtualWindow::ZGIVirtualWindow(Vec2D pos, Vec2D size, Vec2I OSWindowSize, ZGIVirtualWindow* parent) : parent(parent), rootContent(0)
@@ -65,6 +67,11 @@ void ZGIVirtualWindow::ResizeVirtualWindow(Vec2D newSize)
 	viewport->SetSize(newSize);
 }
 
+Vector2D ZGIVirtualWindow::ConvertAbsoluteToVirtual(Vec2D pos) const
+{
+	return pos - globalOffsetCache;
+}
+
 Vec2D ZGIVirtualWindow::GetWindowSize() const
 {
 	return viewport->GetSize();
@@ -77,6 +84,8 @@ Vec2D ZGIVirtualWindow::GetWindowPosition() const
 
 void ZGIVirtualWindow::RenderWindow(Vec2D globalOffset)
 {
+	globalOffsetCache = globalOffset;
+
 	viewport->SetViewportActive(globalOffset);
 
 	if (rootContent)

@@ -277,7 +277,7 @@ static LRESULT CALLBACK wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 			float y = static_cast<float>(HIWORD(lParam));
 
 			zEngine->MouseMove(LOWORD(lParam),HIWORD(lParam));
-			pThis->m->SetWindowSpacePosition({ x, y});
+			pThis->m->SetPosition({ x, y});
 			pThis->rootVirtualWindow->MouseMove(pThis->m);
 		}
 	}

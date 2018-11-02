@@ -8,7 +8,7 @@ public:
 	WindowsMouse(Vec2D);
 	~WindowsMouse();
 
-	virtual void MoveMouse(Vec2I pos)override;
+	virtual void SetMousePos(Vec2I pos)override;
 	virtual void SetMouseHidden(bool isHidden)override;
 };
 

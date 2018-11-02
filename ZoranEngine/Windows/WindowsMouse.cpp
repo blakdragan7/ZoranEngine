@@ -15,7 +15,7 @@ WindowsMouse::~WindowsMouse()
 {
 }
 
-void WindowsMouse::MoveMouse(Vec2I pos)
+void WindowsMouse::SetMousePos(Vec2I pos)
 {
 	::SetCursorPos(pos.x, pos.y);
 }
