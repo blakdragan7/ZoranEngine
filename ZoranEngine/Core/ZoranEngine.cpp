@@ -10,7 +10,7 @@
 #include <Windows/WindowsWindow.h>
 #include <Utils/HighPrecisionClock.h>
 
-#include <ZGI/Core/ZGIGameVirtualWindow.h>
+#include <ZGI/Windows/ZGIGameVirtualWindow.h>
 
 #include <Math/Matrix44.h>
 
@@ -192,13 +192,6 @@ void ZoranEngine::Setup2DScene(float centerx, float centery, float width, float 
 	ZGIGameVirtualWindow* vWindow = new ZGIGameVirtualWindow({ 0,0 }, mainWindow->GetSize(), mainWindow->GetSize());
 	vWindow->SetPlayerInstance(mainPlayer);
 	mainWindow->SetRootVirtualWindow(vWindow);
-	
-	//ResourceManager man;
-	//FontResource* font = man.FontForZFT("arial.zft");
-	//FontResource* font = man.FontForTTF("C:\\Windows\\Fonts\\arial.ttf", 72);
-	//font->CreateBMPForASCII("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_-+=\\\"';:/?.>,<~` ");
-	//font->CreateBMPForASCII("a");
-	//font->SaveToFile("arial");
 
 }
 

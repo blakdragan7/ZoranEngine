@@ -4,16 +4,49 @@
 #include <Math/Vector3.h>
 
 class FontResource;
-struct Font
+class ZoranEngine_EXPORT FontRenderer : public RenderedObjectBase
 {
+protected:
 	FontResource* fontResource;
 	Vector2D renderStart;
 	Vector2D renderSize;
 	Vector3D forgroundColor;
-	Vector2D backgroundColor;
+	Vector3D backgroundColor;
 	float pptSize;
 
-	std::vector<uint32_t> glyphs;
+	bool shouldWordWrap;
+	bool shouldClip;
+
+	// includes the edge of the rendered area and the width to wordwrap at
+	Vector2D bounds; 
+
+	bool isDirty;
+
+public:
+	FontRenderer(FontResource* font);
+	virtual ~FontRenderer();
+
+	std::vector<uint32_t>* glyphs;
+
+	virtual void UpdateRender() = 0;
+
+	inline void SetRenderStart(Vec2D start) { renderStart = start; isDirty= true;}
+	inline void SetRenderSize(Vec2D size) { renderSize = size; isDirty = true;}
+	inline void SetForgroundColor(Vec3D fColor) { forgroundColor = fColor; isDirty = true;}
+	inline void SetBackgroundColor(Vec3D bColor) { backgroundColor = bColor; isDirty = true;}
+
+	inline void SetBounds(Vec2D Bounds) { bounds = Bounds; isDirty = true;}
+
+	inline void SetPPTSize(float _pptSize) { pptSize = _pptSize; isDirty = true; }
+	inline float GetPPTSize()const { return pptSize; }
+
+	inline void SetShouldWordWrap(bool wordWrap) { shouldWordWrap = wordWrap; isDirty = true;}
+	inline void SetShouldClip(bool clip) { shouldClip = clip; isDirty = true;}
+
+	inline bool GetShouldWordWrap()const { return shouldWordWrap; }
+	inline bool GetShouldClip()const { return shouldClip; }
+
+	// all of these set the actual text to be rendered
 
 	/* overrides current glyphs and replaces them with contents of text */
 	void SetText(const char * text);
@@ -36,16 +69,7 @@ struct Font
 		SetText(buf);
 		delete[] buf;
 	}
-};
 
-class ZoranEngine_EXPORT FontRenderer : public RenderedObjectBase
-{
-public:
-	FontRenderer();
-	virtual ~FontRenderer();
-
-	virtual void AddFontToRender(Font* font) = 0;
-	virtual void RemoveFontFromRender(Font* font) = 0;
-	virtual bool FontIsInRender(Font* inFont) = 0;
+	virtual void RenderObject(const Matrix44& projection)override;
 };
 

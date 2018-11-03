@@ -4,7 +4,7 @@
 #include <Core/PlatformMouseBase.h>
 #include <ZGI/Windows/ZGIVirtualWindow.h>
 
-ZGIPanel::ZGIPanel(ZGIVirtualWindow* owningWindow): drawDebugView(false), drawEditorView(false), ZGIWidget(owningWindow)
+ZGIPanel::ZGIPanel(ZGIVirtualWindow* owningWindow): ZGIWidget(owningWindow)
 {
 }
 

@@ -1,30 +1,5 @@
 #include "stdafx.h"
 #include "ZGIUniformScalePanel.h"
-#include <Rendering/Renderers/LineLoopRenderer.h>
-#include <Rendering/RenderEngineBase.h>
-
-void ZGIUniformScalePanel::UpdateRender()
-{
-	renderer->BeginAddingSegments();
-
-	Vector2D padding(5,5);
-	Vector2D nSize = size - (padding * 2);
-	Vector2D nPosition = position + padding;
-
-	LineSegment currentSegment;
-
-	currentSegment.vertecies[0] = nPosition;
-	currentSegment.vertecies[1] = nPosition + Vector2D(0, nSize.h);
-
-	renderer->AddSegment(currentSegment);
-
-	currentSegment.vertecies[0] = nPosition + Vector2D(nSize.w, nSize.h);
-	currentSegment.vertecies[1] = nPosition + Vector2D(nSize.w, 0);
-
-	renderer->AddSegment(currentSegment);
-
-	renderer->EndAddingSegments();
-}
 
 void ZGIUniformScalePanel::RepositionContent()
 {
@@ -36,15 +11,13 @@ void ZGIUniformScalePanel::RepositionContent()
 	content->SetPosition({ x,y });
 }
 
-ZGIUniformScalePanel::ZGIUniformScalePanel(ZGIVirtualWindow* owningWindow) : content(0), isDirty(false), ZGIPanel(owningWindow)
+ZGIUniformScalePanel::ZGIUniformScalePanel(ZGIVirtualWindow* owningWindow) : content(0), ZGIPanel(owningWindow)
 {
-	renderer = rEngine->CreateLineLoopRenderer();
 }
 
 ZGIUniformScalePanel::~ZGIUniformScalePanel()
 {
 	if (content)delete content;
-	delete renderer;
 }
 
 bool ZGIUniformScalePanel::CanAddWidget(ZGIWidget * widget)const
@@ -113,9 +86,8 @@ void ZGIUniformScalePanel::SetSize(Vec2D size)
 		content->SetSize(contentSize);
 	}
 
-	isDirty = true;
 	ZGIWidget::SetSize(size);
-	RepositionContent();
+	if(content)RepositionContent();
 }
 
 void ZGIUniformScalePanel::SetPosition(Vec2D position)
@@ -127,21 +99,13 @@ void ZGIUniformScalePanel::SetPosition(Vec2D position)
 		RepositionContent();
 	}
 
-	isDirty = true;
 	ZGIWidget::SetPosition(position);
 }
 
 void ZGIUniformScalePanel::Render(const Matrix44 & projection)
 {
-	if (isDirty)
-	{
-		isDirty = false;
-		UpdateRender();
-	}
-
 	if(content)
 		content->Render(projection);
 
-	if(drawDebugView || drawEditorView)
-		renderer->RenderObject(projection);
+	ZGIWidget::Render(projection);
 }

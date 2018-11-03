@@ -51,5 +51,7 @@ public:
 
 	virtual const char* GetResourceDescription()const override;
 
+	void NormalizeGlyphs();
+
 	friend class ResourceManager;
 };

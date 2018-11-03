@@ -3,9 +3,6 @@
 
 class ZoranEngine_EXPORT ZGIPanel : public ZGIWidget
 {
-protected:
-	bool drawDebugView;
-	bool drawEditorView;
 
 public:
 	ZGIPanel(ZGIVirtualWindow* owningWindow);
@@ -27,12 +24,4 @@ public:
 
 	virtual bool MouseDown(const PlatformMouseBase*)override;
 	virtual bool MouseUp(const PlatformMouseBase*)override;
-
-	// Debug / Editor Variables
-
-	inline void SetDrawDebugView(bool d) { drawDebugView = d; }
-	inline void SetDrawEditorView(bool d) { drawEditorView = d; }
-
-	inline bool GetDrawDebugView()const  { return drawDebugView; }
-	inline bool GetDrawEditorView()const { return drawEditorView; }
 };

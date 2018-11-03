@@ -62,11 +62,13 @@ void OpenGLLineLoopRenderer::EndAddingSegments()
 	{
 		size_t floatSize = segments.size() * 2 * 3 * sizeof(float);
 
-		if (floatSize <= buf->GetBufferSize())
+		// TODO: fix updaetbuffer which currently isn't working on resizing uniform scale panel
+
+		/*if (floatSize <= buf->GetBufferSize())
 		{
 			buf->UpdateBuffer(data, 0, floatSize);
 		}
-		else
+		else*/
 		{
 			buf->ReCreateBuffer(data, floatSize, 3, GL_DYNAMIC_DRAW);
 		}
@@ -99,6 +101,7 @@ const std::vector<LineSegment>& OpenGLLineLoopRenderer::GetLineSegments() const
 
 void OpenGLLineLoopRenderer::RenderObject(const Matrix44 & cameraMatrix)
 {
+	shader->BindProgram();
 	shader->setUniformMat4("MVP", &cameraMatrix[0]);
 
 	vertexGroup->RenderObject();

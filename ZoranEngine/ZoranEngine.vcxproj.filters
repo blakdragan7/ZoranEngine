@@ -636,7 +636,9 @@
     <ClCompile Include="ZGI\Windows\ZGIDebugWindow.cpp">
       <Filter>ZoranEngine\ZGI\Windows</Filter>
     </ClCompile>
-    <ClCompile Include="ZGILabelWidget.cpp" />
+    <ClCompile Include="ZGI\Widgets\ZGILabelWidget.cpp">
+      <Filter>ZoranEngine\ZGI\Widgets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -2019,7 +2021,9 @@
     <ClInclude Include="ZGI\Windows\ZGIDebugWindow.h">
       <Filter>ZoranEngine\ZGI\Windows</Filter>
     </ClInclude>
-    <ClInclude Include="ZGILabelWidget.h" />
+    <ClInclude Include="ZGI\Widgets\ZGILabelWidget.h">
+      <Filter>ZoranEngine\ZGI\Widgets</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ZoranEngine.rc">

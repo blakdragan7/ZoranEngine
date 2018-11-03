@@ -6,7 +6,7 @@
 
 #include <Windows/WindowsMouse.h>
 
-#include <ZGI/Core/ZGIVirtualWindow.h>
+#include <ZGI/Windows/ZGIVirtualWindow.h>
 
 #include <ThirdParty/imgui/imgui.h>
 #include <ThirdParty/imgui/imgui_impl_win32.h>

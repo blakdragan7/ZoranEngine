@@ -65,6 +65,30 @@ FontResource::FontResource(uint32_t resolution)
 	zSourcePath = new std::string;
 }
 
+void FontResource::NormalizeGlyphs()
+{
+	Vector2D maxSize;
+
+	for (auto& itr : *glyphMap)
+	{
+		Glyph &g = itr.second;
+
+		if (g.size.w > maxSize.w)maxSize.w = g.size.w;
+		if (g.size.h > maxSize.h)maxSize.h = g.size.h;
+	}
+
+	float theMax = maxSize.getMaxValue();
+
+	for (auto& itr : *glyphMap)
+	{
+		Glyph &g = itr.second;
+
+		g.size /= theMax;
+		g.advance /= theMax;
+		g.bearing /= theMax;
+	}
+}
+
 FontResource::~FontResource()
 {
 	if (isLoaded)

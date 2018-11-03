@@ -1,16 +1,12 @@
 #pragma once
 #include <ZGI\Panels\ZGIPanel.h>
-class LineLoopRenderer;
 class ZoranEngine_EXPORT ZGIUniformScalePanel : public ZGIPanel
 {
 private:
 	ZGIWidget*	content;
 	Vector2D	contentStartingSize; // contents starting size
-	LineLoopRenderer* renderer;
-	bool isDirty;
 
 private:
-	void UpdateRender();
 	void RepositionContent();
 
 public:

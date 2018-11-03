@@ -253,9 +253,9 @@ TriangleStripRenderer * OpenGL3DRenderEngine::CreateTriangleStripRenderer()
 	return context->CreateTriangleStripRenderer();
 }
 
-FontRenderer * OpenGL3DRenderEngine::CreateFontRenderer()
+FontRenderer * OpenGL3DRenderEngine::CreateFontRenderer(FontResource* font)
 {
-	return context->CreateFontRenderer();
+	return context->CreateFontRenderer(font);
 }
 
 GUIRenderer * OpenGL3DRenderEngine::CreateGUIRenderer()

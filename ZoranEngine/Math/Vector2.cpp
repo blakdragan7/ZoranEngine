@@ -250,6 +250,11 @@ float Vector2D::magnitude()const
 	return sqrt(magnitudeSqr());
 }
 
+float Vector2D::getMaxValue() const
+{
+	return (x > y) ? x : y;
+}
+
 float Vector2D::distance(const Vector2D& other)const
 {
 	return sqrtf(distanceSquared(other));

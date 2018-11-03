@@ -15,6 +15,7 @@ class OpenGLSpriteRenderer;
 class OpenGLTriangleRenderer;
 class OpenGLTriangleStripRenderer;
 class OpenGLGUIRenderer;
+class FontResource;
 class OpenGLContext
 {
 private:
@@ -49,6 +50,6 @@ public:
 	OpenGLSpriteRenderer* CreateSpriteRenderer();
 	OpenGLTriangleRenderer* CreateTriangleRenderer();
 	OpenGLTriangleStripRenderer* CreateTriangleStripRenderer();
-	OpenGLFontRenderer* CreateFontRenderer();
+	OpenGLFontRenderer* CreateFontRenderer(FontResource* font);
 	OpenGLGUIRenderer* CreateGUIRenderer();
 };

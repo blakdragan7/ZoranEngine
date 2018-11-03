@@ -47,6 +47,8 @@ void ZGIImageWidget::Render(const Matrix44 & projection)
 	Matrix44 MVP = projection * modelCache;
 	if (image)image->UseTexture(0);
 	renderer->RenderObject(MVP);
+
+	ZGIWidget::Render(projection);
 }
 
 bool ZGIImageWidget::MouseEnterd(const PlatformMouseBase *)

@@ -4,10 +4,12 @@
 #include <Interfaces/IKeyboardEventHandler.h>
 
 class ZGIVirtualWindow;
+class LineLoopRenderer;
 class ZoranEngine_EXPORT ZGIWidget : public ZGIBase, public IMouseEventHandler, public IKeyboardEventHandler
 {
 private:
 	bool mouseHasEntered;
+	LineLoopRenderer* renderer;
 
 protected:
 	Vector2D position;
@@ -22,15 +24,22 @@ protected:
 	// owming window
 	ZGIVirtualWindow* owningWindow;
 
+	bool isDirty; // used to update rendering
+	bool drawDebugView;
+	bool drawEditorView;
+
 protected:
 	void RecalculateModelCache();
+	void UpdateDebugRender();
 
 public:
 	ZGIWidget(ZGIVirtualWindow* owningWindow);
 	~ZGIWidget();
 
 	virtual void ContainerResized(Vec2D newSize, Vec2D oldSize) = 0;
-	virtual void Render(const Matrix44& projection) = 0;
+
+	// default draws debug info and update Debug render when dirty
+	virtual void Render(const Matrix44& projection);
 
 	virtual void SetSize(Vec2D size);
 	virtual void SetPosition(Vec2D position);
@@ -61,5 +70,13 @@ public:
 	virtual bool KeyEvent(KeyEventType type, unsigned key)override { return false; };
 
 	inline bool GetContainsMouse()const { return mouseHasEntered; }
+
+	// Debug / Editor Variables
+
+	inline void SetDrawDebugView(bool d) { drawDebugView = d; }
+	inline void SetDrawEditorView(bool d) { drawEditorView = d; }
+
+	inline bool GetDrawDebugView()const { return drawDebugView; }
+	inline bool GetDrawEditorView()const { return drawEditorView; }
 };
 

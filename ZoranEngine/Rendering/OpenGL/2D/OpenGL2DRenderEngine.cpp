@@ -297,9 +297,9 @@ TriangleStripRenderer * OpenGL2DRenderEngine::CreateTriangleStripRenderer()
 	return context->CreateTriangleStripRenderer();
 }
 
-FontRenderer * OpenGL2DRenderEngine::CreateFontRenderer()
+FontRenderer * OpenGL2DRenderEngine::CreateFontRenderer(FontResource* font)
 {
-	return context->CreateFontRenderer();
+	return context->CreateFontRenderer(font);
 }
 
 GUIRenderer * OpenGL2DRenderEngine::CreateGUIRenderer()

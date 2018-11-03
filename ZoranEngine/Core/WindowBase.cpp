@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 #include "WindowBase.h"
-#include <ZGI/Core/ZGIVirtualWindow.h>
+#include <ZGI/Windows/ZGIVirtualWindow.h>
 #include <Rendering/RenderEngineBase.h>
 #include <Core/PlatformMouseBase.h>
 
@@ -36,6 +36,7 @@ void WindowBase::SetPosition(Vec2I position)
 void WindowBase::SetSize(Vec2I size)
 {
 	this->SetSize(size.w, size.h);
+	if (rootVirtualWindow)rootVirtualWindow->OSWindowWasResized(size);
 }
 
 void WindowBase::MakeWindow(const char * title, Vec2I position, Vec2I size)

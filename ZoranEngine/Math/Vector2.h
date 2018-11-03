@@ -54,6 +54,7 @@ public:
 	void rotate(Vector2D origin, float angle /*radians*/);
 
 	float magnitude()const;
+	float getMaxValue()const;
 	float magnitudeSqr()const;
 	float distance(const Vector2D& other)const;
 	float distanceSquared(const Vector2D& other)const;

@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "ZGIVirtualWindow.h"
 
-#include "ZGIVirtualViewport.h"
-#include <ZGI\Widgets\ZGIWidget.h>
+#include <ZGI/Core/ZGIVirtualViewport.h>
+#include <ZGI/Widgets/ZGIWidget.h>
 
 #include <Core/PlatformMouseBase.h>
 

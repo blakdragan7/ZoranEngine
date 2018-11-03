@@ -60,9 +60,11 @@ void OpenGLVertexGroup::AddBufferForAttr(unsigned attr, unsigned type, void * da
 
 void OpenGLVertexGroup::AddBufferForAttr(unsigned attr, OpenGLBuffer * buffer)
 {
-	if (bufferMap.find(attr) != bufferMap.end())
+	auto itr = bufferMap.find(attr);
+	if (itr != bufferMap.end())
 	{
-		delete bufferMap[attr];
+		delete itr->second;
+		bufferMap.erase(itr);
 	}
 
  	bufferMap.insert({ attr,buffer });

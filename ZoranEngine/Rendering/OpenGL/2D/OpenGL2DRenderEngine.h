@@ -45,7 +45,7 @@ public:
 	virtual SpriteRenderer* CreateSpriteRenderer()override;
 	virtual TriangleRenderer* CreateTriangleRenderer()override;
 	virtual TriangleStripRenderer* CreateTriangleStripRenderer()override;
-	virtual FontRenderer* CreateFontRenderer()override;
+	virtual FontRenderer* CreateFontRenderer(FontResource* font)override;
 	virtual GUIRenderer* CreateGUIRenderer()override;
 
 	virtual void DrawScene(const Matrix44& cameraMatrix)override;
