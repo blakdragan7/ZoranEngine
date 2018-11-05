@@ -39,9 +39,14 @@ static msdfgen::Bitmap<msdfgen::FloatRGB>* BitmapFromMemory(unsigned char* bytes
 		{
 			int index = ((sizex * y) + x) * 3;
 
-			(*bitmap)(x, y).r = static_cast<float>(bytes[index + 0]);
-			(*bitmap)(x, y).g = static_cast<float>(bytes[index + 1]);
-			(*bitmap)(x, y).b = static_cast<float>(bytes[index + 2]);
+			float r, g, b;
+			r = (float)bytes[index + 0] / (float)0x100;
+			g = (float)bytes[index + 1] / (float)0x100;
+			b = (float)bytes[index + 2] / (float)0x100;
+
+			(*bitmap)(x, y).r = r;
+			(*bitmap)(x, y).g = g;
+			(*bitmap)(x, y).b = b;
 		}
 	}
 
