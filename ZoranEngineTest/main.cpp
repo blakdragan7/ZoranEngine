@@ -182,7 +182,7 @@ void TestGUIStuff()
 	l->SetDrawDebugView(false);
 
 	l->SetFontSize(50);
-	l->SetText("This is a sentence.\rThis is a sentence after a carrage return.\r\nThat was a windows newline.\nThat was a newline char.\r\rThat was a double carrage return.\n\nThat was a double new line.\r\n\r\nThat was a double windows newline.");
+	l->SetText("This is a sentence.\rThis	is a sentence after a carrage return.\r\nThat was a windows newline.\nThat was a newline char.\r\rThat was a double carrage return.\n\nThat was a double new line.\r\n\r\nThat was a double windows newline.");
 	p->AddWidget(l);
 	
 	vW->SetRootContent(p);
