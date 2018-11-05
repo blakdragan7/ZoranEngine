@@ -33,8 +33,12 @@ public:
 
 	void SetText(const std::string& text);
 	void SetFontSize(float pptSize);
-
+	void SetTopColor(const Color& c);
+	void SetBottomColor(const Color& c);
 	// widget overrides
+
+	void SetWordWrap(bool wrap);
+	void SetClipFont(bool clip);
 
 	void SetHorizontalAlignment(HorizontalTextAlignment alignment);
 	void SetVerticalAlignment(VerticalTextAlignment alignment);

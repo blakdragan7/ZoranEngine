@@ -26,6 +26,14 @@ void OpenGLFontRenderer::RenderObject(const Matrix44 & cameraMatrix)
 	shader->BindProgram();
 	shader->setUniformMat4("MVP", &cameraMatrix[0]);
 	shader->setUniform("msdf", 0);
+	shader->setUniform("topColor", &topColor);
+	shader->setUniform("bottomColor", &bottomColor);
+	shader->setUniform("shadowVector", &shadowVector);
+	shader->setUniform("pxRange", pxRange);
+	shader->setUniform("thickness", thickness);
+	shader->setUniform("border", border);
+	shader->setUniform("shadowSoftness", shadowSoftness);
+	shader->setUniform("shadowOpacity", shadowOpacity);
 
 	fontResource->GetFontTexture()->UseTexture(0);
 	renderer->RenderObject(cameraMatrix);

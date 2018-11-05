@@ -369,6 +369,8 @@ int FontResource::LoadFromFile(const std::string& file)
 
 				lodepng_decode_memory(&decoded, &w, &h, (unsigned char*)cData, size, LCT_RGB, 8);
 
+				_data->bitmapData = BitmapFromMemory(decoded, w, h);
+
 				fontTexture = rEngine->CreateTexture((void*)decoded, Render_Data_Type_RGB_24, Render_Data_Format_Unsigned_Byte, { (int)w,(int)h });
 
 				delete cData;
@@ -472,6 +474,12 @@ int FontResource::SaveToFile(const std::string & file)
 	{
 		size_t outSize = 0;
 		unsigned char* bdata = 0;
+
+		if (_data->bitmapData == 0)
+		{
+			Log(LogLevel_Error, "Trying to save font without butmap data !!. \n");
+			return RESOURCE_ERROR_ERROR_SAVING_FILE;
+		}
 
 		encodePng(&bdata, &outSize, *_data->bitmapData);
 

@@ -1,5 +1,6 @@
 #pragma once
 #include <Rendering/RenderedObjectBase.h>
+#include <Rendering/Primitives.h>
 #include <Math/Vector2.h>
 #include <Math/Vector3.h>
 
@@ -10,9 +11,26 @@ protected:
 	FontResource* fontResource;
 	Vector2D renderStart;
 	Vector2D renderSize;
-	Vector3D forgroundColor;
-	Vector3D backgroundColor;
+
+	// Uniform values
+
+	Vector3D topColor;
+	Vector3D bottomColor;
+	Vector3D borderColor;
+
+	float pxRange;
+	float thickness;
+	float border;
+
+	Vector2D shadowVector;
+	float shadowSoftness;
+	float shadowOpacity;
+
+	// font sizing
+
 	float pptSize;
+
+	// clipping and word wrapping
 
 	bool shouldWordWrap;
 	bool shouldClip;
@@ -32,8 +50,10 @@ public:
 
 	inline void SetRenderStart(Vec2D start) { renderStart = start; isDirty= true;}
 	inline void SetRenderSize(Vec2D size) { renderSize = size; isDirty = true;}
-	inline void SetForgroundColor(Vec3D fColor) { forgroundColor = fColor; isDirty = true;}
-	inline void SetBackgroundColor(Vec3D bColor) { backgroundColor = bColor; isDirty = true;}
+
+	inline void SetTopColor(const Color& fColor) { topColor = fColor;}
+	inline void SetBottomColor(const Color& bColor) { bottomColor = bColor;}
+	inline void SetBorderColor(const Color& bColor) { borderColor = bColor;}
 
 	inline void SetBounds(Vec2D Bounds) { bounds = Bounds; isDirty = true;}
 

@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "ZGILabelWidget.h"
 
+#include <Rendering/Primitives.h>
 #include <Rendering/RenderEngineBase.h>
 #include <Rendering/Renderers/FontRenderer.h>
 
@@ -60,6 +61,26 @@ void ZGILabelWidget::SetText(const std::string & text)
 void ZGILabelWidget::SetFontSize(float pptSize)
 {
 	renderer->SetPPTSize(pptSize);
+}
+
+void ZGILabelWidget::SetTopColor(const Color& c)
+{
+	renderer->SetTopColor(c);
+}
+
+void ZGILabelWidget::SetBottomColor(const Color& c)
+{
+	renderer->SetBottomColor(c);
+}
+
+void ZGILabelWidget::SetWordWrap(bool wrap)
+{
+	renderer->SetShouldWordWrap(wrap);
+}
+
+void ZGILabelWidget::SetClipFont(bool clip)
+{
+	renderer->SetShouldClip(clip);
 }
 
 void ZGILabelWidget::SetHorizontalAlignment(HorizontalTextAlignment alignment)

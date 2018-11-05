@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Vector3.h"
 #include "Vector2.h"
+#include <Rendering/Primitives.h>
 #include <math.h>
 
 Vector3D::Vector3D(void) :x(0), y(0), z(0) {}
@@ -8,6 +9,10 @@ Vector3D::Vector3D(void) :x(0), y(0), z(0) {}
 Vector3D::Vector3D(const Vector2D& other) :x(other.x), y(other.y), z(0) {}
 
 Vector3D::Vector3D(const Vector2D & other, float z) : x(other.x), y(other.y), z(z)
+{
+}
+
+Vector3D::Vector3D(const Color & other) : x(other.r), y(other.g), z(other.b)
 {
 }
 

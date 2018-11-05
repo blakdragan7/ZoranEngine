@@ -28,3 +28,22 @@ static float* PixDataForBitmap(msdfgen::Bitmap<msdfgen::FloatRGB>& source)
 
 	return pixData;
 }
+
+static msdfgen::Bitmap<msdfgen::FloatRGB>* BitmapFromMemory(unsigned char* bytes, int sizex,int sizey)
+{
+	msdfgen::Bitmap<msdfgen::FloatRGB> *bitmap = new msdfgen::Bitmap<msdfgen::FloatRGB>(sizex, sizey);
+
+	for (int x = 0; x < sizex; x++)
+	{
+		for (int y = 0; y < sizey; y++)
+		{
+			int index = ((sizex * y) + x) * 3;
+
+			(*bitmap)(x, y).r = static_cast<float>(bytes[index + 0]);
+			(*bitmap)(x, y).g = static_cast<float>(bytes[index + 1]);
+			(*bitmap)(x, y).b = static_cast<float>(bytes[index + 2]);
+		}
+	}
+
+	return bitmap;
+}
