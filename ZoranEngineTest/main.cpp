@@ -12,6 +12,12 @@
 #include <Utils/HighPrecisionClock.h>
 #include <algorithm>
 
+#include <Core/WindowBase.h>
+#include <ZGI/Windows/ZGIGameVirtualWindow.h>
+#include <ZGI/Panels/ZGIUniformScalePanel.h>
+#include <ZGI/Widgets/ZGIImageWidget.h>
+#include <ZGI/Widgets/ZGILabelWidget.h>
+
 #include <Core/Resources/FontResource.h>
 #include <Core/Resources/ResourceManager.h>
 
@@ -26,6 +32,8 @@
 
 #include <string>
 
+#include <Rendering/Primitives.h>
+
 void Test2DSceneStuff();
 void Test3DSceneStuff();
 void TestGUIStuff();
@@ -38,9 +46,9 @@ static const float scale = 40.0f;
 
 int main(int argc, char* argv[])
 {
-	Test2DSceneStuff();
+	//Test2DSceneStuff();
 	//Test3DSceneStuff();
-	//TestGUIStuff();
+	TestGUIStuff();
 }
 
 void Test2DSceneStuff()
@@ -154,17 +162,30 @@ void TestGUIStuff()
 	engine.Init();
 	engine.Setup2DScene(0, 0, 2000, 2000);
 
-	/*ResourceManager man;
+	WindowBase* window = engine.GetMainWindow();
+	auto vW = window->GetRootVirtualWindow();
+
+	ResourceManager man;
 	FontResource* font = man.FontForZFT("arial.zft");
+	//FontResource* font = man.FontForTTF("C:\\Windows\\Fonts\\arial.ttf", 72);
+	//font->CreateBMPForASCII("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_-+=\\\"';:/?.>,<~` ");
+	//font->NormalizeGlyphs();
+	//font->SaveToFile("arial2");
+
+	auto p = new ZGIUniformScalePanel(vW);
+	auto l = new ZGILabelWidget(font, vW);
+	//auto i = new ZGIImageWidget(vW);
+
+	//i->SetImage("test.png");
+
+	p->SetDrawDebugView(false);
+	l->SetDrawDebugView(false);
+
+	l->SetFontSize(50);
+	l->SetText("This is a sentence.\rThis is a sentence after a carrage return.\r\nThat was a windows newline.\nThat was a newline char.\r\rThat was a double carrage return.\n\nThat was a double new line.\r\n\r\nThat was a double windows newline.");
+	p->AddWidget(l);
 	
-	TexturedSprite* test = new TexturedSprite(0, "test");
-	test->SetTexture(font->GetFontTexture());
-	test->SetPosition(0,0);
-	test->SetScale(500, -400);
-	
-	test->PreCaclModel();
-	
-	zEngine->AddSceneObject(test);*/
+	vW->SetRootContent(p);
 	
 	engine.MainLoop();
 }

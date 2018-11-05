@@ -55,14 +55,32 @@ void OpenGLFontRenderer::UpdateRender()
 
 	float maxh = 0;
 
+	bool wasCR = false;
+
+	// TODO: figure out why tabs = ! when rendering std::string text
+
 	for (uint32_t uni : *glyphs)
 	{
+		if (wasCR && uni == '\n')
+		{
+			continue;
+		}
+		wasCR = false;
 		TrianglePrimitive trianglel, triangler;
 		Glyph glyph = fontResource->GlyphForUnicode(uni);
 
 		if (uni == ' ')
 		{
 			startX += static_cast<float>(glyph.advance * scale);
+			continue;
+		}
+		// render a new line when newline char
+		if (uni == '\r' || uni == '\n')
+		{
+			wasCR = uni == '\r';
+
+			startX = renderStart.x;
+			startY -= (pptSize * 0.7333f) + (pptSize * 0.05);
 			continue;
 		}
 
