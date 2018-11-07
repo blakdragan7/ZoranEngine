@@ -31,11 +31,19 @@ public:
 	ZGILabelWidget(FontResource* font,ZGIVirtualWindow* owningWindow);
 	~ZGILabelWidget();
 
+	void SetShadowColor(Vec3D color);
+	void SetShadowVector(Vec2D vector);
+	void SetShadowSoftness(float softness);
+	void SetShadowOpacity(float opacity);
+
+	void SetFontThickness(float thickness);
+	void SetFontBorder(float border);
+
 	void SetText(const std::string& text);
 	void SetFontSize(float pptSize);
 	void SetTopColor(const Color& c);
 	void SetBottomColor(const Color& c);
-	// widget overrides
+	void SetBorderColor(const Color& c);
 
 	void SetWordWrap(bool wrap);
 	void SetClipFont(bool clip);
@@ -43,6 +51,7 @@ public:
 	void SetHorizontalAlignment(HorizontalTextAlignment alignment);
 	void SetVerticalAlignment(VerticalTextAlignment alignment);
 
+	// widget overrides
 	virtual void Render(const Matrix44& projection)override;
 
 	virtual void SetSize(Vec2D size)override;

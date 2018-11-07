@@ -179,10 +179,18 @@ void TestGUIStuff()
 	//i->SetImage("test.png");
 
 	p->SetDrawDebugView(false);
-	l->SetDrawDebugView(false);
+	l->SetDrawDebugView(true);
 
 	l->SetFontSize(50);
-	l->SetText("This is a sentence.\rThis	is a sentence after a carrage return.\r\nThat was a windows newline.\nThat was a newline char.\r\rThat was a double carrage return.\n\nThat was a double new line.\r\n\r\nThat was a double windows newline.");
+	l->SetText( "This is a sentence.\r"\
+				"This is a sentence after a carriage return.\r\n"\
+				"That was a windows newline.\n"\
+				"That was a newline char.\r\r"\
+				"That was a double carrage return.\n\n"\
+				"That was a double new line.\r\n\r\n"\
+				"That was a double windows newline.");
+
+	
 	p->AddWidget(l);
 	
 	vW->SetRootContent(p);

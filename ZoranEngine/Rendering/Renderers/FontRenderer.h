@@ -4,6 +4,25 @@
 #include <Math/Vector2.h>
 #include <Math/Vector3.h>
 
+enum NewLineType
+{
+	NewLineType_Carriage_Return,
+	NewLineType_Line_Feed,
+	NewLineType_EOL,
+};
+
+struct UniWord
+{
+	std::vector<uint32_t> glyphs; // list of glyphs that make up this word
+	double advance; // advances the whole word
+	double spaceAdvance; // advances space after word
+	bool isNewLine; // if this word is a new line
+	NewLineType newLineType; // set if isNewLine is set to true
+	bool isTab;
+
+	UniWord() : isNewLine(false), isTab(false), advance(0), spaceAdvance(0) {}
+};
+
 class FontResource;
 class ZoranEngine_EXPORT FontRenderer : public RenderedObjectBase
 {
@@ -17,6 +36,7 @@ protected:
 	Vector3D topColor;
 	Vector3D bottomColor;
 	Vector3D borderColor;
+	Vector3D shadowColor;
 
 	float pxRange;
 	float thickness;
@@ -40,13 +60,27 @@ protected:
 
 	bool isDirty;
 
+private:
+	void UpdareWordFromGlyph(UniWord& word, uint32_t glyph, bool& wasCarriageReturn,bool& wasNewLine, bool& wasTab);
+
+protected:
+	size_t GetCharCount();
+
 public:
 	FontRenderer(FontResource* font);
 	virtual ~FontRenderer();
 
-	std::vector<uint32_t>* glyphs;
+	std::vector<UniWord>* words;
 
 	virtual void UpdateRender() = 0;
+
+	inline void SetShadowColor(Vec3D color) { shadowColor = color; }
+	inline void SetShadowVector(Vec2D vector) { shadowVector = vector; }
+	inline void SetShadowSoftness(float softness) { shadowSoftness = softness; }
+	inline void SetShadowOpacity(float opacity) { shadowOpacity = opacity; }
+
+	inline void SetFontThickness(float thickness) { this->thickness = thickness; }
+	inline void SetFontBorder(float border) { this->border = border; }
 
 	inline void SetRenderStart(Vec2D start) { renderStart = start; isDirty= true;}
 	inline void SetRenderSize(Vec2D size) { renderSize = size; isDirty = true;}

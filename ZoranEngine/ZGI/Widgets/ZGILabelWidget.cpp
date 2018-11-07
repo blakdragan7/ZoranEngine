@@ -53,6 +53,36 @@ ZGILabelWidget::~ZGILabelWidget()
 	delete renderer;
 }
 
+void ZGILabelWidget::SetShadowColor(Vec3D color)
+{
+	renderer->SetShadowColor(color);
+}
+
+void ZGILabelWidget::SetShadowVector(Vec2D vector)
+{
+	renderer->SetShadowVector(vector);
+}
+
+void ZGILabelWidget::SetShadowSoftness(float softness)
+{
+	renderer->SetShadowSoftness(softness);
+}
+
+void ZGILabelWidget::SetShadowOpacity(float opacity)
+{
+	renderer->SetShadowOpacity(opacity);
+}
+
+void ZGILabelWidget::SetFontThickness(float thickness)
+{
+	renderer->SetFontThickness(thickness);
+}
+
+void ZGILabelWidget::SetFontBorder(float border)
+{
+	renderer->SetFontBorder(border);
+}
+
 void ZGILabelWidget::SetText(const std::string & text)
 {
 	renderer->SetText(text);
@@ -71,6 +101,11 @@ void ZGILabelWidget::SetTopColor(const Color& c)
 void ZGILabelWidget::SetBottomColor(const Color& c)
 {
 	renderer->SetBottomColor(c);
+}
+
+void ZGILabelWidget::SetBorderColor(const Color & c)
+{
+	renderer->SetBorderColor(c);
 }
 
 void ZGILabelWidget::SetWordWrap(bool wrap)

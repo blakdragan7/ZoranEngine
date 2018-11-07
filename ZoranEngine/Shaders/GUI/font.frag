@@ -4,6 +4,7 @@ uniform sampler2D MSDF;
 uniform float pxRange = 2.0;
 uniform float thickness = 0.0;
 uniform float border = 0.125;
+uniform vec3 shadowColor = vec3(1.0,0.0,0.0);
 uniform vec2 shadowVector = vec2(+0.0625, -0.03125);
 uniform float shadowSoftness = 0.5;
 uniform float shadowOpacity = 0.5;
@@ -37,5 +38,5 @@ void main() {
     sd = 2.0*median(msd.r, msd.g, msd.b)-1.0 + border+thickness;
     float shadow = shadowOpacity*linearStep(-shadowSoftness-pxSize, +shadowSoftness+pxSize, sd);
 
-    color = vec4(mix(vec3(1.0,0.0,0.0), fg.rgb, fg.a), shadow-shadow*fg.a+fg.a);
+    color = vec4(mix(shadowColor, fg.rgb, fg.a), shadow-shadow*fg.a+fg.a);
 }

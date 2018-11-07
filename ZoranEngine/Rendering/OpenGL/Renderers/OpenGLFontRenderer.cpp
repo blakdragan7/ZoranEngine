@@ -29,6 +29,7 @@ void OpenGLFontRenderer::RenderObject(const Matrix44 & cameraMatrix)
 	shader->setUniform("topColor", &topColor);
 	shader->setUniform("bottomColor", &bottomColor);
 	shader->setUniform("shadowVector", &shadowVector);
+	shader->setUniform("shadowColor", &shadowColor);
 	shader->setUniform("pxRange", pxRange);
 	shader->setUniform("thickness", thickness);
 	shader->setUniform("border", border);
@@ -41,10 +42,10 @@ void OpenGLFontRenderer::RenderObject(const Matrix44 & cameraMatrix)
 
 void OpenGLFontRenderer::UpdateRender()
 {
-	if (glyphs->size() < 1)return;
+	if (words->size() < 1)return;
 	//TODO: optimize changed text
 
-	std::vector<TrianglePrimitive> triangles(glyphs->size() * 2);
+	std::vector<TrianglePrimitive> triangles(GetCharCount() * 2);
 
 	float startX = renderStart.x;
 	float startY = renderStart.y;
@@ -55,105 +56,96 @@ void OpenGLFontRenderer::UpdateRender()
 
 	float maxh = 0;
 
-	bool wasCR = false;
-
-	for (uint32_t uni : *glyphs)
+	for (UniWord& word : *words)
 	{
-		if (wasCR && uni == '\n')
-		{
-			continue;
-		}
-
-		wasCR = false;
-		
 		// render a new line when newline char
-		if (uni == '\r' || uni == '\n')
+		if (word.isNewLine)
 		{
-			wasCR = uni == '\r';
-
 			startX = renderStart.x;
-			startY -= (pptSize * 0.7333f) + (pptSize * 0.05);
+			startY -= (pptSize * 0.7333f) + (pptSize * 0.05f);
 			continue;
 		}
 
-		if (uni == '\t')
+		if (word.isTab)
 		{
 			Glyph space = fontResource->GlyphForUnicode(' ');
 
-			startX += (space.advance * scale * 4);
+			startX += static_cast<float>(space.advance * scale * 4);
 			continue;
 		}
-
-		TrianglePrimitive trianglel, triangler;
-		Glyph glyph = fontResource->GlyphForUnicode(uni);
-
-		if (uni == ' ')
-		{
-			startX += static_cast<float>(glyph.advance * scale);
-			continue;
-		}
-
-		float uvAdvance = glyph.uvAdvance;
-
-		float u = glyph.UVOffset.x;
-		float v = glyph.UVOffset.y;
-
-		Vector2D bearing = glyph.bearing;
-
-		start:
-
-		float x = startX + (bearing.x * scale);
-		float y = startY - (bearing.y * scale);
-
-		float w = glyph.size.w * scale;
-		float h = glyph.size.h * scale;
-
-		if (shouldClip && (bounds.w <= ((x + w) - renderStart.x) || bounds.h <= (renderStart.y - (y + h))))
-		{
-			goto next;
-		}
-
-		if(glyph.size.h > maxh)
-			maxh = glyph.size.h;
-
-		trianglel.vertecies[0] = { x, y + h,0 };
-		trianglel.vertecies[1] = { x, y, 0 };
-		trianglel.vertecies[2] = { x + w, y, 0 };
-
-		triangler.vertecies[0] = { x + w, y + h,0 };
-		triangler.vertecies[1] = { x + w, y,0 };
-		triangler.vertecies[2] = { x, y + h,0 };
-
-		trianglel.coords[0] = { u, v + uvAdvance };
-		trianglel.coords[1] = { u, v};
-		trianglel.coords[2] = { u + uvAdvance, v };
-
-		triangler.coords[0] = { u + uvAdvance, v + uvAdvance };
-		triangler.coords[1] = { u + uvAdvance, v };
-		triangler.coords[2] = { u, v + uvAdvance };
-
-		size_t index = 2 * (i++);
-
-		triangles[index] = trianglel;
-		triangles[index + 1] = triangler;
-
-	next:
-
-		startX += static_cast<float>(glyph.advance * scale);
 
 		if (shouldWordWrap)
 		{
-			if (bounds.w <= (startX - renderStart.x))
+			if (bounds.w <= ((startX + (word.advance * scale)) - renderStart.x))
 			{
 				startX = renderStart.x;
 				startY -= (pptSize * 0.7333f);
-
-				goto start;
 			}
 		}
-	}
 
-	Log(LogLevel_None, "Max Height %f", maxh);
+		for (uint32_t uni : word.glyphs)
+		{
+			
+			TrianglePrimitive trianglel, triangler;
+			Glyph glyph = fontResource->GlyphForUnicode(uni);
+
+			if (uni == ' ')
+			{
+				startX += static_cast<float>(glyph.advance * scale);
+				continue;
+			}
+
+			float uvAdvance = glyph.uvAdvance;
+
+			float u = glyph.UVOffset.x;
+			float v = glyph.UVOffset.y;
+
+			Vector2D bearing = glyph.bearing;
+
+			float x = startX + (bearing.x * scale);
+			float y = startY - (bearing.y * scale);
+
+			float w = glyph.size.w * scale;
+			float h = glyph.size.h * scale;
+
+			float diffx = (x + w) - renderStart.x;
+			float diffy = (renderStart.y - y + h);
+
+			if (shouldClip && (bounds.w <= diffx || bounds.h <= diffy))
+			{
+				continue;
+			}
+
+			if (glyph.size.h > maxh)
+				maxh = glyph.size.h;
+
+			trianglel.vertecies[0] = { x, y + h,0 };
+			trianglel.vertecies[1] = { x, y, 0 };
+			trianglel.vertecies[2] = { x + w, y, 0 };
+
+			triangler.vertecies[0] = { x + w, y + h,0 };
+			triangler.vertecies[1] = { x + w, y,0 };
+			triangler.vertecies[2] = { x, y + h,0 };
+
+			trianglel.coords[0] = { u, v + uvAdvance };
+			trianglel.coords[1] = { u, v };
+			trianglel.coords[2] = { u + uvAdvance, v };
+
+			triangler.coords[0] = { u + uvAdvance, v + uvAdvance };
+			triangler.coords[1] = { u + uvAdvance, v };
+			triangler.coords[2] = { u, v + uvAdvance };
+
+			size_t index = 2 * (i++);
+
+			triangles[index] = trianglel;
+			triangles[index + 1] = triangler;
+
+			startX += static_cast<float>(glyph.advance * scale);
+
+		}
+
+		startX += static_cast<float>(word.spaceAdvance * scale);
+	}
 
 	renderer->AddTriangles(triangles);
 }
