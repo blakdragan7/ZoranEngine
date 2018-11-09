@@ -3,6 +3,7 @@
 
 #include <cstdlib>
 #include <cmath>
+
 class Vector2D;
 namespace msdfgen {
 
@@ -13,10 +14,12 @@ namespace msdfgen {
 */
 struct Vector2 {
 
+    static double Epsilon;
+    
     double x, y;
 
     Vector2(double val = 0);
-	Vector2(double x, double y);
+    Vector2(double x, double y);
 	Vector2(const Vector2D& other);
     /// Sets the vector to zero.
     void reset();
@@ -52,6 +55,7 @@ struct Vector2 {
     Vector2 & operator/=(const Vector2 &other);
     Vector2 & operator*=(double value);
     Vector2 & operator/=(double value);
+    bool same(const Vector2 &other) const;
     /// Dot product of two vectors.
     friend double dotProduct(const Vector2 &a, const Vector2 &b);
     /// A special version of the cross product for 2D vectors (returns scalar value).

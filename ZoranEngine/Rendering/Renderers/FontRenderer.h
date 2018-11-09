@@ -33,12 +33,10 @@ protected:
 
 	// Uniform values
 
-	Vector3D topColor;
-	Vector3D bottomColor;
+	Color fontColor;
 	Vector3D borderColor;
 	Vector3D shadowColor;
 
-	float pxRange;
 	float thickness;
 	float border;
 
@@ -85,8 +83,7 @@ public:
 	inline void SetRenderStart(Vec2D start) { renderStart = start; isDirty= true;}
 	inline void SetRenderSize(Vec2D size) { renderSize = size; isDirty = true;}
 
-	inline void SetTopColor(const Color& fColor) { topColor = fColor;}
-	inline void SetBottomColor(const Color& bColor) { bottomColor = bColor;}
+	inline void SetFontColor(const Color& bColor) { fontColor = bColor;}
 	inline void SetBorderColor(const Color& bColor) { borderColor = bColor;}
 
 	inline void SetBounds(Vec2D Bounds) { bounds = Bounds; isDirty = true;}

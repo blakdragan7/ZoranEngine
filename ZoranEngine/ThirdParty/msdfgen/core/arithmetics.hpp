@@ -4,10 +4,10 @@
 #include <cstdlib>
 #include <cmath>
 
+namespace msdfgen {
+
 #undef min
 #undef max
-
-namespace msdfgen {
 
 /// Returns the smaller of the arguments.
 template <typename T>

@@ -30,17 +30,21 @@ class FontResourceInternal
 private:
 	FreetypeHandle* ft;
 	FontHandle *font;
-	Bitmap<FloatRGB>* bitmapData;
+	Bitmap<FloatRGB>* msdfData;
+	Bitmap<float>* sdfData;
+	Bitmap<float>* psdfData;
 	Vector2I lastOffset;
 	size_t lastSize;
 
-	FontResourceInternal() : bitmapData(0), ft(0), font(0), lastSize(0)
+	FontResourceInternal() : msdfData(0), sdfData(0), psdfData(0), ft(0), font(0), lastSize(0)
 	{}
 	~FontResourceInternal() 
 	{
 		if (font)destroyFont(font);
 		if (ft)deinitializeFreetype(ft);
-		if (bitmapData)delete bitmapData; 
+		if (msdfData)delete msdfData;
+		if (sdfData)delete sdfData;
+		if (psdfData)delete psdfData;
 	}
 
 	friend class FontResource;
@@ -51,18 +55,496 @@ const std::string zftHeader = "zft_version_1_0";
 const std::string sourceHeader = "zft_source";
 const std::string bmpHeader = "zft_png";
 const std::string uvHeader = "zft_uv";
+const std::string rangeHeader = "zft_range";
 
-const unsigned numHeaders = 4;
+const unsigned numHeaders = 5;
 
 Glyph GlyphForShape(const Shape& shape, uint32_t uni, int resolution, double advance, float uvAdvance, Vector2 &translate, Vector2 &scale);
 
-FontResource::FontResource(uint32_t resolution)
+FontResource::FontResource(uint32_t resolution, float pxRange, FontSDFType type)
 {
 	_data = new FontResourceInternal();
 	glyphMap = new std::unordered_map<uint32_t, Glyph>();
 	bmpResolution = resolution;
 	sourcePath = new std::string;
 	zSourcePath = new std::string;
+	this->pxRange = pxRange;
+	this->type = type;
+}
+
+FontResource::FontResource()
+{
+	_data = new FontResourceInternal();
+	glyphMap = new std::unordered_map<uint32_t, Glyph>();
+	bmpResolution = 0;
+	sourcePath = new std::string;
+	zSourcePath = new std::string;
+	this->pxRange = 0;
+}
+
+void FontResource::GenerateFromSDF(const std::vector<uint32_t>& glyphs)
+{
+	if (isLoaded == false)
+	{
+		Log(LogLevel_Error, "Trying to create BMP glyph for not loaded font. \n");
+		return;
+	}
+
+	if (glyphs.size() == 0)
+	{
+		Log(LogLevel_Error, "Can not Create 0 Glyphs For Font !\n");
+		return;
+	}
+
+	bool appendBitMap = false;
+
+
+	int size_x = static_cast<int>(sqrt(glyphs.size()));
+	if (size_x * size_x != glyphs.size())
+	{
+		size_x++;
+	}
+
+	bool resizeData = false;
+	if (appendBitMap)
+	{
+		int old_size = (_data->sdfData->width() / bmpResolution);
+		if (old_size < size_x)
+		{
+			resizeData = true;
+		}
+		else
+		{
+			int totalSize = (int)sqrt(_data->lastSize + glyphs.size());
+			if (totalSize * totalSize >= _data->lastSize + glyphs.size())
+			{
+				resizeData = false;
+				size_x = old_size;
+			}
+			else
+			{
+				totalSize++;
+				size_x = totalSize;
+				resizeData = true;
+			}
+		}
+	}
+
+	int x = 0;
+	int y = 0;
+
+	std::vector<BMPLoadDataPart<float>> msdfs;
+
+	for (uint32_t uni : glyphs)
+	{
+		Shape shape;
+		double advance = 0;
+		if (loadGlyph(shape, _data->font, uni, &advance))
+		{
+			shape.normalize();
+			//                      max. angle
+			edgeColoringSimple(shape, 3.0);
+			//           image width, height
+			Bitmap<float>* msdf = new Bitmap<float>(bmpResolution, bmpResolution);
+
+			Vector2 scale, translate;
+
+			Glyph glyph = GlyphForShape(shape, uni, bmpResolution, advance, 1.0f / (float)size_x, translate, scale);
+
+			//                     range, scale, translation
+			//generateMSDF(*msdf, shape, pxRange, scale, translate);
+			generateSDF(*msdf, shape, pxRange, scale, translate);
+
+			msdfs.push_back({ msdf ,{ x,y } ,  glyph });
+
+			x++;
+			if (x >= size_x)
+			{
+				x = 0;
+				y++;
+			}
+		}
+		else
+		{
+			Log(LogLevel_Warning, "Failed to load Glyph %i for Font %s\n", uni, sourcePath);
+		}
+	}
+
+	if (appendBitMap)
+	{
+		if (resizeData)
+		{
+			Bitmap<float>* old = _data->sdfData;
+			Bitmap<float>* nw = new Bitmap<float>(size_x * bmpResolution, size_x * bmpResolution);
+			Insert(*nw, *old, { 0,0 });
+
+			_data->sdfData = nw;
+
+			delete old;
+		}
+	}
+	else
+	{
+		if (_data->sdfData)delete _data->sdfData;
+		_data->sdfData = new Bitmap<float>(size_x * bmpResolution, size_x * bmpResolution);
+	}
+
+	Vector2I offset;
+	Vector2I lastOffset = _data->lastOffset;
+
+	if (appendBitMap)
+	{
+		for (auto& part : msdfs)
+		{
+			part.offset.x++;
+			part.offset += lastOffset;
+			if (part.offset.x >= size_x)
+			{
+				part.offset.x -= size_x;
+				part.offset.y++;
+			}
+		}
+	}
+
+	for (auto part : msdfs)
+	{
+		offset = part.offset;
+		Bitmap<float> *bmp = part.bmp;
+
+		Insert(*_data->sdfData, *bmp, offset * bmpResolution);
+
+		Vector2D uvOffset(offset);
+
+		uvOffset /= static_cast<float>(size_x);
+
+		Glyph glyph = part.glyph;
+		glyph.UVOffset = uvOffset;
+
+		glyphMap->insert({ glyph.glyph,  glyph });
+
+		delete bmp;
+	}
+
+	_data->lastOffset = offset;
+	_data->lastSize = glyphs.size();
+
+	if (fontTexture)delete fontTexture;
+
+	float* pixdata = PixDataForBitmap(*_data->sdfData);
+
+	fontTexture = rEngine->CreateTexture((void*)pixdata, Render_Data_Type_R_8, Render_Data_Format_Float, { _data->sdfData->width(), _data->sdfData->height() });
+
+	free(pixdata);
+}
+
+void FontResource::GenerateFromPSDF(const std::vector<uint32_t>& glyphs)
+{
+	if (isLoaded == false)
+	{
+		Log(LogLevel_Error, "Trying to create BMP glyph for not loaded font. \n");
+		return;
+	}
+
+	if (glyphs.size() == 0)
+	{
+		Log(LogLevel_Error, "Can not Create 0 Glyphs For Font !\n");
+		return;
+	}
+
+	bool appendBitMap = false;
+
+
+	int size_x = static_cast<int>(sqrt(glyphs.size()));
+	if (size_x * size_x != glyphs.size())
+	{
+		size_x++;
+	}
+
+	bool resizeData = false;
+	if (appendBitMap)
+	{
+		int old_size = (_data->psdfData->width() / bmpResolution);
+		if (old_size < size_x)
+		{
+			resizeData = true;
+		}
+		else
+		{
+			int totalSize = (int)sqrt(_data->lastSize + glyphs.size());
+			if (totalSize * totalSize >= _data->lastSize + glyphs.size())
+			{
+				resizeData = false;
+				size_x = old_size;
+			}
+			else
+			{
+				totalSize++;
+				size_x = totalSize;
+				resizeData = true;
+			}
+		}
+	}
+
+	int x = 0;
+	int y = 0;
+
+	std::vector<BMPLoadDataPart<float>> msdfs;
+
+	for (uint32_t uni : glyphs)
+	{
+		Shape shape;
+		double advance = 0;
+		if (loadGlyph(shape, _data->font, uni, &advance))
+		{
+			shape.normalize();
+			//                      max. angle
+			edgeColoringSimple(shape, 3.0);
+			//           image width, height
+			Bitmap<float>* msdf = new Bitmap<float>(bmpResolution, bmpResolution);
+
+			Vector2 scale, translate;
+
+			Glyph glyph = GlyphForShape(shape, uni, bmpResolution, advance, 1.0f / (float)size_x, translate, scale);
+
+			//                     range, scale, translation
+			//generateMSDF(*msdf, shape, pxRange, scale, translate);
+			generatePseudoSDF(*msdf, shape, pxRange, scale, translate);
+
+			msdfs.push_back({ msdf ,{ x,y } ,  glyph });
+
+			x++;
+			if (x >= size_x)
+			{
+				x = 0;
+				y++;
+			}
+		}
+		else
+		{
+			Log(LogLevel_Warning, "Failed to load Glyph %i for Font %s\n", uni, sourcePath);
+		}
+	}
+
+	if (appendBitMap)
+	{
+		if (resizeData)
+		{
+			Bitmap<float>* old = _data->psdfData;
+			Bitmap<float>* nw = new Bitmap<float>(size_x * bmpResolution, size_x * bmpResolution);
+			Insert(*nw, *old, { 0,0 });
+
+			_data->psdfData = nw;
+
+			delete old;
+		}
+	}
+	else
+	{
+		if (_data->psdfData)delete _data->psdfData;
+		_data->psdfData = new Bitmap<float>(size_x * bmpResolution, size_x * bmpResolution);
+	}
+
+	Vector2I offset;
+	Vector2I lastOffset = _data->lastOffset;
+
+	if (appendBitMap)
+	{
+		for (auto& part : msdfs)
+		{
+			part.offset.x++;
+			part.offset += lastOffset;
+			if (part.offset.x >= size_x)
+			{
+				part.offset.x -= size_x;
+				part.offset.y++;
+			}
+		}
+	}
+
+	for (auto part : msdfs)
+	{
+		offset = part.offset;
+		Bitmap<float> *bmp = part.bmp;
+
+		Insert(*_data->psdfData, *bmp, offset * bmpResolution);
+
+		Vector2D uvOffset(offset);
+
+		uvOffset /= static_cast<float>(size_x);
+
+		Glyph glyph = part.glyph;
+		glyph.UVOffset = uvOffset;
+
+		glyphMap->insert({ glyph.glyph,  glyph });
+
+		delete bmp;
+	}
+
+	_data->lastOffset = offset;
+	_data->lastSize = glyphs.size();
+
+	if (fontTexture)delete fontTexture;
+
+	float* pixdata = PixDataForBitmap(*_data->psdfData);
+
+	fontTexture = rEngine->CreateTexture((void*)pixdata, Render_Data_Type_R_8, Render_Data_Format_Float, { _data->psdfData->width(), _data->psdfData->height() });
+
+	free(pixdata);
+}
+
+void FontResource::GenerateFromMSDF(const std::vector<uint32_t>& glyphs)
+{
+	if (isLoaded == false)
+	{
+		Log(LogLevel_Error, "Trying to create BMP glyph for not loaded font. \n");
+		return;
+	}
+
+	if (glyphs.size() == 0)
+	{
+		Log(LogLevel_Error, "Can not Create 0 Glyphs For Font !\n");
+		return;
+	}
+
+	bool appendBitMap = false;
+
+
+	int size_x = static_cast<int>(sqrt(glyphs.size()));
+	if (size_x * size_x != glyphs.size())
+	{
+		size_x++;
+	}
+
+	bool resizeData = false;
+	if (appendBitMap)
+	{
+		int old_size = (_data->msdfData->width() / bmpResolution);
+		if (old_size < size_x)
+		{
+			resizeData = true;
+		}
+		else
+		{
+			int totalSize = (int)sqrt(_data->lastSize + glyphs.size());
+			if (totalSize * totalSize >= _data->lastSize + glyphs.size())
+			{
+				resizeData = false;
+				size_x = old_size;
+			}
+			else
+			{
+				totalSize++;
+				size_x = totalSize;
+				resizeData = true;
+			}
+		}
+	}
+
+	int x = 0;
+	int y = 0;
+
+	std::vector<BMPLoadDataPart<FloatRGB>> msdfs;
+
+	for (uint32_t uni : glyphs)
+	{
+		Shape shape;
+		double advance = 0;
+		if (loadGlyph(shape, _data->font, uni, &advance))
+		{
+			shape.normalize();
+			//                      max. angle
+			edgeColoringSimple(shape, 3.0);
+			//           image width, height
+			Bitmap<FloatRGB>* msdf = new Bitmap<FloatRGB>(bmpResolution, bmpResolution);
+
+			Vector2 scale, translate;
+
+			Glyph glyph = GlyphForShape(shape, uni, bmpResolution, advance, 1.0f / (float)size_x, translate, scale);
+
+			//                     range, scale, translation
+			//generateMSDF(*msdf, shape, pxRange, scale, translate);
+			generateMSDF(*msdf, shape, pxRange, scale, translate);
+
+			msdfs.push_back({ msdf ,{ x,y } ,  glyph });
+
+			x++;
+			if (x >= size_x)
+			{
+				x = 0;
+				y++;
+			}
+		}
+		else
+		{
+			Log(LogLevel_Warning, "Failed to load Glyph %i for Font %s\n", uni, sourcePath);
+		}
+	}
+
+	if (appendBitMap)
+	{
+		if (resizeData)
+		{
+			Bitmap<FloatRGB>* old = _data->msdfData;
+			Bitmap<FloatRGB>* nw = new Bitmap<FloatRGB>(size_x * bmpResolution, size_x * bmpResolution);
+			Insert(*nw, *old, { 0,0 });
+
+			_data->msdfData = nw;
+
+			delete old;
+		}
+	}
+	else
+	{
+		if (_data->msdfData)delete _data->sdfData;
+		_data->msdfData = new Bitmap<FloatRGB>(size_x * bmpResolution, size_x * bmpResolution);
+	}
+
+	Vector2I offset;
+	Vector2I lastOffset = _data->lastOffset;
+
+	if (appendBitMap)
+	{
+		for (auto& part : msdfs)
+		{
+			part.offset.x++;
+			part.offset += lastOffset;
+			if (part.offset.x >= size_x)
+			{
+				part.offset.x -= size_x;
+				part.offset.y++;
+			}
+		}
+	}
+
+	for (auto part : msdfs)
+	{
+		offset = part.offset;
+		Bitmap<FloatRGB> *bmp = part.bmp;
+
+		Insert(*_data->msdfData, *bmp, offset * bmpResolution);
+
+		Vector2D uvOffset(offset);
+
+		uvOffset /= static_cast<float>(size_x);
+
+		Glyph glyph = part.glyph;
+		glyph.UVOffset = uvOffset;
+
+		glyphMap->insert({ glyph.glyph,  glyph });
+
+		delete bmp;
+	}
+
+	_data->lastOffset = offset;
+	_data->lastSize = glyphs.size();
+
+	if (fontTexture)delete fontTexture;
+
+	float* pixdata = PixDataForBitmap(*_data->msdfData);
+
+	fontTexture = rEngine->CreateTexture((void*)pixdata, Render_Data_Type_RGB_24, Render_Data_Format_Float, { _data->msdfData->width(), _data->msdfData->height() });
+
+	free(pixdata);
 }
 
 void FontResource::NormalizeGlyphs()
@@ -118,163 +600,19 @@ const Glyph& FontResource::GlyphForUnicode(uint32_t uni)
 
 void FontResource::CreateBMPForGlyphs(const std::vector<uint32_t>& glyphs)
 {
-	// TODO make sure to properly check for old_size + new size 
-
-	if (isLoaded == false)
+	switch (type)
 	{
-		Log(LogLevel_Error, "Trying to create BMP glyph for not loaded font. \n");
-		return;
+	case Font_SDF_Type_SDF:
+		GenerateFromSDF(glyphs);
+		break;
+	case Font_SDF_Type_PSDF:
+		GenerateFromPSDF(glyphs);
+		break;
+	case Font_SDF_Type_MSDF:
+		GenerateFromMSDF(glyphs);
+		break;
 	}
-
-	if (glyphs.size() == 0)
-	{
-		Log(LogLevel_Error, "Can not Create 0 Glyphs For Font !\n");
-		return;
-	}
-
-	bool appendBitMap = false;
-
-	if (_data->bitmapData)
-	{
-		Log(LogLevel_Verbose, "Already Created font bitmap, creating new and appending \n");
-		appendBitMap = true;
-	}
-
 	
-	int size_x = static_cast<int>(sqrt(glyphs.size()));
-	if (size_x * size_x != glyphs.size())
-	{
-		size_x++;
-	}
-
-	bool resizeData = false;
-	if (appendBitMap)
-	{
-		int old_size = (_data->bitmapData->width() / bmpResolution);
-		if (old_size < size_x)
-		{
-			resizeData = true;
-		}
-		else
-		{
-			int totalSize = (int)sqrt(_data->lastSize + glyphs.size());
-			if (totalSize * totalSize >= _data->lastSize + glyphs.size())
-			{
-				resizeData = false;
-				size_x = old_size;
-			}
-			else
-			{
-				totalSize++;
-				size_x = totalSize;
-				resizeData = true;
-			}
-		}
-	}
-
-	int x = 0;
-	int y = 0;
-
-	std::vector<BMPLoadDataPart<FloatRGB>> msdfs;
-
-	for (uint32_t uni : glyphs)
-	{
-		Shape shape;
-		double advance = 0;
-		if (loadGlyph(shape, _data->font, uni, &advance))
-		{
-			shape.normalize();
-			//                      max. angle
-			edgeColoringSimple(shape, 3.0);
-			//           image width, height
-			Bitmap<FloatRGB>* msdf = new Bitmap<FloatRGB>(bmpResolution, bmpResolution);
-			
-			Vector2 scale, translate;
-
-			Glyph glyph = GlyphForShape(shape, uni, bmpResolution, advance, 1.0f / (float)size_x, translate, scale);
-
-			//                     range, scale, translation
-			generateMSDF(*msdf, shape, 4.0, scale, translate);
-
-			msdfs.push_back({ msdf ,{x,y} ,  glyph });
-
-			x++;
-			if (x >= size_x)
-			{
-				x = 0;
-				y++;
-			}
-		}
-		else
-		{
-			Log(LogLevel_Warning, "Failed to load Glyph %i for Font %s\n", uni, sourcePath);
-		}
-	}
-
-	if (appendBitMap)
-	{
-		if (resizeData)
-		{
-			Bitmap<FloatRGB>* old = _data->bitmapData;
-			Bitmap<FloatRGB>* nw = new Bitmap<FloatRGB>(size_x * bmpResolution, size_x * bmpResolution);
-			Insert(*nw, *old, { 0,0 });
-
-			_data->bitmapData = nw;
-
-			delete old;
-		}
-	}
-	else
-	{
-		_data->bitmapData = new Bitmap<FloatRGB>(size_x * bmpResolution, size_x * bmpResolution);
-	}
-
-	Vector2I offset;
-	Vector2I lastOffset = _data->lastOffset;
-
-	if (appendBitMap)
-	{
-		for (auto& part : msdfs)
-		{
-			part.offset.x++;
-			part.offset += lastOffset;
-			if (part.offset.x >= size_x)
-			{
-				part.offset.x -= size_x;
-				part.offset.y++;
-			}
-		}
-	}
-
-	for (auto part : msdfs)
-	{
-		offset = part.offset;
-		Bitmap<FloatRGB> *bmp = part.bmp;
-
-		Insert(*_data->bitmapData, *bmp, offset * bmpResolution);
-
-		Vector2D uvOffset(offset);
-
-		uvOffset /= static_cast<float>(size_x);
-
-		Glyph glyph = part.glyph;
-		glyph.UVOffset = uvOffset;
-
-		glyphMap->insert({ glyph.glyph,  glyph });
-
-		delete bmp;
-	}
-
-	_data->lastOffset = offset;
-	_data->lastSize = glyphs.size();
-	
-	if (fontTexture)delete fontTexture;
-
-	float* pixdata = PixDataForBitmap(*_data->bitmapData);
-
-	fontTexture = rEngine->CreateTexture((void*)pixdata, Render_Data_Type_RGB_24, Render_Data_Format_Float, {_data->bitmapData->width(), _data->bitmapData->height()});
-
-	free(pixdata);
 }
 
 void FontResource::CreateBMPForASCII(const char * ascii)
@@ -359,6 +697,8 @@ int FontResource::LoadFromFile(const std::string& file)
 
 			if (currentHeader == bmpHeader)
 			{
+				fileS.read((char*)&type, sizeof(type));
+
 				size_t size = 0;
 				fileS.read((char*)&size, sizeof(size_t));
 				char* cData = new char[size];
@@ -368,9 +708,18 @@ int FontResource::LoadFromFile(const std::string& file)
 				unsigned int w, h;
 
 				lodepng_decode_memory(&decoded, &w, &h, (unsigned char*)cData, size, LCT_RGB, 8);
-
-				_data->bitmapData = BitmapFromMemory(decoded, w, h);
-
+				switch (type)
+				{
+				case Font_SDF_Type_SDF:
+					_data->sdfData = FloatBitmapFromMemory(decoded, w, h);
+					break;
+				case Font_SDF_Type_PSDF:
+					_data->psdfData = FloatBitmapFromMemory(decoded, w, h);
+					break;
+				case Font_SDF_Type_MSDF:
+					_data->msdfData = BitmapFromMemory(decoded, w, h);
+					break;
+				}
 				fontTexture = rEngine->CreateTexture((void*)decoded, Render_Data_Type_RGB_24, Render_Data_Format_Unsigned_Byte, { (int)w,(int)h });
 
 				delete cData;
@@ -395,6 +744,10 @@ int FontResource::LoadFromFile(const std::string& file)
 			else if (currentHeader == resolutionHeader)
 			{
 				fileS.read((char*)&bmpResolution, sizeof(bmpResolution));
+			}
+			else if (currentHeader == rangeHeader)
+			{
+				fileS.read((char*)&pxRange, sizeof(pxRange));
 			}
 			else if (currentHeader.empty())
 			{
@@ -421,6 +774,9 @@ int FontResource::LoadFromFile(const std::string& file)
 			zSourcePath->clear();
 			sourcePath->clear();
 			glyphMap->clear();
+			if (_data->sdfData)delete _data->sdfData;
+			if (_data->psdfData)delete _data->psdfData;
+			if (_data->msdfData)delete _data->msdfData;
 
 			return RESOURCE_ERROR_ERROR_LOADING_FILE;
 		}
@@ -433,6 +789,8 @@ int FontResource::LoadFromFile(const std::string& file)
 
 int FontResource::SaveToFile(const std::string & file)
 {
+	// TODO: Save and load pxRange
+
 	if (isLoaded == false)
 	{
 		Log(LogLevel_Warning, "Trying to save unloaded font !\n");
@@ -470,21 +828,53 @@ int FontResource::SaveToFile(const std::string & file)
 		data += "\n";
 	}
 
+	data += rangeHeader + "\n";
+	{
+		data.append((char*)&pxRange, sizeof(pxRange));
+		data += "\n";
+	}
+
 	data += bmpHeader + "\n";
 	{
 		size_t outSize = 0;
 		unsigned char* bdata = 0;
 
-		if (_data->bitmapData == 0)
+		data.append((char*)&type, sizeof(type));
+
+		switch (type)
 		{
-			Log(LogLevel_Error, "Trying to save font without butmap data !!. \n");
-			return RESOURCE_ERROR_ERROR_SAVING_FILE;
+		case Font_SDF_Type_SDF:
+			if (_data->sdfData == 0)
+			{
+				Log(LogLevel_Error, "Trying to save font without butmap data !!. \n");
+				return RESOURCE_ERROR_ERROR_SAVING_FILE;
+			}
+
+			encodePng(&bdata, &outSize, *_data->sdfData);
+			break;
+		case Font_SDF_Type_PSDF:
+			if (_data->psdfData == 0)
+			{
+				Log(LogLevel_Error, "Trying to save font without butmap data !!. \n");
+				return RESOURCE_ERROR_ERROR_SAVING_FILE;
+			}
+
+			encodePng(&bdata, &outSize, *_data->psdfData);
+			break;
+		case Font_SDF_Type_MSDF:
+			if (_data->msdfData == 0)
+			{
+				Log(LogLevel_Error, "Trying to save font without butmap data !!. \n");
+				return RESOURCE_ERROR_ERROR_SAVING_FILE;
+			}
+
+			encodePng(&bdata, &outSize, *_data->msdfData);
+			break;
 		}
 
-		encodePng(&bdata, &outSize, *_data->bitmapData);
-
-		data.append((const char*)&outSize,sizeof(outSize));
+		data.append((const char*)&outSize, sizeof(outSize));
 		data.append(bdata, bdata + outSize);
+
 		data += "\n";
 
 		delete bdata;

@@ -6,13 +6,13 @@
 class OpenGLContext;
 class FontResource;
 class Matrix44;
-class OpenGLFontShader;
+class OpenGLShaderProgramBase;
 class OpenGLTriangleRenderer;
 class OpenGLFontRenderer : public FontRenderer
 {
 private:
 	OpenGLContext * context;
-	OpenGLFontShader* shader;
+	OpenGLShaderProgramBase* shader;
 	OpenGLTriangleRenderer* renderer;
 
 public:

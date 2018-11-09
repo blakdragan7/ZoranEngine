@@ -21,10 +21,17 @@ struct Glyph
 	float uvAdvance; // in UV Coords
 };
 
+enum FontSDFType
+{
+	Font_SDF_Type_MSDF = 0,
+	Font_SDF_Type_PSDF = 1,
+	Font_SDF_Type_SDF  = 2,
+};
+
 class ZoranEngine_EXPORT FontResource : public ResourceBase
 {
 private:
-	TextureBase* fontTexture;
+	TextureBase * fontTexture;
 	std::unordered_map<uint32_t, Glyph>* glyphMap;
 
 	FontResourceInternal* _data;
@@ -32,12 +39,24 @@ private:
 	std::string* zSourcePath;
 
 	uint32_t	bmpResolution;
+	float		pxRange;
+
+	FontSDFType	type;
 
 private:
-	FontResource(uint32_t resolution); // only be created through Resource Manager
+	FontResource(uint32_t resolution, float pxRange, FontSDFType type); // only be created through Resource Manager
+	FontResource(); // only be created through Resource Manager
+
+	void GenerateFromSDF(const std::vector<uint32_t>& glyphs);
+	void GenerateFromPSDF(const std::vector<uint32_t>& glyphs);
+	void GenerateFromMSDF(const std::vector<uint32_t>& glyphs);
 
 public:
 	~FontResource();
+
+	inline float GetPxRange() { return pxRange; }
+
+	inline FontSDFType GetType() { return type; }
 
 	inline TextureBase* GetFontTexture()const { return fontTexture; }
 	const Glyph& GlyphForUnicode(uint32_t uni);

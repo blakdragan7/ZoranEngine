@@ -3,16 +3,30 @@
 
 #include <GL/glew.h>
 
-const ShaderInitMap* OpenGLFontShader::initMap = (new ShaderInitMap(
+const ShaderInitMap* OpenGLSDFFontShader::initMap = (new ShaderInitMap(
 	{
 		{ GL_VERTEX_SHADER, "Shaders/GUI/font.vert" },
-		{ GL_FRAGMENT_SHADER, "Shaders/GUI/font.frag" }
+	{ GL_FRAGMENT_SHADER, "Shaders/GUI/fontSDF.frag" }
 	}));
 
-OpenGLFontShader::OpenGLFontShader(const ShaderInitMap* initMap) : OpenGLShaderProgramBase(initMap)
+OpenGLSDFFontShader::OpenGLSDFFontShader(const ShaderInitMap* initMap) : OpenGLShaderProgramBase(initMap)
 {
 }
 
-OpenGLFontShader::~OpenGLFontShader()
+OpenGLSDFFontShader::~OpenGLSDFFontShader()
+{
+}
+
+const ShaderInitMap* OpenGLMSDFFontShader::initMap = (new ShaderInitMap(
+	{
+		{ GL_VERTEX_SHADER, "Shaders/GUI/font.vert" },
+		{ GL_FRAGMENT_SHADER, "Shaders/GUI/fontMSDF.frag" }
+	}));
+
+OpenGLMSDFFontShader::OpenGLMSDFFontShader(const ShaderInitMap* initMap) : OpenGLShaderProgramBase(initMap)
+{
+}
+
+OpenGLMSDFFontShader::~OpenGLMSDFFontShader()
 {
 }

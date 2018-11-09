@@ -41,8 +41,7 @@ public:
 
 	void SetText(const std::string& text);
 	void SetFontSize(float pptSize);
-	void SetTopColor(const Color& c);
-	void SetBottomColor(const Color& c);
+	void SetFontColor(const Color& c);
 	void SetBorderColor(const Color& c);
 
 	void SetWordWrap(bool wrap);

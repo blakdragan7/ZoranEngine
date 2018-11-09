@@ -176,7 +176,7 @@ bool OpenGLContext::CheckErrors(const char* text)
 			const GLubyte* errorS = gluErrorString(error);
 			if (!errorS)
 				errorS = (const GLubyte*)" ";
-			Log(LogLevel_Error,"%s GL Error %s",text,errorS);
+			Log(LogLevel_Error,"%s GL Error %s\n",text,errorS);
 			hasError = true;
 		}
 

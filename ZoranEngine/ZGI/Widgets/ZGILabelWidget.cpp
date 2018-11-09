@@ -93,14 +93,9 @@ void ZGILabelWidget::SetFontSize(float pptSize)
 	renderer->SetPPTSize(pptSize);
 }
 
-void ZGILabelWidget::SetTopColor(const Color& c)
+void ZGILabelWidget::SetFontColor(const Color& c)
 {
-	renderer->SetTopColor(c);
-}
-
-void ZGILabelWidget::SetBottomColor(const Color& c)
-{
-	renderer->SetBottomColor(c);
+	renderer->SetFontColor(c);
 }
 
 void ZGILabelWidget::SetBorderColor(const Color & c)

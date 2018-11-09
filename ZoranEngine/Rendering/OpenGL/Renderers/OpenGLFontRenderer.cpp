@@ -11,7 +11,10 @@
 OpenGLFontRenderer::OpenGLFontRenderer(FontResource* font,OpenGLContext * context) :  context(context) , FontRenderer(font)
 {
 	renderer = new OpenGLTriangleRenderer(context);
-	shader = static_cast<OpenGLFontShader*>(rEngine->CreateShaderProgram<OpenGLFontShader>());
+	if(font->GetType() == Font_SDF_Type_MSDF)
+		shader = static_cast<OpenGLShaderProgramBase*>(rEngine->CreateShaderProgram<OpenGLMSDFFontShader>());
+	else
+		shader = static_cast<OpenGLShaderProgramBase*>(rEngine->CreateShaderProgram<OpenGLSDFFontShader>());
 }
 
 OpenGLFontRenderer::~OpenGLFontRenderer()
@@ -26,11 +29,10 @@ void OpenGLFontRenderer::RenderObject(const Matrix44 & cameraMatrix)
 	shader->BindProgram();
 	shader->setUniformMat4("MVP", &cameraMatrix[0]);
 	shader->setUniform("msdf", 0);
-	shader->setUniform("topColor", &topColor);
-	shader->setUniform("bottomColor", &bottomColor);
+	shader->setUniform("fontColor", &fontColor);
 	shader->setUniform("shadowVector", &shadowVector);
 	shader->setUniform("shadowColor", &shadowColor);
-	shader->setUniform("pxRange", pxRange);
+	shader->setUniform("pxRange", fontResource->GetPxRange());
 	shader->setUniform("thickness", thickness);
 	shader->setUniform("border", border);
 	shader->setUniform("shadowSoftness", shadowSoftness);
@@ -56,13 +58,15 @@ void OpenGLFontRenderer::UpdateRender()
 
 	float maxh = 0;
 
+	float newLineShift = (pptSize);// +(pptSize * 0.05f);
+
 	for (UniWord& word : *words)
 	{
 		// render a new line when newline char
 		if (word.isNewLine)
 		{
 			startX = renderStart.x;
-			startY -= (pptSize * 0.7333f) + (pptSize * 0.05f);
+			startY -= newLineShift;
 			continue;
 		}
 
@@ -79,7 +83,7 @@ void OpenGLFontRenderer::UpdateRender()
 			if (bounds.w <= ((startX + (word.advance * scale)) - renderStart.x))
 			{
 				startX = renderStart.x;
-				startY -= (pptSize * 0.7333f);
+				startY -= newLineShift;
 			}
 		}
 

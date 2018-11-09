@@ -1,16 +1,37 @@
 #version 450
 
+in vec2 p;
+out vec4 color;
 uniform sampler2D MSDF;
-uniform float pxRange = 2.0;
-uniform float thickness = 0.0;
-uniform float border = 0.125;
-uniform vec3 shadowColor = vec3(1.0,0.0,0.0);
-uniform vec2 shadowVector = vec2(+0.0625, -0.03125);
-uniform float shadowSoftness = 0.5;
-uniform float shadowOpacity = 0.5;
-uniform vec3 bottomColor = vec3(1.0, 1.0, 1.0);
-uniform vec3 topColor = vec3(1.0, 1.0, 1.0);
-uniform vec3 borderColor = vec3(1.0,0.0,0.0);
+uniform float pxRange = 8.0;
+uniform vec4 bgColor = vec4(1.0,0.0,0.0,0.0);
+uniform vec4 fgColor = vec4(1.0,1.0,1.0,1.0);
+
+float median(float r, float g, float b) {
+    return max(min(r, g), min(max(r, g), b));
+}
+
+void main()
+{
+    vec2 msdfUnit = pxRange/vec2(textureSize(MSDF, 0));
+    vec3 sampleR = texture(MSDF, p).rgb;
+    float sigDist = median(sampleR.r, sampleR.g, sampleR.b) - 0.5;
+    sigDist *= dot(msdfUnit, 0.5/fwidth(p));
+    float opacity = clamp(sigDist + 0.5, 0.0, 1.0);
+    color =  mix(bgColor, fgColor, opacity);
+}
+
+/*uniform sampler2D MSDF;
+uniform float pxRange;
+uniform float thickness;
+uniform float border;
+uniform vec3 shadowColor;
+uniform vec2 shadowVector;
+uniform float shadowSoftness;
+uniform float shadowOpacity;
+uniform vec3 bottomColor;
+uniform vec3 topColor;
+uniform vec3 borderColor;
 
 in vec2 p;
 out vec4 color;
@@ -39,4 +60,4 @@ void main() {
     float shadow = shadowOpacity*linearStep(-shadowSoftness-pxSize, +shadowSoftness+pxSize, sd);
 
     color = vec4(mix(shadowColor, fg.rgb, fg.a), shadow-shadow*fg.a+fg.a);
-}
+}*/

@@ -11,16 +11,16 @@ ResourceManager::~ResourceManager()
 {
 }
 
-FontResource * ResourceManager::FontForTTF(const char * ttf, uint32_t resolution)
+FontResource * ResourceManager::FontForTTF(const char * ttf, uint32_t resolution, float pxRange, unsigned sdfType)
 {
-	FontResource* font = new FontResource(resolution);
+	FontResource* font = new FontResource(resolution, pxRange, (FontSDFType)sdfType);
 	font->LoadFromFile(ttf);
 	return font;
 }
 
 FontResource * ResourceManager::FontForZFT(const char * zft)
 {
-	FontResource* font = new FontResource(0);
+	FontResource* font = new FontResource;
 	font->LoadFromFile(zft);
 	return font; return nullptr;
 }

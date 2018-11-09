@@ -29,6 +29,15 @@ static float* PixDataForBitmap(msdfgen::Bitmap<msdfgen::FloatRGB>& source)
 	return pixData;
 }
 
+static float* PixDataForBitmap(msdfgen::Bitmap<float>& source)
+{
+	float* pixData = static_cast<float*>(malloc(source.width() * source.height() * sizeof(float)));
+
+	memcpy(pixData, &source(0, 0), source.width() * source.height() * sizeof(float));
+
+	return pixData;
+}
+
 static msdfgen::Bitmap<msdfgen::FloatRGB>* BitmapFromMemory(unsigned char* bytes, int sizex,int sizey)
 {
 	msdfgen::Bitmap<msdfgen::FloatRGB> *bitmap = new msdfgen::Bitmap<msdfgen::FloatRGB>(sizex, sizey);
@@ -47,6 +56,23 @@ static msdfgen::Bitmap<msdfgen::FloatRGB>* BitmapFromMemory(unsigned char* bytes
 			(*bitmap)(x, y).r = r;
 			(*bitmap)(x, y).g = g;
 			(*bitmap)(x, y).b = b;
+		}
+	}
+
+	return bitmap;
+}
+
+static msdfgen::Bitmap<float>* FloatBitmapFromMemory(unsigned char* bytes, int sizex, int sizey)
+{
+	msdfgen::Bitmap<float> *bitmap = new msdfgen::Bitmap<float>(sizex, sizey);
+
+	for (int x = 0; x < sizex; x++)
+	{
+		for (int y = 0; y < sizey; y++)
+		{
+			int index = ((sizex * y) + x);
+
+			(*bitmap)(x, y) = bytes[index] / (float)0x100;
 		}
 	}
 

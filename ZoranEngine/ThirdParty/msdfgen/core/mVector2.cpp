@@ -1,16 +1,12 @@
 
 #include "Vector2.h"
 #include <Math/Vector2.h>
-
 namespace msdfgen {
 
 Vector2::Vector2(double val) : x(val), y(val) { }
 
 Vector2::Vector2(double x, double y) : x(x), y(y) { }
-
-Vector2::Vector2(const Vector2D & other): x(other.x), y(other.y)
-{
-}
+Vector2::Vector2(const Vector2D& other) : x(other.x), y(other.y) { }
 
 void Vector2::reset() {
     x = 0, y = 0;
@@ -68,6 +64,12 @@ bool Vector2::operator==(const Vector2 &other) const {
 
 bool Vector2::operator!=(const Vector2 &other) const {
     return x != other.x || y != other.y;
+}
+
+double Vector2::Epsilon = 0.01;
+    
+bool Vector2::same(const Vector2 &other) const {
+    return fabs(x - other.x) <= Epsilon && fabs(y - other.y) <= Epsilon;
 }
 
 Vector2 Vector2::operator+() const {

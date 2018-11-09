@@ -447,9 +447,6 @@
     <ClCompile Include="ThirdParty\msdfgen\core\SignedDistance.cpp">
       <Filter>ZoranEngine\ThirdParty\msdfgen\core</Filter>
     </ClCompile>
-    <ClCompile Include="ThirdParty\msdfgen\core\mVector2.cpp">
-      <Filter>ZoranEngine\ThirdParty\msdfgen\core</Filter>
-    </ClCompile>
     <ClCompile Include="ThirdParty\msdfgen\ext\import-font.cpp">
       <Filter>ZoranEngine\ThirdParty\msdfgen\ext</Filter>
     </ClCompile>
@@ -638,6 +635,9 @@
     </ClCompile>
     <ClCompile Include="ZGI\Widgets\ZGILabelWidget.cpp">
       <Filter>ZoranEngine\ZGI\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\msdfgen\core\mVector2.cpp">
+      <Filter>ZoranEngine\ThirdParty\msdfgen\core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1242,9 +1242,6 @@
       <Filter>ZoranEngine\ThirdParty\msdfgen\core</Filter>
     </ClInclude>
     <ClInclude Include="ThirdParty\msdfgen\core\SignedDistance.h">
-      <Filter>ZoranEngine\ThirdParty\msdfgen\core</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\msdfgen\core\Vector2.h">
       <Filter>ZoranEngine\ThirdParty\msdfgen\core</Filter>
     </ClInclude>
     <ClInclude Include="ThirdParty\msdfgen\ext\import-font.h">
@@ -2024,6 +2021,9 @@
     <ClInclude Include="ZGI\Widgets\ZGILabelWidget.h">
       <Filter>ZoranEngine\ZGI\Widgets</Filter>
     </ClInclude>
+    <ClInclude Include="ThirdParty\msdfgen\core\Vector2.h">
+      <Filter>ZoranEngine\ThirdParty\msdfgen\core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ZoranEngine.rc">
@@ -2080,9 +2080,6 @@
     <None Include="Shaders\3D\standardNoTexture.vert">
       <Filter>ZoranEngine\Shaders\3D</Filter>
     </None>
-    <None Include="Shaders\GUI\font.frag">
-      <Filter>ZoranEngine\Shaders\GUI</Filter>
-    </None>
     <None Include="Shaders\GUI\font.vert">
       <Filter>ZoranEngine\Shaders\GUI</Filter>
     </None>
@@ -2090,6 +2087,12 @@
       <Filter>ZoranEngine\Shaders\GUI</Filter>
     </None>
     <None Include="Shaders\GUI\gui.vert">
+      <Filter>ZoranEngine\Shaders\GUI</Filter>
+    </None>
+    <None Include="Shaders\GUI\fontMSDF.frag">
+      <Filter>ZoranEngine\Shaders\GUI</Filter>
+    </None>
+    <None Include="Shaders\GUI\fontSDF.frag">
       <Filter>ZoranEngine\Shaders\GUI</Filter>
     </None>
   </ItemGroup>

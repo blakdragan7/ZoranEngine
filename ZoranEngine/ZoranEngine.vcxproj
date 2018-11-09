@@ -46,8 +46,9 @@
     </None>
     <None Include="Shaders\3D\standardNoTexture.frag" />
     <None Include="Shaders\3D\standardNoTexture.vert" />
-    <None Include="Shaders\GUI\font.frag" />
     <None Include="Shaders\GUI\font.vert" />
+    <None Include="Shaders\GUI\fontMSDF.frag" />
+    <None Include="Shaders\GUI\fontSDF.frag" />
     <None Include="Shaders\GUI\gui.frag" />
     <None Include="Shaders\GUI\gui.vert" />
     <None Include="ThirdParty\assimp\color4.inl" />
@@ -223,6 +224,9 @@
     <ClCompile Include="ThirdParty\msdfgen\core\msdfgen.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="ThirdParty\msdfgen\core\mVector2.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="ThirdParty\msdfgen\core\render-sdf.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -236,9 +240,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="ThirdParty\msdfgen\core\SignedDistance.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="ThirdParty\msdfgen\core\mVector2.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="ThirdParty\msdfgen\ext\import-font.cpp">

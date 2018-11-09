@@ -149,7 +149,7 @@ unsigned OpenGLTexture::GLTypeFromRenderDataType(RenderDataType type)
 		return GL_RG;
 		break;
 	case Render_Data_Type_R_8:
-		return GL_R;
+		return GL_RED;
 		break;
 	default:
 		Log(LogLevel_Error, "OpenGLTexture::GLTypeFromRenderDataType RenderDataType Not Recognized !");
