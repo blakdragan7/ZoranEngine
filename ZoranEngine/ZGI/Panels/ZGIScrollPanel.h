@@ -1,17 +1,23 @@
 #pragma once
 #include <ZGI\Panels\ZGIPanel.h>
-class ZoranEngine_EXPORT ZGIUniformScalePanel : public ZGIPanel
+
+class TriangleStripRenderer;
+class ZGIVirtualViewport;
+class ZoranEngine_EXPORT ZGIScrollPanel : public ZGIPanel
 {
 private:
-	ZGIWidget*	content;
-	Vector2D	contentStartingSize; // contents starting size
+	ZGIWidget * content;
+	TriangleStripRenderer* renderer;
+	ZGIVirtualViewport* viewport;
+	Vector2D scrollOffset;
+	Vector2D scrollBarSize;
 
-private:
-	void RepositionContent();
+	Vector2D scrollDirection;
+	bool isScrolling;
 
 public:
-	ZGIUniformScalePanel(ZGIVirtualWindow* owningWindow);
-	~ZGIUniformScalePanel();
+	ZGIScrollPanel(ZGIVirtualWindow* owner);
+	~ZGIScrollPanel();
 
 	/* Pannel Override */
 	virtual bool KeyEventSub(KeyEventType type, unsigned key)override;
@@ -35,5 +41,9 @@ public:
 
 	virtual void Render(const Matrix44& projection)override;
 
-};
+	virtual ZGIWidget* HitTest(Vec2D pos)override;
 
+	// keyboard event
+
+	virtual bool KeyEvent(KeyEventType type, unsigned key)override;
+};

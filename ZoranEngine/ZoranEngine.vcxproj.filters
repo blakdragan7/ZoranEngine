@@ -273,9 +273,6 @@
     <ClCompile Include="Core\CameraBase.cpp">
       <Filter>ZoranEngine\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Core\CommonTypes.cpp">
-      <Filter>ZoranEngine\Core</Filter>
-    </ClCompile>
     <ClCompile Include="Core\SceneObject.cpp">
       <Filter>ZoranEngine\Core</Filter>
     </ClCompile>
@@ -638,6 +635,9 @@
     </ClCompile>
     <ClCompile Include="ThirdParty\msdfgen\core\mVector2.cpp">
       <Filter>ZoranEngine\ThirdParty\msdfgen\core</Filter>
+    </ClCompile>
+    <ClCompile Include="ZGI\Panels\ZGIScrollPanel.cpp">
+      <Filter>ZoranEngine\ZGI\Panels</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2023,6 +2023,9 @@
     </ClInclude>
     <ClInclude Include="ThirdParty\msdfgen\core\Vector2.h">
       <Filter>ZoranEngine\ThirdParty\msdfgen\core</Filter>
+    </ClInclude>
+    <ClInclude Include="ZGI\Panels\ZGIScrollPanel.h">
+      <Filter>ZoranEngine\ZGI\Panels</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

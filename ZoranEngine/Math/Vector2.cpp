@@ -282,6 +282,10 @@ inline Vector2D operator*(float d, const Vector2D& v)
 Vector2I::Vector2I(void) : x(0), y(0) { }
 Vector2I::Vector2I(int x_, int y_) : x(x_), y(y_) { }
 
+Vector2I::Vector2I(const Vector2D & other) : x((int)other.x), y((int)other.y)
+{
+}
+
 Vector2I::~Vector2I(void) {}
 
 Vector2I Vector2I::operator -(const Vector2I& other)const

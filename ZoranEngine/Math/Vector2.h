@@ -82,6 +82,7 @@ public:
 
 	Vector2I(void);
 	Vector2I(int x_, int y_);
+	Vector2I(const Vector2D& other);
 
 	~Vector2I(void);
 

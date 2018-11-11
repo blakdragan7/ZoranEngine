@@ -93,7 +93,6 @@
     <ClCompile Include="Core\Audio\AL\OALSoundInstance.cpp" />
     <ClCompile Include="Core\Audio\AudioEngineBase.cpp" />
     <ClCompile Include="Core\CameraBase.cpp" />
-    <ClCompile Include="Core\CommonTypes.cpp" />
     <ClCompile Include="Core\Components\CollisionComponentBase.cpp" />
     <ClCompile Include="Core\Components\ComponentBase.cpp" />
     <ClCompile Include="Core\Components\RigidBodyComponent.cpp" />
@@ -264,6 +263,7 @@
     <ClCompile Include="ZGI\Core\ZGIBase.cpp" />
     <ClCompile Include="ZGI\Core\ZGIVirtualViewport.cpp" />
     <ClCompile Include="ZGI\Panels\ZGIPanel.cpp" />
+    <ClCompile Include="ZGI\Panels\ZGIScrollPanel.cpp" />
     <ClCompile Include="ZGI\Panels\ZGIUniformScalePanel.cpp" />
     <ClCompile Include="ZGI\Widgets\ZGIImageWidget.cpp" />
     <ClCompile Include="ZGI\Widgets\ZGILabelWidget.cpp" />
@@ -727,6 +727,7 @@
     <ClInclude Include="ZGI\Core\ZGIBase.h" />
     <ClInclude Include="ZGI\Core\ZGIVirtualViewport.h" />
     <ClInclude Include="ZGI\Panels\ZGIPanel.h" />
+    <ClInclude Include="ZGI\Panels\ZGIScrollPanel.h" />
     <ClInclude Include="ZGI\Panels\ZGIUniformScalePanel.h" />
     <ClInclude Include="ZGI\Widgets\ZGIImageWidget.h" />
     <ClInclude Include="ZGI\Widgets\ZGILabelWidget.h" />

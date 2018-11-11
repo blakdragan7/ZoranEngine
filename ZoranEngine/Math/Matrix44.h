@@ -58,6 +58,8 @@ public:
 
 	void operator =(const Matrix44& other);
 
+	Matrix44 operator -()const;
+
 	Matrix44 operator +(const Matrix44 &other)const;
 	Matrix44 operator -(const Matrix44 &other)const;
 	Matrix44 operator *(const Matrix44 &other)const;

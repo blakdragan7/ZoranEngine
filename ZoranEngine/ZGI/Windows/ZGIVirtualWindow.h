@@ -24,6 +24,8 @@ public:
 	
 	virtual void OSWindowWasResized(Vec2I newSize);
 
+	inline Vec2D GetGlobalOffsetCache() { return globalOffsetCache; }
+
 	virtual void SetRootContent(ZGIWidget* widget);
 	inline ZGIWidget* GetRootContent() { return rootContent; };
 

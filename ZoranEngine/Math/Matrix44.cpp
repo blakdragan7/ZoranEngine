@@ -271,6 +271,18 @@ void Matrix44::operator =(const Matrix44& other)
 	memcpy(c_array, other.c_array, array_size * sizeof(float));
 }
 
+Matrix44 Matrix44::operator-() const
+{
+	Matrix44 mat;
+
+	for (int i = 0; i < array_size; i++)
+	{
+		mat.c_array[i] = -c_array[i];
+	}
+
+	return mat;
+}
+
 Matrix44 Matrix44::operator +(const Matrix44 &other)const
 {
 	Matrix44 mat;

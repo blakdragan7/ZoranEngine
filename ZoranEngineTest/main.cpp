@@ -15,6 +15,7 @@
 #include <Core/WindowBase.h>
 #include <ZGI/Windows/ZGIGameVirtualWindow.h>
 #include <ZGI/Panels/ZGIUniformScalePanel.h>
+#include <ZGI/Panels/ZGIScrollPanel.h>
 #include <ZGI/Widgets/ZGIImageWidget.h>
 #include <ZGI/Widgets/ZGILabelWidget.h>
 
@@ -166,15 +167,15 @@ void TestGUIStuff()
 	auto vW = window->GetRootVirtualWindow();
 
 	ResourceManager man;
-	//FontResource* font = man.FontForZFT("arial-msdf.zft");
-	FontResource* font = man.FontForTTF("C:\\Windows\\Fonts\\arial.ttf", 64, 4.0, Font_SDF_Type_MSDF);
-	//font->CreateBMPForASCII("ga");
+	FontResource* font = man.FontForZFT("arial-msdf.zft");
+	/*FontResource* font = man.FontForTTF("C:\\Windows\\Fonts\\arial.ttf", 64, 4.0, Font_SDF_Type_MSDF);
 	font->CreateBMPForASCII("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_-+=\\\"';:/?.>,<~` ");
 	font->NormalizeGlyphs();
-	font->SaveToFile("arial-msdf");
+	font->SaveToFile("arial-msdf");*/
 
 	auto p = new ZGIUniformScalePanel(vW);
 	auto l = new ZGILabelWidget(font, vW);
+	auto s = new ZGIScrollPanel(vW);
 	//auto i = new ZGIImageWidget(vW);
 
 	//i->SetImage(font->GetFontTexture());
@@ -204,7 +205,9 @@ void TestGUIStuff()
 	l->SetFontBorder(0.0);
 	l->SetBorderColor({ 0.5,0.5,1.0,1.0 });
 
-	p->AddWidget(l);
+	s->AddWidget(l);
+
+	p->AddWidget(s);
 	//p->AddWidget(i);
 
 	vW->SetRootContent(p);

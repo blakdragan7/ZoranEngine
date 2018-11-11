@@ -147,8 +147,19 @@ void WindowsWindow::SetSizeAndPositionByRect(RECT rect)
 
 unsigned WindowsWindow::ConvertWPARAMToKey(WPARAM key)
 {
-	if(key < 0x70 || key > 0x87)return static_cast<unsigned>(key); // ascii
-	return static_cast<unsigned>(key + 0x378);
+	if (key == VK_DOWN)
+		return Key_Down_Arrow;
+	else if (key == VK_UP)
+		return Key_Up_Arrow;
+	else if (key == VK_LEFT)
+		return Key_Left_Arrow;
+	else if (key == VK_RIGHT)
+		return Key_Right_Arrow;
+
+	else if(key < 0x70 || key > 0x87)return static_cast<unsigned>(key); // ascii
+	
+	else
+		return static_cast<unsigned>(key + 0x378);
 }
 
 void WindowsWindow::SetPosition(long x, long y)
@@ -239,35 +250,35 @@ static LRESULT CALLBACK wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 		}
 		if (uMsg == WM_KEYDOWN)
 		{
-			zEngine->KeyEvent(KEY_DOWN, pThis->ConvertWPARAMToKey(wParam));
-			pThis->rootVirtualWindow->KeyEvent(KEY_DOWN, pThis->ConvertWPARAMToKey(wParam));
+			zEngine->KeyEvent(KeyEventType_Key_Down, pThis->ConvertWPARAMToKey(wParam));
+			pThis->rootVirtualWindow->KeyEvent(KeyEventType_Key_Down, pThis->ConvertWPARAMToKey(wParam));
 		}
 		if (uMsg == WM_KEYUP)
 		{
-			zEngine->KeyEvent(KEY_UP, pThis->ConvertWPARAMToKey(wParam));
-			pThis->rootVirtualWindow->KeyEvent(KEY_UP, pThis->ConvertWPARAMToKey(wParam));
+			zEngine->KeyEvent(KeyEventType_Key_Up, pThis->ConvertWPARAMToKey(wParam));
+			pThis->rootVirtualWindow->KeyEvent(KeyEventType_Key_Up, pThis->ConvertWPARAMToKey(wParam));
 		}
 		if (uMsg == WM_LBUTTONDOWN)
 		{
-			zEngine->MouseEvent(MOUSE_L_DOWN, 0);
+			zEngine->MouseEvent(MouseEventType_L_Down, 0);
 			pThis->m->SetLeftMouseIsPressed(true);
 			pThis->rootVirtualWindow->MouseDown(pThis->m);
 		}
 		if (uMsg == WM_RBUTTONDOWN)
 		{
-			zEngine->MouseEvent(MOUSE_R_DOWN, 0);
+			zEngine->MouseEvent(MouseEventType_R_Down, 0);
 			pThis->m->SetRightMouseIsPressed(true);
 			pThis->rootVirtualWindow->MouseDown(pThis->m);
 		}
 		if (uMsg == WM_LBUTTONUP)
 		{
-			zEngine->MouseEvent(MOUSE_L_UP, 0);
+			zEngine->MouseEvent(MouseEventType_L_Up, 0);
 			pThis->m->SetLeftMouseIsPressed(false);
 			pThis->rootVirtualWindow->MouseUp(pThis->m);
 		}
 		if (uMsg == WM_RBUTTONUP)
 		{
-			zEngine->MouseEvent(MOUSE_R_UP, 0);
+			zEngine->MouseEvent(MouseEventType_R_Up, 0);
 			pThis->m->SetRightMouseIsPressed(false);
 			pThis->rootVirtualWindow->MouseUp(pThis->m);
 		}

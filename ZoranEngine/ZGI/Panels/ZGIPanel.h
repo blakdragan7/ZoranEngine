@@ -8,6 +8,9 @@ public:
 	ZGIPanel(ZGIVirtualWindow* owningWindow);
 	~ZGIPanel();
 
+
+	virtual bool KeyEventSub(KeyEventType type, unsigned key) = 0;
+
 	virtual bool CanAddWidget(ZGIWidget* widget)const = 0;
 	virtual void AddWidget(ZGIWidget* widget) = 0;
 	virtual void RemoveWidget(ZGIWidget* widget) = 0;
@@ -24,4 +27,6 @@ public:
 
 	virtual bool MouseDown(const PlatformMouseBase*)override;
 	virtual bool MouseUp(const PlatformMouseBase*)override;
+
+	virtual bool KeyEvent(KeyEventType type, unsigned key)override;
 };

@@ -20,6 +20,12 @@ ZGIUniformScalePanel::~ZGIUniformScalePanel()
 	if (content)delete content;
 }
 
+bool ZGIUniformScalePanel::KeyEventSub(KeyEventType type, unsigned key)
+{
+	if (content)return content->KeyEvent(type, key);
+	return false;
+}
+
 bool ZGIUniformScalePanel::CanAddWidget(ZGIWidget * widget)const
 {
 	return content == 0;

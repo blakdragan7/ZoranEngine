@@ -103,12 +103,12 @@ void ZGILabelWidget::SetBorderColor(const Color & c)
 	renderer->SetBorderColor(c);
 }
 
-void ZGILabelWidget::SetWordWrap(bool wrap)
+void ZGILabelWidget::SetShouldWordWrap(bool wrap)
 {
 	renderer->SetShouldWordWrap(wrap);
 }
 
-void ZGILabelWidget::SetClipFont(bool clip)
+void ZGILabelWidget::SetShouldClipFont(bool clip)
 {
 	renderer->SetShouldClip(clip);
 }

@@ -259,7 +259,7 @@ void ZoranEngine::KeyEvent(KeyEventType type, unsigned key)
 {
 	switch (type)
 	{
-	case KEY_DOWN:
+	case KeyEventType_Key_Down:
 		switch (key)
 		{
 			case VK_SPACE:
@@ -282,7 +282,7 @@ void ZoranEngine::KeyEvent(KeyEventType type, unsigned key)
 				break;
 		}
 		break;
-	case KEY_UP:
+	case KeyEventType_Key_Up:
 		if (key == Key_F11)mainWindow->SetWindowFullScreen(!mainWindow->IsFullScreen());
 		break;
 	}

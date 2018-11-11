@@ -44,8 +44,8 @@ public:
 	void SetFontColor(const Color& c);
 	void SetBorderColor(const Color& c);
 
-	void SetWordWrap(bool wrap);
-	void SetClipFont(bool clip);
+	void SetShouldWordWrap(bool wrap);
+	void SetShouldClipFont(bool clip);
 
 	void SetHorizontalAlignment(HorizontalTextAlignment alignment);
 	void SetVerticalAlignment(VerticalTextAlignment alignment);
