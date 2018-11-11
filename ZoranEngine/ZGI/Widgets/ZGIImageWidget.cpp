@@ -53,14 +53,14 @@ void ZGIImageWidget::Render(const Matrix44 & projection)
 
 bool ZGIImageWidget::MouseEnterd(const PlatformMouseBase *)
 {
-	renderer->SetTint(Color::Blue);
+	//renderer->SetTint(Color::Blue);
 
 	return true;
 }
 
 bool ZGIImageWidget::MouseLeft(const PlatformMouseBase *)
 {
-	renderer->SetTint(Color::Transparent);
+	//renderer->SetTint(Color::Transparent);
 
 	return true;
 }

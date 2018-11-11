@@ -166,22 +166,25 @@ void TestGUIStuff()
 	auto vW = window->GetRootVirtualWindow();
 
 	ResourceManager man;
-	FontResource* font = man.FontForZFT("arial.zft");
-	/*FontResource* font = man.FontForTTF("C:\\Windows\\Fonts\\arial.ttf", 64, 8.0, Font_SDF_Type_SDF);
+	//FontResource* font = man.FontForZFT("arial-msdf.zft");
+	FontResource* font = man.FontForTTF("C:\\Windows\\Fonts\\arial.ttf", 64, 4.0, Font_SDF_Type_MSDF);
+	//font->CreateBMPForASCII("ga");
 	font->CreateBMPForASCII("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_-+=\\\"';:/?.>,<~` ");
 	font->NormalizeGlyphs();
-	font->SaveToFile("arial");*/
+	font->SaveToFile("arial-msdf");
 
 	auto p = new ZGIUniformScalePanel(vW);
 	auto l = new ZGILabelWidget(font, vW);
 	//auto i = new ZGIImageWidget(vW);
 
-	//i->SetImage("test.png");
+	//i->SetImage(font->GetFontTexture());
+	//i->SetSize({ 100,100 });
 
 	p->SetDrawDebugView(false);
 	l->SetDrawDebugView(false);
 
 	l->SetFontSize(100);
+	//l->SetText("ga");
 	l->SetText( "This is a sentence.\r"\
 				"This is a sentence after a carriage return.\r\n"\
 				"That was a windows newline.\n"\
@@ -190,12 +193,20 @@ void TestGUIStuff()
 				"That was a double new line.\r\n\r\n"\
 				"That was a double windows newline.");
 
+	// shadow kind of works
+
 	l->SetShadowColor({ 0,0,0 });
 	l->SetShadowVector({ -3.0f,0.0f });
-	l->SetShadowOpacity(1.0f);
+	l->SetShadowOpacity(0.0f);
+
+	//border words
+
+	l->SetFontBorder(0.0);
+	l->SetBorderColor({ 0.5,0.5,1.0,1.0 });
 
 	p->AddWidget(l);
-	
+	//p->AddWidget(i);
+
 	vW->SetRootContent(p);
 	
 	engine.MainLoop();

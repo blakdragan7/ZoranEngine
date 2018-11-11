@@ -30,6 +30,7 @@ void OpenGLFontRenderer::RenderObject(const Matrix44 & cameraMatrix)
 	shader->setUniformMat4("MVP", &cameraMatrix[0]);
 	shader->setUniform("msdf", 0);
 	shader->setUniform("fontColor", &fontColor);
+	shader->setUniform("borderColor", &borderColor);
 	shader->setUniform("shadowVector", &shadowVector);
 	shader->setUniform("shadowColor", &shadowColor);
 	shader->setUniform("pxRange", fontResource->GetPxRange());
@@ -99,18 +100,19 @@ void OpenGLFontRenderer::UpdateRender()
 				continue;
 			}
 
-			float uvAdvance = glyph.uvAdvance;
-
-			float u = glyph.UVOffset.x;
-			float v = glyph.UVOffset.y;
-
+			float uvxAdvance = glyph.uvAdvance - (glyph.translate.x);
+			float uvyAdvance = glyph.uvAdvance - (glyph.translate.y);
+												 
+			float u = glyph.UVOffset.x + (glyph.translate.x/4.0f);
+			float v = glyph.UVOffset.y + (glyph.translate.y/4.0f);
+										 
 			Vector2D bearing = glyph.bearing;
 
 			float x = startX + (bearing.x * scale);
 			float y = startY - (bearing.y * scale);
 
-			float w = glyph.size.w * scale;
-			float h = glyph.size.h * scale;
+			float w = glyph.size.w * scale*0.99f;
+			float h = glyph.size.h * scale*0.99f;
 
 			float diffx = (x + w) - renderStart.x;
 			float diffy = (renderStart.y - y + h);
@@ -131,13 +133,13 @@ void OpenGLFontRenderer::UpdateRender()
 			triangler.vertecies[1] = { x + w, y,0 };
 			triangler.vertecies[2] = { x, y + h,0 };
 
-			trianglel.coords[0] = { u, v + uvAdvance };
+			trianglel.coords[0] = { u, v + uvyAdvance };
 			trianglel.coords[1] = { u, v };
-			trianglel.coords[2] = { u + uvAdvance, v };
+			trianglel.coords[2] = { u + uvxAdvance, v };
 
-			triangler.coords[0] = { u + uvAdvance, v + uvAdvance };
-			triangler.coords[1] = { u + uvAdvance, v };
-			triangler.coords[2] = { u, v + uvAdvance };
+			triangler.coords[0] = { u + uvxAdvance, v + uvyAdvance };
+			triangler.coords[1] = { u + uvxAdvance, v };
+			triangler.coords[2] = { u, v + uvyAdvance };
 
 			size_t index = 2 * (i++);
 

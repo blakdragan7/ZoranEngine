@@ -13,6 +13,7 @@ class FontResourceInternal;
 struct Glyph
 {
 	uint32_t glyph;
+	Vector2D translate; // translating done to generation
 	Vector2D UVOffset; // un UV Coords [0-1]
 	Vector2D bearing; // in pixels
 	Vector2D size; // in pixels

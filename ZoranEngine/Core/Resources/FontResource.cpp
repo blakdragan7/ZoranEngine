@@ -527,9 +527,11 @@ void FontResource::GenerateFromMSDF(const std::vector<uint32_t>& glyphs)
 
 		uvOffset /= static_cast<float>(size_x);
 
+
 		Glyph glyph = part.glyph;
 		glyph.UVOffset = uvOffset;
-
+		glyph.translate /= bmpResolution;
+		//glyph.translate = 0;
 		glyphMap->insert({ glyph.glyph,  glyph });
 
 		delete bmp;
@@ -912,7 +914,7 @@ Glyph GlyphForShape(const Shape& shape, uint32_t uni, int resolution, double adv
 {
 	Glyph glyph;
 
-	glyph.advance = advance / (double)resolution;
+	glyph.advance = (advance / (double)resolution) * 0.8;
 	glyph.glyph = uni;
 	glyph.uvAdvance = uvAdvance;
 
@@ -930,13 +932,17 @@ Glyph GlyphForShape(const Shape& shape, uint32_t uni, int resolution, double adv
 		//assert("Cannot fit the specified pixel range.");
 	Vector2 dims(r - l, t - b);
 
-	translate = Vector2D((float)-l, (float)-b);
+	Vector2D tr((float)dims.x * 0.05f, (float)dims.y *0.15f);
 
-	//scale = frame.y / dims.y ;
+	translate = Vector2D((float)(-l + tr.x), (float)(-b + tr.y));
+
 	scale = frame / dims;
+	scale *= 0.70f;
 
-	glyph.bearing = { (float)translate.x / (float)resolution, (float)translate.y / (float)resolution };
+	glyph.translate = Vector2D((float)tr.x, (float)tr.y / 2.0);
+	glyph.bearing = { (float)-l / (float)resolution, (float)-b / (float)resolution };
 	glyph.size = { (float)dims.x / (float)resolution,(float)dims.y / (float)resolution };
-	glyph.invScale = { 1.0f / (float)scale.x, 1.0f / (float)scale.y };;
+	glyph.invScale = { 1.0f / (float)scale.x, 1.0f / (float)scale.y };
+
 	return glyph;
 }
