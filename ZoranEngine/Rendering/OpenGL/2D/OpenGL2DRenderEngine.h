@@ -47,6 +47,7 @@ public:
 	virtual TriangleStripRenderer* CreateTriangleStripRenderer()override;
 	virtual FontRenderer* CreateFontRenderer(FontResource* font)override;
 	virtual GUIRenderer* CreateGUIRenderer()override;
+	virtual GUIColoredRectRenderer* CreateGUIColoredRectRenderer()override;
 
 	virtual void DrawScene(const Matrix44& cameraMatrix)override;
 	virtual void DrawDebugGUI()override;
@@ -54,5 +55,7 @@ public:
 	virtual void AddComponent(Visible2DComponent* component)override;
 	virtual bool RemoveComponent(Visible2DComponent* component)override;
 
-	virtual const char* GetEngineReadableName() { return "OpenGL 2D RenderEngine"; };
+	virtual const char* GetEngineReadableName()const override { return "OpenGL 2D RenderEngine"; };
+
+	virtual ShaderProgramBase* StandardTexturedShader()override;
 };

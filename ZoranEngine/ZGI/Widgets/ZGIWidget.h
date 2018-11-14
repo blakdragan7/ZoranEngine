@@ -48,7 +48,7 @@ public:
 	// therfore this is purely for rendering, not functionality
 	virtual void SetRotation(float rotation);
 
-	inline Vec2D GetSize() { return size; }
+	virtual Vector2D GetSize() { return size; }
 	inline Vec2D GetPosition() { return position; }
 
 	// standard 2d hit test

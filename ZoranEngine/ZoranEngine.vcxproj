@@ -51,6 +51,8 @@
     <None Include="Shaders\GUI\fontSDF.frag" />
     <None Include="Shaders\GUI\gui.frag" />
     <None Include="Shaders\GUI\gui.vert" />
+    <None Include="Shaders\GUI\guiColoredRect.frag" />
+    <None Include="Shaders\GUI\guiColoredRect.vert" />
     <None Include="ThirdParty\assimp\color4.inl" />
     <None Include="ThirdParty\assimp\material.inl" />
     <None Include="ThirdParty\assimp\matrix3x3.inl" />
@@ -142,6 +144,7 @@
     <ClCompile Include="Rendering\OpenGL\3D\StandardNoTextureShader.cpp" />
     <ClCompile Include="Rendering\OpenGL\3D\StandardShader3D.cpp" />
     <ClCompile Include="Rendering\OpenGL\GUI\OpenGLFontShader.cpp" />
+    <ClCompile Include="Rendering\OpenGL\GUI\OpenGLGUIColoredRectShader.cpp" />
     <ClCompile Include="Rendering\OpenGL\GUI\OpenGLGUIShader.cpp" />
     <ClCompile Include="Rendering\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="Rendering\OpenGL\OpenGLFrameBuffer.cpp" />
@@ -151,6 +154,7 @@
     <ClCompile Include="Rendering\OpenGL\OpenGLTexture.cpp" />
     <ClCompile Include="Rendering\OpenGL\OpenGLVertexArray.cpp" />
     <ClCompile Include="Rendering\OpenGL\Renderers\OpenGLFontRenderer.cpp" />
+    <ClCompile Include="Rendering\OpenGL\Renderers\OpenGLGUIColoredRectRenderer.cpp" />
     <ClCompile Include="Rendering\OpenGL\Renderers\OpenGLGUIRenderer.cpp" />
     <ClCompile Include="Rendering\OpenGL\Renderers\OpenGLLineLoopRenderer.cpp" />
     <ClCompile Include="Rendering\OpenGL\Renderers\OpenGLLineRenderer.cpp" />
@@ -166,6 +170,7 @@
     <ClCompile Include="Rendering\RenderEngine3DBase.cpp" />
     <ClCompile Include="Rendering\RenderEngineBase.cpp" />
     <ClCompile Include="Rendering\Renderers\FontRenderer.cpp" />
+    <ClCompile Include="Rendering\Renderers\GUIColoredRectRenderer.cpp" />
     <ClCompile Include="Rendering\Renderers\GUIRenderer.cpp" />
     <ClCompile Include="Rendering\Renderers\LineLoopRenderer.cpp" />
     <ClCompile Include="Rendering\Renderers\LineRenderer.cpp" />
@@ -381,6 +386,7 @@
     <ClInclude Include="Rendering\OpenGL\3D\StandardNoTextureShader.h" />
     <ClInclude Include="Rendering\OpenGL\3D\StandardShader3D.h" />
     <ClInclude Include="Rendering\OpenGL\GUI\OpenGLFontShader.h" />
+    <ClInclude Include="Rendering\OpenGL\GUI\OpenGLGUIColoredRectShader.h" />
     <ClInclude Include="Rendering\OpenGL\GUI\OpenGLGUIShader.h" />
     <ClInclude Include="Rendering\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="Rendering\OpenGL\OpenGLContext.h" />
@@ -390,6 +396,7 @@
     <ClInclude Include="Rendering\OpenGL\OpenGLTexture.h" />
     <ClInclude Include="Rendering\OpenGL\OpenGLVertexArray.h" />
     <ClInclude Include="Rendering\OpenGL\Renderers\OpenGLFontRenderer.h" />
+    <ClInclude Include="Rendering\OpenGL\Renderers\OpenGLGUIColoredRectRenderer.h" />
     <ClInclude Include="Rendering\OpenGL\Renderers\OpenGLGUIRenderer.h" />
     <ClInclude Include="Rendering\OpenGL\Renderers\OpenGLLineLoopRenderer.h" />
     <ClInclude Include="Rendering\OpenGL\Renderers\OpenGLLineRenderer.h" />
@@ -405,6 +412,7 @@
     <ClInclude Include="Rendering\RenderEngine3DBase.h" />
     <ClInclude Include="Rendering\RenderEngineBase.h" />
     <ClInclude Include="Rendering\Renderers\FontRenderer.h" />
+    <ClInclude Include="Rendering\Renderers\GUIColoredRectRenderer.h" />
     <ClInclude Include="Rendering\Renderers\GUIRenderer.h" />
     <ClInclude Include="Rendering\Renderers\LineLoopRenderer.h" />
     <ClInclude Include="Rendering\Renderers\LineRenderer.h" />

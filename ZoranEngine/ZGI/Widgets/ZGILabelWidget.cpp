@@ -5,6 +5,8 @@
 #include <Rendering/RenderEngineBase.h>
 #include <Rendering/Renderers/FontRenderer.h>
 
+#include <Core/PlatformMouseBase.h>
+
 void ZGILabelWidget::RepositionTextFromAlignment()
 {
 	float x = 0;
@@ -51,6 +53,17 @@ ZGILabelWidget::ZGILabelWidget(FontResource* font, ZGIVirtualWindow* owningWindo
 ZGILabelWidget::~ZGILabelWidget()
 {
 	delete renderer;
+}
+
+void ZGILabelWidget::SetSizeToFont(Vec2D scale)
+{
+	if (isDirty)
+		renderer->UpdateRender();
+
+	if(scale.x)
+		size.x = renderer->GetTotalSize().x * scale.x;
+	if (scale.y)
+		size.y = renderer->GetTotalSize().y * scale.y;
 }
 
 void ZGILabelWidget::SetShadowColor(Vec3D color)
@@ -158,4 +171,12 @@ void ZGILabelWidget::SetPosition(Vec2D position)
 void ZGILabelWidget::ContainerResized(Vec2D newSize, Vec2D oldSize)
 {
 	// TODO: some ancher stuff
+}
+
+Vector2D ZGILabelWidget::GetSize()
+{
+	if (isDirty)
+		renderer->UpdateRender();
+
+	return renderer->GetTotalSize();
 }

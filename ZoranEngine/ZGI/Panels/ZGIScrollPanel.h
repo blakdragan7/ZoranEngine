@@ -1,19 +1,25 @@
 #pragma once
 #include <ZGI\Panels\ZGIPanel.h>
 
-class TriangleStripRenderer;
+class GUIColoredRectRenderer;
 class ZGIVirtualViewport;
 class ZoranEngine_EXPORT ZGIScrollPanel : public ZGIPanel
 {
 private:
 	ZGIWidget * content;
-	TriangleStripRenderer* renderer;
+	GUIColoredRectRenderer* scrollBarRenderer;
 	ZGIVirtualViewport* viewport;
 	Vector2D scrollOffset;
 	Vector2D scrollBarSize;
 
+	Vector2D scrollAlpha;
+
 	Vector2D scrollDirection;
 	bool isScrolling;
+
+	Matrix44 scrollBarMVP;
+private:
+	void SizeAndPositionScrollBar();
 
 public:
 	ZGIScrollPanel(ZGIVirtualWindow* owner);
@@ -43,7 +49,9 @@ public:
 
 	virtual ZGIWidget* HitTest(Vec2D pos)override;
 
-	// keyboard event
+	// mouse event
+	virtual bool MouseMove(const PlatformMouseBase* mouse)override;
 
+	// keyboard event
 	virtual bool KeyEvent(KeyEventType type, unsigned key)override;
 };

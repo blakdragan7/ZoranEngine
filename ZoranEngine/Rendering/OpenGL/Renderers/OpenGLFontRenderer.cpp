@@ -53,6 +53,9 @@ void OpenGLFontRenderer::UpdateRender()
 	float startX = renderStart.x;
 	float startY = renderStart.y;
 
+	float maxX = 0;
+	float maxY = 0;
+
 	float scale = pptSize;
 
 	size_t i = 0;
@@ -148,10 +151,18 @@ void OpenGLFontRenderer::UpdateRender()
 
 			startX += static_cast<float>(glyph.advance * scale);
 
+			maxX = max(startX, maxX);
+			maxY = max(startY, maxY);
+
 		}
 
 		startX += static_cast<float>(word.spaceAdvance * scale);
+
+		maxX = max(startX, maxX);
+		maxY = max(startY, maxY);
 	}
+
+	totalSize = Vector2D(maxX - startX, maxY - startY);
 
 	renderer->AddTriangles(triangles);
 }

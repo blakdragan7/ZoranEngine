@@ -26,6 +26,9 @@
 #include <Rendering/OpenGL/Renderers/OpenGLTriangleStripRenderer.h>
 #include <Rendering/OpenGL/Renderers/OpenGLFontRenderer.h>
 #include <Rendering/OpenGL/Renderers/OpenGLGUIRenderer.h>
+#include <Rendering/OpenGL/Renderers/OpenGLGUIColoredRectRenderer.h>
+
+#include <Rendering/OpenGL/2D/StandardShader2D.h>
 
 #include <GL/glew.h>
 
@@ -135,6 +138,11 @@ bool OpenGL2DRenderEngine::RemoveComponent(Visible2DComponent* component)
 	Log(LogLevel_Error, "OpenGLRenderEngine::RemoveRenderObject Failed to find and remove RenderObject!\n");
 
 	return false;
+}
+
+ShaderProgramBase * OpenGL2DRenderEngine::StandardTexturedShader()
+{
+	return CreateShaderProgram<StandardShader2D>();
 }
 
 
@@ -254,8 +262,7 @@ bool OpenGL2DRenderEngine::CreateFrameBuffer(FrameBufferBase** outBuffer, Textur
 
 LineRenderer * OpenGL2DRenderEngine::CreateLineRenderer()
 {
-	//return new OpenGLLineRenderer(this);
-	return 0;
+	return context->CreateLineRenderer();
 }
 
 LineLoopRenderer * OpenGL2DRenderEngine::CreateLineLoopRenderer()
@@ -265,20 +272,17 @@ LineLoopRenderer * OpenGL2DRenderEngine::CreateLineLoopRenderer()
 
 ModelRenderer * OpenGL2DRenderEngine::CreateModelRenderer()
 {
-	//return OpenGLModelRenderer(this);
-	return 0;
+	return context->CreateModelRenderer();
 }
 
 QuadRenderer * OpenGL2DRenderEngine::CreateQuadRenderer()
 {
-	//return new OpenGLQuadRenderer(this);
-	return 0;
+	return context->CreateQuadRenderer();
 }
 
 QuadStripRenderer * OpenGL2DRenderEngine::CreateQuadStripRenderer()
 {
-	//return new OpenGLQuadStripRenderer(this);
-	return 0;
+	return context->CreateQuadStripRenderer();
 }
 
 SpriteRenderer * OpenGL2DRenderEngine::CreateSpriteRenderer()
@@ -288,8 +292,7 @@ SpriteRenderer * OpenGL2DRenderEngine::CreateSpriteRenderer()
 
 TriangleRenderer * OpenGL2DRenderEngine::CreateTriangleRenderer()
 {
-	//return new OpenGLTriangleRenderer(this);
-	return 0;
+	return context->CreateTriangleRenderer();
 }
 
 TriangleStripRenderer * OpenGL2DRenderEngine::CreateTriangleStripRenderer()
@@ -305,4 +308,9 @@ FontRenderer * OpenGL2DRenderEngine::CreateFontRenderer(FontResource* font)
 GUIRenderer * OpenGL2DRenderEngine::CreateGUIRenderer()
 {
 	return context->CreateGUIRenderer();
+}
+
+GUIColoredRectRenderer * OpenGL2DRenderEngine::CreateGUIColoredRectRenderer()
+{
+	return context->CreateGUIColoredRectRenderer();
 }

@@ -23,6 +23,7 @@ class QuadStripRenderer;
 class SpriteRenderer;
 class TriangleRenderer;
 class TriangleStripRenderer;
+class GUIColoredRectRenderer;
 class FontRenderer;
 class GUIRenderer;
 class FontResource;
@@ -80,7 +81,7 @@ public:
 	virtual TriangleStripRenderer* CreateTriangleStripRenderer() = 0;
 	virtual FontRenderer* CreateFontRenderer(FontResource* font) = 0;
 	virtual GUIRenderer* CreateGUIRenderer() = 0;
-
+	virtual GUIColoredRectRenderer* CreateGUIColoredRectRenderer() = 0;
 	// Creates Texture Memory on GPU and returns a texture object.
 	virtual TextureBase* CreateTexture(const char* path, RenderDataType bufferType, RenderDataFormat bufferFormat) = 0;
 	virtual TextureBase* CreateTexture(void* data, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2I size) = 0;
@@ -91,6 +92,12 @@ public:
 	/* prints errors found within the render engine pre appending text to the message */
 	virtual void CheckErrors(const char* text) = 0;
 	virtual void ClearErrors() = 0;
+	/* 
+		Returns a simple textured shader that has MVP for the matrix 
+		uniform and contains the ability to use a texture. Implementation 
+		may differ depending onrender platform 
+	*/
+	virtual ShaderProgramBase* StandardTexturedShader() = 0;
 
 	/* 
 	*  This is the only way i could think of dynamically creating shaders since each shader has individual functionality.
@@ -127,5 +134,5 @@ public:
 		return 0;
 	}
 
-	virtual const char* GetEngineReadableName() { return "Unimplemented Render Engine"; }
+	virtual const char* GetEngineReadableName()const { return "Unimplemented Render Engine"; }
 };

@@ -262,12 +262,12 @@ void ZoranEngine::KeyEvent(KeyEventType type, unsigned key)
 	case KeyEventType_Key_Down:
 		switch (key)
 		{
-			case VK_SPACE:
+			case Key_Space:
 			{
 				isPaused = !isPaused;
 				break;
 			}
-			case VK_ESCAPE:
+			case Key_Esc:
 				shouldRun = false;
 				break;
 			case 'P':

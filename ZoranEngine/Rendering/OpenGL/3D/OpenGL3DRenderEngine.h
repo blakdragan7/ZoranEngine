@@ -36,7 +36,7 @@ public:
 
 	virtual void AddComponent(Visible3DComponent* component)override;
 	virtual bool RemoveComponent(Visible3DComponent* component)override;
-	virtual const char* GetEngineReadableName() { return "OpenGL 3D RenderEngine"; };
+	virtual const char* GetEngineReadableName()const override { return "OpenGL 3D RenderEngine"; };
 
 	virtual LineRenderer* CreateLineRenderer()override;
 	virtual LineLoopRenderer* CreateLineLoopRenderer()override;
@@ -48,5 +48,8 @@ public:
 	virtual TriangleStripRenderer* CreateTriangleStripRenderer()override;
 	virtual FontRenderer* CreateFontRenderer(FontResource* font)override;
 	virtual GUIRenderer* CreateGUIRenderer()override;
+	virtual GUIColoredRectRenderer* CreateGUIColoredRectRenderer()override;
+
+	virtual ShaderProgramBase* StandardTexturedShader()override;
 };
 

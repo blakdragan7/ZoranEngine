@@ -67,8 +67,13 @@ constexpr unsigned Key_F10 = 1009;
 constexpr unsigned Key_F11 = 1010;
 constexpr unsigned Key_F12 = 1011;
 	 
-constexpr unsigned Key_Up_Arrow = 24;
-constexpr unsigned Key_Down_Arrow = 25;
-constexpr unsigned Key_Right_Arrow = 26;
-constexpr unsigned Key_Left_Arrow = 27;
-	 
+constexpr unsigned Key_Up_Arrow = 0x26;
+constexpr unsigned Key_Down_Arrow = 0x28;
+constexpr unsigned Key_Right_Arrow = 0x27;
+constexpr unsigned Key_Left_Arrow = 0x25;
+
+constexpr unsigned Key_Space = 0x20;
+constexpr unsigned Key_Esc = 0x1B;
+constexpr unsigned Key_Shift = 0x10;
+constexpr unsigned Key_Tab = 0x09;
+constexpr unsigned Key_Enter = 0x0D;

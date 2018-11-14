@@ -21,5 +21,5 @@ public:
 
 	virtual void RenderObject(const Matrix44& cameraMatrix)override;
 	virtual void UpdateRender()override;
- };
+};
 

@@ -183,6 +183,7 @@ void TestGUIStuff()
 
 	p->SetDrawDebugView(false);
 	l->SetDrawDebugView(false);
+	s->SetDrawDebugView(false);
 
 	l->SetFontSize(100);
 	//l->SetText("ga");

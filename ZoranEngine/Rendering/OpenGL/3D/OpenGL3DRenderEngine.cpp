@@ -9,6 +9,8 @@
 #include <ThirdParty/imgui/imgui.h>
 #include <ThirdParty/imgui/imgui_impl_opengl3.h>
 
+#include <Rendering/OpenGL/3D/StandardShader3D.h>
+
 #include <Rendering/OpenGL/OpenGLContext.h>
 #include <Rendering/OpenGL/OpenGLTexture.h>
 
@@ -22,6 +24,7 @@
 #include <Rendering/OpenGL/Renderers/OpenGLLineLoopRenderer.h>
 #include <Rendering/OpenGL/Renderers/OpenGLQuadStripRenderer.h>
 #include <Rendering/OpenGL/Renderers/OpenGLTriangleStripRenderer.h>
+#include <Rendering/OpenGL/Renderers/OpenGLGUIColoredRectRenderer.h>
 #include <Rendering/OpenGL/Renderers/OpenGLFontRenderer.h>
 #include <Rendering/OpenGL/Renderers/OpenGLGUIRenderer.h>
 
@@ -211,8 +214,7 @@ bool OpenGL3DRenderEngine::CreateFrameBuffer(FrameBufferBase** outBuffer, Textur
 
 LineRenderer * OpenGL3DRenderEngine::CreateLineRenderer()
 {
-	//return new OpenGLLineRenderer(this);
-	return 0;
+	return context->CreateLineRenderer();
 }
 
 LineLoopRenderer * OpenGL3DRenderEngine::CreateLineLoopRenderer()
@@ -227,14 +229,12 @@ ModelRenderer * OpenGL3DRenderEngine::CreateModelRenderer()
 
 QuadRenderer * OpenGL3DRenderEngine::CreateQuadRenderer()
 {
-	//return new OpenGLQuadRenderer(this);
-	return 0;
+	return context->CreateQuadRenderer();
 }
 
 QuadStripRenderer * OpenGL3DRenderEngine::CreateQuadStripRenderer()
 {
-	//return new OpenGLQuadStripRenderer(this);
-	return 0;
+	return context->CreateQuadStripRenderer();
 }
 
 SpriteRenderer * OpenGL3DRenderEngine::CreateSpriteRenderer()
@@ -244,8 +244,7 @@ SpriteRenderer * OpenGL3DRenderEngine::CreateSpriteRenderer()
 
 TriangleRenderer * OpenGL3DRenderEngine::CreateTriangleRenderer()
 {
-	//return new OpenGLTriangleRenderer(this);
-	return 0;
+	return context->CreateTriangleRenderer();
 }
 
 TriangleStripRenderer * OpenGL3DRenderEngine::CreateTriangleStripRenderer()
@@ -261,4 +260,14 @@ FontRenderer * OpenGL3DRenderEngine::CreateFontRenderer(FontResource* font)
 GUIRenderer * OpenGL3DRenderEngine::CreateGUIRenderer()
 {
 	return context->CreateGUIRenderer();
+}
+
+GUIColoredRectRenderer * OpenGL3DRenderEngine::CreateGUIColoredRectRenderer()
+{
+	return context->CreateGUIColoredRectRenderer();
+}
+
+ShaderProgramBase * OpenGL3DRenderEngine::StandardTexturedShader()
+{
+	return CreateShaderProgram<StandardShader3D>();
 }

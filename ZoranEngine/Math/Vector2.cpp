@@ -274,6 +274,11 @@ void Vector2D::normalize()
 	*this /= mag;
 }
 
+Vector2D operator-(float d, const Vector2D & v)
+{
+	return Vector2D(d - v.x, d - v.y);
+}
+
 inline Vector2D operator*(float d, const Vector2D& v)
 {
 	return v * d;

@@ -31,6 +31,8 @@ public:
 	ZGILabelWidget(FontResource* font,ZGIVirtualWindow* owningWindow);
 	~ZGILabelWidget();
 
+	void SetSizeToFont(Vec2D scale);
+
 	void SetShadowColor(Vec3D color);
 	void SetShadowVector(Vec2D vector);
 	void SetShadowSoftness(float softness);
@@ -57,5 +59,7 @@ public:
 	virtual void SetPosition(Vec2D position)override;
 
 	virtual void ContainerResized(Vec2D newSize, Vec2D oldSize)override;
-};
+	
+	virtual Vector2D GetSize()override;
+}; 
 

@@ -66,6 +66,7 @@ public:
 	static const Vector2D Zero;
 };
 
+extern Vector2D operator-(float d, const Vector2D& v);
 inline extern Vector2D operator*(float d,const Vector2D& v);
 
 class ZoranEngine_EXPORT Vector2I

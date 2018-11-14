@@ -639,6 +639,15 @@
     <ClCompile Include="ZGI\Panels\ZGIScrollPanel.cpp">
       <Filter>ZoranEngine\ZGI\Panels</Filter>
     </ClCompile>
+    <ClCompile Include="Rendering\Renderers\GUIColoredRectRenderer.cpp">
+      <Filter>ZoranEngine\Rendering\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\OpenGL\Renderers\OpenGLGUIColoredRectRenderer.cpp">
+      <Filter>ZoranEngine\Rendering\OpenGL\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\OpenGL\GUI\OpenGLGUIColoredRectShader.cpp">
+      <Filter>ZoranEngine\Rendering\OpenGL\GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -2027,6 +2036,15 @@
     <ClInclude Include="ZGI\Panels\ZGIScrollPanel.h">
       <Filter>ZoranEngine\ZGI\Panels</Filter>
     </ClInclude>
+    <ClInclude Include="Rendering\Renderers\GUIColoredRectRenderer.h">
+      <Filter>ZoranEngine\Rendering\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\OpenGL\Renderers\OpenGLGUIColoredRectRenderer.h">
+      <Filter>ZoranEngine\Rendering\OpenGL\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\OpenGL\GUI\OpenGLGUIColoredRectShader.h">
+      <Filter>ZoranEngine\Rendering\OpenGL\GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ZoranEngine.rc">
@@ -2096,6 +2114,12 @@
       <Filter>ZoranEngine\Shaders\GUI</Filter>
     </None>
     <None Include="Shaders\GUI\fontSDF.frag">
+      <Filter>ZoranEngine\Shaders\GUI</Filter>
+    </None>
+    <None Include="Shaders\GUI\guiColoredRect.frag">
+      <Filter>ZoranEngine\Shaders\GUI</Filter>
+    </None>
+    <None Include="Shaders\GUI\guiColoredRect.vert">
       <Filter>ZoranEngine\Shaders\GUI</Filter>
     </None>
   </ItemGroup>

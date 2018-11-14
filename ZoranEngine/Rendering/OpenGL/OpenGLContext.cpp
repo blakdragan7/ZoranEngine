@@ -23,6 +23,7 @@
 #include "Renderers/OpenGLTriangleStripRenderer.h"
 #include "Renderers/OpenGLFontRenderer.h"
 #include "Renderers/OpenGLGUIRenderer.h"
+#include "Renderers/OpenGLGUIColoredRectRenderer.h"
 
 #include <Rendering/ShaderProgramBase.h>
 
@@ -242,4 +243,9 @@ OpenGLFontRenderer * OpenGLContext::CreateFontRenderer(FontResource* font)
 OpenGLGUIRenderer * OpenGLContext::CreateGUIRenderer()
 {
 	return new OpenGLGUIRenderer(this);
+}
+
+OpenGLGUIColoredRectRenderer * OpenGLContext::CreateGUIColoredRectRenderer()
+{
+	return new OpenGLGUIColoredRectRenderer(this);
 }

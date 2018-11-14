@@ -27,6 +27,8 @@ class FontResource;
 class ZoranEngine_EXPORT FontRenderer : public RenderedObjectBase
 {
 protected:
+	Vector2D totalSize;
+
 	FontResource* fontResource;
 	Vector2D renderStart;
 	Vector2D renderSize;
@@ -70,7 +72,10 @@ public:
 
 	std::vector<UniWord>* words;
 
+
 	virtual void UpdateRender() = 0;
+
+	inline Vec2D GetTotalSize() { return totalSize; };
 
 	inline void SetShadowColor(Vec3D color) { shadowColor = color; }
 	inline void SetShadowVector(Vec2D vector) { shadowVector = vector; }
