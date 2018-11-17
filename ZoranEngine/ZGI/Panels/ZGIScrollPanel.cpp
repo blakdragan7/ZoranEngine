@@ -5,7 +5,7 @@
 #include <Rendering/RenderEngineBase.h>
 #include <Rendering\Renderers\GUIColoredRectRenderer.h>
 #include <ZGI/Widgets/ZGILabelWidget.h>
-
+#include <ZGI/Widgets/ZGIScrollBar.h>
 #include <Core/CommomTypes.h>
 
 #include <Core/PlatformMouseBase.h>
@@ -18,57 +18,62 @@ void ZGIScrollPanel::SizeAndPositionScrollBar()
 
 	Vector2D sizeAlpha = (size / contentSize);
 
-	bool canScrollVertical, canScrollHorizontal;
-
 	canScrollVertical = sizeAlpha.h < 1.0f;
 	canScrollHorizontal = sizeAlpha.w < 1.0f;
 
-	scrollBarSize.w = size.w * 0.01f;
-	scrollBarSize.h = sizeAlpha.h * size.h;
+	if (canScrollHorizontal == false)
+	{
+		scrollOffset.x = 0;
+	}
 
-	scrollAlpha = (scrollOffset / contentSize);
+	if (canScrollVertical == false)
+	{
+		scrollOffset.y = 0;
+	}
 
-	float adjustedSize = size.h - (scrollBarSize.h / 2.0f);
+	Vector2D scrollAlpha = (scrollOffset / (contentSize - size));
 
-	float xPos = size.w - scrollBarSize.w;
-	float yPos = ((1.0f-scrollAlpha.y) * adjustedSize);
-
-	scrollAlpha /= (1.0f-sizeAlpha);
-
-	if (scrollAlpha.y < 0 || scrollAlpha.y > 1.0f || canScrollVertical == false)
+	if (scrollAlpha.y < 0 || scrollAlpha.y > 1.0f)
 	{
 		scrollOffset.y -= scrollDirection.y;
 	}
 
-	if (scrollAlpha.x < 0 || scrollAlpha.x > 1.0f || canScrollHorizontal == false)
+	if (scrollAlpha.x < 0 || scrollAlpha.x > 1.0f)
 	{
 		scrollOffset.x -= scrollDirection.x;
 	}
 
-	Matrix44 scale = Matrix44::ScaleMatrix({ scrollBarSize.w / 2.0f, scrollBarSize.h / 2.0f, 1.0f });
-	Matrix44 tr = Matrix44::TranslationMatrix({ xPos, yPos, 0.0f });
-
-	scrollBarMVP = tr * scale;
+	if (canScrollHorizontal)
+	{
+		hScrollBar->SetScrollBarSizeAlpha(sizeAlpha.w);
+		hScrollBar->SetScrollPositionAlpha(scrollAlpha.x);
+	}
+	if (canScrollVertical)
+	{
+		vScrollBar->SetScrollBarSizeAlpha(sizeAlpha.h);
+		vScrollBar->SetScrollPositionAlpha(1.0f - scrollAlpha.y);
+	}
 }
 
 ZGIScrollPanel::ZGIScrollPanel(ZGIVirtualWindow* owner) : isScrolling(false), content(0), ZGIPanel(owner)
 {
-	scrollBarRenderer = rEngine->CreateGUIColoredRectRenderer();
-	scrollBarRenderer->SetLinearBlend();
-
-	scrollBarRenderer->SetColorA({ 0.8f,0.8f,0.8f,1.0f });
-	scrollBarRenderer->SetColorB({ 0.8f,0.8f,0.8f,1.0f });
+	hScrollBar = new ZGIScrollBar(false, owner);
+	vScrollBar = new ZGIScrollBar(true, owner);
 
 	viewport = new ZGIVirtualViewport(this->position, this->size, owner->GetWindowSize());
 	viewport->SetPosition({ 0,0 });
 
 	size = Vector2D(100, 100);
+
+	hScrollBar->SetSize(size * Vector2D(1.0f,0.01f));
+	vScrollBar->SetSize(size * Vector2D(0.001f,1.0f));
 }
 
 ZGIScrollPanel::~ZGIScrollPanel()
 {
 	if (content)delete content;
-	delete scrollBarRenderer;
+	delete hScrollBar;
+	delete vScrollBar;
 }
 
 bool ZGIScrollPanel::KeyEventSub(KeyEventType type, unsigned key)
@@ -87,13 +92,15 @@ void ZGIScrollPanel::AddWidget(ZGIWidget * widget)
 	if (auto label = dynamic_cast<ZGILabelWidget*>(widget))
 	{
 		label->SetShouldClipFont(false);
-		//label->SetSizeToFont({ 0,1 });
 	}
 
 	if (content != widget)
 	{
+		if (content)delete content;
 		content = widget;
+		widget->SetPosition({ 0,0 });
 	}
+
 }
 
 void ZGIScrollPanel::RemoveWidget(ZGIWidget * widget)
@@ -129,14 +136,25 @@ void ZGIScrollPanel::SetSize(Vec2D size)
 {
 	viewport->SetSize(size);
 	ZGIWidget::SetSize(size);
-	if (content)content->SetSize(size);
+
+	Vector2D sSize(size.w*0.01f,size.h);
+
+	vScrollBar->SetSize(sSize);
+
+	vScrollBar->SetPosition({size.w - sSize.w,0.0f});
+
+	sSize.w = size.w;
+	sSize.h = size.h * 0.01f;
+
+	hScrollBar->SetSize(sSize);
+
+	if (content)content->SetBounds(size);
 }
 
 void ZGIScrollPanel::SetPosition(Vec2D position)
 {
 	viewport->SetPosition(position);
 	ZGIWidget::SetPosition(position);
-	if (content)content->SetPosition(position);
 }
 
 void ZGIScrollPanel::Render(const Matrix44 & projection)
@@ -149,6 +167,7 @@ void ZGIScrollPanel::Render(const Matrix44 & projection)
 	if (content)
 	{
 		Vec2D gOffset = owningWindow->GetGlobalOffsetCache();
+		Matrix44 tr(false);
 
 		if (isScrolling)
 		{
@@ -157,16 +176,25 @@ void ZGIScrollPanel::Render(const Matrix44 & projection)
 			SizeAndPositionScrollBar();
 		}
 
-		Matrix44 tr = Matrix44::TranslationMatrix({ -position.x + scrollOffset.x,-position.y + scrollOffset.y,0 });
+		if (content->DoesContainText())
+		{
+			tr = Matrix44::TranslationMatrix({ -scrollOffset.x,scrollOffset.y + size.h,0 });
+		}
+		else
+		{
+			Vec2D contentSize = content->GetSize();
+			tr = Matrix44::TranslationMatrix({ -scrollOffset.x,scrollOffset.y - (contentSize.h - size.h),0 });
+		}
 
 		// clip everthing within this widget
 		viewport->SetViewportActive(gOffset);
 		auto proj = viewport->GetProjectionMatrix();
 		content->Render(proj * tr);
 
-		Matrix44 MVP = proj * scrollBarMVP;
-
-		scrollBarRenderer->RenderObject(MVP);
+		if(canScrollHorizontal)
+			hScrollBar->Render(proj);
+		if(canScrollVertical)
+			vScrollBar->Render(proj);
 
 		owningWindow->GetViewport()->SetViewportActive(gOffset);
 	}
@@ -191,7 +219,10 @@ bool ZGIScrollPanel::MouseMove(const PlatformMouseBase * mouse)
 	{
 		isScrolling = true;
 
-		scrollDirection = -mouse->GetDelta();
+		Vec2D delta = mouse->GetDelta();
+
+		scrollDirection.x = -delta.x;
+		scrollDirection.y = -delta.y;
 	}
 	else
 	{

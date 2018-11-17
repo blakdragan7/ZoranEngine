@@ -9,33 +9,34 @@ TextureManager* TextureManager::instance = 0;
 
 TextureManager::TextureManager()
 {
+	textureMap = new std::map<const char*, TextureBase*>;
 }
 
 TextureManager::~TextureManager()
 {
-	for (auto& iter : textureMap)
+	for (auto& iter : *textureMap)
 	{
 		delete iter.second;
 	}
 
-	textureMap.clear();
+	delete textureMap;
 }
 
 void TextureManager::DestroyTexture(TextureBase * texture)
 {
-	auto& iter = textureMap.find(texture->path);
+	auto& iter = textureMap->find(texture->path);
 
-	if (iter != textureMap.end())
+	if (iter != textureMap->end())
 	{
 		delete iter->second;
-		textureMap.erase(iter);
+		textureMap->erase(iter);
 	}
 }
 
 TextureBase * TextureManager::TextureForFilePath(const char* texture_path, RenderDataType type, RenderDataFormat format)
 {
-	auto iter = textureMap.find(texture_path);
-	if (iter != textureMap.end())
+	auto iter = textureMap->find(texture_path);
+	if (iter != textureMap->end())
 	{
 		return iter->second;
 	}
@@ -44,7 +45,7 @@ TextureBase * TextureManager::TextureForFilePath(const char* texture_path, Rende
 		TextureBase* texture = rEngine->CreateTexture(texture_path,type,format);
 		texture->path = texture_path;
 		std::pair<const char*, TextureBase*> entry(texture_path, texture);
-		textureMap.insert(entry);
+		textureMap->insert(entry);
 
 		return texture;
 	}

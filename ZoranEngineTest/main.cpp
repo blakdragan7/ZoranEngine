@@ -22,6 +22,8 @@
 #include <Core/Resources/FontResource.h>
 #include <Core/Resources/ResourceManager.h>
 
+#include <Rendering/TextureManager.h>
+
 #include <Core/2D/TexturedSprite.h>
 
 #include <Core/3D/StaticModelSceneObj.h>
@@ -176,10 +178,10 @@ void TestGUIStuff()
 	auto p = new ZGIUniformScalePanel(vW);
 	auto l = new ZGILabelWidget(font, vW);
 	auto s = new ZGIScrollPanel(vW);
-	//auto i = new ZGIImageWidget(vW);
+	auto i = new ZGIImageWidget(vW);
 
-	//i->SetImage(font->GetFontTexture());
-	//i->SetSize({ 100,100 });
+	i->SetImage(TextureManager::GetInstance()->TextureForFilePath("grid.png",Render_Data_Type_RGBA_32));
+	i->SetSize({ 5000,5000 });
 
 	p->SetDrawDebugView(false);
 	l->SetDrawDebugView(false);
@@ -206,7 +208,8 @@ void TestGUIStuff()
 	l->SetFontBorder(0.0);
 	l->SetBorderColor({ 0.5,0.5,1.0,1.0 });
 
-	s->AddWidget(l);
+	//s->AddWidget(l);
+	s->AddWidget(i);
 
 	p->AddWidget(s);
 	//p->AddWidget(i);

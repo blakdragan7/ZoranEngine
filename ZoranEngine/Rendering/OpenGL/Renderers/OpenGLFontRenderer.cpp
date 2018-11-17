@@ -151,18 +151,18 @@ void OpenGLFontRenderer::UpdateRender()
 
 			startX += static_cast<float>(glyph.advance * scale);
 
-			maxX = max(startX, maxX);
-			maxY = max(startY, maxY);
+			maxX = max(abs(x - renderStart.x),max(abs(startX - renderStart.x), maxX));
+			maxY = max(abs(y - renderStart.y),max(abs(startY - renderStart.y), maxY));
 
 		}
 
 		startX += static_cast<float>(word.spaceAdvance * scale);
 
-		maxX = max(startX, maxX);
-		maxY = max(startY, maxY);
+		max(abs(startX - renderStart.x), maxX);
+		max(abs(startY - renderStart.y), maxY);
 	}
 
-	totalSize = Vector2D(maxX - startX, maxY - startY);
+	totalSize = Vector2D(maxX, maxY).getAbs();
 
 	renderer->AddTriangles(triangles);
 }

@@ -12,6 +12,7 @@ private:
 	LineLoopRenderer* renderer;
 
 protected:
+	Vector2D bounds;
 	Vector2D position;
 	Vector2D size;
 	Matrix44 scale;
@@ -43,6 +44,9 @@ public:
 
 	virtual void SetSize(Vec2D size);
 	virtual void SetPosition(Vec2D position);
+
+	virtual void SetBounds(Vec2D bounds);
+	inline Vec2D GetBounds() { return bounds; }
 
 	// does not affect HitTest, so even if it is rotated, it will still receive mouse events as if it wasn't
 	// therfore this is purely for rendering, not functionality
@@ -78,5 +82,9 @@ public:
 
 	inline bool GetDrawDebugView()const { return drawDebugView; }
 	inline bool GetDrawEditorView()const { return drawEditorView; }
+
+	// Info about widget
+
+	virtual bool DoesContainText()const { return false; }
 };
 

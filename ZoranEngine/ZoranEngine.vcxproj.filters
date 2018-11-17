@@ -648,6 +648,9 @@
     <ClCompile Include="Rendering\OpenGL\GUI\OpenGLGUIColoredRectShader.cpp">
       <Filter>ZoranEngine\Rendering\OpenGL\GUI</Filter>
     </ClCompile>
+    <ClCompile Include="ZGI\Widgets\ZGIScrollBar.cpp">
+      <Filter>ZoranEngine\ZGI\Widgets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -2044,6 +2047,9 @@
     </ClInclude>
     <ClInclude Include="Rendering\OpenGL\GUI\OpenGLGUIColoredRectShader.h">
       <Filter>ZoranEngine\Rendering\OpenGL\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ZGI\Widgets\ZGIScrollBar.h">
+      <Filter>ZoranEngine\ZGI\Widgets</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

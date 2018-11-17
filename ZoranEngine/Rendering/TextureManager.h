@@ -3,10 +3,10 @@
 #include "RenderTypes.h"
 
 class TextureBase;
-class TextureManager
+class ZoranEngine_EXPORT TextureManager
 {
 private:
-	std::map<const char*, TextureBase*> textureMap;
+	std::map<const char*, TextureBase*>* textureMap;
 
 	static TextureManager* instance;
 

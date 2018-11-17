@@ -1,23 +1,23 @@
 #pragma once
 #include <ZGI\Panels\ZGIPanel.h>
 
-class GUIColoredRectRenderer;
 class ZGIVirtualViewport;
+class ZGIScrollBar;
 class ZoranEngine_EXPORT ZGIScrollPanel : public ZGIPanel
 {
 private:
 	ZGIWidget * content;
-	GUIColoredRectRenderer* scrollBarRenderer;
+
 	ZGIVirtualViewport* viewport;
 	Vector2D scrollOffset;
-	Vector2D scrollBarSize;
-
-	Vector2D scrollAlpha;
 
 	Vector2D scrollDirection;
 	bool isScrolling;
+	bool canScrollVertical, canScrollHorizontal;
 
-	Matrix44 scrollBarMVP;
+	ZGIScrollBar* hScrollBar;
+	ZGIScrollBar* vScrollBar;
+
 private:
 	void SizeAndPositionScrollBar();
 

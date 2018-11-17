@@ -151,10 +151,10 @@ void ZGILabelWidget::Render(const Matrix44 & projection)
 	ZGIWidget::Render(projection);
 }
 
-void ZGILabelWidget::SetSize(Vec2D size)
+void ZGILabelWidget::SetBounds(Vec2D bounds)
 {
-	renderer->SetBounds(size);
-	this->size = size;
+	renderer->SetBounds(bounds);
+	this->bounds = bounds;
 
 	RepositionTextFromAlignment();
 	isDirty = true;

@@ -272,6 +272,7 @@
     <ClCompile Include="ZGI\Panels\ZGIUniformScalePanel.cpp" />
     <ClCompile Include="ZGI\Widgets\ZGIImageWidget.cpp" />
     <ClCompile Include="ZGI\Widgets\ZGILabelWidget.cpp" />
+    <ClCompile Include="ZGI\Widgets\ZGIScrollBar.cpp" />
     <ClCompile Include="ZGI\Widgets\ZGIWidget.cpp" />
     <ClCompile Include="ZGI\Windows\ZGIDebugWindow.cpp" />
     <ClCompile Include="ZGI\Windows\ZGIGameVirtualWindow.cpp" />
@@ -739,6 +740,7 @@
     <ClInclude Include="ZGI\Panels\ZGIUniformScalePanel.h" />
     <ClInclude Include="ZGI\Widgets\ZGIImageWidget.h" />
     <ClInclude Include="ZGI\Widgets\ZGILabelWidget.h" />
+    <ClInclude Include="ZGI\Widgets\ZGIScrollBar.h" />
     <ClInclude Include="ZGI\Widgets\ZGIWidget.h" />
     <ClInclude Include="ZGI\Windows\ZGIDebugWindow.h" />
     <ClInclude Include="ZGI\Windows\ZGIGameVirtualWindow.h" />

@@ -82,6 +82,11 @@ void ZGIWidget::SetPosition(Vec2D position)
 	isDirty = true;
 }
 
+void ZGIWidget::SetBounds(Vec2D bounds)
+{
+	this->bounds = bounds;
+}
+
 void ZGIWidget::SetRotation(float rotation)
 {
 	this->rotation = Matrix44::RotationMatrix(rotation, { 0,0,1.0f });

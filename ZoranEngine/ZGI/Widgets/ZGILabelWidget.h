@@ -55,11 +55,13 @@ public:
 	// widget overrides
 	virtual void Render(const Matrix44& projection)override;
 
-	virtual void SetSize(Vec2D size)override;
+	virtual void SetBounds(Vec2D bounds)override;
 	virtual void SetPosition(Vec2D position)override;
 
 	virtual void ContainerResized(Vec2D newSize, Vec2D oldSize)override;
 	
 	virtual Vector2D GetSize()override;
-}; 
+
+	virtual bool DoesContainText()const override { return true; }
+};
 
