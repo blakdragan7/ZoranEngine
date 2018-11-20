@@ -285,9 +285,9 @@ static LRESULT CALLBACK wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 		if (uMsg == WM_MOUSEMOVE)
 		{
 			float x = static_cast<float>(LOWORD(lParam));
-			float y = static_cast<float>(HIWORD(lParam));
-
-			zEngine->MouseMove(LOWORD(lParam),HIWORD(lParam));
+			// inverse y because windows is topleft and ZoranEngine is bottomLeft
+			float y = pThis->GetSize().h - static_cast<float>(HIWORD(lParam));
+			zEngine->MouseMove(x,y);
 			pThis->m->SetPosition({ x, y});
 			pThis->rootVirtualWindow->MouseMove(pThis->m);
 		}

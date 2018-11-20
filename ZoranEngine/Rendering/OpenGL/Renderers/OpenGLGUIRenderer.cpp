@@ -30,6 +30,7 @@ void OpenGLGUIRenderer::RenderObject(const Matrix44 & cameraMatrix)
 	shader->setUniformMat4("MVP", &cameraMatrix[0]);
 	shader->setUniform("tint", &tint);
 	shader->setUniform("image", 0);
+	shader->setUniform("hasTexutre", (int)hasTexture);
 
 	internalRenderer->RenderObject(cameraMatrix);
 }

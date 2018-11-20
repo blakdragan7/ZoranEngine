@@ -229,7 +229,7 @@ bool ZGIScrollPanel::MouseMove(const PlatformMouseBase * mouse)
 		isScrolling = false;
 	}
 
-	return false;
+	return ZGIWidget::MouseMove(mouse);
 }
 
 bool ZGIScrollPanel::KeyEvent(KeyEventType type, unsigned key)

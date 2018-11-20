@@ -69,7 +69,7 @@ void ZGIVirtualWindow::ResizeVirtualWindow(Vec2D newSize)
 
 Vector2D ZGIVirtualWindow::ConvertAbsoluteToVirtual(Vec2D pos) const
 {
-	return pos - globalOffsetCache;
+	return Vector2D(pos.x - globalOffsetCache.x, pos.y - globalOffsetCache.y);
 }
 
 Vec2D ZGIVirtualWindow::GetWindowSize() const

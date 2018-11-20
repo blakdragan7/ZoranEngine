@@ -33,7 +33,7 @@ bool ZGIPanel::MouseMove(const PlatformMouseBase *m)
 		return true;
 	}
 
-	return false;
+	return ZGIWidget::MouseMove(m);
 }
 
 bool ZGIPanel::MouseDown(const PlatformMouseBase *m)

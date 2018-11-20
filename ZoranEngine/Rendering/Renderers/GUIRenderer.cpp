@@ -2,7 +2,7 @@
 #include "GUIRenderer.h"
 
 
-GUIRenderer::GUIRenderer()
+GUIRenderer::GUIRenderer() : hasTexture(true)
 {
 }
 

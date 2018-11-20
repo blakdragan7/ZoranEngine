@@ -6,6 +6,7 @@ class ZoranEngine_EXPORT GUIRenderer : public RenderedObjectBase
 {
 protected:
 	Color tint;
+	bool hasTexture;
 
 public:
 	GUIRenderer();
@@ -15,5 +16,8 @@ public:
 
 	inline void SetTint(const Color& t) { this->tint = t; }
 	inline const Color& GetTint() { return this->tint; }
+
+	inline void SetHasTexture(bool hasTexture) { this->hasTexture = hasTexture; }
+	inline bool GetHasTexture() { return hasTexture; }
 };
 

@@ -651,6 +651,12 @@
     <ClCompile Include="ZGI\Widgets\ZGIScrollBar.cpp">
       <Filter>ZoranEngine\ZGI\Widgets</Filter>
     </ClCompile>
+    <ClCompile Include="ZGI\Widgets\ZGIButton.cpp">
+      <Filter>ZoranEngine\ZGI\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="ZGI\Panels\ZGIFreeFormPanel.cpp">
+      <Filter>ZoranEngine\ZGI\Panels</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -2050,6 +2056,12 @@
     </ClInclude>
     <ClInclude Include="ZGI\Widgets\ZGIScrollBar.h">
       <Filter>ZoranEngine\ZGI\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="ZGI\Widgets\ZGIButton.h">
+      <Filter>ZoranEngine\ZGI\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="ZGI\Panels\ZGIFreeFormPanel.h">
+      <Filter>ZoranEngine\ZGI\Panels</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
