@@ -15,9 +15,11 @@
 #include <Core/WindowBase.h>
 #include <ZGI/Windows/ZGIGameVirtualWindow.h>
 #include <ZGI/Panels/ZGIUniformScalePanel.h>
+#include <ZGI/Panels/ZGIFreeFormPanel.h>
 #include <ZGI/Panels/ZGIScrollPanel.h>
 #include <ZGI/Widgets/ZGIImageWidget.h>
 #include <ZGI/Widgets/ZGILabelWidget.h>
+#include <ZGI/Widgets/ZGIButton.h>
 
 #include <Core/Resources/FontResource.h>
 #include <Core/Resources/ResourceManager.h>
@@ -179,16 +181,20 @@ void TestGUIStuff()
 	auto l = new ZGILabelWidget(font, vW);
 	auto s = new ZGIScrollPanel(vW);
 	auto i = new ZGIImageWidget(vW);
+	auto b = new ZGIButton(vW);
+	auto f = new ZGIFreeFormPanel(vW);
 
-	i->SetImage(TextureManager::GetInstance()->TextureForFilePath("grid.png",Render_Data_Type_RGBA_32));
-	i->SetSize({ 5000,5000 });
+	b->SetPosition({ 200,200 });
+	b->SetSize({ 200,200 });
 
-	p->SetDrawDebugView(false);
-	l->SetDrawDebugView(false);
-	s->SetDrawDebugView(false);
+	l->SetPosition({ 400,200 });
+	l->SetSize({ 200,200 });
+
+	i->SetImage("grid.png");
+	p->SetPosition({ 600, 200 });
+	p->SetSize({ 200,200 });
 
 	l->SetFontSize(100);
-	//l->SetText("ga");
 	l->SetText( "This is a sentence.\r"\
 				"This is a sentence after a carriage return.\r\n"\
 				"That was a windows newline.\n"\
@@ -197,24 +203,27 @@ void TestGUIStuff()
 				"That was a double new line.\r\n\r\n"\
 				"That was a double windows newline.");
 
-	// shadow kind of works
-
 	l->SetShadowColor({ 0,0,0 });
 	l->SetShadowVector({ -3.0f,0.0f });
 	l->SetShadowOpacity(0.0f);
+
+	s->SetPosition({ 400,200 });
+	s->SetSize({200,200});
 
 	//border words
 
 	l->SetFontBorder(0.0);
 	l->SetBorderColor({ 0.5,0.5,1.0,1.0 });
 
-	//s->AddWidget(l);
-	s->AddWidget(i);
+	s->AddWidget(l);
 
-	p->AddWidget(s);
-	//p->AddWidget(i);
+	p->AddWidget(i);
 
-	vW->SetRootContent(p);
+	f->AddWidget(s);
+	f->AddWidget(b);
+	f->AddWidget(p);
+
+	vW->SetRootContent(f);
 	
 	engine.MainLoop();
 }
