@@ -657,6 +657,9 @@
     <ClCompile Include="ZGI\Panels\ZGIFreeFormPanel.cpp">
       <Filter>ZoranEngine\ZGI\Panels</Filter>
     </ClCompile>
+    <ClCompile Include="ZGI\Core\ZGIBrush.cpp">
+      <Filter>ZoranEngine\ZGI\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -2062,6 +2065,12 @@
     </ClInclude>
     <ClInclude Include="ZGI\Panels\ZGIFreeFormPanel.h">
       <Filter>ZoranEngine\ZGI\Panels</Filter>
+    </ClInclude>
+    <ClInclude Include="Interfaces\IZGIButtonEventHandler.h">
+      <Filter>ZoranEngine\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="ZGI\Core\ZGIBrush.h">
+      <Filter>ZoranEngine\ZGI\Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

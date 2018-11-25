@@ -1,24 +1,20 @@
 #include "stdafx.h"
 #include "ZGIButton.h"
 
+#include <Interfaces/IZGIButtonEventHandler.h>
+#include <ZGI/Core/ZGIBrush.h>
+
 #include <Rendering/Renderers/GUIRenderer.h>
 #include <Rendering/RenderEngineBase.h>
 
-ZGIButton::ZGIButton(ZGIVirtualWindow* owningWindow) : ZGIWidget(owningWindow)
+ZGIButton::ZGIButton(ZGIVirtualWindow* owningWindow) : currentState(Button_State_None), eventHandler(0), ZGIWidget(owningWindow)
 {
-	renderer = rEngine->CreateGUIRenderer();
-	renderer->SetHasTexture(false);
-	renderer->SetTint({ 1.0f,1.0f,1.0f,1.0f });
+	widgetBrush->SetBackgroudHue({ 0.7f,0.7f,0.7f,1.0f });
+	shouldDrawBrush = true;
 }
 
 ZGIButton::~ZGIButton()
 {
-	delete renderer;
-}
-
-void ZGIButton::Render(const Matrix44 & projection)
-{
-	renderer->RenderObject(projection * modelCache);
 }
 
 void ZGIButton::ContainerResized(Vec2D newSize, Vec2D oldSize)
@@ -28,24 +24,47 @@ void ZGIButton::ContainerResized(Vec2D newSize, Vec2D oldSize)
 
 bool ZGIButton::MouseDown(const PlatformMouseBase * mouse)
 {
-	renderer->SetTint({ 0.3f,0.3f,0.3f,1.0f });
+	widgetBrush->SetBackgroudHue({ 0.3f,0.3f,0.3f,1.0f });
+
+	if (currentState != Button_State_Pressed)
+	{
+		currentState = Button_State_Pressed;
+		if (eventHandler)eventHandler->ButtonPressed();
+		else ButtonPressed();
+	}
 	return false;
 }
 
 bool ZGIButton::MouseUp(const PlatformMouseBase * mouse)
 {
-	renderer->SetTint({ 0.7f,0.7f,0.7f,1.0f });
+	widgetBrush->SetBackgroudHue({ 0.7f,0.7f,0.7f,1.0f });
+	
+	currentState = Button_State_None;
+	if (eventHandler)eventHandler->ButtonReleased();
+	else ButtonReleased();
+	
 	return false;
 }
 
 bool ZGIButton::MouseEnterd(const PlatformMouseBase * mouse)
 {
-	renderer->SetTint({ 0.9f,0.9f,0.9f,1.0f });
+	widgetBrush->SetBackgroudHue({ 0.9f,0.9f,0.9f,1.0f });
+	if (currentState != Button_State_Hovered)
+	{
+		currentState = Button_State_Hovered;
+		if (eventHandler)eventHandler->ButtonHovered();
+		else ButtonWasHovered();
+	}
 	return false;
 }
 
 bool ZGIButton::MouseLeft(const PlatformMouseBase * mouse)
 {
-	renderer->SetTint({ 0.7f,0.7f,0.7f,1.0f });
+	widgetBrush->SetBackgroudHue({ 0.7f,0.7f,0.7f,1.0f });
+	
+	currentState = Button_State_None;
+	if (eventHandler)eventHandler->ButtonStopedBeingHovered();
+	else ButtonStopedHovered();
+	
 	return false;
 }

@@ -3,6 +3,22 @@
 
 void ZGIUniformScalePanel::RepositionContent()
 {
+	/* shrink content to fit in aspect */
+	if (content)
+	{
+		Vector2D contentSize;
+
+		Vector2D ratio = size / contentStartingSize;
+
+		if (ratio.h > ratio.w)
+			contentSize = Vector2D(contentStartingSize.w * ratio.w, contentStartingSize.h * ratio.w);
+		else
+			contentSize = Vector2D(contentStartingSize.w * ratio.h, contentStartingSize.h * ratio.h);
+
+		content->SetSize(contentSize);
+	}
+
+
 	Vector2D contentHalfSize = content->GetSize() / 2.0f;
 	Vector2D halfSize = size / 2.0f;
 	float x = (position.x + halfSize.w) - contentHalfSize.w;
@@ -40,9 +56,11 @@ void ZGIUniformScalePanel::AddWidget(ZGIWidget * widget)
 	}
 
 	// force copy
-	contentStartingSize = Vector2D(widget->GetSize());
+	contentStartingSize = Vector2D(widget->GetBounds());
 
 	content = widget;
+
+	RepositionContent();
 }
 
 void ZGIUniformScalePanel::RemoveWidget(ZGIWidget * widget)
@@ -77,21 +95,6 @@ void ZGIUniformScalePanel::ContainerResized(Vec2D newSize, Vec2D oldSize)
 
 void ZGIUniformScalePanel::SetSize(Vec2D size)
 {
-	/* shrink content to fit in aspect */
-	if (content)
-	{
-		Vector2D contentSize;
-
-		Vector2D ratio = size / contentStartingSize;
-
-		if (ratio.h > ratio.w)
-			contentSize = Vector2D(contentStartingSize.w * ratio.w, contentStartingSize.h * ratio.w);
-		if (ratio.w > ratio.h)
-			contentSize = Vector2D(contentStartingSize.w * ratio.h, contentStartingSize.h * ratio.h);
-
-		content->SetSize(contentSize);
-	}
-
 	ZGIWidget::SetSize(size);
 	if(content)RepositionContent();
 }
@@ -100,18 +103,18 @@ void ZGIUniformScalePanel::SetPosition(Vec2D position)
 {
 	/* always center content */
 
-	if (content)
-	{
-		RepositionContent();
-	}
-
 	ZGIWidget::SetPosition(position);
 }
 
 void ZGIUniformScalePanel::Render(const Matrix44 & projection)
 {
-	if(content)
+	if (content)
+	{
+		if (isDirty)
+		{
+			RepositionContent();
+		}
 		content->Render(projection);
-
+	}
 	ZGIWidget::Render(projection);
 }

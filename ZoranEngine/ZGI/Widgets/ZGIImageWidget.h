@@ -5,24 +5,15 @@ class TextureBase;
 class GUIRenderer;
 class ZoranEngine_EXPORT ZGIImageWidget : public ZGIWidget
 {
-private:
-	TextureBase * image;
-	GUIRenderer* renderer;
-
 public:
 	ZGIImageWidget(ZGIVirtualWindow* owningWindow);
 	~ZGIImageWidget();
 
-	inline TextureBase* GetImage() { return image; }
+	inline void SetSizeToImage() { SetSize(bounds); }
 
 	void SetImage(const char* image);
 	void SetImage(TextureBase* image);
 
 	virtual void ContainerResized(Vec2D newSize, Vec2D oldSize)override;
-	virtual void Render(const Matrix44& projection)override;
-
-	virtual bool MouseEnterd(const PlatformMouseBase *)override;
-	virtual bool MouseLeft(const PlatformMouseBase *)override;
-
 };
 

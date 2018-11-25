@@ -92,15 +92,14 @@ void ZGIScrollPanel::AddWidget(ZGIWidget * widget)
 	if (auto label = dynamic_cast<ZGILabelWidget*>(widget))
 	{
 		label->SetShouldClipFont(false);
+		label->SetPosition({ 0,0 });
 	}
 
 	if (content != widget)
 	{
 		if (content)delete content;
 		content = widget;
-		widget->SetPosition({ 0,0 });
 	}
-
 }
 
 void ZGIScrollPanel::RemoveWidget(ZGIWidget * widget)
@@ -176,6 +175,8 @@ void ZGIScrollPanel::Render(const Matrix44 & projection)
 			SizeAndPositionScrollBar();
 		}
 
+		Vec2D contentPosition = content->GetPosition();
+
 		if (content->DoesContainText())
 		{
 			tr = Matrix44::TranslationMatrix({ -scrollOffset.x,scrollOffset.y + size.h,0 });
@@ -183,7 +184,7 @@ void ZGIScrollPanel::Render(const Matrix44 & projection)
 		else
 		{
 			Vec2D contentSize = content->GetSize();
-			tr = Matrix44::TranslationMatrix({ -scrollOffset.x,scrollOffset.y - (contentSize.h - size.h),0 });
+			tr = Matrix44::TranslationMatrix({ -scrollOffset.x - contentPosition.x,scrollOffset.y - contentPosition.y - (contentSize.h - size.h),0 });
 		}
 
 		// clip everthing within this widget
@@ -204,11 +205,12 @@ void ZGIScrollPanel::Render(const Matrix44 & projection)
 
 ZGIWidget * ZGIScrollPanel::HitTest(Vec2D pos)
 {
-	if (content)
+	// TODO: uncomment this and hit test scrollbars instead
+	/*if (content)
 	{
 		ZGIWidget* ret = content->HitTest(pos);
 		if (ret)return ret;
-	}
+	}*/
 
 	return ZGIWidget::HitTest(pos);
 }

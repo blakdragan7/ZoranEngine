@@ -6,7 +6,6 @@ ZGIBase::ZGIBase()
 {
 }
 
-
 ZGIBase::~ZGIBase()
 {
 }

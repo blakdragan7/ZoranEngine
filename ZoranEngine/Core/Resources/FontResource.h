@@ -18,8 +18,10 @@ struct Glyph
 	Vector2D bearing; // in pixels
 	Vector2D size; // in pixels
 	Vector2D invScale; // in pixels
+	Vector2D scale; // in pixels
 	double advance; // in pixels
 	float uvAdvance; // in UV Coords
+	float scaleFactor;
 };
 
 enum FontSDFType

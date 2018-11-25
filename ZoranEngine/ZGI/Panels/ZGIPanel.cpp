@@ -24,13 +24,16 @@ bool ZGIPanel::MouseMove(const PlatformMouseBase *m)
 {
 	Vector2D pos = owningWindow->ConvertAbsoluteToVirtual(m->GetPosition());
 
-	ZGIWidget* widget = WidgetForPosition(pos);
-	if(widget == 0)widget = WidgetForPosition(pos - m->GetDelta());
-
+	ZGIWidget* widget = WidgetForPosition(pos - m->GetDelta());
 	if (widget)
 	{
 		widget->MouseMove(m);
-		return true;
+	}
+	
+	widget = WidgetForPosition(pos);
+	if (widget)
+	{
+		widget->MouseMove(m);
 	}
 
 	return ZGIWidget::MouseMove(m);

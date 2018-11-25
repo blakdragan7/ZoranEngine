@@ -66,6 +66,8 @@ public:
 	static const Vector2D Zero;
 };
 
+extern Vector2D operator+(float d, const Vector2D& v);
+extern Vector2D operator/(float d, const Vector2D& v);
 extern Vector2D operator-(float d, const Vector2D& v);
 inline extern Vector2D operator*(float d,const Vector2D& v);
 

@@ -284,6 +284,16 @@ inline Vector2D operator*(float d, const Vector2D& v)
 	return v * d;
 }
 
+Vector2D operator+(float d, const Vector2D & v)
+{
+	return Vector2D(d + v.x, d + v.y);
+}
+
+Vector2D operator/(float d, const Vector2D & v)
+{
+	return Vector2D(d / v.x, d / v.y);
+}
+
 Vector2I::Vector2I(void) : x(0), y(0) { }
 Vector2I::Vector2I(int x_, int y_) : x(x_), y(y_) { }
 

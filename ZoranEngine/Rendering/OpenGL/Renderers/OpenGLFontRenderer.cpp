@@ -103,19 +103,19 @@ void OpenGLFontRenderer::UpdateRender()
 				continue;
 			}
 
-			float uvxAdvance = glyph.uvAdvance - (glyph.translate.x);
-			float uvyAdvance = glyph.uvAdvance - (glyph.translate.y);
-												 
-			float u = glyph.UVOffset.x + (glyph.translate.x/4.0f);
-			float v = glyph.UVOffset.y + (glyph.translate.y/4.0f);
-										 
+			float u = glyph.UVOffset.x + (glyph.translate.x / 4.0f);
+			float v = glyph.UVOffset.y + (glyph.translate.y / 8.0f);
+			
+			float uvxAdvance = glyph.uvAdvance - (glyph.translate.x / 4.0f);
+			float uvyAdvance = glyph.uvAdvance - (glyph.translate.y / 3.0f);
+
 			Vector2D bearing = glyph.bearing;
 
 			float x = startX + (bearing.x * scale);
 			float y = startY - (bearing.y * scale);
 
-			float w = glyph.size.w * scale*0.99f;
-			float h = glyph.size.h * scale*0.99f;
+			float w = glyph.size.w * scale;
+			float h = glyph.size.h * scale;
 
 			float diffx = (x + w) - renderStart.x;
 			float diffy = (renderStart.y - y + h);

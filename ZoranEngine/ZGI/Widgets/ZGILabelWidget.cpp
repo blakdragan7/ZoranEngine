@@ -55,17 +55,6 @@ ZGILabelWidget::~ZGILabelWidget()
 	delete renderer;
 }
 
-void ZGILabelWidget::SetSizeToFont(Vec2D scale)
-{
-	if (isDirty)
-		renderer->UpdateRender();
-
-	if(scale.x)
-		size.x = renderer->GetTotalSize().x * scale.x;
-	if (scale.y)
-		size.y = renderer->GetTotalSize().y * scale.y;
-}
-
 void ZGILabelWidget::SetShadowColor(Vec3D color)
 {
 	renderer->SetShadowColor(color);
@@ -131,7 +120,7 @@ void ZGILabelWidget::SetHorizontalAlignment(HorizontalTextAlignment alignment)
 	if (horizontalAlignment != alignment)
 	{
 		horizontalAlignment = alignment;
-		RepositionTextFromAlignment();
+		isDirty = true;
 	}
 }
 
@@ -140,15 +129,26 @@ void ZGILabelWidget::SetVerticalAlignment(VerticalTextAlignment alignment)
 	if (verticalAlignment != alignment)
 	{
 		verticalAlignment = alignment;
-		RepositionTextFromAlignment();
+		isDirty = true;
 	}
 }
 
 void ZGILabelWidget::Render(const Matrix44 & projection)
 {
+	if (isDirty)
+	{
+		RepositionTextFromAlignment();
+	}
+
 	renderer->RenderObject(projection);
 
 	ZGIWidget::Render(projection);
+}
+
+void ZGILabelWidget::SetSize(Vec2D size)
+{
+	SetBounds(size);
+	ZGIWidget::SetSize(size);
 }
 
 void ZGILabelWidget::SetBounds(Vec2D bounds)
@@ -156,7 +156,6 @@ void ZGILabelWidget::SetBounds(Vec2D bounds)
 	renderer->SetBounds(bounds);
 	this->bounds = bounds;
 
-	RepositionTextFromAlignment();
 	isDirty = true;
 }
 
@@ -166,6 +165,8 @@ void ZGILabelWidget::SetPosition(Vec2D position)
 
 	RepositionTextFromAlignment();
 	isDirty = true;
+
+	ZGIWidget::SetPosition(position);
 }
 
 void ZGILabelWidget::ContainerResized(Vec2D newSize, Vec2D oldSize)

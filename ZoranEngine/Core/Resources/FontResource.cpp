@@ -939,10 +939,12 @@ Glyph GlyphForShape(const Shape& shape, uint32_t uni, int resolution, double adv
 	scale = frame / dims;
 	scale *= 0.70f;
 
-	glyph.translate = Vector2D((float)tr.x, (float)tr.y / 2.0f);
+	glyph.translate = Vector2D((float)tr.x, (float)tr.y);
 	glyph.bearing = { (float)-l / (float)resolution, (float)-b / (float)resolution };
 	glyph.size = { (float)dims.x / (float)resolution,(float)dims.y / (float)resolution };
-	glyph.invScale = { 1.0f / (float)scale.x, 1.0f / (float)scale.y };
+	glyph.scale = { (float)scale.x, (float)scale.y };
+	glyph.invScale = 1.0f / glyph.scale;
+	glyph.scaleFactor = 0.70f;
 
 	return glyph;
 }

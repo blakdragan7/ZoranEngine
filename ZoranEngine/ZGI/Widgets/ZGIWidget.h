@@ -4,12 +4,11 @@
 #include <Interfaces/IKeyboardEventHandler.h>
 
 class ZGIVirtualWindow;
-class LineLoopRenderer;
+class ZGIBrush;
 class ZoranEngine_EXPORT ZGIWidget : public ZGIBase, public IMouseEventHandler, public IKeyboardEventHandler
 {
 private:
 	bool mouseHasEntered;
-	LineLoopRenderer* renderer;
 
 protected:
 	Vector2D bounds;
@@ -26,12 +25,11 @@ protected:
 	ZGIVirtualWindow* owningWindow;
 
 	bool isDirty; // used to update rendering
-	bool drawDebugView;
-	bool drawEditorView;
+	ZGIBrush* widgetBrush;
+	bool shouldDrawBrush;
 
 protected:
 	void RecalculateModelCache();
-	void UpdateDebugRender();
 
 public:
 	ZGIWidget(ZGIVirtualWindow* owningWindow);
@@ -46,7 +44,7 @@ public:
 	virtual void SetPosition(Vec2D position);
 
 	virtual void SetBounds(Vec2D bounds);
-	inline Vec2D GetBounds() { return bounds; }
+	virtual Vector2D GetBounds() { return bounds; }
 
 	// does not affect HitTest, so even if it is rotated, it will still receive mouse events as if it wasn't
 	// therfore this is purely for rendering, not functionality
@@ -75,13 +73,12 @@ public:
 
 	inline bool GetContainsMouse()const { return mouseHasEntered; }
 
-	// Debug / Editor Variables
+	// Brush Variables
 
-	inline void SetDrawDebugView(bool d) { drawDebugView = d; }
-	inline void SetDrawEditorView(bool d) { drawEditorView = d; }
+	inline void SetDrawBrush(bool draw) { shouldDrawBrush = draw; }
+	inline ZGIBrush* GetBrush() { return widgetBrush; }
 
-	inline bool GetDrawDebugView()const { return drawDebugView; }
-	inline bool GetDrawEditorView()const { return drawEditorView; }
+	inline bool GetDrawBrush()const { return shouldDrawBrush; }
 
 	// Info about widget
 

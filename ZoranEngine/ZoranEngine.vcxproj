@@ -266,6 +266,7 @@
     <ClCompile Include="Windows\WindowsThread.cpp" />
     <ClCompile Include="Windows\WindowsWindow.cpp" />
     <ClCompile Include="ZGI\Core\ZGIBase.cpp" />
+    <ClCompile Include="ZGI\Core\ZGIBrush.cpp" />
     <ClCompile Include="ZGI\Core\ZGIVirtualViewport.cpp" />
     <ClCompile Include="ZGI\Panels\ZGIFreeFormPanel.cpp" />
     <ClCompile Include="ZGI\Panels\ZGIPanel.cpp" />
@@ -353,6 +354,7 @@
     <ClInclude Include="Interfaces\IMouseEventHandler.h" />
     <ClInclude Include="Interfaces\IStringSerializable.h" />
     <ClInclude Include="Interfaces\ITickableObject.h" />
+    <ClInclude Include="Interfaces\IZGIButtonEventHandler.h" />
     <ClInclude Include="Math\MathHelpers.h" />
     <ClInclude Include="Math\MathLib.h" />
     <ClInclude Include="Math\Matrix44.h" />
@@ -736,6 +738,7 @@
     <ClInclude Include="Windows\WindowsThread.h" />
     <ClInclude Include="Windows\WindowsWindow.h" />
     <ClInclude Include="ZGI\Core\ZGIBase.h" />
+    <ClInclude Include="ZGI\Core\ZGIBrush.h" />
     <ClInclude Include="ZGI\Core\ZGIVirtualViewport.h" />
     <ClInclude Include="ZGI\Panels\ZGIFreeFormPanel.h" />
     <ClInclude Include="ZGI\Panels\ZGIPanel.h" />
