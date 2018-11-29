@@ -12,9 +12,10 @@ public:
 
 	virtual bool KeyEventSub(KeyEventType type, unsigned key)override;
 
+	virtual bool ContainsWidget(ZGIWidget* widget)const override;
 	virtual bool CanAddWidget(ZGIWidget* widget)const override;
-	virtual void AddWidget(ZGIWidget* widget)override;
-	virtual void RemoveWidget(ZGIWidget* widget)override;
+	void AddWidget(ZGIWidget* widget);
+	void RemoveWidget(ZGIWidget* widget);
 
 	virtual int GetNumberOfWidgets()const override;
 	virtual int GetMaxNumberOfWidgets()const override;

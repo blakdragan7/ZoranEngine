@@ -18,6 +18,13 @@ bool ZGIFreeFormPanel::KeyEventSub(KeyEventType type, unsigned key)
 	return false;
 }
 
+bool ZGIFreeFormPanel::ContainsWidget(ZGIWidget * widget) const
+{
+	auto itr = find(*widgets, widget);
+
+	return itr != widgets->end();
+}
+
 bool ZGIFreeFormPanel::CanAddWidget(ZGIWidget * widget) const
 {
 	return true;

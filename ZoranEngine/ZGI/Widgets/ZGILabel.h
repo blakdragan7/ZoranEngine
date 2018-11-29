@@ -17,7 +17,7 @@ enum HorizontalTextAlignment
 
 class FontRenderer;
 class FontResource;
-class ZoranEngine_EXPORT ZGILabelWidget : public ZGIWidget
+class ZoranEngine_EXPORT ZGILabel : public ZGIWidget
 {
 private:
 	FontRenderer * renderer;
@@ -28,8 +28,8 @@ protected:
 	void RepositionTextFromAlignment();
 
 public:
-	ZGILabelWidget(FontResource* font,ZGIVirtualWindow* owningWindow);
-	~ZGILabelWidget();
+	ZGILabel(FontResource* font,ZGIVirtualWindow* owningWindow);
+	~ZGILabel();
 
 	void SetShadowColor(Vec3D color);
 	void SetShadowVector(Vec2D vector);

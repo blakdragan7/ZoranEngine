@@ -4,7 +4,7 @@
 #include <ZGI/Windows/ZGIVirtualWindow.h>
 #include <Rendering/RenderEngineBase.h>
 #include <Rendering\Renderers\GUIColoredRectRenderer.h>
-#include <ZGI/Widgets/ZGILabelWidget.h>
+#include <ZGI/Widgets/ZGILabel.h>
 #include <ZGI/Widgets/ZGIScrollBar.h>
 #include <Core/CommomTypes.h>
 
@@ -82,6 +82,11 @@ bool ZGIScrollPanel::KeyEventSub(KeyEventType type, unsigned key)
 	return false;
 }
 
+bool ZGIScrollPanel::ContainsWidget(ZGIWidget * widget) const
+{
+	return content == widget;
+}
+
 bool ZGIScrollPanel::CanAddWidget(ZGIWidget * widget) const
 {
 	return content == 0;
@@ -89,7 +94,7 @@ bool ZGIScrollPanel::CanAddWidget(ZGIWidget * widget) const
 
 void ZGIScrollPanel::AddWidget(ZGIWidget * widget)
 {
-	if (auto label = dynamic_cast<ZGILabelWidget*>(widget))
+	if (auto label = dynamic_cast<ZGILabel*>(widget))
 	{
 		label->SetShouldClipFont(false);
 		label->SetPosition({ 0,0 });

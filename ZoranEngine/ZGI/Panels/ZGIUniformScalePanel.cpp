@@ -42,6 +42,11 @@ bool ZGIUniformScalePanel::KeyEventSub(KeyEventType type, unsigned key)
 	return false;
 }
 
+bool ZGIUniformScalePanel::ContainsWidget(ZGIWidget * widget) const
+{
+	return content == widget;
+}
+
 bool ZGIUniformScalePanel::CanAddWidget(ZGIWidget * widget)const
 {
 	return content == 0;

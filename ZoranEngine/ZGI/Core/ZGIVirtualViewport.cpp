@@ -34,7 +34,10 @@ void ZGIVirtualViewport::SetViewportActive(Vec2D globalOffset)
 void ZGIVirtualViewport::SetSize(Vec2D newSize)
 {
 	this->size = newSize;
-	normalizedSize = newSize / cachedWindowSize;
+	if (this->size.x < 1)this->size.x = 1;
+	if (this->size.y < 1)this->size.y = 1;
+
+	normalizedSize = this->size / cachedWindowSize;
 
 	projectionMatrix = Matrix44::OrthoMatrix(0.0f, (float)size.w, 0.0f, (float)size.h);
 }

@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "ZGILabelWidget.h"
+#include "ZGILabel.h"
 
 #include <Rendering/Primitives.h>
 #include <Rendering/RenderEngineBase.h>
@@ -7,7 +7,7 @@
 
 #include <Core/PlatformMouseBase.h>
 
-void ZGILabelWidget::RepositionTextFromAlignment()
+void ZGILabel::RepositionTextFromAlignment()
 {
 	float x = 0;
 	float y = 0;
@@ -43,79 +43,79 @@ void ZGILabelWidget::RepositionTextFromAlignment()
 	renderer->SetRenderStart({ x, y });
 }
 
-ZGILabelWidget::ZGILabelWidget(FontResource* font, ZGIVirtualWindow* owningWindow) : verticalAlignment(VerticalTextAlignment_Top), horizontalAlignment(HorizontalTextAlignment_Left) , ZGIWidget(owningWindow)
+ZGILabel::ZGILabel(FontResource* font, ZGIVirtualWindow* owningWindow) : verticalAlignment(VerticalTextAlignment_Top), horizontalAlignment(HorizontalTextAlignment_Left) , ZGIWidget(owningWindow)
 {
 	renderer = rEngine->CreateFontRenderer(font);
 
 	size.x = 100; size.y = 100;
 }
 
-ZGILabelWidget::~ZGILabelWidget()
+ZGILabel::~ZGILabel()
 {
 	delete renderer;
 }
 
-void ZGILabelWidget::SetShadowColor(Vec3D color)
+void ZGILabel::SetShadowColor(Vec3D color)
 {
 	renderer->SetShadowColor(color);
 }
 
-void ZGILabelWidget::SetShadowVector(Vec2D vector)
+void ZGILabel::SetShadowVector(Vec2D vector)
 {
 	renderer->SetShadowVector(vector);
 }
 
-void ZGILabelWidget::SetShadowSoftness(float softness)
+void ZGILabel::SetShadowSoftness(float softness)
 {
 	renderer->SetShadowSoftness(softness);
 }
 
-void ZGILabelWidget::SetShadowOpacity(float opacity)
+void ZGILabel::SetShadowOpacity(float opacity)
 {
 	renderer->SetShadowOpacity(opacity);
 }
 
-void ZGILabelWidget::SetFontThickness(float thickness)
+void ZGILabel::SetFontThickness(float thickness)
 {
 	renderer->SetFontThickness(thickness);
 }
 
-void ZGILabelWidget::SetFontBorder(float border)
+void ZGILabel::SetFontBorder(float border)
 {
 	renderer->SetFontBorder(border);
 }
 
-void ZGILabelWidget::SetText(const std::string & text)
+void ZGILabel::SetText(const std::string & text)
 {
 	renderer->SetText(text);
 }
 
-void ZGILabelWidget::SetFontSize(float pptSize)
+void ZGILabel::SetFontSize(float pptSize)
 {
 	renderer->SetPPTSize(pptSize);
 }
 
-void ZGILabelWidget::SetFontColor(const Color& c)
+void ZGILabel::SetFontColor(const Color& c)
 {
 	renderer->SetFontColor(c);
 }
 
-void ZGILabelWidget::SetBorderColor(const Color & c)
+void ZGILabel::SetBorderColor(const Color & c)
 {
 	renderer->SetBorderColor(c);
 }
 
-void ZGILabelWidget::SetShouldWordWrap(bool wrap)
+void ZGILabel::SetShouldWordWrap(bool wrap)
 {
 	renderer->SetShouldWordWrap(wrap);
 }
 
-void ZGILabelWidget::SetShouldClipFont(bool clip)
+void ZGILabel::SetShouldClipFont(bool clip)
 {
 	renderer->SetShouldClip(clip);
 }
 
-void ZGILabelWidget::SetHorizontalAlignment(HorizontalTextAlignment alignment)
+void ZGILabel::SetHorizontalAlignment(HorizontalTextAlignment alignment)
 {
 	if (horizontalAlignment != alignment)
 	{
@@ -124,7 +124,7 @@ void ZGILabelWidget::SetHorizontalAlignment(HorizontalTextAlignment alignment)
 	}
 }
 
-void ZGILabelWidget::SetVerticalAlignment(VerticalTextAlignment alignment)
+void ZGILabel::SetVerticalAlignment(VerticalTextAlignment alignment)
 {
 	if (verticalAlignment != alignment)
 	{
@@ -133,7 +133,7 @@ void ZGILabelWidget::SetVerticalAlignment(VerticalTextAlignment alignment)
 	}
 }
 
-void ZGILabelWidget::Render(const Matrix44 & projection)
+void ZGILabel::Render(const Matrix44 & projection)
 {
 	if (isDirty)
 	{
@@ -145,13 +145,13 @@ void ZGILabelWidget::Render(const Matrix44 & projection)
 	ZGIWidget::Render(projection);
 }
 
-void ZGILabelWidget::SetSize(Vec2D size)
+void ZGILabel::SetSize(Vec2D size)
 {
 	SetBounds(size);
 	ZGIWidget::SetSize(size);
 }
 
-void ZGILabelWidget::SetBounds(Vec2D bounds)
+void ZGILabel::SetBounds(Vec2D bounds)
 {
 	renderer->SetBounds(bounds);
 	this->bounds = bounds;
@@ -159,7 +159,7 @@ void ZGILabelWidget::SetBounds(Vec2D bounds)
 	isDirty = true;
 }
 
-void ZGILabelWidget::SetPosition(Vec2D position)
+void ZGILabel::SetPosition(Vec2D position)
 {
 	this->position = position;
 
@@ -169,12 +169,12 @@ void ZGILabelWidget::SetPosition(Vec2D position)
 	ZGIWidget::SetPosition(position);
 }
 
-void ZGILabelWidget::ContainerResized(Vec2D newSize, Vec2D oldSize)
+void ZGILabel::ContainerResized(Vec2D newSize, Vec2D oldSize)
 {
 	// TODO: some ancher stuff
 }
 
-Vector2D ZGILabelWidget::GetSize()
+Vector2D ZGILabel::GetSize()
 {
 	if (isDirty)
 		renderer->UpdateRender();

@@ -3,11 +3,11 @@
 
 class TextureBase;
 class GUIRenderer;
-class ZoranEngine_EXPORT ZGIImageWidget : public ZGIWidget
+class ZoranEngine_EXPORT ZGIImage : public ZGIWidget
 {
 public:
-	ZGIImageWidget(ZGIVirtualWindow* owningWindow);
-	~ZGIImageWidget();
+	ZGIImage(ZGIVirtualWindow* owningWindow);
+	~ZGIImage();
 
 	inline void SetSizeToImage() { SetSize(bounds); }
 

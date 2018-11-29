@@ -14,11 +14,12 @@
 
 #include <Core/WindowBase.h>
 #include <ZGI/Windows/ZGIGameVirtualWindow.h>
+#include <ZGI/Windows/ZGIDebugWindow.h>
 #include <ZGI/Panels/ZGIUniformScalePanel.h>
 #include <ZGI/Panels/ZGIFreeFormPanel.h>
 #include <ZGI/Panels/ZGIScrollPanel.h>
-#include <ZGI/Widgets/ZGIImageWidget.h>
-#include <ZGI/Widgets/ZGILabelWidget.h>
+#include <ZGI/Widgets/ZGIImage.h>
+#include <ZGI/Widgets/ZGILabel.h>
 #include <ZGI/Widgets/ZGIButton.h>
 
 #include <Core/Resources/FontResource.h>
@@ -170,17 +171,20 @@ void TestGUIStuff()
 	WindowBase* window = engine.GetMainWindow();
 	auto vW = window->GetRootVirtualWindow();
 
-	ResourceManager man;
-	FontResource* font = man.FontForZFT("arial-msdf.zft");
-	/*FontResource* font = man.FontForTTF("C:\\Windows\\Fonts\\arial.ttf", 64, 4.0, Font_SDF_Type_MSDF);
+	ZGIDebugWindow* dw = new ZGIDebugWindow({ 600,300 }, { 600,300 }, window->GetSize(), vW);
+	vW->AddSubWindow(dw);
+
+	ResourceManager* man = RM;
+	FontResource* font = man->FontForZFT("arial-msdf.zft");
+	/*FontResource* font = man->FontForTTF("C:\\Windows\\Fonts\\arial.ttf", 64, 4.0, Font_SDF_Type_MSDF);
 	font->CreateBMPForASCII("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_-+=\\\"';:/?.>,<~` ");
 	font->NormalizeGlyphs();
 	font->SaveToFile("arial-msdf");*/
 
 	auto p = new ZGIUniformScalePanel(vW);
-	auto l = new ZGILabelWidget(font, vW);
+	auto l = new ZGILabel(font, vW);
 	auto s = new ZGIScrollPanel(vW);
-	auto i = new ZGIImageWidget(vW);
+	auto i = new ZGIImage(vW);
 	auto b = new ZGIButton(vW);
 	auto f = new ZGIFreeFormPanel(vW);
 
@@ -223,7 +227,7 @@ void TestGUIStuff()
 	f->AddWidget(b);
 	f->AddWidget(p);
 
-	vW->SetRootContent(f);
+	//vW->SetRootContent(f);
 	
 	engine.MainLoop();
 }

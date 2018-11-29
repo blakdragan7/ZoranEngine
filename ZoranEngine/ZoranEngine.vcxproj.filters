@@ -594,9 +594,6 @@
     <ClCompile Include="Rendering\OpenGL\GUI\OpenGLGUIShader.cpp">
       <Filter>ZoranEngine\Rendering\OpenGL\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="ZGI\Widgets\ZGIImageWidget.cpp">
-      <Filter>ZoranEngine\ZGI\Widgets</Filter>
-    </ClCompile>
     <ClCompile Include="ZGI\Widgets\ZGIWidget.cpp">
       <Filter>ZoranEngine\ZGI\Widgets</Filter>
     </ClCompile>
@@ -630,9 +627,6 @@
     <ClCompile Include="ZGI\Windows\ZGIDebugWindow.cpp">
       <Filter>ZoranEngine\ZGI\Windows</Filter>
     </ClCompile>
-    <ClCompile Include="ZGI\Widgets\ZGILabelWidget.cpp">
-      <Filter>ZoranEngine\ZGI\Widgets</Filter>
-    </ClCompile>
     <ClCompile Include="ThirdParty\msdfgen\core\mVector2.cpp">
       <Filter>ZoranEngine\ThirdParty\msdfgen\core</Filter>
     </ClCompile>
@@ -659,6 +653,15 @@
     </ClCompile>
     <ClCompile Include="ZGI\Core\ZGIBrush.cpp">
       <Filter>ZoranEngine\ZGI\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="ZGI\Widgets\ZGIImage.cpp">
+      <Filter>ZoranEngine\ZGI\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="ZGI\Widgets\ZGILabel.cpp">
+      <Filter>ZoranEngine\ZGI\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="ZGI\Panels\ZGIGridPanel.cpp">
+      <Filter>ZoranEngine\ZGI\Panels</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2000,9 +2003,6 @@
     <ClInclude Include="Rendering\OpenGL\GUI\OpenGLGUIShader.h">
       <Filter>ZoranEngine\Rendering\OpenGL\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="ZGI\Widgets\ZGIImageWidget.h">
-      <Filter>ZoranEngine\ZGI\Widgets</Filter>
-    </ClInclude>
     <ClInclude Include="ZGI\Widgets\ZGIWidget.h">
       <Filter>ZoranEngine\ZGI\Widgets</Filter>
     </ClInclude>
@@ -2039,9 +2039,6 @@
     <ClInclude Include="ZGI\Windows\ZGIDebugWindow.h">
       <Filter>ZoranEngine\ZGI\Windows</Filter>
     </ClInclude>
-    <ClInclude Include="ZGI\Widgets\ZGILabelWidget.h">
-      <Filter>ZoranEngine\ZGI\Widgets</Filter>
-    </ClInclude>
     <ClInclude Include="ThirdParty\msdfgen\core\Vector2.h">
       <Filter>ZoranEngine\ThirdParty\msdfgen\core</Filter>
     </ClInclude>
@@ -2071,6 +2068,15 @@
     </ClInclude>
     <ClInclude Include="ZGI\Core\ZGIBrush.h">
       <Filter>ZoranEngine\ZGI\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="ZGI\Widgets\ZGIImage.h">
+      <Filter>ZoranEngine\ZGI\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="ZGI\Widgets\ZGILabel.h">
+      <Filter>ZoranEngine\ZGI\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="ZGI\Panels\ZGIGridPanel.h">
+      <Filter>ZoranEngine\ZGI\Panels</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

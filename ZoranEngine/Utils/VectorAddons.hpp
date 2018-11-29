@@ -24,3 +24,21 @@ bool remove(std::vector<T> &v, T object)
 
 	return false;
 }
+
+template<typename T>
+typename std::vector<T>::iterator find(std::vector<T>& v, T object)
+{
+	auto itr = std::find(v.begin(), v.end(), object);
+	return itr;
+}
+
+template<typename T>
+bool contains(std::vector<std::vector<T>>& v, T object)
+{
+	for (auto v1 : v)
+	{
+		if (find(v1, object) != v1.end())return true;
+	}
+
+	return false;
+}

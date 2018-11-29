@@ -28,10 +28,12 @@ public:
 	/* Pannel Override */
 	virtual bool KeyEventSub(KeyEventType type, unsigned key)override;
 
+	virtual bool ContainsWidget(ZGIWidget* widget)const override;
 	virtual bool CanAddWidget(ZGIWidget* widget)const override;
+
 	/* This assumes CanAddWidget was already called. Calling this in release mode without first checking CanAddWidget can result in a memory leak. */
-	virtual void AddWidget(ZGIWidget* widget)override;
-	virtual void RemoveWidget(ZGIWidget* widget)override;
+	void AddWidget(ZGIWidget* widget);
+	void RemoveWidget(ZGIWidget* widget);
 
 	virtual int GetNumberOfWidgets()const override;
 	virtual int GetMaxNumberOfWidgets()const override;

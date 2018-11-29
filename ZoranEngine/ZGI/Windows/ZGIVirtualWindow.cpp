@@ -7,11 +7,50 @@
 #include <Core/PlatformMouseBase.h>
 
 #include <Utils/VectorAddons.hpp>
+#include <ZGI/Core/ZGIBrush.h>
 
-ZGIVirtualWindow::ZGIVirtualWindow(Vec2D pos, Vec2D size, Vec2I OSWindowSize, ZGIVirtualWindow* parent) : parent(parent), rootContent(0)
+enum WindowEdge
+{
+	Window_Edge_None	= 0,
+	Window_Edge_Right	= 1 << 0,
+	Window_Edge_Top		= 1 << 1,
+	Window_Edge_Bottom	= 1 << 2,
+	Window_Edge_Left	= 1 << 3
+};
+
+unsigned  ZGIVirtualWindow::EdgeForPosition(Vec2D pos, float edgeThresh)
+{
+	Vec2D windowPos = this->GetWindowPosition();
+	Vec2D size = this->GetWindowSize();
+	
+	unsigned edges = Window_Edge_None;
+
+	if (abs(pos.x - windowPos.x) < edgeThresh)
+	{
+		edges |= Window_Edge_Left;
+	}
+	if (abs(pos.x - (windowPos.x + size.w)) < edgeThresh)
+	{
+		edges |= Window_Edge_Right;
+	}
+	if (abs(pos.y - windowPos.y) < edgeThresh)
+	{
+		edges |= Window_Edge_Bottom;
+	}
+	if (abs(pos.y - (windowPos.y + size.h)) < edgeThresh)
+	{
+		edges |= Window_Edge_Top;
+	}
+
+	return edges;
+}
+
+ZGIVirtualWindow::ZGIVirtualWindow(Vec2D pos, Vec2D size, Vec2I OSWindowSize, ZGIVirtualWindow* parent) :
+	isBeingResized(false), isResizable(false), parent(parent), rootContent(0), edgeSize(20), shouldRenderBrush(false), currentlySelectedEdge(Window_Edge_None)
 {
 	subWindows = new std::vector<ZGIVirtualWindow*>();
 	viewport = new ZGIVirtualViewport(pos, size, OSWindowSize);
+	brush = new ZGIBrush;
 }
 
 ZGIVirtualWindow::~ZGIVirtualWindow()
@@ -22,6 +61,8 @@ ZGIVirtualWindow::~ZGIVirtualWindow()
 	{
 		delete subWindow;
 	}
+
+	delete brush;
 
 	delete subWindows;
 	
@@ -67,6 +108,18 @@ void ZGIVirtualWindow::ResizeVirtualWindow(Vec2D newSize)
 	viewport->SetSize(newSize);
 }
 
+void ZGIVirtualWindow::SetBackgroundColor(const Color & color)
+{
+	brush->SetBackgroudHue(color);
+	shouldRenderBrush = true;
+}
+
+void ZGIVirtualWindow::SetBackgroundImage(TextureBase * texture)
+{
+	brush->SetBackgroudImage(texture);
+	shouldRenderBrush = true;
+}
+
 Vector2D ZGIVirtualWindow::ConvertAbsoluteToVirtual(Vec2D pos) const
 {
 	return Vector2D(pos.x - globalOffsetCache.x, pos.y - globalOffsetCache.y);
@@ -88,6 +141,8 @@ void ZGIVirtualWindow::RenderWindow(Vec2D globalOffset)
 
 	viewport->SetViewportActive(globalOffset);
 
+	if(shouldRenderBrush)brush->RenderBrush(Matrix44::IdentityMatrix);
+
 	if (rootContent)
 	{
 		Matrix44 projectionMatrix = viewport->GetProjectionMatrix();
@@ -103,6 +158,16 @@ void ZGIVirtualWindow::RenderWindow(Vec2D globalOffset)
 
 bool ZGIVirtualWindow::MouseDown(const PlatformMouseBase *m)
 {
+	if (isResizable)
+	{
+		Vector2D pos = m->GetPosition();
+
+		if (parent)pos = parent->ConvertAbsoluteToVirtual(pos);
+
+		currentlySelectedEdge = EdgeForPosition(pos, edgeSize);
+		if (currentlySelectedEdge != Window_Edge_None)return true;
+	}
+
 	bool capturedEvent = false;
 
 	for (auto& window : *subWindows)
@@ -122,6 +187,54 @@ bool ZGIVirtualWindow::MouseDown(const PlatformMouseBase *m)
 
 bool ZGIVirtualWindow::MouseMove(const PlatformMouseBase *m)
 {
+	if (isResizable && currentlySelectedEdge != Window_Edge_None)
+	{
+		Vec2D position = viewport->GetPosition();
+		Vector2D size = Vector2D(viewport->GetSize()); // force copy
+
+		if (currentlySelectedEdge == Window_Edge_Top)
+		{
+			this->ResizeVirtualWindow({ size.x, size.y + m->GetDelta().y });
+		}
+		else if(currentlySelectedEdge == Window_Edge_Right)
+		{
+			this->ResizeVirtualWindow({ size.x + m->GetDelta().x, size.y });
+		}
+		else if(currentlySelectedEdge == Window_Edge_Left)
+		{
+			this->ResizeVirtualWindow({ size.x - m->GetDelta().x, size.y });
+			this->SetWindowPosition({ position.x + m->GetDelta().x, position.y });
+		}
+		else if (currentlySelectedEdge == Window_Edge_Bottom)
+		{
+			this->ResizeVirtualWindow({ size.x, size.y - m->GetDelta().y });
+			this->SetWindowPosition({ position.x, position.y + m->GetDelta().y });
+		}
+		else if (currentlySelectedEdge & Window_Edge_Top && currentlySelectedEdge & Window_Edge_Right)
+		{
+			this->ResizeVirtualWindow({ size.x + m->GetDelta().x, size.y + m->GetDelta().y });
+		}
+		else if (currentlySelectedEdge & Window_Edge_Top && currentlySelectedEdge & Window_Edge_Left)
+		{
+			this->ResizeVirtualWindow({ size.x - m->GetDelta().x, size.y + m->GetDelta().y });
+			this->SetWindowPosition({ position.x + m->GetDelta().x, position.y });
+		}
+		else if (currentlySelectedEdge & Window_Edge_Bottom && currentlySelectedEdge & Window_Edge_Right)
+		{
+			this->ResizeVirtualWindow({ size.x + m->GetDelta().x, size.y - m->GetDelta().y });
+			this->SetWindowPosition({ position.x, position.y + m->GetDelta().y });
+		}
+		else if (currentlySelectedEdge & Window_Edge_Bottom&& currentlySelectedEdge & Window_Edge_Left)
+		{
+			this->ResizeVirtualWindow({ size.x - m->GetDelta().x, size.y - m->GetDelta().y });
+			this->SetWindowPosition({ position.x + m->GetDelta().x, position.y + m->GetDelta().y });
+		}
+
+		if (rootContent)rootContent->ContainerResized(viewport->GetSize(), size);
+
+		return true;
+	}
+
 	bool capturedEvent = false;
 
 	for (auto& window : *subWindows)
@@ -141,6 +254,8 @@ bool ZGIVirtualWindow::MouseMove(const PlatformMouseBase *m)
 
 bool ZGIVirtualWindow::MouseUp(const PlatformMouseBase *m)
 {
+	currentlySelectedEdge = Window_Edge_None;
+
 	bool capturedEvent = false;
 
 	for (auto& window : *subWindows)

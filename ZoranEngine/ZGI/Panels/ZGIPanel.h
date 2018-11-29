@@ -11,9 +11,8 @@ public:
 
 	virtual bool KeyEventSub(KeyEventType type, unsigned key) = 0;
 
+	virtual bool ContainsWidget(ZGIWidget* widget)const = 0;
 	virtual bool CanAddWidget(ZGIWidget* widget)const = 0;
-	virtual void AddWidget(ZGIWidget* widget) = 0;
-	virtual void RemoveWidget(ZGIWidget* widget) = 0;
 
 	virtual int GetNumberOfWidgets()const = 0;
 	virtual int GetMaxNumberOfWidgets()const = 0;
