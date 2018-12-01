@@ -1,5 +1,16 @@
 #pragma once
 
+typedef unsigned AlignmentBit;
+
+enum Alignment
+{
+	Alignment_Top		= 1 << 0,
+	Alignment_Bottom	= 1 << 1,
+	Alignment_Left		= 1 << 2,
+	Alignment_Right		= 1 << 3,
+	Alignment_Center	= 1 << 4,
+};
+
 enum KeyEventType {
 	KeyEventType_Key_Down,
 	KeyEventType_Key_Up

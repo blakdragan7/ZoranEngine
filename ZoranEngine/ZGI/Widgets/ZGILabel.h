@@ -1,28 +1,14 @@
 #pragma once
 #include<ZGI\Widgets\ZGIWidget.h>
 
-enum VerticalTextAlignment
-{
-	VerticalTextAlignment_Top,
-	VerticalTextAlignment_Bottom,
-	VerticalTextAlignment_Center,
-};
-
-enum HorizontalTextAlignment
-{
-	HorizontalTextAlignment_Left,
-	HorizontalTextAlignment_Right,
-	HorizontalTextAlignment_Center,
-};
-
+enum Alignment;
 class FontRenderer;
 class FontResource;
 class ZoranEngine_EXPORT ZGILabel : public ZGIWidget
 {
 private:
 	FontRenderer * renderer;
-	HorizontalTextAlignment horizontalAlignment;
-	VerticalTextAlignment verticalAlignment;
+	unsigned alignment;
 
 protected:
 	void RepositionTextFromAlignment();
@@ -47,8 +33,7 @@ public:
 	void SetShouldWordWrap(bool wrap);
 	void SetShouldClipFont(bool clip);
 
-	void SetHorizontalAlignment(HorizontalTextAlignment alignment);
-	void SetVerticalAlignment(VerticalTextAlignment alignment);
+	inline void SetAlignment(unsigned alignment) { this->alignment = alignment; isDirty = true; }
 
 	// widget overrides
 	virtual void Render(const Matrix44& projection)override;

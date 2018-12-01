@@ -6,44 +6,52 @@
 #include <Rendering/Renderers/FontRenderer.h>
 
 #include <Core/PlatformMouseBase.h>
+#include <Core/CommomTypes.h>
 
 void ZGILabel::RepositionTextFromAlignment()
 {
+	// TODO: make this render correctly, center text instead of centering renderstart etc .. 
+
 	float x = 0;
 	float y = 0;
 
 	float offset = renderer->GetPPTSize() * 0.7333f;
 
-	switch (horizontalAlignment)
-	{
-	case HorizontalTextAlignment_Left:
-		x = position.x;
-		break;
-	case HorizontalTextAlignment_Right:
-		x = position.x + size.w - offset;
-		break;
-	case HorizontalTextAlignment_Center:
-		x = position.x + (size.w / 2.0f) - offset;
-		break;
-	}
+	bool hasSetX, hasSetY;
+	hasSetX = hasSetY = false;
 
-	switch (verticalAlignment)
+	if (alignment & Alignment_Bottom)
 	{
-	case VerticalTextAlignment_Bottom:
 		y = position.y;
-		break;
-	case VerticalTextAlignment_Top:
+		hasSetY = true;
+	}
+	if (alignment & Alignment_Left)
+	{
+		x = position.x;
+		hasSetX = true;
+	}
+	if (alignment & Alignment_Right)
+	{
+		if (hasSetX)Log(LogLevel_Warning, "Only one of Alignment_Right or Alignment_Left should be set for Alignment but Both are set!!");
+		x = position.x + size.w - offset;
+		hasSetX = true;
+	}
+	if (alignment & Alignment_Top)
+	{
+		if (hasSetY)Log(LogLevel_Warning, "Only one of Alignment_Top or Alignment_Bottom should be set for Alignment but Both are set!!");
 		y = position.y + size.h - offset;
-		break;
-	case VerticalTextAlignment_Center:
-		y = position.y + (size.h / 2.0f) - offset;
-		break;
+		hasSetY = true;
+	}
+	if (alignment & Alignment_Center)
+	{
+		if(hasSetX == false)x = position.x + (size.w / 2.0f) - (renderer->GetPPTSize() * 0.5f);
+		if(hasSetY == false)y = position.y + (size.h / 2.0f) - (renderer->GetPPTSize() * 0.5f);
 	}
 
 	renderer->SetRenderStart({ x, y });
 }
 
-ZGILabel::ZGILabel(FontResource* font, ZGIVirtualWindow* owningWindow) : verticalAlignment(VerticalTextAlignment_Top), horizontalAlignment(HorizontalTextAlignment_Left) , ZGIWidget(owningWindow)
+ZGILabel::ZGILabel(FontResource* font, ZGIVirtualWindow* owningWindow) : alignment(Alignment_Left | Alignment_Top), ZGIWidget(owningWindow)
 {
 	renderer = rEngine->CreateFontRenderer(font);
 
@@ -115,24 +123,6 @@ void ZGILabel::SetShouldClipFont(bool clip)
 	renderer->SetShouldClip(clip);
 }
 
-void ZGILabel::SetHorizontalAlignment(HorizontalTextAlignment alignment)
-{
-	if (horizontalAlignment != alignment)
-	{
-		horizontalAlignment = alignment;
-		isDirty = true;
-	}
-}
-
-void ZGILabel::SetVerticalAlignment(VerticalTextAlignment alignment)
-{
-	if (verticalAlignment != alignment)
-	{
-		verticalAlignment = alignment;
-		isDirty = true;
-	}
-}
-
 void ZGILabel::Render(const Matrix44 & projection)
 {
 	if (isDirty)
@@ -162,9 +152,6 @@ void ZGILabel::SetBounds(Vec2D bounds)
 void ZGILabel::SetPosition(Vec2D position)
 {
 	this->position = position;
-
-	RepositionTextFromAlignment();
-	isDirty = true;
 
 	ZGIWidget::SetPosition(position);
 }

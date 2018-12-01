@@ -113,6 +113,8 @@ public:
 	Vector2I getAbs()const;
 
 	bool operator ==(const Vector2I& other)const;
+	bool operator <=(const Vector2I& other)const;
+	bool operator >=(const Vector2I& other)const;
 
 	float distance(const Vector2I& other)const;
 

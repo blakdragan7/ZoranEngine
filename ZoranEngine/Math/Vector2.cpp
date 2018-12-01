@@ -470,6 +470,16 @@ bool Vector2I::operator ==(const Vector2I& other)const
 	return other.x == x && other.y == y;
 }
 
+bool Vector2I::operator<=(const Vector2I & other)const
+{
+	return x <= other.x && y <= other.y;
+}
+
+bool Vector2I::operator>=(const Vector2I & other)const
+{
+	return x >= other.x && y >= other.y;
+}
+
 float Vector2I::magnitude()const
 {
 	return sqrtf(static_cast<float>((x*x) + (y*y)));

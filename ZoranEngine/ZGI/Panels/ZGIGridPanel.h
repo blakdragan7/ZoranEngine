@@ -1,18 +1,49 @@
 #pragma once
 #include <ZGI\Panels\ZGIPanel.h>
 
+struct GridSocket
+{
+	Vector2I gridPosition;
+	Vector2I gridSize;
+
+	AlignmentBit alignment;
+
+	ZGIWidget* widget;
+
+	GridSocket(Vec2I pos, Vec2I size, AlignmentBit alignment, ZGIWidget* widget) :
+		gridPosition(pos), gridSize(size), alignment(alignment), widget(widget)
+	{}
+
+	GridSocket() : widget(0), alignment(0)
+	{}
+
+	bool operator==(ZGIWidget* widget)const
+	{
+		return this->widget == widget;
+	}
+	bool operator==(GridSocket& other)const
+	{
+		return widget == other.widget;
+	}
+	bool operator==(Vec2I position)
+	{
+		return (gridPosition <= position && (gridPosition + gridSize - 1) >= position);
+	}
+};
+
 class ZoranEngine_EXPORT ZGIGridPanel : public ZGIPanel
 {
 private:
-	std::vector<ZGIWidget*> *grid;
+	std::vector<GridSocket> *grid;
 
-	Vector2I size; // sizeCache
-	Vector2I nextPosition; // used in addWidget
+	Vector2I gridSize; // grid size
 
 	unsigned numWidgets;
 
 private:
 	void RepositionContents();
+	std::vector<GridSocket>::iterator Find(ZGIWidget* widget)const;
+	GridSocket* At(int x, int y);
 
 public:
 	ZGIGridPanel(int sizeX, int sizeY, ZGIVirtualWindow* owningWindow);
@@ -22,14 +53,11 @@ public:
 	void Resize(int sizeX, int sizeY);
 	void Resize(Vec2I newSize);
 
-	inline Vector2I positionFrom(int index) { return Vector2I(index % size.w, index / size.w); }
-	inline int IndexOf(Vec2I position)const { return (position.y * size.w) + position.x; }
-	inline int IndexOf(int x, int y)const { return (y * size.w) + x; }
+	const GridSocket* At(int x, int y)const;
 
-	ZGIWidget* At(int x, int y)const;
-
-	// to remove widget at location call this with 0 for widget
-	bool AddWidget(ZGIWidget* widget, int x, int y);
+	bool AddWidget(ZGIWidget* widget, int x, int y, int rowSpan = 1, int columnSpawn = 1, AlignmentBit alignment = Alignment_Top | Alignment_Left);
+	bool RemoveWidget(ZGIWidget* widget);
+	bool RemoveWidget(int x,int y);
 
 	/* Panel Override */
 

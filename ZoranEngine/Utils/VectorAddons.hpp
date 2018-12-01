@@ -9,6 +9,17 @@ void remove(std::vector<T> &v, size_t i)
 }
 
 template <typename T>
+bool remove(std::vector<T> &v,typename std::vector<T>::iterator iter)
+{
+	size_t i = (iter - v.begin());
+
+	std::swap(v[i], v.back());
+	v.pop_back();
+
+	return true;
+}
+
+template <typename T>
 bool remove(std::vector<T> &v, T object)
 {
 	auto iter = std::find(v.begin(),v.end(),object);
