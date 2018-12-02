@@ -20,4 +20,4 @@ public:
 	static TextureManager* GetInstance();
 };
 
-#define tManager TextureManager::GetInstance();
+#define tManager TextureManager::GetInstance()

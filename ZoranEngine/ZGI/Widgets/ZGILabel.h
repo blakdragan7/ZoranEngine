@@ -14,6 +14,7 @@ protected:
 	void RepositionTextFromAlignment();
 
 public:
+	ZGILabel(ZGIVirtualWindow* owningWindow);
 	ZGILabel(FontResource* font,ZGIVirtualWindow* owningWindow);
 	~ZGILabel();
 

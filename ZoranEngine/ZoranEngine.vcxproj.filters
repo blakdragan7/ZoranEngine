@@ -663,6 +663,15 @@
     <ClCompile Include="ZGI\Panels\ZGIGridPanel.cpp">
       <Filter>ZoranEngine\ZGI\Panels</Filter>
     </ClCompile>
+    <ClCompile Include="ZGI\Panels\ZGITreePanel.cpp">
+      <Filter>ZoranEngine\ZGI\Panels</Filter>
+    </ClCompile>
+    <ClCompile Include="ZGI\Panels\ZGIListPanel.cpp">
+      <Filter>ZoranEngine\ZGI\Panels</Filter>
+    </ClCompile>
+    <ClCompile Include="ZGI\Panels\ZGICollapsibleListPanel.cpp">
+      <Filter>ZoranEngine\ZGI\Panels</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -2076,6 +2085,15 @@
       <Filter>ZoranEngine\ZGI\Widgets</Filter>
     </ClInclude>
     <ClInclude Include="ZGI\Panels\ZGIGridPanel.h">
+      <Filter>ZoranEngine\ZGI\Panels</Filter>
+    </ClInclude>
+    <ClInclude Include="ZGI\Panels\ZGITreePanel.h">
+      <Filter>ZoranEngine\ZGI\Panels</Filter>
+    </ClInclude>
+    <ClInclude Include="ZGI\Panels\ZGIListPanel.h">
+      <Filter>ZoranEngine\ZGI\Panels</Filter>
+    </ClInclude>
+    <ClInclude Include="ZGI\Panels\ZGICollapsibleListPanel.h">
       <Filter>ZoranEngine\ZGI\Panels</Filter>
     </ClInclude>
   </ItemGroup>

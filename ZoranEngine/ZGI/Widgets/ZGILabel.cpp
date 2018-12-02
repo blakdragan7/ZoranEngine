@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "ZGILabel.h"
 
+#include <Core/Resources/ResourceManager.h>
+
 #include <Rendering/Primitives.h>
 #include <Rendering/RenderEngineBase.h>
 #include <Rendering/Renderers/FontRenderer.h>
@@ -49,6 +51,14 @@ void ZGILabel::RepositionTextFromAlignment()
 	}
 
 	renderer->SetRenderStart({ x, y });
+}
+
+ZGILabel::ZGILabel(ZGIVirtualWindow * owningWindow) : alignment(Alignment_Left | Alignment_Top), ZGIWidget(owningWindow)
+{
+	auto rm = RM;
+	auto font = rm->FontForZFT("arial-msdf.zft");
+	renderer = rEngine->CreateFontRenderer(font);
+	size.x = 100; size.y = 100;
 }
 
 ZGILabel::ZGILabel(FontResource* font, ZGIVirtualWindow* owningWindow) : alignment(Alignment_Left | Alignment_Top), ZGIWidget(owningWindow)

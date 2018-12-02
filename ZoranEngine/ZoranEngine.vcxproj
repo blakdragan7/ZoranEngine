@@ -268,10 +268,13 @@
     <ClCompile Include="ZGI\Core\ZGIBase.cpp" />
     <ClCompile Include="ZGI\Core\ZGIBrush.cpp" />
     <ClCompile Include="ZGI\Core\ZGIVirtualViewport.cpp" />
+    <ClCompile Include="ZGI\Panels\ZGICollapsibleListPanel.cpp" />
     <ClCompile Include="ZGI\Panels\ZGIFreeFormPanel.cpp" />
     <ClCompile Include="ZGI\Panels\ZGIGridPanel.cpp" />
+    <ClCompile Include="ZGI\Panels\ZGIListPanel.cpp" />
     <ClCompile Include="ZGI\Panels\ZGIPanel.cpp" />
     <ClCompile Include="ZGI\Panels\ZGIScrollPanel.cpp" />
+    <ClCompile Include="ZGI\Panels\ZGITreePanel.cpp" />
     <ClCompile Include="ZGI\Panels\ZGIUniformScalePanel.cpp" />
     <ClCompile Include="ZGI\Widgets\ZGIButton.cpp" />
     <ClCompile Include="ZGI\Widgets\ZGIImage.cpp" />
@@ -741,10 +744,13 @@
     <ClInclude Include="ZGI\Core\ZGIBase.h" />
     <ClInclude Include="ZGI\Core\ZGIBrush.h" />
     <ClInclude Include="ZGI\Core\ZGIVirtualViewport.h" />
+    <ClInclude Include="ZGI\Panels\ZGICollapsibleListPanel.h" />
     <ClInclude Include="ZGI\Panels\ZGIFreeFormPanel.h" />
     <ClInclude Include="ZGI\Panels\ZGIGridPanel.h" />
+    <ClInclude Include="ZGI\Panels\ZGIListPanel.h" />
     <ClInclude Include="ZGI\Panels\ZGIPanel.h" />
     <ClInclude Include="ZGI\Panels\ZGIScrollPanel.h" />
+    <ClInclude Include="ZGI\Panels\ZGITreePanel.h" />
     <ClInclude Include="ZGI\Panels\ZGIUniformScalePanel.h" />
     <ClInclude Include="ZGI\Widgets\ZGIButton.h" />
     <ClInclude Include="ZGI\Widgets\ZGIImage.h" />
