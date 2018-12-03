@@ -18,14 +18,17 @@ ZGIDebugWindow::ZGIDebugWindow(Vec2D pos, Vec2D size, Vec2I OSWindowSize, ZGIVir
 	FontResource* font = man->FontForZFT("arial-msdf.zft");
 	ZGICollapsibleListPanel* list = new ZGICollapsibleListPanel(this);
 
-	list->SetListMaxSize(3);
+	list->SetListMaxSize(10);
 	
-	for (unsigned i = 0; i < 2; i++)
+	for (unsigned i = 0; i < 10; i++)
 	{
-		ZGIImage* image = new ZGIImage(this);
-		image->SetImage("grid.png");
+		ZGILabel* label = new ZGILabel(this);
 
-		list->AddWidget(image);
+		label->SetFontSize(20);
+		label->SetAlignment(Alignment_Center);
+		label->SetText(std::to_string(i));
+
+		list->AddWidget(label);
 	}
 
 	SetRootContent(list);

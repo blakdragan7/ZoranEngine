@@ -160,6 +160,9 @@
     <Filter Include="ZoranEngine\ZGI\Windows">
       <UniqueIdentifier>{b44b0d32-6f0b-4729-9d6d-105073e192f6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ZoranEngine\ThirdParty\stb">
+      <UniqueIdentifier>{2d2ae046-8a66-4581-85c8-2cdea8e58b02}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -2095,6 +2098,9 @@
     </ClInclude>
     <ClInclude Include="ZGI\Panels\ZGICollapsibleListPanel.h">
       <Filter>ZoranEngine\ZGI\Panels</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\stb\stb_image.h">
+      <Filter>ZoranEngine\ThirdParty\stb</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

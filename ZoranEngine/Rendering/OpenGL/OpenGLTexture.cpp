@@ -36,54 +36,6 @@ void OpenGLTexture::UnbindTexture(unsigned textureNumber)const
 	OGL->CheckErrors("UnbindTexture");
 }
 
-void OpenGLTexture::LoadFromPath(const char * texture_path, RenderDataType type, RenderDataFormat format)
-{
-	std::string fileType = StringToLower(GetStringFileType(texture_path));
-
-	if (fileType == "png")
-	{
-		unsigned w = 0;
-		unsigned h = 0;
-		unsigned char *data = 0;
-
-		unsigned error = LoadFromPNG(texture_path, w, h, &data);
-
-		if (error)
-		{
-			Log(LogLevel_Error, "Could not load Texture %s error %i", texture_path, error);
-		}
-
-		width = w;
-		height = h;
-
-		LoadFromMemory(w, h, data, RenderDataType::Render_Data_Type_RGBA_32);
-		free(data);
-	}
-	else if (fileType == "bmp")
-	{
-		unsigned w = 0;
-		unsigned h = 0;
-		unsigned comp = 3;
-		unsigned char *data = 0;
-
-		unsigned error = loadbmp_decode_file(texture_path, &data, &w, &h, comp);
-
-		if (error)
-		{
-			Log(LogLevel_Error, "Could not load Texture %s error %i", texture_path, error);
-			return;
-		}
-
-		LoadFromMemory(w, h, data, RenderDataType::Render_Data_Type_RGB_24);
-		free(data);
-	}
-	else
-	{
-		Log(LogLevel_Error,"Incorrect File Type For Texture %s!", texture_path);
-		return;
-	}
-}
-
 void OpenGLTexture::LoadFromMemory(unsigned w, unsigned h, void * data, RenderDataType type, RenderDataFormat format)
 {
 	width = w;
@@ -144,6 +96,9 @@ unsigned OpenGLTexture::GLTypeFromRenderDataType(RenderDataType type)
 		break;
 	case Render_Data_Type_RGB_24:
 		return GL_RGB;
+		break;
+	case Render_Data_Type_RA_16:
+		return GL_RG;
 		break;
 	case Render_Data_Type_RG_16:
 		return GL_RG;

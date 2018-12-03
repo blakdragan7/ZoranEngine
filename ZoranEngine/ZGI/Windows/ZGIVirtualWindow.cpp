@@ -122,7 +122,8 @@ void ZGIVirtualWindow::SetBackgroundImage(TextureBase * texture)
 
 Vector2D ZGIVirtualWindow::ConvertAbsoluteToVirtual(Vec2D pos) const
 {
-	return Vector2D(pos.x - globalOffsetCache.x, pos.y - globalOffsetCache.y);
+	Vec2D position = viewport->GetPosition();
+	return pos - globalOffsetCache - position;
 }
 
 Vec2D ZGIVirtualWindow::GetWindowSize() const

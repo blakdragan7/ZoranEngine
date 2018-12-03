@@ -3,6 +3,7 @@
 
 class TextureBase;
 class ZGIImage;
+class ZGIButton;
 class ZGILabel;
 class ZGIListPanel;
 class ZGIGridPanel;
@@ -13,7 +14,7 @@ private:
 	bool isCollapsed;
 
 	ZGIGridPanel* header;
-	ZGIImage* headerImage;
+	ZGIButton* headerButton;
 	ZGILabel* headerLabel;
 
 	TextureBase* collapsedImage;

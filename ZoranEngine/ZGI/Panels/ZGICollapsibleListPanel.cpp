@@ -3,6 +3,7 @@
 #include <ZGI/Core/ZGIBrush.h>
 #include <ZGI/Panels/ZGIListPanel.h>
 #include <ZGI/Panels/ZGIGridPanel.h>
+#include <ZGI/Widgets/ZGIButton.h>
 #include <ZGI/Widgets/ZGIImage.h>
 #include <ZGI/Widgets/ZGILabel.h>
 
@@ -23,17 +24,23 @@ ZGICollapsibleListPanel::ZGICollapsibleListPanel(ZGIVirtualWindow* owningWindow)
 	list = new ZGIListPanel(owningWindow);
 	header = new ZGIGridPanel(10,1,owningWindow);
 	headerLabel = new ZGILabel(owningWindow);
-	headerImage = new ZGIImage(owningWindow);
+	headerButton = new ZGIButton(owningWindow);
 
-	header->AddWidget(headerImage, 0, 0);
-	header->AddWidget(headerImage, 1, 0, 9);
+	header->AddWidget(headerButton, 0, 0);
+	header->AddWidget(headerLabel, 1, 0, 9);
+
+	headerButton->SetButtonReleasedFunction([this]() {SetCollapsed(!this->GetIsCollapsed()); });
+
+	headerLabel->SetAlignment(Alignment_Center);
+	headerLabel->SetFontSize(30);
+	headerLabel->SetText("This is a test list");
 
 	rEngine->EnableAlpha();
 
 	collapsedImage = tManager->TextureForFilePath("right-arrow.png", Render_Data_Type_RGBA_32, Render_Data_Format_Float);
 	openImage = tManager->TextureForFilePath("down-arrow.png", Render_Data_Type_RGBA_32, Render_Data_Format_Float);
 
-	SetCollapsed(true);
+	SetCollapsed(false);
 }
 
 ZGICollapsibleListPanel::~ZGICollapsibleListPanel()
@@ -73,8 +80,14 @@ void ZGICollapsibleListPanel::SetCollapsed(bool collapsed)
 {
 	isCollapsed = collapsed;
 
-	if (isCollapsed)headerImage->SetImage(collapsedImage);
-	else headerImage->SetImage(openImage);
+	if (isCollapsed)
+	{
+		headerButton->GetBrush()->SetBackgroudImage(collapsedImage);
+	}
+	else
+	{
+		headerButton->GetBrush()->SetBackgroudImage(openImage);
+	}
 }
 
 void ZGICollapsibleListPanel::Render(const Matrix44 & projection)
@@ -137,6 +150,8 @@ int ZGICollapsibleListPanel::GetMaxNumberOfWidgets() const
 
 ZGIWidget * ZGICollapsibleListPanel::WidgetForPosition(Vec2D pos)
 {
+	if (ZGIWidget* w = headerButton->HitTest(pos))return w;
+	if (ZGIWidget* w = headerLabel->HitTest(pos))return w;
 	return list->WidgetForPosition(pos);
 }
 

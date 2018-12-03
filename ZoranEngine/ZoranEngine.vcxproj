@@ -548,6 +548,7 @@
     <ClInclude Include="ThirdParty\msdfgen\msdfgen-ext.h" />
     <ClInclude Include="ThirdParty\msdfgen\msdfgen.h" />
     <ClInclude Include="ThirdParty\nlohmann\json.hpp" />
+    <ClInclude Include="ThirdParty\stb\stb_image.h" />
     <ClInclude Include="ThirdParty\tinyxml2\tinyxml2.h" />
     <ClInclude Include="ThirdParty\unicode\alphaindex.h" />
     <ClInclude Include="ThirdParty\unicode\appendable.h" />

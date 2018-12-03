@@ -1,6 +1,6 @@
 #pragma once
 #include <ZGI\Widgets\ZGIWidget.h>
-
+#include <functional>
 /*
 *	This is a generic button class for ZGI
 *	It can be given and interface or be subclassed to implement 
@@ -24,6 +24,14 @@ private:
 
 protected:
 	IZGIButtonEventHandler * eventHandler;
+	// TODO: test this in multi platform setting to make sure that it works
+#pragma warning(push)
+#pragma warning(disable:4251)
+	std::function<void(void)> ButtonPressedFunction;
+	std::function<void(void)> ButtonReleasedFunction;
+	std::function<void(void)> ButtonHoveredFunction;
+	std::function<void(void)> ButtonStopedHoveredFunction;
+#pragma warning(pop)
 
 	virtual void ButtonPressed() {}
 	virtual void ButtonReleased() {}
@@ -36,6 +44,11 @@ public:
 
 	inline void SetEventHandler(IZGIButtonEventHandler* handler) { eventHandler = handler; }
 	inline ZGIButtonState GetState() { return currentState; }
+
+	inline void SetButtonPressedFunction(std::function<void(void)> func) { ButtonPressedFunction = func; }
+	inline void SetButtonReleasedFunction(std::function<void(void)> func) { ButtonReleasedFunction = func; }
+	inline void SetButtonHoveredFunction(std::function<void(void)> func) { ButtonHoveredFunction = func; }
+	inline void SetButtonStopedHoveredFunction(std::function<void(void)> func) { ButtonStopedHoveredFunction = func; }
 
 	// widget override
 

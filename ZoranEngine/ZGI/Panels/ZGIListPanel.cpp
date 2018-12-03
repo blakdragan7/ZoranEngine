@@ -52,7 +52,7 @@ bool ZGIListPanel::CanAddWidget(ZGIWidget * widget) const
 
 int ZGIListPanel::GetNumberOfWidgets() const
 {
-	return widgetList->size();
+	return static_cast<int>(widgetList->size());
 }
 
 int ZGIListPanel::GetMaxNumberOfWidgets() const

@@ -6,6 +6,7 @@ enum RenderDataType
 {
 	Render_Data_Type_R_8,
 	Render_Data_Type_RG_16,
+	Render_Data_Type_RA_16,
 	Render_Data_Type_RGB_24,
 	Render_Data_Type_RGBA_32,
 	Render_Data_Type_BGRA_32,

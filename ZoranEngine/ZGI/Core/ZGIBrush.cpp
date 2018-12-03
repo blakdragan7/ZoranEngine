@@ -10,6 +10,7 @@ ZGIBrush::ZGIBrush() : backgroundImage(0)
 {
 	renderer = rEngine->CreateGUIRenderer();
 	renderer->SetHasTexture(false);
+	renderer->SetTint({ 0,0,0,0 });
 }
 
 ZGIBrush::~ZGIBrush()
@@ -22,7 +23,6 @@ void ZGIBrush::SetBackgroudImage(TextureBase * texture)
 {
 	if (backgroundImage == texture || texture == 0)return;
 
-	if (backgroundImage)TextureManager::GetInstance()->DestroyTexture(backgroundImage);
 	backgroundImage = texture;
 	renderer->SetHasTexture(true);
 }

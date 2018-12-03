@@ -37,7 +37,7 @@ public:
 	* and the passed data is RGBA then the data will be internally converted to BGRA 
 	*/
 
-	virtual void LoadFromPath(const char* texture_path, RenderDataType type = Render_Data_Type_BGRA_32, RenderDataFormat format = Render_Data_Format_Unsigned_Byte) = 0;
+	virtual void LoadFromPath(const char* texture_path, RenderDataType type = Render_Data_Type_BGRA_32, RenderDataFormat format = Render_Data_Format_Unsigned_Byte);
 	virtual void LoadFromMemory(unsigned x, unsigned y, void* data, RenderDataType type = Render_Data_Type_BGRA_32, RenderDataFormat format = Render_Data_Format_Unsigned_Byte) = 0;
 
 	// these must be pure virtual because the data may have to be changed via the render engine to the new format / type
