@@ -52,6 +52,11 @@ ZGICollapsibleListPanel::~ZGICollapsibleListPanel()
 	tManager->DestroyTexture(openImage);
 }
 
+void ZGICollapsibleListPanel::SetHeaderText(std::string text)
+{
+	headerLabel->SetText(text);
+}
+
 void ZGICollapsibleListPanel::SetCollapsedImage(std::string imagePath)
 {
 	tManager->DestroyTexture(collapsedImage);

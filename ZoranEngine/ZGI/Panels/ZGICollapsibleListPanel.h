@@ -31,6 +31,8 @@ public:
 
 	inline ZGIListPanel* GetList() { return list; }
 
+	void SetHeaderText(std::string text);
+
 	void SetCollapsedImage(std::string imagePath);
 	void SetOpenImage(std::string imagePath);
 
