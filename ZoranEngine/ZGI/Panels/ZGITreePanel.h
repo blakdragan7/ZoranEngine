@@ -1,19 +1,51 @@
 #pragma once
 #include <ZGI\Panels\ZGIPanel.h>
-class ZGIListPanel;
-struct TreeSocket
+class ZGICollapsibleListPanel;
+class ZoranEngine_EXPORT TreeSocket
 {
-	ZGIListPanel* list;
+private:
+	ZGICollapsibleListPanel* list;
+	std::vector<TreeSocket>* socketList;
+	std::string* name; // name of Socket
+	unsigned index; // index of list to parent list
+
+	ZGIVirtualWindow* owningWindow;
+
+public:
+	TreeSocket(std::string name, unsigned index, ZGIVirtualWindow* owningWindow);
+	TreeSocket(ZGIVirtualWindow* owningWindow);
+	~TreeSocket();
+
+	void AddWidget(ZGIWidget* widget);
+	void AddText(std::string text, float fontSize);
+
+	TreeSocket& TreeSocketNamed(std::string name);
+
+	bool operator == (std::string name)
+	{
+		return *this->name == name;
+	}
+
+	bool operator == (unsigned index)
+	{
+		return this->index == index;
+	}
+
+	bool IsOpen()const;
+
+	friend class ZGITreePanel;
 };
 
 class ZoranEngine_EXPORT ZGITreePanel : public ZGIPanel
 {
 private:
-	TreeSocket * baseSocket;
+	TreeSocket rootSocket;
 
 public:
 	ZGITreePanel(ZGIVirtualWindow* owningWindow);
 	~ZGITreePanel();
+
+	inline TreeSocket& GetRootSocket() { return rootSocket; }
 
 	/* Panel Override */
 
