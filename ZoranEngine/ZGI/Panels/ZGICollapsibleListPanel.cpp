@@ -19,9 +19,9 @@ void ZGICollapsibleListPanel::RecalculateListSizeAndPosition()
 	list->SetPosition(position + Vector2D(size.w * 0.1f, 0));
 }
 
-ZGICollapsibleListPanel::ZGICollapsibleListPanel(ZGIVirtualWindow* owningWindow) : ZGIPanel(owningWindow)
+ZGICollapsibleListPanel::ZGICollapsibleListPanel(bool dynamicSize, ZGIVirtualWindow* owningWindow) : ZGIPanel(owningWindow)
 {
-	list = new ZGIListPanel(owningWindow);
+	list = new ZGIListPanel(dynamicSize, owningWindow);
 	header = new ZGIGridPanel(10,1,owningWindow);
 	headerLabel = new ZGILabel(owningWindow);
 	headerButton = new ZGIButton(owningWindow);
@@ -31,9 +31,12 @@ ZGICollapsibleListPanel::ZGICollapsibleListPanel(ZGIVirtualWindow* owningWindow)
 
 	headerButton->SetButtonReleasedFunction([this]() {SetCollapsed(!this->GetIsCollapsed()); });
 
-	headerLabel->SetAlignment(Alignment_Center);
+	headerLabel->SetAlignment(Alignment_Left | Alignment_Bottom);
 	headerLabel->SetFontSize(30);
 	headerLabel->SetText("This is a test list");
+
+	headerLabel->SetShouldClipFont(false);
+	headerLabel->SetShouldWordWrap(false);
 
 	rEngine->EnableAlpha();
 
@@ -55,6 +58,7 @@ ZGICollapsibleListPanel::~ZGICollapsibleListPanel()
 void ZGICollapsibleListPanel::SetHeaderText(std::string text)
 {
 	headerLabel->SetText(text);
+	headerLabel->SetFontSize(headerLabel->GetBounds().h*0.9f);
 }
 
 void ZGICollapsibleListPanel::SetCollapsedImage(std::string imagePath)
@@ -164,4 +168,11 @@ void ZGICollapsibleListPanel::ContainerResized(Vec2D newSize, Vec2D oldSize)
 {
 	// TODO: ancher Stuff
 	list->ContainerResized(newSize,oldSize);
+}
+
+void ZGICollapsibleListPanel::Print(unsigned tabs) const
+{
+	ZGIWidget::Print(tabs);
+
+	list->Print(tabs+1);
 }

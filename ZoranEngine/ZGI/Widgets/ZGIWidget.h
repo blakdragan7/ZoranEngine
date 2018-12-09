@@ -34,7 +34,8 @@ protected:
 public:
 	ZGIWidget(ZGIVirtualWindow* owningWindow);
 	~ZGIWidget();
-
+	virtual const char* GetClassString()const = 0;
+	virtual void Print(unsigned tabs)const;
 	virtual void ContainerResized(Vec2D newSize, Vec2D oldSize) = 0;
 
 	// default draws debug info and update Debug render when dirty

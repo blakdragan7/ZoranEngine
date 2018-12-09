@@ -27,6 +27,8 @@ class FontResource;
 class ZoranEngine_EXPORT FontRenderer : public RenderedObjectBase
 {
 protected:
+	size_t charCount;
+
 	Vector2D totalSize;
 
 	FontResource* fontResource;
@@ -64,7 +66,7 @@ private:
 	void UpdareWordFromGlyph(UniWord& word, uint32_t glyph, bool& wasCarriageReturn,bool& wasNewLine, bool& wasTab);
 
 protected:
-	size_t GetCharCount();
+	inline size_t GetCharCount() { return charCount; }
 
 public:
 	FontRenderer(FontResource* font);

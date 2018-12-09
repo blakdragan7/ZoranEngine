@@ -71,10 +71,6 @@ void OpenGL3DRenderEngine::DrawScene(const Matrix44& cameraMatrix)
 void OpenGL3DRenderEngine::DrawDebugGUI()
 {
 	DEBUG_DRAW;
-
-	ImGui::Render();
-
-	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
 void OpenGL3DRenderEngine::AddComponent(Visible3DComponent * component)

@@ -26,7 +26,7 @@ private:
 	void RecalculateListSizeAndPosition();
 
 public:
-	ZGICollapsibleListPanel(ZGIVirtualWindow* owningWindow);
+	ZGICollapsibleListPanel(bool dynamicSize, ZGIVirtualWindow* owningWindow);
 	~ZGICollapsibleListPanel();
 
 	inline ZGIListPanel* GetList() { return list; }
@@ -65,5 +65,7 @@ public:
 	/* Widget Override */
 
 	virtual void ContainerResized(Vec2D newSize, Vec2D oldSize)override;
+	virtual const char* GetClassString()const override { return "ZGICollapsibleListPanel"; }
+	virtual void Print(unsigned tabs)const override;
 };
 

@@ -24,6 +24,16 @@ ZGIWidget::~ZGIWidget()
 	delete widgetBrush;
 }
 
+void ZGIWidget::Print(unsigned tabs)const
+{
+	for (unsigned i = 0; i < tabs; i++)
+	{
+		Log(LogLevel_Debug, "\t");
+	}
+
+	Log(LogLevel_Debug, " %s: Size {%f,%f} Position {%f,%f}\n", GetClassString(), size.w, size.h, position.x, position.y);
+}
+
 void ZGIWidget::Render(const Matrix44 & projection)
 {
 	if (isDirty)

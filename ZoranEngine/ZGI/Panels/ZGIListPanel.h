@@ -15,14 +15,15 @@ class ZoranEngine_EXPORT ZGIListPanel : public ZGIPanel
 private:
 	std::vector<ListSocket>* widgetList;
 	unsigned maxListSize;
+	bool dynamicSize;
 
 private:
 	void PositionAndSizeWidgets();
 
 public:
-	ZGIListPanel(ZGIVirtualWindow* owningWindow);
+	ZGIListPanel(bool dynamicSize, ZGIVirtualWindow* owningWindow);
 	~ZGIListPanel();
-	
+
 	// used to allow custom re-ordering of the items in the list
 	inline std::vector<ListSocket>* GetWidgetList() { return widgetList; }
 
@@ -31,6 +32,9 @@ public:
 	// widgets then this in the list but they will render past the bounds of the panel
 	inline void SetListMaxSize(unsigned size) { maxListSize = size; }
 	inline unsigned GetListMaxSize() { return maxListSize; }
+
+	void Print(unsigned tabs)const override;
+	virtual const char* GetClassString()const override { return "ZGIListPanel"; }
 
 	/* Panel Override */
 

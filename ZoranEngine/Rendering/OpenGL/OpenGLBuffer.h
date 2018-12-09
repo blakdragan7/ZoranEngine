@@ -18,7 +18,7 @@ public:
 	~OpenGLBuffer();
 
 	void BindBuffer();
-	void UpdateBuffer(void* data, size_t offset, size_t size);
+	bool UpdateBuffer(void* data, size_t offset, size_t size);
 	void ReCreateBuffer(void* data,size_t size, unsigned numComponents,unsigned usage);
 	void ClearBuffer();
 	void ClearBuffer(size_t offset, size_t size);

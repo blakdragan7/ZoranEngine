@@ -56,4 +56,6 @@ public:
 
 	// keyboard event
 	virtual bool KeyEvent(KeyEventType type, unsigned key)override;
+	virtual const char* GetClassString()const override { return "ZGIScrollPanel"; }
+	virtual void Print(unsigned tabs)const override;
 };

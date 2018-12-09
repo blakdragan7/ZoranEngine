@@ -163,6 +163,9 @@
     <Filter Include="ZoranEngine\ThirdParty\stb">
       <UniqueIdentifier>{2d2ae046-8a66-4581-85c8-2cdea8e58b02}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ZoranEngine\ThirdParty\sparsehash">
+      <UniqueIdentifier>{cc512882-699a-4986-8b93-cb92fc2000df}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -674,6 +677,15 @@
     </ClCompile>
     <ClCompile Include="ZGI\Panels\ZGICollapsibleListPanel.cpp">
       <Filter>ZoranEngine\ZGI\Panels</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\FileLogger.cpp">
+      <Filter>ZoranEngine\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Renderers\IndexedTriangleRenderer.cpp">
+      <Filter>ZoranEngine\Rendering\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\OpenGL\Renderers\OpenGLIndexedTriangleRenderer.cpp">
+      <Filter>ZoranEngine\Rendering\OpenGL\Renderers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2101,6 +2113,27 @@
     </ClInclude>
     <ClInclude Include="ThirdParty\stb\stb_image.h">
       <Filter>ZoranEngine\ThirdParty\stb</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\FileLogger.h">
+      <Filter>ZoranEngine\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\sparsehash\internal\densehashtable.h">
+      <Filter>ZoranEngine\ThirdParty\sparsehash</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\sparsehash\internal\hashtable-common.h">
+      <Filter>ZoranEngine\ThirdParty\sparsehash</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\sparsehash\internal\libc_allocator_with_realloc.h">
+      <Filter>ZoranEngine\ThirdParty\sparsehash</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\sparsehash\internal\sparsehashtable.h">
+      <Filter>ZoranEngine\ThirdParty\sparsehash</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Renderers\IndexedTriangleRenderer.h">
+      <Filter>ZoranEngine\Rendering\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\OpenGL\Renderers\OpenGLIndexedTriangleRenderer.h">
+      <Filter>ZoranEngine\Rendering\OpenGL\Renderers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

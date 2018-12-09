@@ -19,7 +19,7 @@ void ZGIListPanel::PositionAndSizeWidgets()
 	}
 }
 
-ZGIListPanel::ZGIListPanel(ZGIVirtualWindow* owningWindow) : maxListSize(10), ZGIPanel(owningWindow)
+ZGIListPanel::ZGIListPanel(bool dynamicSize, ZGIVirtualWindow* owningWindow) : dynamicSize(dynamicSize), maxListSize(10), ZGIPanel(owningWindow)
 {
 	widgetList = new std::vector<ListSocket>;
 }
@@ -33,6 +33,16 @@ ZGIListPanel::~ZGIListPanel()
 void ZGIListPanel::AddWidget(ZGIWidget * widget, AlignmentBit alignment)
 {
 	widgetList->push_back({ widget,alignment });
+}
+
+void ZGIListPanel::Print(unsigned tabs)const
+{
+	ZGIWidget::Print(tabs);
+
+	for (auto& w : *widgetList)
+	{
+		w.widget->Print(tabs + 1);
+	}
 }
 
 bool ZGIListPanel::KeyEventSub(KeyEventType type, unsigned key)
@@ -82,6 +92,7 @@ void ZGIListPanel::Render(const Matrix44 & projection)
 {
 	if (isDirty)
 	{
+		if (dynamicSize)maxListSize = static_cast<unsigned int>(widgetList->size());
 		PositionAndSizeWidgets();
 	}
 

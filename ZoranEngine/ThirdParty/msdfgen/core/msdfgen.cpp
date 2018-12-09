@@ -114,6 +114,7 @@ struct WindingSpanner: public EdgeSegment::CrossingCallback {
             case FillRule::EvenOdd:
                 return curW % 2 == 0 ? 1 : -1;
             case FillRule::None:
+			default:
                 return curSpan != crossings.cend() ? sign(curSpan->second) : 0;
         }
     }
@@ -134,7 +135,7 @@ private:
 };
     
 void generateSDF(Bitmap<float> &output, const Shape &shape, double range, const Vector2 &scale, const Vector2 &translate) {
-    int contourCount = shape.contours.size();
+    int contourCount = static_cast<int>(shape.contours.size());
     int w = output.width(), h = output.height();
     
     WindingSpanner spanner;
@@ -177,7 +178,7 @@ void generateSDF(Bitmap<float> &output, const Shape &shape, double range, const 
 }
 
 void generatePseudoSDF(Bitmap<float> &output, const Shape &shape, double range, const Vector2 &scale, const Vector2 &translate) {
-    int contourCount = shape.contours.size();
+    int contourCount = static_cast<int>(shape.contours.size());
     int w = output.width(), h = output.height();
     
     WindingSpanner spanner;
@@ -228,7 +229,7 @@ void generatePseudoSDF(Bitmap<float> &output, const Shape &shape, double range, 
 }
 
 void generateMSDF(Bitmap<FloatRGB> &output, const Shape &shape, double range, const Vector2 &scale, const Vector2 &translate, double edgeThreshold) {
-    int contourCount = shape.contours.size();
+    int contourCount = static_cast<int>(shape.contours.size());
     int w = output.width(), h = output.height();
     
     WindingSpanner spanner;
@@ -334,7 +335,7 @@ void generateMSDF(Bitmap<FloatRGB> &output, const Shape &shape, double range, co
     
 
 void generateSDF_v2(Bitmap<float> &output, const Shape &shape, double range, const Vector2 &scale, const Vector2 &translate) {
-    int contourCount = shape.contours.size();
+    int contourCount = static_cast<int>(shape.contours.size());
     int w = output.width(), h = output.height();
     std::vector<int> windings;
     windings.reserve(contourCount);
@@ -399,7 +400,7 @@ void generateSDF_v2(Bitmap<float> &output, const Shape &shape, double range, con
 }
 
 void generatePseudoSDF_v2(Bitmap<float> &output, const Shape &shape, double range, const Vector2 &scale, const Vector2 &translate) {
-    int contourCount = shape.contours.size();
+    int contourCount = static_cast<int>(shape.contours.size());
     int w = output.width(), h = output.height();
     std::vector<int> windings;
     windings.reserve(contourCount);
@@ -476,7 +477,7 @@ void generatePseudoSDF_v2(Bitmap<float> &output, const Shape &shape, double rang
 }
 
 void generateMSDF_v2(Bitmap<FloatRGB> &output, const Shape &shape, double range, const Vector2 &scale, const Vector2 &translate, double edgeThreshold) {
-    int contourCount = shape.contours.size();
+    int contourCount = static_cast<int>(shape.contours.size());
     int w = output.width(), h = output.height();
     std::vector<int> windings;
     windings.reserve(contourCount);

@@ -76,10 +76,6 @@ void OpenGL2DRenderEngine::DrawScene(const Matrix44& cameraMatrix)
 void OpenGL2DRenderEngine::DrawDebugGUI()
 {
 	DEBUG_DRAW;
-
-	ImGui::Render();
-
-	//ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
 void OpenGL2DRenderEngine::AddComponent(Visible2DComponent* component)

@@ -6,10 +6,76 @@
 #include <Core/Resources/FontResource.h>
 #include <Rendering/TextureBase.h>
 #include <Math/Matrix44.h>
+#include "OpenGLIndexedTriangleRenderer.h"
 #include "OpenGLTriangleRenderer.h"
+
+void OpenGLFontRenderer::SetupTriangles()
+{
+	// * 2 because there are two triangles per quad
+	std::vector<TrianglePrimitive> triangles(fontResource->GetNumberOfGlyphs() * 2);
+
+	size_t i = 0;
+	for (auto& itr : *fontResource)
+	{
+		{
+			TrianglePrimitive trianglel, triangler;
+			Glyph glyph = fontResource->GlyphForUnicode(itr.first);
+
+			float u = glyph.UVOffset.x + (glyph.translate.x / 4.0f);
+			float v = glyph.UVOffset.y + (glyph.translate.y / 8.0f);
+
+			float uvxAdvance = glyph.uvAdvance - (glyph.translate.x / 4.0f);
+			float uvyAdvance = glyph.uvAdvance - (glyph.translate.y / 3.0f);
+
+			Vector2D bearing = glyph.bearing;
+
+			float x = (bearing.x);
+			float y = (bearing.y);
+
+			float w = glyph.size.w;
+			float h = glyph.size.h;
+
+			trianglel.vertecies[0] = { x, y + h,0 };
+			trianglel.vertecies[1] = { x, y, 0 };
+			trianglel.vertecies[2] = { x + w, y, 0 };
+
+			triangler.vertecies[0] = { x + w, y + h,0 };
+			triangler.vertecies[1] = { x + w, y,0 };
+			triangler.vertecies[2] = { x, y + h,0 };
+
+			trianglel.coords[0] = { u, v + uvyAdvance };
+			trianglel.coords[1] = { u, v };
+			trianglel.coords[2] = { u + uvxAdvance, v };
+
+			triangler.coords[0] = { u + uvxAdvance, v + uvyAdvance };
+			triangler.coords[1] = { u + uvxAdvance, v };
+			triangler.coords[2] = { u, v + uvyAdvance };
+
+			size_t index = 2 * (i++);
+
+			triangles[index] = trianglel;
+			triangles[index + 1] = triangler;
+
+			GlyphIndex gI;
+
+			gI.indecies[0] = (i * 6) + 0;
+			gI.indecies[1] = (i * 6) + 1;
+			gI.indecies[2] = (i * 6) + 2;
+			gI.indecies[3] = (i * 6) + 3;
+
+			gI.normSize = static_cast<float>(glyph.advance);
+
+			indecieMap.insert({ itr.first, gI });
+		}
+
+		renderer->AddTriangles(triangles);
+	}
+}
 
 OpenGLFontRenderer::OpenGLFontRenderer(FontResource* font,OpenGLContext * context) :  context(context) , FontRenderer(font)
 {
+	indecieMap.set_empty_key(0);
+	indecieMap.set_deleted_key(-1);
 	renderer = new OpenGLTriangleRenderer(context);
 	if(font->GetType() == Font_SDF_Type_MSDF)
 		shader = static_cast<OpenGLShaderProgramBase*>(rEngine->CreateShaderProgram<OpenGLMSDFFontShader>());
@@ -48,7 +114,9 @@ void OpenGLFontRenderer::UpdateRender()
 	if (words->size() < 1)return;
 	//TODO: optimize changed text
 
-	std::vector<TrianglePrimitive> triangles(GetCharCount() * 2);
+	Glyph space = fontResource->GlyphForUnicode(' ');
+	float* verts = new float[charCount * 36];
+	float* uvs = new float[charCount * 24];
 
 	float startX = renderStart.x;
 	float startY = renderStart.y;
@@ -76,8 +144,6 @@ void OpenGLFontRenderer::UpdateRender()
 
 		if (word.isTab)
 		{
-			Glyph space = fontResource->GlyphForUnicode(' ');
-
 			startX += static_cast<float>(space.advance * scale * 4);
 			continue;
 		}
@@ -94,7 +160,6 @@ void OpenGLFontRenderer::UpdateRender()
 		for (uint32_t uni : word.glyphs)
 		{
 			
-			TrianglePrimitive trianglel, triangler;
 			Glyph glyph = fontResource->GlyphForUnicode(uni);
 
 			if (uni == ' ')
@@ -128,42 +193,63 @@ void OpenGLFontRenderer::UpdateRender()
 			if (glyph.size.h > maxh)
 				maxh = glyph.size.h;
 
-			trianglel.vertecies[0] = { x, y + h,0 };
-			trianglel.vertecies[1] = { x, y, 0 };
-			trianglel.vertecies[2] = { x + w, y, 0 };
+			size_t vindex = 36 * (i);
+			size_t uindex = 24 * (i++);
 
-			triangler.vertecies[0] = { x + w, y + h,0 };
-			triangler.vertecies[1] = { x + w, y,0 };
-			triangler.vertecies[2] = { x, y + h,0 };
+			// vert locations
 
-			trianglel.coords[0] = { u, v + uvyAdvance };
-			trianglel.coords[1] = { u, v };
-			trianglel.coords[2] = { u + uvxAdvance, v };
+			verts[vindex + 0] = x;
+			verts[vindex + 1] = y + h;
+			verts[vindex + 2] = 0;
 
-			triangler.coords[0] = { u + uvxAdvance, v + uvyAdvance };
-			triangler.coords[1] = { u + uvxAdvance, v };
-			triangler.coords[2] = { u, v + uvyAdvance };
+			verts[vindex + 3] = x;
+			verts[vindex + 4] = y;
+			verts[vindex + 5] = 0;
 
-			size_t index = 2 * (i++);
+			verts[vindex + 6] = x + w;
+			verts[vindex + 7] = y;
+			verts[vindex + 8] = 0;
 
-			triangles[index] = trianglel;
-			triangles[index + 1] = triangler;
+			verts[vindex + 9] = x + w;
+			verts[vindex + 10] = y + h;
+			verts[vindex + 11] = 0;
+
+			verts[vindex + 12] = x + w;
+			verts[vindex + 13] = y;
+			verts[vindex + 14] = 0;
+
+			verts[vindex + 15] = x;
+			verts[vindex + 16] = y + h;
+			verts[vindex + 17] = 0;
+
+			// texture coordinates
+
+			uvs[uindex + 0] = u;
+			uvs[uindex + 1] = v + uvyAdvance;
+
+			uvs[uindex + 2] = u;
+			uvs[uindex + 3] = v;
+
+			uvs[uindex + 4] = u + uvxAdvance;
+			uvs[uindex + 5] = v;
+
+			uvs[uindex + 6] = u + uvxAdvance;
+			uvs[uindex + 7] = v + uvyAdvance;
+
+			uvs[uindex + 8] = u + uvxAdvance;
+			uvs[uindex + 9] = v;
+
+			uvs[uindex + 10] = u;
+			uvs[uindex + 11] = v + uvyAdvance;
 
 			startX += static_cast<float>(glyph.advance * scale);
-
-			maxX = max(abs(x - renderStart.x),max(abs(startX - renderStart.x), maxX));
-			maxY = max(abs(y - renderStart.y),max(abs(startY - renderStart.y), maxY));
-
 		}
 
 		startX += static_cast<float>(word.spaceAdvance * scale);
-
-		max(abs(startX - renderStart.x), maxX);
-		max(abs(startY - renderStart.y), maxY);
 	}
 
-	totalSize = Vector2D(maxX, maxY).getAbs();
+	renderer->AddTriangles(verts, charCount * 36,uvs, charCount * 24);
 
-	renderer->AddTriangles(triangles);
+	delete[] verts;
+	delete[] uvs;
 }
-

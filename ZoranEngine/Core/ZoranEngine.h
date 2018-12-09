@@ -17,13 +17,15 @@ class PlayerInstanceBase;
 class AllocatorBase;
 class AudioEngineBase;
 class ResourceManager;
-
+class ZGIDebugWindow;
 class ZoranEngine_EXPORT ZoranEngine
 {
 private:
+	ZGIDebugWindow * debugWindow;
 	WindowBase* mainWindow;
 	RenderEngine2DBase* main2DRenderEngine;
 	RenderEngine3DBase* main3DRenderEngine;
+	PlayerInstanceBase* mainPlayer;
 
 	static ZoranEngine* instance;
 	bool shouldRun;
@@ -52,6 +54,7 @@ public:
 
 	int MainLoop();
 	bool Init();
+	void CreateGameModeWindows(bool is3D);
 	/* 
 	* All Input Events are converted to a common format, normall 'A' on OSx is not the same as 'A' on Windows
 	* so we convert them first in there respective WindowBase Implementations therefore, 
@@ -84,6 +87,7 @@ public:
 	inline AudioEngineBase* GetAudioEngine()const { return audioEngine; }
 	inline WindowBase* GetMainWindow()const { return mainWindow; }
 
+	inline ZGIDebugWindow* GetDebugWindow() { return debugWindow; };
 	static inline ZoranEngine* Instance() { return instance; }
 
 	inline void SetPaused(bool paused) { isPaused = paused; }
@@ -100,4 +104,5 @@ public:
 #define r2Engine zEngine->GetRenderer2D()
 #define r3Engine zEngine->GetRenderer3D()
 #define aEngine zEngine->GetAudioEngine()
+#define DebugWindow zEngine->GetDebugWindow()
 #define Log(...) ZoranEngine::Instance()->logger->LogString(__VA_ARGS__);

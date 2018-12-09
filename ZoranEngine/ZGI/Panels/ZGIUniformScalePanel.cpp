@@ -123,3 +123,10 @@ void ZGIUniformScalePanel::Render(const Matrix44 & projection)
 	}
 	ZGIWidget::Render(projection);
 }
+
+void ZGIUniformScalePanel::Print(unsigned tabs) const
+{
+	ZGIWidget::Print(tabs);
+
+	content->Print(tabs + 1);
+}

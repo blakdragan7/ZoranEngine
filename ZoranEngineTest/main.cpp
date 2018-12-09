@@ -62,6 +62,7 @@ void Test2DSceneStuff()
 	ZoranEngine engine;
 	engine.Init();
 	engine.Setup2DScene(0, 0, 2000, 2000);
+	engine.CreateGameModeWindows(false);
 
 	std::string name_base = "TestSceneObject-";
 
@@ -147,6 +148,7 @@ void Test3DSceneStuff()
 	ZoranEngine engine;
 	engine.Init();
 	engine.Setup3DScene({}, { 1,1,1 }, 90, 1, 100);
+	engine.CreateGameModeWindows(true);
 
 	std::string name_base = "TestSceneObject-";
 
@@ -167,68 +169,8 @@ void TestGUIStuff()
 	ZoranEngine engine;
 	engine.Init();
 	engine.Setup2DScene(0, 0, 2000, 2000);
+	engine.CreateGameModeWindows(false);
 
-	WindowBase* window = engine.GetMainWindow();
-	auto vW = window->GetRootVirtualWindow();
-
-	ZGIDebugWindow* dw = new ZGIDebugWindow({ 600,300 }, { 600,300 }, window->GetSize(), vW);
-	vW->AddSubWindow(dw);
-
-	ResourceManager* man = RM;
-	FontResource* font = man->FontForZFT("arial-msdf.zft");
-	/*FontResource* font = man->FontForTTF("C:\\Windows\\Fonts\\arial.ttf", 64, 4.0, Font_SDF_Type_MSDF);
-	font->CreateBMPForASCII("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_-+=\\\"';:/?.>,<~` ");
-	font->NormalizeGlyphs();
-	font->SaveToFile("arial-msdf");*/
-
-	auto p = new ZGIUniformScalePanel(vW);
-	auto l = new ZGILabel(font, vW);
-	auto s = new ZGIScrollPanel(vW);
-	auto i = new ZGIImage(vW);
-	auto b = new ZGIButton(vW);
-	auto f = new ZGIFreeFormPanel(vW);
-
-	b->SetPosition({ 200,200 });
-	b->SetSize({ 200,200 });
-
-	l->SetPosition({ 400,200 });
-	l->SetSize({ 200,200 });
-
-	i->SetImage("grid.png");
-	p->SetPosition({ 600, 200 });
-	p->SetSize({ 200,200 });
-
-	l->SetFontSize(100);
-	l->SetText( "This is a sentence.\r"\
-				"This is a sentence after a carriage return.\r\n"\
-				"That was a windows newline.\n"\
-				"That was a newline char.\r\r"\
-				"That was a double carrage return.\n\n"\
-				"That was a double new line.\r\n\r\n"\
-				"That was a double windows newline.");
-
-	l->SetShadowColor({ 0,0,0 });
-	l->SetShadowVector({ -3.0f,0.0f });
-	l->SetShadowOpacity(0.0f);
-
-	s->SetPosition({ 400,200 });
-	s->SetSize({200,200});
-
-	//border words
-
-	l->SetFontBorder(0.0);
-	l->SetBorderColor({ 0.5,0.5,1.0,1.0 });
-
-	s->AddWidget(l);
-
-	p->AddWidget(i);
-
-	f->AddWidget(s);
-	f->AddWidget(b);
-	f->AddWidget(p);
-
-	//vW->SetRootContent(f);
-	
 	engine.MainLoop();
 }
 

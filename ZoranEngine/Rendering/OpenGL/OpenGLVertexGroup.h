@@ -1,5 +1,5 @@
 #pragma once
-#include <map>
+#include <ThirdParty/sparsehash/dense_hash_map>
 
 class OpenGLBuffer;
 class OpenGLContext;
@@ -8,7 +8,7 @@ class OpenGLVertexArray;
 class OpenGLVertexGroup
 {
 private:
-	std::map<unsigned, OpenGLBuffer*> bufferMap;
+	google::dense_hash_map<unsigned, OpenGLBuffer*> bufferMap;
 	OpenGLVertexArray*	vao;
 	unsigned vertexDrawType;
 	unsigned numVerts;
@@ -28,6 +28,7 @@ public:
 	void RenderObject();
 	void AddBufferForAttr(unsigned attr, unsigned type, void * data, unsigned numComponents, size_t size, unsigned usage);
 	void AddBufferForAttr(unsigned attr, OpenGLBuffer * buffer);
+	void AddBufferForAttrNoCheck(unsigned attr, OpenGLBuffer * buffer);
 	void SetElementBuffer(OpenGLBuffer* buffer);
 
 	OpenGLBuffer* GetBufferForAttr(unsigned attr)const;

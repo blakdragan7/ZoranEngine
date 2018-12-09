@@ -66,19 +66,8 @@ void FontRenderer::UpdareWordFromGlyph(UniWord & word, uint32_t glyph, bool& was
 		wasCarriageReturn = false;
 		wasNewLine = false;
 		wasTab = false;
+		charCount++;
 	}
-}
-
-size_t FontRenderer::GetCharCount()
-{
-	size_t count = 0;
-	
-	for (auto word : *words)
-	{
-		count += word.glyphs.size();
-	}
-
-	return count;
 }
 
 FontRenderer::FontRenderer(FontResource* font) : isDirty(false), fontResource(font), shouldClip(true), shouldWordWrap(true),
@@ -100,6 +89,7 @@ void FontRenderer::SetText(const char * text)
 	words->clear();
 	const char* ptr = text;
 	
+	charCount = 0;
 	bool wasCarriageReturn = false;
 	bool wasNewLine = false;
 	bool wasTab = false;
@@ -107,6 +97,7 @@ void FontRenderer::SetText(const char * text)
 	for (; *ptr != 0; ptr++)
 	{
 		UpdareWordFromGlyph(word, *ptr, wasCarriageReturn, wasNewLine, wasTab);
+
 	}
 	words->push_back(word);
 
@@ -121,6 +112,7 @@ void FontRenderer::SetText(const char16_t * text)
 	bool wasCarriageReturn = false;
 	bool wasNewLine = false;
 	bool wasTab = false;
+	charCount = 0;
 	UniWord word;
 	for (; *ptr != 0; ptr++)
 	{
@@ -139,6 +131,7 @@ void FontRenderer::SetText(const char32_t * text)
 	bool wasCarriageReturn = false;
 	bool wasNewLine = false;
 	bool wasTab = false;
+	charCount = 0;
 	UniWord word;
 	for (; *ptr != 0; ptr++)
 	{
@@ -156,6 +149,7 @@ void FontRenderer::SetText(const std::string & text)
 	bool wasCarriageReturn = false;
 	bool wasNewLine = false;
 	bool wasTab = false;
+	charCount = 0;
 	UniWord word;
 	for (const char c : text)
 	{
@@ -173,6 +167,7 @@ void FontRenderer::SetText(const std::wstring & text)
 	bool wasCarriageReturn = false;
 	bool wasNewLine = false;
 	bool wasTab = false;
+	charCount = 0;
 	UniWord word;
 
 	for (const wchar_t c : text)

@@ -1,9 +1,11 @@
 #pragma once
-#include <unordered_map>
+#include <ThirdParty/sparsehash/dense_hash_map>
 #include <Math/Vector2.h>
-
-
 #include "ResourceBase.h"
+
+
+static const char* ASCII = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_-+=\\\"';:/?.>,<~` ";
+
 /*
 *	class used to represent a font asset that has been converted and is render to render
 */
@@ -35,7 +37,7 @@ class ZoranEngine_EXPORT FontResource : public ResourceBase
 {
 private:
 	TextureBase * fontTexture;
-	std::unordered_map<uint32_t, Glyph>* glyphMap;
+	google::dense_hash_map<uint32_t, Glyph>* glyphMap;
 
 	FontResourceInternal* _data;
 	std::string* sourcePath;
@@ -64,6 +66,8 @@ public:
 	inline TextureBase* GetFontTexture()const { return fontTexture; }
 	const Glyph& GlyphForUnicode(uint32_t uni);
 
+	inline size_t GetNumberOfGlyphs() { return glyphMap->size(); }
+	
 	void CreateBMPForGlyphs(const std::vector<uint32_t>& glyphs);
 	void CreateBMPForASCII(const char* ascii);
 
@@ -72,6 +76,9 @@ public:
 	virtual void DestroyResource()override;
 
 	virtual const char* GetResourceDescription()const override;
+
+	inline auto begin() { return glyphMap->begin(); }
+	inline auto end() { return glyphMap->end(); }
 
 	void NormalizeGlyphs();
 

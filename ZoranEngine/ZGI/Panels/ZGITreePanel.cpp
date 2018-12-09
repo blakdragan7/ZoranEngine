@@ -49,21 +49,46 @@ void ZGITreePanel::ContainerResized(Vec2D newSize, Vec2D oldSize)
 
 void ZGITreePanel::Render(const Matrix44 & projection)
 {
+	if (isDirty)
+	{
+		rootSocket.list->SetSize(size);
+		rootSocket.list->SetPosition(position);
+	}
 	rootSocket.list->Render(projection);
+
+	ZGIPanel::Render(projection);
+}
+
+void ZGITreePanel::Print(unsigned tabs) const
+{
+	ZGIWidget::Print(tabs);
+
+	rootSocket.list->Print(tabs+1);
 }
 
 // TreeSocket
 
-TreeSocket::TreeSocket(std::string name, unsigned index, ZGIVirtualWindow * owningWindow) : index(index), name(new std::string(name))
+TreeSocket::TreeSocket(std::string name, unsigned index, ZGIVirtualWindow * owningWindow) : owningWindow(owningWindow), index(index)
 {
-	list = new ZGICollapsibleListPanel(owningWindow);
+	this->name = new std::string(name);
+	list = new ZGICollapsibleListPanel(true, owningWindow);
+	socketList = new std::vector<TreeSocket>;
 }
 
-TreeSocket::TreeSocket(ZGIVirtualWindow* owningWindow) : owningWindow(owningWindow), list(0) , index(-1)
+TreeSocket::TreeSocket(ZGIVirtualWindow* owningWindow) : owningWindow(owningWindow), index(-1)
 {
 	name = new std::string;
 	socketList = new std::vector<TreeSocket>;
-	list = new ZGICollapsibleListPanel(owningWindow);
+	list = new ZGICollapsibleListPanel(true, owningWindow);
+}
+
+TreeSocket::TreeSocket(TreeSocket & other)
+{
+	owningWindow = other.owningWindow;
+	list = other.list;
+	socketList = new std::vector<TreeSocket>(*other.socketList);
+	name = new std::string(*other.name);
+	index = other.index;
 }
 
 TreeSocket::~TreeSocket()
@@ -87,22 +112,29 @@ void TreeSocket::AddText(std::string text, float fontSize)
 	AddWidget(label);
 }
 
+void TreeSocket::SetText(std::string text)
+{
+	list->SetHeaderText(text);
+}
+
+bool TreeSocket::IsOpen()const
+{
+	return list->GetIsCollapsed() == false;
+}
+
 TreeSocket & TreeSocket::TreeSocketNamed(std::string name)
 {
-	// TODO: insert return statement here
 	auto& itr = std::find(socketList->begin(), socketList->end(), name);
 	if (itr != socketList->end())return *itr;
 
 	unsigned index = list->GetNumberOfWidgets();
 
-	TreeSocket socket(name,index,owningWindow);
-	socketList->push_back(socket);
+	socketList->push_back({name,index,owningWindow});
+	
+	TreeSocket& socket = (*socketList)[socketList->size() - 1];
+	
 	list->AddWidget(socket.list);
+	socket.list->SetCollapsed(true);
 
-	return *socketList->_Mylast();
-}
-
-bool TreeSocket::IsOpen() const
-{
-	return list->GetIsCollapsed() == false;
+	return socket;
 }

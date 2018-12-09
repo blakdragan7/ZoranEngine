@@ -2,40 +2,42 @@
 #include "ZGIDebugWindow.h"
 
 #include <string>
+#include <sstream>
+#include <iomanip>
 
-#include <ZGI/Panels/ZGIGridPanel.h>
-#include <ZGI/Panels/ZGIListPanel.h>
-#include <ZGI/Panels/ZGICollapsibleListPanel.h>
+#include <ZGI/Panels/ZGITreePanel.h>
 #include <ZGI/Widgets/ZGILabel.h>
-#include <ZGI/Widgets/ZGIImage.h>
-#include <Core/Resources/ResourceManager.h>
+#include <ZGI/Panels/ZGIGridPanel.h>
 
 #include <Rendering/Primitives.h>
 
 ZGIDebugWindow::ZGIDebugWindow(Vec2D pos, Vec2D size, Vec2I OSWindowSize, ZGIVirtualWindow* parent) : ZGIVirtualWindow(pos,size,OSWindowSize,parent)
 {
-	ResourceManager *man = RM;
-	FontResource* font = man->FontForZFT("arial-msdf.zft");
-	ZGICollapsibleListPanel* list = new ZGICollapsibleListPanel(this);
+	fpsLabel = new ZGILabel(this);
+	fpsLabel->SetText("fps: 0.0");
+	fpsLabel->SetFontSize(size.h * 0.1f);
 
-	list->SetListMaxSize(10);
+	tree = new ZGITreePanel(this);
 	
-	for (unsigned i = 0; i < 10; i++)
-	{
-		ZGILabel* label = new ZGILabel(this);
+	grid = new ZGIGridPanel(10, 10, this);
+	grid->AddWidget(fpsLabel, 0, 9,10);
+	grid->AddWidget(tree,  1,0,9,9);
 
-		label->SetFontSize(20);
-		label->SetAlignment(Alignment_Center);
-		label->SetText(std::to_string(i));
-
-		list->AddWidget(label);
-	}
-
-	SetRootContent(list);
+	SetRootContent(grid);
 	SetBackgroundColor({ 0.1f,0.1f,0.1f,0.6f });
 }
 
-
 ZGIDebugWindow::~ZGIDebugWindow()
 {
+}
+
+void ZGIDebugWindow::SetFPS(double fps)
+{
+	// unsafe for threaded application but faster for single threaded
+	static std::stringstream ss;
+	ss.str("");
+	ss.clear();
+	ss << "fps: " << std::fixed << std::setprecision(2) << fps;
+	std::string text = ss.str();
+	fpsLabel->SetText(text);
 }

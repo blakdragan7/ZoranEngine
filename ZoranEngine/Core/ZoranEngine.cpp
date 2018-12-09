@@ -10,7 +10,10 @@
 #include <Windows/WindowsWindow.h>
 #include <Utils/HighPrecisionClock.h>
 
+#include <ZGI/Panels/ZGITreePanel.h>
+
 #include <ZGI/Windows/ZGIGameVirtualWindow.h>
+#include <ZGI/Windows/ZGIDebugWindow.h>
 
 #include <Math/Matrix44.h>
 
@@ -38,6 +41,7 @@
 
 #include <Version.h>
 #include <Utils/ConsoleLogger.h>
+#include <Utils/FileLogger.h>
 
 #include <Utils/Statistics.h>
 #include <ThirdParty/imgui/imgui.h>
@@ -70,8 +74,9 @@ ZoranEngine::ZoranEngine()
 	shouldRun = true;
 	physicsEngine = new PhysicsEngine();
 	isPaused = false;
-	logger = new ConsoleLogger();
-	logger->SetLogLevel(LogLevel_Error);
+	//logger = new ConsoleLogger();
+	logger = new FileLogger("output.log");
+	logger->SetLogLevel(LogLevel_Debug);
 	step = false;
 
 	allSceneObjects = new std::vector<SceneObject*>();
@@ -168,6 +173,16 @@ bool ZoranEngine::Init()
 	return true;
 }
 
+void ZoranEngine::CreateGameModeWindows(bool is3D)
+{
+	ZGIGameVirtualWindow* vWindow = new ZGIGameVirtualWindow({ 0,0 }, mainWindow->GetSize(), mainWindow->GetSize(),is3D);
+	vWindow->SetPlayerInstance(mainPlayer);
+	mainWindow->SetRootVirtualWindow(vWindow);
+
+	debugWindow = new ZGIDebugWindow({ 600,0 }, { 600,900 }, mainWindow->GetSize(), vWindow);
+	vWindow->AddSubWindow(debugWindow);
+}
+
 void ZoranEngine::Setup2DScene(float centerx, float centery, float width, float height)
 {
 	main2DRenderEngine = new OpenGL2DRenderEngine();
@@ -175,7 +190,7 @@ void ZoranEngine::Setup2DScene(float centerx, float centery, float width, float 
 
 	physicsEngine->SetupFor2D({ centerx, centery }, { width, height });
 
-	PlayerInstanceBase* mainPlayer = new DebugPlayerInstance(new OrthoCamera("camera", width, height, 0));
+	mainPlayer = new DebugPlayerInstance(new OrthoCamera("camera", width, height, 0));
 	mainPlayer->TranslateView({ centerx, centery });
 	mainPlayer->WindowResizedView(mainWindow->GetSize());
 
@@ -188,11 +203,6 @@ void ZoranEngine::Setup2DScene(float centerx, float centery, float width, float 
 	});
 
 	mainPlayer->SetCameraSceneBuffer(frameBuffer);
-
-	ZGIGameVirtualWindow* vWindow = new ZGIGameVirtualWindow({ 0,0 }, mainWindow->GetSize(), mainWindow->GetSize());
-	vWindow->SetPlayerInstance(mainPlayer);
-	mainWindow->SetRootVirtualWindow(vWindow);
-
 }
 
 void ZoranEngine::Setup2DScene(Vector2D center, Vector2D size)
@@ -202,7 +212,7 @@ void ZoranEngine::Setup2DScene(Vector2D center, Vector2D size)
 
 	physicsEngine->SetupFor2D(center, size);
 
-	PlayerInstanceBase* mainPlayer = new DebugPlayerInstance(new OrthoCamera("camera", size.w, size.h, 0));
+	mainPlayer = new DebugPlayerInstance(new OrthoCamera("camera", size.w, size.h, 0));
 	mainPlayer->TranslateView(center);
 	mainPlayer->WindowResizedView(mainWindow->GetSize());
 
@@ -215,10 +225,6 @@ void ZoranEngine::Setup2DScene(Vector2D center, Vector2D size)
 	});
 
 	mainPlayer->SetCameraSceneBuffer(frameBuffer);
-
-	ZGIGameVirtualWindow* vWindow = new ZGIGameVirtualWindow({ 0,0 }, mainWindow->GetSize(), mainWindow->GetSize());
-	vWindow->SetPlayerInstance(mainPlayer);
-	mainWindow->SetRootVirtualWindow(vWindow);
 }
 
 void ZoranEngine::Setup3DScene(Vector3D center, Vector3D size, float fov, float nearp, float farp)
@@ -229,7 +235,7 @@ void ZoranEngine::Setup3DScene(Vector3D center, Vector3D size, float fov, float 
 
 	physicsEngine->SetupFor3D(center, size);
 	
-	PlayerInstanceBase* mainPlayer = new DebugPlayerInstance(new PerspectiveCamera("camera", fov, size.x / size.y, nearp, farp));
+	mainPlayer = new DebugPlayerInstance(new PerspectiveCamera("camera", fov, size.x / size.y, nearp, farp));
 	mainPlayer->TranslateView(center);
 	mainPlayer->WindowResizedView(mainWindow->GetSize());
 
@@ -242,17 +248,13 @@ void ZoranEngine::Setup3DScene(Vector3D center, Vector3D size, float fov, float 
 	});
 
 	mainPlayer->SetCameraSceneBuffer(frameBuffer);
-
-	ZGIGameVirtualWindow* vWindow = new ZGIGameVirtualWindow({ 0,0 }, mainWindow->GetSize(), mainWindow->GetSize(), true);
-	vWindow->SetPlayerInstance(mainPlayer);
-	mainWindow->SetRootVirtualWindow(vWindow);
 }
 
 void ZoranEngine::DrawStep()
 {
 	DEBUG_TAKE_BENCH;
 
-	//GetRenderer()->DrawDebugGUI();
+	GetRenderer()->DrawDebugGUI();
 }
 
 void ZoranEngine::KeyEvent(KeyEventType type, unsigned key)
@@ -271,8 +273,9 @@ void ZoranEngine::KeyEvent(KeyEventType type, unsigned key)
 				shouldRun = false;
 				break;
 			case 'P':
-				if (physicsEngine)physicsEngine->GetCollisionBucketRoot()->PrintAllContents();
-				if (physicsEngine)physicsEngine->GetCollisionBucketRoot()->PrintAllCollisions();
+				debugWindow->GetTree()->Print(0);
+				//if (physicsEngine)physicsEngine->GetCollisionBucketRoot()->PrintAllContents();
+				//if (physicsEngine)physicsEngine->GetCollisionBucketRoot()->PrintAllCollisions();
 				break;
 			case 'S':
 				if (isPaused)step = true;

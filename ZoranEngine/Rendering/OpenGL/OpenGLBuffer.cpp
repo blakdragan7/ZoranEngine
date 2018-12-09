@@ -56,16 +56,20 @@ void OpenGLBuffer::BindBuffer()
 	context->CheckErrors("glBindBuffer");
 }
 
-void OpenGLBuffer::UpdateBuffer(void * data, size_t offset, size_t size)
+bool OpenGLBuffer::UpdateBuffer(void * data, size_t offset, size_t size)
 {
+	BindBuffer();
 	if (size + offset <= bufferSize)
 	{
 		glBufferSubData(bufferType, offset, size, data);
 		context->CheckErrors("glBufferSubData");
+		return false;
 	}
 	else
 	{
-		Log(LogLevel_Error, "Trying to Update GL Buffer with an offset + size greater then the buffer size!\n");
+		bufferSize = size + offset;
+		glBufferData(bufferType, bufferSize, data, usage);
+		return true;
 	}
 }
 

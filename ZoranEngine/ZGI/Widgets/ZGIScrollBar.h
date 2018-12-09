@@ -32,5 +32,6 @@ public:
 
 	virtual void Render(const Matrix44& mvp)override;
 	virtual void ContainerResized(Vec2D newSize, Vec2D oldSize)override;
+	virtual const char* GetClassString()const override { return "ZGIScrollBar"; }
 };
 

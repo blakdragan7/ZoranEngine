@@ -3,8 +3,14 @@
 #include <string>
 #include <assert.h>
 
+#include <iomanip>
+#include <sstream>
+
 #include <ThirdParty/imgui/imgui.h>
 #include <ThirdParty/imgui/imgui_impl_opengl3.h>
+
+#include <ZGI/Windows/ZGIDebugWindow.h>
+#include <ZGI/Panels/ZGITreePanel.h>
 
 typedef std::pair<std::string, BenchStatChain> StatMapPair;
 
@@ -26,42 +32,33 @@ float BenchMarker::GetOneOverTotalSeconds()
 	return 1.0f / (float)(rootChain.nanoseconds / NANOSECONDS_PER_SECONDS);
 }
 
-void BenchMarker::ImGuiDraw()
+void BenchMarker::DebugDraw()
 {
-	/*bool f = true;
-	ImGui::ShowDemoWindow(&(f));*/
+	DebugWindow->SetFPS(1.0f / ((double)rootChain.nanoseconds / (double)NANOSECONDS_PER_SECONDS));
 
-	ImGui::Begin("ZoranEngine Stats");
+	ZGITreePanel* tree = DebugWindow->GetTree();
 
-	ImGui::Checkbox("Shoow Graphs", &ShowGraph);
+	TreeSocket& socket = tree->GetRootSocket();
 
-	ImGui::Text("FrameRate %f", 1.0 / ((double)rootChain.nanoseconds / (double)NANOSECONDS_PER_SECONDS));
-	ImGui::Text("FrameTime %f", ((double)rootChain.nanoseconds / (double)NANOSECONDS_PER_SECONDS));
-	if (ShowGraph)
-		ImGui::PlotVar("FrameTime", ((float)rootChain.nanoseconds / (float)NANOSECONDS_PER_SECONDS),0,60,120);
+	std::stringstream ss;
 
-	ImGui::Spacing();
-	ImGui::Spacing();
+	ss.str("");
+	ss.clear();
+	ss << "Frame Time " << std::fixed << std::setprecision(2) << ": " << (rootChain.nanoseconds / NANOSECONDS_PER_MILISECONDS)  << " ms";
+	socket.SetText(ss.str());
 
 	for (auto const& x : rootChain.map)
 	{
-		ImGui::Text(("\t" + x.first + ": " + std::to_string(((double)x.second.nanoseconds / (double)rootChain.nanoseconds) * 100.0)).c_str());
-		if(ShowGraph)
-			ImGui::PlotVar(x.first.c_str(),((float)x.second.nanoseconds / (float)rootChain.nanoseconds) * 100.0f,0,100);
-		if (ImGui::TreeNode(x.first.c_str()))
+		TreeSocket& subSocket = socket.TreeSocketNamed(x.first);
+		ss.str("");
+		ss.clear();
+		ss << x.first << ": " << std::fixed << std::setprecision(2) << (((double)x.second.nanoseconds / (double)rootChain.nanoseconds) * 100.0);
+		subSocket.SetText(ss.str());
+		if (socket.IsOpen())
 		{
-			x.second.ImGuiDraw(ShowGraph, rootChain.nanoseconds);
-			ImGui::TreePop();
+			x.second.DebugDraw(ss, subSocket, rootChain.nanoseconds);
 		}
-
-		ImGui::Spacing();
-
 	}
-
-	ImGui::End();
-
-	ImGui::PlotVarFlushOldEntries();
-
 }
 
 void  BenchMarker::AddStat(std::initializer_list<std::string> keys, long long nanoseconds)
@@ -132,17 +129,18 @@ std::string BenchStatChain::serizlize(std::string tabs)const
 	return total;
 }
 
-void BenchStatChain::ImGuiDraw(const bool& showGraph,const long long& totalNanoseconds) const
+void BenchStatChain::DebugDraw(std::stringstream& ss, TreeSocket& socket,const long long& totalNanoseconds) const
 {
 	for (auto const& x : map)
 	{
-		ImGui::Text(("\t" + x.first + ": " + std::to_string(((double)x.second.nanoseconds / (double)totalNanoseconds) * 100.0)).c_str());
-		if (showGraph)
-			ImGui::PlotVar(x.first.c_str(), ((float)x.second.nanoseconds / (float)totalNanoseconds) * 100.0f, 0, 100);
-		if (ImGui::TreeNode(x.first.c_str()))
+		TreeSocket& subSocket = socket.TreeSocketNamed(x.first);
+		ss.str("");
+		ss.clear();
+		ss << x.first << ": " << std::fixed << std::setprecision(2) << (((double)x.second.nanoseconds / (double)totalNanoseconds) * 100.0);
+		subSocket.SetText(ss.str());
+		if (socket.IsOpen())
 		{
-			x.second.ImGuiDraw(showGraph,totalNanoseconds);
-			ImGui::TreePop();
+			x.second.DebugDraw(ss, subSocket,totalNanoseconds);
 		}
 	}
 }

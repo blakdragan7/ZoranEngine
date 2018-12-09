@@ -10,12 +10,14 @@ OpenGLVertexGroup::OpenGLVertexGroup(unsigned vertexDrawType, OpenGLContext * co
 	numVerts(0), vertexDrawType(vertexDrawType), OGLContext(context), hasIndecies(false)
 {
 	vao = new OpenGLVertexArray(context);
+	bufferMap.set_empty_key(-1);
 }
 
 OpenGLVertexGroup::OpenGLVertexGroup(unsigned vertexDrawType, unsigned numVertecies, OpenGLContext* context) :
 	numVerts(numVertecies), vertexDrawType(vertexDrawType), OGLContext(context), hasIndecies(false)
 {
 	vao = new OpenGLVertexArray(context);
+	bufferMap.set_empty_key(-1);
 }
 
 OpenGLVertexGroup::~OpenGLVertexGroup()
@@ -60,14 +62,22 @@ void OpenGLVertexGroup::AddBufferForAttr(unsigned attr, unsigned type, void * da
 
 void OpenGLVertexGroup::AddBufferForAttr(unsigned attr, OpenGLBuffer * buffer)
 {
-	auto itr = bufferMap.find(attr);
+	auto &itr = bufferMap.find(attr);
 	if (itr != bufferMap.end())
 	{
 		delete itr->second;
-		bufferMap.erase(itr);
+		itr->second = buffer;
+	}
+	else
+	{
+		bufferMap.insert({ attr,buffer });
 	}
 
- 	bufferMap.insert({ attr,buffer });
+	vao->BindBufferForAttr(attr, buffer);
+}
+
+void OpenGLVertexGroup::AddBufferForAttrNoCheck(unsigned attr, OpenGLBuffer * buffer)
+{
 	vao->BindBufferForAttr(attr, buffer);
 }
 

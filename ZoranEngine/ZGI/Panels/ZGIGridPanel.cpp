@@ -162,3 +162,13 @@ void ZGIGridPanel::Render(const Matrix44 & projection)
 
 	ZGIPanel::Render(projection);
 }
+
+void ZGIGridPanel::Print(unsigned tabs) const
+{
+	ZGIWidget::Print(tabs);
+
+	for (auto s : *grid)
+	{
+		s.widget->Print(tabs+1);
+	}
+}

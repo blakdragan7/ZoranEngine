@@ -75,3 +75,11 @@ void ZGIFreeFormPanel::Render(const Matrix44 & projection)
 		widget->Render(projection);
 	}
 }
+
+void ZGIFreeFormPanel::Print(unsigned tabs) const
+{
+	ZGIWidget::Print(tabs);
+
+	for (auto w : *widgets)
+		w->Print(tabs+1);
+}

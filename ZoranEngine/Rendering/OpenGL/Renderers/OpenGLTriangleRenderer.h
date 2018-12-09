@@ -16,5 +16,7 @@ public:
 
 	virtual void MakeFullScreenQuad()override;
 	virtual void AddTriangles(const std::vector<TrianglePrimitive>& rectangles)override;
+	virtual void AddTriangles(const std::vector<float>& verts, std::vector<float>& uvs)override;
+	virtual void AddTriangles(float* verts, size_t vertSize, float* uvs, size_t uvSize)override;
 };
 

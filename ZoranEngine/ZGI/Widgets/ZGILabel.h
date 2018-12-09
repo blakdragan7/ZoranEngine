@@ -48,5 +48,6 @@ public:
 	virtual Vector2D GetSize()override;
 
 	virtual bool DoesContainText()const override { return true; }
+	virtual const char* GetClassString()const override { return "ZGILabel"; }
 };
 

@@ -64,7 +64,8 @@ Glyph GlyphForShape(const Shape& shape, uint32_t uni, int resolution, double adv
 FontResource::FontResource(uint32_t resolution, float pxRange, FontSDFType type)
 {
 	_data = new FontResourceInternal();
-	glyphMap = new std::unordered_map<uint32_t, Glyph>();
+	glyphMap = new google::dense_hash_map<uint32_t, Glyph>();
+	INIT_MAP_POINTER(glyphMap)
 	bmpResolution = resolution;
 	sourcePath = new std::string;
 	zSourcePath = new std::string;
@@ -75,7 +76,8 @@ FontResource::FontResource(uint32_t resolution, float pxRange, FontSDFType type)
 FontResource::FontResource()
 {
 	_data = new FontResourceInternal();
-	glyphMap = new std::unordered_map<uint32_t, Glyph>();
+	glyphMap = new google::dense_hash_map<uint32_t, Glyph>();
+	INIT_MAP_POINTER(glyphMap)
 	bmpResolution = 0;
 	sourcePath = new std::string;
 	zSourcePath = new std::string;

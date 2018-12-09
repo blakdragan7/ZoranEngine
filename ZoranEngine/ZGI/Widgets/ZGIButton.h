@@ -58,4 +58,6 @@ public:
 	virtual bool MouseUp(const PlatformMouseBase* mouse)override;
 	virtual bool MouseEnterd(const PlatformMouseBase* mouse)override;
 	virtual bool MouseLeft(const PlatformMouseBase* mouse)override;
+
+	virtual const char* GetClassString()const override { return "ZGIButton"; }
 };

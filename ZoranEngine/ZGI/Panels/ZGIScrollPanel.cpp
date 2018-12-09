@@ -272,3 +272,10 @@ bool ZGIScrollPanel::KeyEvent(KeyEventType type, unsigned key)
 
 	return true;
 }
+
+void ZGIScrollPanel::Print(unsigned tabs) const
+{
+	ZGIWidget::Print(tabs);
+
+	content->Print(tabs + 1);
+}
