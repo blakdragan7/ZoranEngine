@@ -1,57 +1,56 @@
 #pragma once
 #include <ZGI\Panels\ZGIPanel.h>
-class ZGICollapsibleListPanel;
+class ZGILabel;
+class ZGIButton;
+class ZGIGridPanel;
 class ZoranEngine_EXPORT TreeSocket
 {
 private:
-	// TODO: fix sizing issue and make first list not expandable
-	ZGICollapsibleListPanel* list;
+	ZGIGridPanel * panel;
+	ZGIButton* headerButton;
+
+	ZGILabel* labelContent; // content pre casted to label
+	ZGIWidget* content;
+	
 	std::vector<TreeSocket>* socketList;
 	std::string* name; // name of Socket
-	unsigned index; // index of list to parent list
+	
+	bool isCollapsible;
+	bool isCollapsed;
+	
+	Vector2D socketSize;
+
+	// during render the position is modified by indexSize * indentLevel for the x position
+	float indentSize;
 
 	ZGIVirtualWindow* owningWindow;
 
 public:
-	TreeSocket(std::string name, unsigned index, ZGIVirtualWindow* owningWindow);
-	TreeSocket(ZGIVirtualWindow* owningWindow);
+	TreeSocket(float indentSize, Vec2D size, std::string name, ZGIVirtualWindow* owningWindow);
 	TreeSocket(TreeSocket& other);
 	~TreeSocket();
 
-	void AddWidget(ZGIWidget* widget);
-	void AddText(std::string text, float fontSize);
+	int GetNumberOfWidgets()const;
+	bool KeyEventSub(KeyEventType type, unsigned key);
+	bool ContainsWidget(ZGIWidget* widget)const;
+	ZGIWidget* WidgetForPosition(Vec2D pos);
+	void ContainerResized(Vec2D newSize, Vec2D oldSize);
 
+	void SetContent(ZGIWidget* widget);
 	void SetText(std::string text);
 
+	void Print(int tabs)const;
+	
+	void Render(unsigned indentLevel);
 	TreeSocket& TreeSocketNamed(std::string name);
 
-	TreeSocket& operator=(TreeSocket&& other)
-	{
-		if (this != &other)
-		{
-			list = other.list;
-			name = other.name;
-			index = other.index;
-			socketList = other.socketList;
-			owningWindow = other.owningWindow;
-		}
-		return *this;
-	}
-
-	bool operator == (std::string name)
-	{
-		return *this->name == name;
-	}
-
-	bool operator == (unsigned index)
-	{
-		return this->index == index;
-	}
-
-	bool IsOpen()const;
+	bool operator == (std::string name);
+	bool IsOpen()const { return isCollapsed == false || isCollapsible == false; }
 
 	friend class ZGITreePanel;
 };
+
+// TODO: figure out scaling for resizing and such
 
 class ZoranEngine_EXPORT ZGITreePanel : public ZGIPanel
 {
@@ -59,7 +58,7 @@ private:
 	TreeSocket rootSocket;
 
 public:
-	ZGITreePanel(ZGIVirtualWindow* owningWindow);
+	ZGITreePanel(float treeSocketIndent, Vec2D treeSocketSize, ZGIVirtualWindow* owningWindow);
 	~ZGITreePanel();
 
 	inline TreeSocket& GetRootSocket() { return rootSocket; }

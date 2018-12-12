@@ -1,60 +1,60 @@
 #include "stdafx.h"
 #include "ZGITreePanel.h"
 #include <ZGI/Panels/ZGICollapsibleListPanel.h>
+#include <ZGI/Panels/ZGIGridPanel.h>
 #include <ZGI/Widgets/ZGILabel.h>
+#include <ZGI/Widgets/ZGIButton.h>
 
-ZGITreePanel::ZGITreePanel(ZGIVirtualWindow* owningWindow) : rootSocket("root", -1, owningWindow), ZGIPanel(owningWindow)
+ZGITreePanel::ZGITreePanel(float treeSocketIndent, Vec2D treeSocketSize, ZGIVirtualWindow* owningWindow) : rootSocket(treeSocketIndent, treeSocketSize,"root", owningWindow), ZGIPanel(owningWindow)
 {
 }
 
 ZGITreePanel::~ZGITreePanel()
 {
-	delete rootSocket.list;
 }
 
 bool ZGITreePanel::KeyEventSub(KeyEventType type, unsigned key)
 {
-	return rootSocket.list->KeyEventSub(type, key);
+	return rootSocket.KeyEventSub(type, key);
 }
 
 bool ZGITreePanel::ContainsWidget(ZGIWidget * widget) const
 {
-	return rootSocket.list->ContainsWidget(widget);
+	return rootSocket.ContainsWidget(widget);
 }
 
 bool ZGITreePanel::CanAddWidget(ZGIWidget * widget) const
 {
-	return rootSocket.list->CanAddWidget(widget);
+	return true;
 }
 
 int ZGITreePanel::GetNumberOfWidgets() const
 {
-	return rootSocket.list->GetNumberOfWidgets();
+	return rootSocket.GetNumberOfWidgets();
 }
 
 int ZGITreePanel::GetMaxNumberOfWidgets() const
 {
-	return rootSocket.list->GetMaxNumberOfWidgets();
+	return INT_MAX;
 }
 
 ZGIWidget * ZGITreePanel::WidgetForPosition(Vec2D pos)
 {
-	return rootSocket.list->WidgetForPosition(pos);
+	return rootSocket.WidgetForPosition(pos);
 }
 
 void ZGITreePanel::ContainerResized(Vec2D newSize, Vec2D oldSize)
 {
-	rootSocket.list->ContainerResized(newSize, oldSize);
+	// TODO: Ancher Stuff
 }
 
 void ZGITreePanel::Render(const Matrix44 & projection)
 {
 	if (isDirty)
 	{
-		rootSocket.list->SetSize(size);
-		rootSocket.list->SetPosition(position);
 	}
-	rootSocket.list->Render(projection);
+
+	rootSocket.Render(0);
 
 	ZGIPanel::Render(projection);
 }
@@ -63,63 +63,120 @@ void ZGITreePanel::Print(unsigned tabs) const
 {
 	ZGIWidget::Print(tabs);
 
-	rootSocket.list->Print(tabs+1);
+	rootSocket.Print(tabs);
 }
 
 // TreeSocket
 
-TreeSocket::TreeSocket(std::string name, unsigned index, ZGIVirtualWindow * owningWindow) : owningWindow(owningWindow), index(index)
+TreeSocket::TreeSocket(float indentSize, Vec2D size, std::string name, ZGIVirtualWindow * owningWindow) : indentSize(indentSize),socketSize(size), owningWindow(owningWindow)
 {
+	isCollapsible = true;
+	isCollapsed = true;
 	this->name = new std::string(name);
-	list = new ZGICollapsibleListPanel(true, owningWindow);
 	socketList = new std::vector<TreeSocket>;
-}
-
-TreeSocket::TreeSocket(ZGIVirtualWindow* owningWindow) : owningWindow(owningWindow), index(-1)
-{
-	name = new std::string;
-	socketList = new std::vector<TreeSocket>;
-	list = new ZGICollapsibleListPanel(true, owningWindow);
+	panel = new ZGIGridPanel(10,1,owningWindow);
+	headerButton = new ZGIButton(owningWindow);
 }
 
 TreeSocket::TreeSocket(TreeSocket & other)
 {
 	owningWindow = other.owningWindow;
-	list = other.list;
+	content = other.content;
 	socketList = new std::vector<TreeSocket>(*other.socketList);
 	name = new std::string(*other.name);
-	index = other.index;
+	socketSize = other.socketSize;
+	indentSize = other.indentSize;
+	isCollapsible = other.isCollapsible;
+	isCollapsed = other.isCollapsed;
 }
 
 TreeSocket::~TreeSocket()
 {
 	delete name;
 	delete socketList;
-
-	// dont delete list here because lists deconstructor will delete other lists including ones that might be held here
+	delete content;
 }
 
-void TreeSocket::AddWidget(ZGIWidget * widget)
+bool TreeSocket::KeyEventSub(KeyEventType type, unsigned key)
 {
-	list->AddWidget(widget);
+	if (content->KeyEvent(type, key))return true;
+	for (auto& w : *socketList)
+	{
+		if (w.KeyEventSub(type,key))return true;
+	}
+	return false;
 }
 
-void TreeSocket::AddText(std::string text, float fontSize)
+bool TreeSocket::ContainsWidget(ZGIWidget * widget) const
 {
-	ZGILabel* label = new ZGILabel(owningWindow);
-	label->SetText(text);
-	label->SetFontSize(fontSize);
-	AddWidget(label);
+	if (content == widget)return true;
+
+	for (auto& w : *socketList)
+	{
+		if (w.ContainsWidget(widget))return true;
+	}
+
+	return false;
+}
+
+int TreeSocket::GetNumberOfWidgets() const
+{
+	// we have the number of sockets we hold plus our own
+	// this doesnt include the button widget or the gridpanel used for the header
+	int number = socketList->size() + 1;
+
+	for (auto& w : *socketList)
+	{
+		number += w.GetNumberOfWidgets();
+	}
+
+	return number;
+}
+
+ZGIWidget * TreeSocket::WidgetForPosition(Vec2D pos)
+{
+	if (auto w = content->HitTest(pos))return w;
+	for (auto& s : *socketList)
+	{
+		if (auto w = s.WidgetForPosition(pos))return w;
+	}
+	return nullptr;
+}
+
+void TreeSocket::ContainerResized(Vec2D newSize, Vec2D oldSize)
+{
+	//TODO: ancher stuff
+}
+
+void TreeSocket::SetContent(ZGIWidget * widget)
+{
+	if (content)delete content;
+	if (labelContent)labelContent = 0;
+	content = widget;
+	panel->AddWidget(widget, 1, 0, 9, 1);
 }
 
 void TreeSocket::SetText(std::string text)
 {
-	list->SetHeaderText(text);
+	if (labelContent == 0)
+	{
+		labelContent = new ZGILabel(owningWindow);
+		if (content)delete content;
+		content = labelContent;
+	}
+
+	labelContent->SetText(text);
+	panel->AddWidget(labelContent, 1, 0, 9, 1);
 }
 
-bool TreeSocket::IsOpen()const
+void TreeSocket::Print(int tabs)const
 {
-	return list->GetIsCollapsed() == false;
+	content->Print(tabs);
+}
+
+void TreeSocket::Render(unsigned indentLevel)
+{
+
 }
 
 TreeSocket & TreeSocket::TreeSocketNamed(std::string name)
@@ -127,14 +184,14 @@ TreeSocket & TreeSocket::TreeSocketNamed(std::string name)
 	auto& itr = std::find(socketList->begin(), socketList->end(), name);
 	if (itr != socketList->end())return *itr;
 
-	unsigned index = list->GetNumberOfWidgets();
-
-	socketList->push_back({name,index,owningWindow});
+	socketList->push_back({indentSize,socketSize,name,owningWindow});
 	
 	TreeSocket& socket = (*socketList)[socketList->size() - 1];
-	
-	list->AddWidget(socket.list);
-	socket.list->SetCollapsed(true);
 
 	return socket;
+}
+
+bool TreeSocket::operator==(std::string name)
+{
+	return *this->name == name;
 }

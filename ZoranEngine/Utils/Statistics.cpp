@@ -44,7 +44,7 @@ void BenchMarker::DebugDraw()
 
 	ss.str("");
 	ss.clear();
-	ss << "Frame Time " << std::fixed << std::setprecision(2) << ": " << (rootChain.nanoseconds / NANOSECONDS_PER_MILISECONDS)  << " ms";
+	ss << "Frame Time " << ": " << std::fixed << std::setprecision(2) << (rootChain.nanoseconds / NANOSECONDS_PER_MILISECONDS)  << " ms";
 	socket.SetText(ss.str());
 
 	for (auto const& x : rootChain.map)
