@@ -17,11 +17,12 @@ ZGIDebugWindow::ZGIDebugWindow(Vec2D pos, Vec2D size, Vec2I OSWindowSize, ZGIVir
 	fpsLabel->SetText("fps: 0.0");
 	fpsLabel->SetFontSize(size.h * 0.1f);
 
-	tree = new ZGITreePanel(this);
+	tree = new ZGITreePanel(30,this);
 	
 	grid = new ZGIGridPanel(10, 10, this);
-	grid->AddWidget(fpsLabel, 0, 9,10);
-	grid->AddWidget(tree,  1,0,9,9);
+
+	grid->AddWidget(fpsLabel, 0, 9, 10, 1);
+	grid->AddWidget(tree,  0,0,9,9);
 
 	SetRootContent(grid);
 	SetBackgroundColor({ 0.1f,0.1f,0.1f,0.6f });

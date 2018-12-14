@@ -108,6 +108,9 @@ bool ZGIGridPanel::AddWidget(ZGIWidget * widget, int x, int y, int rowSpan, int 
 	GridSocket sock({ x,y }, {rowSpan,columnSpan}, alignment, widget);
 
 	grid->push_back(sock);
+	numWidgets++;
+
+	isDirty = true;
 
 	return true;
 }
@@ -116,6 +119,8 @@ bool ZGIGridPanel::RemoveWidget(ZGIWidget * widget)
 {
 	auto itr = Find(widget);
 	if (itr == grid->end())return false;
+	numWidgets--;
+	isDirty = true;
 	return remove(*grid, itr);
 }
 
@@ -123,6 +128,8 @@ bool ZGIGridPanel::RemoveWidget(int x, int y)
 {
 	auto itr = std::find(grid->begin(), grid->end(), Vector2I( x,y ));
 	if (itr == grid->end())return false;
+	numWidgets--;
+	isDirty = true;
 	return remove(*grid, itr);
 }
 

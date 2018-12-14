@@ -15,6 +15,7 @@ public:
 	ZGIBrush();
 	~ZGIBrush();
 
+	void SetBackgroudImage(std::string texture);
 	void SetBackgroudImage(TextureBase* texture);
 	void SetBackgroudHue(const Color& hue);
 

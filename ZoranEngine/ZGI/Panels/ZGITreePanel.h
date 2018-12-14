@@ -3,9 +3,12 @@
 class ZGILabel;
 class ZGIButton;
 class ZGIGridPanel;
+class TextureBase;
 class ZoranEngine_EXPORT TreeSocket
 {
 private:
+	bool wasMoved;
+
 	ZGIGridPanel * panel;
 	ZGIButton* headerButton;
 
@@ -18,17 +21,32 @@ private:
 	bool isCollapsible;
 	bool isCollapsed;
 	
+	bool needsPositioning;
+
 	Vector2D socketSize;
 
 	// during render the position is modified by indexSize * indentLevel for the x position
 	float indentSize;
+	int indentPosition;
 
 	ZGIVirtualWindow* owningWindow;
+	TreeSocket* parent;
+
+	TextureBase* collapsedImage;
+	TextureBase* openImage;
+
+private:
+	void SetParentModified();
 
 public:
-	TreeSocket(float indentSize, Vec2D size, std::string name, ZGIVirtualWindow* owningWindow);
-	TreeSocket(TreeSocket& other);
+	TreeSocket(int indentPosition, float indentSize, std::string name, TreeSocket* parent, ZGIVirtualWindow* owningWindow);
+	TreeSocket(int indentPosition, float indentSize, Vec2D size, std::string name, TreeSocket* parent, ZGIVirtualWindow* owningWindow);
+	TreeSocket(TreeSocket& other) = delete;
+	TreeSocket(TreeSocket&& other);
 	~TreeSocket();
+
+	void SetSize(Vec2D size);
+	inline Vec2D GetSize() { return socketSize; }
 
 	int GetNumberOfWidgets()const;
 	bool KeyEventSub(KeyEventType type, unsigned key);
@@ -41,10 +59,14 @@ public:
 
 	void Print(int tabs)const;
 	
-	void Render(unsigned indentLevel);
+	Vector2D UpdatePositionAndSize(Vector2D parentSize, Vector2D ParentPosition);
+
+	void Render(const Matrix44& projection);
 	TreeSocket& TreeSocketNamed(std::string name);
 
-	bool operator == (std::string name);
+	void SetIsCollapsed(bool collapsed);
+
+	bool operator == (std::string name)const;
 	bool IsOpen()const { return isCollapsed == false || isCollapsible == false; }
 
 	friend class ZGITreePanel;
@@ -58,7 +80,7 @@ private:
 	TreeSocket rootSocket;
 
 public:
-	ZGITreePanel(float treeSocketIndent, Vec2D treeSocketSize, ZGIVirtualWindow* owningWindow);
+	ZGITreePanel(float treeSocketIndent,ZGIVirtualWindow* owningWindow);
 	~ZGITreePanel();
 
 	inline TreeSocket& GetRootSocket() { return rootSocket; }

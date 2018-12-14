@@ -74,8 +74,8 @@ ZoranEngine::ZoranEngine()
 	shouldRun = true;
 	physicsEngine = new PhysicsEngine();
 	isPaused = false;
-	//logger = new ConsoleLogger();
-	logger = new FileLogger("output.log");
+	logger = new ConsoleLogger();
+	//logger = new FileLogger("output.log");
 	logger->SetLogLevel(LogLevel_Debug);
 	step = false;
 

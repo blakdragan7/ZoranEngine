@@ -14,7 +14,7 @@ OpenGLGUIRenderer::OpenGLGUIRenderer(OpenGLContext * context) : context(context)
 
 	shader = (OpenGLGUIShader*)rEngine->CreateShaderProgram<OpenGLGUIShader>();
 
-	tint = Color::Blue;
+	tint = Color::Clear;
 }
 
 

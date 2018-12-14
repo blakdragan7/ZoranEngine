@@ -19,6 +19,12 @@ ZGIBrush::~ZGIBrush()
 	if (backgroundImage)TextureManager::GetInstance()->DestroyTexture(backgroundImage);
 }
 
+void ZGIBrush::SetBackgroudImage(std::string texture)
+{
+	backgroundImage = TextureManager::GetInstance()->TextureForFilePath(texture.c_str());
+	renderer->SetHasTexture(true);
+}
+
 void ZGIBrush::SetBackgroudImage(TextureBase * texture)
 {
 	if (backgroundImage == texture || texture == 0)return;

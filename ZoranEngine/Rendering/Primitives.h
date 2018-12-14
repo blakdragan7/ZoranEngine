@@ -13,6 +13,7 @@ public:
 	static const Color Green;
 	static const Color White;
 	static const Color Transparent;
+	static const Color Clear;
 
 	Color() : r(0), g(0), b(0), a(0) {}
 	Color(float r, float g, float b, float a) : r(r), g(g), b(b), a(a) {}

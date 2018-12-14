@@ -137,6 +137,7 @@ void ZGILabel::Render(const Matrix44 & projection)
 {
 	if (isDirty)
 	{
+		renderer->SetPPTSize(size.h * 0.9f);
 		RepositionTextFromAlignment();
 	}
 
