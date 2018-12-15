@@ -26,6 +26,8 @@ ZGIDebugWindow::ZGIDebugWindow(Vec2D pos, Vec2D size, Vec2I OSWindowSize, ZGIVir
 
 	SetRootContent(grid);
 	SetBackgroundColor({ 0.1f,0.1f,0.1f,0.6f });
+
+	tree->SetSocketSize(30);
 }
 
 ZGIDebugWindow::~ZGIDebugWindow()

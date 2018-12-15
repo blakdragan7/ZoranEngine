@@ -12,7 +12,6 @@ class TextureBase;
 class ZoranEngine_EXPORT ZGIVirtualWindow : public ZGIBase, public IKeyboardEventHandler, public IMouseEventHandler
 {
 private:
-	ZGIVirtualViewport * viewport;
 	std::vector<ZGIVirtualWindow*>* subWindows;
 	ZGIVirtualWindow* parent;
 
@@ -24,6 +23,7 @@ private:
 	float edgeSize;
 
 protected:
+	ZGIVirtualViewport * viewport;
 	bool isResizable;
 	bool isBeingResized;
 	bool shouldRenderBrush;

@@ -37,10 +37,11 @@ private:
 
 private:
 	void SetParentModified();
+	void SetImidiateChildrenParent(TreeSocket* parent);
 
 public:
-	TreeSocket(int indentPosition, float indentSize, std::string name, TreeSocket* parent, ZGIVirtualWindow* owningWindow);
-	TreeSocket(int indentPosition, float indentSize, Vec2D size, std::string name, TreeSocket* parent, ZGIVirtualWindow* owningWindow);
+	TreeSocket(bool isCollapsible, int indentPosition, float indentSize, std::string name, TreeSocket* parent, ZGIVirtualWindow* owningWindow);
+	TreeSocket(bool isCollapsible, int indentPosition, float indentSize, Vec2D size, std::string name, TreeSocket* parent, ZGIVirtualWindow* owningWindow);
 	TreeSocket(TreeSocket& other) = delete;
 	TreeSocket(TreeSocket&& other);
 	~TreeSocket();
@@ -78,10 +79,13 @@ class ZoranEngine_EXPORT ZGITreePanel : public ZGIPanel
 {
 private:
 	TreeSocket rootSocket;
+	float treeSocketHeight;
 
 public:
 	ZGITreePanel(float treeSocketIndent,ZGIVirtualWindow* owningWindow);
 	~ZGITreePanel();
+
+	void SetSocketSize(float size);
 
 	inline TreeSocket& GetRootSocket() { return rootSocket; }
 

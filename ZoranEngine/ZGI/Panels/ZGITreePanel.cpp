@@ -8,12 +8,19 @@
 
 #include <Rendering/TextureManager.h>
 
-ZGITreePanel::ZGITreePanel(float treeSocketIndent, ZGIVirtualWindow* owningWindow) : rootSocket(0, treeSocketIndent, "root", 0, owningWindow), ZGIPanel(owningWindow)
+ZGITreePanel::ZGITreePanel(float treeSocketIndent, ZGIVirtualWindow* owningWindow) : 
+	treeSocketHeight(30), rootSocket(false, 0, treeSocketIndent, "root", 0, owningWindow), ZGIPanel(owningWindow)
 {
 }
 
 ZGITreePanel::~ZGITreePanel()
 {
+}
+
+void ZGITreePanel::SetSocketSize(float tsize)
+{
+	treeSocketHeight = tsize;
+	rootSocket.SetSize({ size.w,tsize });
 }
 
 bool ZGITreePanel::KeyEventSub(KeyEventType type, unsigned key)
@@ -56,7 +63,7 @@ void ZGITreePanel::Render(const Matrix44 & projection)
 	if (isDirty || rootSocket.needsPositioning)
 	{
 		if(isDirty)
-			rootSocket.SetSize({size.x,size.y * 0.05f}); // TODO: make this not hard coded
+			rootSocket.SetSize({size.x,treeSocketHeight});
 		// convert to upperleft to make it easier for positioning
 		rootSocket.UpdatePositionAndSize(size, { position.x , position.y + size.h });
 		rootSocket.needsPositioning = false;
@@ -82,32 +89,47 @@ void TreeSocket::SetParentModified()
 	else needsPositioning = true;
 }
 
-TreeSocket::TreeSocket(int indentPosition, float indentSize, std::string name, TreeSocket * parent, ZGIVirtualWindow * owningWindow) : isCollapsible(false), needsPositioning(false),
-isCollapsed(true), indentPosition(indentPosition), labelContent(0), content(0), indentSize(indentSize), parent(parent), owningWindow(owningWindow), wasMoved(false)
+void TreeSocket::SetImidiateChildrenParent(TreeSocket * parent)
+{
+	for (auto &s : *socketList)
+	{
+		s.parent = parent;
+	}
+}
+
+TreeSocket::TreeSocket(bool isCollapsible, int indentPosition, float indentSize, std::string name, TreeSocket * parent, ZGIVirtualWindow * owningWindow) : needsPositioning(false),
+isCollapsed(true), isCollapsible(isCollapsible), indentPosition(indentPosition), labelContent(0), content(0), indentSize(indentSize), parent(parent), owningWindow(owningWindow), wasMoved(false)
 {
 	this->name = new std::string(name);
 	socketList = new std::vector<TreeSocket>;
 	panel = new ZGIGridPanel(10, 1, owningWindow);
+
 	headerButton = new ZGIButton(owningWindow);
-	headerButton->SetButtonReleasedFunction([this]() {SetIsCollapsed(!this->IsOpen()); });
-	panel->AddWidget(headerButton, 0, 0, 1, 1);
+	headerButton->SetButtonReleasedFunction([this]()
+	{this->SetIsCollapsed(!this->isCollapsed); });
 	collapsedImage = tManager->TextureForFilePath("right-arrow.png", Render_Data_Type_RGBA_32, Render_Data_Format_Float);
 	openImage = tManager->TextureForFilePath("down-arrow.png", Render_Data_Type_RGBA_32, Render_Data_Format_Float);
 	headerButton->GetBrush()->SetBackgroudImage(collapsedImage);
+
+	if (isCollapsible)panel->AddWidget(headerButton, 0, 0, 1, 1);
 }
 
-TreeSocket::TreeSocket(int indentPosition, float indentSize, Vec2D size, std::string name, TreeSocket* parent, ZGIVirtualWindow * owningWindow) : isCollapsible(false), needsPositioning(false),
+TreeSocket::TreeSocket(bool isCollapsible, int indentPosition, float indentSize, Vec2D size, std::string name, TreeSocket* parent, ZGIVirtualWindow * owningWindow) : isCollapsible(isCollapsible), needsPositioning(false),
 isCollapsed(true), indentPosition(indentPosition), labelContent(0), content(0), indentSize(indentSize),socketSize(size), parent(parent), owningWindow(owningWindow), wasMoved(false)
 {
 	this->name = new std::string(name);
 	socketList = new std::vector<TreeSocket>;
 	panel = new ZGIGridPanel(10,1,owningWindow);
+
 	headerButton = new ZGIButton(owningWindow);
-	headerButton->SetButtonReleasedFunction([this]() {SetIsCollapsed(!this->IsOpen()); });
-	panel->AddWidget(headerButton, 0, 0, 1, 1);
+	headerButton->SetButtonReleasedFunction([this]()
+	{this->SetIsCollapsed(!this->isCollapsed); });
 	collapsedImage = tManager->TextureForFilePath("right-arrow.png", Render_Data_Type_RGBA_32, Render_Data_Format_Float);
 	openImage = tManager->TextureForFilePath("down-arrow.png", Render_Data_Type_RGBA_32, Render_Data_Format_Float);
 	headerButton->GetBrush()->SetBackgroudImage(collapsedImage);
+
+	if(isCollapsible)panel->AddWidget(headerButton, 0, 0, 1, 1);
+
 }
 
 /*TreeSocket::TreeSocket(TreeSocket & other)
@@ -130,6 +152,7 @@ isCollapsed(true), indentPosition(indentPosition), labelContent(0), content(0), 
 
 TreeSocket::TreeSocket(TreeSocket && other)
 {
+	other.SetImidiateChildrenParent(this);
 	owningWindow = other.owningWindow;
 	content = other.content;
 	panel = other.panel;
@@ -146,6 +169,8 @@ TreeSocket::TreeSocket(TreeSocket && other)
 	collapsedImage = other.collapsedImage;
 	openImage = other.openImage;
 	parent = other.parent;
+	headerButton->SetButtonReleasedFunction([this]()
+	{this->SetIsCollapsed(!this->isCollapsed); });
 	other.wasMoved = true;
 }
 
@@ -154,7 +179,7 @@ TreeSocket::~TreeSocket()
 	if (wasMoved)return;
 	delete name;
 	delete socketList;
-	delete content;
+	delete panel;
 
 	// TODO: uncomment this after reference counting implemented
 	//tManager->DestroyTexture(collapsedImage);
@@ -210,8 +235,7 @@ int TreeSocket::GetNumberOfWidgets() const
 
 ZGIWidget * TreeSocket::WidgetForPosition(Vec2D pos)
 {
-	if(content)
-		if (auto w = content->HitTest(pos))return w;
+	if (auto w = panel->WidgetForPosition(pos))return w;
 	for (auto& s : *socketList)
 	{
 		if (auto w = s.WidgetForPosition(pos))return w;
@@ -226,10 +250,15 @@ void TreeSocket::ContainerResized(Vec2D newSize, Vec2D oldSize)
 
 void TreeSocket::SetContent(ZGIWidget * widget)
 {
+	if (widget == content)return;
 	if (content)delete content;
 	if (labelContent)labelContent = 0;
 	content = widget;
-	panel->AddWidget(widget, 1, 0, 9, 1);
+	if (isCollapsible)
+		panel->AddWidget(widget, 1, 0, 9, 1);
+	else
+		panel->AddWidget(labelContent, 0, 0, 10, 1);
+	SetParentModified();
 }
 
 void TreeSocket::SetText(std::string text)
@@ -239,7 +268,11 @@ void TreeSocket::SetText(std::string text)
 		labelContent = new ZGILabel(owningWindow);
 		if (content)delete content;
 		content = labelContent;
-		panel->AddWidget(labelContent, 1, 0, 9, 1);
+		if (isCollapsible)
+			panel->AddWidget(labelContent, 1, 0, 9, 1);
+		else
+			panel->AddWidget(labelContent, 0, 0, 10, 1);
+		SetParentModified();
 	}
 
 	labelContent->SetText(text);
@@ -265,24 +298,25 @@ Vector2D TreeSocket::UpdatePositionAndSize(Vector2D parentSize, Vector2D parentP
 	panel->SetPosition(newPosition);
 
 	Vector2D nextPosition(parentPosition);
-	if (isCollapsed == false)nextPosition.y -= socketSize.h;
-
-	for (size_t i =0;i<socketList->size();i++)
-	{
-		TreeSocket& s = (*socketList)[i];
-
-		nextPosition = s.UpdatePositionAndSize(newSize, nextPosition);
-	}
+	nextPosition.y -= socketSize.h;
 	
+	if (isCollapsed == false || isCollapsible == false)
+	{
+		for (size_t i = 0; i < socketList->size(); i++)
+		{
+			TreeSocket& s = (*socketList)[i];
+
+			nextPosition = s.UpdatePositionAndSize(newSize, nextPosition);
+		}
+	}
 	return nextPosition;
 }
 
 void TreeSocket::Render(const Matrix44& projection)
 {
 	panel->Render(projection);
-
 	// if were are not collasped render all children
-	if (isCollapsed == false)
+	if (isCollapsed == false || isCollapsible == false)
 	{
 		for (auto& s : *socketList)
 		{
@@ -296,7 +330,7 @@ TreeSocket & TreeSocket::TreeSocketNamed(std::string name)
 	auto& itr = std::find(socketList->begin(), socketList->end(), name);
 	if (itr != socketList->end())return *itr;
 
-	socketList->push_back({ indentPosition + 1, indentSize,socketSize,name,this,owningWindow });
+	socketList->push_back({ true, indentPosition + 1, indentSize,socketSize,name,this,owningWindow });
 	
 	TreeSocket& socket = (*socketList)[socketList->size() - 1];
 
@@ -307,7 +341,7 @@ TreeSocket & TreeSocket::TreeSocketNamed(std::string name)
 
 void TreeSocket::SetIsCollapsed(bool collapsed)
 {
-	if (isCollapsed)
+	if (collapsed)
 	{
 		headerButton->GetBrush()->SetBackgroudImage(collapsedImage);
 	}

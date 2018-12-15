@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "ZGIGameVirtualWindow.h"
 
+#include <ZGI/Core/ZGIVirtualViewport.h>
 #include <Core/CameraBase.h>
 #include <Rendering/RenderEngineBase.h>
 #include <Core/PlayerInstanceBase.h>
@@ -26,6 +27,8 @@ void ZGIGameVirtualWindow::RenderWindow(Vec2D globalOffset)
 {
 	if (player)
 	{
+		viewport->SetViewportActive(Vector2D::Zero);
+
 		player->RenderPlayer();
 	
 		if (is3DCache)rEngine->EnableDepthTesting();

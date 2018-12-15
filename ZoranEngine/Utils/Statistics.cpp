@@ -87,9 +87,6 @@ void BenchMarker::AccumStatWithDepth(std::initializer_list<std::string> keys)
 
 void BenchMarker::StartBench()
 {
-	//ImGui_ImplOpenGL3_NewFrame();
-	//ImGui::NewFrame();
-
 	rootChain.StartClock();
 }
 
