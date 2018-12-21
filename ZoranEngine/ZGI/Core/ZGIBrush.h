@@ -5,7 +5,7 @@
 class GUIRenderer;
 class TextureBase;
 class Matrix44;
-class ZGIBrush
+class ZoranEngine_EXPORT ZGIBrush
 {
 private:
 	GUIRenderer* renderer;
@@ -14,6 +14,8 @@ private:
 public:
 	ZGIBrush();
 	~ZGIBrush();
+
+	inline const TextureBase* GetBackgroundImage()const { return backgroundImage; }
 
 	void SetBackgroudImage(std::string texture);
 	void SetBackgroudImage(TextureBase* texture);

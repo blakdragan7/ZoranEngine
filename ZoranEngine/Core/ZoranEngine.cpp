@@ -86,6 +86,7 @@ ZoranEngine::ZoranEngine()
 ZoranEngine::~ZoranEngine()
 {
 	if (audioEngine)delete audioEngine;
+	audioEngine = 0;
 
 	for (auto object : *allSceneObjects)
 	{
@@ -99,8 +100,16 @@ ZoranEngine::~ZoranEngine()
 	if (main2DRenderEngine)delete main2DRenderEngine;
 	if (main3DRenderEngine)delete main3DRenderEngine;
 	if (mainWindow)delete mainWindow;
-
 	delete logger;
+
+	allSceneObjects = 0;
+	allTickables = 0;
+
+	physicsEngine = 0;
+	main2DRenderEngine = 0;
+	main3DRenderEngine = 0;
+	mainWindow = 0;
+	logger = 0;
 }
 
 int ZoranEngine::MainLoop()
@@ -180,7 +189,7 @@ void ZoranEngine::CreateGameModeWindows(bool is3D)
 	mainWindow->SetRootVirtualWindow(vWindow);
 
 	debugWindow = new ZGIDebugWindow({ 600,0 }, { 600,900 }, mainWindow->GetSize(), vWindow);
-	vWindow->AddSubWindow(debugWindow);
+	//vWindow->AddSubWindow(debugWindow);
 }
 
 void ZoranEngine::Setup2DScene(float centerx, float centery, float width, float height)

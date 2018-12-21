@@ -28,6 +28,8 @@ protected:
 	bool isBeingResized;
 	bool shouldRenderBrush;
 
+	IKeyboardEventHandler* firstResponder;
+
 	ZGIBrush* brush;
 
 private:
@@ -37,6 +39,8 @@ public:
 	ZGIVirtualWindow(Vec2D pos, Vec2D size, Vec2I OSWindowSize, ZGIVirtualWindow* parent = 0);
 	virtual ~ZGIVirtualWindow();
 	
+	inline void SetFirstResponder(IKeyboardEventHandler* responder) { firstResponder = responder; }
+
 	virtual void OSWindowWasResized(Vec2I newSize);
 
 	inline Vec2D GetGlobalOffsetCache() { return globalOffsetCache; }
@@ -76,6 +80,7 @@ public:
 
 	/*IKeyboardEvents Defaults*/
 
-	virtual bool KeyEvent(KeyEventType type, unsigned key)override;
+	virtual bool RawKeyEvent(KeyEventType type, unsigned key)override;
+	virtual bool CharEvent(unsigned uni)override;
 };
 

@@ -61,8 +61,6 @@ public:
 
 	/* Panel Override */
 
-	virtual bool KeyEventSub(KeyEventType type, unsigned key)override;
-
 	virtual bool PositionIsEmpty(Vec2I position)const;
 
 	virtual bool ContainsWidget(ZGIWidget* widget)const override;

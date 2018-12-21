@@ -36,12 +36,6 @@ ZGIUniformScalePanel::~ZGIUniformScalePanel()
 	if (content)delete content;
 }
 
-bool ZGIUniformScalePanel::KeyEventSub(KeyEventType type, unsigned key)
-{
-	if (content)return content->KeyEvent(type, key);
-	return false;
-}
-
 bool ZGIUniformScalePanel::ContainsWidget(ZGIWidget * widget) const
 {
 	return content == widget;
@@ -61,7 +55,7 @@ void ZGIUniformScalePanel::AddWidget(ZGIWidget * widget)
 	}
 
 	// force copy
-	contentStartingSize = Vector2D(widget->GetBounds());
+	contentStartingSize = widget->GetBounds();
 
 	content = widget;
 

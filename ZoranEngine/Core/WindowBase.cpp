@@ -28,6 +28,43 @@ void WindowBase::Resize(Vec2I size)
 	if (rootVirtualWindow)rootVirtualWindow->OSWindowWasResized(size);
 }
 
+bool WindowBase::UniIsChar(unsigned uni)
+{
+	switch (uni)
+	{
+	case Key_F1:
+	case Key_F2:
+	case Key_F3:
+	case Key_F4:
+	case Key_F5:
+	case Key_F6:
+	case Key_F7:
+	case Key_F8:
+	case Key_F9:
+	case Key_F10:
+	case Key_F11:
+	case Key_F12:
+	case Key_Up_Arrow:
+	case Key_Down_Arrow:
+	case Key_Right_Arrow:
+	case Key_Left_Arrow:
+	case Key_BackSpace:
+	case Key_Delete:
+	case Key_Enter:
+	case Key_PrintScreen:
+	case Key_Esc:
+	case Key_Shift:
+	case Key_Tab:
+	case Key_CapsLock:
+	case Key_Insert:
+		return false;
+		break;
+
+	default:
+		return true;
+	}
+}
+
 void WindowBase::SetPosition(Vec2I position)
 {
 	this->SetPosition(position.x,position.y);

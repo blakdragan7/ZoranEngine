@@ -26,6 +26,8 @@ protected:
 	void inline SetWindowSizeNoExecute(int w, int h) { size.w = w; size.h = h; }
 	void Resize(Vec2I size);
 
+	bool UniIsChar(unsigned uni);
+
 public:
 	WindowBase(ZoranEngine* zoranEngine);
 	virtual ~WindowBase();

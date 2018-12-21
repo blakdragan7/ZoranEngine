@@ -10,6 +10,8 @@ enum KeyEventType;
 class ZoranEngine_EXPORT IKeyboardEventHandler
 {
 public:
-	virtual bool KeyEvent(KeyEventType type, unsigned key) = 0;
-
+	// This is the raw event from the ekyboard before processing
+	virtual bool RawKeyEvent(KeyEventType type, unsigned rawKey) = 0;
+	// this is the transalted event from the keyboard (scanecode => unicode based on keyboard and control keys)
+	virtual bool CharEvent(unsigned uni) = 0;
 };

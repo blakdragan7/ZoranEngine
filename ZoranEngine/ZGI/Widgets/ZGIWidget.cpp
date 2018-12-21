@@ -3,6 +3,7 @@
 #include <Core/PlatformMouseBase.h>
 #include <ZGI/Windows/ZGIVirtualWindow.h>
 #include <ZGI/Core/ZGIBrush.h>
+#include <Rendering/TextureBase.h>
 
 void ZGIWidget::RecalculateModelCache()
 {
@@ -80,6 +81,13 @@ void ZGIWidget::SetRotation(float rotation)
 ZGIWidget* ZGIWidget::HitTest(Vec2D pos)
 {
 	return (position.x <= pos.x && (position.x + size.w) >= pos.x && position.y <= pos.y && (position.y+size.h) >= pos.y) ? this : 0;
+}
+
+Vector2D ZGIWidget::GetBounds() const
+{
+	const TextureBase* image = widgetBrush->GetBackgroundImage();
+	if (image)return image->GetSize();
+	else return bounds;
 }
 
 bool ZGIWidget::MouseMove(const PlatformMouseBase* m)

@@ -48,8 +48,8 @@ public:
 	virtual void UseTexture(unsigned long data)const = 0;
 	virtual void StopUsingTexture(unsigned long  data)const = 0;
 	/* returns the render engine specific id */
-	virtual unsigned GetTextureID() = 0;
+	virtual unsigned GetTextureID()const = 0;
 
-	inline Vector2I GetSize() { return Vector2I(width, height); }
+	inline Vector2I GetSize()const { return Vector2I(width, height); }
 };
 

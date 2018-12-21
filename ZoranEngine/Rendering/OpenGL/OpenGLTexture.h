@@ -29,5 +29,5 @@ public:
 	virtual void UseTexture(unsigned long data)const override;
 	virtual void StopUsingTexture(unsigned long  data)const override;
 
-	virtual unsigned GetTextureID()override;
+	virtual unsigned GetTextureID()const override;
 };

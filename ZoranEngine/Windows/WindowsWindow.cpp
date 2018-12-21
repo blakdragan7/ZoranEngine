@@ -251,12 +251,20 @@ static LRESULT CALLBACK wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 		if (uMsg == WM_KEYDOWN)
 		{
 			zEngine->KeyEvent(KeyEventType_Key_Down, pThis->ConvertWPARAMToKey(wParam));
-			pThis->rootVirtualWindow->KeyEvent(KeyEventType_Key_Down, pThis->ConvertWPARAMToKey(wParam));
+			pThis->rootVirtualWindow->RawKeyEvent(KeyEventType_Key_Down, pThis->ConvertWPARAMToKey(wParam));
+		}
+		if (uMsg == WM_CHAR)
+		{
+			unsigned uni = static_cast<unsigned>(wParam);
+			if (!pThis->UniIsChar(uni))return FALSE;
+
+			pThis->rootVirtualWindow->CharEvent(uni);
+			return TRUE;
 		}
 		if (uMsg == WM_KEYUP)
 		{
 			zEngine->KeyEvent(KeyEventType_Key_Up, pThis->ConvertWPARAMToKey(wParam));
-			pThis->rootVirtualWindow->KeyEvent(KeyEventType_Key_Up, pThis->ConvertWPARAMToKey(wParam));
+			pThis->rootVirtualWindow->RawKeyEvent(KeyEventType_Key_Up, pThis->ConvertWPARAMToKey(wParam));
 		}
 		if (uMsg == WM_LBUTTONDOWN)
 		{

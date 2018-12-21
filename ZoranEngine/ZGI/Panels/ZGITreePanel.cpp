@@ -2,6 +2,7 @@
 #include "ZGITreePanel.h"
 #include <ZGI/Panels/ZGICollapsibleListPanel.h>
 #include <ZGI/Panels/ZGIGridPanel.h>
+#include <ZGI/Panels/ZGIUniformScalePanel.h>
 #include <ZGI/Widgets/ZGILabel.h>
 #include <ZGI/Widgets/ZGIButton.h>
 #include <ZGI/Core/ZGIBrush.h>
@@ -21,11 +22,6 @@ void ZGITreePanel::SetSocketSize(float tsize)
 {
 	treeSocketHeight = tsize;
 	rootSocket.SetSize({ size.w,tsize });
-}
-
-bool ZGITreePanel::KeyEventSub(KeyEventType type, unsigned key)
-{
-	return rootSocket.KeyEventSub(type, key);
 }
 
 bool ZGITreePanel::ContainsWidget(ZGIWidget * widget) const
@@ -109,9 +105,15 @@ isCollapsed(true), isCollapsible(isCollapsible), indentPosition(indentPosition),
 	{this->SetIsCollapsed(!this->isCollapsed); });
 	collapsedImage = tManager->TextureForFilePath("right-arrow.png", Render_Data_Type_RGBA_32, Render_Data_Format_Float);
 	openImage = tManager->TextureForFilePath("down-arrow.png", Render_Data_Type_RGBA_32, Render_Data_Format_Float);
-	headerButton->GetBrush()->SetBackgroudImage(collapsedImage);
+	emptyImage = tManager->TextureForFilePath("black_circle.png", Render_Data_Type_RGBA_32, Render_Data_Format_Float);
+	headerButton->GetBrush()->SetBackgroudImage(emptyImage);
 
-	if (isCollapsible)panel->AddWidget(headerButton, 0, 0, 1, 1);
+	if (isCollapsible)
+	{
+		ZGIUniformScalePanel* uniform = new ZGIUniformScalePanel(owningWindow);
+		uniform->AddWidget(headerButton);
+		panel->AddWidget(uniform, 0, 0, 1, 1);
+	}
 }
 
 TreeSocket::TreeSocket(bool isCollapsible, int indentPosition, float indentSize, Vec2D size, std::string name, TreeSocket* parent, ZGIVirtualWindow * owningWindow) : isCollapsible(isCollapsible), needsPositioning(false),
@@ -126,9 +128,15 @@ isCollapsed(true), indentPosition(indentPosition), labelContent(0), content(0), 
 	{this->SetIsCollapsed(!this->isCollapsed); });
 	collapsedImage = tManager->TextureForFilePath("right-arrow.png", Render_Data_Type_RGBA_32, Render_Data_Format_Float);
 	openImage = tManager->TextureForFilePath("down-arrow.png", Render_Data_Type_RGBA_32, Render_Data_Format_Float);
-	headerButton->GetBrush()->SetBackgroudImage(collapsedImage);
+	emptyImage = tManager->TextureForFilePath("black_circle.png", Render_Data_Type_RGBA_32, Render_Data_Format_Float);
+	headerButton->GetBrush()->SetBackgroudImage(emptyImage);
 
-	if(isCollapsible)panel->AddWidget(headerButton, 0, 0, 1, 1);
+	if (isCollapsible)
+	{
+		ZGIUniformScalePanel* uniform = new ZGIUniformScalePanel(owningWindow);
+		uniform->AddWidget(headerButton);
+		panel->AddWidget(uniform, 0, 0, 1, 1);
+	}
 
 }
 
@@ -184,6 +192,7 @@ TreeSocket::~TreeSocket()
 	// TODO: uncomment this after reference counting implemented
 	//tManager->DestroyTexture(collapsedImage);
 	//tManager->DestroyTexture(openImage);
+	//tManager->DestroyTexture(emptyImage);
 }
 
 void TreeSocket::SetSize(Vec2D size)
@@ -194,17 +203,6 @@ void TreeSocket::SetSize(Vec2D size)
 	{
 		s.SetSize(size);
 	}
-}
-
-bool TreeSocket::KeyEventSub(KeyEventType type, unsigned key)
-{
-	if(content)
-		if (content->KeyEvent(type, key))return true;
-	for (auto& w : *socketList)
-	{
-		if (w.KeyEventSub(type,key))return true;
-	}
-	return false;
 }
 
 bool TreeSocket::ContainsWidget(ZGIWidget * widget) const
@@ -330,6 +328,8 @@ TreeSocket & TreeSocket::TreeSocketNamed(std::string name)
 	auto& itr = std::find(socketList->begin(), socketList->end(), name);
 	if (itr != socketList->end())return *itr;
 
+	headerButton->GetBrush()->SetBackgroudImage(collapsedImage);
+
 	socketList->push_back({ true, indentPosition + 1, indentSize,socketSize,name,this,owningWindow });
 	
 	TreeSocket& socket = (*socketList)[socketList->size() - 1];
@@ -341,6 +341,8 @@ TreeSocket & TreeSocket::TreeSocketNamed(std::string name)
 
 void TreeSocket::SetIsCollapsed(bool collapsed)
 {
+	if (socketList->size() == 0)return;
+
 	if (collapsed)
 	{
 		headerButton->GetBrush()->SetBackgroudImage(collapsedImage);

@@ -80,11 +80,6 @@ const GridSocket* ZGIGridPanel::At(int x, int y) const
 	return &(*itr);
 }
 
-bool ZGIGridPanel::KeyEventSub(KeyEventType type, unsigned key)
-{
-	return false;
-}
-
 bool ZGIGridPanel::PositionIsEmpty(Vec2I position) const
 {
 	auto itr = std::find(grid->begin(), grid->end(), position);

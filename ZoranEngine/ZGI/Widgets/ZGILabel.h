@@ -7,8 +7,11 @@ class FontResource;
 class ZoranEngine_EXPORT ZGILabel : public ZGIWidget
 {
 private:
-	FontRenderer * renderer;
 	unsigned alignment;
+	bool autoScaleFont;
+
+protected:
+	FontRenderer * renderer;
 
 protected:
 	void RepositionTextFromAlignment();
@@ -17,6 +20,8 @@ public:
 	ZGILabel(ZGIVirtualWindow* owningWindow);
 	ZGILabel(FontResource* font,ZGIVirtualWindow* owningWindow);
 	~ZGILabel();
+
+	inline void SetAutoScaleFont(bool autoScale) { autoScaleFont = autoScale; }
 
 	void SetShadowColor(Vec3D color);
 	void SetShadowVector(Vec2D vector);
@@ -45,7 +50,7 @@ public:
 
 	virtual void ContainerResized(Vec2D newSize, Vec2D oldSize)override;
 	
-	virtual Vector2D GetSize()override;
+	virtual Vector2D GetSize()const override;
 
 	virtual bool DoesContainText()const override { return true; }
 	virtual const char* GetClassString()const override { return "ZGILabel"; }

@@ -25,6 +25,8 @@ OpenGLGUIRenderer::~OpenGLGUIRenderer()
 
 void OpenGLGUIRenderer::RenderObject(const Matrix44 & cameraMatrix)
 {
+	context->EnableAlpha();
+
 	shader->BindProgram();
 
 	shader->setUniformMat4("MVP", &cameraMatrix[0]);

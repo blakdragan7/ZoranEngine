@@ -13,11 +13,6 @@ ZGIFreeFormPanel::~ZGIFreeFormPanel()
 	delete widgets;
 }
 
-bool ZGIFreeFormPanel::KeyEventSub(KeyEventType type, unsigned key)
-{
-	return false;
-}
-
 bool ZGIFreeFormPanel::ContainsWidget(ZGIWidget * widget) const
 {
 	auto itr = find(*widgets, widget);

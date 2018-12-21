@@ -26,6 +26,11 @@ struct UniWord
 class FontResource;
 class ZoranEngine_EXPORT FontRenderer : public RenderedObjectBase
 {
+private:
+	bool wasListSingleCarriageReturn;
+	bool wasListSingleNewLine;
+	bool wasListSingleTab;
+
 protected:
 	size_t charCount;
 
@@ -48,8 +53,9 @@ protected:
 	float shadowSoftness;
 	float shadowOpacity;
 
-	// font sizing
+	float spaceAdvance;
 
+	// font sizing
 	float pptSize;
 
 	// clipping and word wrapping
@@ -63,7 +69,8 @@ protected:
 	bool isDirty;
 
 private:
-	void UpdareWordFromGlyph(UniWord& word, uint32_t glyph, bool& wasCarriageReturn,bool& wasNewLine, bool& wasTab);
+	bool UpdareWordFromGlyphSingle(UniWord& word, uint32_t glyph, bool& wasCarriageReturn, bool& wasNewLine, bool& wasTab);
+	bool UpdareWordFromGlyph(UniWord& word, uint32_t glyph, bool& wasCarriageReturn,bool& wasNewLine, bool& wasTab);
 
 protected:
 	inline size_t GetCharCount() { return charCount; }
@@ -73,7 +80,6 @@ public:
 	virtual ~FontRenderer();
 
 	std::vector<UniWord>* words;
-
 
 	virtual void UpdateRender() = 0;
 
@@ -104,6 +110,10 @@ public:
 	inline bool GetShouldWordWrap()const { return shouldWordWrap; }
 	inline bool GetShouldClip()const { return shouldClip; }
 
+	void AddGlyph(uint32_t glyph);
+	void RemoveLastGlyph();
+	void RemoveGlyphAtCursur();
+	
 	// all of these set the actual text to be rendered
 
 	/* overrides current glyphs and replaces them with contents of text */

@@ -312,21 +312,18 @@ bool ZGIVirtualWindow::MouseLeft(const PlatformMouseBase *m)
 	return capturedEvent;
 }
 
-bool ZGIVirtualWindow::KeyEvent(KeyEventType type, unsigned key)
+bool ZGIVirtualWindow::RawKeyEvent(KeyEventType type, unsigned key)
 {
-	bool capturedEvent = false;
+	if (firstResponder)
+		return firstResponder->RawKeyEvent(type, key);
 
-	for (auto& window : *subWindows)
-	{
-		if (window->KeyEvent(type, key))
-		{
-			capturedEvent = true;
-			break;
-		}
-	}
+	return false;
+}
 
-	if (rootContent && capturedEvent == false)
-		capturedEvent = rootContent->KeyEvent(type, key);
-
-	return capturedEvent;
+bool ZGIVirtualWindow::CharEvent(unsigned uni)
+{
+	if (firstResponder)
+		return firstResponder->CharEvent(uni);
+	
+	return false;
 }

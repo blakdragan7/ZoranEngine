@@ -687,6 +687,9 @@
     <ClCompile Include="Rendering\OpenGL\Renderers\OpenGLIndexedTriangleRenderer.cpp">
       <Filter>ZoranEngine\Rendering\OpenGL\Renderers</Filter>
     </ClCompile>
+    <ClCompile Include="ZGI\Widgets\ZGITextEdit.cpp">
+      <Filter>ZoranEngine\ZGI\Widgets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -2134,6 +2137,9 @@
     </ClInclude>
     <ClInclude Include="Rendering\OpenGL\Renderers\OpenGLIndexedTriangleRenderer.h">
       <Filter>ZoranEngine\Rendering\OpenGL\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="ZGI\Widgets\ZGITextEdit.h">
+      <Filter>ZoranEngine\ZGI\Widgets</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

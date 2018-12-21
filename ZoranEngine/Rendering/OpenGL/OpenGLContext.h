@@ -21,6 +21,7 @@ class OpenGLContext
 {
 private:
 	void* context;
+	bool alphaEnabled;
 
 public:
 	OpenGLContext(WindowHandle handle);

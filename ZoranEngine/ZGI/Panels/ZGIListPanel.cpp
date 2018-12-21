@@ -45,11 +45,6 @@ void ZGIListPanel::Print(unsigned tabs)const
 	}
 }
 
-bool ZGIListPanel::KeyEventSub(KeyEventType type, unsigned key)
-{
-	return false;
-}
-
 bool ZGIListPanel::ContainsWidget(ZGIWidget * widget) const
 {
 	return std::find(widgetList->begin(), widgetList->end(), widget) != widgetList->end();

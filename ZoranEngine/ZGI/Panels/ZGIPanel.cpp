@@ -64,8 +64,3 @@ bool ZGIPanel::MouseUp(const PlatformMouseBase *m)
 
 	return false;
 }
-
-bool ZGIPanel::KeyEvent(KeyEventType type, unsigned key)
-{
-	return KeyEventSub(type, key);
-}

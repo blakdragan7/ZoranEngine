@@ -90,6 +90,8 @@ OpenGLFontRenderer::~OpenGLFontRenderer()
 
 void OpenGLFontRenderer::RenderObject(const Matrix44 & cameraMatrix)
 {
+	if (charCount == 0)return;
+
 	FontRenderer::RenderObject(cameraMatrix);
 
 	shader->BindProgram();

@@ -26,7 +26,6 @@ public:
 	~ZGIScrollPanel();
 
 	/* Pannel Override */
-	virtual bool KeyEventSub(KeyEventType type, unsigned key)override;
 
 	virtual bool ContainsWidget(ZGIWidget* widget)const override;
 	virtual bool CanAddWidget(ZGIWidget* widget)const override;
@@ -52,10 +51,10 @@ public:
 	virtual ZGIWidget* HitTest(Vec2D pos)override;
 
 	// mouse event
+	virtual bool RawKeyEvent(KeyEventType type, unsigned key);
 	virtual bool MouseMove(const PlatformMouseBase* mouse)override;
 
 	// keyboard event
-	virtual bool KeyEvent(KeyEventType type, unsigned key)override;
 	virtual const char* GetClassString()const override { return "ZGIScrollPanel"; }
 	virtual void Print(unsigned tabs)const override;
 };

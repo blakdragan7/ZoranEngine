@@ -76,12 +76,6 @@ ZGIScrollPanel::~ZGIScrollPanel()
 	delete vScrollBar;
 }
 
-bool ZGIScrollPanel::KeyEventSub(KeyEventType type, unsigned key)
-{
-	if (content)return content->KeyEvent(type, key);
-	return false;
-}
-
 bool ZGIScrollPanel::ContainsWidget(ZGIWidget * widget) const
 {
 	return content == widget;
@@ -239,7 +233,7 @@ bool ZGIScrollPanel::MouseMove(const PlatformMouseBase * mouse)
 	return ZGIWidget::MouseMove(mouse);
 }
 
-bool ZGIScrollPanel::KeyEvent(KeyEventType type, unsigned key)
+bool ZGIScrollPanel::RawKeyEvent(KeyEventType type, unsigned key)
 {
 	if (type == KeyEventType_Key_Down)
 	{

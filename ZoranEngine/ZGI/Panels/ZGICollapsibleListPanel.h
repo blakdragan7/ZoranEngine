@@ -52,8 +52,6 @@ public:
 	void SetListMaxSize(unsigned size);
 	unsigned GetListMaxSize();
 
-	virtual bool KeyEventSub(KeyEventType type, unsigned key)override;
-
 	virtual bool ContainsWidget(ZGIWidget* widget)const override;
 	virtual bool CanAddWidget(ZGIWidget* widget)const override;
 

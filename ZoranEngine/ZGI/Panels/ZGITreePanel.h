@@ -34,6 +34,7 @@ private:
 
 	TextureBase* collapsedImage;
 	TextureBase* openImage;
+	TextureBase* emptyImage;
 
 private:
 	void SetParentModified();
@@ -50,7 +51,6 @@ public:
 	inline Vec2D GetSize() { return socketSize; }
 
 	int GetNumberOfWidgets()const;
-	bool KeyEventSub(KeyEventType type, unsigned key);
 	bool ContainsWidget(ZGIWidget* widget)const;
 	ZGIWidget* WidgetForPosition(Vec2D pos);
 	void ContainerResized(Vec2D newSize, Vec2D oldSize);
@@ -90,8 +90,6 @@ public:
 	inline TreeSocket& GetRootSocket() { return rootSocket; }
 
 	/* Panel Override */
-
-	virtual bool KeyEventSub(KeyEventType type, unsigned key)override;
 
 	virtual bool ContainsWidget(ZGIWidget* widget)const override;
 	virtual bool CanAddWidget(ZGIWidget* widget)const override;

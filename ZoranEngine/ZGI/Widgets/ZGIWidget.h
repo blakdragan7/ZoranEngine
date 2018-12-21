@@ -45,14 +45,14 @@ public:
 	virtual void SetPosition(Vec2D position);
 
 	virtual void SetBounds(Vec2D bounds);
-	virtual Vector2D GetBounds() { return bounds; }
+	virtual Vector2D GetBounds()const;
 
 	// does not affect HitTest, so even if it is rotated, it will still receive mouse events as if it wasn't
 	// therfore this is purely for rendering, not functionality
 	virtual void SetRotation(float rotation);
 
-	virtual Vector2D GetSize() { return size; }
-	inline Vec2D GetPosition() { return position; }
+	virtual Vector2D GetSize()const { return size; }
+	inline Vec2D GetPosition()const { return position; }
 
 	// standard 2d hit test
 	// note the default does not take into account rotation
@@ -70,14 +70,15 @@ public:
 
 	/*IKeyboardEvents Defaults*/
 
-	virtual bool KeyEvent(KeyEventType type, unsigned key)override { return false; };
+	virtual bool RawKeyEvent(KeyEventType type, unsigned key)override { return false; };
+	virtual bool CharEvent(unsigned uni)override { return false; }
 
 	inline bool GetContainsMouse()const { return mouseHasEntered; }
 
 	// Brush Variables
 
 	inline void SetDrawBrush(bool draw) { shouldDrawBrush = draw; }
-	inline ZGIBrush* GetBrush() { return widgetBrush; }
+	inline ZGIBrush* GetBrush()const { return widgetBrush; }
 
 	inline bool GetDrawBrush()const { return shouldDrawBrush; }
 

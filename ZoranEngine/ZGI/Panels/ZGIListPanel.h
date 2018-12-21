@@ -38,8 +38,6 @@ public:
 
 	/* Panel Override */
 
-	virtual bool KeyEventSub(KeyEventType type, unsigned key)override;
-
 	virtual bool ContainsWidget(ZGIWidget* widget)const override;
 	virtual bool CanAddWidget(ZGIWidget* widget)const override;
 

@@ -92,7 +92,7 @@ void OpenGLTriangleRenderer::AddTriangles(float * verts, size_t vertSize, float 
 		vertexGroup->AddBufferForAttr(1, tbo);
 	}
 
-	vertexGroup->SetNumVerts(static_cast<int>(vertSize));
+	vertexGroup->SetNumVerts(static_cast<int>(vertSize / 3));
 }
 
 void OpenGLTriangleRenderer::AddTriangles(const std::vector<TrianglePrimitive>& rectangles)

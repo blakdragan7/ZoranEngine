@@ -132,11 +132,6 @@ unsigned ZGICollapsibleListPanel::GetListMaxSize()
 	return list->GetListMaxSize();
 }
 
-bool ZGICollapsibleListPanel::KeyEventSub(KeyEventType type, unsigned key)
-{
-	return list->KeyEventSub(type,key);
-}
-
 bool ZGICollapsibleListPanel::ContainsWidget(ZGIWidget * widget) const
 {
 	return list->ContainsWidget(widget);

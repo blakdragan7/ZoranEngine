@@ -35,7 +35,7 @@
 #include <ThirdParty/imgui/imgui.h>
 #include <ThirdParty/imgui/imgui_impl_opengl3.h>
 
-OpenGLContext::OpenGLContext(WindowHandle handle)
+OpenGLContext::OpenGLContext(WindowHandle handle) : alphaEnabled(false)
 {
 #ifdef _WIN32
 	HWND hwnd = static_cast<HWND>(handle);
@@ -116,15 +116,19 @@ void OpenGLContext::DisableDepthTesting()
 
 void OpenGLContext::DisableAlpha()
 {
+	if (alphaEnabled == false)return;
 	glDisable(GL_BLEND);
 	CheckErrors("DisableAlpha");
+	alphaEnabled = false;
 }
 
 void OpenGLContext::EnableAlpha()
 {
+	if (alphaEnabled)return;
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	CheckErrors("EnableAlpha");
+	alphaEnabled = true;
 }
 
 void OpenGLContext::ClearBuffers()

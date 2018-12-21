@@ -10,8 +10,6 @@ public:
 	ZGIFreeFormPanel(ZGIVirtualWindow* owningWindow);
 	~ZGIFreeFormPanel();
 
-	virtual bool KeyEventSub(KeyEventType type, unsigned key)override;
-
 	virtual bool ContainsWidget(ZGIWidget* widget)const override;
 	virtual bool CanAddWidget(ZGIWidget* widget)const override;
 	void AddWidget(ZGIWidget* widget);

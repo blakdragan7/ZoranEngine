@@ -79,7 +79,7 @@ void OpenGLTexture::StopUsingTexture(unsigned long data)const
 #pragma warning(pop)
 }
 
-unsigned OpenGLTexture::GetTextureID()
+unsigned OpenGLTexture::GetTextureID()const
 {
 	return gl_texture;
 }
