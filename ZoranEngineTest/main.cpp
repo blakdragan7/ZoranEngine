@@ -21,6 +21,8 @@
 #include <ZGI/Widgets/ZGIImage.h>
 #include <ZGI/Widgets/ZGILabel.h>
 #include <ZGI/Widgets/ZGIButton.h>
+#include <ZGI/Widgets/ZGITextEdit.h>
+#include <ZGI/Core/ZGIBrush.h>
 
 #include <Core/Resources/FontResource.h>
 #include <Core/Resources/ResourceManager.h>
@@ -169,7 +171,35 @@ void TestGUIStuff()
 	ZoranEngine engine;
 	engine.Init();
 	engine.Setup2DScene(0, 0, 2000, 2000);
+
+	//FontResource* r = ResourceManager::man()->FontForTTF("C:/Windows/Fonts/arial.ttf",64,4,Font_SDF_Type_MSDF);
+	//r->CreateBMPForASCII(ASCII);
+	//r->NormalizeGlyphs();
+	//r->SaveToFile("arial-msdf.zft");
+
 	engine.CreateGameModeWindows(false);
+
+	auto window = engine.GetMainWindow()->GetRootVirtualWindow();
+
+	ZGIFreeFormPanel* p = new ZGIFreeFormPanel(window);
+
+	ZGITextEdit* text = new ZGITextEdit(window);
+
+	text->GetBrush()->SetBackgroudHue({ 0.3f,0.3f,0.3f,1.0f });
+	text->SetDrawBrush(true);
+
+	text->SetSize({300,300});
+	text->SetPosition({600,600});
+	
+	text->SetAutoScaleFont(false);
+
+	text->SetFontSize(30);
+
+	text->SetText("asd asd");
+
+	p->AddWidget(text);
+
+	window->SetRootContent(p);
 
 	engine.MainLoop();
 }

@@ -165,6 +165,14 @@ void ZGIGridPanel::Render(const Matrix44 & projection)
 	ZGIPanel::Render(projection);
 }
 
+void ZGIGridPanel::Animate(float dt)
+{
+	for (auto &s : *grid)
+	{
+		if(s.widget)s.widget->Animate(dt);
+	}
+}
+
 void ZGIGridPanel::Print(unsigned tabs) const
 {
 	ZGIWidget::Print(tabs);

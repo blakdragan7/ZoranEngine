@@ -128,6 +128,7 @@ int ZoranEngine::MainLoop()
 		DEBUG_BENCH_START;
 
 		double deltaTime = (cl.GetDiffSeconds());
+		float dt = static_cast<float>(deltaTime);
 		deltaTime = min(1.0f / 60.0f , deltaTime);
 		
 		cl.TakeClock();
@@ -137,8 +138,6 @@ int ZoranEngine::MainLoop()
 			TranslateMessage(&msg);
 			DispatchMessageW(&msg);
 		}
-
-		if (deltaTime == 0)deltaTime = 0;
 
 		if (isPaused == false || step == true)
 		{
@@ -158,7 +157,7 @@ int ZoranEngine::MainLoop()
 
 		}
 
-		if (mainWindow)mainWindow->MainDraw();
+		if (mainWindow)mainWindow->MainDraw(dt);
 	}
 #endif
 
@@ -200,7 +199,7 @@ void ZoranEngine::Setup2DScene(float centerx, float centery, float width, float 
 	physicsEngine->SetupFor2D({ centerx, centery }, { width, height });
 
 	mainPlayer = new DebugPlayerInstance(new OrthoCamera("camera", width, height, 0));
-	mainPlayer->TranslateView({ centerx, centery });
+	mainPlayer->TranslateView(Vector2D(centerx, centery));
 	mainPlayer->WindowResizedView(mainWindow->GetSize());
 
 	FrameBufferBase* frameBuffer;

@@ -81,9 +81,13 @@ void WindowBase::MakeWindow(const char * title, Vec2I position, Vec2I size)
 	this->MakeWindow(title,position.x, position.y,size.w,size.h);
 }
 
-void WindowBase::MainDraw()
+void WindowBase::MainDraw(float dt)
 {
-	if (rootVirtualWindow)rootVirtualWindow->RenderWindow(Vector2I::Zero);
+	if (rootVirtualWindow)
+	{
+		rootVirtualWindow->AnimateWindow(dt);
+		rootVirtualWindow->RenderWindow(Vector2I::Zero);
+	}
 	zEngine->DrawStep(); 
 	SwapBuffers();
 }

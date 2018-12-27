@@ -39,7 +39,7 @@ public:
 	ZGIVirtualWindow(Vec2D pos, Vec2D size, Vec2I OSWindowSize, ZGIVirtualWindow* parent = 0);
 	virtual ~ZGIVirtualWindow();
 	
-	inline void SetFirstResponder(IKeyboardEventHandler* responder) { firstResponder = responder; }
+	void SetFirstResponder(IKeyboardEventHandler* responder);
 
 	virtual void OSWindowWasResized(Vec2I newSize);
 
@@ -66,6 +66,8 @@ public:
 	Vec2D GetWindowPosition()const;
 
 	virtual void RenderWindow(Vec2D globalOffset);
+
+	virtual void AnimateWindow(float dt);
 
 	inline ZGIVirtualViewport* GetViewport() { return viewport; }
 	inline void SetResizeable(bool resizable) { isResizable = resizable; }

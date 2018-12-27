@@ -69,6 +69,14 @@ ZGIVirtualWindow::~ZGIVirtualWindow()
 	if (rootContent)delete rootContent;
 }
 
+void ZGIVirtualWindow::SetFirstResponder(IKeyboardEventHandler * responder)
+{
+	if (firstResponder == responder)return;
+	if (firstResponder)firstResponder->isInFocus = false;
+	firstResponder = responder;
+	firstResponder->isInFocus = true;
+}
+
 void ZGIVirtualWindow::OSWindowWasResized(Vec2I newSize)
 {
 	if (rootContent)rootContent->ContainerResized(newSize, viewport->GetSize());
@@ -155,6 +163,11 @@ void ZGIVirtualWindow::RenderWindow(Vec2D globalOffset)
 	{
 		subWindow->RenderWindow(newOffset);
 	}
+}
+
+void ZGIVirtualWindow::AnimateWindow(float dt)
+{
+	if (rootContent)rootContent->Animate(dt);
 }
 
 bool ZGIVirtualWindow::MouseDown(const PlatformMouseBase *m)

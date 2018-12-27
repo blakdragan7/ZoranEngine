@@ -186,13 +186,6 @@ void WindowsWindow::SwapBuffers()
 	::SwapBuffers(dc);
 }
 
-void WindowsWindow::MainDraw()
-{
-	ImGui_ImplWin32_NewFrame();
-
-	WindowBase::MainDraw();
-}
-
 static LRESULT CALLBACK wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam);

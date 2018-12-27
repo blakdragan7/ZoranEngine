@@ -690,6 +690,9 @@
     <ClCompile Include="ZGI\Widgets\ZGITextEdit.cpp">
       <Filter>ZoranEngine\ZGI\Widgets</Filter>
     </ClCompile>
+    <ClCompile Include="ZGI\Widgets\ZGICursor.cpp">
+      <Filter>ZoranEngine\ZGI\Widgets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -2139,6 +2142,9 @@
       <Filter>ZoranEngine\Rendering\OpenGL\Renderers</Filter>
     </ClInclude>
     <ClInclude Include="ZGI\Widgets\ZGITextEdit.h">
+      <Filter>ZoranEngine\ZGI\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="ZGI\Widgets\ZGICursor.h">
       <Filter>ZoranEngine\ZGI\Widgets</Filter>
     </ClInclude>
   </ItemGroup>

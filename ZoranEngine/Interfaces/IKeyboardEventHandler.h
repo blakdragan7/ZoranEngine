@@ -10,6 +10,10 @@ enum KeyEventType;
 class ZoranEngine_EXPORT IKeyboardEventHandler
 {
 public:
+	bool isInFocus; 
+
+public:
+	IKeyboardEventHandler() : isInFocus(false) {}
 	// This is the raw event from the ekyboard before processing
 	virtual bool RawKeyEvent(KeyEventType type, unsigned rawKey) = 0;
 	// this is the transalted event from the keyboard (scanecode => unicode based on keyboard and control keys)

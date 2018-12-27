@@ -34,6 +34,7 @@ public:
 	virtual void SetPosition(Vec2D position)override;
 
 	virtual void Render(const Matrix44& projection)override;
+	virtual void Animate(float dt)override;
 	virtual const char* GetClassString()const override { return "ZGIUniformScalePanel"; }
 	virtual void Print(unsigned tabs)const override;
 

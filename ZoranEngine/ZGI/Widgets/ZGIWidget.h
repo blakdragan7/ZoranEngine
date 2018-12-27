@@ -41,6 +41,9 @@ public:
 	// default draws debug info and update Debug render when dirty
 	virtual void Render(const Matrix44& projection);
 
+	// default does nothing simply to allow this method to not have to be overriden
+	virtual void Animate(float dt);
+
 	virtual void SetSize(Vec2D size);
 	virtual void SetPosition(Vec2D position);
 

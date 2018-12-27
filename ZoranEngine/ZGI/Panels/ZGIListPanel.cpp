@@ -98,3 +98,11 @@ void ZGIListPanel::Render(const Matrix44 & projection)
 
 	ZGIPanel::Render(projection);
 }
+
+void ZGIListPanel::Animate(float dt)
+{
+	for (auto& w : *widgetList)
+	{
+		if(w.widget)w.widget->Animate(dt);
+	}
+}

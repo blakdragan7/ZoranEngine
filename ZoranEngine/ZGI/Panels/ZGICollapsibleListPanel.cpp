@@ -165,6 +165,12 @@ void ZGICollapsibleListPanel::ContainerResized(Vec2D newSize, Vec2D oldSize)
 	list->ContainerResized(newSize,oldSize);
 }
 
+void ZGICollapsibleListPanel::Animate(float dt)
+{
+	header->Animate(dt);
+	list->Animate(dt);
+}
+
 void ZGICollapsibleListPanel::Print(unsigned tabs) const
 {
 	ZGIWidget::Print(tabs);

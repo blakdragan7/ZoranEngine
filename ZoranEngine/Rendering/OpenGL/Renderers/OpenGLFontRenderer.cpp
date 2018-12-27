@@ -74,9 +74,10 @@ void OpenGLFontRenderer::SetupTriangles()
 
 OpenGLFontRenderer::OpenGLFontRenderer(FontResource* font,OpenGLContext * context) :  context(context) , FontRenderer(font)
 {
-	indecieMap.set_empty_key(0);
-	indecieMap.set_deleted_key(-1);
+	indecieMap.set_empty_key(-1);
+
 	renderer = new OpenGLTriangleRenderer(context);
+	
 	if(font->GetType() == Font_SDF_Type_MSDF)
 		shader = static_cast<OpenGLShaderProgramBase*>(rEngine->CreateShaderProgram<OpenGLMSDFFontShader>());
 	else
@@ -159,20 +160,28 @@ void OpenGLFontRenderer::UpdateRender()
 			}
 		}
 
-		for (uint32_t uni : word.glyphs)
+		for (auto& text : word.glyphs)
 		{
-			
+			uint32_t uni = text.glyph;
+
 			Glyph glyph = fontResource->GlyphForUnicode(uni);
 
 			if (uni == ' ')
 			{
 				startX += static_cast<float>(glyph.advance * scale);
+
+				text.bl.x = startX;
+				text.bl.y = startY;
+
+				text.tr.x = startX + static_cast<float>(glyph.advance);
+				text.tr.y = startY + scale;
+
 				continue;
 			}
 
 			float u = glyph.UVOffset.x + (glyph.translate.x / 4.0f);
 			float v = glyph.UVOffset.y + (glyph.translate.y / 8.0f);
-			
+
 			float uvxAdvance = glyph.uvAdvance - (glyph.translate.x / 4.0f);
 			float uvyAdvance = glyph.uvAdvance - (glyph.translate.y / 3.0f);
 
@@ -198,6 +207,12 @@ void OpenGLFontRenderer::UpdateRender()
 			size_t vindex = 36 * (i);
 			size_t uindex = 24 * (i++);
 
+			text.bl.x = x;
+			text.bl.y = y;
+			
+			text.tr.x = x + w;
+			text.tr.y = y + h;
+		
 			// vert locations
 
 			verts[vindex + 0] = x;
@@ -246,8 +261,6 @@ void OpenGLFontRenderer::UpdateRender()
 
 			startX += static_cast<float>(glyph.advance * scale);
 		}
-
-		startX += static_cast<float>(word.spaceAdvance * scale);
 	}
 
 	renderer->AddTriangles(verts, charCount * 36,uvs, charCount * 24);

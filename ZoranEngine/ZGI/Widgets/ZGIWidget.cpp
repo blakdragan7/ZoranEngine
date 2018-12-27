@@ -47,6 +47,10 @@ void ZGIWidget::Render(const Matrix44 & projection)
 		widgetBrush->RenderBrush(projection * modelCache);
 }
 
+void ZGIWidget::Animate(float dt)
+{
+}
+
 void ZGIWidget::SetSize(Vec2D size)
 {
 	Vector2D newSize = size / 2.0f;

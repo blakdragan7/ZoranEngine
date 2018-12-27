@@ -7,6 +7,7 @@ bool FontRenderer::UpdareWordFromGlyphSingle(UniWord & word, uint32_t glyph, boo
 {
 	if (glyph == ' ')
 	{
+		word.glyphs.push_back(glyph);
 		word.spaceAdvance = spaceAdvance;
 		words->push_back(UniWord());
 		return true;
@@ -73,6 +74,7 @@ bool FontRenderer::UpdareWordFromGlyph(UniWord & word, uint32_t glyph, bool& was
 {
 	if (glyph == ' ')
 	{
+		word.glyphs.push_back(glyph);
 		word.spaceAdvance = spaceAdvance;
 		words->push_back(word);
 		word = UniWord();
@@ -140,6 +142,33 @@ bool FontRenderer::UpdareWordFromGlyph(UniWord & word, uint32_t glyph, bool& was
 	}
 }
 
+bool FontRenderer::GlyphWalkForPos(int pos, UniWord** word, int& insertPos)const
+{
+	int currentPos = 0;
+
+	for (auto& c_word : *words)
+	{
+		int iPos = 0;
+		for (auto c : c_word.glyphs)
+		{
+			if (pos == currentPos)
+			{
+				*word = &c_word;
+				insertPos = iPos;
+
+				return true;
+			}
+			else
+			{
+				currentPos++;
+				iPos++;
+			}
+		}
+	}
+
+	return false;
+}
+
 FontRenderer::FontRenderer(FontResource* font) : isDirty(false), fontResource(font), shouldClip(true), shouldWordWrap(true),
 		thickness(0.0f), border(0.0f), shadowSoftness(0.0f), shadowOpacity(0.0f), charCount(0)
 {
@@ -152,12 +181,80 @@ FontRenderer::FontRenderer(FontResource* font) : isDirty(false), fontResource(fo
 	fontColor = Color(1.0f, 1.0f, 1.0f, 1.0f);
 	borderColor = Vector3D(1.0f, 0.0f, 0.0f);
 
-	spaceAdvance = fontResource->GlyphForUnicode(' ').advance;;
+	spaceAdvance = static_cast<float>(fontResource->GlyphForUnicode(' ').advance);
 }
 
 FontRenderer::~FontRenderer()
 {
 	delete words;
+}
+
+TextGlyph * FontRenderer::GlyphForPos(int pos)const
+{
+	if(words->size() < 1)
+		return nullptr;
+	
+	UniWord* word;
+	int textPos;
+	if (GlyphWalkForPos(pos, &word, textPos))
+	{
+		return &word->glyphs[textPos];
+	}
+	else
+	{
+		int i = 1;
+
+		while (true)
+		{
+			if (words->size() - i < 0)return 0;
+			UniWord& word = (*words)[words->size() - i];
+			if (word.glyphs.size() == 0)
+			{
+				i++;
+				continue;
+			}
+			return &word.glyphs[word.glyphs.size() - 1];
+		}
+	}
+}
+
+int FontRenderer::CursorPosForLocation(Vec2D location)const
+{
+	int currentPos = 0;
+
+	for (auto& w : *words)
+	{
+		for (auto& bounds : w.glyphs)
+		{
+			if (bounds.Intersects(location))
+			{
+				return currentPos;
+			}
+			else currentPos++;
+		}
+		currentPos++;
+	}
+
+	return currentPos;
+}
+
+void FontRenderer::InsertGlyph(uint32_t glyph, int pos)
+{
+	int insertPos = 0;
+	UniWord* word = 0;
+
+	if (GlyphWalkForPos(pos, &word, insertPos))
+	{
+		word->glyphs.insert(word->glyphs.begin() + insertPos, glyph);
+		charCount++;
+	}
+	else
+	{
+		Log(LogLevel_Warning, "pos outside of range for InsertGlpyh, appending to end instead");
+		AddGlyph(glyph);
+	}
+
+	isDirty = true;
 }
 
 void FontRenderer::AddGlyph(uint32_t glyph)
@@ -191,10 +288,6 @@ void FontRenderer::RemoveLastGlyph()
 			if((word.isNewLine || word.isTab) == false)
 				charCount--;
 			word.glyphs.pop_back();
-			if (word.glyphs.size() <= 0)
-			{
-				words->pop_back();
-			}
 		}
 		else
 		{

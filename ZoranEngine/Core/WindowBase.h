@@ -44,7 +44,7 @@ public:
 	inline Vec2I GetSize() { return size; };
 	virtual inline WindowHandle GetHandle() { return windowHandle; }
 	virtual void SwapBuffers() = 0;
-	virtual void MainDraw();
+	virtual void MainDraw(float dt);
 
 	inline ZGIVirtualWindow* GetRootVirtualWindow() { return rootVirtualWindow; }
 	void SetRootVirtualWindow(ZGIVirtualWindow* newWindow);

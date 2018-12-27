@@ -118,6 +118,11 @@ void ZGIUniformScalePanel::Render(const Matrix44 & projection)
 	ZGIWidget::Render(projection);
 }
 
+void ZGIUniformScalePanel::Animate(float dt)
+{
+	if (content)content->Animate(dt);
+}
+
 void ZGIUniformScalePanel::Print(unsigned tabs) const
 {
 	ZGIWidget::Print(tabs);

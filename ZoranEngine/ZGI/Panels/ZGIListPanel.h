@@ -49,7 +49,7 @@ public:
 	/* Widget Override */
 
 	virtual void ContainerResized(Vec2D newSize, Vec2D oldSize)override;
-
 	virtual void Render(const Matrix44& projection)override;
+	virtual void Animate(float dt)override;
 };
 

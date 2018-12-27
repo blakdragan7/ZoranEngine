@@ -71,6 +71,14 @@ void ZGIFreeFormPanel::Render(const Matrix44 & projection)
 	}
 }
 
+void ZGIFreeFormPanel::Animate(float dt)
+{
+	for (auto w : *widgets)
+	{
+		w->Animate(dt);
+	}
+}
+
 void ZGIFreeFormPanel::Print(unsigned tabs) const
 {
 	ZGIWidget::Print(tabs);

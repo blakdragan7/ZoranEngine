@@ -11,9 +11,42 @@ enum NewLineType
 	NewLineType_EOL,
 };
 
+struct TextGlyph
+{
+	Vector2D bl, tr;
+	uint32_t glyph;
+
+	TextGlyph(uint32_t glyph) : glyph(glyph) {}
+
+	inline bool Intersects(Vec2D pos)const
+	{
+		return (bl.x <= pos.x && bl.y <= pos.y && tr.x >= pos.x && tr.y >= pos.y);
+	}
+
+	void operator = (uint32_t glyph)
+	{
+		this->glyph = glyph;
+	}
+
+	bool operator == (const TextGlyph& other)const
+	{
+		return glyph == other.glyph;
+	}
+
+	bool operator == (const uint32_t other)const
+	{
+		return glyph == other;
+	}
+
+	bool operator == (Vec2D pos)const
+	{
+		return Intersects(pos);
+	}
+};
+
 struct UniWord
 {
-	std::vector<uint32_t> glyphs; // list of glyphs that make up this word
+	std::vector<TextGlyph> glyphs; // list of glyphs that make up this word
 	double advance; // advances the whole word
 	double spaceAdvance; // advances space after word
 	bool isNewLine; // if this word is a new line
@@ -21,6 +54,7 @@ struct UniWord
 	bool isTab;
 
 	UniWord() : isNewLine(false), isTab(false), advance(0), spaceAdvance(0) {}
+
 };
 
 class FontResource;
@@ -73,7 +107,8 @@ private:
 	bool UpdareWordFromGlyph(UniWord& word, uint32_t glyph, bool& wasCarriageReturn,bool& wasNewLine, bool& wasTab);
 
 protected:
-	inline size_t GetCharCount() { return charCount; }
+	inline size_t GetCharCount()const { return charCount; }
+	bool GlyphWalkForPos(int pos,UniWord** word, int& insertPos)const;
 
 public:
 	FontRenderer(FontResource* font);
@@ -83,7 +118,13 @@ public:
 
 	virtual void UpdateRender() = 0;
 
-	inline Vec2D GetTotalSize() { return totalSize; };
+	TextGlyph* GlyphForPos(int pos)const;
+	int CursorPosForLocation(Vec2D location)const;
+
+	inline FontResource* GetFontResource()const { return fontResource; }
+
+	inline Vec2D GetRenderStart()const { return renderStart; }
+	inline Vec2D GetTotalSize()const { return totalSize; };
 
 	inline void SetShadowColor(Vec3D color) { shadowColor = color; }
 	inline void SetShadowVector(Vec2D vector) { shadowVector = vector; }
@@ -110,6 +151,7 @@ public:
 	inline bool GetShouldWordWrap()const { return shouldWordWrap; }
 	inline bool GetShouldClip()const { return shouldClip; }
 
+	void InsertGlyph(uint32_t glyph, int pos);
 	void AddGlyph(uint32_t glyph);
 	void RemoveLastGlyph();
 	void RemoveGlyphAtCursur();

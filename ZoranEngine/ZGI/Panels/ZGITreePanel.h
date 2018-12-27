@@ -63,6 +63,7 @@ public:
 	Vector2D UpdatePositionAndSize(Vector2D parentSize, Vector2D ParentPosition);
 
 	void Render(const Matrix44& projection);
+	void Animate(float dt);
 	TreeSocket& TreeSocketNamed(std::string name);
 
 	void SetIsCollapsed(bool collapsed);
@@ -104,6 +105,7 @@ public:
 	virtual void ContainerResized(Vec2D newSize, Vec2D oldSize)override;
 
 	virtual void Render(const Matrix44& projection)override;
+	virtual void Animate(float dt)override;
 	virtual const char* GetClassString()const override { return "ZGITreePanel"; }
 	virtual void Print(unsigned tabs)const override;
 };

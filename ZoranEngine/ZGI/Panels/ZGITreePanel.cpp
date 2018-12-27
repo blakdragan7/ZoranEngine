@@ -70,6 +70,11 @@ void ZGITreePanel::Render(const Matrix44 & projection)
 	ZGIPanel::Render(projection);
 }
 
+void ZGITreePanel::Animate(float dt)
+{
+	rootSocket.Animate(dt);
+}
+
 void ZGITreePanel::Print(unsigned tabs) const
 {
 	ZGIWidget::Print(tabs);
@@ -320,6 +325,16 @@ void TreeSocket::Render(const Matrix44& projection)
 		{
 			s.Render(projection);
 		}
+	}
+}
+
+void TreeSocket::Animate(float dt)
+{
+	panel->Animate(dt);
+
+	for (auto& s : *socketList)
+	{
+		s.Animate(dt);
 	}
 }
 

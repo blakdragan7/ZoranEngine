@@ -280,6 +280,7 @@
     <ClCompile Include="ZGI\Panels\ZGITreePanel.cpp" />
     <ClCompile Include="ZGI\Panels\ZGIUniformScalePanel.cpp" />
     <ClCompile Include="ZGI\Widgets\ZGIButton.cpp" />
+    <ClCompile Include="ZGI\Widgets\ZGICursor.cpp" />
     <ClCompile Include="ZGI\Widgets\ZGIImage.cpp" />
     <ClCompile Include="ZGI\Widgets\ZGILabel.cpp" />
     <ClCompile Include="ZGI\Widgets\ZGIScrollBar.cpp" />
@@ -765,6 +766,7 @@
     <ClInclude Include="ZGI\Panels\ZGITreePanel.h" />
     <ClInclude Include="ZGI\Panels\ZGIUniformScalePanel.h" />
     <ClInclude Include="ZGI\Widgets\ZGIButton.h" />
+    <ClInclude Include="ZGI\Widgets\ZGICursor.h" />
     <ClInclude Include="ZGI\Widgets\ZGIImage.h" />
     <ClInclude Include="ZGI\Widgets\ZGILabel.h" />
     <ClInclude Include="ZGI\Widgets\ZGIScrollBar.h" />

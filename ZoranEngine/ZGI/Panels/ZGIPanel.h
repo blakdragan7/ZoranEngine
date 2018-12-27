@@ -14,7 +14,7 @@ public:
 	virtual int GetNumberOfWidgets()const = 0;
 	virtual int GetMaxNumberOfWidgets()const = 0;
 
-	// Generally, calls hittest on every widget with pos and returns the first to return true or 0 if none do
+	// Generally, calls HitTest on every widget with pos and returns the first to return true or 0, if none do
 	virtual ZGIWidget* WidgetForPosition(Vec2D pos) = 0;
 
 	// widget override

@@ -202,6 +202,11 @@ void ZGIScrollPanel::Render(const Matrix44 & projection)
 	ZGIWidget::Render(projection);
 }
 
+void ZGIScrollPanel::Animate(float dt)
+{
+	if (content)content->Animate(dt);
+}
+
 ZGIWidget * ZGIScrollPanel::HitTest(Vec2D pos)
 {
 	// TODO: uncomment this and hit test scrollbars instead

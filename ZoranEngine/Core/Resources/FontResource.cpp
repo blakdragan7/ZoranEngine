@@ -947,6 +947,6 @@ Glyph GlyphForShape(const Shape& shape, uint32_t uni, int resolution, double adv
 	glyph.scale = { (float)scale.x, (float)scale.y };
 	glyph.invScale = 1.0f / glyph.scale;
 	glyph.scaleFactor = 0.70f;
-
+	glyph.absoluteSize = {(float)dims.x,(float)dims.y};
 	return glyph;
 }

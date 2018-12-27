@@ -63,6 +63,7 @@ public:
 	/* Widget Override */
 
 	virtual void ContainerResized(Vec2D newSize, Vec2D oldSize)override;
+	virtual void Animate(float dt)override;
 	virtual const char* GetClassString()const override { return "ZGICollapsibleListPanel"; }
 	virtual void Print(unsigned tabs)const override;
 };
