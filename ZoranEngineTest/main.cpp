@@ -172,10 +172,10 @@ void TestGUIStuff()
 	engine.Init();
 	engine.Setup2DScene(0, 0, 2000, 2000);
 
-	//FontResource* r = ResourceManager::man()->FontForTTF("C:/Windows/Fonts/arial.ttf",64,4,Font_SDF_Type_MSDF);
-	//r->CreateBMPForASCII(ASCII);
-	//r->NormalizeGlyphs();
-	//r->SaveToFile("arial-msdf.zft");
+	/*FontResource* r = ResourceManager::man()->FontForTTF("C:/Windows/Fonts/arial.ttf",64,4,Font_SDF_Type_MSDF);
+	r->CreateBMPForASCII(ASCII);
+	r->NormalizeGlyphs();
+	r->SaveToFile("arial-msdf.zft");*/
 
 	engine.CreateGameModeWindows(false);
 
@@ -188,14 +188,14 @@ void TestGUIStuff()
 	text->GetBrush()->SetBackgroudHue({ 0.3f,0.3f,0.3f,1.0f });
 	text->SetDrawBrush(true);
 
-	text->SetSize({300,300});
+	text->SetSize({900,300});
 	text->SetPosition({600,600});
 	
 	text->SetAutoScaleFont(false);
 
-	text->SetFontSize(30);
+	text->SetFontSize(100);
 
-	text->SetText("asd asd");
+	text->SetText(ASCII);
 
 	p->AddWidget(text);
 

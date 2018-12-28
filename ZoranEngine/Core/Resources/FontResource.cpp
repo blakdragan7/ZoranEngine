@@ -916,7 +916,7 @@ Glyph GlyphForShape(const Shape& shape, uint32_t uni, int resolution, double adv
 {
 	Glyph glyph;
 
-	glyph.advance = (advance / (double)resolution) * 0.8;
+	glyph.advance = ((float)advance / (float)resolution) * 0.8f;
 	glyph.glyph = uni;
 	glyph.uvAdvance = uvAdvance;
 
@@ -934,19 +934,18 @@ Glyph GlyphForShape(const Shape& shape, uint32_t uni, int resolution, double adv
 		//assert("Cannot fit the specified pixel range.");
 	Vector2 dims(r - l, t - b);
 
-	Vector2D tr((float)dims.x * 0.05f, (float)dims.y *0.15f);
-
-	translate = Vector2D((float)(-l + tr.x), (float)(-b + tr.y));
-
 	scale = frame / dims;
 	scale *= 0.70f;
 
+	Vector2D tr((float)dims.x * 0.15f, (float)dims.y *0.15f);
+
+	translate = Vector2D((float)(-l + tr.x), (float)(-b + tr.y));
+
 	glyph.translate = Vector2D((float)tr.x, (float)tr.y);
-	glyph.bearing = { (float)-l / (float)resolution, (float)-b / (float)resolution };
+	glyph.bearing = { (float)-l / (float)resolution, (float)b / (float)resolution };
 	glyph.size = { (float)dims.x / (float)resolution,(float)dims.y / (float)resolution };
 	glyph.scale = { (float)scale.x, (float)scale.y };
 	glyph.invScale = 1.0f / glyph.scale;
 	glyph.scaleFactor = 0.70f;
-	glyph.absoluteSize = {(float)dims.x,(float)dims.y};
 	return glyph;
 }

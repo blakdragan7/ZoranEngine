@@ -1,7 +1,64 @@
 #include "stdafx.h"
 #include "FontRenderer.h"
 #include <Core/Resources/FontResource.h>
+#include <vector>
 #include <stdarg.h>
+
+size_t UniWord::n_id = 0;
+
+bool FontRenderer::UpdareWordFromGlyphInsert(UniWord & word, int position, uint32_t glyph)
+{
+	if (glyph == ' ')
+	{
+		UniWord copy = word;
+		word.glyphs.erase(word.glyphs.begin() + position, word.glyphs.end());
+		word.glyphs.push_back(glyph);
+		word.spaceAdvance = spaceAdvance;
+
+		UniWord nextWord;
+		nextWord.glyphs.insert(nextWord.glyphs.begin(), copy.glyphs.begin() + position, copy.glyphs.end());
+		words->insert(std::find(words->begin(),words->end(),word)+1,nextWord);
+
+		return true;
+	}
+	else if (glyph == '\n' || glyph == '\r')
+	{
+		UniWord copy = word;
+		word.glyphs.erase(word.glyphs.begin() + position, word.glyphs.end());
+
+		UniWord newLine;
+		newLine.isNewLine = true;
+
+		words->insert(std::find(words->begin(), words->end(), word)+1, newLine);
+
+		UniWord nextWord;
+		nextWord.glyphs.insert(nextWord.glyphs.begin(), copy.glyphs.begin() + position, copy.glyphs.end());
+		words->insert(std::find(words->begin(), words->end(), newLine) +1, nextWord);
+
+		return true;
+	}
+	else if (glyph == '\t')
+	{
+		UniWord tabWord;
+		tabWord.isTab = true;
+
+		words->insert(std::find(words->begin(),words->end(),word) + 1, tabWord);
+
+		UniWord nextWord;
+		nextWord.glyphs.insert(nextWord.glyphs.begin(), word.glyphs.begin() + position, word.glyphs.end());
+		word.glyphs.erase(word.glyphs.begin() + position, word.glyphs.end());
+		words->insert(std::find(words->begin(), words->end(), tabWord) + 1, nextWord);
+
+		return true;
+	}
+	else
+	{
+		word.glyphs.insert(word.glyphs.begin() + position, glyph);
+		word.advance += fontResource->GlyphForUnicode(glyph).advance;
+		charCount++;
+		return false;
+	}
+}
 
 bool FontRenderer::UpdareWordFromGlyphSingle(UniWord & word, uint32_t glyph, bool & wasCarriageReturn, bool & wasNewLine, bool & wasTab)
 {
@@ -149,7 +206,7 @@ bool FontRenderer::GlyphWalkForPos(int pos, UniWord** word, int& insertPos)const
 	for (auto& c_word : *words)
 	{
 		int iPos = 0;
-		for (auto c : c_word.glyphs)
+		for (auto& c : c_word.glyphs)
 		{
 			if (pos == currentPos)
 			{
@@ -232,7 +289,6 @@ int FontRenderer::CursorPosForLocation(Vec2D location)const
 			}
 			else currentPos++;
 		}
-		currentPos++;
 	}
 
 	return currentPos;
@@ -245,8 +301,7 @@ void FontRenderer::InsertGlyph(uint32_t glyph, int pos)
 
 	if (GlyphWalkForPos(pos, &word, insertPos))
 	{
-		word->glyphs.insert(word->glyphs.begin() + insertPos, glyph);
-		charCount++;
+		UpdareWordFromGlyphInsert(*word, insertPos, glyph);
 	}
 	else
 	{

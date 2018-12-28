@@ -21,8 +21,7 @@ struct Glyph
 	Vector2D size; // in pixels
 	Vector2D invScale; // in pixels
 	Vector2D scale; // in pixels
-	Vector2D absoluteSize; // the rendered Size in GUI Coords
-	double advance; // in pixels
+	float advance; // in pixels
 	float uvAdvance; // in UV Coords
 	float scaleFactor;
 };

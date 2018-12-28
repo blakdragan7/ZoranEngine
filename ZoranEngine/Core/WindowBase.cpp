@@ -50,7 +50,6 @@ bool WindowBase::UniIsChar(unsigned uni)
 	case Key_Left_Arrow:
 	case Key_BackSpace:
 	case Key_Delete:
-	case Key_Enter:
 	case Key_PrintScreen:
 	case Key_Esc:
 	case Key_Shift:

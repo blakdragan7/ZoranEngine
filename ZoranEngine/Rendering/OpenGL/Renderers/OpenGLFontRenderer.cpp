@@ -155,8 +155,11 @@ void OpenGLFontRenderer::UpdateRender()
 		{
 			if (bounds.w <= ((startX + (word.advance * scale)) - renderStart.x))
 			{
-				startX = renderStart.x;
-				startY -= newLineShift;
+				if (startX != renderStart.x)
+				{
+					startX = renderStart.x;
+					startY -= newLineShift;
+				}
 			}
 		}
 
@@ -179,22 +182,22 @@ void OpenGLFontRenderer::UpdateRender()
 				continue;
 			}
 
-			float u = glyph.UVOffset.x + (glyph.translate.x / 4.0f);
+			float u = glyph.UVOffset.x + (glyph.translate.x / 8.0f);
 			float v = glyph.UVOffset.y + (glyph.translate.y / 8.0f);
 
 			float uvxAdvance = glyph.uvAdvance - (glyph.translate.x / 4.0f);
-			float uvyAdvance = glyph.uvAdvance - (glyph.translate.y / 3.0f);
+			float uvyAdvance = glyph.uvAdvance - (glyph.translate.y / 4.0f);
 
 			Vector2D bearing = glyph.bearing;
 
 			float x = startX + (bearing.x * scale);
-			float y = startY - (bearing.y * scale);
+			float y = startY + (bearing.y * scale);
 
 			float w = glyph.size.w * scale;
 			float h = glyph.size.h * scale;
 
-			float diffx = (x + w) - renderStart.x;
-			float diffy = (renderStart.y - y + h);
+			float diffx = abs((x + w) - renderStart.x);
+			float diffy = abs((y + h) - renderStart.y);
 
 			if (shouldClip && (bounds.w <= diffx || bounds.h <= diffy))
 			{
@@ -207,11 +210,11 @@ void OpenGLFontRenderer::UpdateRender()
 			size_t vindex = 36 * (i);
 			size_t uindex = 24 * (i++);
 
-			text.bl.x = x;
+			text.bl.x = x + w * 0.15f;
 			text.bl.y = y;
 			
-			text.tr.x = x + w;
-			text.tr.y = y + h;
+			text.tr.x = x + w * 0.85f;
+			text.tr.y = y + h * 0.85f;
 		
 			// vert locations
 
@@ -259,7 +262,7 @@ void OpenGLFontRenderer::UpdateRender()
 			uvs[uindex + 10] = u;
 			uvs[uindex + 11] = v + uvyAdvance;
 
-			startX += static_cast<float>(glyph.advance * scale);
+			startX += static_cast<float>((glyph.advance * scale));
 		}
 	}
 

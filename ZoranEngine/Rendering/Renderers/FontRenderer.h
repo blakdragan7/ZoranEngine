@@ -14,6 +14,7 @@ enum NewLineType
 struct TextGlyph
 {
 	Vector2D bl, tr;
+
 	uint32_t glyph;
 
 	TextGlyph(uint32_t glyph) : glyph(glyph) {}
@@ -52,9 +53,19 @@ struct UniWord
 	bool isNewLine; // if this word is a new line
 	NewLineType newLineType; // set if isNewLine is set to true
 	bool isTab;
+	size_t id;
+	static size_t n_id;
 
-	UniWord() : isNewLine(false), isTab(false), advance(0), spaceAdvance(0) {}
+	UniWord() : isNewLine(false), isTab(false), advance(0), spaceAdvance(0), id(n_id++) {}
+	UniWord(const UniWord& other) : isNewLine(other.isNewLine), isTab(other.isTab), advance(other.advance), spaceAdvance(other.spaceAdvance), id(other.id) 
+	{
+		glyphs = std::vector<TextGlyph>(other.glyphs);
+	}
 
+	bool operator ==(const UniWord& other)
+	{
+		return id == other.id;
+	}
 };
 
 class FontResource;
@@ -103,6 +114,7 @@ protected:
 	bool isDirty;
 
 private:
+	bool UpdareWordFromGlyphInsert(UniWord& word, int position,uint32_t glyph);
 	bool UpdareWordFromGlyphSingle(UniWord& word, uint32_t glyph, bool& wasCarriageReturn, bool& wasNewLine, bool& wasTab);
 	bool UpdareWordFromGlyph(UniWord& word, uint32_t glyph, bool& wasCarriageReturn,bool& wasNewLine, bool& wasTab);
 
