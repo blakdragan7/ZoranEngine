@@ -53,7 +53,6 @@ bool WindowBase::UniIsChar(unsigned uni)
 	case Key_PrintScreen:
 	case Key_Esc:
 	case Key_Shift:
-	case Key_Tab:
 	case Key_CapsLock:
 	case Key_Insert:
 		return false;

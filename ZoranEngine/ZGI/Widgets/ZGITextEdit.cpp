@@ -110,6 +110,7 @@ bool ZGITextEdit::CharEvent(unsigned uni)
 	cursorPos++;
 
 	needsCursorUpdate = true;
+	cursor->SetTempSolid();
 	return true;
 }
 

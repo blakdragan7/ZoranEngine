@@ -39,14 +39,17 @@ bool FontRenderer::UpdareWordFromGlyphInsert(UniWord & word, int position, uint3
 	}
 	else if (glyph == '\t')
 	{
+		UniWord copy = word;
+		word.glyphs.erase(word.glyphs.begin() + position, word.glyphs.end());
+
 		UniWord tabWord;
+		tabWord.glyphs.push_back(glyph);
 		tabWord.isTab = true;
 
 		words->insert(std::find(words->begin(),words->end(),word) + 1, tabWord);
 
 		UniWord nextWord;
-		nextWord.glyphs.insert(nextWord.glyphs.begin(), word.glyphs.begin() + position, word.glyphs.end());
-		word.glyphs.erase(word.glyphs.begin() + position, word.glyphs.end());
+		nextWord.glyphs.insert(nextWord.glyphs.begin(), copy.glyphs.begin() + position, copy.glyphs.end());
 		words->insert(std::find(words->begin(), words->end(), tabWord) + 1, nextWord);
 
 		return true;
@@ -108,6 +111,7 @@ bool FontRenderer::UpdareWordFromGlyphSingle(UniWord & word, uint32_t glyph, boo
 			words->push_back(word);
 		}
 		word.isTab = true;
+		word.glyphs.push_back(glyph);
 		wasTab = true;
 		wasNewLine = false;
 		wasCarriageReturn = false;
@@ -179,6 +183,7 @@ bool FontRenderer::UpdareWordFromGlyph(UniWord & word, uint32_t glyph, bool& was
 		}
 		word = UniWord();
 		word.isTab = true;
+		word.glyphs.push_back(glyph);
 		wasTab = true;
 		wasNewLine = false;
 		wasCarriageReturn = false;

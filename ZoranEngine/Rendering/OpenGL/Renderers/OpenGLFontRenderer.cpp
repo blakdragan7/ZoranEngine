@@ -147,6 +147,12 @@ void OpenGLFontRenderer::UpdateRender()
 
 		if (word.isTab)
 		{
+			word.glyphs[0].bl.x = startX;
+			word.glyphs[0].bl.y = startY;
+
+			word.glyphs[0].tr.x = startX + static_cast<float>(space.advance * scale * 4);
+			word.glyphs[0].tr.y = startY + scale;
+
 			startX += static_cast<float>(space.advance * scale * 4);
 			continue;
 		}
