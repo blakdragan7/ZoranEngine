@@ -14,14 +14,23 @@ enum NewLineType
 struct TextGlyph
 {
 	Vector2D bl, tr;
+	Vector2D baseline, endline;
 
 	uint32_t glyph;
 
 	TextGlyph(uint32_t glyph) : glyph(glyph) {}
 
-	inline bool Intersects(Vec2D pos)const
+	// returns -1 if closer to left edge 1 if close to right edge or 0 if no intersection
+
+	inline int Intersects(Vec2D pos)const
 	{
-		return (bl.x <= pos.x && bl.y <= pos.y && tr.x >= pos.x && tr.y >= pos.y);
+		if (bl.x <= pos.x && bl.y <= pos.y && tr.x >= pos.x && tr.y >= pos.y)
+		{
+			if (pos.x - bl.x < tr.x - pos.x) return -1;
+			else return 1;
+		}
+
+		return 0;
 	}
 
 	void operator = (uint32_t glyph)
@@ -39,9 +48,14 @@ struct TextGlyph
 		return glyph == other;
 	}
 
+	bool operator != (const uint32_t other)const
+	{
+		return glyph != other;
+	}
+
 	bool operator == (Vec2D pos)const
 	{
-		return Intersects(pos);
+		return Intersects(pos) != 0;
 	}
 };
 
@@ -50,14 +64,12 @@ struct UniWord
 	std::vector<TextGlyph> glyphs; // list of glyphs that make up this word
 	double advance; // advances the whole word
 	double spaceAdvance; // advances space after word
-	bool isNewLine; // if this word is a new line
 	NewLineType newLineType; // set if isNewLine is set to true
-	bool isTab;
 	size_t id;
 	static size_t n_id;
 
-	UniWord() : isNewLine(false), isTab(false), advance(0), spaceAdvance(0), id(n_id++) {}
-	UniWord(const UniWord& other) : isNewLine(other.isNewLine), isTab(other.isTab), advance(other.advance), spaceAdvance(other.spaceAdvance), id(other.id) 
+	UniWord() : advance(0), spaceAdvance(0), id(n_id++) {}
+	UniWord(const UniWord& other) : advance(other.advance), spaceAdvance(other.spaceAdvance), id(other.id) 
 	{
 		glyphs = std::vector<TextGlyph>(other.glyphs);
 	}
@@ -71,11 +83,6 @@ struct UniWord
 class FontResource;
 class ZoranEngine_EXPORT FontRenderer : public RenderedObjectBase
 {
-private:
-	bool wasListSingleCarriageReturn;
-	bool wasListSingleNewLine;
-	bool wasListSingleTab;
-
 protected:
 	size_t charCount;
 
@@ -114,9 +121,8 @@ protected:
 	bool isDirty;
 
 private:
-	bool UpdareWordFromGlyphInsert(UniWord& word, int position,uint32_t glyph);
-	bool UpdareWordFromGlyphSingle(UniWord& word, uint32_t glyph, bool& wasCarriageReturn, bool& wasNewLine, bool& wasTab);
-	bool UpdareWordFromGlyph(UniWord& word, uint32_t glyph, bool& wasCarriageReturn,bool& wasNewLine, bool& wasTab);
+	bool UpdateWordFromGlyphInsert(UniWord& word, int position, uint32_t glyph);
+	bool UpdateWordFromGlyph(UniWord& word, uint32_t glyph, bool& wasCarriageReturn,bool& wasNewLine, bool& wasTab);
 
 protected:
 	inline size_t GetCharCount()const { return charCount; }
@@ -132,6 +138,10 @@ public:
 
 	TextGlyph* GlyphForPos(int pos)const;
 	int CursorPosForLocation(Vec2D location)const;
+	int CursorPosInAboveLine(int pos)const;
+	int CursorPosInBelowLine(int pos)const;
+
+	int GetLastCursorPos()const;
 
 	inline FontResource* GetFontResource()const { return fontResource; }
 
@@ -166,7 +176,7 @@ public:
 	void InsertGlyph(uint32_t glyph, int pos);
 	void AddGlyph(uint32_t glyph);
 	void RemoveLastGlyph();
-	void RemoveGlyphAtCursur();
+	void RemoveGlyphAtCursurPos(int pos);
 	
 	// all of these set the actual text to be rendered
 

@@ -93,6 +93,9 @@ void OpenGLTriangleRenderer::AddTriangles(float * verts, size_t vertSize, float 
 	}
 
 	vertexGroup->SetNumVerts(static_cast<int>(vertSize / 3));
+
+	// REALLY BAD TODO: figure out how to defer delete arrays passed in till they are done uploading
+	glFinish();
 }
 
 void OpenGLTriangleRenderer::AddTriangles(const std::vector<TrianglePrimitive>& rectangles)

@@ -177,6 +177,11 @@ void Vector2D::operator =(float scalor)
 	y = scalor;
 }
 
+bool Vector2D::operator ==(const float& other)const
+{
+	return other == x && other == y;
+}
+
 bool Vector2D::operator ==(const Vector2D& other)const
 {
 	return other.x == x && other.y == y;

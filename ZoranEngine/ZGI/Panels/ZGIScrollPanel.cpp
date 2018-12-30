@@ -16,42 +16,50 @@ void ZGIScrollPanel::SizeAndPositionScrollBar()
 
 	Vec2D contentSize = content->GetSize();
 
-	Vector2D sizeAlpha = (size / contentSize);
-
-	canScrollVertical = sizeAlpha.h < 1.0f;
-	canScrollHorizontal = sizeAlpha.w < 1.0f;
-
-	if (canScrollHorizontal == false)
+	if (contentSize == 0)
 	{
-		scrollOffset.x = 0;
+		Log(LogLevel_Warning, "Content Size is 0 for scroll panel");
+		return;
 	}
-
-	if (canScrollVertical == false)
+	else
 	{
-		scrollOffset.y = 0;
-	}
+		Vector2D sizeAlpha = (size / contentSize);
 
-	Vector2D scrollAlpha = (scrollOffset / (contentSize - size));
+		canScrollVertical = sizeAlpha.h < 1.0f;
+		canScrollHorizontal = sizeAlpha.w < 1.0f;
 
-	if (scrollAlpha.y < 0 || scrollAlpha.y > 1.0f)
-	{
-		scrollOffset.y -= scrollDirection.y;
-	}
+		if (canScrollHorizontal == false)
+		{
+			scrollOffset.x = 0;
+		}
 
-	if (scrollAlpha.x < 0 || scrollAlpha.x > 1.0f)
-	{
-		scrollOffset.x -= scrollDirection.x;
-	}
+		if (canScrollVertical == false)
+		{
+			scrollOffset.y = 0;
+		}
 
-	if (canScrollHorizontal)
-	{
-		hScrollBar->SetScrollBarSizeAlpha(sizeAlpha.w);
-		hScrollBar->SetScrollPositionAlpha(scrollAlpha.x);
-	}
-	if (canScrollVertical)
-	{
-		vScrollBar->SetScrollBarSizeAlpha(sizeAlpha.h);
-		vScrollBar->SetScrollPositionAlpha(1.0f - scrollAlpha.y);
+		Vector2D scrollAlpha = (scrollOffset / (contentSize - size));
+
+		if (scrollAlpha.y < 0 || scrollAlpha.y > 1.0f)
+		{
+			scrollOffset.y -= scrollDirection.y;
+		}
+
+		if (scrollAlpha.x < 0 || scrollAlpha.x > 1.0f)
+		{
+			scrollOffset.x -= scrollDirection.x;
+		}
+
+		if (canScrollHorizontal)
+		{
+			hScrollBar->SetScrollBarSizeAlpha(sizeAlpha.w);
+			hScrollBar->SetScrollPositionAlpha(scrollAlpha.x);
+		}
+		if (canScrollVertical)
+		{
+			vScrollBar->SetScrollBarSizeAlpha(sizeAlpha.h);
+			vScrollBar->SetScrollPositionAlpha(1.0f - scrollAlpha.y);
+		}
 	}
 }
 
@@ -88,16 +96,17 @@ bool ZGIScrollPanel::CanAddWidget(ZGIWidget * widget) const
 
 void ZGIScrollPanel::AddWidget(ZGIWidget * widget)
 {
-	if (auto label = dynamic_cast<ZGILabel*>(widget))
-	{
-		label->SetShouldClipFont(false);
-		label->SetPosition({ 0,0 });
-	}
-
 	if (content != widget)
 	{
 		if (content)delete content;
 		content = widget;
+
+		if (auto label = dynamic_cast<ZGILabel*>(widget))
+		{
+			label->SetShouldClipFont(false);
+		}
+
+		content->SetPosition({ 0,0 });
 	}
 }
 

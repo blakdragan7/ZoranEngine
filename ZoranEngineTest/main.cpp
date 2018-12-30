@@ -195,7 +195,7 @@ void TestGUIStuff()
 
 	text->SetFontSize(100);
 
-	text->SetText(ASCII);
+	//text->SetText(ASCII);
 
 	p->AddWidget(text);
 

@@ -45,6 +45,7 @@ public:
 	void operator /=(float scalor);
 	void operator =(float scalor);
 
+	bool operator ==(const float& other)const;
 	bool operator ==(const Vector2D& other)const;
 
 	Vector2D getAbs()const;

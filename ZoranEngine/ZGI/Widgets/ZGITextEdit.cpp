@@ -16,12 +16,11 @@ void ZGITextEdit::UpdateCursorFromPos()
 		TextGlyph* glyph = renderer->GlyphForPos(0);
 		if (glyph)
 		{
-			cursor->SetPosition(glyph->bl);
+			cursor->SetPosition(glyph->baseline);
 		}
 		else
 		{
 			cursor->SetPosition(renderer->GetRenderStart());
-			cursor->SetSize(renderer->GetPPTSize());
 		}
 	}
 	else
@@ -29,17 +28,16 @@ void ZGITextEdit::UpdateCursorFromPos()
 		TextGlyph* glyph = renderer->GlyphForPos(cursorPos);
 		if (glyph)
 		{
-			cursor->SetPosition({ glyph->tr.x, glyph->bl.y });
+			cursor->SetPosition({ glyph->endline.x, glyph->baseline.y });
 		}
 		else
 		{
 			cursor->SetPosition(renderer->GetRenderStart());
-			cursor->SetSize(renderer->GetPPTSize());
 		}
 	}
 }
 
-ZGITextEdit::ZGITextEdit(ZGIVirtualWindow* owningWindow) : needsCursorUpdate(false), cursorPos(0), ZGILabel(owningWindow)
+ZGITextEdit::ZGITextEdit(ZGIVirtualWindow* owningWindow) : needsCursorUpdate(false), cursorPos(-1), ZGILabel(owningWindow)
 {
 	cursor = new ZGICursor(owningWindow);
 }
@@ -80,23 +78,37 @@ bool ZGITextEdit::RawKeyEvent(KeyEventType type, unsigned uni)
 	{
 		switch(uni)
 		{
+		case Key_Delete:
+			renderer->RemoveGlyphAtCursurPos(cursorPos+1);
+			break;
 		case Key_BackSpace:
-			renderer->RemoveGlyphAtCursur();
+			renderer->RemoveGlyphAtCursurPos(cursorPos);
+			if (cursorPos != -1)
+			{
+				cursorPos--;
+				needsCursorUpdate = true;
+			}
 			break;
 		case Key_Left_Arrow:
 			cursorPos--;
 			if (cursorPos < -1)cursorPos = -1;
-			UpdateCursorFromPos();
+			needsCursorUpdate = true;
 			cursor->SetTempSolid();
 			break;
 		case Key_Right_Arrow:
 			cursorPos++;
-			UpdateCursorFromPos();
+			needsCursorUpdate = true;
 			cursor->SetTempSolid();
 			break;
 		case Key_Up_Arrow:
+			cursorPos = renderer->CursorPosInAboveLine(cursorPos);
+			needsCursorUpdate = true;
+			cursor->SetTempSolid();
 			break;
 		case Key_Down_Arrow:
+			cursorPos = renderer->CursorPosInBelowLine(cursorPos);
+			needsCursorUpdate = true;
+			cursor->SetTempSolid();
 			break;
 		}
 	}

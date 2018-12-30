@@ -115,11 +115,12 @@ void OpenGLFontRenderer::RenderObject(const Matrix44 & cameraMatrix)
 void OpenGLFontRenderer::UpdateRender()
 {
 	if (words->size() < 1)return;
-	//TODO: optimize changed text
+
+	int theCount = static_cast<int>(charCount);
 
 	Glyph space = fontResource->GlyphForUnicode(' ');
-	float* verts = new float[charCount * 36];
-	float* uvs = new float[charCount * 24];
+	float* verts = new float[theCount * 36];
+	float* uvs = new float[theCount * 24];
 
 	float startX = renderStart.x;
 	float startY = renderStart.y;
@@ -137,26 +138,7 @@ void OpenGLFontRenderer::UpdateRender()
 
 	for (UniWord& word : *words)
 	{
-		// render a new line when newline char
-		if (word.isNewLine)
-		{
-			startX = renderStart.x;
-			startY -= newLineShift;
-			continue;
-		}
-
-		if (word.isTab)
-		{
-			word.glyphs[0].bl.x = startX;
-			word.glyphs[0].bl.y = startY;
-
-			word.glyphs[0].tr.x = startX + static_cast<float>(space.advance * scale * 4);
-			word.glyphs[0].tr.y = startY + scale;
-
-			startX += static_cast<float>(space.advance * scale * 4);
-			continue;
-		}
-
+		
 		if (shouldWordWrap)
 		{
 			if (bounds.w <= ((startX + (word.advance * scale)) - renderStart.x))
@@ -173,20 +155,69 @@ void OpenGLFontRenderer::UpdateRender()
 		{
 			uint32_t uni = text.glyph;
 
-			Glyph glyph = fontResource->GlyphForUnicode(uni);
-
-			if (uni == ' ')
+			if (uni == '\t')
 			{
-				startX += static_cast<float>(glyph.advance * scale);
+				text.bl.x = startX;
+				text.bl.y = startY;
+				
+				text.tr.x = startX + static_cast<float>(space.advance * scale * 4);
+				text.tr.y = startY + scale;
+				
+				text.baseline.x = startX;
+				text.baseline.y = startY;
+
+				text.endline.x = text.tr.x;
+				text.endline.y = text.tr.y;
+
+				startX += static_cast<float>(space.advance * scale * 4);
+				continue;
+			}
+
+			// render a new line when newline char
+
+			if (uni == '\n')
+			{
+				startX = renderStart.x;
+				startY -= newLineShift;
+
+				text.baseline.x = startX;
+				text.baseline.y = startY;
 
 				text.bl.x = startX;
 				text.bl.y = startY;
 
-				text.tr.x = startX + static_cast<float>(glyph.advance);
-				text.tr.y = startY + scale;
+				text.tr.x = startX;
+				text.tr.y = startY;
+
+				text.endline.x = text.tr.x;
+				text.endline.y = text.tr.y;
 
 				continue;
 			}
+
+			Glyph glyph = fontResource->GlyphForUnicode(uni);
+
+			if (uni == ' ')
+			{
+				text.bl.x = startX;
+				text.bl.y = startY;
+
+				text.baseline.x = startX;
+				text.baseline.y = startY;
+
+				startX += static_cast<float>(glyph.advance * scale);
+
+				text.tr.x = startX + static_cast<float>(glyph.advance);
+				text.tr.y = startY + scale;
+
+				text.endline.x = text.tr.x;
+				text.endline.y = text.tr.y;
+
+				continue;
+			}
+
+			text.baseline.x = startX;
+			text.baseline.y = startY;
 
 			float u = glyph.UVOffset.x + (glyph.translate.x / 8.0f);
 			float v = glyph.UVOffset.y + (glyph.translate.y / 8.0f);
@@ -216,11 +247,14 @@ void OpenGLFontRenderer::UpdateRender()
 			size_t vindex = 36 * (i);
 			size_t uindex = 24 * (i++);
 
-			text.bl.x = x + w * 0.15f;
-			text.bl.y = y;
+			text.bl.x = startX;
+			text.bl.y = startY;
 			
-			text.tr.x = x + w * 0.85f;
-			text.tr.y = y + h * 0.85f;
+			text.tr.x = x + w;
+			text.tr.y = y + h;
+
+			text.endline.x = x + w * 0.85f;
+			text.endline.y = y + h * 0.85f;
 		
 			// vert locations
 
@@ -269,10 +303,16 @@ void OpenGLFontRenderer::UpdateRender()
 			uvs[uindex + 11] = v + uvyAdvance;
 
 			startX += static_cast<float>((glyph.advance * scale));
+
+			maxX = max(maxX, x + w);
+			maxY = max(maxY, y + h);
 		}
 	}
 
-	renderer->AddTriangles(verts, charCount * 36,uvs, charCount * 24);
+	totalSize.x = abs(maxX - renderStart.x);
+	totalSize.y = abs(maxY - renderStart.y);
+
+	renderer->AddTriangles(verts, theCount * 36,uvs, theCount * 24);
 
 	delete[] verts;
 	delete[] uvs;
