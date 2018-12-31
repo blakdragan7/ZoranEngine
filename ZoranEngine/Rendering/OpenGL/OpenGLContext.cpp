@@ -32,9 +32,6 @@
 
 #include <Utils/Statistics.h>
 
-#include <ThirdParty/imgui/imgui.h>
-#include <ThirdParty/imgui/imgui_impl_opengl3.h>
-
 OpenGLContext::OpenGLContext(WindowHandle handle) : alphaEnabled(false)
 {
 #ifdef _WIN32
@@ -85,18 +82,11 @@ OpenGLContext::OpenGLContext(WindowHandle handle) : alphaEnabled(false)
 		exit(0);
 	}
 
-	// Setup Dear ImGui binding
-
-	ImGui_ImplOpenGL3_Init("#version 330");
-	ImGui::StyleColorsDark();
 #endif
 }
 
 OpenGLContext::~OpenGLContext()
 {
-	ImGui_ImplOpenGL3_Shutdown();
-
-
 #ifdef _WIN32
 	wglDeleteContext((HGLRC)context);
 #endif

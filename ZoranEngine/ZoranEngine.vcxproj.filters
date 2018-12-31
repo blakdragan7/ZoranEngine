@@ -46,9 +46,6 @@
     <Filter Include="ZoranEngine\Core\Components">
       <UniqueIdentifier>{ad6f12ee-f78f-4834-857a-26ec39173167}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ZoranEngine\ThirdParty\imgui">
-      <UniqueIdentifier>{4b33207e-80aa-4cda-a8c2-9f8fce245340}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ZoranEngine\ThirdParty">
       <UniqueIdentifier>{d27c10f9-1a76-4052-a3cb-f723cb45e8d4}</UniqueIdentifier>
     </Filter>
@@ -398,21 +395,6 @@
     </ClCompile>
     <ClCompile Include="Core\Components\VisibleComponentBase.cpp">
       <Filter>ZoranEngine\Core\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="ThirdParty\imgui\imgui.cpp">
-      <Filter>ZoranEngine\ThirdParty\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="ThirdParty\imgui\imgui_demo.cpp">
-      <Filter>ZoranEngine\ThirdParty\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="ThirdParty\imgui\imgui_draw.cpp">
-      <Filter>ZoranEngine\ThirdParty\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="ThirdParty\imgui\imgui_impl_opengl3.cpp">
-      <Filter>ZoranEngine\ThirdParty\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="ThirdParty\imgui\imgui_impl_win32.cpp">
-      <Filter>ZoranEngine\ThirdParty\imgui</Filter>
     </ClCompile>
     <ClCompile Include="ThirdParty\msdfgen\core\Bitmap.cpp">
       <Filter>ZoranEngine\ThirdParty\msdfgen\core</Filter>
@@ -1000,30 +982,6 @@
     </ClInclude>
     <ClInclude Include="Core\Containers\ZLinkedList.h">
       <Filter>ZoranEngine\Core\Containers</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\imgui\imconfig.h">
-      <Filter>ZoranEngine\ThirdParty\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\imgui\imgui.h">
-      <Filter>ZoranEngine\ThirdParty\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\imgui\imgui_impl_opengl3.h">
-      <Filter>ZoranEngine\ThirdParty\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\imgui\imgui_impl_win32.h">
-      <Filter>ZoranEngine\ThirdParty\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\imgui\imgui_internal.h">
-      <Filter>ZoranEngine\ThirdParty\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\imgui\stb_rect_pack.h">
-      <Filter>ZoranEngine\ThirdParty\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\imgui\stb_textedit.h">
-      <Filter>ZoranEngine\ThirdParty\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\imgui\stb_truetype.h">
-      <Filter>ZoranEngine\ThirdParty\imgui</Filter>
     </ClInclude>
     <ClInclude Include="ThirdParty\assimp\ai_assert.h">
       <Filter>ZoranEngine\ThirdParty\assimp</Filter>

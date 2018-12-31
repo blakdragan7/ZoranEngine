@@ -18,8 +18,6 @@
 
 #include <Utils/Statistics.h>
 
-#include <ThirdParty/imgui/imgui.h>
-
 static unsigned long long numBuckets = 0;
 
 QuadTreeCollisionBucket::QuadTreeCollisionBucket(std::string name, Vec2D pos, Vec2D size, unsigned maxObjects,QuadTreeCollisionBucket * parent) : CollisionBucket2DBase(name,pos,maxObjects)
@@ -489,36 +487,6 @@ void QuadTreeCollisionBucket::PrintCollisionForObjectTraverseUp(CollisionObject2
 	}
 
 	if (parent)parent->PrintCollisionForObjectTraverseUp(object);
-}
-
-void QuadTreeCollisionBucket::ImGuiDraw()
-{
-	ImGui::Begin("QuadTreeCollisionBucket Contents");
-
-	DrawImGuiDown();
-
-	ImGui::End();
-}
-
-void QuadTreeCollisionBucket::DrawImGuiDown(unsigned depth)
-{
-	if (ImGui::TreeNode(sceneObject->readableName->c_str()))
-	{
-		for (auto object : collisionObjects)
-		{
-			ImGui::Text((object->GetAffectedComponent()->GetSceneName()));
-		}
-
-		if (hasSubdivided)
-		{
-			children[0]->DrawImGuiDown(depth + 1);
-			children[1]->DrawImGuiDown(depth + 1);
-			children[2]->DrawImGuiDown(depth + 1);
-			children[3]->DrawImGuiDown(depth + 1);
-		}
-
-		ImGui::TreePop();
-	}
 }
 
 void QuadTreeCollisionBucket::PrintAllCollisions()

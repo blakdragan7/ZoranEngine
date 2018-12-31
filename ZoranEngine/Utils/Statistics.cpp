@@ -6,9 +6,6 @@
 #include <iomanip>
 #include <sstream>
 
-#include <ThirdParty/imgui/imgui.h>
-#include <ThirdParty/imgui/imgui_impl_opengl3.h>
-
 #include <ZGI/Windows/ZGIDebugWindow.h>
 #include <ZGI/Panels/ZGITreePanel.h>
 

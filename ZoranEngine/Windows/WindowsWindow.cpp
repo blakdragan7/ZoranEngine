@@ -8,11 +8,6 @@
 
 #include <ZGI/Windows/ZGIVirtualWindow.h>
 
-#include <ThirdParty/imgui/imgui.h>
-#include <ThirdParty/imgui/imgui_impl_win32.h>
-
-extern IMGUI_IMPL_API LRESULT  ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
 static LRESULT CALLBACK wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 WindowsWindow::WindowsWindow(ZoranEngine* engine) :  WindowBase(engine)
@@ -26,12 +21,8 @@ WindowsWindow::~WindowsWindow()
 {
 	if (hwnd)
 	{
-		ImGui_ImplWin32_Shutdown();
-
 		CloseWindow(hwnd);
 		DestroyWindow(hwnd);
-
-		ImGui::DestroyContext();
 	}
 }
 
@@ -74,12 +65,6 @@ bool WindowsWindow::MakeWindow(const char* title,int x, int y, int w, int h)
 
 	dc = GetDC(hwnd);
 	
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO(); (void)io;
-
-	ImGui_ImplWin32_Init(hwnd);
-
 	return true;
 }
 
@@ -188,8 +173,6 @@ void WindowsWindow::SwapBuffers()
 
 static LRESULT CALLBACK wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam);
-	
 	WindowsWindow *pThis = 0;
 
 	if (uMsg == WM_NCCREATE)

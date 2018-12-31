@@ -44,8 +44,6 @@
 #include <Utils/FileLogger.h>
 
 #include <Utils/Statistics.h>
-#include <ThirdParty/imgui/imgui.h>
-#include <ThirdParty/imgui/imgui_impl_opengl3.h>
 
 #include <Core/Audio/AL/OALAudioEngine.h>
 

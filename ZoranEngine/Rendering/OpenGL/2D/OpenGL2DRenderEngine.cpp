@@ -3,9 +3,6 @@
 
 #include <Utils/Statistics.h>
 
-#include <ThirdParty/imgui/imgui.h>
-#include <ThirdParty/imgui/imgui_impl_opengl3.h>
-
 #include <Core/2D/Components/Visible2DComponent.h>
 
 #include <Utils/ListAddons.hpp>

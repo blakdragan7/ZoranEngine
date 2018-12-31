@@ -6,9 +6,6 @@
 
 #include <Core/3D/Components/Visible3DComponent.h>
 
-#include <ThirdParty/imgui/imgui.h>
-#include <ThirdParty/imgui/imgui_impl_opengl3.h>
-
 #include <Rendering/OpenGL/3D/StandardShader3D.h>
 
 #include <Rendering/OpenGL/OpenGLContext.h>
