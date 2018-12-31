@@ -143,6 +143,8 @@ public:
 
 	int GetLastCursorPos()const;
 
+	inline bool GetIsDirty()const { return isDirty; }
+
 	inline FontResource* GetFontResource()const { return fontResource; }
 
 	inline Vec2D GetRenderStart()const { return renderStart; }

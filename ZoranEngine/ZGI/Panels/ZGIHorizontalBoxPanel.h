@@ -19,6 +19,7 @@ public:
 	void MoveWidgetLeft(ZGIWidget* widget);
 
 	void AddWidget(ZGIWidget* widget);
+	void RemoveWidget(ZGIWidget* widget);
 	void SetSizeForWidget(float size, ZGIWidget* widget);
 	void SetSizeForPosition(float size, int position);
 	void CommitSizes();

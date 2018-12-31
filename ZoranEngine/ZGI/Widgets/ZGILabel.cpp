@@ -171,11 +171,3 @@ void ZGILabel::ContainerResized(Vec2D newSize, Vec2D oldSize)
 {
 	// TODO: some ancher stuff
 }
-
-Vector2D ZGILabel::GetSize()const
-{
-	if (isDirty)
-		renderer->UpdateRender();
-
-	return renderer->GetTotalSize();
-}

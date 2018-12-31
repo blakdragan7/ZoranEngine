@@ -77,6 +77,15 @@ void ZGIVerticalBoxPanel::AddWidget(ZGIWidget * widget)
 	needsSocketsSized = true;
 }
 
+void ZGIVerticalBoxPanel::RemoveWidget(ZGIWidget * widget)
+{
+	auto& itr = std::find(sockets->begin(), sockets->end(), widget);
+	if (itr != sockets->end())
+	{
+		sockets->erase(itr);
+	}
+}
+
 void ZGIVerticalBoxPanel::SetSizeForWidget(float percentage, ZGIWidget * widget)
 {
 
@@ -172,6 +181,8 @@ void ZGIVerticalBoxPanel::Render(const Matrix44 & projection)
 		UpdateSocketPositions();
 		needsSocketsSized = false;
 	}
+
+	ZGIPanel::Render(projection);
 
 	for (auto& s : *sockets)
 	{

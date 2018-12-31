@@ -684,6 +684,9 @@
     <ClCompile Include="ZGI\Core\ZGIBasicSocket.cpp">
       <Filter>ZoranEngine\ZGI\Core</Filter>
     </ClCompile>
+    <ClCompile Include="ZGI\Panels\ZGIOverlayPanel.cpp">
+      <Filter>ZoranEngine\ZGI\Panels</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -2122,6 +2125,9 @@
     </ClInclude>
     <ClInclude Include="ZGI\Core\ZGIBasicSocket.h">
       <Filter>ZoranEngine\ZGI\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="ZGI\Panels\ZGIOverlayPanel.h">
+      <Filter>ZoranEngine\ZGI\Panels</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

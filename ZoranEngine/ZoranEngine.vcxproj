@@ -262,6 +262,7 @@
     <ClCompile Include="ZGI\Panels\ZGIGridPanel.cpp" />
     <ClCompile Include="ZGI\Panels\ZGIHorizontalBoxPanel.cpp" />
     <ClCompile Include="ZGI\Panels\ZGIListPanel.cpp" />
+    <ClCompile Include="ZGI\Panels\ZGIOverlayPanel.cpp" />
     <ClCompile Include="ZGI\Panels\ZGIPanel.cpp" />
     <ClCompile Include="ZGI\Panels\ZGIScrollPanel.cpp" />
     <ClCompile Include="ZGI\Panels\ZGITreePanel.cpp" />
@@ -743,6 +744,7 @@
     <ClInclude Include="ZGI\Panels\ZGIGridPanel.h" />
     <ClInclude Include="ZGI\Panels\ZGIHorizontalBoxPanel.h" />
     <ClInclude Include="ZGI\Panels\ZGIListPanel.h" />
+    <ClInclude Include="ZGI\Panels\ZGIOverlayPanel.h" />
     <ClInclude Include="ZGI\Panels\ZGIPanel.h" />
     <ClInclude Include="ZGI\Panels\ZGIScrollPanel.h" />
     <ClInclude Include="ZGI\Panels\ZGITreePanel.h" />

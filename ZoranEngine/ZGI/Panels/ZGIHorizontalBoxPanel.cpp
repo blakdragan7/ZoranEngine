@@ -120,6 +120,15 @@ void ZGIHorizontalBoxPanel::AddWidget(ZGIWidget * widget)
 	needsSocketsSized = true;
 }
 
+void ZGIHorizontalBoxPanel::RemoveWidget(ZGIWidget * widget)
+{
+	auto& itr = std::find(sockets->begin(), sockets->end(), widget);
+	if (itr != sockets->end())
+	{
+		sockets->erase(itr);
+	}
+}
+
 const ZGIBasicSocket * ZGIHorizontalBoxPanel::SocketForPosition(int position)const
 {
 	if (sockets->size() > position)
@@ -172,10 +181,10 @@ void ZGIHorizontalBoxPanel::Render(const Matrix44 & projection)
 		needsSocketsSized = false;
 	}
 
+	ZGIPanel::Render(projection);
+
 	for (auto& s : *sockets)
 	{
 		s.content->Render(projection);
 	}
-
-	ZGIPanel::Render(projection);
 }

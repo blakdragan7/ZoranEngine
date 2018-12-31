@@ -50,8 +50,6 @@ public:
 
 	virtual void ContainerResized(Vec2D newSize, Vec2D oldSize)override;
 	
-	virtual Vector2D GetSize()const override;
-
 	virtual bool DoesContainText()const override { return true; }
 	virtual const char* GetClassString()const override { return "ZGILabel"; }
 };

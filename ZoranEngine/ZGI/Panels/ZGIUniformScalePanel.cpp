@@ -54,7 +54,6 @@ void ZGIUniformScalePanel::AddWidget(ZGIWidget * widget)
 		assert(false);
 	}
 
-	// force copy
 	contentStartingSize = widget->GetBounds();
 
 	content = widget;
