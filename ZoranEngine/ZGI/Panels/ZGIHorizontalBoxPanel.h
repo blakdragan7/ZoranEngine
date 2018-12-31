@@ -15,6 +15,9 @@ public:
 	ZGIHorizontalBoxPanel(ZGIVirtualWindow* owningWindow);
 	~ZGIHorizontalBoxPanel();
 	
+	void MoveWidgetRight(ZGIWidget* widget);
+	void MoveWidgetLeft(ZGIWidget* widget);
+
 	void AddWidget(ZGIWidget* widget);
 	void SetSizeForWidget(float size, ZGIWidget* widget);
 	void SetSizeForPosition(float size, int position);

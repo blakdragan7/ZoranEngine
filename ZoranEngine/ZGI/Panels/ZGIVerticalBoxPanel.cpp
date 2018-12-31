@@ -30,6 +30,47 @@ ZGIVerticalBoxPanel::~ZGIVerticalBoxPanel()
 	delete sockets;
 }
 
+void ZGIVerticalBoxPanel::MoveWidgetUp(ZGIWidget * widget)
+{
+	auto& itr = std::find(sockets->begin(), sockets->end(), widget);
+	if (itr == sockets->end())
+	{
+		Log(LogLevel_Warning, "Trying To Move Invalid Widget!\n");
+		return;
+	}
+
+	auto nextItr = itr + 1;
+	if (nextItr == sockets->end())
+		std::rotate(sockets->begin(), sockets->end() - 1, sockets->end());
+	else
+		std::iter_swap(itr, nextItr);
+
+	needsSocketsSized = true;
+}
+
+void ZGIVerticalBoxPanel::MoveWidgetDown(ZGIWidget * widget)
+{
+	auto& itr = std::find(sockets->begin(), sockets->end(), widget);
+	if (itr == sockets->end())
+	{
+		Log(LogLevel_Warning, "Trying To Move Invalid Widget!\n");
+		return;
+	}
+
+	if (itr == sockets->begin())
+	{
+		std::rotate(sockets->begin(), sockets->begin() + 1, sockets->end());
+	}
+	else
+	{
+		auto nextItr = itr - 1;
+
+		std::iter_swap(itr, nextItr);
+	}
+
+	needsSocketsSized = true;
+}
+
 void ZGIVerticalBoxPanel::AddWidget(ZGIWidget * widget)
 {
 	sockets->push_back({ widget,this });
@@ -48,6 +89,7 @@ void ZGIVerticalBoxPanel::SetSizeForWidget(float percentage, ZGIWidget * widget)
 	}
 
 	itr->height = percentage;
+	needsSocketsSized = true;
 }
 
 void ZGIVerticalBoxPanel::SetSizeForPosition(float percentage, int position)
@@ -61,6 +103,7 @@ void ZGIVerticalBoxPanel::SetSizeForPosition(float percentage, int position)
 	auto& socket = (*sockets)[position];
 
 	socket.height = percentage;
+	needsSocketsSized = true;
 }
 
 void ZGIVerticalBoxPanel::CommitSizes()

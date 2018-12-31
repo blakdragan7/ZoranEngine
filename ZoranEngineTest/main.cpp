@@ -183,8 +183,8 @@ void TestGUIStuff()
 
 	auto window = engine.GetMainWindow()->GetRootVirtualWindow();
 
-	//auto p = new ZGIVerticalBoxPanel(window);
-	auto p = new ZGIHorizontalBoxPanel(window);
+	auto p = new ZGIVerticalBoxPanel(window);
+	//auto p = new ZGIHorizontalBoxPanel(window);
 
 	auto image1 = new ZGIImage(window);
 	auto image2 = new ZGIImage(window);
@@ -201,8 +201,6 @@ void TestGUIStuff()
 	p->AddWidget(image3);
 	p->AddWidget(image4);
 
-	p->SetSizeForPosition(5.0f, 2);
-	
 	window->SetRootContent(p);
 
 	engine.MainLoop();

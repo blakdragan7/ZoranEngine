@@ -15,6 +15,9 @@ public:
 	ZGIVerticalBoxPanel(ZGIVirtualWindow* owningWindow);
 	~ZGIVerticalBoxPanel();
 	
+	void MoveWidgetUp(ZGIWidget* widget);
+	void MoveWidgetDown(ZGIWidget* widget);
+
 	void AddWidget(ZGIWidget* widget);
 	void SetSizeForWidget(float size, ZGIWidget* widget);
 	void SetSizeForPosition(float size, int position);
