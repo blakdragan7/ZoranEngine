@@ -693,6 +693,15 @@
     <ClCompile Include="ZGI\Widgets\ZGICursor.cpp">
       <Filter>ZoranEngine\ZGI\Widgets</Filter>
     </ClCompile>
+    <ClCompile Include="ZGI\Panels\ZGIHorizontalBoxPanel.cpp">
+      <Filter>ZoranEngine\ZGI\Panels</Filter>
+    </ClCompile>
+    <ClCompile Include="ZGI\Panels\ZGIVerticalBoxPanel.cpp">
+      <Filter>ZoranEngine\ZGI\Panels</Filter>
+    </ClCompile>
+    <ClCompile Include="ZGI\Core\ZGIBasicSocket.cpp">
+      <Filter>ZoranEngine\ZGI\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -2146,6 +2155,15 @@
     </ClInclude>
     <ClInclude Include="ZGI\Widgets\ZGICursor.h">
       <Filter>ZoranEngine\ZGI\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="ZGI\Panels\ZGIHorizontalBoxPanel.h">
+      <Filter>ZoranEngine\ZGI\Panels</Filter>
+    </ClInclude>
+    <ClInclude Include="ZGI\Panels\ZGIVerticalBoxPanel.h">
+      <Filter>ZoranEngine\ZGI\Panels</Filter>
+    </ClInclude>
+    <ClInclude Include="ZGI\Core\ZGIBasicSocket.h">
+      <Filter>ZoranEngine\ZGI\Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

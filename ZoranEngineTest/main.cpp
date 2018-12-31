@@ -15,6 +15,8 @@
 #include <Core/WindowBase.h>
 #include <ZGI/Windows/ZGIGameVirtualWindow.h>
 #include <ZGI/Windows/ZGIDebugWindow.h>
+#include <ZGI/Panels/ZGIHorizontalBoxPanel.h>
+#include <ZGI/Panels/ZGIVerticalBoxPanel.h>
 #include <ZGI/Panels/ZGIUniformScalePanel.h>
 #include <ZGI/Panels/ZGIFreeFormPanel.h>
 #include <ZGI/Panels/ZGIScrollPanel.h>
@@ -181,24 +183,26 @@ void TestGUIStuff()
 
 	auto window = engine.GetMainWindow()->GetRootVirtualWindow();
 
-	ZGIFreeFormPanel* p = new ZGIFreeFormPanel(window);
+	//auto p = new ZGIVerticalBoxPanel(window);
+	auto p = new ZGIHorizontalBoxPanel(window);
 
-	ZGITextEdit* text = new ZGITextEdit(window);
+	auto image1 = new ZGIImage(window);
+	auto image2 = new ZGIImage(window);
+	auto image3 = new ZGIImage(window);
+	auto image4 = new ZGIImage(window);
 
-	text->GetBrush()->SetBackgroudHue({ 0.3f,0.3f,0.3f,1.0f });
-	text->SetDrawBrush(true);
+	image1->SetImage("test.png");
+	image2->SetImage("test.png");
+	image3->SetImage("test.png");
+	image4->SetImage("test.png");
 
-	text->SetSize({900,300});
-	text->SetPosition({600,600});
+	p->AddWidget(image1);
+	p->AddWidget(image2);
+	p->AddWidget(image3);
+	p->AddWidget(image4);
+
+	p->SetSizeForPosition(5.0f, 2);
 	
-	text->SetAutoScaleFont(false);
-
-	text->SetFontSize(100);
-
-	//text->SetText(ASCII);
-
-	p->AddWidget(text);
-
 	window->SetRootContent(p);
 
 	engine.MainLoop();
