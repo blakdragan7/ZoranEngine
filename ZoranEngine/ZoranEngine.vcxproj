@@ -265,6 +265,7 @@
     <ClCompile Include="ZGI\Panels\ZGIOverlayPanel.cpp" />
     <ClCompile Include="ZGI\Panels\ZGIPanel.cpp" />
     <ClCompile Include="ZGI\Panels\ZGIScrollPanel.cpp" />
+    <ClCompile Include="ZGI\Panels\ZGISwitcherPanel.cpp" />
     <ClCompile Include="ZGI\Panels\ZGITreePanel.cpp" />
     <ClCompile Include="ZGI\Panels\ZGIUniformScalePanel.cpp" />
     <ClCompile Include="ZGI\Panels\ZGIVerticalBoxPanel.cpp" />
@@ -747,6 +748,7 @@
     <ClInclude Include="ZGI\Panels\ZGIOverlayPanel.h" />
     <ClInclude Include="ZGI\Panels\ZGIPanel.h" />
     <ClInclude Include="ZGI\Panels\ZGIScrollPanel.h" />
+    <ClInclude Include="ZGI\Panels\ZGISwitcherPanel.h" />
     <ClInclude Include="ZGI\Panels\ZGITreePanel.h" />
     <ClInclude Include="ZGI\Panels\ZGIUniformScalePanel.h" />
     <ClInclude Include="ZGI\Panels\ZGIVerticalBoxPanel.h" />

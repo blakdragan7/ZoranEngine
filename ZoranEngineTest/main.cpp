@@ -19,7 +19,9 @@
 #include <ZGI/Panels/ZGIVerticalBoxPanel.h>
 #include <ZGI/Panels/ZGIUniformScalePanel.h>
 #include <ZGI/Panels/ZGIFreeFormPanel.h>
+#include <ZGI/Panels/ZGISwitcherPanel.h>
 #include <ZGI/Panels/ZGIScrollPanel.h>
+#include <ZGI/Panels/ZGIOverlayPanel.h>
 #include <ZGI/Widgets/ZGIImage.h>
 #include <ZGI/Widgets/ZGILabel.h>
 #include <ZGI/Widgets/ZGIButton.h>
@@ -183,23 +185,26 @@ void TestGUIStuff()
 
 	auto window = engine.GetMainWindow()->GetRootVirtualWindow();
 
-	auto p = new ZGIVerticalBoxPanel(window);
+	auto p = new ZGISwitcherPanel(window);
+	//auto p = new ZGIOverlayPanel(window);
+	//auto s = new ZGIScrollPanel(window);
+	//auto s = new ZGIUniformScalePanel(window);
+	//auto p = new ZGIVerticalBoxPanel(window);
 	//auto p = new ZGIHorizontalBoxPanel(window);
 
 	auto image1 = new ZGIImage(window);
-	auto image2 = new ZGIImage(window);
-	auto image3 = new ZGIImage(window);
-	auto image4 = new ZGIImage(window);
+	auto text = new ZGILabel(window);
+
+	text->SetSize(window->GetWindowSize());
 
 	image1->SetImage("test.png");
-	image2->SetImage("test.png");
-	image3->SetImage("test.png");
-	image4->SetImage("test.png");
+	text->SetText("Overlayed\nOverlayed");
+
+	text->SetSize(window->GetWindowSize());
+	text->SetTextBounds(window->GetWindowSize());
 
 	p->AddWidget(image1);
-	p->AddWidget(image2);
-	p->AddWidget(image3);
-	p->AddWidget(image4);
+	p->AddWidget(text);
 
 	window->SetRootContent(p);
 
