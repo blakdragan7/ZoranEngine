@@ -4,10 +4,28 @@
 
 void ZGIWrapBoxPanel::UpdateWidgetPositions()
 {
+	Vector2D currentLocation = position;
 
+	currentLocation.y += size.y - contentSize.y;
+
+	Vector2D upperBounds = position + size;
+
+	for (auto& widget : *widgets)
+	{
+		if ((currentLocation.x + contentSize.x) >= upperBounds.x)
+		{
+			currentLocation.x = position.x;
+			currentLocation.y -= contentSize.y;
+		}
+
+		widget->SetPosition(currentLocation);
+		widget->SetSize(contentSize);
+
+		currentLocation.x += contentSize.x;
+	}
 }
 
-ZGIWrapBoxPanel::ZGIWrapBoxPanel(ZGIVirtualWindow* owningWindow) : needsUpdate(false), ZGIPanel(owningWindow)
+ZGIWrapBoxPanel::ZGIWrapBoxPanel(Vec2D contentSize, ZGIVirtualWindow* owningWindow) : contentSize(contentSize), needsUpdate(false), ZGIPanel(owningWindow)
 {
 	widgets = new std::vector<ZGIWidget*>;
 }
@@ -15,6 +33,24 @@ ZGIWrapBoxPanel::ZGIWrapBoxPanel(ZGIVirtualWindow* owningWindow) : needsUpdate(f
 ZGIWrapBoxPanel::~ZGIWrapBoxPanel()
 {
 	delete widgets;
+}
+
+void ZGIWrapBoxPanel::AddWidget(ZGIWidget * widget)
+{
+	widgets->push_back(widget);
+}
+
+void ZGIWrapBoxPanel::RemoveWidget(ZGIWidget * widget)
+{
+	auto &itr = std::find(widgets->begin(), widgets->end(), widget);
+	if (itr != widgets->end())
+	{
+		widgets->erase(itr);
+	}
+	else
+	{
+		Log(LogLevel_Warning, "Trying To Remove Invalid Widget");
+	}
 }
 
 bool ZGIWrapBoxPanel::ContainsWidget(ZGIWidget * widget) const

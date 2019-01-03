@@ -1,19 +1,26 @@
 #pragma once
 #include <ZGI\Panels\ZGIPanel.h>
 
-class ZGIWrapBoxPanel : public ZGIPanel
+class ZoranEngine_EXPORT ZGIWrapBoxPanel : public ZGIPanel
 {
 private:
 	std::vector<ZGIWidget*>* widgets;
 	bool needsUpdate;
 
+	Vector2D contentSize;
+
 private:
 	void UpdateWidgetPositions();
 
 public:
-	ZGIWrapBoxPanel(ZGIVirtualWindow* owningWindow);
+	ZGIWrapBoxPanel(Vec2D contentSize, ZGIVirtualWindow* owningWindow);
 	~ZGIWrapBoxPanel();
 	
+	void AddWidget(ZGIWidget* widget);
+	void RemoveWidget(ZGIWidget* widget);
+
+	inline void SetContentSize(Vec2D size) { contentSize = size; needsUpdate = true; }
+
 	/* Panel Override */
 
 	virtual bool ContainsWidget(ZGIWidget* widget)const override;
