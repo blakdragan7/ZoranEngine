@@ -53,7 +53,7 @@ void ZGILabel::RepositionTextFromAlignment()
 	renderer->SetRenderStart({ x, y });
 }
 
-ZGILabel::ZGILabel(ZGIVirtualWindow * owningWindow) : fontNeedsUpdate(false), autoScaleFont(true), alignment(Alignment_Left | Alignment_Top), ZGIWidget(owningWindow)
+ZGILabel::ZGILabel(ZGIVirtualWindow * owningWindow) : setBoundsFromSize(false), fontNeedsUpdate(false), autoScaleFont(true), alignment(Alignment_Left | Alignment_Top), ZGIWidget(owningWindow)
 {
 	auto rm = RM;
 	auto font = rm->FontForZFT("arial-msdf.zft");
@@ -61,7 +61,7 @@ ZGILabel::ZGILabel(ZGIVirtualWindow * owningWindow) : fontNeedsUpdate(false), au
 	size.x = 100; size.y = 100;
 }
 
-ZGILabel::ZGILabel(FontResource* font, ZGIVirtualWindow* owningWindow) : fontNeedsUpdate(false), autoScaleFont(true), alignment(Alignment_Left | Alignment_Top), ZGIWidget(owningWindow)
+ZGILabel::ZGILabel(FontResource* font, ZGIVirtualWindow* owningWindow) : setBoundsFromSize(false), fontNeedsUpdate(false), autoScaleFont(true), alignment(Alignment_Left | Alignment_Top), ZGIWidget(owningWindow)
 {
 	renderer = rEngine->CreateFontRenderer(font);
 
@@ -156,6 +156,11 @@ void ZGILabel::Render(const Matrix44 & projection)
 void ZGILabel::SetSize(Vec2D size)
 {
 	if (autoScaleFont)renderer->SetPPTSize(size.h * 0.9f);
+	if (setBoundsFromSize)
+	{
+		renderer->SetBounds(size);
+		textRenderBounds = size;
+	}
 	ZGIWidget::SetSize(size);
 }
 

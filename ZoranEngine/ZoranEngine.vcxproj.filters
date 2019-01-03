@@ -690,10 +690,12 @@
     <ClCompile Include="ZGI\Panels\ZGISwitcherPanel.cpp">
       <Filter>ZoranEngine\ZGI\Panels</Filter>
     </ClCompile>
-    <ClCompile Include="ZGIWrapBoxPanel.cpp">
-      <Filter>ZoranEngine\ZGI</Filter>
+    <ClCompile Include="ZGI\Panels\ZGIWrapBoxPanel.cpp">
+      <Filter>ZoranEngine\ZGI\Panels</Filter>
     </ClCompile>
-    <ClCompile Include="ZGISpacer.cpp" />
+    <ClCompile Include="ZGI\Widgets\ZGISpacer.cpp">
+      <Filter>ZoranEngine\ZGI\Widgets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -2139,10 +2141,12 @@
     <ClInclude Include="ZGI\Panels\ZGISwitcherPanel.h">
       <Filter>ZoranEngine\ZGI\Panels</Filter>
     </ClInclude>
-    <ClInclude Include="ZGIWrapBoxPanel.h">
-      <Filter>ZoranEngine\ZGI</Filter>
+    <ClInclude Include="ZGI\Panels\ZGIWrapBoxPanel.h">
+      <Filter>ZoranEngine\ZGI\Panels</Filter>
     </ClInclude>
-    <ClInclude Include="ZGISpacer.h" />
+    <ClInclude Include="ZGI\Widgets\ZGISpacer.h">
+      <Filter>ZoranEngine\ZGI\Widgets</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ZoranEngine.rc">

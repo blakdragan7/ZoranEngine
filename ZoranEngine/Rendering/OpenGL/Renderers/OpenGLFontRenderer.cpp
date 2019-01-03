@@ -234,7 +234,7 @@ void OpenGLFontRenderer::UpdateRender()
 			float h = glyph.size.h * scale;
 
 			float diffx = abs((x + w) - renderStart.x);
-			float diffy = abs((y + h) - renderStart.y);
+			float diffy = renderStart.y - (y - h);
 
 			if (shouldClip && (bounds.w <= diffx || bounds.h <= diffy))
 			{

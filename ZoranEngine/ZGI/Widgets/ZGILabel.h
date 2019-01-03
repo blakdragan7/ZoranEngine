@@ -10,6 +10,7 @@ private:
 	unsigned alignment;
 	bool autoScaleFont;
 	bool fontNeedsUpdate;
+	bool setBoundsFromSize;
 
 protected:
 	FontRenderer * renderer;
@@ -25,6 +26,8 @@ public:
 	~ZGILabel();
 
 	inline void SetAutoScaleFont(bool autoScale) { autoScaleFont = autoScale; }
+
+	inline void SetBoundsFromSize(bool setBounds) { setBoundsFromSize = setBounds; }
 
 	void SetShadowColor(Vec3D color);
 	void SetShadowVector(Vec2D vector);

@@ -253,11 +253,6 @@
     <ClCompile Include="Windows\WindowsMouse.cpp" />
     <ClCompile Include="Windows\WindowsThread.cpp" />
     <ClCompile Include="Windows\WindowsWindow.cpp" />
-    <ClCompile Include="ZGISpacer.cpp" />
-    <ClCompile Include="ZGIWrapBoxPanel.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="ZGI\Core\ZGIBase.cpp" />
     <ClCompile Include="ZGI\Core\ZGIBasicSocket.cpp" />
     <ClCompile Include="ZGI\Core\ZGIBrush.cpp" />
@@ -274,11 +269,13 @@
     <ClCompile Include="ZGI\Panels\ZGITreePanel.cpp" />
     <ClCompile Include="ZGI\Panels\ZGIUniformScalePanel.cpp" />
     <ClCompile Include="ZGI\Panels\ZGIVerticalBoxPanel.cpp" />
+    <ClCompile Include="ZGI\Panels\ZGIWrapBoxPanel.cpp" />
     <ClCompile Include="ZGI\Widgets\ZGIButton.cpp" />
     <ClCompile Include="ZGI\Widgets\ZGICursor.cpp" />
     <ClCompile Include="ZGI\Widgets\ZGIImage.cpp" />
     <ClCompile Include="ZGI\Widgets\ZGILabel.cpp" />
     <ClCompile Include="ZGI\Widgets\ZGIScrollBar.cpp" />
+    <ClCompile Include="ZGI\Widgets\ZGISpacer.cpp" />
     <ClCompile Include="ZGI\Widgets\ZGITextEdit.cpp" />
     <ClCompile Include="ZGI\Widgets\ZGIWidget.cpp" />
     <ClCompile Include="ZGI\Windows\ZGIDebugWindow.cpp" />
@@ -741,11 +738,6 @@
     <ClInclude Include="Windows\WindowsMouse.h" />
     <ClInclude Include="Windows\WindowsThread.h" />
     <ClInclude Include="Windows\WindowsWindow.h" />
-    <ClInclude Include="ZGISpacer.h" />
-    <ClInclude Include="ZGIWrapBoxPanel.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="ZGI\Core\ZGIBase.h" />
     <ClInclude Include="ZGI\Core\ZGIBasicSocket.h" />
     <ClInclude Include="ZGI\Core\ZGIBrush.h" />
@@ -762,11 +754,13 @@
     <ClInclude Include="ZGI\Panels\ZGITreePanel.h" />
     <ClInclude Include="ZGI\Panels\ZGIUniformScalePanel.h" />
     <ClInclude Include="ZGI\Panels\ZGIVerticalBoxPanel.h" />
+    <ClInclude Include="ZGI\Panels\ZGIWrapBoxPanel.h" />
     <ClInclude Include="ZGI\Widgets\ZGIButton.h" />
     <ClInclude Include="ZGI\Widgets\ZGICursor.h" />
     <ClInclude Include="ZGI\Widgets\ZGIImage.h" />
     <ClInclude Include="ZGI\Widgets\ZGILabel.h" />
     <ClInclude Include="ZGI\Widgets\ZGIScrollBar.h" />
+    <ClInclude Include="ZGI\Widgets\ZGISpacer.h" />
     <ClInclude Include="ZGI\Widgets\ZGITextEdit.h" />
     <ClInclude Include="ZGI\Widgets\ZGIWidget.h" />
     <ClInclude Include="ZGI\Windows\ZGIDebugWindow.h" />
