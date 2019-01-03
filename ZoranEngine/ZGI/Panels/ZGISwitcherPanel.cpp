@@ -56,9 +56,7 @@ void ZGISwitcherPanel::SetIndexActive(int index)
 
 bool ZGISwitcherPanel::ContainsWidget(ZGIWidget * widget) const
 {
-	if (activeWidget != -1)
-		return std::find(widgets->begin(),widgets->end(),widget) != widgets->end();
-	else return nullptr;
+	return std::find(widgets->begin(),widgets->end(),widget) != widgets->end();
 }
 
 bool ZGISwitcherPanel::CanAddWidget(ZGIWidget * widget) const

@@ -253,6 +253,11 @@
     <ClCompile Include="Windows\WindowsMouse.cpp" />
     <ClCompile Include="Windows\WindowsThread.cpp" />
     <ClCompile Include="Windows\WindowsWindow.cpp" />
+    <ClCompile Include="ZGISpacer.cpp" />
+    <ClCompile Include="ZGIWrapBoxPanel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="ZGI\Core\ZGIBase.cpp" />
     <ClCompile Include="ZGI\Core\ZGIBasicSocket.cpp" />
     <ClCompile Include="ZGI\Core\ZGIBrush.cpp" />
@@ -736,6 +741,11 @@
     <ClInclude Include="Windows\WindowsMouse.h" />
     <ClInclude Include="Windows\WindowsThread.h" />
     <ClInclude Include="Windows\WindowsWindow.h" />
+    <ClInclude Include="ZGISpacer.h" />
+    <ClInclude Include="ZGIWrapBoxPanel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="ZGI\Core\ZGIBase.h" />
     <ClInclude Include="ZGI\Core\ZGIBasicSocket.h" />
     <ClInclude Include="ZGI\Core\ZGIBrush.h" />
