@@ -34,6 +34,8 @@ bool FontRenderer::UpdateWordFromGlyphInsert(UniWord & word, int position, uint3
 		nextWord.glyphs.insert(nextWord.glyphs.begin(), copy.glyphs.begin() + position, copy.glyphs.end());
 		words->insert(std::find(words->begin(), words->end(), word) + 1, nextWord);
 
+		lineCount++;
+
 		return true;
 	}
 	else if (glyph == '\t')
@@ -57,8 +59,10 @@ bool FontRenderer::UpdateWordFromGlyphInsert(UniWord & word, int position, uint3
 	}
 }
 
-bool FontRenderer::UpdateWordFromGlyph(UniWord & word, uint32_t glyph, bool& wasCarriageReturn, bool& wasNewLine, bool& wasTab)
+bool FontRenderer::UpdateWordFromGlyph(UniWord & word, uint32_t glyph, bool& wasCarriageReturn, bool& wasNewLine, bool& wasTab, float& currentLineSize)
 {
+	float uniformScale = 1.0f;
+
 	if (glyph == ' ')
 	{
 		wasCarriageReturn = false;
@@ -68,6 +72,7 @@ bool FontRenderer::UpdateWordFromGlyph(UniWord & word, uint32_t glyph, bool& was
 		word.spaceAdvance = spaceAdvance;
 		words->push_back(word);
 		word = UniWord();
+		currentLineSize += spaceAdvance;
 		return true;
 	}
 	else if (glyph == '\n' || glyph == '\r')
@@ -80,7 +85,6 @@ bool FontRenderer::UpdateWordFromGlyph(UniWord & word, uint32_t glyph, bool& was
 			return false;
 		}
 		
-		wasNewLine = true;
 		// we only use new line char for new lines no carriage returnes
 		word.glyphs.push_back('\n');
 
@@ -88,8 +92,15 @@ bool FontRenderer::UpdateWordFromGlyph(UniWord & word, uint32_t glyph, bool& was
 		{
 			words->push_back(word);
 			word = UniWord();
+			lineCount++;
+
+			maxLineSize = max(maxLineSize, currentLineSize);
+
+			currentLineSize = 0;
 		}
-		
+
+		wasNewLine = true;
+
 		if (glyph == '\r')
 		{
 			word.newLineType = NewLineType_Carriage_Return;
@@ -107,6 +118,8 @@ bool FontRenderer::UpdateWordFromGlyph(UniWord & word, uint32_t glyph, bool& was
 	{
 		word.glyphs.push_back(glyph);
 		
+		currentLineSize+= spaceAdvance * 4;
+
 		wasTab = true;
 		wasNewLine = false;
 		wasCarriageReturn = false;
@@ -117,11 +130,13 @@ bool FontRenderer::UpdateWordFromGlyph(UniWord & word, uint32_t glyph, bool& was
 	}
 	else
 	{
+		double advance = fontResource->GlyphForUnicode(glyph).advance;
 		word.glyphs.push_back(glyph);
-		word.advance += fontResource->GlyphForUnicode(glyph).advance;
+		word.advance += advance;
 		wasCarriageReturn = false;
 		wasNewLine = false;
 		wasTab = false;
+		currentLineSize += (float)advance * uniformScale;
 		charCount++;
 		return false;
 	}
@@ -157,7 +172,7 @@ bool FontRenderer::GlyphWalkForPos(int pos, UniWord** word, int& insertPos)const
 }
 
 FontRenderer::FontRenderer(FontResource* font) : isDirty(false), fontResource(font), shouldClip(true), shouldWordWrap(true),
-		thickness(0.0f), border(0.0f), shadowSoftness(0.0f), shadowOpacity(0.0f), charCount(0)
+		thickness(0.0f), border(0.0f), shadowSoftness(0.0f), shadowOpacity(0.0f), charCount(0), lineCount(0), maxLineSize(0)
 {
 	words = new std::vector<UniWord>();
 	shadowVector = Vector2D(0.0625f, 0.03125f);
@@ -370,16 +385,22 @@ void FontRenderer::SetText(const char * text)
 	const char* ptr = text;
 	
 	charCount = 0;
+	lineCount = 0;
+	maxLineSize = 0;
+	float currentLineSize = 0;
 	bool wasCarriageReturn = false;
 	bool wasNewLine = false;
 	bool wasTab = false;
 	UniWord word;
 	for (; *ptr != 0; ptr++)
 	{
-		UpdateWordFromGlyph(word, *ptr, wasCarriageReturn, wasNewLine, wasTab);
+		UpdateWordFromGlyph(word, *ptr, wasCarriageReturn, wasNewLine, wasTab, currentLineSize);
 
 	}
 	words->push_back(word);
+
+	maxLineSize = max(maxLineSize, currentLineSize);
+	lineCount++;
 
 	isDirty = true;
 }
@@ -393,12 +414,18 @@ void FontRenderer::SetText(const char16_t * text)
 	bool wasNewLine = false;
 	bool wasTab = false;
 	charCount = 0;
+	lineCount = 0;
+	maxLineSize = 0;
+	float currentLineSize = 0;
 	UniWord word;
 	for (; *ptr != 0; ptr++)
 	{
-		UpdateWordFromGlyph(word,*ptr,wasCarriageReturn,wasNewLine,wasTab);
+		UpdateWordFromGlyph(word,*ptr,wasCarriageReturn,wasNewLine,wasTab, currentLineSize);
 	}
 	words->push_back(word);
+
+	maxLineSize = max(maxLineSize, currentLineSize);
+	lineCount++;
 
 	isDirty = true;
 }
@@ -412,12 +439,18 @@ void FontRenderer::SetText(const char32_t * text)
 	bool wasNewLine = false;
 	bool wasTab = false;
 	charCount = 0;
+	lineCount = 0;
+	maxLineSize = 0;
+	float currentLineSize = 0;
 	UniWord word;
 	for (; *ptr != 0; ptr++)
 	{
-		UpdateWordFromGlyph(word, *ptr, wasCarriageReturn, wasNewLine, wasTab);
+		UpdateWordFromGlyph(word, *ptr, wasCarriageReturn, wasNewLine, wasTab, currentLineSize);
 	}
 	words->push_back(word);
+
+	maxLineSize = max(maxLineSize, currentLineSize);
+	lineCount++;
 
 	isDirty = true;
 }
@@ -430,12 +463,18 @@ void FontRenderer::SetText(const std::string & text)
 	bool wasNewLine = false;
 	bool wasTab = false;
 	charCount = 0;
+	lineCount = 0;
+	maxLineSize = 0;
+	float currentLineSize = 0;
 	UniWord word;
 	for (const char c : text)
 	{
-		UpdateWordFromGlyph(word, c, wasCarriageReturn, wasNewLine, wasTab);
+		UpdateWordFromGlyph(word, c, wasCarriageReturn, wasNewLine, wasTab, currentLineSize);
 	}
 	words->push_back(word);
+
+	maxLineSize = max(maxLineSize, currentLineSize);
+	lineCount++;
 
 	isDirty = true;
 }
@@ -448,13 +487,19 @@ void FontRenderer::SetText(const std::wstring & text)
 	bool wasNewLine = false;
 	bool wasTab = false;
 	charCount = 0;
+	lineCount = 0;
+	maxLineSize = 0;
+	float currentLineSize = 0;
 	UniWord word;
 
 	for (const wchar_t c : text)
 	{
-		UpdateWordFromGlyph(word, c, wasCarriageReturn, wasNewLine, wasTab);
+		UpdateWordFromGlyph(word, c, wasCarriageReturn, wasNewLine, wasTab, currentLineSize);
 	}
 	words->push_back(word);
+
+	maxLineSize = max(maxLineSize, currentLineSize);
+	lineCount++;
 
 	isDirty = true;
 }

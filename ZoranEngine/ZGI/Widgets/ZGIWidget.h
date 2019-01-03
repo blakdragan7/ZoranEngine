@@ -11,15 +11,19 @@ private:
 	bool mouseHasEntered;
 
 protected:
+	/* bounds refers to the absolute size of the widget. I.E. an image widgets bounds is the size of the image 
+	*  Bounds can only be set by the widget because only it should be able to determine what the absolute size would be */
 	Vector2D bounds;
-	Vector2D position;
+	/* size represents the size of the widget in widget space. */
 	Vector2D size;
-	Matrix44 scale;
+	/* position of the widget in widget space */
+	Vector2D position;
 
 	// render cache
 	Matrix44 translate;
 	Matrix44 rotation;
 	Matrix44 modelCache;
+	Matrix44 scale;
 
 	// owming window
 	ZGIVirtualWindow* owningWindow;
@@ -47,7 +51,6 @@ public:
 	virtual void SetSize(Vec2D size);
 	virtual void SetPosition(Vec2D position);
 
-	virtual void SetBounds(Vec2D bounds);
 	virtual Vector2D GetBounds()const;
 
 	// does not affect HitTest, so even if it is rotated, it will still receive mouse events as if it wasn't

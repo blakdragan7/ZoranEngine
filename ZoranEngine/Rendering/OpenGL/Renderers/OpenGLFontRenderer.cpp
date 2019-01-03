@@ -134,7 +134,7 @@ void OpenGLFontRenderer::UpdateRender()
 
 	float maxh = 0;
 
-	float newLineShift = (pptSize);// +(pptSize * 0.05f);
+	float newLineShift = pptSize;
 
 	for (UniWord& word : *words)
 	{
@@ -228,7 +228,7 @@ void OpenGLFontRenderer::UpdateRender()
 			Vector2D bearing = glyph.bearing;
 
 			float x = startX + (bearing.x * scale);
-			float y = startY + (bearing.y * scale);
+			float y = startY - (bearing.y * scale);
 
 			float w = glyph.size.w * scale;
 			float h = glyph.size.h * scale;

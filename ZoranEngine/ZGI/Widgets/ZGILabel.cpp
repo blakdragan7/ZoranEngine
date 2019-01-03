@@ -35,25 +35,25 @@ void ZGILabel::RepositionTextFromAlignment()
 	if (alignment & Alignment_Right)
 	{
 		if (hasSetX)Log(LogLevel_Warning, "Only one of Alignment_Right or Alignment_Left should be set for Alignment but Both are set!!");
-		x = position.x + size.w - offset;
+		x = position.x + textRenderBounds.w - offset;
 		hasSetX = true;
 	}
 	if (alignment & Alignment_Top)
 	{
 		if (hasSetY)Log(LogLevel_Warning, "Only one of Alignment_Top or Alignment_Bottom should be set for Alignment but Both are set!!");
-		y = position.y + size.h - offset;
+		y = position.y + textRenderBounds.h - offset;
 		hasSetY = true;
 	}
 	if (alignment & Alignment_Center)
 	{
-		if(hasSetX == false)x = position.x + (size.w / 2.0f) - (renderer->GetPPTSize() * 0.5f);
-		if(hasSetY == false)y = position.y + (size.h / 2.0f) - (renderer->GetPPTSize() * 0.5f);
+		if(hasSetX == false)x = position.x + (textRenderBounds.w / 2.0f) - (renderer->GetPPTSize() * 0.5f);
+		if(hasSetY == false)y = position.y + (textRenderBounds.h / 2.0f) - (renderer->GetPPTSize() * 0.5f);
 	}
 
 	renderer->SetRenderStart({ x, y });
 }
 
-ZGILabel::ZGILabel(ZGIVirtualWindow * owningWindow) : autoScaleFont(true), alignment(Alignment_Left | Alignment_Top), ZGIWidget(owningWindow)
+ZGILabel::ZGILabel(ZGIVirtualWindow * owningWindow) : fontNeedsUpdate(false), autoScaleFont(true), alignment(Alignment_Left | Alignment_Top), ZGIWidget(owningWindow)
 {
 	auto rm = RM;
 	auto font = rm->FontForZFT("arial-msdf.zft");
@@ -61,7 +61,7 @@ ZGILabel::ZGILabel(ZGIVirtualWindow * owningWindow) : autoScaleFont(true), align
 	size.x = 100; size.y = 100;
 }
 
-ZGILabel::ZGILabel(FontResource* font, ZGIVirtualWindow* owningWindow) : autoScaleFont(true), alignment(Alignment_Left | Alignment_Top), ZGIWidget(owningWindow)
+ZGILabel::ZGILabel(FontResource* font, ZGIVirtualWindow* owningWindow) : fontNeedsUpdate(false), autoScaleFont(true), alignment(Alignment_Left | Alignment_Top), ZGIWidget(owningWindow)
 {
 	renderer = rEngine->CreateFontRenderer(font);
 
@@ -133,12 +133,19 @@ void ZGILabel::SetShouldClipFont(bool clip)
 	renderer->SetShouldClip(clip);
 }
 
+void ZGILabel::SetTextBounds(Vec2D bounds)
+{
+	renderer->SetBounds(bounds);
+	textRenderBounds = bounds;
+	fontNeedsUpdate = true;
+}
+
 void ZGILabel::Render(const Matrix44 & projection)
 {
-	if (isDirty)
+	if (isDirty || fontNeedsUpdate)
 	{
-		if(autoScaleFont)renderer->SetPPTSize(size.h * 0.9f);
 		RepositionTextFromAlignment();
+		fontNeedsUpdate = false;
 	}
 
 	ZGIWidget::Render(projection);
@@ -148,16 +155,8 @@ void ZGILabel::Render(const Matrix44 & projection)
 
 void ZGILabel::SetSize(Vec2D size)
 {
-	SetBounds(size);
+	if (autoScaleFont)renderer->SetPPTSize(size.h * 0.9f);
 	ZGIWidget::SetSize(size);
-}
-
-void ZGILabel::SetBounds(Vec2D bounds)
-{
-	renderer->SetBounds(bounds);
-	this->bounds = bounds;
-
-	isDirty = true;
 }
 
 void ZGILabel::SetPosition(Vec2D position)
@@ -165,6 +164,11 @@ void ZGILabel::SetPosition(Vec2D position)
 	this->position = position;
 
 	ZGIWidget::SetPosition(position);
+}
+
+Vector2D ZGILabel::GetBounds() const
+{
+	return Vector2D((float)renderer->GetMaxLineSize() * renderer->GetPPTSize(), (float)renderer->GetLineCount() * renderer->GetPPTSize());
 }
 
 void ZGILabel::ContainerResized(Vec2D newSize, Vec2D oldSize)

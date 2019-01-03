@@ -5,6 +5,7 @@ class ZoranEngine_EXPORT ZGIUniformScalePanel : public ZGIPanel
 private:
 	ZGIWidget*	content;
 	Vector2D	contentStartingSize; // contents starting size
+	bool		adjustPosition; // wether or not to move the content after scaling it
 
 private:
 	void RepositionContent();
@@ -17,7 +18,7 @@ public:
 
 	virtual bool ContainsWidget(ZGIWidget* widget)const override;
 	virtual bool CanAddWidget(ZGIWidget* widget)const override;
-	/* This assumes CanAddWidget was already called. Calling this in release mode without first checking CanAddWidget can result in a memory leak. */
+
 	virtual void AddWidget(ZGIWidget* widget);
 	virtual void RemoveWidget(ZGIWidget* widget);
 

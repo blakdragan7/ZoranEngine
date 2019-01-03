@@ -84,13 +84,7 @@ class FontResource;
 class ZoranEngine_EXPORT FontRenderer : public RenderedObjectBase
 {
 protected:
-	size_t charCount;
-
-	Vector2D totalSize;
-
 	FontResource* fontResource;
-	Vector2D renderStart;
-	Vector2D renderSize;
 
 	// Uniform values
 
@@ -110,6 +104,18 @@ protected:
 	// font sizing
 	float pptSize;
 
+	// font rendering
+
+	size_t charCount;
+
+	size_t lineCount;
+	float maxLineSize;
+
+	Vector2D renderStart;
+	Vector2D renderSize;
+
+	Vector2D totalSize;
+
 	// clipping and word wrapping
 
 	bool shouldWordWrap;
@@ -122,7 +128,7 @@ protected:
 
 private:
 	bool UpdateWordFromGlyphInsert(UniWord& word, int position, uint32_t glyph);
-	bool UpdateWordFromGlyph(UniWord& word, uint32_t glyph, bool& wasCarriageReturn,bool& wasNewLine, bool& wasTab);
+	bool UpdateWordFromGlyph(UniWord& word, uint32_t glyph, bool& wasCarriageReturn,bool& wasNewLine, bool& wasTab, float& currentLineSize);
 
 protected:
 	inline size_t GetCharCount()const { return charCount; }
@@ -142,6 +148,9 @@ public:
 	int CursorPosInBelowLine(int pos)const;
 
 	int GetLastCursorPos()const;
+
+	inline float GetMaxLineSize()const { return maxLineSize; }
+	inline size_t GetLineCount()const { return lineCount; }
 
 	inline bool GetIsDirty()const { return isDirty; }
 

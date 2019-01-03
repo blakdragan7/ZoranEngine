@@ -9,9 +9,12 @@ class ZoranEngine_EXPORT ZGILabel : public ZGIWidget
 private:
 	unsigned alignment;
 	bool autoScaleFont;
+	bool fontNeedsUpdate;
 
 protected:
 	FontRenderer * renderer;
+
+	Vector2D textRenderBounds;
 
 protected:
 	void RepositionTextFromAlignment();
@@ -39,14 +42,17 @@ public:
 	void SetShouldWordWrap(bool wrap);
 	void SetShouldClipFont(bool clip);
 
+	void SetTextBounds(Vec2D bounds);
+
 	inline void SetAlignment(unsigned alignment) { this->alignment = alignment; isDirty = true; }
 
 	// widget overrides
 	virtual void Render(const Matrix44& projection)override;
 
 	virtual void SetSize(Vec2D size)override;
-	virtual void SetBounds(Vec2D bounds)override;
 	virtual void SetPosition(Vec2D position)override;
+
+	virtual Vector2D GetBounds()const override;
 
 	virtual void ContainerResized(Vec2D newSize, Vec2D oldSize)override;
 	

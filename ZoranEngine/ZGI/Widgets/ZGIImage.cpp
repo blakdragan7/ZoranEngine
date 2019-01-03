@@ -22,14 +22,14 @@ void ZGIImage::SetImage(const char * imagePath)
 	TextureBase* image = TextureManager::GetInstance()->TextureForFilePath(imagePath, Render_Data_Type_RGBA_32);
 
 	widgetBrush->SetBackgroudImage(image);
-	SetBounds(image->GetSize());
+	bounds = image->GetSize();
 }
 
 void ZGIImage::SetImage(TextureBase * image)
 {
 	widgetBrush->SetBackgroudImage(image);
 
-	SetBounds(image->GetSize());
+	bounds = image->GetSize();
 }
 
 void ZGIImage::ContainerResized(Vec2D newSize, Vec2D oldSize)

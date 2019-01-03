@@ -154,8 +154,6 @@ void ZGIScrollPanel::SetSize(Vec2D size)
 	sSize.h = size.h * 0.01f;
 
 	hScrollBar->SetSize(sSize);
-
-	if (content)content->SetBounds(size);
 }
 
 void ZGIScrollPanel::SetPosition(Vec2D position)

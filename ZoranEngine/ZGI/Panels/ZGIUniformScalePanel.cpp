@@ -18,16 +18,18 @@ void ZGIUniformScalePanel::RepositionContent()
 		content->SetSize(contentSize);
 	}
 
+	if (adjustPosition)
+	{
+		Vector2D contentHalfSize = content->GetSize() / 2.0f;
+		Vector2D halfSize = size / 2.0f;
+		float x = (position.x + halfSize.w) - contentHalfSize.w;
+		float y = (position.y + halfSize.h) - contentHalfSize.h;
 
-	Vector2D contentHalfSize = content->GetSize() / 2.0f;
-	Vector2D halfSize = size / 2.0f;
-	float x = (position.x + halfSize.w) - contentHalfSize.w;
-	float y = (position.y + halfSize.h) - contentHalfSize.h;
-
-	content->SetPosition({ x,y });
+		content->SetPosition({ x,y });
+	}
 }
 
-ZGIUniformScalePanel::ZGIUniformScalePanel(ZGIVirtualWindow* owningWindow) : content(0), ZGIPanel(owningWindow)
+ZGIUniformScalePanel::ZGIUniformScalePanel(ZGIVirtualWindow* owningWindow) : content(0), adjustPosition(true), ZGIPanel(owningWindow)
 {
 }
 
@@ -52,6 +54,15 @@ void ZGIUniformScalePanel::AddWidget(ZGIWidget * widget)
 	{
 		Log(LogLevel_Error, "Adding New Widget To Unfirom scale panel when widget already exists !");
 		assert(false);
+	}
+
+	if (widget->DoesContainText())
+	{
+		adjustPosition = false;
+	}
+	else
+	{
+		adjustPosition = true;
 	}
 
 	contentStartingSize = widget->GetBounds();
