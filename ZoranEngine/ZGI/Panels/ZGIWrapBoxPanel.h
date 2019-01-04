@@ -23,6 +23,8 @@ public:
 
 	/* Panel Override */
 
+	virtual void AnimateAllWidgets(float dt)override;
+
 	virtual bool ContainsWidget(ZGIWidget* widget)const override;
 	virtual bool CanAddWidget(ZGIWidget* widget)const override;
 

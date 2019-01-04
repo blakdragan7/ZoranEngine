@@ -8,6 +8,9 @@ public:
 	ZGIPanel(ZGIVirtualWindow* owningWindow);
 	~ZGIPanel();
 
+	virtual void AnimateAllWidgets(float dt) = 0;
+	virtual void Animate(float dt)override;
+
 	virtual bool ContainsWidget(ZGIWidget* widget)const = 0;
 	virtual bool CanAddWidget(ZGIWidget* widget)const = 0;
 

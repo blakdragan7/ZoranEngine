@@ -13,6 +13,14 @@ ZGIFreeFormPanel::~ZGIFreeFormPanel()
 	delete widgets;
 }
 
+void ZGIFreeFormPanel::AnimateAllWidgets(float dt)
+{
+	for (auto& w : *widgets)
+	{
+		w->Animate(dt);
+	}
+}
+
 bool ZGIFreeFormPanel::ContainsWidget(ZGIWidget * widget) const
 {
 	auto itr = find(*widgets, widget);
@@ -68,14 +76,6 @@ void ZGIFreeFormPanel::Render(const Matrix44 & projection)
 	for (auto widget : *widgets)
 	{
 		widget->Render(projection);
-	}
-}
-
-void ZGIFreeFormPanel::Animate(float dt)
-{
-	for (auto w : *widgets)
-	{
-		w->Animate(dt);
 	}
 }
 

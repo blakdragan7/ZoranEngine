@@ -38,6 +38,11 @@ ZGIUniformScalePanel::~ZGIUniformScalePanel()
 	if (content)delete content;
 }
 
+void ZGIUniformScalePanel::AnimateAllWidgets(float dt)
+{
+	if(content)content->Animate(dt);
+}
+
 bool ZGIUniformScalePanel::ContainsWidget(ZGIWidget * widget) const
 {
 	return content == widget;
@@ -126,11 +131,6 @@ void ZGIUniformScalePanel::Render(const Matrix44 & projection)
 		content->Render(projection);
 	}
 	ZGIWidget::Render(projection);
-}
-
-void ZGIUniformScalePanel::Animate(float dt)
-{
-	if (content)content->Animate(dt);
 }
 
 void ZGIUniformScalePanel::Print(unsigned tabs) const

@@ -696,6 +696,18 @@
     <ClCompile Include="ZGI\Widgets\ZGISpacer.cpp">
       <Filter>ZoranEngine\ZGI\Widgets</Filter>
     </ClCompile>
+    <ClCompile Include="ZGI\Widgets\ZGICheckBox.cpp">
+      <Filter>ZoranEngine\ZGI\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="ZGI\Widgets\ZGIComboBox.cpp">
+      <Filter>ZoranEngine\ZGI\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="ZGI\Widgets\ZGIProgressBar.cpp">
+      <Filter>ZoranEngine\ZGI\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="ZGI\Widgets\ZGISpinBox.cpp">
+      <Filter>ZoranEngine\ZGI\Widgets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -2145,6 +2157,18 @@
       <Filter>ZoranEngine\ZGI\Panels</Filter>
     </ClInclude>
     <ClInclude Include="ZGI\Widgets\ZGISpacer.h">
+      <Filter>ZoranEngine\ZGI\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="ZGI\Widgets\ZGICheckBox.h">
+      <Filter>ZoranEngine\ZGI\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="ZGI\Widgets\ZGIComboBox.h">
+      <Filter>ZoranEngine\ZGI\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="ZGI\Widgets\ZGIProgressBar.h">
+      <Filter>ZoranEngine\ZGI\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="ZGI\Widgets\ZGISpinBox.h">
       <Filter>ZoranEngine\ZGI\Widgets</Filter>
     </ClInclude>
   </ItemGroup>

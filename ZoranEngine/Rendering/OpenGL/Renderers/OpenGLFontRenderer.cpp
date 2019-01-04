@@ -138,7 +138,6 @@ void OpenGLFontRenderer::UpdateRender()
 
 	for (UniWord& word : *words)
 	{
-		
 		if (shouldWordWrap)
 		{
 			if (bounds.w <= ((startX + (word.advance * scale)) - renderStart.x))

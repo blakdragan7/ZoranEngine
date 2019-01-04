@@ -72,6 +72,14 @@ void ZGIOverlayPanel::RemoveWidget(ZGIWidget * widget)
 	}
 }
 
+void ZGIOverlayPanel::AnimateAllWidgets(float dt)
+{
+	for (auto& w : *sockets)
+	{
+		w.content->Animate(dt);
+	}
+}
+
 bool ZGIOverlayPanel::ContainsWidget(ZGIWidget * widget) const
 {
 	return std::find(sockets->begin(),sockets->end(), widget) != sockets->end();

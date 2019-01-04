@@ -22,6 +22,7 @@ protected:
 
 public:
 	ZGILabel(ZGIVirtualWindow* owningWindow);
+	ZGILabel(bool setBoundsFromSize, ZGIVirtualWindow* owningWindow);
 	ZGILabel(FontResource* font,ZGIVirtualWindow* owningWindow);
 	~ZGILabel();
 

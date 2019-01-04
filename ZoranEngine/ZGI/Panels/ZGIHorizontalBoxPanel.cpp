@@ -137,6 +137,14 @@ const ZGIBasicSocket * ZGIHorizontalBoxPanel::SocketForPosition(int position)con
 	return nullptr;
 }
 
+void ZGIHorizontalBoxPanel::AnimateAllWidgets(float dt)
+{
+	for (auto& w : *sockets)
+	{
+		w.content->Animate(dt);
+	}
+}
+
 bool ZGIHorizontalBoxPanel::ContainsWidget(ZGIWidget * widget) const
 {
 	return std::find(sockets->begin(),sockets->end(), widget) != sockets->end();

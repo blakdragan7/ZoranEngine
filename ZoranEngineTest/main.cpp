@@ -13,8 +13,11 @@
 #include <algorithm>
 
 #include <Core/WindowBase.h>
+
 #include <ZGI/Windows/ZGIGameVirtualWindow.h>
 #include <ZGI/Windows/ZGIDebugWindow.h>
+
+#include <ZGI/Panels/ZGIWrapBoxPanel.h>
 #include <ZGI/Panels/ZGIHorizontalBoxPanel.h>
 #include <ZGI/Panels/ZGIVerticalBoxPanel.h>
 #include <ZGI/Panels/ZGIUniformScalePanel.h>
@@ -22,10 +25,17 @@
 #include <ZGI/Panels/ZGISwitcherPanel.h>
 #include <ZGI/Panels/ZGIScrollPanel.h>
 #include <ZGI/Panels/ZGIOverlayPanel.h>
+
+#include <ZGI/Widgets/ZGIProgressBar.h>
+#include <ZGI/Widgets/ZGISpinBox.h>
+#include <ZGI/Widgets/ZGIComboBox.h>
+#include <ZGI/Widgets/ZGICheckBox.h>
 #include <ZGI/Widgets/ZGIImage.h>
+#include <ZGI/Widgets/ZGISpacer.h>
 #include <ZGI/Widgets/ZGILabel.h>
 #include <ZGI/Widgets/ZGIButton.h>
 #include <ZGI/Widgets/ZGITextEdit.h>
+
 #include <ZGI/Core/ZGIBrush.h>
 
 #include <Core/Resources/FontResource.h>
@@ -185,26 +195,27 @@ void TestGUIStuff()
 
 	auto window = engine.GetMainWindow()->GetRootVirtualWindow();
 
-	auto p = new ZGISwitcherPanel(window);
+	auto w = new ZGIWrapBoxPanel({300,150}, window);
+	//auto p = new ZGISwitcherPanel(window);
 	//auto p = new ZGIOverlayPanel(window);
 	//auto s = new ZGIScrollPanel(window);
 	//auto s = new ZGIUniformScalePanel(window);
-	//auto p = new ZGIVerticalBoxPanel(window);
+	auto p = new ZGIVerticalBoxPanel(window);
 	//auto p = new ZGIHorizontalBoxPanel(window);
 
 	auto image1 = new ZGIImage(window);
 	auto text = new ZGILabel(window);
+	auto spacer = new ZGISpacer(window);
 
-	text->SetSize(window->GetWindowSize());
+	auto progress = new ZGIProgressBar(window);
 
 	image1->SetImage("test.png");
 	text->SetText("Overlayed\nOverlayed");
 
-	text->SetSize(window->GetWindowSize());
-	text->SetTextBounds(window->GetWindowSize());
+	text->SetBoundsFromSize(true);
 
 	p->AddWidget(image1);
-	p->AddWidget(text);
+	p->AddWidget(progress);
 
 	window->SetRootContent(p);
 

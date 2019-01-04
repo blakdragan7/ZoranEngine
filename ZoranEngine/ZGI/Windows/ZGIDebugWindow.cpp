@@ -13,6 +13,8 @@
 
 ZGIDebugWindow::ZGIDebugWindow(Vec2D pos, Vec2D size, Vec2I OSWindowSize, ZGIVirtualWindow* parent) : ZGIVirtualWindow(pos,size,OSWindowSize,parent)
 {
+	isResizable = true;
+
 	fpsLabel = new ZGILabel(this);
 	fpsLabel->SetText("fps: 0.0");
 	fpsLabel->SetFontSize(size.h * 0.1f);
@@ -32,6 +34,7 @@ ZGIDebugWindow::ZGIDebugWindow(Vec2D pos, Vec2D size, Vec2I OSWindowSize, ZGIVir
 
 ZGIDebugWindow::~ZGIDebugWindow()
 {
+	delete grid;
 }
 
 void ZGIDebugWindow::SetFPS(double fps)

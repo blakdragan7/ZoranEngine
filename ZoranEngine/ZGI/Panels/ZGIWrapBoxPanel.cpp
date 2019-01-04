@@ -53,6 +53,14 @@ void ZGIWrapBoxPanel::RemoveWidget(ZGIWidget * widget)
 	}
 }
 
+void ZGIWrapBoxPanel::AnimateAllWidgets(float dt)
+{
+	for (auto& w : *widgets)
+	{
+		w->Animate(dt);
+	}
+}
+
 bool ZGIWrapBoxPanel::ContainsWidget(ZGIWidget * widget) const
 {
 	return std::find(widgets->begin(), widgets->end(), widget) != widgets->end();

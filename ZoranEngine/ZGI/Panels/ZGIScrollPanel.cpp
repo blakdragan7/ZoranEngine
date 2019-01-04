@@ -84,6 +84,11 @@ ZGIScrollPanel::~ZGIScrollPanel()
 	delete vScrollBar;
 }
 
+void ZGIScrollPanel::AnimateAllWidgets(float dt)
+{
+	if (content)content->Animate(dt);
+}
+
 bool ZGIScrollPanel::ContainsWidget(ZGIWidget * widget) const
 {
 	return content == widget;
@@ -207,11 +212,6 @@ void ZGIScrollPanel::Render(const Matrix44 & projection)
 	}
 
 	ZGIWidget::Render(projection);
-}
-
-void ZGIScrollPanel::Animate(float dt)
-{
-	if (content)content->Animate(dt);
 }
 
 ZGIWidget * ZGIScrollPanel::HitTest(Vec2D pos)

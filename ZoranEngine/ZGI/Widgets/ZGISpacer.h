@@ -16,4 +16,3 @@ public:
 	virtual const char* GetClassString()const override { return "ZGISpacer"; };
 	virtual void ContainerResized(Vec2D newSize, Vec2D oldSize)override;
 };
-

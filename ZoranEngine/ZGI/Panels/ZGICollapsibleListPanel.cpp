@@ -112,6 +112,12 @@ void ZGICollapsibleListPanel::Render(const Matrix44 & projection)
 		ZGIPanel::Render(projection);
 }
 
+void ZGICollapsibleListPanel::AnimateAllWidgets(float dt)
+{
+	header->Animate(dt);
+	list->Animate(dt);
+}
+
 std::vector<ListSocket>* ZGICollapsibleListPanel::GetWidgetList()
 {
 	return list->GetWidgetList();
@@ -163,12 +169,6 @@ void ZGICollapsibleListPanel::ContainerResized(Vec2D newSize, Vec2D oldSize)
 {
 	// TODO: ancher Stuff
 	list->ContainerResized(newSize,oldSize);
-}
-
-void ZGICollapsibleListPanel::Animate(float dt)
-{
-	header->Animate(dt);
-	list->Animate(dt);
 }
 
 void ZGICollapsibleListPanel::Print(unsigned tabs) const

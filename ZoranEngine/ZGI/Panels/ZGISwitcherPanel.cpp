@@ -54,6 +54,12 @@ void ZGISwitcherPanel::SetIndexActive(int index)
 	activeWidget = index;
 }
 
+void ZGISwitcherPanel::AnimateAllWidgets(float dt)
+{
+	if (activeWidget != -1)
+		(*widgets)[activeWidget]->Animate(dt);
+}
+
 bool ZGISwitcherPanel::ContainsWidget(ZGIWidget * widget) const
 {
 	return std::find(widgets->begin(),widgets->end(),widget) != widgets->end();

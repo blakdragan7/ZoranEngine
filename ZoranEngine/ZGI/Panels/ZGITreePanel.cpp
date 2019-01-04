@@ -24,6 +24,11 @@ void ZGITreePanel::SetSocketSize(float tsize)
 	rootSocket.SetSize({ size.w,tsize });
 }
 
+void ZGITreePanel::AnimateAllWidgets(float dt)
+{
+	rootSocket.Animate(dt);
+}
+
 bool ZGITreePanel::ContainsWidget(ZGIWidget * widget) const
 {
 	return rootSocket.ContainsWidget(widget);
@@ -68,11 +73,6 @@ void ZGITreePanel::Render(const Matrix44 & projection)
 	rootSocket.Render(projection);
 
 	ZGIPanel::Render(projection);
-}
-
-void ZGITreePanel::Animate(float dt)
-{
-	rootSocket.Animate(dt);
 }
 
 void ZGITreePanel::Print(unsigned tabs) const

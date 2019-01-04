@@ -10,6 +10,8 @@ public:
 	ZGIFreeFormPanel(ZGIVirtualWindow* owningWindow);
 	~ZGIFreeFormPanel();
 
+	virtual void AnimateAllWidgets(float dt)override;
+
 	virtual bool ContainsWidget(ZGIWidget* widget)const override;
 	virtual bool CanAddWidget(ZGIWidget* widget)const override;
 	void AddWidget(ZGIWidget* widget);
@@ -25,7 +27,6 @@ public:
 	virtual void ContainerResized(Vec2D newSize, Vec2D oldSize)override;
 
 	virtual void Render(const Matrix44& projection)override;
-	virtual void Animate(float dt)override;
 	virtual const char* GetClassString()const override { return "ZGIFreeFormPanel"; }
 	virtual void Print(unsigned tabs)const override;
 };

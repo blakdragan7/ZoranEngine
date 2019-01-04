@@ -12,6 +12,12 @@ ZGIPanel::~ZGIPanel()
 {
 }
 
+void ZGIPanel::Animate(float dt)
+{
+	AnimateAllWidgets(dt);
+	ZGIWidget::Animate(dt);
+}
+
 ZGIWidget * ZGIPanel::HitTest(Vec2D pos)
 {
 	if (ZGIWidget * w = WidgetForPosition(pos))

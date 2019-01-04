@@ -1,5 +1,5 @@
 #pragma once
-#include <ZGI\Widgets\ZGIWidget.h>
+#include <ZGI/Widgets/ZGIWidget.h>
 #include <functional>
 /*
 *	This is a generic button class for ZGI

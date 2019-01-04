@@ -80,6 +80,14 @@ const GridSocket* ZGIGridPanel::At(int x, int y) const
 	return &(*itr);
 }
 
+void ZGIGridPanel::AnimateAllWidgets(float dt)
+{
+	for (auto &s : *grid)
+	{
+		if (s.widget)s.widget->Animate(dt);
+	}
+}
+
 bool ZGIGridPanel::PositionIsEmpty(Vec2I position) const
 {
 	auto itr = std::find(grid->begin(), grid->end(), position);
@@ -163,14 +171,6 @@ void ZGIGridPanel::Render(const Matrix44 & projection)
 		w.widget->Render(projection);
 
 	ZGIPanel::Render(projection);
-}
-
-void ZGIGridPanel::Animate(float dt)
-{
-	for (auto &s : *grid)
-	{
-		if(s.widget)s.widget->Animate(dt);
-	}
 }
 
 void ZGIGridPanel::Print(unsigned tabs) const

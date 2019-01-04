@@ -53,7 +53,7 @@ void ZGILabel::RepositionTextFromAlignment()
 	renderer->SetRenderStart({ x, y });
 }
 
-ZGILabel::ZGILabel(ZGIVirtualWindow * owningWindow) : setBoundsFromSize(false), fontNeedsUpdate(false), autoScaleFont(true), alignment(Alignment_Left | Alignment_Top), ZGIWidget(owningWindow)
+ZGILabel::ZGILabel(ZGIVirtualWindow * owningWindow) : setBoundsFromSize(true), fontNeedsUpdate(false), autoScaleFont(true), alignment(Alignment_Left | Alignment_Top), ZGIWidget(owningWindow)
 {
 	auto rm = RM;
 	auto font = rm->FontForZFT("arial-msdf.zft");
@@ -61,7 +61,15 @@ ZGILabel::ZGILabel(ZGIVirtualWindow * owningWindow) : setBoundsFromSize(false), 
 	size.x = 100; size.y = 100;
 }
 
-ZGILabel::ZGILabel(FontResource* font, ZGIVirtualWindow* owningWindow) : setBoundsFromSize(false), fontNeedsUpdate(false), autoScaleFont(true), alignment(Alignment_Left | Alignment_Top), ZGIWidget(owningWindow)
+ZGILabel::ZGILabel(bool setBoundsFromSize, ZGIVirtualWindow * owningWindow) : setBoundsFromSize(setBoundsFromSize), fontNeedsUpdate(false), autoScaleFont(true), alignment(Alignment_Left | Alignment_Top), ZGIWidget(owningWindow)
+{
+	auto rm = RM;
+	auto font = rm->FontForZFT("arial-msdf.zft");
+	renderer = rEngine->CreateFontRenderer(font);
+	size.x = 100; size.y = 100;
+}
+
+ZGILabel::ZGILabel(FontResource* font, ZGIVirtualWindow* owningWindow) : setBoundsFromSize(true), fontNeedsUpdate(false), autoScaleFont(true), alignment(Alignment_Left | Alignment_Top), ZGIWidget(owningWindow)
 {
 	renderer = rEngine->CreateFontRenderer(font);
 
