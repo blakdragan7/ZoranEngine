@@ -20,6 +20,7 @@ public:
 public:
 	ZGIBasicSocket(ZGIPanel* owningPanel);
 	ZGIBasicSocket(ZGIWidget* content, ZGIPanel* owningPanel);
+	ZGIBasicSocket(float width, float height, ZGIWidget* content, ZGIPanel* owningPanel);
 	ZGIBasicSocket(ZGIWidget* content, AlignmentBit alignment, ZGIPanel* owningPanel);
 	~ZGIBasicSocket();
 

@@ -60,7 +60,7 @@ void Shape::normalize() {
         else {
             
             // Make sure that start points match end points exactly or we'll get artifacts.
-            int n = contour->edges.size();
+            int n = (int)contour->edges.size();
             for( int i = 0; i < n; i++ )
             {
                 EdgeSegment *s1 = contour->edges[i];

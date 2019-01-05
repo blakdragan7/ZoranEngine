@@ -67,12 +67,12 @@ public:
 
 	/*IMouseEventHandler Defaults*/
 
-	virtual bool MouseDown(const PlatformMouseBase*)override { return false; }
-	virtual bool MouseUp(const PlatformMouseBase*)override { return false; }
-	virtual bool MouseMove(const PlatformMouseBase*);
+	virtual bool MouseDown(const PlatformMouseBase&)override { return false; }
+	virtual bool MouseUp(const PlatformMouseBase&)override { return false; }
+	virtual bool MouseMove(const PlatformMouseBase&);
 			
-	virtual bool MouseEnterd(const PlatformMouseBase*)override { return false; }
-	virtual bool MouseLeft(const PlatformMouseBase*)override { return false; }
+	virtual bool MouseEnterd(const PlatformMouseBase&)override { return false; }
+	virtual bool MouseLeft(const PlatformMouseBase&)override { return false; }
 
 	/*IKeyboardEvents Defaults*/
 

@@ -53,7 +53,7 @@ public:
 
 	// mouse event
 	virtual bool RawKeyEvent(KeyEventType type, unsigned key);
-	virtual bool MouseMove(const PlatformMouseBase* mouse)override;
+	virtual bool MouseMove(const PlatformMouseBase& mouse)override;
 
 	// keyboard event
 	virtual const char* GetClassString()const override { return "ZGIScrollPanel"; }

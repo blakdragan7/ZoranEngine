@@ -23,7 +23,7 @@ void ZGIButton::ContainerResized(Vec2D newSize, Vec2D oldSize)
 	// TODO: Ancher Stuff
 }
 
-bool ZGIButton::MouseDown(const PlatformMouseBase * mouse)
+bool ZGIButton::MouseDown(const PlatformMouseBase & mouse)
 {
 	widgetBrush->SetBackgroudHue({ 0.3f,0.3f,0.3f,0.0f });
 
@@ -37,7 +37,7 @@ bool ZGIButton::MouseDown(const PlatformMouseBase * mouse)
 	return false;
 }
 
-bool ZGIButton::MouseUp(const PlatformMouseBase * mouse)
+bool ZGIButton::MouseUp(const PlatformMouseBase & mouse)
 {
 	widgetBrush->SetBackgroudHue({ 0.7f,0.7f,0.7f,0.0f });
 	
@@ -49,7 +49,7 @@ bool ZGIButton::MouseUp(const PlatformMouseBase * mouse)
 	return false;
 }
 
-bool ZGIButton::MouseEnterd(const PlatformMouseBase * mouse)
+bool ZGIButton::MouseEnterd(const PlatformMouseBase & mouse)
 {
 	widgetBrush->SetBackgroudHue({ 0.9f,0.9f,0.9f,0.0f });
 	if (currentState != Button_State_Hovered)
@@ -62,7 +62,7 @@ bool ZGIButton::MouseEnterd(const PlatformMouseBase * mouse)
 	return false;
 }
 
-bool ZGIButton::MouseLeft(const PlatformMouseBase * mouse)
+bool ZGIButton::MouseLeft(const PlatformMouseBase & mouse)
 {
 	widgetBrush->SetBackgroudHue({ 0.7f,0.7f,0.7f,0.0f });
 	

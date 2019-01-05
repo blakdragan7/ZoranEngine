@@ -18,7 +18,7 @@ public:
 	void MoveWidgetRight(ZGIWidget* widget);
 	void MoveWidgetLeft(ZGIWidget* widget);
 
-	void AddWidget(ZGIWidget* widget);
+	void AddWidget(ZGIWidget* widget, float size = 1.0f);
 	void RemoveWidget(ZGIWidget* widget);
 	void SetSizeForWidget(float size, ZGIWidget* widget);
 	void SetSizeForPosition(float size, int position);

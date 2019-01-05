@@ -114,9 +114,9 @@ void ZGIHorizontalBoxPanel::CommitSizes()
 	}
 }
 
-void ZGIHorizontalBoxPanel::AddWidget(ZGIWidget * widget)
+void ZGIHorizontalBoxPanel::AddWidget(ZGIWidget * widget, float size)
 {
-	sockets->push_back({ widget,this });
+	sockets->push_back({ size, 1.0f, widget,this });
 	needsSocketsSized = true;
 }
 

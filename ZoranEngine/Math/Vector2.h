@@ -21,6 +21,8 @@ public:
 
 	~Vector2D(void);
 
+	Vector2D MaxBetween(const Vector2D& other);
+
 	void Set(float x, float y);
 	void Set(const Vector2D& other);
 
@@ -126,7 +128,6 @@ public:
 
 	static const Vector2I Zero;
 };
-
 
 #define Vec2D const Vector2D&
 #define Vec2I const Vector2I&

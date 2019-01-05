@@ -73,12 +73,12 @@ public:
 	inline void SetResizeable(bool resizable) { isResizable = resizable; }
 	/*IMouseEventHandler Defaults*/
 
-	virtual bool MouseDown(const PlatformMouseBase *)override;
-	virtual bool MouseMove(const PlatformMouseBase *)override;
-	virtual bool MouseUp(const PlatformMouseBase *)override;
+	virtual bool MouseDown(const PlatformMouseBase&)override;
+	virtual bool MouseMove(const PlatformMouseBase&)override;
+	virtual bool MouseUp(const PlatformMouseBase&)override;
 
-	virtual bool MouseEnterd(const PlatformMouseBase *)override;
-	virtual bool MouseLeft(const PlatformMouseBase *)override;
+	virtual bool MouseEnterd(const PlatformMouseBase&)override;
+	virtual bool MouseLeft(const PlatformMouseBase&)override;
 
 	/*IKeyboardEvents Defaults*/
 

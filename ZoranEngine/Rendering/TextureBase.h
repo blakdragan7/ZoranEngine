@@ -22,10 +22,10 @@ public:
 
 protected:
 	unsigned LoadFromPNG(const char* path,unsigned &x, unsigned &y, unsigned char ** data);
+	virtual ~TextureBase();
 
 public:
 	TextureBase(unsigned width,unsigned height,RenderDataType type = Render_Data_Type_BGRA_32, RenderDataFormat format = Render_Data_Format_Unsigned_Byte);
-	virtual ~TextureBase();
 
 	RenderDataType GetRenderDataType()const { return type; }
 	RenderDataFormat GetRenderDataFormat()const { return format; }
@@ -51,5 +51,7 @@ public:
 	virtual unsigned GetTextureID()const = 0;
 
 	inline Vector2I GetSize()const { return Vector2I(width, height); }
+
+	friend class TextureManager;
 };
 

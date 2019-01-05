@@ -8,6 +8,7 @@
 
 #include <ThirdParty/loadpng/lodepng.h>
 
+#include <Rendering/TextureManager.h>
 #include <Rendering/TextureBase.h>
 #include <Utils/StringAddons.hpp>
 #include <Utils/BitmapAddons.hpp>
@@ -230,7 +231,7 @@ void FontResource::GenerateFromSDF(const std::vector<uint32_t>& glyphs)
 	_data->lastOffset = offset;
 	_data->lastSize = glyphs.size();
 
-	if (fontTexture)delete fontTexture;
+	if (fontTexture)tManager->DestroyTexture(fontTexture);
 
 	float* pixdata = PixDataForBitmap(*_data->sdfData);
 
@@ -385,7 +386,7 @@ void FontResource::GenerateFromPSDF(const std::vector<uint32_t>& glyphs)
 	_data->lastOffset = offset;
 	_data->lastSize = glyphs.size();
 
-	if (fontTexture)delete fontTexture;
+	if (fontTexture)tManager->DestroyTexture(fontTexture);
 
 	float* pixdata = PixDataForBitmap(*_data->psdfData);
 
@@ -542,7 +543,7 @@ void FontResource::GenerateFromMSDF(const std::vector<uint32_t>& glyphs)
 	_data->lastOffset = offset;
 	_data->lastSize = glyphs.size();
 
-	if (fontTexture)delete fontTexture;
+	if (fontTexture)tManager->DestroyTexture(fontTexture);
 
 	float* pixdata = PixDataForBitmap(*_data->msdfData);
 
@@ -904,7 +905,7 @@ int FontResource::SaveToFile(const std::string & file)
 void FontResource::DestroyResource()
 {
 	if (_data)delete _data;
-	if(fontTexture)delete fontTexture;
+	if(fontTexture)tManager->DestroyTexture(fontTexture);
 }
 
 const char * FontResource::GetResourceDescription()const

@@ -26,6 +26,11 @@ Vector2D::Vector2D(const Vector3D & other)
 
 Vector2D::~Vector2D(void) {}
 
+Vector2D Vector2D::MaxBetween(const Vector2D & other)
+{
+	return Vector2D(max(x,other.x),max(y,other.y));
+}
+
 void Vector2D::Set(float x, float y)
 {
 	this->x = x;

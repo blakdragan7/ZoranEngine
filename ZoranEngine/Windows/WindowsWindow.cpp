@@ -246,25 +246,25 @@ static LRESULT CALLBACK wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 		{
 			zEngine->MouseEvent(MouseEventType_L_Down, 0);
 			pThis->m->SetLeftMouseIsPressed(true);
-			pThis->rootVirtualWindow->MouseDown(pThis->m);
+			pThis->rootVirtualWindow->MouseDown(*pThis->m);
 		}
 		if (uMsg == WM_RBUTTONDOWN)
 		{
 			zEngine->MouseEvent(MouseEventType_R_Down, 0);
 			pThis->m->SetRightMouseIsPressed(true);
-			pThis->rootVirtualWindow->MouseDown(pThis->m);
+			pThis->rootVirtualWindow->MouseDown(*pThis->m);
 		}
 		if (uMsg == WM_LBUTTONUP)
 		{
 			zEngine->MouseEvent(MouseEventType_L_Up, 0);
 			pThis->m->SetLeftMouseIsPressed(false);
-			pThis->rootVirtualWindow->MouseUp(pThis->m);
+			pThis->rootVirtualWindow->MouseUp(*pThis->m);
 		}
 		if (uMsg == WM_RBUTTONUP)
 		{
 			zEngine->MouseEvent(MouseEventType_R_Up, 0);
 			pThis->m->SetRightMouseIsPressed(false);
-			pThis->rootVirtualWindow->MouseUp(pThis->m);
+			pThis->rootVirtualWindow->MouseUp(*pThis->m);
 		}
 		if (uMsg == WM_MOUSEMOVE)
 		{
@@ -273,7 +273,7 @@ static LRESULT CALLBACK wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 			float y = pThis->GetSize().h - static_cast<float>(HIWORD(lParam));
 			zEngine->MouseMove(x,y);
 			pThis->m->SetPosition({ x, y});
-			pThis->rootVirtualWindow->MouseMove(pThis->m);
+			pThis->rootVirtualWindow->MouseMove(*pThis->m);
 		}
 	}
 

@@ -22,7 +22,7 @@ public:
 	virtual bool RawKeyEvent(KeyEventType type, unsigned uni)override;
 	virtual bool CharEvent(unsigned uni)override;
 
-	virtual bool MouseUp(const PlatformMouseBase*)override;
+	virtual bool MouseUp(const PlatformMouseBase&)override;
 	virtual const char* GetClassString()const override { return "ZGITextEdit"; }
 };
 

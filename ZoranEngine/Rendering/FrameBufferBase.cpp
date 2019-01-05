@@ -2,6 +2,7 @@
 #include "FrameBufferBase.h"
 #include "TextureBase.h"
 #include "RenderEngineBase.h"
+#include "TextureManager.h"
 
 FrameBufferBase::FrameBufferBase(Vector2I renderSize, RenderDataType renderType, RenderDataFormat format) : renderFunction(0), targetTexture(0), renderObject(0),ownsRenderObject(false)
 {
@@ -14,7 +15,7 @@ FrameBufferBase::FrameBufferBase(TextureBase* targetTexture) : renderFunction(0)
 
 FrameBufferBase::~FrameBufferBase()
 {
-	if (targetTexture)delete targetTexture;
+	if (targetTexture)tManager->DestroyTexture(targetTexture);
 	if (ownsRenderObject && renderObject)delete renderObject;
 }
 

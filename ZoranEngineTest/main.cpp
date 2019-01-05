@@ -207,15 +207,18 @@ void TestGUIStuff()
 	auto text = new ZGILabel(window);
 	auto spacer = new ZGISpacer(window);
 
+	auto check = new ZGICheckBox(window);
+
 	auto progress = new ZGIProgressBar(window);
 
 	image1->SetImage("test.png");
-	text->SetText("Overlayed\nOverlayed");
+	text->SetText("check box");
 
 	text->SetBoundsFromSize(true);
+	check->SetContent(text);
 
 	p->AddWidget(image1);
-	p->AddWidget(progress);
+	p->AddWidget(check);
 
 	window->SetRootContent(p);
 

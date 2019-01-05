@@ -170,11 +170,11 @@ void ZGIVirtualWindow::AnimateWindow(float dt)
 	if (rootContent)rootContent->Animate(dt);
 }
 
-bool ZGIVirtualWindow::MouseDown(const PlatformMouseBase *m)
+bool ZGIVirtualWindow::MouseDown(const PlatformMouseBase &m)
 {
 	if (isResizable)
 	{
-		Vector2D pos = m->GetPosition();
+		Vector2D pos = m.GetPosition();
 
 		if (parent)pos = parent->ConvertAbsoluteToVirtual(pos);
 
@@ -199,7 +199,7 @@ bool ZGIVirtualWindow::MouseDown(const PlatformMouseBase *m)
 	return capturedEvent;
 }
 
-bool ZGIVirtualWindow::MouseMove(const PlatformMouseBase *m)
+bool ZGIVirtualWindow::MouseMove(const PlatformMouseBase& m)
 {
 	if (isResizable && currentlySelectedEdge != Window_Edge_None)
 	{
@@ -208,40 +208,40 @@ bool ZGIVirtualWindow::MouseMove(const PlatformMouseBase *m)
 
 		if (currentlySelectedEdge == Window_Edge_Top)
 		{
-			this->ResizeVirtualWindow({ size.x, size.y + m->GetDelta().y });
+			this->ResizeVirtualWindow({ size.x, size.y + m.GetDelta().y });
 		}
 		else if(currentlySelectedEdge == Window_Edge_Right)
 		{
-			this->ResizeVirtualWindow({ size.x + m->GetDelta().x, size.y });
+			this->ResizeVirtualWindow({ size.x + m.GetDelta().x, size.y });
 		}
 		else if(currentlySelectedEdge == Window_Edge_Left)
 		{
-			this->ResizeVirtualWindow({ size.x - m->GetDelta().x, size.y });
-			this->SetWindowPosition({ position.x + m->GetDelta().x, position.y });
+			this->ResizeVirtualWindow({ size.x - m.GetDelta().x, size.y });
+			this->SetWindowPosition({ position.x + m.GetDelta().x, position.y });
 		}
 		else if (currentlySelectedEdge == Window_Edge_Bottom)
 		{
-			this->ResizeVirtualWindow({ size.x, size.y - m->GetDelta().y });
-			this->SetWindowPosition({ position.x, position.y + m->GetDelta().y });
+			this->ResizeVirtualWindow({ size.x, size.y - m.GetDelta().y });
+			this->SetWindowPosition({ position.x, position.y + m.GetDelta().y });
 		}
 		else if (currentlySelectedEdge & Window_Edge_Top && currentlySelectedEdge & Window_Edge_Right)
 		{
-			this->ResizeVirtualWindow({ size.x + m->GetDelta().x, size.y + m->GetDelta().y });
+			this->ResizeVirtualWindow({ size.x + m.GetDelta().x, size.y + m.GetDelta().y });
 		}
 		else if (currentlySelectedEdge & Window_Edge_Top && currentlySelectedEdge & Window_Edge_Left)
 		{
-			this->ResizeVirtualWindow({ size.x - m->GetDelta().x, size.y + m->GetDelta().y });
-			this->SetWindowPosition({ position.x + m->GetDelta().x, position.y });
+			this->ResizeVirtualWindow({ size.x - m.GetDelta().x, size.y + m.GetDelta().y });
+			this->SetWindowPosition({ position.x + m.GetDelta().x, position.y });
 		}
 		else if (currentlySelectedEdge & Window_Edge_Bottom && currentlySelectedEdge & Window_Edge_Right)
 		{
-			this->ResizeVirtualWindow({ size.x + m->GetDelta().x, size.y - m->GetDelta().y });
-			this->SetWindowPosition({ position.x, position.y + m->GetDelta().y });
+			this->ResizeVirtualWindow({ size.x + m.GetDelta().x, size.y - m.GetDelta().y });
+			this->SetWindowPosition({ position.x, position.y + m.GetDelta().y });
 		}
 		else if (currentlySelectedEdge & Window_Edge_Bottom&& currentlySelectedEdge & Window_Edge_Left)
 		{
-			this->ResizeVirtualWindow({ size.x - m->GetDelta().x, size.y - m->GetDelta().y });
-			this->SetWindowPosition({ position.x + m->GetDelta().x, position.y + m->GetDelta().y });
+			this->ResizeVirtualWindow({ size.x - m.GetDelta().x, size.y - m.GetDelta().y });
+			this->SetWindowPosition({ position.x + m.GetDelta().x, position.y + m.GetDelta().y });
 		}
 
 		if (rootContent)rootContent->ContainerResized(viewport->GetSize(), size);
@@ -266,7 +266,7 @@ bool ZGIVirtualWindow::MouseMove(const PlatformMouseBase *m)
 	return capturedEvent;
 }
 
-bool ZGIVirtualWindow::MouseUp(const PlatformMouseBase *m)
+bool ZGIVirtualWindow::MouseUp(const PlatformMouseBase& m)
 {
 	currentlySelectedEdge = Window_Edge_None;
 
@@ -287,7 +287,7 @@ bool ZGIVirtualWindow::MouseUp(const PlatformMouseBase *m)
 	return capturedEvent;
 }
 
-bool ZGIVirtualWindow::MouseEnterd(const PlatformMouseBase *m)
+bool ZGIVirtualWindow::MouseEnterd(const PlatformMouseBase& m)
 {
 	bool capturedEvent = false;
 
@@ -306,7 +306,7 @@ bool ZGIVirtualWindow::MouseEnterd(const PlatformMouseBase *m)
 	return capturedEvent;
 }
 
-bool ZGIVirtualWindow::MouseLeft(const PlatformMouseBase *m)
+bool ZGIVirtualWindow::MouseLeft(const PlatformMouseBase& m)
 {
 	bool capturedEvent = false;
 

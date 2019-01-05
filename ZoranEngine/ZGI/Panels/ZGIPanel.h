@@ -22,8 +22,8 @@ public:
 
 	// widget override
 	virtual ZGIWidget* HitTest(Vec2D pos)override;
-	virtual bool MouseMove(const PlatformMouseBase* m)override;
+	virtual bool MouseMove(const PlatformMouseBase& m)override;
 
-	virtual bool MouseDown(const PlatformMouseBase*)override;
-	virtual bool MouseUp(const PlatformMouseBase*)override;
+	virtual bool MouseDown(const PlatformMouseBase&)override;
+	virtual bool MouseUp(const PlatformMouseBase&)override;
 };

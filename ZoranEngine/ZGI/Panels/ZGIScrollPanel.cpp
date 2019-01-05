@@ -226,13 +226,13 @@ ZGIWidget * ZGIScrollPanel::HitTest(Vec2D pos)
 	return ZGIWidget::HitTest(pos);
 }
 
-bool ZGIScrollPanel::MouseMove(const PlatformMouseBase * mouse)
+bool ZGIScrollPanel::MouseMove(const PlatformMouseBase & mouse)
 {
-	if (mouse->GetLeftMouseIsPressed())
+	if (mouse.GetLeftMouseIsPressed())
 	{
 		isScrolling = true;
 
-		Vec2D delta = mouse->GetDelta();
+		Vec2D delta = mouse.GetDelta();
 
 		scrollDirection.x = -delta.x;
 		scrollDirection.y = -delta.y;

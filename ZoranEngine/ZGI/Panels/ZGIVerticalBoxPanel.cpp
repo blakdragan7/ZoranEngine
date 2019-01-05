@@ -71,9 +71,9 @@ void ZGIVerticalBoxPanel::MoveWidgetDown(ZGIWidget * widget)
 	needsSocketsSized = true;
 }
 
-void ZGIVerticalBoxPanel::AddWidget(ZGIWidget * widget)
+void ZGIVerticalBoxPanel::AddWidget(ZGIWidget * widget, float size)
 {
-	sockets->push_back({ widget,this });
+	sockets->push_back({1.0f,size, widget,this });
 	needsSocketsSized = true;
 }
 

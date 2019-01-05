@@ -2171,6 +2171,9 @@
     <ClInclude Include="ZGI\Widgets\ZGISpinBox.h">
       <Filter>ZoranEngine\ZGI\Widgets</Filter>
     </ClInclude>
+    <ClInclude Include="Interfaces\IZGICheckBoxEventHandler.h">
+      <Filter>ZoranEngine\Interfaces</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ZoranEngine.rc">

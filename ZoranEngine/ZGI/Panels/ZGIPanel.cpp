@@ -26,17 +26,18 @@ ZGIWidget * ZGIPanel::HitTest(Vec2D pos)
 	return ZGIWidget::HitTest(pos);
 }
 
-bool ZGIPanel::MouseMove(const PlatformMouseBase *m)
+bool ZGIPanel::MouseMove(const PlatformMouseBase &m)
 {
-	Vector2D pos = owningWindow->ConvertAbsoluteToVirtual(m->GetPosition());
+	Vector2D pos = owningWindow->ConvertAbsoluteToVirtual(m.GetPosition());
 
-	ZGIWidget* widget = WidgetForPosition(pos - m->GetDelta());
+	ZGIWidget* widget = WidgetForPosition(pos - m.GetDelta());
 	if (widget)
 	{
 		widget->MouseMove(m);
 	}
 	
 	widget = WidgetForPosition(pos);
+
 	if (widget)
 	{
 		widget->MouseMove(m);
@@ -45,9 +46,9 @@ bool ZGIPanel::MouseMove(const PlatformMouseBase *m)
 	return ZGIWidget::MouseMove(m);
 }
 
-bool ZGIPanel::MouseDown(const PlatformMouseBase *m)
+bool ZGIPanel::MouseDown(const PlatformMouseBase &m)
 {
-	Vector2D pos = owningWindow->ConvertAbsoluteToVirtual(m->GetPosition());
+	Vector2D pos = owningWindow->ConvertAbsoluteToVirtual(m.GetPosition());
 
 	if (ZGIWidget* w = WidgetForPosition(pos))
 	{
@@ -58,9 +59,9 @@ bool ZGIPanel::MouseDown(const PlatformMouseBase *m)
 	return false;
 }
 
-bool ZGIPanel::MouseUp(const PlatformMouseBase *m)
+bool ZGIPanel::MouseUp(const PlatformMouseBase &m)
 {
-	Vector2D pos = owningWindow->ConvertAbsoluteToVirtual(m->GetPosition());
+	Vector2D pos = owningWindow->ConvertAbsoluteToVirtual(m.GetPosition());
 
 	if (ZGIWidget* w = WidgetForPosition(pos))
 	{

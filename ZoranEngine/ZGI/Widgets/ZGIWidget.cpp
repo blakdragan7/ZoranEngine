@@ -89,9 +89,9 @@ Vector2D ZGIWidget::GetBounds() const
 	else return bounds;
 }
 
-bool ZGIWidget::MouseMove(const PlatformMouseBase* m)
+bool ZGIWidget::MouseMove(const PlatformMouseBase& m)
 {
-	if (m->GetAnyButtonIsPressed())
+	if (m.GetAnyButtonIsPressed())
 	{
 		if (mouseHasEntered)
 		{
@@ -100,7 +100,7 @@ bool ZGIWidget::MouseMove(const PlatformMouseBase* m)
 		}
 	}
 
-	Vector2D translatedPos = owningWindow->ConvertAbsoluteToVirtual(m->GetPosition());
+	Vector2D translatedPos = owningWindow->ConvertAbsoluteToVirtual(m.GetPosition());
 
 	if (mouseHasEntered == false)
 	{

@@ -27,10 +27,10 @@ void ZGIBrush::SetBackgroudImage(std::string texture)
 
 void ZGIBrush::SetBackgroudImage(TextureBase * texture)
 {
-	if (backgroundImage == texture || texture == 0)return;
+	if (backgroundImage == texture)return;
 
 	backgroundImage = texture;
-	renderer->SetHasTexture(true);
+	renderer->SetHasTexture(texture != 0);
 }
 
 void ZGIBrush::SetBackgroudHue(const Color & hue)

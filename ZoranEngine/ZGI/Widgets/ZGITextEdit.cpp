@@ -126,12 +126,11 @@ bool ZGITextEdit::CharEvent(unsigned uni)
 	return true;
 }
 
-bool ZGITextEdit::MouseUp(const PlatformMouseBase * mouse)
+bool ZGITextEdit::MouseUp(const PlatformMouseBase & mouse)
 {
 	owningWindow->SetFirstResponder(this);
 
-	Vec2D pos = owningWindow->ConvertAbsoluteToVirtual(mouse->GetPosition());
-
+	Vec2D pos = owningWindow->ConvertAbsoluteToVirtual(mouse.GetPosition());
 	cursorPos = renderer->CursorPosForLocation(pos);
 
 	needsCursorUpdate = true;
