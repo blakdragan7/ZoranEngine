@@ -35,6 +35,20 @@ void ZGIWidget::Print(unsigned tabs)const
 	Log(LogLevel_Debug, " %s: Size {%f,%f} Position {%f,%f}\n", GetClassString(), size.w, size.h, position.x, position.y);
 }
 
+void ZGIWidget::RenderWithPositionAndSize(Vec2D position, Vec2D size, const Matrix44& projection)
+{
+	Vector2D oldPosition = this->position;
+	Vector2D oldSize = this->size;
+
+	SetSize(size);
+	SetPosition(position);
+
+	Render(projection);
+
+	SetSize(oldSize);
+	SetPosition(oldPosition);
+}
+
 void ZGIWidget::Render(const Matrix44 & projection)
 {
 	if (isDirty)

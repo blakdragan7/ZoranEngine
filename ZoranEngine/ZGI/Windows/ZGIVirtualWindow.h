@@ -80,6 +80,7 @@ public:
 	virtual bool MouseEnterd(const PlatformMouseBase&)override;
 	virtual bool MouseLeft(const PlatformMouseBase&)override;
 
+	virtual bool MouseScroll(const PlatformMouseBase&, float scrollAmount)override;
 	/*IKeyboardEvents Defaults*/
 
 	virtual bool RawKeyEvent(KeyEventType type, unsigned key)override;

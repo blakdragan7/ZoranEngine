@@ -325,6 +325,28 @@ bool ZGIVirtualWindow::MouseLeft(const PlatformMouseBase& m)
 	return capturedEvent;
 }
 
+bool ZGIVirtualWindow::MouseScroll(const PlatformMouseBase &m, float scrollAmount)
+{
+	bool capturedEvent = false;
+
+	for (auto& window : *subWindows)
+	{
+		if (window->MouseScroll(m, scrollAmount))
+		{
+			capturedEvent = true;
+			break;
+		}
+	}
+
+	if (rootContent && capturedEvent == false)
+	{
+		if (auto w = rootContent->HitTest(ConvertAbsoluteToVirtual(m.GetPosition())))
+			w->MouseScroll(m, scrollAmount);
+	}
+
+	return capturedEvent;
+}
+
 bool ZGIVirtualWindow::RawKeyEvent(KeyEventType type, unsigned key)
 {
 	if (firstResponder)

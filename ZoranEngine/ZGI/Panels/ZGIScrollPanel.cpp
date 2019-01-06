@@ -38,17 +38,12 @@ void ZGIScrollPanel::SizeAndPositionScrollBar()
 			scrollOffset.y = 0;
 		}
 
-		Vector2D scrollAlpha = (scrollOffset / (contentSize - size));
+		Vector2D contentDiff = (contentSize - size);
 
-		if (scrollAlpha.y < 0 || scrollAlpha.y > 1.0f)
-		{
-			scrollOffset.y -= scrollDirection.y;
-		}
+		scrollOffset.x = min(max(scrollOffset.x, 0.0f), contentDiff.x);
+		scrollOffset.y = min(max(scrollOffset.y, 0.0f), contentDiff.y);
 
-		if (scrollAlpha.x < 0 || scrollAlpha.x > 1.0f)
-		{
-			scrollOffset.x -= scrollDirection.x;
-		}
+		Vector2D scrollAlpha = (scrollOffset / contentDiff);
 
 		if (canScrollHorizontal)
 		{
@@ -63,7 +58,7 @@ void ZGIScrollPanel::SizeAndPositionScrollBar()
 	}
 }
 
-ZGIScrollPanel::ZGIScrollPanel(ZGIVirtualWindow* owner) : isScrolling(false), content(0), ZGIPanel(owner)
+ZGIScrollPanel::ZGIScrollPanel(ZGIVirtualWindow* owner) : scrollNeedsUpdate(false),  isScrolling(false), content(0), ZGIPanel(owner)
 {
 	hScrollBar = new ZGIScrollBar(false, owner);
 	vScrollBar = new ZGIScrollBar(true, owner);
@@ -82,6 +77,17 @@ ZGIScrollPanel::~ZGIScrollPanel()
 	if (content)delete content;
 	delete hScrollBar;
 	delete vScrollBar;
+}
+
+Vec2D ZGIScrollPanel::GetScrollOffset()
+{
+	if (scrollNeedsUpdate)
+	{
+		SizeAndPositionScrollBar();
+		scrollNeedsUpdate = false;
+	}
+
+	return scrollOffset;
 }
 
 void ZGIScrollPanel::AnimateAllWidgets(float dt)
@@ -135,7 +141,7 @@ int ZGIScrollPanel::GetMaxNumberOfWidgets() const
 
 ZGIWidget * ZGIScrollPanel::WidgetForPosition(Vec2D pos)
 {
-	return content->HitTest(pos);
+	return content->HitTest(pos - scrollOffset);
 }
 
 void ZGIScrollPanel::ContainerResized(Vec2D newSize, Vec2D oldSize)
@@ -169,10 +175,13 @@ void ZGIScrollPanel::SetPosition(Vec2D position)
 
 void ZGIScrollPanel::Render(const Matrix44 & projection)
 {
-	if (isDirty)
+	if (isDirty || scrollNeedsUpdate)
 	{
 		SizeAndPositionScrollBar();
+		scrollNeedsUpdate = false;
 	}
+
+	ZGIWidget::Render(projection);
 
 	if (content)
 	{
@@ -210,8 +219,6 @@ void ZGIScrollPanel::Render(const Matrix44 & projection)
 
 		owningWindow->GetViewport()->SetViewportActive(gOffset);
 	}
-
-	ZGIWidget::Render(projection);
 }
 
 ZGIWidget * ZGIScrollPanel::HitTest(Vec2D pos)
@@ -240,6 +247,7 @@ bool ZGIScrollPanel::MouseMove(const PlatformMouseBase & mouse)
 	else
 	{
 		isScrolling = false;
+		if(content)return content->MouseMove(mouse);
 	}
 
 	return ZGIWidget::MouseMove(mouse);
@@ -284,4 +292,12 @@ void ZGIScrollPanel::Print(unsigned tabs) const
 	ZGIWidget::Print(tabs);
 
 	content->Print(tabs + 1);
+}
+
+bool ZGIScrollPanel::MouseScroll(const PlatformMouseBase & mouse, float scrollAmount)
+{
+	scrollOffset += scrollAmount;
+	scrollNeedsUpdate = true;
+
+	return true;
 }

@@ -196,6 +196,4 @@ void ZGIVerticalBoxPanel::Render(const Matrix44 & projection)
 	{
 		s.content->Render(projection);
 	}
-
-	ZGIPanel::Render(projection);
 }

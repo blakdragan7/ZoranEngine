@@ -18,12 +18,16 @@ private:
 	ZGIScrollBar* hScrollBar;
 	ZGIScrollBar* vScrollBar;
 
+	bool scrollNeedsUpdate;
+
 private:
 	void SizeAndPositionScrollBar();
 
 public:
 	ZGIScrollPanel(ZGIVirtualWindow* owner);
 	~ZGIScrollPanel();
+
+	Vec2D GetScrollOffset();
 
 	/* Pannel Override */
 
@@ -51,11 +55,15 @@ public:
 	virtual void Render(const Matrix44& projection)override;
 	virtual ZGIWidget* HitTest(Vec2D pos)override;
 
-	// mouse event
-	virtual bool RawKeyEvent(KeyEventType type, unsigned key);
-	virtual bool MouseMove(const PlatformMouseBase& mouse)override;
-
-	// keyboard event
 	virtual const char* GetClassString()const override { return "ZGIScrollPanel"; }
 	virtual void Print(unsigned tabs)const override;
+
+	// mouse event
+	virtual bool MouseMove(const PlatformMouseBase& mouse)override;
+	virtual bool MouseScroll(const PlatformMouseBase& mouse, float scrollAmount)override;
+
+	// keyboard event
+	virtual bool RawKeyEvent(KeyEventType type, unsigned key);
+
+	
 };

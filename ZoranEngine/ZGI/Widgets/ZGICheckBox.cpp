@@ -11,17 +11,13 @@
 
 void ZGICheckBox::WasChecked(bool checked)
 {
-	if (callback)
-	{
-		callback(checked);
-	}
 	if (handler)
 	{
 		handler->WasChecked(checked);
 	}
 }
 
-ZGICheckBox::ZGICheckBox(ZGIVirtualWindow* owningWindow) : handler(0), callback(0), content(0), ZGIWidget(owningWindow)
+ZGICheckBox::ZGICheckBox(ZGIVirtualWindow* owningWindow) : handler(0),  content(0), ZGIWidget(owningWindow)
 {
 	panel = new ZGIHorizontalBoxPanel(owningWindow);
 	image = new ZGIImage(owningWindow);

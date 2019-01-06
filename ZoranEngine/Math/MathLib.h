@@ -29,9 +29,10 @@ public:
 		return signum(x, std::is_signed<T>());
 	}
 
-	static float lerp(float start, float end, float alpha)
+	template<class t>
+	static t lerp(t start, t end, float alpha)
 	{
-		return (start * alpha) + (end * 1.0f - alpha);
+		return (start * (1.0f - alpha)) + (end * alpha);
 	}
 
 	static int ClipRangeToLine(ClipedVertex outPoints[2], ClipedVertex inPoints[2], const Vector2D& lineNormal, float offset, char clipEdge);

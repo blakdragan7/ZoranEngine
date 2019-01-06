@@ -46,6 +46,11 @@ bool ZGIPanel::MouseMove(const PlatformMouseBase &m)
 	return ZGIWidget::MouseMove(m);
 }
 
+Vector2D ZGIPanel::GetBounds() const
+{
+	return size;
+}
+
 bool ZGIPanel::MouseDown(const PlatformMouseBase &m)
 {
 	Vector2D pos = owningWindow->ConvertAbsoluteToVirtual(m.GetPosition());

@@ -24,6 +24,8 @@ public:
 	virtual ZGIWidget* HitTest(Vec2D pos)override;
 	virtual bool MouseMove(const PlatformMouseBase& m)override;
 
+	virtual Vector2D GetBounds()const override;
+
 	virtual bool MouseDown(const PlatformMouseBase&)override;
 	virtual bool MouseUp(const PlatformMouseBase&)override;
 };

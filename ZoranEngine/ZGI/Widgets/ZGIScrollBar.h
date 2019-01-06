@@ -23,9 +23,9 @@ public:
 	ZGIScrollBar(bool isVertical, ZGIVirtualWindow* owningWindow);
 	~ZGIScrollBar();
 
-	inline void SetScrollPositionAlpha(float alpha) { scrollAlpha = alpha; isDirty = true; }
+	inline void SetScrollPositionAlpha(float alpha) { scrollAlpha = alpha; scrollAlpha = min(max(scrollAlpha, 0.0f), 1.0f); isDirty = true; }
 	inline float GetScrollPositionAlpha()const { return scrollAlpha; }
-	inline void SetScrollBarSizeAlpha(float size) { sizeAlpha = size;  isDirty = true; }
+	inline void SetScrollBarSizeAlpha(float size) { sizeAlpha = size; sizeAlpha = min(max(sizeAlpha, 0.0f), 1.0f);  isDirty = true; }
 	inline float GetScrollBarSizeAlpha()const { return sizeAlpha; }
 
 	// widget override

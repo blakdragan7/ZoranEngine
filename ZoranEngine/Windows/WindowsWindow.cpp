@@ -5,6 +5,7 @@
 #include <iostream>
 
 #include <Windows/WindowsMouse.h>
+#include <Windowsx.h>
 
 #include <ZGI/Windows/ZGIVirtualWindow.h>
 
@@ -218,8 +219,8 @@ static LRESULT CALLBACK wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 		if (uMsg == WM_MOVE)
 		{
 
-			int x = LOWORD(lParam);
-			int y = HIWORD(lParam);
+			int x = GET_X_LPARAM(lParam);
+			int y = GET_Y_LPARAM(lParam);
 
 			pThis->SetWindowPosNoExecute(x, y);
 			
@@ -268,12 +269,22 @@ static LRESULT CALLBACK wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 		}
 		if (uMsg == WM_MOUSEMOVE)
 		{
-			float x = static_cast<float>(LOWORD(lParam));
+			float x = static_cast<float>(GET_X_LPARAM(lParam));
 			// inverse y because windows is topleft and ZoranEngine is bottomLeft
-			float y = pThis->GetSize().h - static_cast<float>(HIWORD(lParam));
+			float y = pThis->GetSize().h - static_cast<float>(GET_Y_LPARAM(lParam));
 			zEngine->MouseMove(x,y);
 			pThis->m->SetPosition({ x, y});
 			pThis->rootVirtualWindow->MouseMove(*pThis->m);
+		}
+		if (uMsg == WM_MOUSEWHEEL)
+		{
+			int val = GET_WHEEL_DELTA_WPARAM(wParam);
+
+			float x = static_cast<float>(GET_X_LPARAM(lParam));
+			float y = pThis->GetSize().h - static_cast<float>(GET_Y_LPARAM(lParam));
+			pThis->m->SetPosition({ x, y });
+
+			pThis->rootVirtualWindow->MouseScroll(*pThis->m, (float)val);
 		}
 	}
 

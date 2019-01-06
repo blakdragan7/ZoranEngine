@@ -42,6 +42,8 @@ public:
 	virtual void Print(unsigned tabs)const;
 	virtual void ContainerResized(Vec2D newSize, Vec2D oldSize) = 0;
 
+	virtual void RenderWithPositionAndSize(Vec2D position, Vec2D size, const Matrix44& projection);
+
 	// default draws debug info and update Debug render when dirty
 	virtual void Render(const Matrix44& projection);
 
@@ -74,6 +76,7 @@ public:
 	virtual bool MouseEnterd(const PlatformMouseBase&)override { return false; }
 	virtual bool MouseLeft(const PlatformMouseBase&)override { return false; }
 
+	virtual bool MouseScroll(const PlatformMouseBase&, float scrollAmount)override { return false; }
 	/*IKeyboardEvents Defaults*/
 
 	virtual bool RawKeyEvent(KeyEventType type, unsigned key)override { return false; };

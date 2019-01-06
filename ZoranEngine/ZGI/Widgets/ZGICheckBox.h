@@ -18,7 +18,6 @@ private:
 
 	bool isChecked;
 	IZGICheckBoxEventHandler* handler;
-	std::function<void(bool)> callback;
 
 	Color hoverHue;
 
@@ -35,9 +34,6 @@ public:
 
 	inline void SetEventHandler(IZGICheckBoxEventHandler* handler)
 	{this->handler = handler;}
-
-	inline void SetCallback(std::function<void(bool)> callback)
-	{this->callback = callback;}
 
 	void SetChecked(bool checked);
 	inline bool GetIsCheckd()const { return isChecked; }
