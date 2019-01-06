@@ -2174,6 +2174,9 @@
     <ClInclude Include="Interfaces\IZGICheckBoxEventHandler.h">
       <Filter>ZoranEngine\Interfaces</Filter>
     </ClInclude>
+    <ClInclude Include="Interfaces\IZGISpinBoxEventHandler.h">
+      <Filter>ZoranEngine\Interfaces</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ZoranEngine.rc">

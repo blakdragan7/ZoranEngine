@@ -361,6 +361,7 @@
     <ClInclude Include="Interfaces\ITickableObject.h" />
     <ClInclude Include="Interfaces\IZGIButtonEventHandler.h" />
     <ClInclude Include="Interfaces\IZGICheckBoxEventHandler.h" />
+    <ClInclude Include="Interfaces\IZGISpinBoxEventHandler.h" />
     <ClInclude Include="Math\MathHelpers.h" />
     <ClInclude Include="Math\MathLib.h" />
     <ClInclude Include="Math\Matrix44.h" />

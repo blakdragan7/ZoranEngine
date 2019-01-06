@@ -106,7 +106,7 @@ isCollapsed(true), isCollapsible(isCollapsible), indentPosition(indentPosition),
 	panel = new ZGIGridPanel(10, 1, owningWindow);
 
 	headerButton = new ZGIButton(owningWindow);
-	headerButton->SetButtonReleasedFunction([this]()
+	headerButton->SetButtonReleasedFunction([this](ZGIButton*)
 	{this->SetIsCollapsed(!this->isCollapsed); });
 	collapsedImage = tManager->TextureForFilePath("right-arrow.png", Render_Data_Type_RGBA_32, Render_Data_Format_Float);
 	openImage = tManager->TextureForFilePath("down-arrow.png", Render_Data_Type_RGBA_32, Render_Data_Format_Float);
@@ -129,7 +129,7 @@ isCollapsed(true), indentPosition(indentPosition), labelContent(0), content(0), 
 	panel = new ZGIGridPanel(10,1,owningWindow);
 
 	headerButton = new ZGIButton(owningWindow);
-	headerButton->SetButtonReleasedFunction([this]()
+	headerButton->SetButtonReleasedFunction([this](ZGIButton*)
 	{this->SetIsCollapsed(!this->isCollapsed); });
 	collapsedImage = tManager->TextureForFilePath("right-arrow.png", Render_Data_Type_RGBA_32, Render_Data_Format_Float);
 	openImage = tManager->TextureForFilePath("down-arrow.png", Render_Data_Type_RGBA_32, Render_Data_Format_Float);
@@ -182,7 +182,7 @@ TreeSocket::TreeSocket(TreeSocket && other)
 	collapsedImage = other.collapsedImage;
 	openImage = other.openImage;
 	parent = other.parent;
-	headerButton->SetButtonReleasedFunction([this]()
+	headerButton->SetButtonReleasedFunction([this](ZGIButton*)
 	{this->SetIsCollapsed(!this->isCollapsed); });
 	other.wasMoved = true;
 }

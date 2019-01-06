@@ -1,7 +1,8 @@
 #pragma once
+class ZGICheckBox;
 class IZGICheckBoxEventHandler
 {
 public:
-	virtual void WasChecked(bool checked) = 0;
+	virtual void WasChecked(ZGICheckBox*, bool checked) = 0;
 };
 

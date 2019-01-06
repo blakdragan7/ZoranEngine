@@ -30,8 +30,8 @@ bool ZGIButton::MouseDown(const PlatformMouseBase & mouse)
 	if (currentState != Button_State_Pressed)
 	{
 		currentState = Button_State_Pressed;
-		if (eventHandler)eventHandler->ButtonPressed();
-		else if (ButtonPressedFunction)ButtonPressedFunction();
+		if (eventHandler)eventHandler->ButtonPressed(this);
+		else if (ButtonPressedFunction)ButtonPressedFunction(this);
 		else ButtonPressed();
 	}
 	return false;
@@ -42,8 +42,8 @@ bool ZGIButton::MouseUp(const PlatformMouseBase & mouse)
 	widgetBrush->SetBackgroudHue({ 0.7f,0.7f,0.7f,0.0f });
 	
 	currentState = Button_State_None;
-	if (eventHandler)eventHandler->ButtonReleased();
-	else if (ButtonReleasedFunction)ButtonReleasedFunction();
+	if (eventHandler)eventHandler->ButtonReleased(this);
+	else if (ButtonReleasedFunction)ButtonReleasedFunction(this);
 	else ButtonReleased();
 	
 	return false;
@@ -55,8 +55,8 @@ bool ZGIButton::MouseEnterd(const PlatformMouseBase & mouse)
 	if (currentState != Button_State_Hovered)
 	{
 		currentState = Button_State_Hovered;
-		if (eventHandler)eventHandler->ButtonHovered();
-		else if (ButtonHoveredFunction)ButtonHoveredFunction();
+		if (eventHandler)eventHandler->ButtonHovered(this);
+		else if (ButtonHoveredFunction)ButtonHoveredFunction(this);
 		else ButtonWasHovered();
 	}
 	return false;
@@ -67,8 +67,8 @@ bool ZGIButton::MouseLeft(const PlatformMouseBase & mouse)
 	widgetBrush->SetBackgroudHue({ 0.7f,0.7f,0.7f,0.0f });
 	
 	currentState = Button_State_None;
-	if (eventHandler)eventHandler->ButtonStopedBeingHovered();
-	else if (ButtonStopedHoveredFunction)ButtonStopedHoveredFunction();
+	if (eventHandler)eventHandler->ButtonStopedBeingHovered(this);
+	else if (ButtonStopedHoveredFunction)ButtonStopedHoveredFunction(this);
 	else ButtonStopedHovered();
 	
 	return false;

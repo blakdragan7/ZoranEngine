@@ -1,10 +1,11 @@
 #pragma once
+class ZGIButton;
 class IZGIButtonEventHandler
 {
 public:
-	virtual void ButtonPressed() = 0;
-	virtual void ButtonReleased() = 0;
-	virtual void ButtonHovered() = 0;
-	virtual void ButtonStopedBeingHovered() = 0;
+	virtual void ButtonPressed(ZGIButton*) = 0;
+	virtual void ButtonReleased(ZGIButton*) = 0;
+	virtual void ButtonHovered(ZGIButton*) = 0;
+	virtual void ButtonStopedBeingHovered(ZGIButton*) = 0;
 };
 

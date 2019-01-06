@@ -13,7 +13,7 @@ void ZGICheckBox::WasChecked(bool checked)
 {
 	if (handler)
 	{
-		handler->WasChecked(checked);
+		handler->WasChecked(this, checked);
 	}
 }
 

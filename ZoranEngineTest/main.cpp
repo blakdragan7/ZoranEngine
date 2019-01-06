@@ -195,30 +195,54 @@ void TestGUIStuff()
 
 	auto window = engine.GetMainWindow()->GetRootVirtualWindow();
 
-	auto w = new ZGIWrapBoxPanel({300,150}, window);
+	//auto w = new ZGIWrapBoxPanel({300,150}, window);
 	//auto p = new ZGISwitcherPanel(window);
 	//auto p = new ZGIOverlayPanel(window);
 	//auto s = new ZGIScrollPanel(window);
 	//auto s = new ZGIUniformScalePanel(window);
-	auto p = new ZGIVerticalBoxPanel(window);
+	//auto p = new ZGIVerticalBoxPanel(window);
 	//auto p = new ZGIHorizontalBoxPanel(window);
+	auto p = new ZGIFreeFormPanel(window);
 
-	auto image1 = new ZGIImage(window);
-	auto text = new ZGILabel(window);
-	auto spacer = new ZGISpacer(window);
+	auto s = new ZGISpinBox(false, 0,0.5f,window);
+	auto c = new ZGIComboBox(window);
 
-	auto check = new ZGICheckBox(window);
+	s->SetSize({300,100});
+	s->SetPosition({600,900});
 
-	auto progress = new ZGIProgressBar(window);
+	c->SetSize({300,100});
+	c->SetPosition({300,900});
 
-	image1->SetImage("test.png");
-	text->SetText("check box");
+	for (int i = 0; i < 10; i++)
+	{
+		auto text = new ZGILabel(window);
+		text->SetText("Item " + std::to_string(i) );
+		text->SetAutoScaleFont(false);
+		text->SetFontSize(100);
+		text->SetShouldClipFont(false);
+		text->SetShouldWordWrap(false);
 
-	text->SetBoundsFromSize(true);
-	check->SetContent(text);
+		c->AddItem(text);
+	}
 
-	p->AddWidget(image1);
-	p->AddWidget(check);
+	p->AddWidget(c);
+	p->AddWidget(s);
+	//auto image1 = new ZGIImage(window);
+	//auto text = new ZGILabel(window);
+	//auto spacer = new ZGISpacer(window);
+
+	//auto check = new ZGICheckBox(window);
+
+	//auto progress = new ZGIProgressBar(window);
+
+	//image1->SetImage("test.png");
+	//text->SetText("check box");
+
+	//text->SetBoundsFromSize(true);
+	//check->SetContent(text);
+
+	//p->AddWidget(image1);
+	//p->AddWidget(check);
 
 	window->SetRootContent(p);
 

@@ -29,7 +29,7 @@ ZGICollapsibleListPanel::ZGICollapsibleListPanel(bool dynamicSize, ZGIVirtualWin
 	header->AddWidget(headerButton, 0, 0);
 	header->AddWidget(headerLabel, 1, 0, 9);
 
-	headerButton->SetButtonReleasedFunction([this]() {SetCollapsed(!this->GetIsCollapsed()); });
+	headerButton->SetButtonReleasedFunction([this](ZGIButton*) {SetCollapsed(!this->GetIsCollapsed()); });
 
 	headerLabel->SetAlignment(Alignment_Left | Alignment_Bottom);
 	headerLabel->SetFontSize(30);
