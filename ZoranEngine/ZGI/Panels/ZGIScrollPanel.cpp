@@ -141,7 +141,7 @@ int ZGIScrollPanel::GetMaxNumberOfWidgets() const
 
 ZGIWidget * ZGIScrollPanel::WidgetForPosition(Vec2D pos)
 {
-	return content->HitTest(pos - scrollOffset);
+	return content->HitTest(pos - GetScrollOffset());
 }
 
 void ZGIScrollPanel::ContainerResized(Vec2D newSize, Vec2D oldSize)
