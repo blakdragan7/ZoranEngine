@@ -61,6 +61,7 @@ struct TextGlyph
 
 struct UniWord
 {
+	UniLine* line;
 	std::vector<TextGlyph> glyphs; // list of glyphs that make up this word
 	double advance; // advances the whole word
 	double spaceAdvance; // advances space after word
@@ -68,13 +69,34 @@ struct UniWord
 	size_t id;
 	static size_t n_id;
 
-	UniWord() : advance(0), spaceAdvance(0), id(n_id++) {}
+	UniWord(UniLine* line) : line(line), advance(0), spaceAdvance(0), id(n_id++) {}
 	UniWord(const UniWord& other) : advance(other.advance), spaceAdvance(other.spaceAdvance), id(other.id) 
 	{
 		glyphs = std::vector<TextGlyph>(other.glyphs);
 	}
 
 	bool operator ==(const UniWord& other)
+	{
+		return id == other.id;
+	}
+};
+
+struct UniLine
+{
+	size_t id;
+	static size_t n_id;
+	Vector2D renderStart;// The starting render location for this line
+	std::vector<UniWord> words; // list of words that make up this line
+	double advance; // advances the whole line
+
+	UniLine() : id(n_id++){}
+
+	UniLine(const UniLine& other) : advance(other.advance), id(other.id)
+	{
+		words = std::vector<UniWord>(other.words);
+	}
+
+	bool operator ==(const UniLine& other)
 	{
 		return id == other.id;
 	}
@@ -128,17 +150,17 @@ protected:
 
 private:
 	bool UpdateWordFromGlyphInsert(UniWord& word, int position, uint32_t glyph);
-	bool UpdateWordFromGlyph(UniWord& word, uint32_t glyph, bool& wasCarriageReturn,bool& wasNewLine, bool& wasTab, float& currentLineSize);
+	bool UpdateWordFromGlyph(UniWord& word, UniLine& line,uint32_t glyph, bool& wasCarriageReturn,bool& wasNewLine, bool& wasTab, float& currentLineSize);
 
 protected:
 	inline size_t GetCharCount()const { return charCount; }
-	bool GlyphWalkForPos(int pos,UniWord** word, int& insertPos)const;
+	bool GlyphWalkForPos(int pos, UniLine** line, UniWord** word, int& insertPos)const;
 
 public:
 	FontRenderer(FontResource* font);
 	virtual ~FontRenderer();
 
-	std::vector<UniWord>* words;
+	std::vector<UniLine>* lines;
 
 	virtual void UpdateRender() = 0;
 

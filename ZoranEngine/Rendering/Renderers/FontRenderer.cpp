@@ -6,6 +6,7 @@
 #include <stdarg.h>
 
 size_t UniWord::n_id = 0;
+size_t UniLine::n_id = 0;
 
 bool FontRenderer::UpdateWordFromGlyphInsert(UniWord & word, int position, uint32_t glyph)
 {
@@ -17,9 +18,9 @@ bool FontRenderer::UpdateWordFromGlyphInsert(UniWord & word, int position, uint3
 		word.glyphs.push_back(glyph);
 		word.spaceAdvance = spaceAdvance;
 
-		UniWord nextWord;
+		UniWord nextWord(word.line);
 		nextWord.glyphs.insert(nextWord.glyphs.begin(), copy.glyphs.begin() + position, copy.glyphs.end());
-		words->insert(std::find(words->begin(), words->end(), word) + 1, nextWord);
+		word.line->words.insert(std::find(word.line->words.begin(), word.line->words.end(), word) + 1, nextWord);
 
 		return true;
 	}
@@ -30,9 +31,13 @@ bool FontRenderer::UpdateWordFromGlyphInsert(UniWord & word, int position, uint3
 		word.glyphs.erase(word.glyphs.begin() + position, word.glyphs.end());
 		word.glyphs.push_back('\n');
 
-		UniWord nextWord;
+		UniLine line;
+		UniWord nextWord(&line);
 		nextWord.glyphs.insert(nextWord.glyphs.begin(), copy.glyphs.begin() + position, copy.glyphs.end());
-		words->insert(std::find(words->begin(), words->end(), word) + 1, nextWord);
+		line.words.push_back(nextWord);
+
+		// insert new line
+		lines->insert(std::find(lines->begin(), lines->end(),copy.line) + 1, line);
 
 		lineCount++;
 
@@ -44,9 +49,9 @@ bool FontRenderer::UpdateWordFromGlyphInsert(UniWord & word, int position, uint3
 		word.glyphs.erase(word.glyphs.begin() + position, word.glyphs.end());
 		word.glyphs.push_back(glyph);
 
-		UniWord nextWord;
+		UniWord nextWord(word.line);
 		nextWord.glyphs.insert(nextWord.glyphs.begin(), copy.glyphs.begin() + position, copy.glyphs.end());
-		words->insert(std::find(words->begin(), words->end(), word) + 1, nextWord);
+		word.line->words.insert(std::find(word.line->words.begin(), word.line->words.end(), word) + 1, nextWord);
 
 		return true;
 	}
@@ -59,7 +64,7 @@ bool FontRenderer::UpdateWordFromGlyphInsert(UniWord & word, int position, uint3
 	}
 }
 
-bool FontRenderer::UpdateWordFromGlyph(UniWord & word, uint32_t glyph, bool& wasCarriageReturn, bool& wasNewLine, bool& wasTab, float& currentLineSize)
+bool FontRenderer::UpdateWordFromGlyph(UniWord & word, UniLine& line, uint32_t glyph, bool& wasCarriageReturn, bool& wasNewLine, bool& wasTab, float& currentLineSize)
 {
 	float uniformScale = 1.0f;
 
@@ -70,8 +75,8 @@ bool FontRenderer::UpdateWordFromGlyph(UniWord & word, uint32_t glyph, bool& was
 		wasTab = false;
 		word.glyphs.push_back(glyph);
 		word.spaceAdvance = spaceAdvance;
-		words->push_back(word);
-		word = UniWord();
+		line.words.push_back(word);
+		word = UniWord(&line);
 		currentLineSize += spaceAdvance;
 		return true;
 	}
@@ -81,7 +86,7 @@ bool FontRenderer::UpdateWordFromGlyph(UniWord & word, uint32_t glyph, bool& was
 		{
 			wasNewLine = true;
 			wasCarriageReturn = false;
-			(*words)[words->size() - 1].newLineType = NewLineType_EOL;
+			line.words[line.words.size() - 1].newLineType = NewLineType_EOL;
 			return false;
 		}
 		
@@ -90,8 +95,15 @@ bool FontRenderer::UpdateWordFromGlyph(UniWord & word, uint32_t glyph, bool& was
 
 		if (wasNewLine == false && wasTab == false)
 		{
-			words->push_back(word);
-			word = UniWord();
+			line.words.push_back(word);
+
+			line.advance = currentLineSize;
+
+			lines->push_back(line);
+
+			line = UniLine();
+			word = UniWord(&line);
+
 			lineCount++;
 
 			maxLineSize = max(maxLineSize, currentLineSize);
@@ -124,8 +136,8 @@ bool FontRenderer::UpdateWordFromGlyph(UniWord & word, uint32_t glyph, bool& was
 		wasNewLine = false;
 		wasCarriageReturn = false;
 
-		words->push_back(word);
-		word = UniWord();
+		line.words.push_back(word);
+		word = UniWord(&line);
 		return true;
 	}
 	else
@@ -133,6 +145,7 @@ bool FontRenderer::UpdateWordFromGlyph(UniWord & word, uint32_t glyph, bool& was
 		double advance = fontResource->GlyphForUnicode(glyph).advance;
 		word.glyphs.push_back(glyph);
 		word.advance += advance;
+
 		wasCarriageReturn = false;
 		wasNewLine = false;
 		wasTab = false;
@@ -142,28 +155,32 @@ bool FontRenderer::UpdateWordFromGlyph(UniWord & word, uint32_t glyph, bool& was
 	}
 }
 
-bool FontRenderer::GlyphWalkForPos(int pos, UniWord** word, int& insertPos)const
+bool FontRenderer::GlyphWalkForPos(int pos, UniLine** line,UniWord** word, int& insertPos)const
 {
 	if (pos < -1)return false;
 	
 	int currentPos = 0;
 
-	for (auto& c_word : *words)
+	for (auto& c_line : *lines)
 	{
-		int iPos = 0;
-		for (auto& c : c_word.glyphs)
+		for (auto& c_word : c_line.words)
 		{
-			if (pos == currentPos)
+			int iPos = 0;
+			for (auto& c : c_word.glyphs)
 			{
-				*word = &c_word;
-				insertPos = iPos;
+				if (pos == currentPos)
+				{
+					*line = &c_line;
+					*word = &c_word;
+					insertPos = iPos;
 
-				return true;
-			}
-			else
-			{
-				currentPos++;
-				iPos++;
+					return true;
+				}
+				else
+				{
+					currentPos++;
+					iPos++;
+				}
 			}
 		}
 	}
@@ -174,7 +191,7 @@ bool FontRenderer::GlyphWalkForPos(int pos, UniWord** word, int& insertPos)const
 FontRenderer::FontRenderer(FontResource* font) : isDirty(false), fontResource(font), shouldClip(true), shouldWordWrap(true),
 		thickness(0.0f), border(0.0f), shadowSoftness(0.0f), shadowOpacity(0.0f), charCount(0), lineCount(0), maxLineSize(0)
 {
-	words = new std::vector<UniWord>();
+	lines = new std::vector<UniLine>;
 	shadowVector = Vector2D(0.0625f, 0.03125f);
 	fontColor = Color(1.0f, 1.0f, 1.0f, 1.0f);
 	borderColor = Vector3D(1.0f, 0.0f, 0.0f);
@@ -184,17 +201,18 @@ FontRenderer::FontRenderer(FontResource* font) : isDirty(false), fontResource(fo
 
 FontRenderer::~FontRenderer()
 {
-	delete words;
+	delete lines;
 }
 
 TextGlyph * FontRenderer::GlyphForPos(int pos)const
 {
-	if(words->size() < 1)
+	if(lines->size() < 1)
 		return nullptr;
 	
+	UniLine* line;
 	UniWord* word;
 	int textPos;
-	if (GlyphWalkForPos(pos, &word, textPos))
+	if (GlyphWalkForPos(pos, &line, &word, textPos))
 	{
 		return &word->glyphs[textPos];
 	}
@@ -211,31 +229,34 @@ int FontRenderer::CursorPosForLocation(Vec2D location)const
 
 	Vector2D closestDiff(100000.0f,100000.0f);
 
-	for (auto& w : *words)
+	for (auto& line : *lines)
 	{
-		for (auto& bounds : w.glyphs)
+		for (auto& w : line.words)
 		{
-			if (auto i = bounds.Intersects(location))
+			for (auto& bounds : w.glyphs)
 			{
-				return  i > 0 ? currentPos : currentPos - 1;
-			}
-			else
-			{
-				Vector2D diff(bounds.endline.x - location.x, bounds.baseline.y - location.y);
-				diff = diff.getAbs();
-				if (diff.y <= closestDiff.y)
+				if (auto i = bounds.Intersects(location))
 				{
-					if (diff.x <= closestDiff.x)
+					return  i > 0 ? currentPos : currentPos - 1;
+				}
+				else
+				{
+					Vector2D diff(bounds.endline.x - location.x, bounds.baseline.y - location.y);
+					diff = diff.getAbs();
+					if (diff.y <= closestDiff.y)
 					{
-						closestPos = currentPos;
-					
-						closestDiff.x = diff.x;
+						if (diff.x <= closestDiff.x)
+						{
+							closestPos = currentPos;
+
+							closestDiff.x = diff.x;
+						}
+
+						closestDiff.y = diff.y;
 					}
 
-					closestDiff.y = diff.y;
+					++currentPos;
 				}
-
-				++currentPos;
 			}
 		}
 	}
@@ -245,9 +266,10 @@ int FontRenderer::CursorPosForLocation(Vec2D location)const
 
 int FontRenderer::CursorPosInAboveLine(int pos) const
 {
+	UniLine* line;
 	UniWord* word = 0;
 	int wordPos = 0;
-	if (GlyphWalkForPos(pos, &word, wordPos))
+	if (GlyphWalkForPos(pos, &line, &word, wordPos))
 	{
 		Vector2D newLocation(word->glyphs[wordPos].endline.x, word->glyphs[wordPos].baseline.y );
 
@@ -261,9 +283,10 @@ int FontRenderer::CursorPosInAboveLine(int pos) const
 
 int FontRenderer::CursorPosInBelowLine(int pos) const
 {
+	UniLine* line;
 	UniWord* word = 0;
 	int wordPos = 0;
-	if (GlyphWalkForPos(pos, &word, wordPos))
+	if (GlyphWalkForPos(pos, &line, &word, wordPos))
 	{
 		Vector2D newLocation(word->glyphs[wordPos].endline.x, word->glyphs[wordPos].baseline.y);
 
@@ -280,39 +303,38 @@ int FontRenderer::GetLastCursorPos() const
 {
 	int pos = 0;
 	
-	for (auto& w : *words)
+	for (auto& line : *lines)
 	{
-		pos += static_cast<int>(w.glyphs.size());
+		for (auto& w : line.words)
+		{
+			pos += static_cast<int>(w.glyphs.size());
+		}
 	}
-	
 	return pos;
 }
 
 void FontRenderer::InsertGlyph(uint32_t glyph, int pos)
 {
+	if (lines->size() == 0)
+	{
+		AddGlyph(glyph);
+		return;
+	}
+	else if (lines->size() == 1 && (*lines)[0].words.size() == 0)
+	{
+		AddGlyph(glyph);
+		return;
+	}
+	else if (lines->size() == 1 && (*lines)[0].words[0].glyphs.size() == 0)
+	{
+		UpdateWordFromGlyphInsert((*lines)[0].words[0], 0, glyph);
+	}
+
 	int insertPos = 0;
 	UniWord* word = 0;
+	UniLine* line = 0;
 
-	if (words->size() == 0)
-	{
-		UniWord word;
-		UpdateWordFromGlyphInsert(word, 0, glyph);
-		words->push_back(word);
-
-		isDirty = true;
-		return;
-	}
-
-	else if (words->size() == 1 && (*words)[0].glyphs.size() == 0)
-	{
-		UpdateWordFromGlyphInsert((*words)[0], 0, glyph);
-
-		isDirty = true;
-		return;
-	}
-
-
-	if (GlyphWalkForPos(pos, &word, insertPos))
+	if (GlyphWalkForPos(pos, &line, &word, insertPos))
 	{
 		UpdateWordFromGlyphInsert(*word, insertPos, glyph);
 	}
@@ -326,54 +348,68 @@ void FontRenderer::InsertGlyph(uint32_t glyph, int pos)
 
 void FontRenderer::AddGlyph(uint32_t glyph)
 {
-	if (words->size() == 0)
+	if (lines->size() == 0)
 	{
-		UniWord word;
+		UniLine line;
+		UniWord word(&line);
 		UpdateWordFromGlyphInsert(word, 0, glyph);
-		words->push_back(word);
-	}
-	else if (words->size() == 1 && (*words)[0].glyphs.size() == 0)
+		line.words.push_back(word);
+		lines->push_back(line);
+	}	
+	else
 	{
-		UpdateWordFromGlyphInsert((*words)[0], 0, glyph);
+		if (lines->back().words.size() == 0)
+		{
+			UniLine& line = lines->back();
+			UniWord word(&line);
+			UpdateWordFromGlyphInsert(word, 0, glyph);
+			line.words.push_back(word);
+		}
+		else
+		{
+			UniWord& word = lines->back().words.back();
+			UpdateWordFromGlyphInsert(word, static_cast<int>(word.glyphs.size()), glyph);
+		}
 	}
-
-	UniWord& word = (*words)[words->size() - 1];
-	UpdateWordFromGlyphInsert(word, static_cast<int>(word.glyphs.size()), glyph);
-
 	isDirty = true;
 }
 
 void FontRenderer::RemoveLastGlyph()
 {
-	if (words->size() > 0)
+	if (lines->size() > 0)
 	{
-		UniWord& word = (*words)[words->size() - 1];
-		
-		charCount--;
-		if (word.glyphs.size() > 0)
+		if (lines->back().words.size() > 0)
 		{
-			word.glyphs.pop_back();
-			if (word.glyphs.size() == 0)
-				words->pop_back();
-		}
+			UniWord& word = lines->back().words[lines->back().words.size() - 1];
 
+			charCount--;
+			if (word.glyphs.size() > 0)
+			{
+				word.glyphs.pop_back();
+				if (word.glyphs.size() == 0)
+					lines->back().words.pop_back();
+			}
+		}
 	}
 	isDirty = true;
 }
 
 void FontRenderer::RemoveGlyphAtCursurPos(int pos)
 {
+	UniLine* line = 0;
 	UniWord* word = 0;
 	int location = 0;
 
-	if (GlyphWalkForPos(pos, &word,location))
+	if (GlyphWalkForPos(pos, &line, &word,location))
 	{
 		if (word->glyphs[location] != '\n' && word->glyphs[location] != '\t' && word->glyphs[location] != ' ')
 			charCount--;
 		word->glyphs.erase(word->glyphs.begin() + location);
 		if (word->glyphs.size() == 0)
 		{
-			remove(*words, *word);
+			remove(line->words, *word);
+			if(line->words.size() == 0)
+				remove(*lines, *line);
 		}
 		isDirty = true;
 	}
@@ -381,7 +417,7 @@ void FontRenderer::RemoveGlyphAtCursurPos(int pos)
 
 void FontRenderer::SetText(const char * text)
 {
-	words->clear();
+	lines->clear();
 	const char* ptr = text;
 	
 	charCount = 0;
@@ -391,13 +427,14 @@ void FontRenderer::SetText(const char * text)
 	bool wasCarriageReturn = false;
 	bool wasNewLine = false;
 	bool wasTab = false;
-	UniWord word;
+	UniLine line;
+	UniWord word(&line);
 	for (; *ptr != 0; ptr++)
 	{
-		UpdateWordFromGlyph(word, *ptr, wasCarriageReturn, wasNewLine, wasTab, currentLineSize);
+		UpdateWordFromGlyph(word, line, *ptr, wasCarriageReturn, wasNewLine, wasTab, currentLineSize);
 
 	}
-	words->push_back(word);
+	lines->push_back(line);
 
 	maxLineSize = max(maxLineSize, currentLineSize);
 	lineCount++;
@@ -407,7 +444,6 @@ void FontRenderer::SetText(const char * text)
 
 void FontRenderer::SetText(const char16_t * text)
 {
-	words->clear();
 	const char16_t* ptr = text;
 
 	bool wasCarriageReturn = false;
@@ -417,12 +453,13 @@ void FontRenderer::SetText(const char16_t * text)
 	lineCount = 0;
 	maxLineSize = 0;
 	float currentLineSize = 0;
-	UniWord word;
+	UniLine line;
+	UniWord word(&line);
 	for (; *ptr != 0; ptr++)
 	{
-		UpdateWordFromGlyph(word,*ptr,wasCarriageReturn,wasNewLine,wasTab, currentLineSize);
+		UpdateWordFromGlyph(word, line, *ptr,wasCarriageReturn,wasNewLine,wasTab, currentLineSize);
 	}
-	words->push_back(word);
+	lines->push_back(line);
 
 	maxLineSize = max(maxLineSize, currentLineSize);
 	lineCount++;
@@ -432,7 +469,7 @@ void FontRenderer::SetText(const char16_t * text)
 
 void FontRenderer::SetText(const char32_t * text)
 {
-	words->clear();
+	lines->clear();
 	const char32_t* ptr = text;
 
 	bool wasCarriageReturn = false;
@@ -442,12 +479,13 @@ void FontRenderer::SetText(const char32_t * text)
 	lineCount = 0;
 	maxLineSize = 0;
 	float currentLineSize = 0;
-	UniWord word;
+	UniLine line;
+	UniWord word(&line);
 	for (; *ptr != 0; ptr++)
 	{
-		UpdateWordFromGlyph(word, *ptr, wasCarriageReturn, wasNewLine, wasTab, currentLineSize);
+		UpdateWordFromGlyph(word, line, *ptr, wasCarriageReturn, wasNewLine, wasTab, currentLineSize);
 	}
-	words->push_back(word);
+	lines->push_back(line);
 
 	maxLineSize = max(maxLineSize, currentLineSize);
 	lineCount++;
@@ -457,7 +495,7 @@ void FontRenderer::SetText(const char32_t * text)
 
 void FontRenderer::SetText(const std::string & text)
 {
-	words->clear();
+	lines->clear();
 
 	bool wasCarriageReturn = false;
 	bool wasNewLine = false;
@@ -466,12 +504,13 @@ void FontRenderer::SetText(const std::string & text)
 	lineCount = 0;
 	maxLineSize = 0;
 	float currentLineSize = 0;
-	UniWord word;
+	UniLine line;
+	UniWord word(&line);
 	for (const char c : text)
 	{
-		UpdateWordFromGlyph(word, c, wasCarriageReturn, wasNewLine, wasTab, currentLineSize);
+		UpdateWordFromGlyph(word, line, c, wasCarriageReturn, wasNewLine, wasTab, currentLineSize);
 	}
-	words->push_back(word);
+	lines->push_back(line);
 
 	maxLineSize = max(maxLineSize, currentLineSize);
 	lineCount++;
@@ -481,7 +520,7 @@ void FontRenderer::SetText(const std::string & text)
 
 void FontRenderer::SetText(const std::wstring & text)
 {
-	words->clear();
+	lines->clear();
 
 	bool wasCarriageReturn = false;
 	bool wasNewLine = false;
@@ -490,13 +529,13 @@ void FontRenderer::SetText(const std::wstring & text)
 	lineCount = 0;
 	maxLineSize = 0;
 	float currentLineSize = 0;
-	UniWord word;
-
+	UniLine line;
+	UniWord word(&line);
 	for (const wchar_t c : text)
 	{
-		UpdateWordFromGlyph(word, c, wasCarriageReturn, wasNewLine, wasTab, currentLineSize);
+		UpdateWordFromGlyph(word, line, c, wasCarriageReturn, wasNewLine, wasTab, currentLineSize);
 	}
-	words->push_back(word);
+	lines->push_back(line);
 
 	maxLineSize = max(maxLineSize, currentLineSize);
 	lineCount++;
