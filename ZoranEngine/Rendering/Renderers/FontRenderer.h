@@ -17,8 +17,9 @@ struct TextGlyph
 	Vector2D baseline, endline;
 
 	uint32_t glyph;
+	double advance;
 
-	TextGlyph(uint32_t glyph) : glyph(glyph) {}
+	TextGlyph(uint32_t glyph, double advance) : glyph(glyph), advance(advance) {}
 
 	// returns -1 if closer to left edge 1 if close to right edge or 0 if no intersection
 
@@ -59,6 +60,7 @@ struct TextGlyph
 	}
 };
 
+struct UniLine;
 struct UniWord
 {
 	UniLine* line;
@@ -91,7 +93,7 @@ struct UniLine
 
 	UniLine() : id(n_id++){}
 
-	UniLine(const UniLine& other) : advance(other.advance), id(other.id)
+	UniLine(const UniLine& other) : advance(other.advance), id(other.id), renderStart(other.renderStart)
 	{
 		words = std::vector<UniWord>(other.words);
 	}
@@ -107,6 +109,8 @@ class ZoranEngine_EXPORT FontRenderer : public RenderedObjectBase
 {
 protected:
 	FontResource* fontResource;
+
+	std::vector<UniLine>* lines;
 
 	// Uniform values
 
@@ -133,18 +137,14 @@ protected:
 	size_t lineCount;
 	float maxLineSize;
 
-	Vector2D renderStart;
-	Vector2D renderSize;
-
-	Vector2D totalSize;
-
 	// clipping and word wrapping
 
 	bool shouldWordWrap;
 	bool shouldClip;
-
-	// includes the edge of the rendered area and the width to wordwrap at
-	Vector2D bounds; 
+	
+	Vector2D bottomLeft; // the bottom left bounds of the text bounds
+	Vector2D topRight; // the topRight bounds of the text bounds
+	Vector2D bounds; // the size of the text bounds
 
 	bool isDirty;
 
@@ -156,13 +156,14 @@ protected:
 	inline size_t GetCharCount()const { return charCount; }
 	bool GlyphWalkForPos(int pos, UniLine** line, UniWord** word, int& insertPos)const;
 
+	virtual void PushToGPU(float* verts, size_t vertSize, float* uvs, size_t uvSize) = 0;
+	virtual void UpdateRender();
+
 public:
 	FontRenderer(FontResource* font);
 	virtual ~FontRenderer();
 
-	std::vector<UniLine>* lines;
-
-	virtual void UpdateRender() = 0;
+	virtual void UpdateTextRenderForAlignment(AlignmentBit alignment);
 
 	TextGlyph* GlyphForPos(int pos)const;
 	int CursorPosForLocation(Vec2D location)const;
@@ -171,15 +172,14 @@ public:
 
 	int GetLastCursorPos()const;
 
+	inline Vec2D GetBottomLeft()const { return bottomLeft; }
+
 	inline float GetMaxLineSize()const { return maxLineSize; }
 	inline size_t GetLineCount()const { return lineCount; }
 
 	inline bool GetIsDirty()const { return isDirty; }
 
 	inline FontResource* GetFontResource()const { return fontResource; }
-
-	inline Vec2D GetRenderStart()const { return renderStart; }
-	inline Vec2D GetTotalSize()const { return totalSize; };
 
 	inline void SetShadowColor(Vec3D color) { shadowColor = color; }
 	inline void SetShadowVector(Vec2D vector) { shadowVector = vector; }
@@ -189,13 +189,10 @@ public:
 	inline void SetFontThickness(float thickness) { this->thickness = thickness; }
 	inline void SetFontBorder(float border) { this->border = border; }
 
-	inline void SetRenderStart(Vec2D start) { renderStart = start; isDirty= true;}
-	inline void SetRenderSize(Vec2D size) { renderSize = size; isDirty = true;}
-
 	inline void SetFontColor(const Color& bColor) { fontColor = bColor;}
 	inline void SetBorderColor(const Color& bColor) { borderColor = bColor;}
 
-	inline void SetBounds(Vec2D Bounds) { bounds = Bounds; isDirty = true;}
+	inline void SetBounds(Vec2D position, Vec2D Bounds);
 
 	inline void SetPPTSize(float _pptSize) { pptSize = _pptSize; isDirty = true; }
 	inline float GetPPTSize()const { return pptSize; }
@@ -205,6 +202,8 @@ public:
 
 	inline bool GetShouldWordWrap()const { return shouldWordWrap; }
 	inline bool GetShouldClip()const { return shouldClip; }
+
+	// text insertion
 
 	void InsertGlyph(uint32_t glyph, int pos);
 	void AddGlyph(uint32_t glyph);

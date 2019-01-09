@@ -18,10 +18,6 @@ void ZGITextEdit::UpdateCursorFromPos()
 		{
 			cursor->SetPosition(glyph->baseline);
 		}
-		else
-		{
-			cursor->SetPosition(renderer->GetRenderStart());
-		}
 	}
 	else
 	{
@@ -29,10 +25,6 @@ void ZGITextEdit::UpdateCursorFromPos()
 		if (glyph)
 		{
 			cursor->SetPosition({ glyph->endline.x, glyph->baseline.y });
-		}
-		else
-		{
-			cursor->SetPosition(renderer->GetRenderStart());
 		}
 	}
 }

@@ -10,49 +10,6 @@
 #include <Core/PlatformMouseBase.h>
 #include <Core/CommomTypes.h>
 
-void ZGILabel::RepositionTextFromAlignment()
-{
-	// TODO: make this render correctly, center text instead of centering renderstart etc .. 
-
-	float x = 0;
-	float y = 0;
-
-	float offset = renderer->GetPPTSize() * 0.7333f;
-
-	bool hasSetX, hasSetY;
-	hasSetX = hasSetY = false;
-
-	if (alignment & Alignment_Bottom)
-	{
-		y = position.y;
-		hasSetY = true;
-	}
-	if (alignment & Alignment_Left)
-	{
-		x = position.x;
-		hasSetX = true;
-	}
-	if (alignment & Alignment_Right)
-	{
-		if (hasSetX)Log(LogLevel_Warning, "Only one of Alignment_Right or Alignment_Left should be set for Alignment but Both are set!!");
-		x = position.x + textRenderBounds.w - offset;
-		hasSetX = true;
-	}
-	if (alignment & Alignment_Top)
-	{
-		if (hasSetY)Log(LogLevel_Warning, "Only one of Alignment_Top or Alignment_Bottom should be set for Alignment but Both are set!!");
-		y = position.y + textRenderBounds.h - offset;
-		hasSetY = true;
-	}
-	if (alignment & Alignment_Center)
-	{
-		if(hasSetX == false)x = position.x + (textRenderBounds.w / 2.0f) - (renderer->GetPPTSize() * 0.5f);
-		if(hasSetY == false)y = position.y + (textRenderBounds.h / 2.0f) - (renderer->GetPPTSize() * 0.5f);
-	}
-
-	renderer->SetRenderStart({ x, y });
-}
-
 ZGILabel::ZGILabel(ZGIVirtualWindow * owningWindow) : setBoundsFromSize(true), fontNeedsUpdate(false), autoScaleFont(true), alignment(Alignment_Left | Alignment_Top), ZGIWidget(owningWindow)
 {
 	auto rm = RM;
@@ -143,7 +100,7 @@ void ZGILabel::SetShouldClipFont(bool clip)
 
 void ZGILabel::SetTextBounds(Vec2D bounds)
 {
-	renderer->SetBounds(bounds);
+	renderer->SetBounds(position, bounds);
 	textRenderBounds = bounds;
 	fontNeedsUpdate = true;
 }
@@ -152,7 +109,8 @@ void ZGILabel::Render(const Matrix44 & projection)
 {
 	if (isDirty || fontNeedsUpdate)
 	{
-		RepositionTextFromAlignment();
+		renderer->SetBounds(position, size);
+		renderer->UpdateTextRenderForAlignment(alignment);
 		fontNeedsUpdate = false;
 	}
 
@@ -166,7 +124,7 @@ void ZGILabel::SetSize(Vec2D size)
 	if (autoScaleFont)renderer->SetPPTSize(size.h * 0.9f);
 	if (setBoundsFromSize)
 	{
-		renderer->SetBounds(size);
+		renderer->SetBounds(position, size);
 		textRenderBounds = size;
 	}
 	ZGIWidget::SetSize(size);

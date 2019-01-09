@@ -31,6 +31,7 @@ float BenchMarker::GetOneOverTotalSeconds()
 
 void BenchMarker::DebugDraw()
 {
+	return;
 	DebugWindow->SetFPS(1.0f / ((double)rootChain.nanoseconds / (double)NANOSECONDS_PER_SECONDS));
 
 	ZGITreePanel* tree = DebugWindow->GetTree();

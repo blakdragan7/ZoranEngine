@@ -185,7 +185,7 @@ void ZoranEngine::CreateGameModeWindows(bool is3D)
 	vWindow->SetPlayerInstance(mainPlayer);
 	mainWindow->SetRootVirtualWindow(vWindow);
 
-	debugWindow = new ZGIDebugWindow({ 600,0 }, { 600,900 }, mainWindow->GetSize(), vWindow);
+	//debugWindow = new ZGIDebugWindow({ 600,0 }, { 600,900 }, mainWindow->GetSize(), vWindow);
 	//vWindow->AddSubWindow(debugWindow);
 }
 

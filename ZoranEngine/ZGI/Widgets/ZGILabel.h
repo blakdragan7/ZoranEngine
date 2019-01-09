@@ -17,9 +17,6 @@ protected:
 
 	Vector2D textRenderBounds;
 
-protected:
-	void RepositionTextFromAlignment();
-
 public:
 	ZGILabel(ZGIVirtualWindow* owningWindow);
 	ZGILabel(bool setBoundsFromSize, ZGIVirtualWindow* owningWindow);

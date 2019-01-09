@@ -32,6 +32,6 @@ public:
 	~OpenGLFontRenderer();
 
 	virtual void RenderObject(const Matrix44& cameraMatrix)override;
-	virtual void UpdateRender()override;
+	virtual void PushToGPU(float* verts, size_t vertSize, float* uvs, size_t uvSize)override;
 };
 
