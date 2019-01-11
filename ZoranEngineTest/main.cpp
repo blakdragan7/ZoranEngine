@@ -204,31 +204,11 @@ void TestGUIStuff()
 	//auto p = new ZGIHorizontalBoxPanel(window);
 	auto p = new ZGIFreeFormPanel(window);
 
-	auto s = new ZGISpinBox(false, 0,0.5f,window);
-	auto c = new ZGIComboBox(window);
+	//auto s = new ZGISpinBox(false, 0,0.5f,window);
+	//auto c = new ZGIComboBox(window);
 
-	s->SetSize({300,100});
-	s->SetPosition({600,900});
-
-	c->SetSize({300,100});
-	c->SetPosition({300,900});
-
-	for (int i = 0; i < 10; i++)
-	{
-		auto text = new ZGILabel(window);
-		text->SetText("Item " + std::to_string(i) );
-		text->SetAutoScaleFont(false);
-		text->SetFontSize(100);
-		text->SetShouldClipFont(false);
-		text->SetShouldWordWrap(false);
-
-		c->AddItem(text);
-	}
-
-	p->AddWidget(c);
-	p->AddWidget(s);
 	//auto image1 = new ZGIImage(window);
-	//auto text = new ZGILabel(window);
+	auto text = new ZGITextEdit(window);
 	//auto spacer = new ZGISpacer(window);
 
 	//auto check = new ZGICheckBox(window);
@@ -244,7 +224,17 @@ void TestGUIStuff()
 	//p->AddWidget(image1);
 	//p->AddWidget(check);
 
-	window->SetRootContent(p);
+	text->SetAlignment(Alignment_Center | Alignment_Top);
+
+	text->SetAutoScaleFont(false);
+	text->SetFontSize(100);
+
+	//text->SetText(ASCII);
+	text->SetText("This is a test\nThis is another test\nThis is a third test");
+	//text->SetText("This is a very long setence with spaces and no new lines to test all the things with the font renderer class yippie ki yay");
+	//text->SetText("This is a very long setence with spaces and new lines\nto test all the things\nwith the font renderer class\nyippie ki yay");
+
+	window->SetRootContent(text);
 
 	engine.MainLoop();
 }

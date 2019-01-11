@@ -45,7 +45,7 @@ public:
 
 	void SetTextBounds(Vec2D bounds);
 
-	inline void SetAlignment(unsigned alignment) { this->alignment = alignment; isDirty = true; }
+	inline void SetAlignment(unsigned alignment);
 
 	// widget overrides
 	virtual void Render(const Matrix44& projection)override;

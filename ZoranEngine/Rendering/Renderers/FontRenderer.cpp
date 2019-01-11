@@ -25,26 +25,41 @@ bool FontRenderer::UpdateWordFromGlyphInsert(UniWord & word, int position, uint3
 		nextWord.glyphs.insert(nextWord.glyphs.begin(), copy.glyphs.begin() + position, copy.glyphs.end());
 		word.line->words.insert(std::find(word.line->words.begin(), word.line->words.end(), word) + 1, nextWord);
 
-		return true;
 	}
 	else if (glyph == '\n' || glyph == '\r')
 	{
+		//copies
 		UniWord copy = word;
+		UniLine lineCopy;
+		lineCopy.id = word.line->id;
+
 
 		word.glyphs.erase(word.glyphs.begin() + position, word.glyphs.end());
 		word.glyphs.push_back({'\n', 0});
 
 		UniLine line;
 		UniWord nextWord(&line);
+
+		for (size_t i = position; i < copy.glyphs.size(); i++)
+		{
+			word.advance -= copy.glyphs[i].advance;
+			nextWord.advance += copy.glyphs[i].advance;
+		}
+
 		nextWord.glyphs.insert(nextWord.glyphs.begin(), copy.glyphs.begin() + position, copy.glyphs.end());
 		line.words.push_back(nextWord);
+		
+		auto& itr = std::find(lines->begin(), lines->end(), lineCopy);
+		auto& wordItr = std::find(itr->words.begin(),itr->words.end(), copy);
+
+		line.words.insert(line.words.begin(), wordItr + 1, itr->words.end());
+		itr->words.erase(wordItr + 1,itr->words.end());
 
 		// insert new line
-		lines->insert(std::find(lines->begin(), lines->end(), *copy.line) + 1, line);
+		lines->insert(itr + 1, line);
 
 		lineCount++;
 
-		return true;
 	}
 	else if (glyph == '\t')
 	{
@@ -56,15 +71,16 @@ bool FontRenderer::UpdateWordFromGlyphInsert(UniWord & word, int position, uint3
 		nextWord.glyphs.insert(nextWord.glyphs.begin(), copy.glyphs.begin() + position, copy.glyphs.end());
 		word.line->words.insert(std::find(word.line->words.begin(), word.line->words.end(), word) + 1, nextWord);
 
-		return true;
 	}
 	else
 	{
 		word.glyphs.insert(word.glyphs.begin() + position, { glyph, advance });
 		word.advance += advance;
 		charCount++;
-		return false;
 	}
+
+	isDirty = true;
+	return false;
 }
 
 bool FontRenderer::UpdateWordFromGlyph(UniWord & word, UniLine& line, uint32_t glyph, bool& wasCarriageReturn, bool& wasNewLine, bool& wasTab, float& currentLineSize)
@@ -179,6 +195,7 @@ bool FontRenderer::GlyphWalkForPos(int pos, UniLine** line,UniWord** word, int& 
 					*line = &c_line;
 					*word = &c_word;
 					insertPos = iPos;
+					c_word.line = &c_line;
 
 					return true;
 				}
@@ -386,67 +403,128 @@ FontRenderer::~FontRenderer()
 
 void FontRenderer::UpdateTextRenderForAlignment(AlignmentBit alignment)
 {
-	float currentY = topRight.y - pptSize;
+	float currentY = 0;
+
+	float totalYSize = lines->size() * pptSize;
+	bool yChanged = false;
+
+	float diff = (bounds.h - totalYSize);
+
+	// align y
+	if (diff < bounds.h)
+	{
+		if (alignment == Alignment_Center)
+		{
+			currentY = topRight.y - (diff / 2.0f);
+		}
+		else if (alignment & Alignment_Top)
+		{
+			currentY = topRight.y - pptSize;
+		}
+		else if (alignment & Alignment_Bottom)
+		{
+			currentY = topRight.y - diff;
+		}
+		else // default to top
+		{
+			currentY = topRight.y - pptSize;
+		}
+	}
+	else
+	{
+		currentY = topRight.y - pptSize;
+	}
 	
-	for (size_t l=0;l<lines->size();l++)
+	for (size_t l=0;l<lines->size();l++) // line start
 	{
 		bool wasSplit = false;
 		auto& line = (*lines)[l];
 		float currentX = bottomLeft.x;
 		
-		for (size_t i=0;i<line.words.size();i++)
+		for (size_t i=0;i<line.words.size();i++) // word start
 		{
 			auto& word = line.words[i];
 
 			float wordSize = ((float)word.advance * pptSize);
 
-			if (shouldWordWrap && wordSize > (bounds.w))
+			if (shouldWordWrap && wordSize > (bounds.w)) // word is bigger then line
 			{
 				float si = 0;
-				
-				for (size_t ti=0; ti< word.glyphs.size();ti++)
+				// split word into two words 
+				for (size_t ti=0; ti< word.glyphs.size();ti++) // char start
 				{
 					auto& t = word.glyphs[ti];
-					if (si +  ((float)t.advance * pptSize)> bounds.w)
+					if (si +  ((float)t.advance * pptSize)> bounds.w) // is current char size + every char before bigger then line
 					{
+						// create next word
 						UniWord nextWord(word.line);
 						nextWord.glyphs.insert(nextWord.glyphs.begin(), word.glyphs.begin() + ti, word.glyphs.end());
 						nextWord.spaceAdvance = word.spaceAdvance;
 						nextWord.advance = (wordSize - si) / pptSize;
 
+						// shrink original word advance
 						word.advance -= nextWord.advance;
+						// remove chars from ogirinal word
 						word.glyphs.erase(word.glyphs.begin() + ti, word.glyphs.end());
-
-						line.renderStart = { bottomLeft.x, currentY };
-
-						UniLine newLine;
-						newLine.words.push_back(nextWord);
-						newLine.words.insert(newLine.words.begin() + 1, line.words.begin() + i + 1, line.words.end());
 
 						line.words.erase(line.words.begin() + i + 1, line.words.end());
 
-						lines->insert(lines->begin() + l + 1, newLine);
+						float spaceLeft = topRight.x - currentX;
+
+						if (alignment & Alignment_Center)
+						{
+							line.renderStart.x = bottomLeft.x + (spaceLeft / 2.0f);
+						}
+						else if (alignment & Alignment_Right)
+						{
+							line.renderStart.x = bottomLeft.x + spaceLeft;
+						}
+
+						line.renderStart.y = currentY;
+
+						if (nextWord.glyphs.back() != '\n' && lines->size() > l + 1) // nextword is not a newline
+						{
+							UniLine& nextLine = (*lines)[l + 1];
+							if (nextWord.glyphs.back() != ' ' && nextLine.words.size() > 0)
+							{
+								nextLine.words[0].glyphs.insert(nextLine.words[0].glyphs.begin(), nextWord.glyphs.begin(), nextWord.glyphs.end());
+								nextLine.words[0].advance += nextWord.advance;
+							}
+							else
+							{
+								nextLine.words.insert(nextLine.words.begin(), nextWord);
+							}
+						}
+						else
+						{
+							UniLine newLine;
+							newLine.words.push_back(nextWord);
+							newLine.words.insert(newLine.words.begin() + 1, line.words.begin() + i + 1, line.words.end());
+
+							line.words.erase(line.words.begin() + i + 1, line.words.end());
+
+							lines->insert(lines->begin() + l + 1, newLine);
+							
+						}
 
 						wasSplit = true;
+						yChanged = true;
 						break;
 					}
 					si += (float)t.advance * pptSize;
-				}
+				} // char end
 
 				break;
-			}
+			} // word size check
 
 			currentX += wordSize;
 
-			if (shouldWordWrap && currentX >= topRight.x)
+			if (shouldWordWrap && currentX >= topRight.x) // is current word position past the line end
 			{
-				UniLine newLine;
-				newLine.words.insert(newLine.words.begin(), line.words.begin()+i,line.words.end());
-				line.words.erase(line.words.begin() + i, line.words.end());
-
-				currentX -= (wordSize + (spaceAdvance * pptSize));
+				currentX -= wordSize;
 
 				float spaceLeft = topRight.x - currentX;
+
 				if (alignment & Alignment_Center)
 				{
 					line.renderStart.x = bottomLeft.x + (spaceLeft / 2.0f);
@@ -458,13 +536,27 @@ void FontRenderer::UpdateTextRenderForAlignment(AlignmentBit alignment)
 
 				line.renderStart.y = currentY;
 
-				lines->insert(lines->begin() + l + 1, newLine);
+				if (word.glyphs.back() !=  '\n' && lines->size() > l + 1) // is there another line to insert into
+				{
+					auto& nextLine = (*lines)[l + 1];
+					nextLine.words.insert(nextLine.words.begin(), line.words.begin() + i, line.words.end());
+					line.words.erase(line.words.begin() + i, line.words.end());
+				}
+				else // if not, make a new line instead
+				{
+					UniLine newLine;
+					newLine.words.insert(newLine.words.begin(), line.words.begin() + i, line.words.end());
+					line.words.erase(line.words.begin() + i, line.words.end());
+
+					lines->insert(lines->begin() + l + 1, newLine);
+				}
 
 				wasSplit = true;
+				yChanged = true;
 				break;
 			}
 		}
-		if (wasSplit == false)
+		if (wasSplit == false) // was a new line create and invalidate the line variable, if not set line alignment
 		{
 			float spaceLeft = topRight.x - currentX;
 			if (alignment & Alignment_Center)
@@ -479,6 +571,43 @@ void FontRenderer::UpdateTextRenderForAlignment(AlignmentBit alignment)
 			line.renderStart.y = currentY;
 		}
 		currentY -= pptSize;
+	}
+
+	if (yChanged)
+	{
+		totalYSize = lines->size() * pptSize;
+		float diff = (bounds.h - totalYSize);
+
+		// align y
+		if (diff < bounds.h)
+		{
+			if (alignment == Alignment_Center)
+			{
+				currentY = topRight.y - (diff / 2.0f);
+			}
+			else if (alignment & Alignment_Top)
+			{
+				currentY = topRight.y - pptSize;
+			}
+			else if (alignment & Alignment_Bottom)
+			{
+				currentY = topRight.y - diff;
+			}
+			else // default to top
+			{
+				currentY = topRight.y - pptSize;
+			}
+		}
+		else
+		{
+			currentY = topRight.y - pptSize;
+		}
+
+		for (size_t l = 0; l < lines->size(); l++) // line start
+		{
+			(*lines)[l].renderStart.y = currentY;
+			currentY -= pptSize;
+		}
 	}
 	
 	isDirty = true;
@@ -507,35 +636,38 @@ int FontRenderer::CursorPosForLocation(Vec2D location)const
 	int currentPos = 0;
 	int closestPos = -1;
 
-	Vector2D closestDiff(100000.0f,100000.0f);
+	Vector2D diff(100000.0f, 100000.0f);
 
 	for (auto& line : *lines)
 	{
-		for (auto& w : line.words)
+		float diffY = abs(line.renderStart.y - location.y);
+
+		if (diffY <= diff.y)
 		{
-			for (auto& bounds : w.glyphs)
+			diff.y = diffY;
+			diff.x = 100000.0f;
+
+			for (auto& w : line.words)
 			{
-				if (auto i = bounds.Intersects(location))
+				for (auto& bounds : w.glyphs)
 				{
-					return  i > 0 ? currentPos : currentPos - 1;
-				}
-				else
-				{
-					Vector2D diff(bounds.endline.x - location.x, bounds.baseline.y - location.y);
-					diff = diff.getAbs();
-					if (diff.y <= closestDiff.y)
+					if (auto i = bounds.Intersects(location))
 					{
-						if (diff.x <= closestDiff.x)
+						return  i > 0 ? currentPos : currentPos - 1;
+					}
+					else
+					{
+						float diffX = abs(bounds.endline.x - location.x);
+						
+						if (diffX <= diff.x)
 						{
 							closestPos = currentPos;
-
-							closestDiff.x = diff.x;
+						
+							diff.x = diffX;
 						}
 
-						closestDiff.y = diff.y;
+						++currentPos;
 					}
-
-					++currentPos;
 				}
 			}
 		}
@@ -840,6 +972,7 @@ void FontRenderer::RenderObject(const Matrix44 & projection)
 {
 	if (isDirty)
 	{
+		UpdateTextRenderForAlignment(alignment);
 		UpdateRender();
 		isDirty = false;
 	}

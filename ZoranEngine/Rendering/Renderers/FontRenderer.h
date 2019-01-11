@@ -148,6 +148,8 @@ protected:
 
 	bool isDirty;
 
+	AlignmentBit alignment;
+
 private:
 	bool UpdateWordFromGlyphInsert(UniWord& word, int position, uint32_t glyph);
 	bool UpdateWordFromGlyph(UniWord& word, UniLine& line,uint32_t glyph, bool& wasCarriageReturn,bool& wasNewLine, bool& wasTab, float& currentLineSize);
@@ -172,11 +174,14 @@ public:
 
 	int GetLastCursorPos()const;
 
+	inline void SetAlignment(AlignmentBit alignment) { this->alignment = alignment; isDirty = true; }
+
 	inline Vec2D GetBottomLeft()const { return bottomLeft; }
 
 	inline float GetMaxLineSize()const { return maxLineSize; }
 	inline size_t GetLineCount()const { return lineCount; }
 
+	inline void SetDirty() { isDirty = true; }
 	inline bool GetIsDirty()const { return isDirty; }
 
 	inline FontResource* GetFontResource()const { return fontResource; }

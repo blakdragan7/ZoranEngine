@@ -105,12 +105,20 @@ void ZGILabel::SetTextBounds(Vec2D bounds)
 	fontNeedsUpdate = true;
 }
 
+inline void ZGILabel::SetAlignment(unsigned alignment)
+{
+	if (this->alignment != alignment)
+	{
+		this->alignment = alignment;
+		renderer->SetAlignment(alignment);
+	}
+}
+
 void ZGILabel::Render(const Matrix44 & projection)
 {
 	if (isDirty || fontNeedsUpdate)
 	{
 		renderer->SetBounds(position, size);
-		renderer->UpdateTextRenderForAlignment(alignment);
 		fontNeedsUpdate = false;
 	}
 

@@ -265,6 +265,8 @@ void ZoranEngine::DrawStep()
 
 void ZoranEngine::KeyEvent(KeyEventType type, unsigned key)
 {
+	return;
+
 	switch (type)
 	{
 	case KeyEventType_Key_Down:
