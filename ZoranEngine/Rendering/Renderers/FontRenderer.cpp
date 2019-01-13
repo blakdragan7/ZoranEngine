@@ -8,74 +8,130 @@
 size_t UniWord::n_id = 0;
 size_t UniLine::n_id = 0;
 
-bool FontRenderer::UpdateWordFromGlyphInsert(UniWord & word, int position, uint32_t glyph)
+bool FontRenderer::UpdateWordFromGlyphInsert(int lineIndex, int wordIndex, int position, uint32_t glyph)
 {
-	double advance = fontResource->GlyphForUnicode(glyph).advance;;
+	UniLine& tline = (*lines)[lineIndex];
+	UniWord& word = tline.words[wordIndex];
 
 	if (glyph == ' ')
 	{
 		UniWord copy = word;
 
 		word.glyphs.erase(word.glyphs.begin() + position, word.glyphs.end());
-		word.glyphs.push_back({ glyph, advance });
-		word.spaceAdvance = spaceAdvance;
+		word.glyphs.push_back({ glyph, spaceAdvance });
 		word.advance += spaceAdvance;
 		
-		UniWord nextWord(word.line);
+		tline.advance += spaceAdvance;
+
+		UniWord nextWord;
 		nextWord.glyphs.insert(nextWord.glyphs.begin(), copy.glyphs.begin() + position, copy.glyphs.end());
-		word.line->words.insert(std::find(word.line->words.begin(), word.line->words.end(), word) + 1, nextWord);
-
-	}
-	else if (glyph == '\n' || glyph == '\r')
-	{
-		//copies
-		UniWord copy = word;
-		UniLine lineCopy;
-		lineCopy.id = word.line->id;
-
-
-		word.glyphs.erase(word.glyphs.begin() + position, word.glyphs.end());
-		word.glyphs.push_back({'\n', 0});
-
-		UniLine line;
-		UniWord nextWord(&line);
-
+		 
 		for (size_t i = position; i < copy.glyphs.size(); i++)
 		{
 			word.advance -= copy.glyphs[i].advance;
 			nextWord.advance += copy.glyphs[i].advance;
 		}
 
-		nextWord.glyphs.insert(nextWord.glyphs.begin(), copy.glyphs.begin() + position, copy.glyphs.end());
-		line.words.push_back(nextWord);
-		
-		auto& itr = std::find(lines->begin(), lines->end(), lineCopy);
-		auto& wordItr = std::find(itr->words.begin(),itr->words.end(), copy);
+		tline.words.insert(tline.words.begin() + wordIndex + 1, nextWord);
 
-		line.words.insert(line.words.begin(), wordItr + 1, itr->words.end());
-		itr->words.erase(wordItr + 1,itr->words.end());
+	}
+	else if (glyph == '\n' || glyph == '\r')
+	{
+		//copies
+		UniWord copy = word;
 
-		// insert new line
-		lines->insert(itr + 1, line);
 
-		lineCount++;
+		auto& itr = lines->begin() + lineIndex;
+		if (itr + 1 == lines->end() || itr->words.back().glyphs.back() == '\n')
+		{
+			word.glyphs.erase(word.glyphs.begin() + position, word.glyphs.end());
+			word.glyphs.push_back({ '\n', 0 });
+			word.newLineType = NewLineType_Line_Feed;
 
+			UniLine line;
+			UniWord nextWord;
+
+			for (size_t i = position; i < copy.glyphs.size(); i++)
+			{
+				word.advance -= copy.glyphs[i].advance;
+				nextWord.advance += copy.glyphs[i].advance;
+				tline.advance -= copy.glyphs[i].advance;
+				line.advance += copy.glyphs[i].advance;
+			}
+
+			nextWord.glyphs.insert(nextWord.glyphs.begin(), copy.glyphs.begin() + position, copy.glyphs.end());
+
+			line.words.insert(line.words.begin(), nextWord);
+
+			auto& wordItr = itr->words.begin() + wordIndex;
+
+			for (auto nitr = wordItr; nitr != itr->words.end(); nitr++)
+			{
+				itr->advance -= nitr->advance;
+				line.advance += nitr->advance;
+			}
+
+			line.words.insert(line.words.begin(), wordItr + 1, itr->words.end());
+			itr->words.erase(wordItr + 1, itr->words.end());
+
+			// insert new line
+			lines->insert(itr + 1, line);
+
+			lineCount++;
+		}
+		else
+		{
+			word.glyphs.erase(word.glyphs.begin() + position, word.glyphs.end());
+			word.glyphs.push_back({ '\n', 0 });
+			word.newLineType = NewLineType_Line_Feed;
+
+			UniLine& line = *(itr + 1);
+			UniWord nextWord;
+
+			for (size_t i = position; i < copy.glyphs.size(); i++)
+			{
+				word.advance -= copy.glyphs[i].advance;
+				nextWord.advance += copy.glyphs[i].advance;
+				tline.advance -= copy.glyphs[i].advance;
+				line.advance += copy.glyphs[i].advance;
+			}
+
+			nextWord.glyphs.insert(nextWord.glyphs.begin(), copy.glyphs.begin() + position, copy.glyphs.end());
+
+			line.words.insert(line.words.begin(), nextWord);
+
+			auto& wordItr = itr->words.begin() + wordIndex;
+
+			for (auto nitr = wordItr; nitr != itr->words.end(); nitr++)
+			{
+				itr->advance -= nitr->advance;
+				line.advance += nitr->advance;
+			}
+
+			line.words.insert(line.words.begin(), wordItr + 1, itr->words.end());
+			itr->words.erase(wordItr + 1, itr->words.end());
+		}
 	}
 	else if (glyph == '\t')
 	{
 		UniWord copy = word;
 		word.glyphs.erase(word.glyphs.begin() + position, word.glyphs.end());
-		word.glyphs.push_back({ glyph, advance });
+		word.glyphs.push_back({ glyph, spaceAdvance * 4});
 
-		UniWord nextWord(word.line);
+		word.advance += spaceAdvance * 4;
+		tline.advance += spaceAdvance * 4;
+
+		UniWord nextWord;
 		nextWord.glyphs.insert(nextWord.glyphs.begin(), copy.glyphs.begin() + position, copy.glyphs.end());
-		word.line->words.insert(std::find(word.line->words.begin(), word.line->words.end(), word) + 1, nextWord);
-
+		tline.words.insert(tline.words.begin() + wordIndex + 1, nextWord);
 	}
 	else
 	{
+		float advance = fontResource->GlyphForUnicode(glyph).advance;
+
 		word.glyphs.insert(word.glyphs.begin() + position, { glyph, advance });
 		word.advance += advance;
+		tline.advance += advance;
 		charCount++;
 	}
 
@@ -83,24 +139,20 @@ bool FontRenderer::UpdateWordFromGlyphInsert(UniWord & word, int position, uint3
 	return false;
 }
 
-bool FontRenderer::UpdateWordFromGlyph(UniWord & word, UniLine& line, uint32_t glyph, bool& wasCarriageReturn, bool& wasNewLine, bool& wasTab, float& currentLineSize)
+bool FontRenderer::UpdateWordFromGlyph(UniWord & word, UniLine& line, uint32_t glyph, bool& wasCarriageReturn, bool& wasNewLine, bool& wasTab)
 {
 	float uniformScale = 1.0f;
-
-	double advance = fontResource->GlyphForUnicode(glyph).advance;
 
 	if (glyph == ' ')
 	{
 		wasCarriageReturn = false;
 		wasNewLine = false;
 		wasTab = false;
-		word.glyphs.push_back({ glyph, advance });
-		word.spaceAdvance = spaceAdvance;
+		word.glyphs.push_back({ glyph, spaceAdvance });
 		word.advance += spaceAdvance;
 		line.advance += spaceAdvance;
 		line.words.push_back(word);
-		word = UniWord(&line);
-		currentLineSize += spaceAdvance;
+		word = UniWord();
 		return true;
 	}
 	else if (glyph == '\n' || glyph == '\r')
@@ -120,18 +172,14 @@ bool FontRenderer::UpdateWordFromGlyph(UniWord & word, UniLine& line, uint32_t g
 		{
 			line.words.push_back(word);
 
-			line.advance = currentLineSize;
-
 			lines->push_back(line);
 
 			line = UniLine();
-			word = UniWord(&line);
+			word = UniWord();
 
 			lineCount++;
 
-			maxLineSize = max(maxLineSize, currentLineSize);
-
-			currentLineSize = 0;
+			maxLineSize = max(maxLineSize, line.advance);
 		}
 
 		wasNewLine = true;
@@ -151,51 +199,56 @@ bool FontRenderer::UpdateWordFromGlyph(UniWord & word, UniLine& line, uint32_t g
 	}
 	else if (glyph == '\t')
 	{
-		word.glyphs.push_back({ glyph, advance });
+		word.glyphs.push_back({ glyph, spaceAdvance + 4 });
 		
-		currentLineSize+= spaceAdvance * 4;
+		word.advance += spaceAdvance * 4;
+		line.advance += spaceAdvance * 4;
 
 		wasTab = true;
 		wasNewLine = false;
 		wasCarriageReturn = false;
 
 		line.words.push_back(word);
-		word = UniWord(&line);
+		word = UniWord();
 		return true;
 	}
 	else
 	{
+		float advance = fontResource->GlyphForUnicode(glyph).advance;
+
 		word.glyphs.push_back({ glyph, advance });
 		word.advance += advance;
+		line.advance += advance;
 
 		wasCarriageReturn = false;
 		wasNewLine = false;
 		wasTab = false;
-		currentLineSize += (float)advance * uniformScale;
 		charCount++;
+
 		return false;
 	}
 }
 
-bool FontRenderer::GlyphWalkForPos(int pos, UniLine** line,UniWord** word, int& insertPos)const
+bool FontRenderer::GlyphWalkForPos(int pos, int& lineIt, int& wordIt, int& insertPos)const
 {
 	if (pos < -1)return false;
 	
 	int currentPos = 0;
 
-	for (auto& c_line : *lines)
+	for (size_t l=0;l<lines->size();l++)
 	{
-		for (auto& c_word : c_line.words)
+		auto& line = (*lines)[l];
+		for (size_t w = 0;w< line.words.size();w++)
 		{
+			auto& word = line.words[w];
 			int iPos = 0;
-			for (auto& c : c_word.glyphs)
+			for (auto& c : word.glyphs)
 			{
 				if (pos == currentPos)
 				{
-					*line = &c_line;
-					*word = &c_word;
+					lineIt = (int)l;
+					wordIt = (int)w;
 					insertPos = iPos;
-					c_word.line = &c_line;
 
 					return true;
 				}
@@ -317,7 +370,9 @@ void FontRenderer::UpdateRender()
 				}
 
 				size_t vindex = 36 * (i);
-				size_t uindex = 24 * (i++);
+				size_t uindex = 24 * (i);
+
+				++i;
 
 				text.bl.x = startX;
 				text.bl.y = startY;
@@ -457,9 +512,8 @@ void FontRenderer::UpdateTextRenderForAlignment(AlignmentBit alignment)
 					if (si +  ((float)t.advance * pptSize)> bounds.w) // is current char size + every char before bigger then line
 					{
 						// create next word
-						UniWord nextWord(word.line);
+						UniWord nextWord;
 						nextWord.glyphs.insert(nextWord.glyphs.begin(), word.glyphs.begin() + ti, word.glyphs.end());
-						nextWord.spaceAdvance = word.spaceAdvance;
 						nextWord.advance = (wordSize - si) / pptSize;
 
 						// shrink original word advance
@@ -613,21 +667,18 @@ void FontRenderer::UpdateTextRenderForAlignment(AlignmentBit alignment)
 	isDirty = true;
 }
 
-TextGlyph * FontRenderer::GlyphForPos(int pos)const
+bool FontRenderer::GlyphForPos(int inPos, int& outLineIndex, int& outWordIndex, int& outTextPos)const
 {
 	if(lines->size() < 1)
-		return nullptr;
+		return false;
 	
-	UniLine* line;
-	UniWord* word;
-	int textPos;
-	if (GlyphWalkForPos(pos, &line, &word, textPos))
+	if (GlyphWalkForPos(inPos, outLineIndex, outWordIndex, outTextPos))
 	{
-		return &word->glyphs[textPos];
+		return true;
 	}
 	else
 	{
-		return 0;
+		return false;
 	}
 }
 
@@ -678,12 +729,12 @@ int FontRenderer::CursorPosForLocation(Vec2D location)const
 
 int FontRenderer::CursorPosInAboveLine(int pos) const
 {
-	UniLine* line;
-	UniWord* word = 0;
+	int line = 0;
+	int word = 0;
 	int wordPos = 0;
-	if (GlyphWalkForPos(pos, &line, &word, wordPos))
+	if (GlyphWalkForPos(pos, line, word, wordPos))
 	{
-		Vector2D newLocation(word->glyphs[wordPos].endline.x, word->glyphs[wordPos].baseline.y );
+		Vector2D newLocation((*lines)[line].words[word].glyphs[wordPos].endline.x, (*lines)[line].words[word].glyphs[wordPos].baseline.y );
 
 		newLocation.y += pptSize;
 
@@ -695,12 +746,12 @@ int FontRenderer::CursorPosInAboveLine(int pos) const
 
 int FontRenderer::CursorPosInBelowLine(int pos) const
 {
-	UniLine* line;
-	UniWord* word = 0;
+	int line = 0;
+	int word = 0;
 	int wordPos = 0;
-	if (GlyphWalkForPos(pos, &line, &word, wordPos))
+	if (GlyphWalkForPos(pos, line, word, wordPos))
 	{
-		Vector2D newLocation(word->glyphs[wordPos].endline.x, word->glyphs[wordPos].baseline.y);
+		Vector2D newLocation((*lines)[line].words[word].glyphs[wordPos].endline.x, (*lines)[line].words[word].glyphs[wordPos].baseline.y);
 
 		newLocation.y -= pptSize * 0.5f;
 
@@ -722,7 +773,7 @@ int FontRenderer::GetLastCursorPos() const
 			pos += static_cast<int>(w.glyphs.size());
 		}
 	}
-	return pos;
+	return pos-1;
 }
 
 inline void FontRenderer::SetBounds(Vec2D position, Vec2D Bounds)
@@ -747,23 +798,24 @@ void FontRenderer::InsertGlyph(uint32_t glyph, int pos)
 	}
 	else if (lines->size() == 1 && (*lines)[0].words[0].glyphs.size() == 0)
 	{
-		UpdateWordFromGlyphInsert((*lines)[0].words[0], 0, glyph);
-	}
-
-	int insertPos = 0;
-	UniWord* word = 0;
-	UniLine* line = 0;
-
-	if (GlyphWalkForPos(pos, &line, &word, insertPos))
-	{
-		UpdateWordFromGlyphInsert(*word, insertPos, glyph);
+		UpdateWordFromGlyphInsert(0, 0, 0, glyph);
 	}
 	else
 	{
-		Log(LogLevel_Debug, "pos outside of range for InsertGlpyh, appending to end instead\n");
-		AddGlyph(glyph);
-	}
 
+		int insertPos = 0;
+		int wordIt = 0;
+		int lineIt = 0;
+
+		if (GlyphWalkForPos(pos, lineIt, wordIt, insertPos))
+		{
+			UpdateWordFromGlyphInsert(lineIt, wordIt, insertPos, glyph);
+		}
+		else
+		{
+			AddGlyph(glyph);
+		}
+	}
 }
 
 void FontRenderer::AddGlyph(uint32_t glyph)
@@ -771,24 +823,29 @@ void FontRenderer::AddGlyph(uint32_t glyph)
 	if (lines->size() == 0)
 	{
 		UniLine line;
-		UniWord word(&line);
-		UpdateWordFromGlyphInsert(word, 0, glyph);
+		UniWord word;
+
 		line.words.push_back(word);
 		lines->push_back(line);
+
+		UpdateWordFromGlyphInsert(0, 0, 0, glyph);
+		
 	}	
 	else
 	{
 		if (lines->back().words.size() == 0)
 		{
 			UniLine& line = lines->back();
-			UniWord word(&line);
-			UpdateWordFromGlyphInsert(word, 0, glyph);
+			UniWord word;
 			line.words.push_back(word);
+
+			UpdateWordFromGlyphInsert((int)(line.words.size() - 1), 0, 0, glyph);
 		}
 		else
 		{
-			UniWord& word = lines->back().words.back();
-			UpdateWordFromGlyphInsert(word, static_cast<int>(word.glyphs.size()), glyph);
+			UniLine& line = lines->back();
+			UniWord& word = line.words.back();
+			UpdateWordFromGlyphInsert(static_cast<int>(lines->size() - 1), static_cast<int>(line.words.size() - 1), static_cast<int>(word.glyphs.size()), glyph);
 		}
 	}
 	isDirty = true;
@@ -816,22 +873,117 @@ void FontRenderer::RemoveLastGlyph()
 
 void FontRenderer::RemoveGlyphAtCursurPos(int pos)
 {
-	UniLine* line = 0;
-	UniWord* word = 0;
+	int lineIt = 0;
+	int wordIt = 0;
 	int location = 0;
 
-	if (GlyphWalkForPos(pos, &line, &word,location))
+	if (GlyphWalkForPos(pos, lineIt, wordIt,location))
 	{
-		if (word->glyphs[location] != '\n' && word->glyphs[location] != '\t' && word->glyphs[location] != ' ')
-			charCount--;
-		word->glyphs.erase(word->glyphs.begin() + location);
-		if (word->glyphs.size() == 0)
-		{
-			remove(line->words, *word);
-			if(line->words.size() == 0)
-				remove(*lines, *line);
-		}
 		isDirty = true;
+
+		UniLine& line = (*lines)[lineIt];
+		UniWord& word = line.words[wordIt];
+		if (word.glyphs[location] != '\n' && word.glyphs[location] != '\t' && word.glyphs[location] != ' ')
+		{
+			charCount--;
+		}
+		word.advance -= word.glyphs[location].advance;
+		line.advance -= word.glyphs[location].advance;
+
+		if (word.glyphs[location] == '\n')
+		{
+			word.glyphs.erase(word.glyphs.begin() + location);
+
+			if (lineIt < (lines->size() - 1))
+			{
+				auto nLine = lines->begin() + lineIt + 1;
+				line.words.insert(line.words.end(), nLine->words.begin(), nLine->words.end());
+				line.advance += nLine->advance;
+				lines->erase(nLine);
+			}
+			else
+			{
+				if (word.glyphs.size() == 0)
+				{
+					line.words.erase(line.words.begin() + wordIt);
+					if (line.words.size() == 0)
+						lines->erase(lines->begin() + lineIt);
+				}
+			}
+
+			return;
+		}
+
+		word.glyphs.erase(word.glyphs.begin() + location);
+
+		if (word.glyphs.size() == 0)
+		{
+			line.words.erase(line.words.begin() + wordIt);
+			if (line.words.size() == 0)
+				lines->erase(lines->begin() + lineIt);
+		}
+
+		if(lineIt != lines->size() - 1 && lines->size() > 1)
+		{
+			bool wasBroke = false;
+
+			auto lineItr = lines->begin() + lineIt;
+			std::vector<UniLine>::iterator currentLine;
+
+			if (lineIt == 0)
+			{
+				currentLine = lines->begin();
+				lineItr++;
+			}
+			else
+			{
+				currentLine = lineItr - 1;
+			}
+
+			while (currentLine->words.back().glyphs.back() != '\n')
+			{
+				float cLineSize = currentLine->advance * pptSize;
+				UniWord& cWord = *lineItr->words.begin();
+				while (cLineSize + (word.advance * pptSize) < bounds.w)
+				{
+					lineItr->advance -= cWord.advance;
+					currentLine->advance += cWord.advance;
+
+					currentLine->words.insert(currentLine->words.end(), cWord);
+					lineItr->words.erase(lineItr->words.begin());
+
+					if (lineItr->words.size() == 0)
+					{
+						size_t pId = currentLine->id;
+						lines->erase(lineItr);
+						currentLine = std::find(lines->begin(),lines->end(), pId);
+						lineItr = currentLine + 1;
+
+						if (lineItr == lines->end())
+						{
+							return;
+						}
+
+						wasBroke = true;
+						break;
+					}
+					else
+					{
+						cWord = *lineItr->words.begin();
+						cLineSize += cWord.advance * pptSize;
+					}
+				} // word loop
+
+				if (wasBroke == false)
+				{
+					currentLine++;
+					lineItr++;
+					if (lineItr == lines->end())
+						break;
+				}
+			}
+
+		} // line loop
 	}
 }
 
@@ -843,21 +995,22 @@ void FontRenderer::SetText(const char * text)
 	charCount = 0;
 	lineCount = 0;
 	maxLineSize = 0;
-	float currentLineSize = 0;
 	bool wasCarriageReturn = false;
 	bool wasNewLine = false;
 	bool wasTab = false;
 	UniLine line;
-	UniWord word(&line);
+	UniWord word;
 	for (; *ptr != 0; ptr++)
 	{
-		UpdateWordFromGlyph(word, line, *ptr, wasCarriageReturn, wasNewLine, wasTab, currentLineSize);
+		UpdateWordFromGlyph(word, line, *ptr, wasCarriageReturn, wasNewLine, wasTab);
 
 	}
-	line.words.push_back(word);
-	lines->push_back(line);
+	if(word.glyphs.size() > 0)
+		line.words.push_back(word);
+	if(line.words.size() > 0)
+		lines->push_back(line);
 
-	maxLineSize = max(maxLineSize, currentLineSize);
+	maxLineSize = max(maxLineSize, line.advance);
 	lineCount++;
 
 	isDirty = true;
@@ -873,17 +1026,18 @@ void FontRenderer::SetText(const char16_t * text)
 	charCount = 0;
 	lineCount = 0;
 	maxLineSize = 0;
-	float currentLineSize = 0;
 	UniLine line;
-	UniWord word(&line);
+	UniWord word;
 	for (; *ptr != 0; ptr++)
 	{
-		UpdateWordFromGlyph(word, line, *ptr,wasCarriageReturn,wasNewLine,wasTab, currentLineSize);
+		UpdateWordFromGlyph(word, line, *ptr,wasCarriageReturn,wasNewLine,wasTab);
 	}
-	line.words.push_back(word);
-	lines->push_back(line);
+	if (word.glyphs.size() > 0)
+		line.words.push_back(word);
+	if (line.words.size() > 0)
+		lines->push_back(line);
 
-	maxLineSize = max(maxLineSize, currentLineSize);
+	maxLineSize = max(maxLineSize, line.advance);
 	lineCount++;
 
 	isDirty = true;
@@ -900,17 +1054,18 @@ void FontRenderer::SetText(const char32_t * text)
 	charCount = 0;
 	lineCount = 0;
 	maxLineSize = 0;
-	float currentLineSize = 0;
 	UniLine line;
-	UniWord word(&line);
+	UniWord word;
 	for (; *ptr != 0; ptr++)
 	{
-		UpdateWordFromGlyph(word, line, *ptr, wasCarriageReturn, wasNewLine, wasTab, currentLineSize);
+		UpdateWordFromGlyph(word, line, *ptr, wasCarriageReturn, wasNewLine, wasTab);
 	}
-	line.words.push_back(word);
-	lines->push_back(line);
+	if (word.glyphs.size() > 0)
+		line.words.push_back(word);
+	if (line.words.size() > 0)
+		lines->push_back(line);
 
-	maxLineSize = max(maxLineSize, currentLineSize);
+	maxLineSize = max(maxLineSize, line.advance);
 	lineCount++;
 
 	isDirty = true;
@@ -926,17 +1081,18 @@ void FontRenderer::SetText(const std::string & text)
 	charCount = 0;
 	lineCount = 0;
 	maxLineSize = 0;
-	float currentLineSize = 0;
 	UniLine line;
-	UniWord word(&line);
+	UniWord word;
 	for (const char c : text)
 	{
-		UpdateWordFromGlyph(word, line, c, wasCarriageReturn, wasNewLine, wasTab, currentLineSize);
+		UpdateWordFromGlyph(word, line, c, wasCarriageReturn, wasNewLine, wasTab);
 	}
-	line.words.push_back(word);
-	lines->push_back(line);
+	if (word.glyphs.size() > 0)
+		line.words.push_back(word);
+	if (line.words.size() > 0)
+		lines->push_back(line);
 
-	maxLineSize = max(maxLineSize, currentLineSize);
+	maxLineSize = max(maxLineSize, line.advance);
 	lineCount++;
 
 	isDirty = true;
@@ -952,17 +1108,18 @@ void FontRenderer::SetText(const std::wstring & text)
 	charCount = 0;
 	lineCount = 0;
 	maxLineSize = 0;
-	float currentLineSize = 0;
 	UniLine line;
-	UniWord word(&line);
+	UniWord word;
 	for (const wchar_t c : text)
 	{
-		UpdateWordFromGlyph(word, line, c, wasCarriageReturn, wasNewLine, wasTab, currentLineSize);
+		UpdateWordFromGlyph(word, line, c, wasCarriageReturn, wasNewLine, wasTab);
 	}
-	line.words.push_back(word);
-	lines->push_back(line);
+	if (word.glyphs.size() > 0)
+		line.words.push_back(word);
+	if (line.words.size() > 0)
+		lines->push_back(line);
 
-	maxLineSize = max(maxLineSize, currentLineSize);
+	maxLineSize = max(maxLineSize, line.advance);
 	lineCount++;
 
 	isDirty = true;

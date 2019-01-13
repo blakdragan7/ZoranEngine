@@ -11,20 +11,40 @@
 
 void ZGITextEdit::UpdateCursorFromPos()
 {
+	int lineIndex = 0;
+	int wordIndex = 0;
+	int textIndex = 0;
+
 	if (cursorPos == -1)
 	{
-		TextGlyph* glyph = renderer->GlyphForPos(0);
-		if (glyph)
+		if (renderer->GlyphForPos(0, lineIndex, wordIndex, textIndex))
 		{
-			cursor->SetPosition(glyph->baseline);
+			auto glyph = renderer->GetLines()[lineIndex].words[wordIndex].glyphs[textIndex];
+			cursor->SetPosition(glyph.baseline);
 		}
 	}
 	else
 	{
-		TextGlyph* glyph = renderer->GlyphForPos(cursorPos);
-		if (glyph)
+		if (renderer->GlyphForPos(cursorPos, lineIndex, wordIndex, textIndex))
 		{
-			cursor->SetPosition({ glyph->endline.x, glyph->baseline.y });
+			auto glyph = renderer->GetLines()[lineIndex].words[wordIndex].glyphs[textIndex];
+			if (glyph != '\n')
+			{
+				cursor->SetPosition({ glyph.endline.x, glyph.baseline.y });
+			}
+			else
+			{
+				const UniLine& line = renderer->GetLines()[lineIndex + 1];
+				if (line.words.size() > 0 && line.words.begin()->glyphs.size() > 0)
+				{
+					glyph = renderer->GetLines()[lineIndex + 1].words.begin()->glyphs[0];
+					cursor->SetPosition(glyph.baseline);
+				}
+				else
+				{
+					cursor->SetPosition(line.renderStart);
+				}
+			}
 		}
 	}
 }
@@ -72,6 +92,7 @@ bool ZGITextEdit::RawKeyEvent(KeyEventType type, unsigned uni)
 		{
 		case Key_Delete:
 			renderer->RemoveGlyphAtCursurPos(cursorPos+1);
+			needsCursorUpdate = true;
 			break;
 		case Key_BackSpace:
 			renderer->RemoveGlyphAtCursurPos(cursorPos);
@@ -89,6 +110,11 @@ bool ZGITextEdit::RawKeyEvent(KeyEventType type, unsigned uni)
 			break;
 		case Key_Right_Arrow:
 			cursorPos++;
+			{
+				int lPos = renderer->GetLastCursorPos();
+				if (cursorPos > lPos)
+					cursorPos = lPos;
+			}
 			needsCursorUpdate = true;
 			cursor->SetTempSolid();
 			break;

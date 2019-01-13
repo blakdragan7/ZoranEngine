@@ -6,9 +6,9 @@
 
 enum NewLineType
 {
-	NewLineType_Carriage_Return,
-	NewLineType_Line_Feed,
-	NewLineType_EOL,
+	NewLineType_Carriage_Return, // \r
+	NewLineType_Line_Feed, // \n
+	NewLineType_EOL, // \r\n
 };
 
 struct TextGlyph
@@ -17,9 +17,9 @@ struct TextGlyph
 	Vector2D baseline, endline;
 
 	uint32_t glyph;
-	double advance;
+	float advance;
 
-	TextGlyph(uint32_t glyph, double advance) : glyph(glyph), advance(advance) {}
+	TextGlyph(uint32_t glyph, float advance) : glyph(glyph), advance(advance) {}
 
 	// returns -1 if closer to left edge 1 if close to right edge or 0 if no intersection
 
@@ -63,16 +63,14 @@ struct TextGlyph
 struct UniLine;
 struct UniWord
 {
-	UniLine* line;
 	std::vector<TextGlyph> glyphs; // list of glyphs that make up this word
-	double advance; // advances the whole word
-	double spaceAdvance; // advances space after word
+	float advance; // advances the whole word
 	NewLineType newLineType; // set if isNewLine is set to true
 	size_t id;
 	static size_t n_id;
 
-	UniWord(UniLine* line) : line(line), advance(0), spaceAdvance(0), id(n_id++) {}
-	UniWord(const UniWord& other) : advance(other.advance), spaceAdvance(other.spaceAdvance), id(other.id) 
+	UniWord() : advance(0), id(n_id++) {}
+	UniWord(const UniWord& other) : advance(other.advance), id(other.id) 
 	{
 		glyphs = std::vector<TextGlyph>(other.glyphs);
 	}
@@ -89,9 +87,9 @@ struct UniLine
 	static size_t n_id;
 	Vector2D renderStart;// The starting render location for this line
 	std::vector<UniWord> words; // list of words that make up this line
-	double advance; // advances the whole line
+	float advance; // advances the whole line
 
-	UniLine() : id(n_id++){}
+	UniLine() : id(n_id++), advance(0){}
 
 	UniLine(const UniLine& other) : advance(other.advance), id(other.id), renderStart(other.renderStart)
 	{
@@ -101,6 +99,11 @@ struct UniLine
 	bool operator ==(const UniLine& other)
 	{
 		return id == other.id;
+	}
+
+	bool operator ==(const size_t& other)
+	{
+		return id == other;
 	}
 };
 
@@ -151,12 +154,12 @@ protected:
 	AlignmentBit alignment;
 
 private:
-	bool UpdateWordFromGlyphInsert(UniWord& word, int position, uint32_t glyph);
-	bool UpdateWordFromGlyph(UniWord& word, UniLine& line,uint32_t glyph, bool& wasCarriageReturn,bool& wasNewLine, bool& wasTab, float& currentLineSize);
+	bool UpdateWordFromGlyphInsert(int lineIndex,int wordIndex, int position, uint32_t glyph);
+	bool UpdateWordFromGlyph(UniWord& word, UniLine& line,uint32_t glyph, bool& wasCarriageReturn,bool& wasNewLine, bool& wasTab);
 
 protected:
 	inline size_t GetCharCount()const { return charCount; }
-	bool GlyphWalkForPos(int pos, UniLine** line, UniWord** word, int& insertPos)const;
+	bool GlyphWalkForPos(int pos, int& lineIt, int& wordIt, int& insertPos)const;
 
 	virtual void PushToGPU(float* verts, size_t vertSize, float* uvs, size_t uvSize) = 0;
 	virtual void UpdateRender();
@@ -167,7 +170,9 @@ public:
 
 	virtual void UpdateTextRenderForAlignment(AlignmentBit alignment);
 
-	TextGlyph* GlyphForPos(int pos)const;
+	const std::vector<UniLine>& GetLines()const { return *lines; }
+
+	bool GlyphForPos(int inPos, int& outLineIndex, int& outWordIndex, int& outTextPos)const;
 	int CursorPosForLocation(Vec2D location)const;
 	int CursorPosInAboveLine(int pos)const;
 	int CursorPosInBelowLine(int pos)const;
@@ -179,7 +184,7 @@ public:
 	inline Vec2D GetBottomLeft()const { return bottomLeft; }
 
 	inline float GetMaxLineSize()const { return maxLineSize; }
-	inline size_t GetLineCount()const { return lineCount; }
+	inline size_t GetLineCount()const { return lines->size(); }
 
 	inline void SetDirty() { isDirty = true; }
 	inline bool GetIsDirty()const { return isDirty; }

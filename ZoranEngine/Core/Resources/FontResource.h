@@ -17,11 +17,11 @@ struct Glyph
 	uint32_t glyph;
 	Vector2D translate; // translating done to generation
 	Vector2D UVOffset; // un UV Coords [0-1]
-	Vector2D bearing; // in pixels
-	Vector2D size; // in pixels
-	Vector2D invScale; // in pixels
-	Vector2D scale; // in pixels
-	float advance; // in pixels
+	Vector2D bearing; // in normalized screen coords
+	Vector2D size; // in normalized screen coords
+	Vector2D invScale; // in normalized screen coords
+	Vector2D scale; // in normalized screen coords
+	float advance; // in normalized screen coords
 	float uvAdvance; // in UV Coords
 	float scaleFactor;
 };
