@@ -5,163 +5,149 @@
 #include <Physics/2D/PhysicsObject2DBase.h>
 #include <Physics/2D/Collision/CollisionObject2DBase.h>
 
-#define PI 3.141592653589793
-SceneObject2D::SceneObject2D(std::string name) : SceneObject(name)
-{
-	scale = Vector2D(1.0, 1.0);
-	rotation = 0;
-	collision = 0;
-	physicsObject = 0;
+#include <Core/2D/Components/Component2DBase.h>
 
-	rotationMat.SetRotation(0);
-	invRotationMat.SetRotation(0);
+#define PI 3.141592653589793
+
+bool SceneObject2D::CheckRootComponent(const char* func)const
+{
+	if (root2DComponent == NULL)
+	{
+		Log(LogLevel_Error, "%s called on %s without a root Component !!\n",func,readableName->c_str());
+		return false;
+	}
+
+	return true;
 }
 
-SceneObject2D::SceneObject2D(std::string name, RenderEngineBase* engine) : SceneObject(name, engine)
+SceneObject2D::SceneObject2D(std::string name) : root2DComponent(0), SceneObject(name)
 {
-	scale = Vector2D(1.0, 1.0);
-	rotation = 0;
-	collision = 0;
-	physicsObject = 0;
+}
+
+SceneObject2D::SceneObject2D(Component2DBase* root2DComponent, std::string name) : root2DComponent(root2DComponent), SceneObject(root2DComponent,name)
+{
 }
 
 SceneObject2D::~SceneObject2D()
 {
-	if (collision)delete collision;
-	if (physicsObject)delete physicsObject;
 }
 
-void SceneObject2D::SetPosition(Vector2D pos)
+void SceneObject2D::SetPosition(const Vector2D& pos)
 {
-	this->pos = pos;
-	if (collision)pEngine->UpdateCollisionObject(collision);
+	if (CheckRootComponent("SceneObject2D::SetPosition"))
+	{
+		root2DComponent->SetOffset(pos);
+	}
 }
 
-void SceneObject2D::SetScale(Vector2D scale)
+void SceneObject2D::SetScale(const Vector2D& scale)
 {
-	this->scale = scale;
-	this->size = (startingSize * scale).getAbs();
-	if (collision)pEngine->UpdateCollisionObject(collision);
-	if (physicsObject)physicsObject->ReCalculateInertia();
+	if (CheckRootComponent("SceneObject2D::SetPosition"))
+	{
+		root2DComponent->SetScale(scale);
+	}
 }
 
 void SceneObject2D::SetPosition(float x, float y)
 {
-	this->pos.x = x;
-	this->pos.y = y;
-	if (collision)pEngine->UpdateCollisionObject(collision);
+	if (CheckRootComponent("SceneObject2D::SetPosition"))
+	{
+		root2DComponent->SetOffset(x, y);
+	}
 }
 
 void SceneObject2D::SetScale(float x, float y)
 {
-	this->scale.x = x;
-	this->scale.y = y;
-	this->size = (startingSize * scale).getAbs();
-	if (collision)pEngine->UpdateCollisionObject(collision);
-	if (physicsObject)physicsObject->ReCalculateInertia();
+	if (CheckRootComponent("SceneObject2D::SetPosition"))
+	{
+		root2DComponent->SetScale(x, y);
+	}
 }
 
 void SceneObject2D::SetRotation(float rotation)
 {
-	this->rotation = rotation;
-	rotationMat.SetRotation(rotation);
-	invRotationMat = rotationMat.GetInversion();
-	if (collision)pEngine->UpdateCollisionObject(collision);
+	if (CheckRootComponent("SceneObject2D::SetPosition"))
+	{
+		root2DComponent->SetRotatation(rotation);
+	}
 }
 
-void SceneObject2D::Translate(Vector2D delta)
+void SceneObject2D::Translate(const Vector2D& delta)
 {
-	this->pos += delta;
-	if (collision)pEngine->UpdateCollisionObject(collision);
+	if (CheckRootComponent("SceneObject2D::SetPosition"))
+	{
+		root2DComponent->Translate(delta);
+	}
 }
 
 void SceneObject2D::Translate(float x, float y)
 {
-	this->pos.x += x;
-	this->pos.y += y;
-	if (collision)pEngine->UpdateCollisionObject(collision);
+	if (CheckRootComponent("SceneObject2D::SetPosition"))
+	{
+		root2DComponent->Translate(x, y);
+	}
 }
 
-void SceneObject2D::Scale(Vector2D scale)
+void SceneObject2D::Scale(const Vector2D& scale)
 {
-	this->scale *= scale;
-	this->size = (startingSize * scale).getAbs();
-	if (collision)pEngine->UpdateCollisionObject(collision);
-	if (physicsObject)physicsObject->ReCalculateInertia();
+	if (CheckRootComponent("SceneObject2D::SetPosition"))
+	{
+		root2DComponent->Scale(scale);
+	}
 }
 
 void SceneObject2D::Scale(float dx, float dy)
 {
-	this->scale.x *= dx;
-	this->scale.y *= dy;
-	this->size = (startingSize * scale).getAbs();
-	if (collision)pEngine->UpdateCollisionObject(collision);
-	if (physicsObject)physicsObject->ReCalculateInertia();
+	if (CheckRootComponent("SceneObject2D::SetPosition"))
+	{
+		root2DComponent->Scale(dx, dy);
+	}
 }
 
 void SceneObject2D::Rotate(float rotation)
 {
-	this->rotation += rotation;
-	rotationMat.SetRotation(rotation);
-	invRotationMat = rotationMat.GetInversion();
-	if (collision)pEngine->UpdateCollisionObject(collision);
+	if (CheckRootComponent("SceneObject2D::SetPosition"))
+	{
+		root2DComponent->Rotate(rotation);
+	}
 }
 
-float SceneObject2D::GetRotationRad()const
+float SceneObject2D::GetRotationDegree()const
 {
-	return rotation;
+	if (CheckRootComponent("SceneObject2D::SetPosition"))
+	{
+		return (root2DComponent->GetRotation() * 180.0f) / 3.14159265359f;
+	}
+	else return 0;
 }
 
 float SceneObject2D::GetRotation()const
 {
-	return rotation;
-}
-
-inline const Vector2D & SceneObject2D::GetVelocity() const
-{
-	if (physicsObject)return physicsObject->GetVelocity(); 
-	else return Vector2D::Zero;
-}
-
-Matrix22 SceneObject2D::GetRotationMatrix()const
-{
-	return rotationMat;
-}
-
-Matrix22 SceneObject2D::GetInvRotationMatrix()const
-{
-	return invRotationMat;
+	if (CheckRootComponent("SceneObject2D::SetPosition"))
+	{
+		return root2DComponent->GetRotation();
+	}
+	else return 0;
 }
 
 void SceneObject2D::PreCaclModel()
 {
-	model.makeIdentity();
-
-	Matrix44 rotMatrix = Matrix44::GLRotationMatrix(rotation, Vector3D(0, 0, 1));
-	model.translate(pos);
-	model.scale(scale);
-
-	ModelMatrixCache = model *rotMatrix;
+	if (CheckRootComponent("SceneObject2D::SetPosition"))
+	{
+		ModelMatrixCache = root2DComponent->GetWorldMatrix();
+	}
 }
-
-/*MatrixF SceneObject2D::GetScaleMatrix3x3()
-{
-	MatrixF mat(3, 3);
-	mat.scale(scale);
-	return mat;
-}*/
 
 Matrix44 SceneObject2D::GetScaleMatrix4x4()
 {
-	Matrix44 mat;
-	mat.scale(scale);
-	return mat;
+	if (CheckRootComponent("SceneObject2D::SetPosition"))
+	{
+		return Matrix44::ScaleMatrix(root2DComponent->GetScale());
+	}
+	else return Matrix44();
 }
 
 void SceneObject2D::Destroy()
 {
-	if (collision)pEngine->RemoveObject(collision);
-	if (physicsObject)pEngine->RemoveObject(physicsObject);
-
 	SceneObject::Destroy();
 }

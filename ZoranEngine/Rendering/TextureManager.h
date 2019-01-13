@@ -3,10 +3,10 @@
 #include "RenderTypes.h"
 
 class TextureBase;
-class TextureManager
+class ZoranEngine_EXPORT TextureManager
 {
 private:
-	std::map<const char*, TextureBase*> textureMap;
+	std::map<const char*, TextureBase*>* textureMap;
 
 	static TextureManager* instance;
 
@@ -14,9 +14,10 @@ public:
 	TextureManager();
 	~TextureManager();
 
-	TextureBase* TextureForFilePath(const char* texture_path, RenderDataType type = TYPE_BGRA_32, RenderDataFormat format = FORMAT_UNSIGNED_BYTE);
+	void DestroyTexture(TextureBase* texture);
+	TextureBase* TextureForFilePath(const char* texture_path, RenderDataType type = Render_Data_Type_RGBA_32, RenderDataFormat format = Render_Data_Format_Unsigned_Byte);
 
 	static TextureManager* GetInstance();
 };
 
-#define tManager TextureManager::GetInstance();
+#define tManager TextureManager::GetInstance()

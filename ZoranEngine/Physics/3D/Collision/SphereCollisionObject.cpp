@@ -1,10 +1,10 @@
 #include "stdafx.h"
 #include "SphereCollisionObject.h"
 #include "AABBoxCollisionObject.h"
-#include "Core/SceneObject.h"
 #include <Core/3D/SceneObject3D.h>
+#include <Core/3D/Components/Component3DBase.h> 
 
-SphereCollisionObject::SphereCollisionObject(float radius, SceneObject3D* object, CollisionDynamics dynamics, unsigned collisionType) : CollisionObject3DBase(object, dynamics, collisionType)
+SphereCollisionObject::SphereCollisionObject(float radius, Component3DBase* object, CollisionDynamics dynamics, unsigned collisionType) : CollisionObject3DBase(object, dynamics, collisionType)
 {
 	this->radius = radius;
 	this->radiusSqr = radius * radius;
@@ -17,7 +17,7 @@ SphereCollisionObject::~SphereCollisionObject()
 
 void SphereCollisionObject::SetBoundsBySceneObject()
 {
-	Vec3D scale = GetSceneObject()->GetScale().getAbs();
+	Vec3D scale = GetAffectedComponent()->GetScale().getAbs();
 
 	scaledRadius = radius * max(scale.x, max(scale.y, scale.z));
 	radiusSqr = scaledRadius * scaledRadius;
@@ -67,7 +67,7 @@ Vector3D SphereCollisionObject::GetClosestPointTo(Vector3D pos)
 	// because this is specifcally for collision and that could mess up collision checking
 
 	Vec3D myPos = GetScenePos();
-	Vec3D direction = (pos - myPos);
+	Vector3D direction = (pos - myPos);
 	direction.normalize();
 
 	return myPos + (direction * radius);

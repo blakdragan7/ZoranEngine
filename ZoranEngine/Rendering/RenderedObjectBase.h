@@ -1,53 +1,49 @@
 #pragma once
 #include "Core/PlatformTypes.h"
 
+/* all implementation must be added here */
 enum VertexType
 {
+	VT_Unused,
 	VT_Float
 };
 
 enum DrawType
 {
+	DT_Unused,
 	DT_Dynamic,
 	DT_Static
 };
 
 enum PrimitiveType
 {
-	PT_Square,
+	PT_Unused,
+	PT_Quad_Strip,
+	PT_Quads,
 	PT_Triangle_Strip,
-	PT_Triangle,
+	PT_Triangles,
 	PT_Line_Loop,
 	PT_Lines,
-	PT_Dot,
-
+	PT_Dots
 };
 
+class Matrix44;
 class RenderEngineBase;
 class ZoranEngine_EXPORT RenderedObjectBase
 {
-protected:
-	unsigned	numVerts;
-	
-	void*		cpuVertData;
-	void*		cpuUVData;
-
+private:
+	PrimitiveType primitiveType;
 	VertexType	vertType;
 	DrawType	drawType;
 
-	RenderEngineBase* renderEngine;
-
 public:
 	RenderedObjectBase();
+	RenderedObjectBase(PrimitiveType pt, VertexType vt, DrawType dt);
 	virtual ~RenderedObjectBase();
 
-	virtual void UpdateObjectFromMemory(unsigned numVerts, unsigned offset, void* verts, void* uv, bool copy = true) = 0;
-	virtual void CreateObjectFromMemory(PrimitiveType pType, VertexType vertType, DrawType drawType, unsigned numVerts, void* verts, void* uv, bool copy = true) = 0;
-	virtual void RenderObject() = 0;
-	virtual bool GetVertDataAsfloat(float** data, unsigned &amount) = 0;
-	virtual bool GetVertEdgeIndexes(unsigned** indexes, unsigned &amount) = 0;
-	virtual void MakeFullScreenQuad() = 0;
+	virtual void RenderObject(const Matrix44& cameraMatrix) = 0;
 
-	virtual void SetAlphaEnabled(bool enabled) = 0;
+	inline VertexType GetVertType()const { return vertType; }
+	inline DrawType GetDrawType()const { return drawType; }
+	inline PrimitiveType GetPrimitiveType()const { return primitiveType; }
 };
-

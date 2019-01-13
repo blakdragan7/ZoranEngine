@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "CollisionBucket2DBase.h"
 #include <Core/2D/SceneObject2D.h>
-
+#include <Core/2D/Named2DSceneObject.h>
 
 int CollisionBucket2DBase::FindObject(CollisionObject2DBase * object)
 {
@@ -15,7 +15,7 @@ int CollisionBucket2DBase::FindObject(CollisionObject2DBase * object)
 
 CollisionBucket2DBase::CollisionBucket2DBase(std::string name, Vec2D pos, unsigned maxObjects) : CollisionBucketBase(maxObjects)
 {
-	this->sceneObject = new SceneObject2D(name);
+	this->sceneObject = new Named2DSceneObject(name);
 	this->sceneObject->SetPosition(pos);
 	this->maxObjects = maxObjects;
 }

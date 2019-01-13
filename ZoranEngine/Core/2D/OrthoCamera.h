@@ -1,7 +1,7 @@
 #pragma once
 #include "Core/2D/Camera2D.h"
 
-class OrthoCamera : public Camera2D
+class ZoranEngine_EXPORT OrthoCamera : public Camera2D
 {
 private:
 	Matrix44 orthoModel;
@@ -12,6 +12,8 @@ public:
 
 	virtual void ScreenResized(float screenWidth, float screenHeight)override;
 	virtual void ScreenResized(Vec2D Size)override;
-	virtual Vec2D GetCameraViewingExtentsAtZ(float z)override; // ignores Z because Ortho isn't effected by it
+	virtual Vector2D GetCameraViewingExtentsAtZ(float z)override; // ignores Z because Ortho isn't effected by it
+
+	virtual void CalculateModelCache()override;
 };
 

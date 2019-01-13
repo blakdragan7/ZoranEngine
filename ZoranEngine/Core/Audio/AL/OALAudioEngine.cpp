@@ -288,9 +288,19 @@ AudioError OALAudioEngine::SwitchToDevice(AudioDevice * toDevice, AudioDevice * 
 
 AudioError OALAudioEngine::CreateAudioListener(const SceneObject3D * object, AudioListener ** outListener)
 {
+	if (currentDevice == 0)
+	{
+		return AE_NO_DEVICE;
+	}
+
 	OALAudioListener* listener = new OALAudioListener(this);
 
 	listener->context = alcCreateContext(currentDevice->oalDevice, 0);
+
+	if (AudioError err = CheckALErrors("alcCreateContext"))
+	{
+		return err;
+	}
 
 	if (activeListener == 0)
 	{
@@ -298,7 +308,7 @@ AudioError OALAudioEngine::CreateAudioListener(const SceneObject3D * object, Aud
 		activeListener = listener;
 
 		Vec3D location = object->GetPosition();
-		Vec3D veloctiy = object->GetVelocity();
+		//Vec3D veloctiy = object->GetVelocity();
 		Quaternion orientation = object->GetRotation();
 
 		Vec3D up = orientation.GetUpVector();
@@ -307,7 +317,7 @@ AudioError OALAudioEngine::CreateAudioListener(const SceneObject3D * object, Aud
 		float alOr[6] = { up.x,up.y,up.z,forward.x,forward.y,forward.z };
 
 		alListener3f(AL_POSITION, location.x, location.y, location.z);
-		alListener3f(AL_VELOCITY, veloctiy.x, veloctiy.y, veloctiy.z);
+		//alListener3f(AL_VELOCITY, veloctiy.x, veloctiy.y, veloctiy.z);
 		alListenerfv(AL_ORIENTATION, alOr);
 	}
 
@@ -321,9 +331,19 @@ AudioError OALAudioEngine::CreateAudioListener(const SceneObject3D * object, Aud
 
 AudioError OALAudioEngine::CreateAudioListener(const SceneObject2D * object, AudioListener ** outListener)
 {
+	if (currentDevice == 0)
+	{
+		return AE_NO_DEVICE;
+	}
+
 	OALAudioListener* listener = new OALAudioListener(this);
 
 	listener->context = alcCreateContext(currentDevice->oalDevice, 0);
+
+	if (AudioError err = CheckALErrors("alcCreateContext"))
+	{
+		return err;
+	}
 
 	if (activeListener == 0)
 	{
@@ -331,10 +351,39 @@ AudioError OALAudioEngine::CreateAudioListener(const SceneObject2D * object, Aud
 		activeListener = listener;
 
 		Vec2D location = object->GetPosition();
-		Vec2D veloctiy = object->GetVelocity();
+		//Vec2D veloctiy = object->GetVelocity();
 
 		alListener3f(AL_POSITION, location.x, location.y, 0);
-		alListener3f(AL_VELOCITY, veloctiy.x, veloctiy.y, 0);
+		//alListener3f(AL_VELOCITY, veloctiy.x, veloctiy.y, 0);
+	}
+
+	audioListeners.push_back(listener);
+
+	*outListener = listener;
+
+	return AE_NO_ERROR;
+}
+
+AudioError OALAudioEngine::CreateAudioListener(AudioListener ** outListener)
+{
+	if (currentDevice == 0)
+	{
+		return AE_NO_DEVICE;
+	}
+
+	OALAudioListener* listener = new OALAudioListener(this);
+
+	listener->context = alcCreateContext(currentDevice->oalDevice, 0);
+
+	if (AudioError err = CheckALErrors("alcCreateContext"))
+	{
+		return err;
+	}
+
+	if (activeListener == 0)
+	{
+		alcMakeContextCurrent(listener->context);
+		activeListener = listener;
 	}
 
 	audioListeners.push_back(listener);

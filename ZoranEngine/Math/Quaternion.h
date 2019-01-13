@@ -1,6 +1,6 @@
 #pragma once
 #include "Vector3.h"
-#include "Matrix44.hpp"
+#include "Matrix44.h"
 #include "MathLib.h"
 
 #include "Core/PlatformTypes.h"
@@ -32,7 +32,7 @@ public:
 	Vector3D GetUpVector()const;
 	Vector3D GetLeftVector()const;
 
-	static Quaternion FromScaledAxis(Vector3D& w);
+	static Quaternion FromScaledAxis(const Vector3D& w);
 	static Quaternion FromEuler(const Vector3D& euler);
 	static Quaternion FromEuler(float x, float y, float z);
 
@@ -55,3 +55,4 @@ public:
 };
 
 Quaternion operator*(float s, const Quaternion& q);
+#define Quat const Quaternion&

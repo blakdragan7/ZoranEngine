@@ -1,41 +1,30 @@
 #pragma once
 
 #include <mutex>
-#include "Core/TickableObject.h"
-#include <Math/Matrix44.hpp>
+#include <Interfaces/ITickableObject.h>
+#include <Math/Matrix44.h>
 /*
-* Very Basic Object, Essentially represents bare minmum needed to be rendered on the scene
+*  Scene objects are objects that can be places in a level.
+*  They do not have to be renderable and do not have any render logic in them.
 */
-class RenderEngineBase;
-class ShaderProgramBase;
-class RenderedObjectBase;
-class CollisionObject2DBase;
+class VisibleComponentBase;
 class PhysicsObjectBase;
+class ComponentBase;
 
-class ZoranEngine_EXPORT SceneObject : public TickableObject
+class ZoranEngine_EXPORT SceneObject : public ITickableObject
 {
 protected:
-
-	RenderEngineBase* renderEngine;
-	ShaderProgramBase* shaderProgram;
-	RenderedObjectBase* renderedObject;
+	ComponentBase * rootComponent;
 
 	unsigned long long ID;
-
-#pragma warning(push)
-#pragma warning(disable:4251)
-	std::mutex mutex;
-#pragma warning(pop)
-
+	std::mutex* mutex;
 	bool hasCollision;
 
-public:
-#pragma warning(push)
-#pragma warning(disable:4251)
-	std::string readableName;
-#pragma warning(pop)
-
 	bool willEverTick;
+
+public:
+
+	std::string* readableName;
 
 protected:
 	void WaitForMutex();
@@ -45,12 +34,8 @@ protected:
 
 public:
 	SceneObject(std::string);
-	SceneObject(std::string, RenderEngineBase* engine);
+	SceneObject(ComponentBase* component, std::string);
 	virtual ~SceneObject();
-
-	virtual void PostRender();
-	virtual void RenderScene();
-	virtual void PreRender();
 
 	// Destroys this object removeing it from any part of the engine that it needs to
 	virtual void Destroy();
@@ -62,19 +47,12 @@ public:
 
     // Getter / Setter
 
-	void SetShaderProgram(ShaderProgramBase* newShaderProgram);
-	void SetRenderedObject(RenderedObjectBase* newRenderedObject);
-
-	inline RenderEngineBase* GetRenderEngine() { return renderEngine; }
-	inline ShaderProgramBase* GetShaderProgram() { return shaderProgram; }
-	inline RenderedObjectBase* GetRenderedObject() { return renderedObject; }
-	
+	void SetRootComponent(ComponentBase* component);
 
 	inline const Matrix44& GetModel() { return ModelMatrixCache; };
-	//virtual MatrixF GetScaleMatrix3x3() = 0;
 	virtual Matrix44 GetScaleMatrix4x4() = 0;
 
-	virtual class CollisionObjectBase* GetCollision() = 0;
-	virtual class PhysicsObjectBase* GetPhysics() = 0;
-};
+	inline const ComponentBase* GetRootComponent() { return rootComponent; }
 
+	friend class ZoranEngine;
+};

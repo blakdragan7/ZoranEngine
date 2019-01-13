@@ -46,17 +46,18 @@ struct ZoranEngine_EXPORT SweepCollisionResponse3D
 	}
 };
 
+class Component3DBase;
 class ZoranEngine_EXPORT CollisionObject3DBase : public CollisionObjectBase
 {
 private:
-	SceneObject3D* sceneObject3D;
+	Component3DBase* affectedComponent;
 	PhysicsObject3DBase* physicsObject3D;
 
 public:
-	CollisionObject3DBase(SceneObject3D* object, CollisionDynamics collisionDynamics = CD_Dynamic, unsigned collisionType = NO_COLLISION);
+	CollisionObject3DBase(Component3DBase* compomnent, CollisionDynamics collisionDynamics = CD_Dynamic, unsigned collisionType = NO_COLLISION);
 	virtual ~CollisionObject3DBase();
 
-	void SetSceneObject(SceneObject3D* object);
+	void SetAffectedComponent(Component3DBase* compomnent);
 	void SetPhysicsObject(PhysicsObject3DBase* object);
 
 	virtual bool CollidesWith(CollisionObject3DBase* other, CollisionResponse3D& response) = 0;
@@ -65,7 +66,7 @@ public:
 
 
 	Vector3D GetScenePos();
-	SceneObject3D* GetSceneObject();
+	Component3DBase* GetAffectedComponent();
 	PhysicsObject3DBase* GetPhysicsObject();
 };
 

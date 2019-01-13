@@ -14,10 +14,14 @@ public:
 	};
 
 	Vector2D(void);
+	Vector2D(float scalor);
 	Vector2D(float x_, float y_);
 	Vector2D(const class Vector2I& other);
+	Vector2D(const class Vector3D& other); // this just ignores the z component
 
 	~Vector2D(void);
+
+	Vector2D MaxBetween(const Vector2D& other);
 
 	void Set(float x, float y);
 	void Set(const Vector2D& other);
@@ -43,6 +47,7 @@ public:
 	void operator /=(float scalor);
 	void operator =(float scalor);
 
+	bool operator ==(const float& other)const;
 	bool operator ==(const Vector2D& other)const;
 
 	Vector2D getAbs()const;
@@ -53,6 +58,7 @@ public:
 	void rotate(Vector2D origin, float angle /*radians*/);
 
 	float magnitude()const;
+	float getMaxValue()const;
 	float magnitudeSqr()const;
 	float distance(const Vector2D& other)const;
 	float distanceSquared(const Vector2D& other)const;
@@ -64,6 +70,9 @@ public:
 	static const Vector2D Zero;
 };
 
+extern Vector2D operator+(float d, const Vector2D& v);
+extern Vector2D operator/(float d, const Vector2D& v);
+extern Vector2D operator-(float d, const Vector2D& v);
 inline extern Vector2D operator*(float d,const Vector2D& v);
 
 class ZoranEngine_EXPORT Vector2I
@@ -80,41 +89,45 @@ public:
 
 	Vector2I(void);
 	Vector2I(int x_, int y_);
+	Vector2I(const Vector2D& other);
 
 	~Vector2I(void);
 
-	Vector2I operator -(Vector2I other);
-	Vector2I operator +(Vector2I other);
-	Vector2I operator *(Vector2I other);
-	Vector2I operator /(Vector2I other);
-	Vector2I operator =(Vector2I other);
-	Vector2I operator -=(Vector2I other);
-	Vector2I operator +=(Vector2I other);
-	Vector2I operator *=(Vector2I other);
-	Vector2I operator /=(Vector2I other);
+	Vector2I operator -(const Vector2I& other)const;
+	Vector2I operator +(const Vector2I& other)const;
+	Vector2I operator *(const Vector2I& other)const;
+	Vector2I operator *(const Vector2D& other)const;
+	Vector2I operator /(const Vector2I& other)const;
+	Vector2I operator =(const Vector2I& other);
+	Vector2I operator -=(const Vector2I& other);
+	Vector2I operator +=(const Vector2I& other);
+	Vector2I operator *=(const Vector2I& other);
+	Vector2I operator /=(const Vector2I& other);
 
-	Vector2I operator -(int scalor);
-	Vector2I operator +(int scalor);
-	Vector2I operator *(int scalor);
-	Vector2I operator /(int scalor);
+	Vector2I operator -(int scalor)const;
+	Vector2I operator +(int scalor)const;
+	Vector2I operator *(int scalor)const;
+	Vector2I operator /(int scalor)const;
 	Vector2I operator -=(int scalor);
 	Vector2I operator +=(int scalor);
 	Vector2I operator *=(int scalor);
 	Vector2I operator /=(int scalor);
 	Vector2I operator =(int scalor);
 
-	Vector2I getAbs();
+	Vector2I getAbs()const;
 
-	bool operator ==(Vector2I other);
+	bool operator ==(const Vector2I& other)const;
+	bool operator <=(const Vector2I& other)const;
+	bool operator >=(const Vector2I& other)const;
 
-	float distance(Vector2I other);
+	float distance(const Vector2I& other)const;
 
-	float magnitude();
-	int distanceSquared(Vector2I other);
-	int perpDot(Vector2I other);
+	float magnitude()const;
+	int distanceSquared(const Vector2I& other)const;
+	int perpDot(const Vector2I& other)const;
 
+	static const Vector2I Zero;
 };
 
-
-#define Vec2D Vector2D
-#define Vec2I Vector2I
+#define Vec2D const Vector2D&
+#define Vec2I const Vector2I&

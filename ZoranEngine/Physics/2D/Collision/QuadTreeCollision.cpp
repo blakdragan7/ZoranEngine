@@ -1,13 +1,11 @@
 #include "stdafx.h"
 #include "QuadTreeCollision.h"
-#include <Core/2D/SceneObject2D.h>
+#include <Core/2D/Components/Component2DBase.h>
 #include <Physics/2D/Collision/b2DCollision2DObject.h>
 #include <Physics/2D/Collision/CircleCollision2DObject.h>
 #include <Physics/2D/Collision/AABBSquareCollisionObject.h>
-#include "Core/SceneObject.h"
-#include <Math/Vector2.h>
 
-QuadTreeCollision::QuadTreeCollision(Vector2D min, Vector2D max, SceneObject2D* object) : CollisionObject2DBase(object,CD_Static, QUADTREE_COLLISION)
+QuadTreeCollision::QuadTreeCollision(Vector2D min, Vector2D max, Component2DBase* component) : CollisionObject2DBase(component,CD_Static, QUADTREE_COLLISION)
 {
 	this->minPos = min;
 	this->maxPos = max;
@@ -24,7 +22,7 @@ QuadTreeCollision::~QuadTreeCollision()
 void QuadTreeCollision::SetBoundsBySceneObject()
 {
 	Vector2D pos = GetScenePos();
-	Vector2D scale = GetSceneObject()->GetScale().getAbs();
+	Vector2D scale = GetAffectedComponent()->GetScale().getAbs();
 
 	scaledSize = size * scale;
 

@@ -1,25 +1,30 @@
 #include "stdafx.h"
 #include "PhysicsObject2DBase.h"
-#include "Core/2D/SceneObject2D.h"
-#include "Core/ZoranEngine.h"
+
+#include <Core/ZoranEngine.h>
 #include <Physics/PhysicsEngine.h>
-#include "Physics/2D/Collision/CollisionBucket2DBase.h"
-#include <Physics/2D/Collision/AABBSquareCollisionObject.h>
+#include <Core/2D/Components/Component2DBase.h>
+#include <Physics/2D/Collision/CollisionBucket2DBase.h>
 #include <Physics/2D/Collision/CollisionObject2DBase.h>
-#include "Math/MathHelpers.h"
+#include <Physics/2D/Collision/AABBSquareCollisionObject.h>
+
+#include <Math/MathHelpers.h>
 #include <Math/MathLib.h>
 #include <cmath>
+
 const float EulerConstant = std::exp(1.0f);
 
 bool PhysicsObject2DBase::SweepCollisionTo(Vec2D position, SweepCollision2D & response)
 {
-	pEngine->GetCollisionBucketRootFor2D()->SweepCollision(sceneObject2D->GetCollision2D(), position, response);
-	return response.Collision2D.collided;
+	/*pEngine->GetCollisionBucketRootFor2D()->SweepCollision(sceneObject2D->GetCollision2D(), position, response);
+	return response.Collision2D.collided;*/
+	return false;
 }
 
 bool PhysicsObject2DBase::FastSweepCollision(Vec2D position)
 {
-	return sceneObject2D->GetCollision2D()->FastSweepCollidesWith(position);
+	//return sceneObject2D->GetCollision2D()->FastSweepCollidesWith(position);
+	return false;
 }
 
 void PhysicsObject2DBase::CheckIfOnGround(class Collision2D& response)
@@ -47,11 +52,10 @@ void PhysicsObject2DBase::CheckIfOnGround(class Collision2D& response)
 	//}
 }
 
-PhysicsObject2DBase::PhysicsObject2DBase(SceneObject2D * object) : PhysicsObjectBase(object)
+PhysicsObject2DBase::PhysicsObject2DBase(Component2DBase* component) : affected2DComponent(component), PhysicsObjectBase(component)
 {
-	sceneObject2D = object;
-	gravity = Vec2D(0, -980);
-	gravityNormal = Vec2D(0, -1);
+	gravity = Vector2D(0, -980);
+	gravityNormal = Vector2D(0, -1);
 	shouldSimulate = false;
 	torque = 0;
 }
@@ -63,7 +67,7 @@ PhysicsObject2DBase::~PhysicsObject2DBase()
 
 }
 
-void PhysicsObject2DBase::SetVeloctiy(Vec2D Velocity)
+void PhysicsObject2DBase::SetVeloctiy(const Vector2D& Velocity)
 {
 	this->velocity = Velocity;
 }
@@ -73,7 +77,7 @@ void PhysicsObject2DBase::SetAngularVeloctiy(float Velocity)
 	angularVelocity = Velocity;
 }
 
-void PhysicsObject2DBase::SetGravity(Vector2D gravity)
+void PhysicsObject2DBase::SetGravity(const Vector2D& gravity)
 {
 	this->gravity = gravity;
 	gravityNormal = gravity;
@@ -89,7 +93,7 @@ void PhysicsObject2DBase::SetMass(float mass)
 
 void PhysicsObject2DBase::ReCalculateInertia()
 {
-	Vec2D size = sceneObject2D->GetSize();
+	Vec2D size = affected2DComponent->GetSize();
 
  	if (mass < FLT_MAX && mass != 0)
 	{
@@ -128,12 +132,12 @@ void PhysicsObject2DBase::OnCollision(Collision2D &response)
 
 bool PhysicsObject2DBase::OnSweepCollision(SweepCollision2D & response,float deltaTime, int currentDepth, int maxDepth)
 {
-	if (currentDepth >= maxDepth)
+	/*if (currentDepth >= maxDepth)
 	{
-		std::string name = response.Collision2D.collidedObjects[0]->GetSceneObject()->readableName;
+		std::string name = *response.Collision2D.collidedObjects[0]->GetSceneObject()->readableName;
 		Log(LogLevel_Error,"Error, Object %s exceeded maximum sweep Depth !! \n", name.c_str());
 		return false;
-	}
+	}*/
 
 	if (shouldSimulate && deltaTime > 1e-9)
 	{
@@ -190,7 +194,7 @@ bool PhysicsObject2DBase::SweepToo(Vec2D targetPosition, SweepCollision2D & resp
 	return false;
 }
 
-void PhysicsObject2DBase::ApplyForce(Vec2D Force)
+void PhysicsObject2DBase::ApplyForce(const Vector2D& Force)
 {
 	this->force += Force;
 	isOnGround = false;
@@ -200,6 +204,8 @@ void PhysicsObject2DBase::UpdateVelocities(float deltaTime)
 {
 	if (shouldSimulate)
 	{
+		ReCalculateInertia();
+
 		currentDeltaTime = deltaTime;
 
 		if (isOnGround == false)
@@ -227,27 +233,27 @@ void PhysicsObject2DBase::UpdatePositionsAndRotation(float deltaTime)
 
 		if (useSweptCollision)
 		{
-			Vec2D target = sceneObject2D->GetPosition() + ((velocity*deltaTime));
+			Vec2D target = affected2DComponent->GetWorldLocation() + ((velocity*deltaTime));
 
 			SweepCollision2D response;
 			if (SweepToo(target, response))
 				pEngine->CurrentCollisionFrame2D().sweptCollisions.push_back(response);
 			else
-				sceneObject2D->SetPosition(target);
+				affected2DComponent->SetWorldLocation(target);
 		}
 		else
 		{
-			sceneObject2D->Translate(velocity*deltaTime);
+			affected2DComponent->Translate(velocity*deltaTime);
 		}
 
-		sceneObject2D->Rotate(deltaTime * -angularVelocity);
+		affected2DComponent->Rotate(deltaTime * -angularVelocity);
 	
 		// optimization for calculating model matrix only once
-		sceneObject2D->PreCaclModel();
+		//sceneObject2D->PreCaclModel();
 	}
 }
 
-void PhysicsObject2DBase::ApplyImpulseToVelocity(Vector2D impulse)
+void PhysicsObject2DBase::ApplyImpulseToVelocity(const Vector2D& impulse)
 {
 	velocity += invMass * impulse;
 }
@@ -257,7 +263,7 @@ void PhysicsObject2DBase::ApplyImpulseToAngularVelocity(float impulse)
 	angularVelocity += invInertia * impulse;
 }
 
-const Vec2D& PhysicsObject2DBase::GetVelocity()
+Vector2D PhysicsObject2DBase::GetVelocity()
 {
 	return velocity;
 }
@@ -267,6 +273,4 @@ float PhysicsObject2DBase::GetAngularVelocity()
 	return angularVelocity;
 }
 
-const Vec2D& PhysicsObject2DBase::GetScenePos() { return sceneObject2D->GetPosition(); }
-inline SceneObject2D* PhysicsObject2DBase::GetSceneObject() { 
-	return sceneObject2D; }
+Vector2D PhysicsObject2DBase::GetScenePos() { return affected2DComponent->GetWorldLocation(); }

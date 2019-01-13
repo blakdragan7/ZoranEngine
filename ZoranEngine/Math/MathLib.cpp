@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "MathLib.h"
 #include <Math/Vector2.h>
+#include <Math/Matrix22.hpp>
 #include <Physics/2D/Collision/CollisionObject2DBase.h>
 
 int MathLib::ClipRangeToLine(ClipedVertex outPoints[2], ClipedVertex inPoints[2], const Vector2D & lineNormal, float offset, char clipEdge)

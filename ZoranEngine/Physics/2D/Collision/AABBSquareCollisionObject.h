@@ -1,7 +1,7 @@
 #pragma once
 #include <Physics/2D/Collision/CollisionObject2DBase.h>
 
-#include "Math/Vector2.h"
+#include <Math/Vector2.h>
 
 #define SQUARE_COLLISION 4
 
@@ -20,7 +20,8 @@ private:
 	void FillCollisionPoints(CollisionPoint points[2], Vec2D otherMin, Vec2D otherMax);
 
 public:
-	AABBSquareCollisionObject(Vector2D min, Vector2D max, SceneObject2D* object, CollisionDynamics dynamics = CD_Dynamic,bool isRoot = true);
+	AABBSquareCollisionObject(Component2DBase* affectedComponent, CollisionDynamics dynamics = CD_Dynamic, bool isRoot = true);
+	AABBSquareCollisionObject(const Vector2D& min, const Vector2D& max, Component2DBase* affectedComponent, CollisionDynamics dynamics = CD_Dynamic,bool isRoot = true);
 	~AABBSquareCollisionObject();
 
 	void SetBoundsBySceneObject()override;

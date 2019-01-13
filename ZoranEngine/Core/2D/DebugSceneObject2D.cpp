@@ -1,11 +1,15 @@
 #include "stdafx.h"
 #include "DebugSceneObject2D.h"
-#include <OpenGL/DebugShader2D.h>
+#include <Rendering/OpenGL/2D/DebugShader2D.h>
 
 DebugSceneObject2D::DebugSceneObject2D(std::string name) : SceneObject2D(name)
 {
-	static DebugShader2D* dbg = new DebugShader2D(this);
-	SetShaderProgram(dbg);
+	component = new DebugRenderComponent();
+	root2DComponent = component;
+	SetRootComponent(root2DComponent);
+
+	component->SetIsVisible(false);
+	component->SetColor({ 0,0,1 });
 }
 
 

@@ -1,28 +1,34 @@
 #include "TestCircleObject.h"
-#include <OpenGL/StandardShader2D.h>
-#include <OpenGL/OpenGLObject.h>
+
 #include <Core/ZoranEngine.h>
-#include <Physics/PhysicsObjectBase.h>
 #include <Rendering/TextureBase.h>
-#include <Physics/2D/PhysicsObject2DBase.h>
-#include <Physics/2D/Collision/CircleCollision2DObject.h>
+#include <Physics/PhysicsObjectBase.h>
+
+#include <Core/2D/Components/CircleCollisionComponent.h>
+#include <Core/2D/Components/RigidBody2DComponent.h>
+
 #include <Utils/Random.h>
 
-TestCircleObject::TestCircleObject(std::string name, float radius) : TexturedSprite(name)
+TestCircleObject::TestCircleObject(std::string name, float radius) : TexturedSprite(100, name)
 {
 	willEverTick = true;
 
-	collision = new CircleCollision2DObject(1.0, this, CD_Dynamic);
-	collision->SetPhysicsObject(GetPhysics2D());
+	CircleCollisionComponent* circleComponent = new CircleCollisionComponent(root2DComponent);
 
-	static ShaderProgramBase* shader = new StandardShader2D();
-	SetShaderProgram(shader);
+	circleComponent->SetRadius(1.0);
 
-	SetTexture("circle.png", RenderDataType::TYPE_RGBA_32, RenderDataFormat::FORMAT_UNSIGNED_BYTE);
-	GetPhysics()->SetRestitution(1.0);
-	GetPhysics()->SetMass(200);
+	root2DComponent->AddSubComponent(circleComponent);
 
-	target = 0;
+	SetTexture("circle.png", RenderDataType::Render_Data_Type_RGBA_32, RenderDataFormat::Render_Data_Format_Unsigned_Byte);
+	
+	rigidBody = new RigidBody2DComponent(root2DComponent);
+
+	rigidBody->SetRestitution(1.0);
+	rigidBody->SetMass(200);
+
+	root2DComponent->AddSubComponent(rigidBody);
+
+	circleComponent->SetPhysicsObjectFrom2DRigidBody(rigidBody);
 }
 
 
@@ -35,11 +41,11 @@ void TestCircleObject::Tick(float dt)
 	if (target)
 	{
 		Vec2D direction = (target->GetPosition() - GetPosition()).getNormal();
-		GetPhysics2D()->SetGravity(direction * 300);
+		rigidBody->SetGravity(direction * 300);
 
 		if (Random::GetBoolWithChance(0.01f))
 		{
-			GetPhysics2D()->ApplyForce(Vec2D(Random::GetFloatInRange(-10000,10000), 1000000));
+			rigidBody->ApplyForce(Vector2D(Random::GetFloatInRange(-10000,10000), 1000000));
 		}
 	}
 }

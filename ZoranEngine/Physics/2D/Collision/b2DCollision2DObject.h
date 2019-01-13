@@ -3,10 +3,11 @@
 
 #define b2D_2D_COLLISION 7
 
+class Component2DBase;
 class ZoranEngine_EXPORT b2DCollision2DObject : public CollisionObject2DBase
 {
 public:
-	b2DCollision2DObject(SceneObject2D *object);
+	b2DCollision2DObject(Component2DBase *component);
 	~b2DCollision2DObject();
 
 	void SetBoundsBySceneObject()override;

@@ -2,6 +2,7 @@
 #include "TexturedSprite.h"
 
 #include <Core/ZoranEngine.h>
+#include <Core/2D/Components/TexturedSpriteComponent.h>
 #include <Physics/PhysicsEngine.h>
 #include <Rendering/TextureBase.h>
 #include <Rendering/TextureManager.h>
@@ -12,38 +13,39 @@
 #include <Physics/2D/Collision/b2DCollision2DObject.h>
 #include <Physics/2D/Collision/SatCollision2DObject.h>
 
-TexturedSprite::TexturedSprite(std::string name) : SceneObject2D(name)
+TexturedSprite::TexturedSprite(unsigned renderLayer, std::string name) : SceneObject2D(name)
 {
-	texture = 0;
-	physicsObject = new PhysicsObject2DBase(this);
-	
-	startingSize = Vec2D(2,2);
-	SetScale(1,1);
+	spriteComponent = new TexturedSpriteComponent(renderLayer);
+	spriteComponent->SetStartingSize(2, 2);
+	spriteComponent->SetScale(1, 1);
 
-	renderedObject->MakeFullScreenQuad();
+	root2DComponent = spriteComponent;
+
+	SetRootComponent(root2DComponent);
+
 }
 
-TexturedSprite::TexturedSprite(std::string name, const char* texture, RenderDataType type, RenderDataFormat format) : SceneObject2D(name)
+TexturedSprite::TexturedSprite(unsigned renderLayer, std::string name, const char* texture, RenderDataType type, RenderDataFormat format) : SceneObject2D(name)
 {
-	startingSize = Vec2D(2, 2);
-	SetScale(1,1);
-	physicsObject = new PhysicsObject2DBase(this);
-	this->texture = TextureManager::GetInstance()->TextureForFilePath(texture, type, format);
-	
+	spriteComponent = new TexturedSpriteComponent(renderLayer, texture, type, format);
+	spriteComponent->SetStartingSize(2, 2);
+	spriteComponent->SetScale(1, 1);
+
+	root2DComponent = spriteComponent;
+	SetRootComponent(root2DComponent);
 }
 
 TexturedSprite::~TexturedSprite()
 {
-	if (texture)delete texture;
+	if (rootComponent)delete rootComponent;
 }
 
 void TexturedSprite::SetTexture(const char* path, RenderDataType type, RenderDataFormat format)
 {
-	texture = TextureManager::GetInstance()->TextureForFilePath(path, type, format);
+	((TexturedSpriteComponent*)rootComponent)->SetTexture(path, type, format);
 }
 
-void TexturedSprite::PreRender()
+void TexturedSprite::SetTexture(TextureBase * texture)
 {
-	GetRenderedObject()->SetAlphaEnabled(true);
-	if (texture)texture->UseTexture(0);
+	((TexturedSpriteComponent*)rootComponent)->SetTexture(texture);
 }

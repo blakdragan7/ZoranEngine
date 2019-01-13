@@ -3,6 +3,7 @@
 #include <chrono>
 
 #define NANOSECONDS_PER_SECONDS 1e+9
+#define NANOSECONDS_PER_MILISECONDS 1e+6
 
 class HighPrecisionClock
 {

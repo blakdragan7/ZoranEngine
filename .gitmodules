@@ -1,0 +1,12 @@
+[submodule "submodules/assimp"]
+	path = submodules/assimp
+	url = https://github.com/assimp/assimp
+[submodule "submodules\\msdfgen"]
+	path = submodules\\msdfgen
+	url = https://github.com/Chlumsky/msdfgen
+[submodule "submodules/icu"]
+	path = submodules/icu
+	url = https://github.com/unicode-org/icu
+[submodule "submodules/sparsehash-c11"]
+	path = submodules/sparsehash-c11
+	url = https://github.com/sparsehash/sparsehash-c11

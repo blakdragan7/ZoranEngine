@@ -1,6 +1,10 @@
 #include "stdafx.h"
 #include "ThreadBase.h"
+#ifdef _WIN32
+#include <Windows/WindowsThread.h>
+#endif
 
+#include <assert.h>
 
 void ThreadBase::RunFnction(void * data)
 {
@@ -40,4 +44,16 @@ void ThreadBase::StopThread()
 void ThreadBase::Run(void * data)
 {
 	if(hasFunc)func(data);
+}
+
+ThreadBase * ThreadBase::CreatePlatformThread()
+{
+	ThreadBase* thread = 0;
+#ifdef _WIN32
+	thread = new WindowsThread();
+#else
+	Log(LogLevel_Error,"There is No Thread Implementation For this Platform !!");
+	assert(false);
+#endif
+	return thread;
 }

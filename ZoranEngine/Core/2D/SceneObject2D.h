@@ -1,13 +1,13 @@
 #pragma once
 #include "Core\SceneObject.h"
-#include <Math/Matrix44.hpp>
+#include <Math/Matrix44.h>
 #include <Math/Vector2.h>
-#include <Math/Matrix22.h>
 
-class CollisionObject2DBase;
-class PhysicsObject2DBase;
-class CollisionObjectBase;
-class PhysicsObjectBase;
+#include <Core/2D/Components/Component2DBase.h>
+
+/*
+*  2D scene objects scene objects who's coordinates are represented with 2D vectors and a single float for rotation
+*/
 
 class ZoranEngine_EXPORT SceneObject2D : public SceneObject
 {
@@ -15,62 +15,45 @@ private:
 	// used to make GetModel more effecient
 	Matrix44 model;
 
-	Vector2D scale;
-	Vector2D pos;
-	float rotation; // degrees
-
-	Matrix22 rotationMat;
-	Matrix22 invRotationMat;
+	bool CheckRootComponent(const char* func)const;
 
 protected:
-	CollisionObject2DBase * collision;
-	PhysicsObject2DBase* physicsObject;
-	Vector2D size;
-	Vector2D startingSize;
+	Component2DBase* root2DComponent;
 
 public:
 	SceneObject2D(std::string name);
-	SceneObject2D(std::string name, RenderEngineBase* engine);
+	SceneObject2D(Component2DBase* root2DComponent,std::string name);
 	~SceneObject2D();
 
-	void SetPosition(Vector2D pos);
-	void SetScale(Vector2D scale);
+	void SetPosition(const Vector2D& pos);
+	void SetScale(const Vector2D& scale);
 
 	void SetPosition(float x, float y);
 	void SetScale(float x, float y);
 	
 	void SetRotation(float rotation);
 	
-	void Translate(Vector2D delta);
+	void Translate(const Vector2D& delta);
 	void Translate(float dx, float dy);
 
-	void Scale(Vector2D scale);
+	void Scale(const Vector2D& scale);
 	void Scale(float dx, float dy);
 
 	void Rotate(float rotation);
 
-	float GetRotationRad()const;
+	float GetRotationDegree()const;
 	float GetRotation()const;
 
-	inline const Vector2D& GetPosition()const { return pos; }
-	const Vector2D& GetVelocity()const;
-	inline const Vector2D& GetScale()const { return scale; }
-	inline const Vector2D& GetSize()const { return size; }
+	inline void SetRoot2DComponent(Component2DBase* component) { root2DComponent = component; SetRootComponent(component); }
 
-	Matrix22 GetRotationMatrix()const;
-	Matrix22 GetInvRotationMatrix()const;
+	inline const Vector2D& GetPosition()const { return root2DComponent->GetOffset(); }
+	inline const Vector2D& GetScale()const { return root2DComponent->GetScale(); }
+	inline const Vector2D GetSize()const { return root2DComponent->GetSize(); }
+
+	inline Component2DBase* Get2DRoot() { return root2DComponent; }
 
 	virtual void PreCaclModel()override;
-
-	//virtual MatrixF GetScaleMatrix3x3()override;
 	virtual Matrix44 GetScaleMatrix4x4()override;
-
-	inline CollisionObject2DBase* GetCollision2D() { return collision; }
-	inline class PhysicsObject2DBase* GetPhysics2D() { return physicsObject; }
-
-	inline class CollisionObjectBase* GetCollision() { return (CollisionObjectBase*)collision; }
-	inline PhysicsObjectBase* GetPhysics() { return (PhysicsObjectBase*)physicsObject; }
-
 	virtual void Destroy()override;
 };
 

@@ -25,7 +25,5 @@ public:
 	virtual SceneObject* GetSceneObject() = 0;
 	virtual void CheckAllCollision(struct CollisionFrame2D& frame) = 0;
 	virtual void UpdateAllObjects() = 0;
-
-	virtual void ImGuiDraw() = 0;
 };  
 

@@ -3,13 +3,31 @@
 #include <Utils/Random.h>
 #include <Core/ZoranEngine.h>
 #include <Core/WindowBase.h>
-#include <Core/TickableObject.h>
+#include <Interfaces/ITickableObject.h>
 #include <Core/2D/OrthoCamera.h>
+#include <Core/3D/PerspectiveCamera.h>
 #include <Physics/PhysicsEngine.h>
 #include <Windows/WindowsWindow.h>
 #include <Utils/HighPrecisionClock.h>
-#include <OpenGL/OpenGLRenderEngine.h>
-#include <Physics/PhysicsObjectBase.h>
+
+#include <ZGI/Panels/ZGITreePanel.h>
+
+#include <ZGI/Windows/ZGIGameVirtualWindow.h>
+#include <ZGI/Windows/ZGIDebugWindow.h>
+
+#include <Math/Matrix44.h>
+
+#include <Rendering/TextureBase.h>
+
+#include <Rendering/Renderers/TriangleStripRenderer.h>
+
+#include <Rendering/ShaderProgramBase.h>
+
+#include <Rendering/FrameBufferBase.h>
+// TODO remove these and make a way for the user to decide which engine to use
+#include <Rendering/OpenGL/2D/OpenGL2DRenderEngine.h>
+#include <Rendering/OpenGL/3D/OpenGL3DRenderEngine.h>
+
 #include <Physics/Collision/CollisionObjectBase.h>
 #include <Physics/Collision/CollisionBucketBase.h>
 
@@ -17,23 +35,25 @@
 
 #include <iostream>
 
-#include "SceneObject.h"
+#include <Core/SceneObject.h>
 
-#include "Utils/VectorAddons.hpp"
+#include <Utils/VectorAddons.hpp>
 
-#include "Version.h"
-#include "Utils/ConsoleLogger.h"
-#ifdef _WIN32
-#include "Windows/WindowsThread.h"
-#else
-
-#endif
+#include <Version.h>
+#include <Utils/ConsoleLogger.h>
+#include <Utils/FileLogger.h>
 
 #include <Utils/Statistics.h>
-#include <ThirdParty/imgui/imgui.h>
-#include <ThirdParty/imgui/imgui_impl_opengl3.h>
 
 #include <Core/Audio/AL/OALAudioEngine.h>
+
+#include <Core/PlayerInstanceBase.h>
+#include <Core/DebugPlayerInstance.h>
+
+#include <Core/Resources/ResourceManager.h>
+#include <Core/Resources/FontResource.h>
+
+#include <Rendering/Renderers/FontRenderer.h>
 
 ZoranEngine* ZoranEngine::instance = 0;
 
@@ -41,28 +61,30 @@ bool ZoranEngine::canRenderDebug = false;
 
 ZoranEngine::ZoranEngine()
 {
+	main2DRenderEngine = 0;
+	main3DRenderEngine = 0;
+
+	is3D = false;
 	audioEngine = 0;
 	mainWindow = 0;
 	if (instance)throw std::exception("There can only be one ZoranEngine instance !");
 	instance = this;
 	shouldRun = true;
 	physicsEngine = new PhysicsEngine();
-	mainRenderEngine = 0;
 	isPaused = false;
 	logger = new ConsoleLogger();
-	logger->SetLogLevel(LogLevel_Error);
+	//logger = new FileLogger("output.log");
+	logger->SetLogLevel(LogLevel_Debug);
 	step = false;
-	camera = 0;
-
-	defaultAllocator = new CAllocator();
 
 	allSceneObjects = new std::vector<SceneObject*>();
-	allTickables = new std::vector<TickableObject*>();
+	allTickables = new std::vector<ITickableObject*>();
 }
 
 ZoranEngine::~ZoranEngine()
 {
 	if (audioEngine)delete audioEngine;
+	audioEngine = 0;
 
 	for (auto object : *allSceneObjects)
 	{
@@ -72,35 +94,39 @@ ZoranEngine::~ZoranEngine()
 	delete allSceneObjects;
 	delete allTickables;
 
-	mainWindow->renderEngine = 0;
-
 	if (physicsEngine)delete physicsEngine;
-	if (mainRenderEngine)delete mainRenderEngine;
+	if (main2DRenderEngine)delete main2DRenderEngine;
+	if (main3DRenderEngine)delete main3DRenderEngine;
 	if (mainWindow)delete mainWindow;
-
-	delete defaultAllocator;
-
 	delete logger;
+
+	allSceneObjects = 0;
+	allTickables = 0;
+
+	physicsEngine = 0;
+	main2DRenderEngine = 0;
+	main3DRenderEngine = 0;
+	mainWindow = 0;
+	logger = 0;
 }
 
 int ZoranEngine::MainLoop()
 {
-	// Each Os will have it's own main loop
-	// should probably move these to there own functions
+	// Each OS will have it's own main loop
+	// TODO: move each OS implementation to there own functions
 #ifdef _WIN32
 	MSG       msg = { 0 };
 
 	double statistics = 0;
-	static HighPrecisionClock cl;
+	HighPrecisionClock cl;
 	cl.TakeClock();
 
 	while (WM_QUIT != msg.message && shouldRun)
 	{
-		// Main body of the Demo window starts here.
-
 		DEBUG_BENCH_START;
 
 		double deltaTime = (cl.GetDiffSeconds());
+		float dt = static_cast<float>(deltaTime);
 		deltaTime = min(1.0f / 60.0f , deltaTime);
 		
 		cl.TakeClock();
@@ -111,14 +137,11 @@ int ZoranEngine::MainLoop()
 			DispatchMessageW(&msg);
 		}
 
-		if (deltaTime == 0)deltaTime = 0;
-
 		if (isPaused == false || step == true)
 		{
 			if (step)
 			{
 				step = false;
-				//deltaTime = 0.033; 
 			}
 			if (physicsEngine)physicsEngine->UpdateAll(static_cast<float>(deltaTime));
 
@@ -132,7 +155,7 @@ int ZoranEngine::MainLoop()
 
 		}
 
-		if (mainWindow)mainWindow->MainDraw();
+		if (mainWindow)mainWindow->MainDraw(dt);
 	}
 #endif
 
@@ -143,14 +166,11 @@ bool ZoranEngine::Init()
 {
 	Random::Init();
 	
-	mainRenderEngine = new OpenGLRenderEngine();
 	WindowBase* window;
 #ifdef _WIN32
 	window = new WindowsWindow(this);
 	window->MakeWindow("test", 0, 0, 1920, 1080);
 #endif
-	mainRenderEngine->InitEngine(window->GetHandle());
-
 	mainWindow = window;
 
 	audioEngine = new OALAudioEngine();
@@ -159,49 +179,111 @@ bool ZoranEngine::Init()
 	return true;
 }
 
+void ZoranEngine::CreateGameModeWindows(bool is3D)
+{
+	ZGIGameVirtualWindow* vWindow = new ZGIGameVirtualWindow({ 0,0 }, mainWindow->GetSize(), mainWindow->GetSize(),is3D);
+	vWindow->SetPlayerInstance(mainPlayer);
+	mainWindow->SetRootVirtualWindow(vWindow);
+
+	//debugWindow = new ZGIDebugWindow({ 600,0 }, { 600,900 }, mainWindow->GetSize(), vWindow);
+	//vWindow->AddSubWindow(debugWindow);
+}
+
 void ZoranEngine::Setup2DScene(float centerx, float centery, float width, float height)
 {
-	physicsEngine->SetupFor2D(Vec2D(centerx, centery), Vec2D(width, height));
-	camera = new OrthoCamera("camera", width, height, 0);
-	camera->Translate(centerx, centery, 0);
-	camera->ScreenResized(mainWindow->GetSize());
+	main2DRenderEngine = new OpenGL2DRenderEngine();
+	main2DRenderEngine->InitEngine(mainWindow->GetHandle());
+
+	physicsEngine->SetupFor2D({ centerx, centery }, { width, height });
+
+	mainPlayer = new DebugPlayerInstance(new OrthoCamera("camera", width, height, 0));
+	mainPlayer->TranslateView(Vector2D(centerx, centery));
+	mainPlayer->WindowResizedView(mainWindow->GetSize());
+
+	FrameBufferBase* frameBuffer;
+	TextureBase* texture;
+	main2DRenderEngine->CreateFrameBuffer(&frameBuffer,&texture,mainWindow->GetSize());
+
+	frameBuffer->SetRenderFunction([](const Matrix44& cameraMatrix){
+		rEngine->DrawScene(cameraMatrix);
+	});
+
+	mainPlayer->SetCameraSceneBuffer(frameBuffer);
 }
 
 void ZoranEngine::Setup2DScene(Vector2D center, Vector2D size)
 {
+	main2DRenderEngine = new OpenGL2DRenderEngine();
+	main2DRenderEngine->InitEngine(mainWindow->GetHandle());
+
 	physicsEngine->SetupFor2D(center, size);
-	camera = new OrthoCamera("camera",size.x,size.y, 0);
-	camera->Translate(center.x, center.y, 0);
+
+	mainPlayer = new DebugPlayerInstance(new OrthoCamera("camera", size.w, size.h, 0));
+	mainPlayer->TranslateView(center);
+	mainPlayer->WindowResizedView(mainWindow->GetSize());
+
+	FrameBufferBase* frameBuffer;
+	TextureBase* texture;
+	main2DRenderEngine->CreateFrameBuffer(&frameBuffer, &texture, mainWindow->GetSize());
+
+	frameBuffer->SetRenderFunction([](const Matrix44& cameraMatrix) {
+		rEngine->DrawScene(cameraMatrix);
+	});
+
+	mainPlayer->SetCameraSceneBuffer(frameBuffer);
 }
 
-void ZoranEngine::SetupScene(float centerx, float centery, float width, float height, float depth)
+void ZoranEngine::Setup3DScene(Vector3D center, Vector3D size, float fov, float nearp, float farp)
 {
-	throw std::exception("SetupScene Not Implemented yet !");
+	main3DRenderEngine = new OpenGL3DRenderEngine();
+	main3DRenderEngine->InitEngine(mainWindow->GetHandle());
+	is3D = true;
+
+	physicsEngine->SetupFor3D(center, size);
+	
+	mainPlayer = new DebugPlayerInstance(new PerspectiveCamera("camera", fov, size.x / size.y, nearp, farp));
+	mainPlayer->TranslateView(center);
+	mainPlayer->WindowResizedView(mainWindow->GetSize());
+
+	FrameBufferBase* frameBuffer;
+	TextureBase* texture;
+	main3DRenderEngine->CreateFrameBuffer(&frameBuffer, &texture, { 1920,1080 });
+
+	frameBuffer->SetRenderFunction([](const Matrix44& cameraMatrix) {
+		rEngine->DrawScene(cameraMatrix);
+	});
+
+	mainPlayer->SetCameraSceneBuffer(frameBuffer);
 }
 
-void ZoranEngine::SetupScene(Vector3D center, Vector3D size)
+void ZoranEngine::DrawStep()
 {
-	throw std::exception("SetupScene Not Implemented yet !");
+	DEBUG_TAKE_BENCH;
+
+	GetRenderer()->DrawDebugGUI();
 }
 
 void ZoranEngine::KeyEvent(KeyEventType type, unsigned key)
 {
+	return;
+
 	switch (type)
 	{
-	case KEY_DOWN:
+	case KeyEventType_Key_Down:
 		switch (key)
 		{
-			case VK_SPACE:
+			case Key_Space:
 			{
 				isPaused = !isPaused;
 				break;
 			}
-			case VK_ESCAPE:
+			case Key_Esc:
 				shouldRun = false;
 				break;
 			case 'P':
-				if (physicsEngine)physicsEngine->GetCollisionBucketRoot()->PrintAllContents();
-				if (physicsEngine)physicsEngine->GetCollisionBucketRoot()->PrintAllCollisions();
+				debugWindow->GetTree()->Print(0);
+				//if (physicsEngine)physicsEngine->GetCollisionBucketRoot()->PrintAllContents();
+				//if (physicsEngine)physicsEngine->GetCollisionBucketRoot()->PrintAllCollisions();
 				break;
 			case 'S':
 				if (isPaused)step = true;
@@ -211,7 +293,7 @@ void ZoranEngine::KeyEvent(KeyEventType type, unsigned key)
 				break;
 		}
 		break;
-	case KEY_UP:
+	case KeyEventType_Key_Up:
 		if (key == Key_F11)mainWindow->SetWindowFullScreen(!mainWindow->IsFullScreen());
 		break;
 	}
@@ -227,57 +309,46 @@ void ZoranEngine::MouseMove(float x, float y)
 
 void ZoranEngine::ScreenResized(float width, float height)
 {
-	if(camera)camera->ScreenResized(width, height);
 }
 
-void ZoranEngine::AddTickableObject(TickableObject * object)
+void ZoranEngine::AddTickableObject(ITickableObject * object)
 {
 	allTickables->push_back(object);
 }
 
 void ZoranEngine::AddSceneObject(SceneObject * object)
 {
-	if (object->GetCollision())object->GetCollision()->SetBoundsBySceneObject();
-	if(object->willEverTick)AddTickableObject((TickableObject*)(object));
-	mainRenderEngine->AddSceneObject(object);
-	if(object->GetPhysics())
-		physicsEngine->AddPhysicsObject(object->GetPhysics());
-	CollisionObjectBase* collision = object->GetCollision();
-	if (collision)GetPhysicsEngine()->AddCollisionObject(collision);
+	AddTickableObject(object);
 }
 
 void ZoranEngine::DestroySceneObject(SceneObject * object)
 {
 	remove(*allSceneObjects, object);
-	mainRenderEngine->RemoveSceneObject(object);
-	if (object->GetPhysics())delete object->GetPhysics();
+	RemoveTickableObject(object);
 	delete object;
 }
 
-void ZoranEngine::RemoveTickableObject(TickableObject * object)
+void ZoranEngine::RemoveTickableObject(ITickableObject * object)
 {
 	remove(*allTickables, object);
 }
 
-const char * ZoranEngine::GetVersion()
+inline RenderEngineBase * ZoranEngine::GetRenderer() const
+{
+	if (is3D)
+		return main3DRenderEngine;
+	else
+		return main2DRenderEngine;
+}
+
+const char * ZoranEngine::GetVersion()const
 {
 	return Version;
 }
 
-void ZoranEngine::GetVersion(unsigned &Major, unsigned &Minor, unsigned &Revision)
+void ZoranEngine::GetVersion(unsigned &Major, unsigned &Minor, unsigned &Revision)const
 {
 	Major = VERSION_MAJOR;
 	Minor = VERSION_MINOR;
 	Revision = VERSION_REVISION;
-}
-
-ThreadBase * ZoranEngine::CreateThread()
-{
-	ThreadBase* thread = 0;
-#ifdef _WIN32
-	thread = new WindowsThread();
-#else
-	throw std::exception("Threads Not Implented For This Platform !");
-#endif
-	return thread;
 }

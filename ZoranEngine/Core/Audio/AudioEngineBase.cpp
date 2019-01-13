@@ -44,6 +44,9 @@ const char * AudioEngineBase::StringForError(AudioError error)
 	case AE_BACKEND_ERROR:
 		return "Backend Error";
 		break;
+	case AE_NO_DEVICE:
+		return "No Device";
+		break;
 	default:
 		return 0;
 	}

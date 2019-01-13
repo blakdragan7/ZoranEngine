@@ -2,9 +2,10 @@
 #include "AABBoxCollisionObject.h"
 #include "SphereCollisionObject.h"
 #include <Core/3D/SceneObject3D.h> 
-#include "Math/Matrix44.hpp"
+#include <Core/3D/Components/Component3DBase.h> 
+#include "Math/Matrix44.h"
 
-AABBoxCollisionObject::AABBoxCollisionObject(Vector3D min, Vector3D max, SceneObject3D* object, CollisionDynamics dynamics, unsigned collisionType) : CollisionObject3DBase(object, dynamics,collisionType)
+AABBoxCollisionObject::AABBoxCollisionObject(Vector3D min, Vector3D max, Component3DBase* object, CollisionDynamics dynamics, unsigned collisionType) : CollisionObject3DBase(object, dynamics,collisionType)
 {
 	this->minPos = min;
 	this->maxPos = max;
@@ -21,7 +22,7 @@ AABBoxCollisionObject::~AABBoxCollisionObject()
 void AABBoxCollisionObject::SetBoundsBySceneObject()
 {
 	Vector3D pos = GetScenePos();
-	Vector3D scale = GetSceneObject()->GetScale().getAbs();
+	Vector3D scale = GetAffectedComponent()->GetScale().getAbs();
 
 	scaledSize = size * scale;
 
@@ -31,8 +32,8 @@ void AABBoxCollisionObject::SetBoundsBySceneObject()
 
 bool AABBoxCollisionObject::CollidesWith(CollisionObject3DBase * other, CollisionResponse3D& response)
 {
-	Vec3D otherMin;
-	Vec3D otherMax;
+	Vector3D otherMin;
+	Vector3D otherMax;
 
 	if (other->GetCollisionType() == AABBOX_COLLISION)
 	{
@@ -69,7 +70,7 @@ bool AABBoxCollisionObject::CollidesWith(CollisionObject3DBase * other, Collisio
 	};
 
 	float penetration = 0;
-	Vec3D normal;
+	Vector3D normal;
 	int faceIndex = -1;
 
 	for (int i = 0; i < 4; i++)

@@ -1,13 +1,13 @@
 #pragma once
 #include <Physics\PhysicsObjectBase.h>
 
-class SceneObject3D;
+class Component3DBase;
 class ZoranEngine_EXPORT PhysicsObject3DBase : public PhysicsObjectBase
 {
 private:
 	class AABBoxCollisionObject * sweepCollisionBox;
 
-	SceneObject3D* sceneObject3D;
+	Component3DBase* affected3DComponent;
 
 	Vector3D velocity;
 
@@ -15,25 +15,25 @@ private:
 	Vector3D gravityNormal;
 
 protected:
-	bool SweepCollisionTo(Vec3D newPosition, struct SweepCollisionResponse3D& response);
-	bool FastSweepCollision(Vec3D newPosition); // Broad Sweep
+	bool SweepCollisionTo(const Vector3D& newPosition, struct SweepCollisionResponse3D& response);
+	bool FastSweepCollision(const Vector3D& newPosition); // Broad Sweep
 
 public:
-	PhysicsObject3DBase(SceneObject3D* object);
+	PhysicsObject3DBase(Component3DBase* component);
 	virtual ~PhysicsObject3DBase();
 
-	void ApplyForce(Vec3D Force);
-	void SetVeloctiy(Vec3D Velocity);
-	void SetGravity(Vector3D gravity);
+	void ApplyForce(const Vector3D& Force);
+	void SetVeloctiy(const Vector3D& Velocity);
+	void SetGravity(const Vector3D& gravity);
 
 	void OnCollision(struct CollisionResponse3D& response);
-	bool SweepToo(Vec3D targetPosition, SweepCollisionResponse3D &response);
+	bool SweepToo(const Vector3D& targetPosition, SweepCollisionResponse3D &response);
 
 	inline bool GetShouldSimulate() { return shouldSimulate; }
 
-	Vec3D GetVelocity();
-	Vec3D GetScenePos();
-	SceneObject3D* GetSceneObject();
+	const Vector3D& GetVelocity();
+	const Vector3D GetScenePos();
+	Component3DBase* GetAffected3DComponent();
 
 	virtual void Update(float deltaTime);
 };

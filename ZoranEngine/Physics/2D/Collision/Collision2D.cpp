@@ -4,7 +4,7 @@
 #include <Rendering/RenderedObjectBase.h>
 #include <Physics/2D/PhysicsObject2DBase.h>
 #include <Math/MathLib.h>
-#include <OpenGL/DebugShader2D.h>
+#include <Rendering/OpenGL/2D/DebugShader2D.h>
 
 void Collision2D::AddCollisionPoint(CollisionPoint & point)
 {
@@ -13,9 +13,8 @@ void Collision2D::AddCollisionPoint(CollisionPoint & point)
 	if (shouldRender)
 	{
 		DebugSceneObject2D* db = new DebugSceneObject2D("Debug Collision Point");
-		db->GetRenderedObject()->MakeFullScreenQuad();
 		db->SetScale(5, 5);
-		db->SetColor(Vec3D(0.0, 1.0, 0.0));
+		db->SetColor({ 0.0, 1.0, 0.0 });
 		db->SetPosition(point.pos);
 
 		debugObjects[numCollisionPoints] = db;
@@ -77,9 +76,8 @@ void Collision2D::PreUpdate(float inv_dt, Accumulated2DVelocities& aV)
 		for (unsigned i = 0; i < numCollisionPoints; i++)
 		{
 			DebugSceneObject2D* db = new DebugSceneObject2D("Debug Collision Point");
-			db->GetRenderedObject()->MakeFullScreenQuad();
 			db->SetScale(5, 5);
-			db->SetColor(Vec3D(0.0, 1.0, 0.0));
+			db->SetColor({ 0.0, 1.0, 0.0 });
 			db->SetPosition(collisionPoints[i].pos);
 
 			debugObjects[i] = db;
@@ -140,7 +138,7 @@ void Collision2D::UpdateForces(Accumulated2DVelocities& aV)
 
 		// Relative velocity at contact
 		//Vec2D dv = b2->GetVelocity() + c.r2.crossLeft(b2->GetAngularVelocity()) - b1->GetVelocity() - c.r1.crossLeft(b1->GetAngularVelocity());
-		Vec2D dv = aV.velocity[bIndex] + c.r2.crossLeft(aV.angularVelocity[bIndex]) - aV.velocity[aIndex] - c.r1.crossLeft(aV.angularVelocity[aIndex]);
+		Vector2D dv = aV.velocity[bIndex] + c.r2.crossLeft(aV.angularVelocity[bIndex]) - aV.velocity[aIndex] - c.r1.crossLeft(aV.angularVelocity[aIndex]);
 
 		// Compute normal impulse
 		float vn = dv.dot(c.normal);
@@ -248,16 +246,18 @@ void Collision2D::Update(Collision2D* other)
 		}
 		else if (numCollisionPoints < other->numCollisionPoints)
 		{
-			for (unsigned i = numCollisionPoints; i < other->numCollisionPoints; i++)
+			if (shouldRender)
 			{
-				DebugSceneObject2D* db = new DebugSceneObject2D("Debug Collision Point");
-				db->GetRenderedObject()->MakeFullScreenQuad();
-				db->SetScale(5, 5);
-				db->SetColor(Vec3D(0.0, 1.0, 0.0));
-				db->SetPosition(collisionPoints[i].pos);
+				for (unsigned i = numCollisionPoints; i < other->numCollisionPoints; i++)
+				{
+					DebugSceneObject2D* db = new DebugSceneObject2D("Debug Collision Point");
+					db->SetScale(5, 5);
+					db->SetColor({ 0.0, 1.0, 0.0 });
+					db->SetPosition(collisionPoints[i].pos);
 
-				debugObjects[i] = db;
-				zEngine->AddSceneObject(db);
+					debugObjects[i] = db;
+					zEngine->AddSceneObject(db);
+				}
 			}
 		}
 

@@ -18,7 +18,7 @@ class ZoranEngine_EXPORT CollisionObjectBase
 private:
 	unsigned collisionType;
 	unsigned collisionLayer;
-	SceneObject* sceneObject;
+
 	class PhysicsObjectBase* physicsObject;
 	CollisionDynamics collisionDynamics;
 	
@@ -26,10 +26,9 @@ public:
 	bool isDirty;
 
 public:
-	CollisionObjectBase(SceneObject* object, CollisionDynamics collisionDynamics = CD_Dynamic, unsigned collisionType = NO_COLLISION);
+	CollisionObjectBase(CollisionDynamics collisionDynamics = CD_Dynamic, unsigned collisionType = NO_COLLISION);
 	virtual ~CollisionObjectBase();
 
-	void SetSceneObject(SceneObject* object);
 	void SetPhysicsObject(PhysicsObjectBase* object);
 	virtual void SetBoundsBySceneObject() = 0;
 
@@ -40,6 +39,5 @@ public:
 	void SetDynamics(CollisionDynamics dynamics);
 
 	CollisionDynamics GetDynamics();
-	SceneObject* GetSceneObject();
 	PhysicsObjectBase* GetPhysicsObject();
 };

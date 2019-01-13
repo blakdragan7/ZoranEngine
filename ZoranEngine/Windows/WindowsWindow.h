@@ -24,7 +24,6 @@ public:
 	virtual void SetSize(long w, long h)override;
 	virtual void MakeActive()override;
 	virtual void SwapBuffers()override;
-	virtual void MainDraw()override;
 
 	friend static LRESULT CALLBACK wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 };

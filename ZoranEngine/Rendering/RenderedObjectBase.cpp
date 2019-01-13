@@ -3,12 +3,12 @@
 #include "RenderEngineBase.h"
 #include "Core/ZoranEngine.h"
 
-RenderedObjectBase::RenderedObjectBase()
+RenderedObjectBase::RenderedObjectBase() : primitiveType(PT_Unused), vertType(VT_Unused), drawType(DT_Unused)
 {
-	cpuVertData = 0;
-	cpuUVData = 0;
+}
 
-	renderEngine = zEngine->GetRenderer();
+RenderedObjectBase::RenderedObjectBase(PrimitiveType pt, VertexType vt, DrawType dt) : primitiveType(pt), vertType(vt), drawType(dt)
+{
 }
 
 

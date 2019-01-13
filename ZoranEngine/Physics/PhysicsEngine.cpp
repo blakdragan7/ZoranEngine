@@ -11,6 +11,8 @@
 #include <Physics/3D/Collision/CollisionBucket3DBase.h>
 #include <Physics/2D/Collision/QuadTreeCollisionBucket.h>
 
+#include <Core/Components/ComponentBase.h>
+
 #include <vector>
 #include <Utils/VectorAddons.hpp>
 
@@ -106,9 +108,8 @@ void PhysicsEngine::SetupFor2D(Vector2D mapCenter, Vector2D mapSize)
 	collisionTree2D = new QuadTreeCollisionBucket("root_tree",mapCenter,mapSize);
 }
 
-void PhysicsEngine::SetupFor3D()
+void PhysicsEngine::SetupFor3D(Vector3D mapCenter, Vector3D mapSize)
 {
-	throw std::exception("PhysicsEngine::SetupFor3D() Not Implemented !!");
 	is3D = true;
 }
 

@@ -6,6 +6,7 @@ class TestCircleObject : public TexturedSprite
 {
 private:
 	SceneObject2D * target;
+	class RigidBody2DComponent* rigidBody;
 
 public:
 
@@ -18,5 +19,7 @@ public:
 	}
 
 	virtual void Tick(float dt)override;
+
+	RigidBody2DComponent* GetPhysics() { return rigidBody; }
 };
 

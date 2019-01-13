@@ -11,7 +11,7 @@ private:
 	unsigned numVerts;
 
 public:
-	SATCollision3DObject(SceneObject3D* object);
+	SATCollision3DObject(Component3DBase* object);
 	~SATCollision3DObject();
 
 	void SetBoundsBySceneObject()override;

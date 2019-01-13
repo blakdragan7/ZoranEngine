@@ -6,297 +6,251 @@
 #include "TestCircleObject.h"
 #include <Rendering/RenderEngineBase.h>
 #include <Physics/2D/PhysicsObject2DBase.h>
-
+#include <Core/2D/Components/RigidBody2DComponent.h>
+#include <Core/2D/Named2DSceneObject.h>
 #include <Utils/Random.h>
 #include <Utils/HighPrecisionClock.h>
 #include <algorithm>
 
+#include <Core/WindowBase.h>
+
+#include <ZGI/Windows/ZGIGameVirtualWindow.h>
+#include <ZGI/Windows/ZGIDebugWindow.h>
+
+#include <ZGI/Panels/ZGIWrapBoxPanel.h>
+#include <ZGI/Panels/ZGIHorizontalBoxPanel.h>
+#include <ZGI/Panels/ZGIVerticalBoxPanel.h>
+#include <ZGI/Panels/ZGIUniformScalePanel.h>
+#include <ZGI/Panels/ZGIFreeFormPanel.h>
+#include <ZGI/Panels/ZGISwitcherPanel.h>
+#include <ZGI/Panels/ZGIScrollPanel.h>
+#include <ZGI/Panels/ZGIOverlayPanel.h>
+
+#include <ZGI/Widgets/ZGIProgressBar.h>
+#include <ZGI/Widgets/ZGISpinBox.h>
+#include <ZGI/Widgets/ZGIComboBox.h>
+#include <ZGI/Widgets/ZGICheckBox.h>
+#include <ZGI/Widgets/ZGIImage.h>
+#include <ZGI/Widgets/ZGISpacer.h>
+#include <ZGI/Widgets/ZGILabel.h>
+#include <ZGI/Widgets/ZGIButton.h>
+#include <ZGI/Widgets/ZGITextEdit.h>
+
+#include <ZGI/Core/ZGIBrush.h>
+
+#include <Core/Resources/FontResource.h>
+#include <Core/Resources/ResourceManager.h>
+
+#include <Rendering/TextureManager.h>
+
+#include <Core/2D/TexturedSprite.h>
+
+#include <Core/3D/StaticModelSceneObj.h>
+
+#include <Core/Audio/AudioEngineBase.h>
+#include <Core/Audio/common.h>
+
+#include <Core/ThreadBase.h>
+
 #include <string>
 
-void TestArrayStuff();
-void TestSceneStuff();
-void TestLinkedListStuff();
-void TestDoubleLinkedListStuff();
-void TestDictionaryStuff();
+#include <Rendering/Primitives.h>
+
+void Test2DSceneStuff();
+void Test3DSceneStuff();
+void TestGUIStuff();
+void TestAudio();
 
 static const unsigned TestNum = 1000;
-static const unsigned ToSpawn = 200;
+static const unsigned SquareToSpawn = 100;
+static const unsigned CircleToSpawn = 100;
+static const float scale = 40.0f;
 
 int main(int argc, char* argv[])
 {
-
-#ifdef CUSTOM_CONTAINERS
-	TestDictionaryStuff();
-	TestDoubleLinkedListStuff();
-	TestLinkedListStuff();
-	TestArrayStuff();
-#endif
-	TestSceneStuff();
+	//Test2DSceneStuff();
+	//Test3DSceneStuff();
+	TestGUIStuff();
 }
 
-#ifdef CUSTOM_CONTAINERS
-void TestDictionaryStuff()
-{
-	HighPrecisionClock cl;
-
-	ZDictionary<std::string, std::string> dict;
-
-	static const std::string vStart = "sss ";
-	for (unsigned i = 0; i < TestNum; i++)
-	{
-		dict.Add(vStart + std::to_string(i), vStart + std::to_string(i));
-	}
-
-	for (unsigned i = TestNum - 1; i > TestNum / 2; i--)
-	{
-		dict.Remove(vStart + std::to_string(i));
-	}
-
-	for (unsigned i = 0; i < TestNum/2.0; i++)
-	{
-		std::string val = dict[vStart + std::to_string(i)];
-	}
-	
-	double tm = cl.GetDiffSeconds();
-
-	std::cout << "ZDictionary Took " << tm << " seconds\n";
-
-	cl.TakeClock();
-
-	double nl = cl.GetDiffSeconds();
-
-	std::cout << "map Took " << nl << " seconds\n";
-
-	std::cout << "ZDictionary ratio is " << (nl / tm) << std::endl;
-}
-
-void TestDoubleLinkedListStuff()
-{
-	HighPrecisionClock cl;
-
-	ZDoubleLinkedList<unsigned> ints;
-
-	for (unsigned i = 0; i < TestNum; i++)
-	{
-		ints.Add(i);
-	}
-
-	for (unsigned i = TestNum - 1; i > TestNum / 2; i--)
-	{
-		ints.PopLast();
-	}
-
-	double tm = cl.GetDiffSeconds();
-
-	std::cout << "ZDoubleLinkedList Took " << tm << " seconds\n";
-
-	cl.TakeClock();
-
-	std::vector<unsigned> v;
-
-	for (unsigned i = 0; i < TestNum; i++)
-	{
-		v.push_back(i);
-	}
-
-	for (unsigned i = TestNum - 1; i > TestNum / 2; i--)
-	{
-		v.erase(std::find(v.begin(), v.end(), i));
-	}
-
-	double nl = cl.GetDiffSeconds();
-
-	std::cout << "Vector Took " << nl << " seconds\n";
-
-	std::cout << "ZDoubleLinkedList ratio is " << (nl / tm) << std::endl;
-}
-
-void TestLinkedListStuff()
-{
-
-	HighPrecisionClock cl;
-
-	ZLinkedList<unsigned> ints;
-
-	for (unsigned i = 0; i < TestNum; i++)
-	{
-		ints.Add(i);
-	}
-
-	for (unsigned i = TestNum - 1; i > TestNum / 2; i--)
-	{
-		ints.PopLast();
-	}
-
-	double tm = cl.GetDiffSeconds();
-
-	std::cout << "ZLinkedList Took " << tm << " seconds\n";
-
-	cl.TakeClock();
-
-	std::vector<unsigned> v;
-
-	for (unsigned i = 0; i < TestNum; i++)
-	{
-		v.push_back(i);
-	}
-
-	for (unsigned i = TestNum - 1; i > TestNum / 2; i--)
-	{
-		v.erase(std::find(v.begin(), v.end(), i));
-	}
-
-	double nl = cl.GetDiffSeconds();
-
-	std::cout << "Vector Took " << nl << " seconds\n";
-
-	std::cout << "ZLinkedList ratio is " << (nl / tm) << std::endl;
-}
-
-void TestArrayStuff()
-{
-	HighPrecisionClock cl;
-
-	ZArray<std::string> ints;
-
-	for (unsigned i = 0; i < TestNum; i++)
-	{
-		ints.Add(std::to_string(i));
-	}
-
-	for (unsigned i = TestNum - 1; i > TestNum / 2; i--)
-	{
-		ints.RemoveAt(i);
-	}
-
-	double tm = cl.GetDiffSeconds();
-
-	std::cout << "ZArray Took " << tm << " seconds\n";
-
-	cl.TakeClock();
-
-	std::vector<std::string> v;
-
-	for (unsigned i = 0; i < TestNum; i++)
-	{
-		v.push_back(std::to_string(i));
-	}
-
-	for (unsigned i = TestNum - 1; i > TestNum / 2; i--)
-	{
-		v.erase(v.begin() + i);
-		//v.erase(std::find(v.begin(), v.end(), i));
-	}
-
-	double nl = cl.GetDiffSeconds();
-
-	std::cout << "Vector Took " << nl << " seconds\n";
-
-	std::cout << "ZArray ratio is " << (nl / tm) << std::endl;
-
-	ints.Empty();
-}
-#endif
-void TestSceneStuff()
+void Test2DSceneStuff()
 {
 	ZoranEngine engine;
 	engine.Init();
 	engine.Setup2DScene(0, 0, 2000, 2000);
+	engine.CreateGameModeWindows(false);
 
 	std::string name_base = "TestSceneObject-";
 
-	Vec2D CollisionPoint(0,0);
-	for (int i = 0; i < ToSpawn / 2; i++)
+	Vector2D CollisionPoint(0,0);
+	for (int i = 0; i < SquareToSpawn; i++)
 	{
 		TestSceneObject* test = new TestSceneObject((name_base + std::to_string(i)));
-		test->SetScale(10, -10);
-		test->SetPosition(Random::GetfloatInRange(-150, 150), Random::GetfloatInRange(-150, 150));
-		//test->SetPosition(i*20 + -100,0);
-		test->GetPhysics()->StartPhysicsSim();
-		test->GetPhysics2D()->SetSweptCollision(false);
+		test->SetScale(scale, -scale);
+		test->SetPosition(Random::GetfloatInRange(-500, 500), Random::GetfloatInRange(-300, 300));
+		//test->SetPosition(i*5 + -150,0);
+		//test->SetPosition({ -100,0 });
+		test->GetPhysics()->StartSimulation();
 		test->SetRotation(1);
-		Vec2D pos = test->GetPosition();
+		Vector2D pos = test->GetPosition();
 		pos = CollisionPoint - pos;
 		pos.normalize();
-		test->GetPhysics2D()->SetGravity(pos*200);
+		//test->GetPhysics()->SetGravity(pos*200);
+		//test->GetPhysics2D()->SetGravity(pos*200);
 		//test->GetPhysics2D()->ApplyForce(pos * 100);
 		test->PreCaclModel();
 		zEngine->AddSceneObject(test);
 	}
 
-	Vec2D gravity[2] = { Vec2D(0,600),Vec2D(0,-600) };
+	Vector2D gravity[2] = { Vector2D(0,600),Vector2D(0,-600) };
 
 	TestSceneObject* sqr = 0;
 
-	/*for (int i = 0; i < 1; i++)
-	{
-		TestSceneObject* test = new TestSceneObject(std::string("dynamic ") + std::to_string(i));
-		test->SetScale(20.0f, -20.0f);
-		Vec2D pos(0, -100 + ((float)i * 60));
-		test->SetPosition(pos);
-		test->GetPhysics()->StartPhysicsSim();
-
-		pos = -pos;
-		pos.normalize();
-
-		//test->GetPhysics2D()->SetGravity(gravity[0]);
-		//test->GetPhysics2D()->SetGravity(Vec2D(-500,0));
-		//test->GetPhysics2D()->SetGravity(pos * 100);
-		//test->GetPhysics2D()->ApplyForce(Vec2D(100,800));
-		test->GetPhysics2D()->SetSweptCollision(false);
-		test->SetRotation(1.00);
-		zEngine->AddSceneObject(test);
-
-		sqr = test;
-	}*/
-
-	for (int i = 0; i < ToSpawn / 2; i++)
+	for (int i = 0; i < CircleToSpawn; i++)
 	{
 		TestCircleObject* test = new TestCircleObject(std::string("circle ") + std::to_string(i), 1.0);
-		test->SetScale(10.0f, -10.0f);
-		//test->SetPosition(i * 20 + -100, 100);
-		test->SetPosition(Random::GetfloatInRange(-150, 150), Random::GetfloatInRange(-150, 150));
-		test->GetPhysics()->StartPhysicsSim();
+		test->SetScale(scale, -scale);
+		//test->SetPosition(i * 5 + -150, 100);
+		test->SetPosition(Random::GetfloatInRange(-500, 500), Random::GetfloatInRange(-300, 300));
+		test->GetPhysics()->StartSimulation();
+		//test->SetPosition({100,0});
 		//test->SetTarget(sqr);
 		//sqr->SetTarget(test);
 		//test->GetPhysics2D()->SetGravity(gravity[1]);
 		//test->GetPhysics2D()->SetGravity(Vec2D(-600,0));
-		Vec2D pos = test->GetPosition();
+		Vector2D pos = test->GetPosition();
 		pos = CollisionPoint - pos;
 		pos.normalize();
-		test->GetPhysics2D()->SetGravity(pos * 200);
+		//test->GetPhysics()->SetGravity(pos * 200);
 
-		test->GetPhysics2D()->SetSweptCollision(false);
-		//test->SetRotation(1.00);
-		test->GetPhysics2D()->SetAngularVeloctiy(10);
+		test->SetRotation(1.00);
+		test->GetPhysics()->SetAngularVeloctiy(10);
 		test->PreCaclModel();
 		zEngine->AddSceneObject(test);
 	}
 
 	TestPlatformObject* platform = new TestPlatformObject("Ground");
-	platform->SetScale(500, -50);
-	platform->SetPosition(0, -250);
+	platform->SetScale(1000, -50);
+	platform->SetPosition(0, -500);
 	platform->PreCaclModel();
 	zEngine->AddSceneObject(platform);
 
 	TestPlatformObject* platform2 = new TestPlatformObject("Ceiling");
-	platform2->SetScale(500, -40);
-	platform2->SetPosition(0, 250);
+	platform2->SetScale(1000, -50);
+	platform2->SetPosition(0, 500);
 	platform2->PreCaclModel();
 	zEngine->AddSceneObject(platform2);
 
 	TestPlatformObject* platform3 = new TestPlatformObject("Left Wall");
-	platform3->SetScale(40, -500);
-	platform3->SetPosition(-500, 0);
+	platform3->SetScale(50, -1000);
+	platform3->SetPosition(-950, 0);
 	platform3->PreCaclModel();
 	zEngine->AddSceneObject(platform3);
 
 	TestPlatformObject* platform4 = new TestPlatformObject("Right Wall");
-	platform4->SetScale(40, -500);
-	platform4->SetPosition(500, 0);
+	platform4->SetScale(50, -1000);
+	platform4->SetPosition(950, 0);
 	platform4->PreCaclModel();
 	zEngine->AddSceneObject(platform4);
 
+	//TestAudio();
+
 	engine.SetPaused(true);
 	engine.MainLoop();
+}
+
+void Test3DSceneStuff()
+{
+	ZoranEngine engine;
+	engine.Init();
+	engine.Setup3DScene({}, { 1,1,1 }, 90, 1, 100);
+	engine.CreateGameModeWindows(true);
+
+	std::string name_base = "TestSceneObject-";
+
+	StaticModelSceneObj* test = new StaticModelSceneObj(name_base + "1");
+
+	test->SetPosition(0, 0, 20);
+	test->SetScale({ 1.0f,1.0f,1.0f });
+	test->SetMesh("teapot.obj");
+	test->PreCaclModel();
+
+	engine.AddSceneObject(test);
+
+	engine.MainLoop();
+}
+
+void TestGUIStuff()
+{
+	ZoranEngine engine;
+	engine.Init();
+	engine.Setup2DScene(0, 0, 2000, 2000);
+
+	/*FontResource* r = ResourceManager::man()->FontForTTF("C:/Windows/Fonts/arial.ttf",64,4,Font_SDF_Type_MSDF);
+	r->CreateBMPForASCII(ASCII);
+	r->NormalizeGlyphs();
+	r->SaveToFile("arial-msdf.zft");*/
+
+	engine.CreateGameModeWindows(false);
+
+	auto window = engine.GetMainWindow()->GetRootVirtualWindow();
+
+	//auto w = new ZGIWrapBoxPanel({300,150}, window);
+	//auto p = new ZGISwitcherPanel(window);
+	//auto p = new ZGIOverlayPanel(window);
+	//auto s = new ZGIScrollPanel(window);
+	//auto s = new ZGIUniformScalePanel(window);
+	//auto p = new ZGIVerticalBoxPanel(window);
+	//auto p = new ZGIHorizontalBoxPanel(window);
+	auto p = new ZGIFreeFormPanel(window);
+
+	//auto s = new ZGISpinBox(false, 0,0.5f,window);
+	//auto c = new ZGIComboBox(window);
+
+	//auto image1 = new ZGIImage(window);
+	auto text = new ZGITextEdit(window);
+	//auto spacer = new ZGISpacer(window);
+
+	//auto check = new ZGICheckBox(window);
+
+	//auto progress = new ZGIProgressBar(window);
+
+	//image1->SetImage("test.png");
+	//text->SetText("check box");
+
+	//text->SetBoundsFromSize(true);
+	//check->SetContent(text);
+
+	//p->AddWidget(image1);
+	//p->AddWidget(check);
+
+	text->SetAlignment(Alignment_Center | Alignment_Top);
+
+	text->SetAutoScaleFont(false);
+	text->SetFontSize(100);
+
+	//text->SetText(ASCII);
+	text->SetText("This is a test\nThis is another test\nThis is a third test");
+	//text->SetText("This is a very long setence with spaces and no new lines to test all the things with the font renderer class yippie ki yay");
+	//text->SetText("This is a very long setence with spaces and new lines\nto test all the things\nwith the font renderer class\nyippie ki yay");
+
+	window->SetRootContent(text);
+
+	engine.MainLoop();
+}
+
+void TestAudio()
+{
+	Named2DSceneObject * audioObj = new Named2DSceneObject("audio tester");
+	AudioListener* listener = 0;
+	SoundInstance* instance = 0;
+
+	aEngine->CreateAudioListener(audioObj, &listener);
+	aEngine->CreateSoundFromFile("test.wav",AFT_WAV,&instance);
+
+	aEngine->PlaySoundInstance(instance);
+
+	//ThreadBase::Sleep(0.5);
+
+	//aEngine->StopSound(instance);
 }

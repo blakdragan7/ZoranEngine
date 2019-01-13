@@ -4,10 +4,10 @@
 #include <Core/ZoranEngine.h>
 #include <iostream>
 
-#include <ThirdParty/imgui/imgui.h>
-#include <ThirdParty/imgui/imgui_impl_win32.h>
+#include <Windows/WindowsMouse.h>
+#include <Windowsx.h>
 
-extern IMGUI_IMPL_API LRESULT  ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+#include <ZGI/Windows/ZGIVirtualWindow.h>
 
 static LRESULT CALLBACK wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
@@ -15,18 +15,15 @@ WindowsWindow::WindowsWindow(ZoranEngine* engine) :  WindowBase(engine)
 {
 	hwnd = 0;
 	dc = 0;
+	m = new WindowsMouse;
 }
 
 WindowsWindow::~WindowsWindow()
 {
 	if (hwnd)
 	{
-		ImGui_ImplWin32_Shutdown();
-
 		CloseWindow(hwnd);
 		DestroyWindow(hwnd);
-
-		ImGui::DestroyContext();
 	}
 }
 
@@ -69,12 +66,6 @@ bool WindowsWindow::MakeWindow(const char* title,int x, int y, int w, int h)
 
 	dc = GetDC(hwnd);
 	
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO(); (void)io;
-
-	ImGui_ImplWin32_Init(hwnd);
-
 	return true;
 }
 
@@ -142,8 +133,19 @@ void WindowsWindow::SetSizeAndPositionByRect(RECT rect)
 
 unsigned WindowsWindow::ConvertWPARAMToKey(WPARAM key)
 {
-	if(key < 0x70 || key > 0x87)return static_cast<unsigned>(key); // ascii
-	return static_cast<unsigned>(key + 0x378);
+	if (key == VK_DOWN)
+		return Key_Down_Arrow;
+	else if (key == VK_UP)
+		return Key_Up_Arrow;
+	else if (key == VK_LEFT)
+		return Key_Left_Arrow;
+	else if (key == VK_RIGHT)
+		return Key_Right_Arrow;
+
+	else if(key < 0x70 || key > 0x87)return static_cast<unsigned>(key); // ascii
+	
+	else
+		return static_cast<unsigned>(key + 0x378);
 }
 
 void WindowsWindow::SetPosition(long x, long y)
@@ -170,17 +172,8 @@ void WindowsWindow::SwapBuffers()
 	::SwapBuffers(dc);
 }
 
-void WindowsWindow::MainDraw()
-{
-	ImGui_ImplWin32_NewFrame();
-
-	WindowBase::MainDraw();
-}
-
 static LRESULT CALLBACK wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam);
-	
 	WindowsWindow *pThis = 0;
 
 	if (uMsg == WM_NCCREATE)
@@ -220,45 +213,78 @@ static LRESULT CALLBACK wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 			int width = LOWORD(lParam);
 			int height = HIWORD(lParam);
 
-			pThis->Resize(Vec2I(width, height));
+			pThis->Resize({ width, height });
 			
 		}
 		if (uMsg == WM_MOVE)
 		{
 
-			int x = LOWORD(lParam);
-			int y = HIWORD(lParam);
+			int x = GET_X_LPARAM(lParam);
+			int y = GET_Y_LPARAM(lParam);
 
 			pThis->SetWindowPosNoExecute(x, y);
 			
 		}
 		if (uMsg == WM_KEYDOWN)
 		{
-			zEngine->KeyEvent(KEY_DOWN, pThis->ConvertWPARAMToKey(wParam));
+			zEngine->KeyEvent(KeyEventType_Key_Down, pThis->ConvertWPARAMToKey(wParam));
+			pThis->rootVirtualWindow->RawKeyEvent(KeyEventType_Key_Down, pThis->ConvertWPARAMToKey(wParam));
+		}
+		if (uMsg == WM_CHAR)
+		{
+			unsigned uni = static_cast<unsigned>(wParam);
+			if (!pThis->UniIsChar(uni))return FALSE;
+
+			pThis->rootVirtualWindow->CharEvent(uni);
+			return TRUE;
 		}
 		if (uMsg == WM_KEYUP)
 		{
-			zEngine->KeyEvent(KEY_UP, pThis->ConvertWPARAMToKey(wParam));
+			zEngine->KeyEvent(KeyEventType_Key_Up, pThis->ConvertWPARAMToKey(wParam));
+			pThis->rootVirtualWindow->RawKeyEvent(KeyEventType_Key_Up, pThis->ConvertWPARAMToKey(wParam));
 		}
 		if (uMsg == WM_LBUTTONDOWN)
 		{
-			zEngine->MouseEvent(MOUSE_L_DOWN, 0);
+			zEngine->MouseEvent(MouseEventType_L_Down, 0);
+			pThis->m->SetLeftMouseIsPressed(true);
+			pThis->rootVirtualWindow->MouseDown(*pThis->m);
 		}
 		if (uMsg == WM_RBUTTONDOWN)
 		{
-			zEngine->MouseEvent(MOUSE_R_DOWN, 0);
+			zEngine->MouseEvent(MouseEventType_R_Down, 0);
+			pThis->m->SetRightMouseIsPressed(true);
+			pThis->rootVirtualWindow->MouseDown(*pThis->m);
 		}
 		if (uMsg == WM_LBUTTONUP)
 		{
-			zEngine->MouseEvent(MOUSE_L_UP, 0);
+			zEngine->MouseEvent(MouseEventType_L_Up, 0);
+			pThis->m->SetLeftMouseIsPressed(false);
+			pThis->rootVirtualWindow->MouseUp(*pThis->m);
 		}
 		if (uMsg == WM_RBUTTONUP)
 		{
-			zEngine->MouseEvent(MOUSE_R_UP, 0);
+			zEngine->MouseEvent(MouseEventType_R_Up, 0);
+			pThis->m->SetRightMouseIsPressed(false);
+			pThis->rootVirtualWindow->MouseUp(*pThis->m);
 		}
 		if (uMsg == WM_MOUSEMOVE)
 		{
-			zEngine->MouseMove(LOWORD(lParam),HIWORD(lParam));
+			float x = static_cast<float>(GET_X_LPARAM(lParam));
+			// inverse y because windows is topleft and ZoranEngine is bottomLeft
+			float y = pThis->GetSize().h - static_cast<float>(GET_Y_LPARAM(lParam));
+			zEngine->MouseMove(x,y);
+			pThis->m->SetPosition({ x, y});
+			pThis->rootVirtualWindow->MouseMove(*pThis->m);
+		}
+		if (uMsg == WM_MOUSEWHEEL)
+		{
+			int val = GET_WHEEL_DELTA_WPARAM(wParam);
+
+			float x = static_cast<float>(GET_X_LPARAM(lParam));
+			float y = pThis->GetSize().h - static_cast<float>(GET_Y_LPARAM(lParam));
+			pThis->m->SetPosition({ x, y });
+
+			pThis->rootVirtualWindow->MouseScroll(*pThis->m, (float)val);
 		}
 	}
 

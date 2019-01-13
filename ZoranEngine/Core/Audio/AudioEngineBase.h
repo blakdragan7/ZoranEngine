@@ -2,6 +2,8 @@
 #include <initializer_list>
 #include <list>
 
+#include <Core/Audio/Common.h>
+
 class Vector2D;
 class Vector3D;
 class SoundInstance;
@@ -9,10 +11,6 @@ class AudioListener;
 class AudioDevice;
 class SceneObject3D;
 class SceneObject2D;
-typedef unsigned AudioError;
-enum AudioBufferType;
-enum AudioFileType;
-enum AudioCapability;
 /*******
 
 Audio Engine Base
@@ -49,8 +47,10 @@ public:
 	virtual AudioError SwitchToDevice(AudioDevice* toDevice, AudioDevice* fromDevice) = 0;
 	/* Creats an audio listener with location, orientation and veleocity of object, if there is no active listener then sets this listener active */
 	virtual AudioError  CreateAudioListener(const SceneObject3D * object, AudioListener** outListener) = 0;
-	/* Same as above but with a 2d scene object */
+	/* Creats an audio listener with location, orientation and veleocity of object, if there is no active listener then sets this listener active in 2D */
 	virtual AudioError  CreateAudioListener(const SceneObject2D * object, AudioListener** outListener) = 0;
+	/* Create an audio listner without location information  */
+	virtual AudioError  CreateAudioListener(AudioListener** outListener) = 0;
 	/* makes the specific listener the one that receives sounds */
 	virtual AudioError MakeListenerActive(AudioListener* listener) = 0;
 	/* Used to teardown audio listener and free all memory assosiated with it. */

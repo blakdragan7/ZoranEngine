@@ -17,24 +17,16 @@ void PhysicsObjectBase::RegisterPhysicsObject()
 	pEngine->AddPhysicsObject(this);
 }
 
-PhysicsObjectBase::PhysicsObjectBase(SceneObject * object)
+PhysicsObjectBase::PhysicsObjectBase(ComponentBase * affectedComponent) : affectedComponent(affectedComponent), currentDeltaTime(0),
+shouldSimulate(false), drag(0.99f), otherFriction(1.0f), friction(0.1f), restitution(0.9f), 
+isOnGround(false), useSweptCollision(false),calculatedFriction(sqrtf(friction))
 {
-	currentDeltaTime = 0;
-	sceneObject = object;
-	shouldSimulate = false;
-	drag = 0.99f;
-	otherFriction = 1.0f;
-	friction = 0.1f;
-	restitution = 0.9f;
-	isOnGround = false;
-	useSweptCollision = false;
-	calculatedFriction = sqrtf(0.4f);
 	SetMass(200);
 }
 
 PhysicsObjectBase::~PhysicsObjectBase()
 {
-	// Not in charge of deleting Scene or collision objects, thats the engines job
+	// Not in charge of deleting any components
 	// We do need to unregister though
 
 	pEngine->RemoveObject(this);
@@ -78,5 +70,3 @@ void PhysicsObjectBase::SetSweptCollision(bool newSwept)
 {
 	useSweptCollision = newSwept;
 }
-
-SceneObject* PhysicsObjectBase::GetSceneObject() { return sceneObject; }

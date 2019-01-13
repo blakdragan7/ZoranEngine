@@ -7,21 +7,26 @@
 
 class ZoranEngine;
 class RenderEngineBase;
+class ZGIVirtualWindow;
+class PlatformMouseBase;
 class ZoranEngine_EXPORT WindowBase
 {
 protected:
-	ZoranEngine* engine;
-	RenderEngineBase* renderEngine;
 	WindowHandle windowHandle;
+	ZGIVirtualWindow* rootVirtualWindow;
+
 	bool isFullScreen;
 	bool isMaximized;
-	Vec2I position;
-	Vec2I size;
+	Vector2I position;
+	Vector2I size;
+	PlatformMouseBase* m;
 
 protected:
 	void inline SetWindowPosNoExecute(int x, int y) { position.x = x; position.y = y; }
 	void inline SetWindowSizeNoExecute(int w, int h) { size.w = w; size.h = h; }
 	void Resize(Vec2I size);
+
+	bool UniIsChar(unsigned uni);
 
 public:
 	WindowBase(ZoranEngine* zoranEngine);
@@ -39,7 +44,10 @@ public:
 	inline Vec2I GetSize() { return size; };
 	virtual inline WindowHandle GetHandle() { return windowHandle; }
 	virtual void SwapBuffers() = 0;
-	virtual void MainDraw();
+	virtual void MainDraw(float dt);
+
+	inline ZGIVirtualWindow* GetRootVirtualWindow() { return rootVirtualWindow; }
+	void SetRootVirtualWindow(ZGIVirtualWindow* newWindow);
 
 	inline bool IsFullScreen() { return isFullScreen; };
 	inline bool IsMaxamized() { return isMaximized; };

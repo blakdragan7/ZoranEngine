@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 
+class TreeSocket;
 struct BenchStatChain
 {
 	HighPrecisionClock clock;
@@ -19,7 +20,7 @@ struct BenchStatChain
 	inline void AccumClock() { nanoseconds += clock.GetDiffNanoSeconds(); }
 
 	std::string serizlize(std::string tabs)const;
-	void ImGuiDraw(const bool& showGraph, const long long& totalNanoseconds)const;
+	void DebugDraw(std::stringstream& ss, TreeSocket& socket, const long long& totalNanoseconds)const;
 	void AddStat(std::list<std::string> keyList,const long long& nanoseconds);
 	void StartClock(std::list<std::string> keyList);
 	void TakeClock(std::list<std::string> keyList);
@@ -44,12 +45,13 @@ public:
 	void TakeStatWithDepth(std::initializer_list<std::string> keys);
 	void AccumStatWithDepth(std::initializer_list<std::string> keys);
 
-	inline void StartBench() { rootChain.StartClock(); }
+	void StartBench();
 	inline void TakeBench() { rootChain.TakeClock(); }
 
 	inline long long GetTotalNanoSeconds() { return rootChain.nanoseconds; }
+	float GetOneOverTotalSeconds();
 
-	void ImGuiDraw();
+	void DebugDraw();
 
 	inline static BenchMarker* Singleton()
 	{
@@ -71,7 +73,7 @@ extern std::ostream& operator<<(std::ostream& os, const BenchMarker& b);
 #define DEBUG_BENCH_START_TRACK(...) BenchMarker::Singleton()->StartStatWithDepth({__VA_ARGS__});
 #define DEBUG_TRACK_TAKE_BENCH(...) BenchMarker::Singleton()->TakeStatWithDepth({__VA_ARGS__});
 #define DEBUG_TRACK_ACCUM_STAT(...) BenchMarker::Singleton()->AccumStatWithDepth({__VA_ARGS__});
-#define DEBUG_DRAW BenchMarker::Singleton()->ImGuiDraw();
+#define DEBUG_DRAW BenchMarker::Singleton()->DebugDraw();
 #elif defined(_FPSBENCHONLY)
 #define DEBUG_BENCH_START BenchMarker::Singleton()->StartBench();
 #define DEBUG_TAKE_BENCH BenchMarker::Singleton()->TakeBench();
@@ -79,7 +81,7 @@ extern std::ostream& operator<<(std::ostream& os, const BenchMarker& b);
 #define DEBUG_BENCH_START_TRACK(...)
 #define DEBUG_TRACK_TAKE_BENCH(...)
 #define DEBUG_TRACK_ACCUM_STAT(...)
-#define DEBUG_DRAW BenchMarker::Singleton()->ImGuiDraw();
+#define DEBUG_DRAW BenchMarker::Singleton()->DebugDraw();
 #else
 #define DEBUG_BENCH_START 
 #define DEBUG_TAKE_BENCH 

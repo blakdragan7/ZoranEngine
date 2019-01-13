@@ -13,7 +13,7 @@ private:
 	Vector3D scaledSize;
 
 public:
-	AABBoxCollisionObject(Vector3D min,Vector3D max,SceneObject3D* object, CollisionDynamics dynamics = CD_Dynamic, unsigned collisionType = AABBOX_COLLISION);
+	AABBoxCollisionObject(Vector3D min,Vector3D max, Component3DBase* object, CollisionDynamics dynamics = CD_Dynamic, unsigned collisionType = AABBOX_COLLISION);
 	~AABBoxCollisionObject();
 
 	void SetBoundsBySceneObject()override;

@@ -1,76 +1,60 @@
 #pragma once
 #include <Core\SceneObject.h>
 #include <Math/Vector3.h>
-#include <Math/Matrix44.hpp>
 #include <Math/Quaternion.h>
 
-class CollisionObjectBase;
-class CollisionObject3DBase;
-class PhysicsObject3DBase;
-class PhysicsObjectBase;
+#include <Core/3D/Components/Component3DBase.h>
+/*
+*  3D scene objects scene objects who's coordinates are represented with 3D vectors and a quatornian for rotation
+*/
 
 class ZoranEngine_EXPORT SceneObject3D : public SceneObject
 {
-	// used to make GetModel more effecient
-	Matrix44 model;
-
-	Vector3D scale;
-	Vector3D pos;
-	Quaternion rotation;
-
 protected:
-	CollisionObject3DBase * collision;
-	PhysicsObject3DBase* physicsObject;
-
+	Component3DBase * root3DComponent;
 
 public:
 	SceneObject3D(std::string);
-	SceneObject3D(std::string, RenderEngineBase* engine);
+	SceneObject3D(Component3DBase * root3DComponent,std::string);
 	virtual ~SceneObject3D();
-
-	virtual void PostRender()override;
-	virtual void RenderScene()override;
-	virtual void PreRender()override;
 
 	// Destroys this object removeing it from any part of the engine that it needs to
 	virtual void Destroy()override;
 
 	// Getter / Setter
 
-	void SetRotation(Vector3D eulor);
-	void SetRotationFromAxis(Vector3D axis);
-	void SetPosition(Vector3D pos);
+	void SetRotation(const Vector3D& eulor);
+	void SetRotationFromAxis(const Vector3D& axis);
+
+	void SetPosition(const Vector3D& pos);
 	void SetPosition(float x, float y, float z);
-	void SetScale(Vector3D scale);
+
+	void SetScale(const Vector3D& scale);
 	void SetScale(float x, float y, float z);
 
-	Vector3D GetPosition()const;
-	Vector3D GetVelocity()const;
-	Vector3D GetScale()const;
+	void SetSize(const Vector3D& size);
+	void SetSize(float x,float y,float z);
 
 	Vector3D GetRotationAsEulor()const;
 
-	inline Quaternion GetRotation()const { return rotation; }
-	void SetRotation(Quaternion quat);
+	void SetRotation(const Quaternion& quat);
 
-	void RotateByScaledAxis(Vector3D axis);
-	void RotateByQuat(Quaternion quat);
-	void RotateByEulor(Vector3D eulor);
+	void RotateByQuat(const Quaternion& quat);
+	void RotateByEulor(const Vector3D& eulor);
+	void RotateByScaledAxis(const Vector3D& axis);
 
-	void Translate(Vector3D delta);
-	void Scale(Vector3D scale);
+	void Translate(const Vector3D& delta);
+	void Scale(const Vector3D& scale);
 
 	virtual void PreCaclModel()override;
-	//virtual Matrix44 GetScaleMatrix3x3()override;
 	virtual Matrix44 GetScaleMatrix4x4()override;
 
-	float DistanceTo(Vector3D pos);
+	inline Quaternion GetRotation()const { return root3DComponent->GetRotation(); }
+	inline const Vector3D& GetPosition()const { return root3DComponent->GetOffset(); };
+	inline const Vector3D& GetScale()const { return root3DComponent->GetScale(); };
+	inline const Vector3D GetSize()const { return root3DComponent->GetSize(); }
+
+	float DistanceTo(const Vector3D& pos);
 	float DistanceTo(SceneObject3D* other);
-
-	inline CollisionObject3DBase* GetCollision3D() { return collision; }
-	inline PhysicsObject3DBase* GetPhysics3D() { return physicsObject; }
-
-	inline CollisionObjectBase* GetCollision() { return (CollisionObjectBase*)collision; }
-	inline PhysicsObjectBase* GetPhysics() { return (PhysicsObjectBase*)physicsObject; }
 };
 

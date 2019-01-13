@@ -4,10 +4,14 @@
 #include <Core/2D/DebugSceneObject2D.h>
 #include <Rendering/RenderedObjectBase.h>
 #include <Rendering/RenderEngineBase.h>
+
+#include <Core/2D/Components/RigidBody2DComponent.h>
+
 unsigned long long Collision2D::sID = 0;
 
 void CollisionObject2DBase::UpdateDebugObject(float verts[], unsigned numVerts)
 {
+	/*
 	if (ZoranEngine::canRenderDebug == false)return;
 
 	static bool once = true;
@@ -20,7 +24,7 @@ void CollisionObject2DBase::UpdateDebugObject(float verts[], unsigned numVerts)
 	{
 		if (sceneObject2D)
 		{
-			debugObject = new DebugSceneObject2D("debug collision " + sceneObject2D->readableName);
+			debugObject = new DebugSceneObject2D("debug collision " + *sceneObject2D->readableName);
 			debugObject->GetRenderedObject()->CreateObjectFromMemory(PT_Line_Loop, VT_Float, DT_Dynamic, numVerts, verts, 0);
 		}
 		else
@@ -29,30 +33,30 @@ void CollisionObject2DBase::UpdateDebugObject(float verts[], unsigned numVerts)
 			debugObject->GetRenderedObject()->CreateObjectFromMemory(PT_Line_Loop, VT_Float, DT_Dynamic, numVerts, verts, 0);
 		}
 
-		debugObject->SetColor(Vec3D(1.0,1.0,0.0));
+		//debugObject->SetColor(Vec3D(1.0,1.0,0.0));
 
-		zEngine->AddSceneObject(debugObject);
+		//zEngine->AddSceneObject(debugObject);
 	}
 	else
 	{
-		debugObject->GetRenderedObject()->UpdateObjectFromMemory(numVerts, 0, verts, 0);
-	}
+		//debugObject->GetRenderedObject()->UpdateObjectFromMemory(numVerts, 0, verts, 0);
+	}*/
 }
 
-CollisionObject2DBase::CollisionObject2DBase(SceneObject2D *object, CollisionDynamics collisionDynamics, unsigned collisionType) : CollisionObjectBase(object, collisionDynamics, collisionType)
+CollisionObject2DBase::CollisionObject2DBase(Component2DBase* component, CollisionDynamics collisionDynamics, unsigned collisionType) :
+	physicsObject2D(0),affectedComponent(component),CollisionObjectBase(collisionDynamics, collisionType)
 {
-	debugObject = 0;
-	physicsObject2D = 0;
-	sceneObject2D = object;
+	debugObject = new DebugSceneObject2D("2D Collision Debug Object");
 }
 
 CollisionObject2DBase::~CollisionObject2DBase()
 {
+	delete debugObject;
 }
 
-void CollisionObject2DBase::SetSceneObject(SceneObject2D* object)
+void CollisionObject2DBase::SetAffectedComponent(RigidBody2DComponent* component)
 {
-	sceneObject2D = object;
+	affectedComponent = component;
 }
 
 void CollisionObject2DBase::SetPhysicsObject(PhysicsObject2DBase* object)
@@ -60,15 +64,27 @@ void CollisionObject2DBase::SetPhysicsObject(PhysicsObject2DBase* object)
 	physicsObject2D = object;
 }
 
-Vector2D CollisionObject2DBase::GetScenePos()
+const Vector2D CollisionObject2DBase::GetScenePos()
 {
-	if (sceneObject2D != NULL) return sceneObject2D->GetPosition();
+	if (affectedComponent != NULL) return affectedComponent->GetWorldLocation();
 	else
 	{
-		std::cerr << "Getting Position Before SceneObject Set !\n";
-		return Vector2D(0, 0);
+		Log(LogLevel_Error,"Getting Position Before SceneObject Set !\n");
+		return Vector2D::Zero;
 	}
 }
 
-SceneObject2D* CollisionObject2DBase::GetSceneObject() { return sceneObject2D; }
-PhysicsObject2DBase* CollisionObject2DBase::GetPhysicsObject() { return physicsObject2D; }
+void CollisionObject2DBase::SetDebugPosition(Vec2D pos)
+{
+	debugObject->SetPosition(pos);
+}
+
+void CollisionObject2DBase::SetDebugSize(Vec2D size)
+{
+	debugObject->SetScale(size);
+}
+
+void CollisionObject2DBase::ShowDebug(bool showDebug)
+{
+	debugObject->SetVisible(showDebug);
+}

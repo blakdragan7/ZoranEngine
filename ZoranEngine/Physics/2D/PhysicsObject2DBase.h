@@ -2,11 +2,11 @@
 #include <Physics\PhysicsObjectBase.h>
 #include <Math/Vector2.h>
 
-class SceneObject2D;
+class Component2DBase;
 class ZoranEngine_EXPORT PhysicsObject2DBase : public PhysicsObjectBase
 {
 private:
-	SceneObject2D* sceneObject2D;
+	Component2DBase * affected2DComponent;
 
 	Vector2D velocity;
 
@@ -24,13 +24,13 @@ protected:
 	virtual void CheckIfOnGround(class Collision2D& response);
 
 public:
-	PhysicsObject2DBase(SceneObject2D* object);
+	PhysicsObject2DBase(Component2DBase* component);
 	virtual ~PhysicsObject2DBase();
 
-	void ApplyForce(Vec2D Force);
-	void SetVeloctiy(Vec2D Velocity);
+	void ApplyForce(const Vector2D& Force);
+	void SetVeloctiy(const Vector2D& Velocity);
+	void SetGravity(const Vector2D& gravity);
 	void SetAngularVeloctiy(float Velocity);
-	void SetGravity(Vector2D gravity);
 
 	virtual void SetMass(float mass)override; // in KG
 
@@ -42,14 +42,13 @@ public:
 
 	float GetAngularVelocity();
 
-	inline const Vec2D& GetVelocity();
-	inline const Vec2D& GetScenePos();
-	SceneObject2D* GetSceneObject();
+	inline Vector2D GetVelocity();
+	inline Vector2D GetScenePos();
 
 	virtual void UpdateVelocities(float deltaTime)override;
 	virtual void UpdatePositionsAndRotation(float deltaTime)override;
 
-	void ApplyImpulseToVelocity(Vector2D impulse);
+	void ApplyImpulseToVelocity(const Vector2D& impulse);
 	void ApplyImpulseToAngularVelocity(float impulse);
 };
 
