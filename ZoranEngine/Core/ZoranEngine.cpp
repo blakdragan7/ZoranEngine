@@ -31,8 +31,6 @@
 #include <Physics/Collision/CollisionObjectBase.h>
 #include <Physics/Collision/CollisionBucketBase.h>
 
-#include <Core/Allocators/CAllocator.h>
-
 #include <iostream>
 
 #include <Core/SceneObject.h>
