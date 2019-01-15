@@ -314,11 +314,6 @@
     <ClInclude Include="Core\3D\PerspectiveCamera.h" />
     <ClInclude Include="Core\3D\SceneObject3D.h" />
     <ClInclude Include="Core\3D\StaticModelSceneObj.h" />
-    <ClInclude Include="Core\Allocators\AllocatorBase.h" />
-    <ClInclude Include="Core\Allocators\CAllocator.h" />
-    <ClInclude Include="Core\Allocators\FreeListAllocator.h" />
-    <ClInclude Include="Core\Allocators\PoolAllocator.h" />
-    <ClInclude Include="Core\Allocators\StackAllocator.h" />
     <ClInclude Include="Core\Audio\AL\OALAudioDevice.h" />
     <ClInclude Include="Core\Audio\AL\OALAudioEngine.h" />
     <ClInclude Include="Core\Audio\AL\OALAudioListener.h" />

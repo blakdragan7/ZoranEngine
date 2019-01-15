@@ -85,9 +85,6 @@
     <Filter Include="ZoranEngine\Utils">
       <UniqueIdentifier>{22a6d718-31d2-4e54-bdbd-c9b5f6829ef7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ZoranEngine\Core\Allocators">
-      <UniqueIdentifier>{c49d6f44-c41f-4519-a405-fb0d02228b03}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ZoranEngine\Core\Containers">
       <UniqueIdentifier>{05dac21f-f3bd-4968-949b-cb190b4a9ce2}</UniqueIdentifier>
     </Filter>
@@ -973,21 +970,6 @@
     </ClInclude>
     <ClInclude Include="Core\Components\VisibleComponentBase.h">
       <Filter>ZoranEngine\Core\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Allocators\AllocatorBase.h">
-      <Filter>ZoranEngine\Core\Allocators</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Allocators\CAllocator.h">
-      <Filter>ZoranEngine\Core\Allocators</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Allocators\FreeListAllocator.h">
-      <Filter>ZoranEngine\Core\Allocators</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Allocators\PoolAllocator.h">
-      <Filter>ZoranEngine\Core\Allocators</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Allocators\StackAllocator.h">
-      <Filter>ZoranEngine\Core\Allocators</Filter>
     </ClInclude>
     <ClInclude Include="Core\Containers\BasicContainers.h">
       <Filter>ZoranEngine\Core\Containers</Filter>
