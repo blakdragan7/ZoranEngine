@@ -227,8 +227,10 @@ static LRESULT CALLBACK wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 		}
 		if (uMsg == WM_KEYDOWN)
 		{
-			zEngine->KeyEvent(KeyEventType_Key_Down, pThis->ConvertWPARAMToKey(wParam));
-			pThis->rootVirtualWindow->RawKeyEvent(KeyEventType_Key_Down, pThis->ConvertWPARAMToKey(wParam));
+			if (pThis->rootVirtualWindow->RawKeyEvent(KeyEventType_Key_Down, pThis->ConvertWPARAMToKey(wParam)) == false)
+			{
+				zEngine->KeyEvent(KeyEventType_Key_Down, pThis->ConvertWPARAMToKey(wParam));
+			}
 		}
 		if (uMsg == WM_CHAR)
 		{
@@ -240,8 +242,10 @@ static LRESULT CALLBACK wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 		}
 		if (uMsg == WM_KEYUP)
 		{
-			zEngine->KeyEvent(KeyEventType_Key_Up, pThis->ConvertWPARAMToKey(wParam));
-			pThis->rootVirtualWindow->RawKeyEvent(KeyEventType_Key_Up, pThis->ConvertWPARAMToKey(wParam));
+			if (pThis->rootVirtualWindow->RawKeyEvent(KeyEventType_Key_Up, pThis->ConvertWPARAMToKey(wParam)) == false)
+			{
+				zEngine->KeyEvent(KeyEventType_Key_Up, pThis->ConvertWPARAMToKey(wParam));
+			}
 		}
 		if (uMsg == WM_LBUTTONDOWN)
 		{
