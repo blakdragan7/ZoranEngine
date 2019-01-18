@@ -20,7 +20,6 @@ SceneObject3D::~SceneObject3D()
 
 void SceneObject3D::Destroy()
 {
-	zEngine->RemoveTickableObject(this);
 	zEngine->DestroySceneObject(this);
 }
 

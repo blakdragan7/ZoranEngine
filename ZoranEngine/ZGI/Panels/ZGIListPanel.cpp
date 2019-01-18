@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "ZGIListPanel.h"
 
+#include <Utils/VectorAddons.hpp>
 
 void ZGIListPanel::PositionAndSizeWidgets()
 {
@@ -32,7 +33,18 @@ ZGIListPanel::~ZGIListPanel()
 
 void ZGIListPanel::AddWidget(ZGIWidget * widget, AlignmentBit alignment)
 {
+	widget->SetParent(this);
 	widgetList->push_back({ widget,alignment });
+}
+
+void ZGIListPanel::RemoveWidget(ZGIWidget * widget)
+{
+	auto itr = std::find(widgetList->begin(), widgetList->end(), widget);
+	if (itr != widgetList->end())
+	{
+		widgetList->erase(itr);
+		widget->SetParent(0);
+	}
 }
 
 void ZGIListPanel::Print(unsigned tabs)const

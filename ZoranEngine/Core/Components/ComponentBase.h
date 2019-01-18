@@ -22,12 +22,20 @@ protected:
 
 private:
 	const Matrix44 GetWorldTraverseUp(const Matrix44& local)const;
+	void AddSubComponent(ComponentBase * component);
 
 public:
 	ComponentBase();
 	virtual ~ComponentBase();
+	template<class ComponentClass,typename ... Args>
+	ComponentClass* AddSubComponent(Args ... args)
+	{
+		ComponentClass* component = new ComponentClass(args ...);
 
-	void AddSubComponent(ComponentBase* component);
+		AddSubComponent(component);
+
+		return component;
+	}
 	void RemoveSubComponent(ComponentBase* component);
 
 	const std::vector<ComponentBase*>& GetSubComponenets()const;

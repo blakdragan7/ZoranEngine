@@ -116,6 +116,7 @@ void ZGIHorizontalBoxPanel::CommitSizes()
 
 void ZGIHorizontalBoxPanel::AddWidget(ZGIWidget * widget, float size)
 {
+	widget->SetParent(this);
 	sockets->push_back({ size, 1.0f, widget,this });
 	needsSocketsSized = true;
 }
@@ -125,6 +126,7 @@ void ZGIHorizontalBoxPanel::RemoveWidget(ZGIWidget * widget)
 	auto& itr = std::find(sockets->begin(), sockets->end(), widget);
 	if (itr != sockets->end())
 	{
+		widget->SetParent(0);
 		sockets->erase(itr);
 	}
 }

@@ -35,7 +35,6 @@ ZGIUniformScalePanel::ZGIUniformScalePanel(ZGIVirtualWindow* owningWindow) : con
 
 ZGIUniformScalePanel::~ZGIUniformScalePanel()
 {
-	if (content)delete content;
 }
 
 void ZGIUniformScalePanel::AnimateAllWidgets(float dt)
@@ -55,12 +54,6 @@ bool ZGIUniformScalePanel::CanAddWidget(ZGIWidget * widget)const
 
 void ZGIUniformScalePanel::AddWidget(ZGIWidget * widget)
 {
-	if (content != 0)
-	{
-		Log(LogLevel_Error, "Adding New Widget To Unfirom scale panel when widget already exists !");
-		assert(false);
-	}
-
 	if (widget->DoesContainText())
 	{
 		adjustPosition = false;
@@ -75,13 +68,15 @@ void ZGIUniformScalePanel::AddWidget(ZGIWidget * widget)
 	content = widget;
 
 	RepositionContent();
+
+	widget->SetParent(this);
 }
 
 void ZGIUniformScalePanel::RemoveWidget(ZGIWidget * widget)
 {
 	if (content == widget)
 	{
-		delete content;
+		widget->SetParent(0);
 		content = 0;
 	}
 }

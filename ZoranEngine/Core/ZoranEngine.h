@@ -1,9 +1,29 @@
 #pragma once
-#include "Utils/LoggerBase.h"
+
+// convenience defines
+
+#define zEngine ZoranEngine::Instance()
+#define pEngine zEngine->GetPhysicsEngine()
+#define rEngine zEngine->GetRenderer()
+#define r2Engine zEngine->GetRenderer2D()
+#define r3Engine zEngine->GetRenderer3D()
+#define aEngine zEngine->GetAudioEngine()
+#define DebugWindow zEngine->GetDebugWindow()
+#define Log(...) ZoranEngine::Instance()->logger->LogString(__VA_ARGS__);
+
+#include <Utils/LoggerBase.h>
 #include "PlatformTypes.h"
 #include "CommomTypes.h"
-#include "Math/Vector3.h"
+#include <Math/Vector3.h>
+#include <Math/Vector2.h>
 #include <vector>
+#include <Core/ZoranEngine.h>
+enum SpawnCollisionBehaviour
+{
+	Spawn_Collision_Behaviour_Ignore_Collision, // spawn regardless of collision
+	Spawn_Collision_Behaviour_Dont_Spawn, // don't sawn if colliding
+	Spawn_Collision_Behaviour_Adjust, // try to adjust the position of spawned object before spawning
+};
 
 class ThreadBase;
 class WindowBase;
@@ -46,6 +66,11 @@ public:
 
 	static bool canRenderDebug;
 
+private:
+	
+	// add this scene object to the scene and updates it
+	void AddSceneObject(SceneObject* object);
+
 public:
 	ZoranEngine();
 	~ZoranEngine();
@@ -72,13 +97,49 @@ public:
 
 	void DrawStep();
 
-	// do not add scene objects or any subclass of scene objects this way, instead use AddSceneObject
+	template<class SceneObjectClass>
+	SceneObjectClass* SpawnSceneObjectAtLocation(std::string name, Vec2D position, Vec2D size, SpawnCollisionBehaviour = Spawn_Collision_Behaviour_Dont_Spawn)
+	{
+		// TODO: collision test
+		if (false)
+		{
+			Log(LogLevel_Info, "Spawn Scene Object found collision");
+			return  nullptr;
+		}
+
+		SceneObjectClass* sceneObject = new SceneObjectClass(name);
+		sceneObject->SetPosition(position);
+		sceneObject->SetScale(size);
+		sceneObject->PreCaclModel();
+
+		AddSceneObject(sceneObject);
+
+		return sceneObject;
+	}
+
+    template<class SceneObjectClass>
+	SceneObjectClass* SpawnSceneObjectAtLocation(std::string name, Vec3D position, Vec3D size, SpawnCollisionBehaviour=Spawn_Collision_Behaviour_Dont_Spawn)
+	{
+		// TODO: collision test
+		if (false)return  nullptr;
+
+		SceneObjectClass* sceneObject = new SceneObjectClass(name);
+		sceneObject->SetPosition(position);
+		sceneObject->SetScale(size);
+		sceneObject->PreCaclModel();
+		AddSceneObject(sceneObject);
+
+		return sceneObject;
+	}
+
+	// do not add scene objects or any subclass of scene objects this way, instead use SpawnSceneObject*
+	// note the engine does not own tickable objects so it will expect them to be removed before they are destroyed
 	void AddTickableObject(ITickableObject* object);
-	// add this scene object to the scene and updates it
-	void AddSceneObject(SceneObject* object);
+	// this does not destroy object
+	void RemoveTickableObject(ITickableObject* object);
+
 	// Scene Object MUST NEVER BE DELETED OUTSIDE OF THIS FUNCTION
 	void DestroySceneObject(SceneObject* object);
-	void RemoveTickableObject(ITickableObject* object);
 
 	inline RenderEngineBase* GetRenderer()const;
 	inline RenderEngine2DBase* GetRenderer2D()const { return main2DRenderEngine; }
@@ -95,14 +156,3 @@ public:
 	const char* GetVersion()const;
 	void GetVersion(unsigned &Major,unsigned &Minor,unsigned &Revision)const;
 };
-
-// convenience defines
-
-#define zEngine ZoranEngine::Instance()
-#define pEngine zEngine->GetPhysicsEngine()
-#define rEngine zEngine->GetRenderer()
-#define r2Engine zEngine->GetRenderer2D()
-#define r3Engine zEngine->GetRenderer3D()
-#define aEngine zEngine->GetAudioEngine()
-#define DebugWindow zEngine->GetDebugWindow()
-#define Log(...) ZoranEngine::Instance()->logger->LogString(__VA_ARGS__);

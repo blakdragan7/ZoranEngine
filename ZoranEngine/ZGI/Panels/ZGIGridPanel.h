@@ -56,7 +56,7 @@ public:
 	const GridSocket* At(int x, int y)const;
 
 	bool AddWidget(ZGIWidget* widget, int x, int y, int rowSpan = 1, int columnSpawn = 1, AlignmentBit alignment = Alignment_Top | Alignment_Left);
-	bool RemoveWidget(ZGIWidget* widget);
+	void RemoveWidget(ZGIWidget* widget);
 	bool RemoveWidget(int x,int y);
 
 	/* Panel Override */

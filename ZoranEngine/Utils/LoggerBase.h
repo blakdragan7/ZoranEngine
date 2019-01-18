@@ -2,9 +2,10 @@
 enum ELogLevel {
 	LogLevel_Verbose = 0,
 	LogLevel_Debug = 1,
-	LogLevel_Warning = 2,
-	LogLevel_Error = 3,
-	LogLevel_None = 4
+	LogLevel_Info = 2,
+	LogLevel_Warning = 3,
+	LogLevel_Error = 4,
+	LogLevel_None = 5
 };
 
 class LoggerBase

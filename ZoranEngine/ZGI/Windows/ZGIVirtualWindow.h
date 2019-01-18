@@ -12,6 +12,7 @@ class TextureBase;
 class ZoranEngine_EXPORT ZGIVirtualWindow : public ZGIBase, public IKeyboardEventHandler, public IMouseEventHandler
 {
 private:
+	std::vector<ZGIWidget*>* ownedWidgets;
 	std::vector<ZGIVirtualWindow*>* subWindows;
 	ZGIVirtualWindow* parent;
 
@@ -29,11 +30,11 @@ protected:
 	bool shouldRenderBrush;
 
 	IKeyboardEventHandler* firstResponder;
-
 	ZGIBrush* brush;
 
 private:
 	unsigned EdgeForPosition(Vec2D pos, float edgeThresh);
+	void AddSubWindow(ZGIVirtualWindow* window);
 
 public:
 	ZGIVirtualWindow(Vec2D pos, Vec2D size, Vec2I OSWindowSize, ZGIVirtualWindow* parent = 0);
@@ -51,7 +52,28 @@ public:
 	inline void StopRenderingBackground() { shouldRenderBrush = false; }
 	inline void StartRenderingBackground() { shouldRenderBrush = true; }
 
-	void AddSubWindow(ZGIVirtualWindow* subWindow);
+	template<class WindowClass, typename ... Args>
+	WindowClass* AddSubWindow(Args... args)
+	{
+		WindowClass* window = new WindowClass(args..., this);
+
+		AddSubWindow(window);
+
+		return window;
+	}
+
+	template<class WidgetClass, typename ... Args>
+	WidgetClass* SpawnWidget(Args ... args)
+	{
+		WidgetClass* widget = new WidgetClass(args..., this);
+
+		ownedWidgets->push_back(widget);
+
+		return widget;
+	}
+
+	void DestroyWidget(ZGIWidget* widget);
+
 	void RemoveSubWindow(ZGIVirtualWindow* subWindow);
 	
 	void SetWindowPosition(Vec2D newPosition);

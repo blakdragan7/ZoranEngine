@@ -48,6 +48,7 @@ unsigned  ZGIVirtualWindow::EdgeForPosition(Vec2D pos, float edgeThresh)
 ZGIVirtualWindow::ZGIVirtualWindow(Vec2D pos, Vec2D size, Vec2I OSWindowSize, ZGIVirtualWindow* parent) :
 	isBeingResized(false), isResizable(false), parent(parent), rootContent(0), edgeSize(20), shouldRenderBrush(false), currentlySelectedEdge(Window_Edge_None)
 {
+	ownedWidgets = new std::vector<ZGIWidget*>();
 	subWindows = new std::vector<ZGIVirtualWindow*>();
 	viewport = new ZGIVirtualViewport(pos, size, OSWindowSize);
 	brush = new ZGIBrush;
@@ -62,11 +63,15 @@ ZGIVirtualWindow::~ZGIVirtualWindow()
 		delete subWindow;
 	}
 
+	for (auto& widget : *ownedWidgets)
+	{
+		delete widget;
+	}
+
 	delete brush;
 
 	delete subWindows;
-	
-	if (rootContent)delete rootContent;
+	delete ownedWidgets;
 }
 
 void ZGIVirtualWindow::SetFirstResponder(IKeyboardEventHandler * responder)
@@ -96,6 +101,16 @@ void ZGIVirtualWindow::AddSubWindow(ZGIVirtualWindow * subWindow)
 {
 	subWindow->parent = this;
 	subWindows->push_back(subWindow);
+}
+
+void ZGIVirtualWindow::DestroyWidget(ZGIWidget * widget)
+{
+	auto itr = std::find(ownedWidgets->begin(), ownedWidgets->end(), widget);
+	if (itr != ownedWidgets->end())
+	{
+		ownedWidgets->erase(itr);
+		delete widget;
+	}
 }
 
 void ZGIVirtualWindow::RemoveSubWindow(ZGIVirtualWindow * subWindow)

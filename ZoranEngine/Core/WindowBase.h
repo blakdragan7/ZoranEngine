@@ -1,6 +1,7 @@
 #pragma once
 #include "Core/PlatformTypes.h"
 #include "Math/Vector2.h"
+
 /*
 	WindowBase is an abstract base class that defines functions that all windows should have
 */
@@ -20,6 +21,9 @@ protected:
 	Vector2I position;
 	Vector2I size;
 	PlatformMouseBase* m;
+
+private:
+	void SetRootVirtualWindow(ZGIVirtualWindow* window);
 
 protected:
 	void inline SetWindowPosNoExecute(int x, int y) { position.x = x; position.y = y; }
@@ -47,7 +51,14 @@ public:
 	virtual void MainDraw(float dt);
 
 	inline ZGIVirtualWindow* GetRootVirtualWindow() { return rootVirtualWindow; }
-	void SetRootVirtualWindow(ZGIVirtualWindow* newWindow);
+
+	template<class WindowClass,typename ... Args>
+	WindowClass* SetRootVirtualWindow(Args ... args)
+	{
+		WindowClass* window = new WindowClass(args ...);
+		SetRootVirtualWindow(window);
+		return window;
+	}
 
 	inline bool IsFullScreen() { return isFullScreen; };
 	inline bool IsMaxamized() { return isMaximized; };

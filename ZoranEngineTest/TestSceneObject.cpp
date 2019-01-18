@@ -11,18 +11,15 @@ TestSceneObject::TestSceneObject(std::string name) : TexturedSprite(100, name)
 {
 	willEverTick = true;
 
-	collision = new OSquareCollisionComponent(root2DComponent);
-	
+	collision = root2DComponent->AddSubComponent<OSquareCollisionComponent>(root2DComponent);
+
 	collision->SetStartingSize(2, 2);
 	collision->SetScale(1, 1);
+	
+	rigid = root2DComponent->AddSubComponent<RigidBody2DComponent>(root2DComponent);
 
-	root2DComponent->AddSubComponent(collision);
-
-	rigid = new RigidBody2DComponent(root2DComponent);
 	rigid->SetMass(200);
 	rigid->SetRestitution(1.0f);
-	
-	root2DComponent->AddSubComponent(rigid);
 
 	collision->SetPhysicsObjectFrom2DRigidBody(rigid);
 

@@ -40,14 +40,13 @@ SceneObject::SceneObject(ComponentBase* rootComponent,std::string name) : rootCo
 
 SceneObject::~SceneObject()
 {
-	delete rootComponent;
+	if(rootComponent)delete rootComponent;
 	delete readableName;
 	delete mutex;
 }
 
 void SceneObject::Destroy()
 {
-	zEngine->RemoveTickableObject(this);
 	zEngine->DestroySceneObject(this);
 }
 

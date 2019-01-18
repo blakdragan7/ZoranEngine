@@ -37,6 +37,7 @@ ZGIWrapBoxPanel::~ZGIWrapBoxPanel()
 
 void ZGIWrapBoxPanel::AddWidget(ZGIWidget * widget)
 {
+	widget->SetParent(this);
 	widgets->push_back(widget);
 }
 
@@ -45,11 +46,8 @@ void ZGIWrapBoxPanel::RemoveWidget(ZGIWidget * widget)
 	auto &itr = std::find(widgets->begin(), widgets->end(), widget);
 	if (itr != widgets->end())
 	{
+		widget->SetParent(0);
 		widgets->erase(itr);
-	}
-	else
-	{
-		Log(LogLevel_Warning, "Trying To Remove Invalid Widget");
 	}
 }
 

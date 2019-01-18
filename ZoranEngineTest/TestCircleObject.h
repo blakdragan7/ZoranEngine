@@ -10,7 +10,7 @@ private:
 
 public:
 
-	TestCircleObject(std::string name, float radius);
+	TestCircleObject(std::string name);
 	~TestCircleObject();
 
 	inline void SetTarget(SceneObject2D* target)

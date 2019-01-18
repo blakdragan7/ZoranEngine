@@ -59,6 +59,7 @@ void ZGIOverlayPanel::MoveWidgetBackward(ZGIWidget * widget)
 
 void ZGIOverlayPanel::AddWidget(ZGIWidget * widget)
 {
+	widget->SetParent(this);
 	sockets->push_back({ widget,this });
 	needsSocketUpdate = true;
 }
@@ -68,6 +69,7 @@ void ZGIOverlayPanel::RemoveWidget(ZGIWidget * widget)
 	auto& itr = std::find(sockets->begin(), sockets->end(), widget);
 	if (itr != sockets->end())
 	{
+		widget->SetParent(0);
 		sockets->erase(itr);
 	}
 }

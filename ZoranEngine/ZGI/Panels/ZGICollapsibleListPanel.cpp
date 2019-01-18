@@ -48,9 +48,6 @@ ZGICollapsibleListPanel::ZGICollapsibleListPanel(bool dynamicSize, ZGIVirtualWin
 
 ZGICollapsibleListPanel::~ZGICollapsibleListPanel()
 {
-	delete header;
-	delete list;
-
 	tManager->DestroyTexture(collapsedImage);
 	tManager->DestroyTexture(openImage);
 }

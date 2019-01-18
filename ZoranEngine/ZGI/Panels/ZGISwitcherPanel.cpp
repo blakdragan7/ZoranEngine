@@ -18,6 +18,7 @@ void ZGISwitcherPanel::AddWidget(ZGIWidget * widget)
 	// make the widget the size of this panel
 	widget->SetPosition(position);
 	widget->SetSize(size);
+	widget->SetParent(this);
 
 	widgets->push_back(widget);
 	if (activeWidget == -1)activeWidget = 0;
@@ -30,7 +31,10 @@ void ZGISwitcherPanel::RemoveWidget(ZGIWidget * widget)
 		if ((*widgets)[activeWidget] == widget)
 			--activeWidget;
 	}
-	remove(*widgets, widget);
+	if (remove(*widgets, widget))
+	{
+		widget->SetParent(0);
+	}
 }
 
 void ZGISwitcherPanel::SetWidgetActive(ZGIWidget * widget)

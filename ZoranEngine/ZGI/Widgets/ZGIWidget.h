@@ -5,11 +5,13 @@
 
 class ZGIVirtualWindow;
 class ZGIBrush;
+class ZGIPanel;
 class ZoranEngine_EXPORT ZGIWidget : public ZGIBase, public IMouseEventHandler, public IKeyboardEventHandler
 {
 private:
 	bool mouseHasEntered;
-
+	// parent panel if contianed in panel
+	ZGIPanel* parent;
 protected:
 	/* bounds refers to the absolute size of the widget. I.E. an image widgets bounds is the size of the image 
 	*  Bounds can only be set by the widget because only it should be able to determine what the absolute size would be */
@@ -43,6 +45,13 @@ public:
 	virtual void ContainerResized(Vec2D newSize, Vec2D oldSize) = 0;
 
 	virtual void RenderWithPositionAndSize(Vec2D position, Vec2D size, const Matrix44& projection);
+
+	inline void SetParent(ZGIPanel* newParent) { parent = newParent; }
+	inline ZGIPanel* GetParent()const { return parent; }
+
+	void RemoveFromParent();
+	// never call delete on a widget, call this when you want to release the memory
+	void DestroyWidget();
 
 	// default draws debug info and update Debug render when dirty
 	virtual void Render(const Matrix44& projection);

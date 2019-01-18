@@ -4,10 +4,13 @@ class ZGILabel;
 class ZGIButton;
 class ZGIGridPanel;
 class TextureBase;
+class ZGITreePanel;
 class ZoranEngine_EXPORT TreeSocket
 {
 private:
 	bool wasMoved;
+
+	ZGITreePanel* owningTree;
 
 	ZGIGridPanel * panel;
 	ZGIButton* headerButton;
@@ -47,6 +50,8 @@ public:
 	TreeSocket(TreeSocket&& other);
 	~TreeSocket();
 
+	inline void SetOwningTree(ZGITreePanel* owningTree) { this->owningTree = owningTree; }
+
 	void SetSize(Vec2D size);
 	inline Vec2D GetSize() { return socketSize; }
 
@@ -57,6 +62,7 @@ public:
 
 	void SetContent(ZGIWidget* widget);
 	void SetText(std::string text);
+	bool RemoveWidget(ZGIWidget* widget);
 
 	void Print(int tabs)const;
 	
@@ -91,6 +97,8 @@ public:
 	inline TreeSocket& GetRootSocket() { return rootSocket; }
 
 	/* Panel Override */
+
+	void RemoveWidget(ZGIWidget* widget);
 
 	virtual void AnimateAllWidgets(float dt)override;
 

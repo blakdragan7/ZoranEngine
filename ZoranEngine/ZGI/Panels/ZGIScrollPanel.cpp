@@ -74,9 +74,6 @@ ZGIScrollPanel::ZGIScrollPanel(ZGIVirtualWindow* owner) : scrollNeedsUpdate(fals
 
 ZGIScrollPanel::~ZGIScrollPanel()
 {
-	if (content)delete content;
-	delete hScrollBar;
-	delete vScrollBar;
 }
 
 Vec2D ZGIScrollPanel::GetScrollOffset()
@@ -118,6 +115,7 @@ void ZGIScrollPanel::AddWidget(ZGIWidget * widget)
 		}
 
 		content->SetPosition({ 0,0 });
+		widget->SetParent(this);
 	}
 }
 
@@ -125,6 +123,7 @@ void ZGIScrollPanel::RemoveWidget(ZGIWidget * widget)
 {
 	if (content == widget)
 	{
+		widget->SetParent(0);
 		content = 0;
 	}
 }

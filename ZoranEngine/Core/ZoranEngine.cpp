@@ -179,12 +179,10 @@ bool ZoranEngine::Init()
 
 void ZoranEngine::CreateGameModeWindows(bool is3D)
 {
-	ZGIGameVirtualWindow* vWindow = new ZGIGameVirtualWindow({ 0,0 }, mainWindow->GetSize(), mainWindow->GetSize(),is3D);
+	ZGIGameVirtualWindow* vWindow = mainWindow->SetRootVirtualWindow<ZGIGameVirtualWindow>(Vector2D(0,0), mainWindow->GetSize(), mainWindow->GetSize(),is3D);
 	vWindow->SetPlayerInstance(mainPlayer);
-	mainWindow->SetRootVirtualWindow(vWindow);
 
-	//debugWindow = new ZGIDebugWindow({ 600,0 }, { 600,900 }, mainWindow->GetSize(), vWindow);
-	//vWindow->AddSubWindow(debugWindow);
+	//debugWindow = vWindow->AddSubWindow<ZGIDebugWindow>(Vector2D(600,0), Vector2D(600,900), mainWindow->GetSize());
 }
 
 void ZoranEngine::Setup2DScene(float centerx, float centery, float width, float height)
@@ -316,7 +314,9 @@ void ZoranEngine::AddTickableObject(ITickableObject * object)
 
 void ZoranEngine::AddSceneObject(SceneObject * object)
 {
-	AddTickableObject(object);
+	allSceneObjects->push_back(object);
+	if(object->GetWillEverTick())
+		AddTickableObject(object);
 }
 
 void ZoranEngine::DestroySceneObject(SceneObject * object)

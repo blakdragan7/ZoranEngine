@@ -9,6 +9,8 @@ Opaque class that represent an AudioDevice. This can either be a hardware or sof
 the deviceDescription is essentially the name of the device and should be what the user sees when they
 are choosing a device for playback.
 
+You must NEVER call delete on an instance of this class
+
 *****/
 class AudioDevice
 {

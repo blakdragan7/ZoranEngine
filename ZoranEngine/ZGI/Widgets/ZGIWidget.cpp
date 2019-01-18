@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "ZGIWidget.h"
 #include <Core/PlatformMouseBase.h>
+#include <ZGI/Panels/ZGIPanel.h>
 #include <ZGI/Windows/ZGIVirtualWindow.h>
 #include <ZGI/Core/ZGIBrush.h>
 #include <Rendering/TextureBase.h>
@@ -10,7 +11,7 @@ void ZGIWidget::RecalculateModelCache()
 	modelCache = translate * scale  * rotation;
 }
 
-ZGIWidget::ZGIWidget(ZGIVirtualWindow* owningWindow) : shouldDrawBrush(false), isDirty(false), mouseHasEntered(false), owningWindow(owningWindow)
+ZGIWidget::ZGIWidget(ZGIVirtualWindow* owningWindow) : parent(0), shouldDrawBrush(false), isDirty(false), mouseHasEntered(false), owningWindow(owningWindow)
 {
 	modelCache.makeIdentity();
 	translate.makeIdentity();
@@ -47,6 +48,21 @@ void ZGIWidget::RenderWithPositionAndSize(Vec2D position, Vec2D size, const Matr
 
 	SetSize(oldSize);
 	SetPosition(oldPosition);
+}
+
+void ZGIWidget::RemoveFromParent()
+{
+	if (parent)
+	{
+		parent->RemoveWidget(this);
+		parent = 0;
+	}
+}
+
+void ZGIWidget::DestroyWidget()
+{
+	RemoveFromParent();
+	owningWindow->DestroyWidget(this);
 }
 
 void ZGIWidget::Render(const Matrix44 & projection)

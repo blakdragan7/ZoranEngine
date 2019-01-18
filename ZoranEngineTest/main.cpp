@@ -85,21 +85,18 @@ void Test2DSceneStuff()
 	Vector2D CollisionPoint(0,0);
 	for (int i = 0; i < SquareToSpawn; i++)
 	{
-		TestSceneObject* test = new TestSceneObject((name_base + std::to_string(i)));
-		test->SetScale(scale, -scale);
-		test->SetPosition(Random::GetfloatInRange(-500, 500), Random::GetfloatInRange(-300, 300));
-		//test->SetPosition(i*5 + -150,0);
-		//test->SetPosition({ -100,0 });
+		TestSceneObject* test = engine.SpawnSceneObjectAtLocation<TestSceneObject>((name_base + std::to_string(i)),
+			Vector2D(Random::GetfloatInRange(-500, 500), Random::GetfloatInRange(-300, 300)),Vector2D(scale, -scale));
+		
 		test->GetPhysics()->StartSimulation();
 		test->SetRotation(1);
+		
 		Vector2D pos = test->GetPosition();
 		pos = CollisionPoint - pos;
 		pos.normalize();
 		//test->GetPhysics()->SetGravity(pos*200);
 		//test->GetPhysics2D()->SetGravity(pos*200);
 		//test->GetPhysics2D()->ApplyForce(pos * 100);
-		test->PreCaclModel();
-		zEngine->AddSceneObject(test);
 	}
 
 	Vector2D gravity[2] = { Vector2D(0,600),Vector2D(0,-600) };
@@ -108,50 +105,28 @@ void Test2DSceneStuff()
 
 	for (int i = 0; i < CircleToSpawn; i++)
 	{
-		TestCircleObject* test = new TestCircleObject(std::string("circle ") + std::to_string(i), 1.0);
-		test->SetScale(scale, -scale);
+		TestCircleObject* test = engine.SpawnSceneObjectAtLocation<TestCircleObject>(std::string("circle ") + std::to_string(i), Vector2D(Random::GetfloatInRange(-500, 500), 
+			Random::GetfloatInRange(-300, 300)), Vector2D(scale,-scale));
 		//test->SetPosition(i * 5 + -150, 100);
-		test->SetPosition(Random::GetfloatInRange(-500, 500), Random::GetfloatInRange(-300, 300));
-		test->GetPhysics()->StartSimulation();
 		//test->SetPosition({100,0});
 		//test->SetTarget(sqr);
 		//sqr->SetTarget(test);
 		//test->GetPhysics2D()->SetGravity(gravity[1]);
-		//test->GetPhysics2D()->SetGravity(Vec2D(-600,0));
-		Vector2D pos = test->GetPosition();
-		pos = CollisionPoint - pos;
-		pos.normalize();
+		////test->GetPhysics2D()->SetGravity(Vec2D(-600,0));
+		//Vector2D pos = test->GetPosition();
+		//pos = CollisionPoint - pos;
+		//pos.normalize();
 		//test->GetPhysics()->SetGravity(pos * 200);
 
+		test->GetPhysics()->StartSimulation();
 		test->SetRotation(1.00);
 		test->GetPhysics()->SetAngularVeloctiy(10);
-		test->PreCaclModel();
-		zEngine->AddSceneObject(test);
 	}
 
-	TestPlatformObject* platform = new TestPlatformObject("Ground");
-	platform->SetScale(1000, -50);
-	platform->SetPosition(0, -500);
-	platform->PreCaclModel();
-	zEngine->AddSceneObject(platform);
-
-	TestPlatformObject* platform2 = new TestPlatformObject("Ceiling");
-	platform2->SetScale(1000, -50);
-	platform2->SetPosition(0, 500);
-	platform2->PreCaclModel();
-	zEngine->AddSceneObject(platform2);
-
-	TestPlatformObject* platform3 = new TestPlatformObject("Left Wall");
-	platform3->SetScale(50, -1000);
-	platform3->SetPosition(-950, 0);
-	platform3->PreCaclModel();
-	zEngine->AddSceneObject(platform3);
-
-	TestPlatformObject* platform4 = new TestPlatformObject("Right Wall");
-	platform4->SetScale(50, -1000);
-	platform4->SetPosition(950, 0);
-	platform4->PreCaclModel();
-	zEngine->AddSceneObject(platform4);
+	engine.SpawnSceneObjectAtLocation<TestPlatformObject>("Ground", Vector2D(0, -500), Vector2D(1000, -50));
+	engine.SpawnSceneObjectAtLocation<TestPlatformObject>("Ceiling", Vector2D(0, 500), Vector2D(1000, -50));
+	engine.SpawnSceneObjectAtLocation<TestPlatformObject>("Left Wall", Vector2D(-950, 0), Vector2D(1000, -50));
+	engine.SpawnSceneObjectAtLocation<TestPlatformObject>("Right Wall", Vector2D(950, 0), Vector2D(1000, -50));
 
 	//TestAudio();
 
@@ -168,14 +143,8 @@ void Test3DSceneStuff()
 
 	std::string name_base = "TestSceneObject-";
 
-	StaticModelSceneObj* test = new StaticModelSceneObj(name_base + "1");
-
-	test->SetPosition(0, 0, 20);
-	test->SetScale({ 1.0f,1.0f,1.0f });
+	StaticModelSceneObj* test = engine.SpawnSceneObjectAtLocation<StaticModelSceneObj>(name_base + "1", Vector3D(0,0,20), Vector3D(1.0f,1.0f,1.0f));
 	test->SetMesh("teapot.obj");
-	test->PreCaclModel();
-
-	engine.AddSceneObject(test);
 
 	engine.MainLoop();
 }
@@ -195,25 +164,25 @@ void TestGUIStuff()
 
 	auto window = engine.GetMainWindow()->GetRootVirtualWindow();
 
-	//auto w = new ZGIWrapBoxPanel({300,150}, window);
-	//auto p = new ZGISwitcherPanel(window);
-	//auto p = new ZGIOverlayPanel(window);
-	//auto s = new ZGIScrollPanel(window);
-	//auto s = new ZGIUniformScalePanel(window);
-	//auto p = new ZGIVerticalBoxPanel(window);
-	//auto p = new ZGIHorizontalBoxPanel(window);
-	auto p = new ZGIFreeFormPanel(window);
+	//auto w = window->SpawnWidget<ZGIWrapBoxPanel>(Vector2D(300,150));
+	//auto p = window->SpawnWidget<ZGISwitcherPanel>();
+	//auto p = window->SpawnWidget<ZGIOverlayPanel>();
+	//auto s = window->SpawnWidget<ZGIScrollPanel>();
+	//auto s = window->SpawnWidget<ZGIUniformScalePanel>();
+	//auto p = window->SpawnWidget<ZGIVerticalBoxPanel>();
+	//auto p = window->SpawnWidget<ZGIHorizontalBoxPanel>();
+	auto p = window->SpawnWidget<ZGIFreeFormPanel>();
 
-	//auto s = new ZGISpinBox(false, 0,0.5f,window);
-	//auto c = new ZGIComboBox(window);
+	//auto s = window->SpawnWidget<ZGISpinBox>(false, 0,0.5f);
+	//auto c = window->SpawnWidget<ZGIComboBox>();
 
-	//auto image1 = new ZGIImage(window);
-	auto text = new ZGITextEdit(window);
-	//auto spacer = new ZGISpacer(window);
+	//auto image1 = window->SpawnWidget<ZGIImage>();
+	auto text = window->SpawnWidget<ZGITextEdit>();
+	//auto spacer = window->SpawnWidget<ZGISpacer>();
 
-	//auto check = new ZGICheckBox(window);
+	auto check = window->SpawnWidget<ZGICheckBox>();
 
-	//auto progress = new ZGIProgressBar(window);
+	auto progress = window->SpawnWidget<ZGIProgressBar>();
 
 	//image1->SetImage("test.png");
 	//text->SetText("check box");
@@ -224,7 +193,7 @@ void TestGUIStuff()
 	//p->AddWidget(image1);
 	//p->AddWidget(check);
 
-	text->SetAlignment(Alignment_Center | Alignment_Top);
+	text->SetAlignment(Alignment_Center);
 
 	text->SetAutoScaleFont(false);
 	text->SetFontSize(100);

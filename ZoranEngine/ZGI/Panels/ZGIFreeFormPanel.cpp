@@ -35,12 +35,14 @@ bool ZGIFreeFormPanel::CanAddWidget(ZGIWidget * widget) const
 
 void ZGIFreeFormPanel::AddWidget(ZGIWidget * widget)
 {
+	widget->SetParent(this);
 	widgets->push_back(widget);
 }
 
 void ZGIFreeFormPanel::RemoveWidget(ZGIWidget * widget)
 {
-	remove(*widgets, widget);
+	if (remove(*widgets, widget))
+		widget->SetParent(0);
 }
 
 int ZGIFreeFormPanel::GetNumberOfWidgets() const

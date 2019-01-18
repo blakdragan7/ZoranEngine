@@ -8,6 +8,8 @@ public:
 	ZGIPanel(ZGIVirtualWindow* owningWindow);
 	~ZGIPanel();
 
+	virtual void RemoveWidget(ZGIWidget* widget) = 0;
+
 	virtual void AnimateAllWidgets(float dt) = 0;
 	virtual void Animate(float dt)override;
 

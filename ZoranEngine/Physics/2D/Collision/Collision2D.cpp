@@ -12,13 +12,10 @@ void Collision2D::AddCollisionPoint(CollisionPoint & point)
 
 	if (shouldRender)
 	{
-		DebugSceneObject2D* db = new DebugSceneObject2D("Debug Collision Point");
-		db->SetScale(5, 5);
+		DebugSceneObject2D* db = zEngine->SpawnSceneObjectAtLocation<DebugSceneObject2D>("Debug Collision Point",point.pos, Vector2D(5,5));
 		db->SetColor({ 0.0, 1.0, 0.0 });
-		db->SetPosition(point.pos);
 
 		debugObjects[numCollisionPoints] = db;
-		zEngine->AddSceneObject(db);
 	}
 	collisionPoints[numCollisionPoints++] =  point;
 }
@@ -75,13 +72,10 @@ void Collision2D::PreUpdate(float inv_dt, Accumulated2DVelocities& aV)
 		
 		for (unsigned i = 0; i < numCollisionPoints; i++)
 		{
-			DebugSceneObject2D* db = new DebugSceneObject2D("Debug Collision Point");
-			db->SetScale(5, 5);
+			DebugSceneObject2D* db = zEngine->SpawnSceneObjectAtLocation<DebugSceneObject2D>("Debug Collision Point", collisionPoints[i].pos, Vector2D(5,5));
+			
 			db->SetColor({ 0.0, 1.0, 0.0 });
-			db->SetPosition(collisionPoints[i].pos);
-
 			debugObjects[i] = db;
-			zEngine->AddSceneObject(db);
 		}
 	}
 	static const float k_allowedPenetration = 0.1f;
@@ -250,13 +244,10 @@ void Collision2D::Update(Collision2D* other)
 			{
 				for (unsigned i = numCollisionPoints; i < other->numCollisionPoints; i++)
 				{
-					DebugSceneObject2D* db = new DebugSceneObject2D("Debug Collision Point");
-					db->SetScale(5, 5);
+					DebugSceneObject2D* db = zEngine->SpawnSceneObjectAtLocation<DebugSceneObject2D>("Debug Collision Point", collisionPoints[i].pos, Vector2D(5,5));
+				
 					db->SetColor({ 0.0, 1.0, 0.0 });
-					db->SetPosition(collisionPoints[i].pos);
-
 					debugObjects[i] = db;
-					zEngine->AddSceneObject(db);
 				}
 			}
 		}

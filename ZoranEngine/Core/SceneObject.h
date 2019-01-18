@@ -49,6 +49,7 @@ public:
 
 	void SetRootComponent(ComponentBase* component);
 
+	inline bool GetWillEverTick()const { return willEverTick; }
 	inline const Matrix44& GetModel() { return ModelMatrixCache; };
 	virtual Matrix44 GetScaleMatrix4x4() = 0;
 

@@ -9,25 +9,20 @@
 
 #include <Utils/Random.h>
 
-TestCircleObject::TestCircleObject(std::string name, float radius) : TexturedSprite(100, name)
+TestCircleObject::TestCircleObject(std::string name) : TexturedSprite(100, name)
 {
 	willEverTick = true;
 
-	CircleCollisionComponent* circleComponent = new CircleCollisionComponent(root2DComponent);
-
-	circleComponent->SetRadius(1.0);
-
-	root2DComponent->AddSubComponent(circleComponent);
+	CircleCollisionComponent* circleComponent = root2DComponent->AddSubComponent<CircleCollisionComponent>(root2DComponent);
 
 	SetTexture("circle.png", RenderDataType::Render_Data_Type_RGBA_32, RenderDataFormat::Render_Data_Format_Unsigned_Byte);
 	
-	rigidBody = new RigidBody2DComponent(root2DComponent);
+	rigidBody = root2DComponent->AddSubComponent<RigidBody2DComponent>(root2DComponent);
 
 	rigidBody->SetRestitution(1.0);
 	rigidBody->SetMass(200);
 
-	root2DComponent->AddSubComponent(rigidBody);
-
+	circleComponent->SetRadius(1.0);
 	circleComponent->SetPhysicsObjectFrom2DRigidBody(rigidBody);
 }
 

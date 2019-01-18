@@ -28,6 +28,7 @@ public:
 	inline std::vector<ListSocket>* GetWidgetList() { return widgetList; }
 
 	void AddWidget(ZGIWidget* widget, AlignmentBit alignment = Alignment_Center);
+	void RemoveWidget(ZGIWidget* widget)override;
 	// Used for spacing and sizing of widgets added to the list, there can actually be more 
 	// widgets then this in the list but they will render past the bounds of the panel
 	inline void SetListMaxSize(unsigned size) { maxListSize = size; }

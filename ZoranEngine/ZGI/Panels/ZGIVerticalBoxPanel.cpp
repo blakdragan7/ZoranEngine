@@ -73,6 +73,7 @@ void ZGIVerticalBoxPanel::MoveWidgetDown(ZGIWidget * widget)
 
 void ZGIVerticalBoxPanel::AddWidget(ZGIWidget * widget, float size)
 {
+	widget->SetParent(this);
 	sockets->push_back({1.0f,size, widget,this });
 	needsSocketsSized = true;
 }
@@ -82,6 +83,7 @@ void ZGIVerticalBoxPanel::RemoveWidget(ZGIWidget * widget)
 	auto& itr = std::find(sockets->begin(), sockets->end(), widget);
 	if (itr != sockets->end())
 	{
+		widget->SetParent(0);
 		sockets->erase(itr);
 	}
 }

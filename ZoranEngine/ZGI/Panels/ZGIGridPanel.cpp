@@ -52,11 +52,6 @@ ZGIGridPanel::ZGIGridPanel(Vec2I size, ZGIVirtualWindow * owningWindow) : ZGIPan
 
 ZGIGridPanel::~ZGIGridPanel()
 {
-	for (auto w : *grid)
-	{
-		if(w.widget)delete w.widget;
-	}
-
 	delete grid;
 }
 
@@ -108,6 +103,7 @@ bool ZGIGridPanel::AddWidget(ZGIWidget * widget, int x, int y, int rowSpan, int 
 {
 	if (CanAddWidget(widget) == false || PositionIsEmpty({ x,y }) == false)return false;
 
+	widget->SetParent(this);
 	GridSocket sock({ x,y }, {rowSpan,columnSpan}, alignment, widget);
 
 	grid->push_back(sock);
@@ -118,22 +114,25 @@ bool ZGIGridPanel::AddWidget(ZGIWidget * widget, int x, int y, int rowSpan, int 
 	return true;
 }
 
-bool ZGIGridPanel::RemoveWidget(ZGIWidget * widget)
+void ZGIGridPanel::RemoveWidget(ZGIWidget * widget)
 {
 	auto itr = Find(widget);
-	if (itr == grid->end())return false;
+	if (itr == grid->end())return;
+	widget->SetParent(0);
 	numWidgets--;
 	isDirty = true;
-	return remove(*grid, itr);
+	grid->erase(itr);
 }
 
 bool ZGIGridPanel::RemoveWidget(int x, int y)
 {
 	auto itr = std::find(grid->begin(), grid->end(), Vector2I( x,y ));
 	if (itr == grid->end())return false;
+	itr->widget->SetParent(0);
 	numWidgets--;
 	isDirty = true;
-	return remove(*grid, itr);
+	grid->erase(itr);
+	return true;
 }
 
 int ZGIGridPanel::GetNumberOfWidgets() const
