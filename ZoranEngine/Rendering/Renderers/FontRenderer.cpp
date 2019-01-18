@@ -468,17 +468,17 @@ void FontRenderer::UpdateTextRenderForAlignment(AlignmentBit alignment)
 	// align y
 	if (diff < bounds.h)
 	{
-		if (alignment == Alignment_Center)
-		{
-			currentY = topRight.y - (diff / 2.0f);
-		}
-		else if (alignment & Alignment_Top)
+		if (alignment & Alignment_Top)
 		{
 			currentY = topRight.y - pptSize;
 		}
 		else if (alignment & Alignment_Bottom)
 		{
 			currentY = topRight.y - diff;
+		}
+		else if (alignment & Alignment_Center)
+		{
+			currentY = topRight.y - (diff / 2.0f);
 		}
 		else // default to top
 		{
@@ -525,13 +525,17 @@ void FontRenderer::UpdateTextRenderForAlignment(AlignmentBit alignment)
 
 						float spaceLeft = topRight.x - currentX;
 
-						if (alignment & Alignment_Center)
+						if (alignment & Alignment_Left)
 						{
-							line.renderStart.x = bottomLeft.x + (spaceLeft / 2.0f);
+							// do nothing
 						}
 						else if (alignment & Alignment_Right)
 						{
 							line.renderStart.x = bottomLeft.x + spaceLeft;
+						}
+						else if (alignment & Alignment_Center)
+						{
+							line.renderStart.x = bottomLeft.x + (spaceLeft / 2.0f);
 						}
 
 						line.renderStart.y = currentY;
@@ -579,13 +583,17 @@ void FontRenderer::UpdateTextRenderForAlignment(AlignmentBit alignment)
 
 				float spaceLeft = topRight.x - currentX;
 
-				if (alignment & Alignment_Center)
+				if (alignment & Alignment_Left)
 				{
-					line.renderStart.x = bottomLeft.x + (spaceLeft / 2.0f);
+					// do nothing
 				}
 				else if (alignment & Alignment_Right)
 				{
 					line.renderStart.x = bottomLeft.x + spaceLeft;
+				}
+				else if (alignment & Alignment_Center)
+				{
+					line.renderStart.x = bottomLeft.x + (spaceLeft / 2.0f);
 				}
 
 				line.renderStart.y = currentY;
@@ -613,13 +621,17 @@ void FontRenderer::UpdateTextRenderForAlignment(AlignmentBit alignment)
 		if (wasSplit == false) // was a new line create and invalidate the line variable, if not set line alignment
 		{
 			float spaceLeft = topRight.x - currentX;
-			if (alignment & Alignment_Center)
+			if (alignment & Alignment_Left)
 			{
-				line.renderStart.x = bottomLeft.x + (spaceLeft / 2.0f);
+				// do nothing
 			}
 			else if (alignment & Alignment_Right)
 			{
 				line.renderStart.x = bottomLeft.x + spaceLeft;
+			}
+			else if (alignment & Alignment_Center)
+			{
+				line.renderStart.x = bottomLeft.x + (spaceLeft / 2.0f);
 			}
 
 			line.renderStart.y = currentY;
@@ -635,17 +647,18 @@ void FontRenderer::UpdateTextRenderForAlignment(AlignmentBit alignment)
 		// align y
 		if (diff < bounds.h)
 		{
-			if (alignment == Alignment_Center)
-			{
-				currentY = topRight.y - (diff / 2.0f);
-			}
-			else if (alignment & Alignment_Top)
+			
+			if (alignment & Alignment_Top)
 			{
 				currentY = topRight.y - pptSize;
 			}
 			else if (alignment & Alignment_Bottom)
 			{
 				currentY = topRight.y - diff;
+			}
+			else if (alignment & Alignment_Center)
+			{
+				currentY = topRight.y - (diff / 2.0f);
 			}
 			else // default to top
 			{
