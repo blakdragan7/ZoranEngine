@@ -1,6 +1,8 @@
 #pragma once
 #include <ZGI\Widgets\ZGIWidget.h>
 
+#include <Resources/ImageResource.h>
+
 class TextureBase;
 class GUIRenderer;
 class ZoranEngine_EXPORT ZGIImage : public ZGIWidget
@@ -19,10 +21,10 @@ public:
 	void SetForgroundHue(const Color& color);
 
 	void SetForegroundImage(const char* image);
-	void SetForegroundImage(TextureBase* image);
+	void SetForegroundImage(ImageResource image);
 
 	void SetImage(const char* imagePath);
-	void SetImage(TextureBase* image);
+	void SetImage(ImageResource image);
 
 	virtual void ContainerResized(Vec2D newSize, Vec2D oldSize)override;
 	virtual const char* GetClassString()const override { return "ZGIImage"; }

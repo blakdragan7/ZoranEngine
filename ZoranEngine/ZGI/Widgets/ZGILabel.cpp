@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "ZGILabel.h"
 
-#include <Core/Resources/ResourceManager.h>
+#include <Resources/ResourceManager.h>
 
 #include <Rendering/Primitives.h>
 #include <Rendering/RenderEngineBase.h>
@@ -13,20 +13,18 @@
 ZGILabel::ZGILabel(ZGIVirtualWindow * owningWindow) : setBoundsFromSize(true), fontNeedsUpdate(false), autoScaleFont(true), alignment(Alignment_Left | Alignment_Top), ZGIWidget(owningWindow)
 {
 	auto rm = RM;
-	auto font = rm->FontForZFT("arial-msdf.zft");
-	renderer = rEngine->CreateFontRenderer(font);
+	renderer = rEngine->CreateFontRenderer(rm->FontForPath("arial-msdf.zft"));
 	size.x = 100; size.y = 100;
 }
 
 ZGILabel::ZGILabel(bool setBoundsFromSize, ZGIVirtualWindow * owningWindow) : setBoundsFromSize(setBoundsFromSize), fontNeedsUpdate(false), autoScaleFont(true), alignment(Alignment_Left | Alignment_Top), ZGIWidget(owningWindow)
 {
 	auto rm = RM;
-	auto font = rm->FontForZFT("arial-msdf.zft");
-	renderer = rEngine->CreateFontRenderer(font);
+	renderer = rEngine->CreateFontRenderer(rm->FontForPath("arial-msdf.zft"));
 	size.x = 100; size.y = 100;
 }
 
-ZGILabel::ZGILabel(FontResource* font, ZGIVirtualWindow* owningWindow) : setBoundsFromSize(true), fontNeedsUpdate(false), autoScaleFont(true), alignment(Alignment_Left | Alignment_Top), ZGIWidget(owningWindow)
+ZGILabel::ZGILabel(FontResource font, ZGIVirtualWindow* owningWindow) : setBoundsFromSize(true), fontNeedsUpdate(false), autoScaleFont(true), alignment(Alignment_Left | Alignment_Top), ZGIWidget(owningWindow)
 {
 	renderer = rEngine->CreateFontRenderer(font);
 

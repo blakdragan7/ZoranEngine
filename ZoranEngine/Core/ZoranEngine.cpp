@@ -48,8 +48,8 @@
 #include <Core/PlayerInstanceBase.h>
 #include <Core/DebugPlayerInstance.h>
 
-#include <Core/Resources/ResourceManager.h>
-#include <Core/Resources/FontResource.h>
+#include <Resources/ResourceManager.h>
+#include <Resources/FontResource.h>
 
 #include <Rendering/Renderers/FontRenderer.h>
 

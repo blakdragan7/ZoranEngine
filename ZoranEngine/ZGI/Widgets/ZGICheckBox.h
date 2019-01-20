@@ -4,14 +4,15 @@
 
 #include <Rendering/Primitives.h>
 
+#include <Resources/ImageResource.h>
+
 class ZGIImage;
-class TextureBase;
 class ZGIHorizontalBoxPanel;
 class IZGICheckBoxEventHandler;
 class ZoranEngine_EXPORT ZGICheckBox : public ZGIWidget
 {
 private:
-	TextureBase* checkImage;
+	ImageResource checkImage;
 	ZGIWidget* content;
 	ZGIHorizontalBoxPanel* panel;
 	ZGIImage* image;
@@ -39,7 +40,7 @@ public:
 	inline bool GetIsCheckd()const { return isChecked; }
 
 	void SetCheckImage(const char* imagePath);
-	void SetCheckImage(TextureBase* image);
+	void SetCheckImage(ImageResource image);
 
 	void SetContent(ZGIWidget* content);
 

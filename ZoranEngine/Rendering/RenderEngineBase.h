@@ -4,6 +4,8 @@
 #include "Math/Vector2.h"
 #include <unordered_map>
 
+#include <Resources/FontResource.h>
+
 #include <Rendering/ShaderProgramBase.h>
 /*
 	RenderEngine, this is an abstract base class that allows common functionality across different render types such as OpenGL vs DirectX
@@ -26,7 +28,6 @@ class TriangleStripRenderer;
 class GUIColoredRectRenderer;
 class FontRenderer;
 class GUIRenderer;
-class FontResource;
 /* typedefs for dealing with shaders */
 typedef std::unordered_map<const ShaderInitMap*, ShaderProgramBase*> ShaderMap;
 typedef std::pair<const ShaderInitMap*, ShaderProgramBase*> ShaderMapPair;
@@ -79,11 +80,11 @@ public:
 	virtual SpriteRenderer* CreateSpriteRenderer() = 0;
 	virtual TriangleRenderer* CreateTriangleRenderer() = 0;
 	virtual TriangleStripRenderer* CreateTriangleStripRenderer() = 0;
-	virtual FontRenderer* CreateFontRenderer(FontResource* font) = 0;
+	virtual FontRenderer* CreateFontRenderer(FontResource font) = 0;
 	virtual GUIRenderer* CreateGUIRenderer() = 0;
 	virtual GUIColoredRectRenderer* CreateGUIColoredRectRenderer() = 0;
 	// Creates Texture Memory on GPU and returns a texture object.
-	virtual TextureBase* CreateTexture(const char* path, RenderDataType bufferType, RenderDataFormat bufferFormat) = 0;
+	virtual TextureBase* CreateTexture(const char* path, RenderDataType bufferType, RenderDataFormat bufferFormat, int* error) = 0;
 	virtual TextureBase* CreateTexture(void* data, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2I size) = 0;
 	// Create frame buffer for offscreen rendering and the texture that represents the result
 	virtual bool CreateFrameBuffer(FrameBufferBase** outBuffer, TextureBase** outTexture, Vec2I size, RenderDataType bufferType = Render_Data_Type_RGBA_32, RenderDataFormat bufferFormat = Render_Data_Format_Unsigned_Byte) = 0;

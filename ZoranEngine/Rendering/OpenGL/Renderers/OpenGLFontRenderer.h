@@ -3,8 +3,9 @@
 #include <ThirdParty/sparsehash/dense_hash_map>
 #include <list>
 
+#include <Resources/FontResource.h>
+
 class OpenGLContext;
-class FontResource;
 class Matrix44;
 class OpenGLShaderProgramBase;
 class OpenGLTriangleRenderer;
@@ -28,7 +29,7 @@ private:
 	void SetupTriangles();
 
 public:
-	OpenGLFontRenderer(FontResource* font, OpenGLContext * context);
+	OpenGLFontRenderer(FontResource font, OpenGLContext * context);
 	~OpenGLFontRenderer();
 
 	virtual void RenderObject(const Matrix44& cameraMatrix)override;

@@ -2,8 +2,8 @@
 #include "ZGIImage.h"
 
 #include <Rendering/RenderEngineBase.h>
-#include <Rendering/TextureManager.h>
-#include <Rendering/TextureBase.h>
+#include <Resources/ImageResource.h>
+#include <Resources/ResourceManager.h>
 
 #include <ZGI/Core/ZGIBrush.h>
 #include <Rendering/Primitives.h>
@@ -37,26 +37,23 @@ void ZGIImage::SetForegroundImage(const char * imagePath)
 		return;
 	}
 
-	TextureBase* image = TextureManager::GetInstance()->TextureForFilePath(imagePath, Render_Data_Type_RGBA_32);
-
-	foregroundBrush->SetBackgroudImage(image);
+	foregroundBrush->SetBackgroudImage(RM->ImageForPath(imagePath));
 }
 
-void ZGIImage::SetForegroundImage(TextureBase * image)
+void ZGIImage::SetForegroundImage(ImageResource image)
 {
 	foregroundBrush->SetBackgroudImage(image);
-	hasForgroundImage = image != 0;
+	hasForgroundImage = image.IsValid();
 }
 
 void ZGIImage::SetImage(const char * imagePath)
 {
-	TextureBase* image = TextureManager::GetInstance()->TextureForFilePath(imagePath, Render_Data_Type_RGBA_32);
-
+	auto image = RM->ImageForPath(imagePath);
 	widgetBrush->SetBackgroudImage(image);
-	bounds =image->GetSize();
+	bounds = image->GetSize();
 }
 
-void ZGIImage::SetImage(TextureBase * image)
+void ZGIImage::SetImage(ImageResource image)
 {
 	widgetBrush->SetBackgroudImage(image);
 

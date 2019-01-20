@@ -38,10 +38,8 @@
 
 #include <ZGI/Core/ZGIBrush.h>
 
-#include <Core/Resources/FontResource.h>
-#include <Core/Resources/ResourceManager.h>
-
-#include <Rendering/TextureManager.h>
+#include <Resources/FontResource.h>
+#include <Resources/ResourceManager.h>
 
 #include <Core/2D/TexturedSprite.h>
 

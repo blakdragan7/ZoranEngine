@@ -1,5 +1,8 @@
 #pragma once
 #include <ZGI\Panels\ZGIPanel.h>
+
+#include <Resources/ImageResource.h>
+
 class ZGILabel;
 class ZGIButton;
 class ZGIGridPanel;
@@ -35,9 +38,9 @@ private:
 	ZGIVirtualWindow* owningWindow;
 	TreeSocket* parent;
 
-	TextureBase* collapsedImage;
-	TextureBase* openImage;
-	TextureBase* emptyImage;
+	ImageResource collapsedImage;
+	ImageResource openImage;
+	ImageResource emptyImage;
 
 private:
 	void SetParentModified();

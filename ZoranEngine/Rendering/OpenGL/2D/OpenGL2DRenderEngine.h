@@ -33,7 +33,7 @@ public:
 	virtual void SetLineWidth(float width)override;
 	virtual void CheckErrors(const char* text)override;
 	virtual void InitEngine(WindowHandle handle)override;
-	virtual TextureBase* CreateTexture(const char* path, RenderDataType bufferType, RenderDataFormat bufferFormat)override;
+	virtual TextureBase* CreateTexture(const char* path, RenderDataType bufferType, RenderDataFormat bufferFormat, int* error)override;
 	virtual TextureBase* CreateTexture(void* data, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2I size)override;
 	virtual bool CreateFrameBuffer(FrameBufferBase** outBuffer, TextureBase** outTexture, Vec2I size, RenderDataType bufferType = Render_Data_Type_BGRA_32, RenderDataFormat bufferFormat = Render_Data_Format_Unsigned_Byte)override;
 
@@ -45,7 +45,7 @@ public:
 	virtual SpriteRenderer* CreateSpriteRenderer()override;
 	virtual TriangleRenderer* CreateTriangleRenderer()override;
 	virtual TriangleStripRenderer* CreateTriangleStripRenderer()override;
-	virtual FontRenderer* CreateFontRenderer(FontResource* font)override;
+	virtual FontRenderer* CreateFontRenderer(FontResource font)override;
 	virtual GUIRenderer* CreateGUIRenderer()override;
 	virtual GUIColoredRectRenderer* CreateGUIColoredRectRenderer()override;
 

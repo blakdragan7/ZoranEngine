@@ -1,7 +1,8 @@
 #pragma once
 #include <ZGI\Panels\ZGIPanel.h>
 
-class TextureBase;
+#include <Resources/ImageResource.h>
+
 class ZGIImage;
 class ZGIButton;
 class ZGILabel;
@@ -17,8 +18,8 @@ private:
 	ZGIButton* headerButton;
 	ZGILabel* headerLabel;
 
-	TextureBase* collapsedImage;
-	TextureBase* openImage;
+	ImageResource collapsedImage;
+	ImageResource openImage;
 
 	ZGIListPanel* list;
 
@@ -36,8 +37,8 @@ public:
 	void SetCollapsedImage(std::string imagePath);
 	void SetOpenImage(std::string imagePath);
 
-	void SetCollapsedImage(TextureBase* image);
-	void SetOpenImage(TextureBase* image);
+	void SetCollapsedImage(ImageResource image);
+	void SetOpenImage(ImageResource image);
 
 	void SetCollapsed(bool collapsed);
 	inline bool GetIsCollapsed()const { return isCollapsed; }

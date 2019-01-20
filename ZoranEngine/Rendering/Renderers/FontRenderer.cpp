@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "FontRenderer.h"
-#include <Core/Resources/FontResource.h>
 #include <Utils/VectorAddons.hpp>
 #include <vector>
 #include <stdarg.h>
@@ -440,7 +439,7 @@ void FontRenderer::UpdateRender()
 	delete[] uvs;
 }
 
-FontRenderer::FontRenderer(FontResource* font) : isDirty(false), fontResource(font), shouldClip(true), shouldWordWrap(true),
+FontRenderer::FontRenderer(FontResource font) : isDirty(false), fontResource(font), shouldClip(true), shouldWordWrap(true),
 		thickness(0.0f), border(0.0f), shadowSoftness(0.0f), shadowOpacity(0.0f), charCount(0), lineCount(0), maxLineSize(0)
 {
 	lines = new std::vector<UniLine>;

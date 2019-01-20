@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "ZGITextEdit.h"
 #include <Core/CommomTypes.h>
-#include <Core/Resources/FontResource.h>
+#include <Resources/FontResource.h>
 #include <ZGI/Core/ZGIBrush.h>
 #include <ZGI/Widgets/ZGICursor.h>
 #include <ZGI/Windows/ZGIVirtualWindow.h>

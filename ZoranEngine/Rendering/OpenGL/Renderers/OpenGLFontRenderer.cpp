@@ -3,7 +3,6 @@
 
 #include <Rendering/RenderEngineBase.h>
 #include <Rendering/OpenGL/GUI/OpenGLFontShader.h>
-#include <Core/Resources/FontResource.h>
 #include <Rendering/TextureBase.h>
 #include <Math/Matrix44.h>
 #include "OpenGLIndexedTriangleRenderer.h"
@@ -72,7 +71,7 @@ void OpenGLFontRenderer::SetupTriangles()
 	}
 }
 
-OpenGLFontRenderer::OpenGLFontRenderer(FontResource* font,OpenGLContext * context) :  context(context) , FontRenderer(font)
+OpenGLFontRenderer::OpenGLFontRenderer(FontResource font,OpenGLContext * context) :  context(context) , FontRenderer(font)
 {
 	indecieMap.set_empty_key(-1);
 

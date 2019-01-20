@@ -121,9 +121,6 @@
     <Filter Include="ZoranEngine\ThirdParty\unicode">
       <UniqueIdentifier>{619f39cd-9b97-411c-8a2a-951ea1c7d8a6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ZoranEngine\Core\Resources">
-      <UniqueIdentifier>{8bc80466-eb0c-44ab-b4e8-94a118a6a160}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ZoranEngine\ThirdParty\loadbmp">
       <UniqueIdentifier>{b33d141b-98fb-4949-aa87-b51647880bb5}</UniqueIdentifier>
     </Filter>
@@ -160,6 +157,9 @@
     <Filter Include="ZoranEngine\ThirdParty\sparsehash">
       <UniqueIdentifier>{cc512882-699a-4986-8b93-cb92fc2000df}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ZoranEngine\Resources">
+      <UniqueIdentifier>{838073b2-6007-4b36-82e3-97f0df763f2b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -184,9 +184,6 @@
       <Filter>ZoranEngine\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\TextureBase.cpp">
-      <Filter>ZoranEngine\Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="Rendering\TextureManager.cpp">
       <Filter>ZoranEngine\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\OpenGL\OpenGLBuffer.cpp">
@@ -555,15 +552,6 @@
     <ClCompile Include="Core\DebugPlayerInstance.cpp">
       <Filter>ZoranEngine\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Resources\FontResource.cpp">
-      <Filter>ZoranEngine\Core\Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Resources\ResourceBase.cpp">
-      <Filter>ZoranEngine\Core\Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Resources\ResourceManager.cpp">
-      <Filter>ZoranEngine\Core\Resources</Filter>
-    </ClCompile>
     <ClCompile Include="Rendering\OpenGL\GUI\OpenGLFontShader.cpp">
       <Filter>ZoranEngine\Rendering\OpenGL\GUI</Filter>
     </ClCompile>
@@ -705,6 +693,27 @@
     <ClCompile Include="ZGI\Widgets\ZGISpinBox.cpp">
       <Filter>ZoranEngine\ZGI\Widgets</Filter>
     </ClCompile>
+    <ClCompile Include="Resources\ResourceManager.cpp">
+      <Filter>ZoranEngine\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Resources\ResourceErrors.cpp">
+      <Filter>ZoranEngine\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Resources\FontAsset.cpp">
+      <Filter>ZoranEngine\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Resources\ModelAsset.cpp">
+      <Filter>ZoranEngine\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Resources\ImageAsset.cpp">
+      <Filter>ZoranEngine\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Resources\SoundAsset.cpp">
+      <Filter>ZoranEngine\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Resources\ManagedResource.cpp">
+      <Filter>ZoranEngine\Resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -738,9 +747,6 @@
       <Filter>ZoranEngine\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\TextureBase.h">
-      <Filter>ZoranEngine\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\TextureManager.h">
       <Filter>ZoranEngine\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\OpenGL\OpenGLBuffer.h">
@@ -1955,18 +1961,6 @@
     <ClInclude Include="ThirdParty\unicode\vtzone.h">
       <Filter>ZoranEngine\ThirdParty\unicode</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Resources\FontResource.h">
-      <Filter>ZoranEngine\Core\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Resources\ResourceBase.h">
-      <Filter>ZoranEngine\Core\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Resources\ResourceErrors.h">
-      <Filter>ZoranEngine\Core\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Resources\ResourceManager.h">
-      <Filter>ZoranEngine\Core\Resources</Filter>
-    </ClInclude>
     <ClInclude Include="Utils\StringAddons.hpp">
       <Filter>ZoranEngine\Utils</Filter>
     </ClInclude>
@@ -2158,6 +2152,42 @@
     </ClInclude>
     <ClInclude Include="Interfaces\IZGISpinBoxEventHandler.h">
       <Filter>ZoranEngine\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\ResourceErrors.h">
+      <Filter>ZoranEngine\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\ResourceManager.h">
+      <Filter>ZoranEngine\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\ManagedResource.h">
+      <Filter>ZoranEngine\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\FontAsset.h">
+      <Filter>ZoranEngine\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\ImageAsset.h">
+      <Filter>ZoranEngine\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\ModelAsset.h">
+      <Filter>ZoranEngine\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\SoundAsset.h">
+      <Filter>ZoranEngine\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\ResourceTypes.h">
+      <Filter>ZoranEngine\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\ImageResource.h">
+      <Filter>ZoranEngine\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\SoundResource.h">
+      <Filter>ZoranEngine\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\ModelResource.h">
+      <Filter>ZoranEngine\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\FontResource.h">
+      <Filter>ZoranEngine\Resources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

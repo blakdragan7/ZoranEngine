@@ -3,10 +3,11 @@
 
 #include <Rendering/Renderers/GUIRenderer.h>
 #include <Rendering/RenderEngineBase.h>
-#include <Rendering/TextureManager.h>
 #include <Rendering/TextureBase.h>
 
-ZGIBrush::ZGIBrush() : backgroundImage(0)
+#include <Resources/ResourceManager.h>
+
+ZGIBrush::ZGIBrush()
 {
 	renderer = rEngine->CreateGUIRenderer();
 	renderer->SetHasTexture(false);
@@ -16,21 +17,26 @@ ZGIBrush::ZGIBrush() : backgroundImage(0)
 ZGIBrush::~ZGIBrush()
 {
 	delete renderer;
-	if (backgroundImage)TextureManager::GetInstance()->DestroyTexture(backgroundImage);
+}
+
+void ZGIBrush::SetBackgroudImage(const char * texture)
+{
+	backgroundImage = RM->ImageForPath(texture);
+	renderer->SetHasTexture(true);
 }
 
 void ZGIBrush::SetBackgroudImage(std::string texture)
 {
-	backgroundImage = TextureManager::GetInstance()->TextureForFilePath(texture.c_str());
+	backgroundImage = RM->ImageForPath(texture);
 	renderer->SetHasTexture(true);
 }
 
-void ZGIBrush::SetBackgroudImage(TextureBase * texture)
+void ZGIBrush::SetBackgroudImage(ImageResource texture)
 {
 	if (backgroundImage == texture)return;
 
 	backgroundImage = texture;
-	renderer->SetHasTexture(texture != 0);
+	renderer->SetHasTexture(texture.IsValid());
 }
 
 void ZGIBrush::SetBackgroudHue(const Color & hue)
@@ -40,7 +46,7 @@ void ZGIBrush::SetBackgroudHue(const Color & hue)
 
 void ZGIBrush::RenderBrush(const Matrix44& matrix)
 {
-	if(backgroundImage)backgroundImage->UseTexture(0);
+	if(backgroundImage.IsValid())backgroundImage->UseTexture(0);
 
 	renderer->RenderObject(matrix);
 }

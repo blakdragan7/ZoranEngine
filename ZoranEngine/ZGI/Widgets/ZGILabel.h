@@ -1,9 +1,10 @@
 #pragma once
 #include<ZGI\Widgets\ZGIWidget.h>
 
+#include <Resources/FontResource.h>
+
 enum Alignment;
 class FontRenderer;
-class FontResource;
 class ZoranEngine_EXPORT ZGILabel : public ZGIWidget
 {
 private:
@@ -20,7 +21,7 @@ protected:
 public:
 	ZGILabel(ZGIVirtualWindow* owningWindow);
 	ZGILabel(bool setBoundsFromSize, ZGIVirtualWindow* owningWindow);
-	ZGILabel(FontResource* font,ZGIVirtualWindow* owningWindow);
+	ZGILabel(FontResource font,ZGIVirtualWindow* owningWindow);
 	~ZGILabel();
 
 	inline void SetAutoScaleFont(bool autoScale) { autoScaleFont = autoScale; }

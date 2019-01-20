@@ -2,6 +2,8 @@
 #include <Math/Vector2.h>
 #include "Rendering/RenderTypes.h"
 
+#include <Resources/FontResource.h>
+
 class FrameBufferBase;
 class TextureBase;
 class OpenGLTexture;
@@ -16,7 +18,6 @@ class OpenGLTriangleRenderer;
 class OpenGLTriangleStripRenderer;
 class OpenGLGUIRenderer;
 class OpenGLGUIColoredRectRenderer;
-class FontResource;
 class OpenGLContext
 {
 private:
@@ -34,7 +35,7 @@ public:
 	void ClearBuffers();
 	void Resize(int x, int y, int width, int height);
 
-	OpenGLTexture* CreateTexture(const char* path, RenderDataType bufferType, RenderDataFormat bufferFormat);
+	OpenGLTexture* CreateTexture(const char* path, RenderDataType bufferType, RenderDataFormat bufferFormat, int* error);
 	OpenGLTexture* CreateTexture(void* data, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2I size);
 
 	bool CreateFrameBuffer(FrameBufferBase** outBuffer, TextureBase** outTexture, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2I size);
@@ -52,7 +53,7 @@ public:
 	OpenGLSpriteRenderer* CreateSpriteRenderer();
 	OpenGLTriangleRenderer* CreateTriangleRenderer();
 	OpenGLTriangleStripRenderer* CreateTriangleStripRenderer();
-	OpenGLFontRenderer* CreateFontRenderer(FontResource* font);
+	OpenGLFontRenderer* CreateFontRenderer(FontResource font);
 	OpenGLGUIRenderer* CreateGUIRenderer();
 	OpenGLGUIColoredRectRenderer* CreateGUIColoredRectRenderer();
 };

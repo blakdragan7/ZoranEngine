@@ -8,3 +8,6 @@
 #define RESOURCE_ERROR_INCORRECT_FILE_TYPE 2
 #define RESOURCE_ERROR_ERROR_LOADING_FILE 3
 #define RESOURCE_ERROR_ERROR_SAVING_FILE 4
+#define RESOURCE_ERROR_UNKOWN_ERROR 5
+
+extern const char* StringForResourceError(int error);

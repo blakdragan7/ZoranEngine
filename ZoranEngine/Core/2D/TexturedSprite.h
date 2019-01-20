@@ -1,10 +1,10 @@
 #pragma once
 #include <Core/2D/SceneObject2D.h>
 #include "Math/Vector2.h"
-#include "Rendering/RenderTypes.h"
+
+#include <Resources/ImageResource.h>
 
 class TexturedSpriteComponent;
-class TextureBase;
 class ZoranEngine_EXPORT TexturedSprite : public SceneObject2D
 {
 protected:
@@ -12,11 +12,11 @@ protected:
 
 public:
 	TexturedSprite(unsigned renderLayer, std::string name);
-	TexturedSprite(unsigned renderLayer, std::string name, const char* texture, RenderDataType type, RenderDataFormat format);
+	TexturedSprite(unsigned renderLayer, std::string name, const char* texture);
 	virtual ~TexturedSprite();
 
-	void SetTexture(const char* path, RenderDataType type, RenderDataFormat format);
-	void SetTexture(TextureBase* texture);
+	void SetTexture(const char* path);
+	void SetTexture(ImageResource texture);
 
 };
 

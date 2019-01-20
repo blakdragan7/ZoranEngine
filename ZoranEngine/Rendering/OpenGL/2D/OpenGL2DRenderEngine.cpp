@@ -226,10 +226,10 @@ void OpenGL2DRenderEngine::CheckErrors(const char* text)
 	}
 }
 
-TextureBase* OpenGL2DRenderEngine::CreateTexture(const char* path, RenderDataType bufferType, RenderDataFormat bufferFormat)
+TextureBase* OpenGL2DRenderEngine::CreateTexture(const char* path, RenderDataType bufferType, RenderDataFormat bufferFormat, int* error)
 {
 	if (context)
-		return context->CreateTexture(path,bufferType,bufferFormat);
+		return context->CreateTexture(path,bufferType,bufferFormat, error);
 	else
 	{
 		Log(LogLevel_Error, "OpenGL Context Not Created While Calling CreateTexture  !! \n");
@@ -293,7 +293,7 @@ TriangleStripRenderer * OpenGL2DRenderEngine::CreateTriangleStripRenderer()
 	return context->CreateTriangleStripRenderer();
 }
 
-FontRenderer * OpenGL2DRenderEngine::CreateFontRenderer(FontResource* font)
+FontRenderer * OpenGL2DRenderEngine::CreateFontRenderer(FontResource font)
 {
 	return context->CreateFontRenderer(font);
 }

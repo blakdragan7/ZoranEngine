@@ -103,9 +103,6 @@
     <ClCompile Include="Core\DebugPlayerInstance.cpp" />
     <ClCompile Include="Core\PlatformMouseBase.cpp" />
     <ClCompile Include="Core\PlayerInstanceBase.cpp" />
-    <ClCompile Include="Core\Resources\FontResource.cpp" />
-    <ClCompile Include="Core\Resources\ResourceBase.cpp" />
-    <ClCompile Include="Core\Resources\ResourceManager.cpp" />
     <ClCompile Include="Core\SceneObject.cpp" />
     <ClCompile Include="Core\ThreadBase.cpp" />
     <ClCompile Include="Core\WindowBase.cpp" />
@@ -184,7 +181,13 @@
     <ClCompile Include="Rendering\Renderers\TriangleStripRenderer.cpp" />
     <ClCompile Include="Rendering\ShaderProgramBase.cpp" />
     <ClCompile Include="Rendering\TextureBase.cpp" />
-    <ClCompile Include="Rendering\TextureManager.cpp" />
+    <ClCompile Include="Resources\FontAsset.cpp" />
+    <ClCompile Include="Resources\ImageAsset.cpp" />
+    <ClCompile Include="Resources\ManagedResource.cpp" />
+    <ClCompile Include="Resources\ModelAsset.cpp" />
+    <ClCompile Include="Resources\ResourceErrors.cpp" />
+    <ClCompile Include="Resources\ResourceManager.cpp" />
+    <ClCompile Include="Resources\SoundAsset.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -341,10 +344,6 @@
     <ClInclude Include="Core\PlatformMouseBase.h" />
     <ClInclude Include="Core\PlatformTypes.h" />
     <ClInclude Include="Core\PlayerInstanceBase.h" />
-    <ClInclude Include="Core\Resources\FontResource.h" />
-    <ClInclude Include="Core\Resources\ResourceBase.h" />
-    <ClInclude Include="Core\Resources\ResourceErrors.h" />
-    <ClInclude Include="Core\Resources\ResourceManager.h" />
     <ClInclude Include="Core\SceneObject.h" />
     <ClInclude Include="Core\ThreadBase.h" />
     <ClInclude Include="Core\WindowBase.h" />
@@ -434,8 +433,19 @@
     <ClInclude Include="Rendering\RenderTypes.h" />
     <ClInclude Include="Rendering\ShaderProgramBase.h" />
     <ClInclude Include="Rendering\TextureBase.h" />
-    <ClInclude Include="Rendering\TextureManager.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Resources\FontAsset.h" />
+    <ClInclude Include="Resources\FontResource.h" />
+    <ClInclude Include="Resources\ImageAsset.h" />
+    <ClInclude Include="Resources\ImageResource.h" />
+    <ClInclude Include="Resources\ModelAsset.h" />
+    <ClInclude Include="Resources\ManagedResource.h" />
+    <ClInclude Include="Resources\ModelResource.h" />
+    <ClInclude Include="Resources\ResourceErrors.h" />
+    <ClInclude Include="Resources\ResourceManager.h" />
+    <ClInclude Include="Resources\ResourceTypes.h" />
+    <ClInclude Include="Resources\SoundAsset.h" />
+    <ClInclude Include="Resources\SoundResource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="ThirdParty\AL\al.h" />
     <ClInclude Include="ThirdParty\AL\alc.h" />

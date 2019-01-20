@@ -114,8 +114,8 @@ ZGIWidget* ZGIWidget::HitTest(Vec2D pos)
 
 Vector2D ZGIWidget::GetBounds() const
 {
-	const TextureBase* image = widgetBrush->GetBackgroundImage();
-	if (image)return image->GetSize();
+	auto image = widgetBrush->GetBackgroundImage();
+	if (image.IsValid())return image->GetSize();
 	else return bounds;
 }
 

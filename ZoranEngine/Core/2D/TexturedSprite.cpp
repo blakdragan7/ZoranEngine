@@ -5,7 +5,6 @@
 #include <Core/2D/Components/TexturedSpriteComponent.h>
 #include <Physics/PhysicsEngine.h>
 #include <Rendering/TextureBase.h>
-#include <Rendering/TextureManager.h>
 #include <Rendering/RenderEngineBase.h>
 #include <Rendering/RenderedObjectBase.h>
 #include <Physics/2D/PhysicsObject2DBase.h>
@@ -25,9 +24,9 @@ TexturedSprite::TexturedSprite(unsigned renderLayer, std::string name) : SceneOb
 
 }
 
-TexturedSprite::TexturedSprite(unsigned renderLayer, std::string name, const char* texture, RenderDataType type, RenderDataFormat format) : SceneObject2D(name)
+TexturedSprite::TexturedSprite(unsigned renderLayer, std::string name, const char* texture) : SceneObject2D(name)
 {
-	spriteComponent = new TexturedSpriteComponent(renderLayer, texture, type, format);
+	spriteComponent = new TexturedSpriteComponent(renderLayer, texture);
 	spriteComponent->SetStartingSize(2, 2);
 	spriteComponent->SetScale(1, 1);
 
@@ -40,12 +39,12 @@ TexturedSprite::~TexturedSprite()
 	if (rootComponent)delete rootComponent;
 }
 
-void TexturedSprite::SetTexture(const char* path, RenderDataType type, RenderDataFormat format)
+void TexturedSprite::SetTexture(const char* path)
 {
-	((TexturedSpriteComponent*)rootComponent)->SetTexture(path, type, format);
+	((TexturedSpriteComponent*)rootComponent)->SetTexture(path);
 }
 
-void TexturedSprite::SetTexture(TextureBase * texture)
+void TexturedSprite::SetTexture(ImageResource texture)
 {
 	((TexturedSpriteComponent*)rootComponent)->SetTexture(texture);
 }

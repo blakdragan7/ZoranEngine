@@ -7,8 +7,9 @@
 #include <ZGI/Widgets/ZGIImage.h>
 #include <ZGI/Widgets/ZGILabel.h>
 
+#include <Resources/ResourceManager.h>
+
 #include <Rendering/RenderEngineBase.h>
-#include <Rendering/TextureManager.h>
 
 void ZGICollapsibleListPanel::RecalculateListSizeAndPosition()
 {
@@ -40,16 +41,14 @@ ZGICollapsibleListPanel::ZGICollapsibleListPanel(bool dynamicSize, ZGIVirtualWin
 
 	rEngine->EnableAlpha();
 
-	collapsedImage = tManager->TextureForFilePath("right-arrow.png", Render_Data_Type_RGBA_32, Render_Data_Format_Float);
-	openImage = tManager->TextureForFilePath("down-arrow.png", Render_Data_Type_RGBA_32, Render_Data_Format_Float);
+	collapsedImage = RM->ImageForPath("right-arrow.png");
+	openImage = RM->ImageForPath("down-arrow.png");
 
 	SetCollapsed(false);
 }
 
 ZGICollapsibleListPanel::~ZGICollapsibleListPanel()
 {
-	tManager->DestroyTexture(collapsedImage);
-	tManager->DestroyTexture(openImage);
 }
 
 void ZGICollapsibleListPanel::SetHeaderText(std::string text)
@@ -60,25 +59,21 @@ void ZGICollapsibleListPanel::SetHeaderText(std::string text)
 
 void ZGICollapsibleListPanel::SetCollapsedImage(std::string imagePath)
 {
-	tManager->DestroyTexture(collapsedImage);
-	collapsedImage = tManager->TextureForFilePath(imagePath.c_str());
+	collapsedImage = RM->ImageForPath(imagePath.c_str());
 }
 
 void ZGICollapsibleListPanel::SetOpenImage(std::string imagePath)
 {
-	tManager->DestroyTexture(openImage);
-	openImage = tManager->TextureForFilePath(imagePath.c_str());
+	openImage = RM->ImageForPath(imagePath.c_str());
 }
 
-void ZGICollapsibleListPanel::SetCollapsedImage(TextureBase * image)
+void ZGICollapsibleListPanel::SetCollapsedImage(ImageResource image)
 {
-	tManager->DestroyTexture(collapsedImage);
 	collapsedImage = image;
 }
 
-void ZGICollapsibleListPanel::SetOpenImage(TextureBase * image)
+void ZGICollapsibleListPanel::SetOpenImage(ImageResource image)
 {
-	tManager->DestroyTexture(openImage);
 	openImage = image;
 }
 

@@ -2,10 +2,10 @@
 #include "ZGICheckBox.h"
 
 #include <Rendering/TextureBase.h>
-#include <Rendering/TextureManager.h>
-
 #include <Interfaces/IZGICheckBoxEventHandler.h>
 #include <ZGI/Widgets/ZGIImage.h>
+
+#include <Resources/ResourceManager.h>
 
 #include <ZGI/Panels/ZGIHorizontalBoxPanel.h>
 
@@ -22,7 +22,7 @@ ZGICheckBox::ZGICheckBox(ZGIVirtualWindow* owningWindow) : handler(0),  content(
 	panel = new ZGIHorizontalBoxPanel(owningWindow);
 	image = new ZGIImage(owningWindow);
 	image->SetImage("emptyBox.png");
-	checkImage = tManager->TextureForFilePath("checkImage.png");
+	checkImage = RM->ImageForPath("checkImage.png");
 
 	hoverHue.r = 0.6f;
 	hoverHue.g = 0.6f;
@@ -37,7 +37,7 @@ ZGICheckBox::ZGICheckBox(ZGIWidget * content, ZGIVirtualWindow * owningWindow) :
 	panel = new ZGIHorizontalBoxPanel(owningWindow);
 	image = new ZGIImage(owningWindow);
 	image->SetImage("emptyBox.png");
-	checkImage = tManager->TextureForFilePath("checkImage.png");
+	checkImage = RM->ImageForPath("checkImage.png");
 
 	hoverHue.r = 0.6f;
 	hoverHue.g = 0.6f;
@@ -52,8 +52,6 @@ ZGICheckBox::~ZGICheckBox()
 {
 	delete panel;
 	delete image;
-	if (content)delete content;
-	tManager->DestroyTexture(checkImage);
 }
 
 void ZGICheckBox::SetChecked(bool checked)
@@ -61,7 +59,7 @@ void ZGICheckBox::SetChecked(bool checked)
 	if (isChecked != checked)
 	{
 		isChecked = checked;
-		image->SetForegroundImage(isChecked ? checkImage : 0);
+		image->SetForegroundImage(isChecked ? checkImage : ImageResource::Invalid);
 
 		WasChecked(checked);
 	}
@@ -69,13 +67,11 @@ void ZGICheckBox::SetChecked(bool checked)
 
 void ZGICheckBox::SetCheckImage(const char * imagePath)
 {
-	tManager->DestroyTexture(checkImage);
-	checkImage = tManager->TextureForFilePath(imagePath);
+	checkImage = RM->ImageForPath(imagePath);
 }
 
-void ZGICheckBox::SetCheckImage(TextureBase * image)
+void ZGICheckBox::SetCheckImage(ImageResource image)
 {
-	tManager->DestroyTexture(checkImage);
 	checkImage = image;
 }
 

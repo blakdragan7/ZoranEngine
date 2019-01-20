@@ -134,10 +134,15 @@ void OpenGLContext::Resize(int x, int y,int width, int height)
 	CheckErrors("glViewport");
 }
 
-OpenGLTexture * OpenGLContext::CreateTexture(const char * path, RenderDataType bufferType, RenderDataFormat bufferFormat)
+OpenGLTexture * OpenGLContext::CreateTexture(const char * path, RenderDataType bufferType, RenderDataFormat bufferFormat, int* error)
 {
 	OpenGLTexture* texture = new OpenGLTexture(this,bufferType,bufferFormat);
-	texture->LoadFromPath(path);
+	*error = texture->LoadFromPath(path);
+	if (*error != 0)
+	{
+		delete texture;
+		return 0;
+	}
 	return texture;
 }
 
@@ -229,7 +234,7 @@ OpenGLTriangleStripRenderer * OpenGLContext::CreateTriangleStripRenderer()
 	return new OpenGLTriangleStripRenderer(this);
 }
 
-OpenGLFontRenderer * OpenGLContext::CreateFontRenderer(FontResource* font)
+OpenGLFontRenderer * OpenGLContext::CreateFontRenderer(FontResource font)
 {
 	return new OpenGLFontRenderer(font, this);
 }

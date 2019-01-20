@@ -18,7 +18,7 @@ TextureBase::~TextureBase()
 {
 }
 
-void TextureBase::LoadFromPath(const char * texture_path, RenderDataType type, RenderDataFormat format)
+int TextureBase::LoadFromPath(const char * texture_path, RenderDataType type, RenderDataFormat format)
 {
 	int w, h, c;
 
@@ -47,11 +47,13 @@ void TextureBase::LoadFromPath(const char * texture_path, RenderDataType type, R
 		LoadFromMemory(w, h, image, sourceType, format);
 
 		stbi_image_free(image);
+		
+		return 0;
 	}
 	else
 	{
-		Log(LogLevel_Error, "failed to load texture at path %s with error %s!", texture_path, stbi_failure_reason);
-		return;
+		Log(LogLevel_Error, "failed to load texture at path %s with error %s!", texture_path, stbi_failure_reason());
+		return -1;
 	}
 }
 

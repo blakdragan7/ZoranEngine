@@ -5,7 +5,7 @@
 
 #include <Physics/Collision/CollisionObjectBase.h>
 
-TestPlatformObject::TestPlatformObject(std::string name) : TexturedSprite(10, name, "test.png", RenderDataType::Render_Data_Type_RGBA_32, RenderDataFormat::Render_Data_Format_Unsigned_Byte)
+TestPlatformObject::TestPlatformObject(std::string name) : TexturedSprite(10, name, "test.png")
 {
 	//collision = root2DComponent->AddSubComponent<OSquareCollisionComponent>(root2DComponent);
 	collision = root2DComponent->AddSubComponent<AASquareCollisionComponent>(root2DComponent);

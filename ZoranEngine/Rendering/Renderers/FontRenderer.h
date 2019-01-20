@@ -4,6 +4,8 @@
 #include <Math/Vector2.h>
 #include <Math/Vector3.h>
 
+#include <Resources/FontResource.h>
+
 enum NewLineType
 {
 	NewLineType_Carriage_Return, // \r
@@ -107,11 +109,10 @@ struct UniLine
 	}
 };
 
-class FontResource;
 class ZoranEngine_EXPORT FontRenderer : public RenderedObjectBase
 {
 protected:
-	FontResource* fontResource;
+	FontResource fontResource;
 
 	std::vector<UniLine>* lines;
 
@@ -165,7 +166,7 @@ protected:
 	virtual void UpdateRender();
 
 public:
-	FontRenderer(FontResource* font);
+	FontRenderer(FontResource font);
 	virtual ~FontRenderer();
 
 	virtual void UpdateTextRenderForAlignment(AlignmentBit alignment);
@@ -189,7 +190,7 @@ public:
 	inline void SetDirty() { isDirty = true; }
 	inline bool GetIsDirty()const { return isDirty; }
 
-	inline FontResource* GetFontResource()const { return fontResource; }
+	inline FontResource GetFontResource()const { return fontResource; }
 
 	inline void SetShadowColor(Vec3D color) { shadowColor = color; }
 	inline void SetShadowVector(Vec2D vector) { shadowVector = vector; }

@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "FontResource.h"
+#include "FontAsset.h"
 
 #include <fstream>
 #include <stdio.h>
@@ -8,7 +8,6 @@
 
 #include <ThirdParty/loadpng/lodepng.h>
 
-#include <Rendering/TextureManager.h>
 #include <Rendering/TextureBase.h>
 #include <Utils/StringAddons.hpp>
 #include <Utils/BitmapAddons.hpp>
@@ -26,7 +25,7 @@ struct BMPLoadDataPart
 	Glyph glyph;
 };
 
-class FontResourceInternal
+class FontAssetInternal
 {
 private:
 	FreetypeHandle* ft;
@@ -37,9 +36,9 @@ private:
 	Vector2I lastOffset;
 	size_t lastSize;
 
-	FontResourceInternal() : msdfData(0), sdfData(0), psdfData(0), ft(0), font(0), lastSize(0)
+	FontAssetInternal() : msdfData(0), sdfData(0), psdfData(0), ft(0), font(0), lastSize(0)
 	{}
-	~FontResourceInternal() 
+	~FontAssetInternal() 
 	{
 		if (font)destroyFont(font);
 		if (ft)deinitializeFreetype(ft);
@@ -48,7 +47,7 @@ private:
 		if (psdfData)delete psdfData;
 	}
 
-	friend class FontResource;
+	friend class FontAsset;
 };
 
 const std::string resolutionHeader = "zft_resolution";
@@ -62,9 +61,9 @@ const unsigned numHeaders = 5;
 
 Glyph GlyphForShape(const Shape& shape, uint32_t uni, int resolution, double advance, float uvAdvance, Vector2 &translate, Vector2 &scale);
 
-FontResource::FontResource(uint32_t resolution, float pxRange, FontSDFType type)
+FontAsset::FontAsset(uint32_t resolution, float pxRange, FontSDFType type)
 {
-	_data = new FontResourceInternal();
+	_data = new FontAssetInternal();
 	glyphMap = new google::dense_hash_map<uint32_t, Glyph>();
 	INIT_MAP_POINTER(glyphMap)
 	bmpResolution = resolution;
@@ -74,9 +73,9 @@ FontResource::FontResource(uint32_t resolution, float pxRange, FontSDFType type)
 	this->type = type;
 }
 
-FontResource::FontResource()
+FontAsset::FontAsset()
 {
-	_data = new FontResourceInternal();
+	_data = new FontAssetInternal();
 	glyphMap = new google::dense_hash_map<uint32_t, Glyph>();
 	INIT_MAP_POINTER(glyphMap)
 	bmpResolution = 0;
@@ -85,7 +84,7 @@ FontResource::FontResource()
 	this->pxRange = 0;
 }
 
-void FontResource::GenerateFromSDF(const std::vector<uint32_t>& glyphs)
+void FontAsset::GenerateFromSDF(const std::vector<uint32_t>& glyphs)
 {
 	if (isLoaded == false)
 	{
@@ -231,8 +230,6 @@ void FontResource::GenerateFromSDF(const std::vector<uint32_t>& glyphs)
 	_data->lastOffset = offset;
 	_data->lastSize = glyphs.size();
 
-	if (fontTexture)tManager->DestroyTexture(fontTexture);
-
 	float* pixdata = PixDataForBitmap(*_data->sdfData);
 
 	fontTexture = rEngine->CreateTexture((void*)pixdata, Render_Data_Type_R_8, Render_Data_Format_Float, { _data->sdfData->width(), _data->sdfData->height() });
@@ -240,7 +237,7 @@ void FontResource::GenerateFromSDF(const std::vector<uint32_t>& glyphs)
 	free(pixdata);
 }
 
-void FontResource::GenerateFromPSDF(const std::vector<uint32_t>& glyphs)
+void FontAsset::GenerateFromPSDF(const std::vector<uint32_t>& glyphs)
 {
 	if (isLoaded == false)
 	{
@@ -386,8 +383,6 @@ void FontResource::GenerateFromPSDF(const std::vector<uint32_t>& glyphs)
 	_data->lastOffset = offset;
 	_data->lastSize = glyphs.size();
 
-	if (fontTexture)tManager->DestroyTexture(fontTexture);
-
 	float* pixdata = PixDataForBitmap(*_data->psdfData);
 
 	fontTexture = rEngine->CreateTexture((void*)pixdata, Render_Data_Type_R_8, Render_Data_Format_Float, { _data->psdfData->width(), _data->psdfData->height() });
@@ -395,7 +390,7 @@ void FontResource::GenerateFromPSDF(const std::vector<uint32_t>& glyphs)
 	free(pixdata);
 }
 
-void FontResource::GenerateFromMSDF(const std::vector<uint32_t>& glyphs)
+void FontAsset::GenerateFromMSDF(const std::vector<uint32_t>& glyphs)
 {
 	if (isLoaded == false)
 	{
@@ -543,8 +538,6 @@ void FontResource::GenerateFromMSDF(const std::vector<uint32_t>& glyphs)
 	_data->lastOffset = offset;
 	_data->lastSize = glyphs.size();
 
-	if (fontTexture)tManager->DestroyTexture(fontTexture);
-
 	float* pixdata = PixDataForBitmap(*_data->msdfData);
 
 	fontTexture = rEngine->CreateTexture((void*)pixdata, Render_Data_Type_RGB_24, Render_Data_Format_Float, { _data->msdfData->width(), _data->msdfData->height() });
@@ -552,7 +545,7 @@ void FontResource::GenerateFromMSDF(const std::vector<uint32_t>& glyphs)
 	free(pixdata);
 }
 
-void FontResource::NormalizeGlyphs()
+void FontAsset::NormalizeGlyphs()
 {
 	Vector2D maxSize;
 
@@ -576,7 +569,7 @@ void FontResource::NormalizeGlyphs()
 	}
 }
 
-FontResource::~FontResource()
+FontAsset::~FontAsset()
 {
 	if (isLoaded)
 	{
@@ -589,7 +582,7 @@ FontResource::~FontResource()
 	delete glyphMap;
 }
 
-const Glyph& FontResource::GlyphForUnicode(uint32_t uni)
+const Glyph& FontAsset::GlyphForUnicode(uint32_t uni)
 {
 	auto iter = glyphMap->find(uni);
 	if (iter != glyphMap->end())
@@ -603,7 +596,7 @@ const Glyph& FontResource::GlyphForUnicode(uint32_t uni)
 	}
 }
 
-void FontResource::CreateBMPForGlyphs(const std::vector<uint32_t>& glyphs)
+void FontAsset::CreateBMPForGlyphs(const std::vector<uint32_t>& glyphs)
 {
 	switch (type)
 	{
@@ -620,7 +613,7 @@ void FontResource::CreateBMPForGlyphs(const std::vector<uint32_t>& glyphs)
 	
 }
 
-void FontResource::CreateBMPForASCII(const char * ascii)
+void FontAsset::CreateBMPForASCII(const char * ascii)
 {
 	if (ascii == 0)
 	{
@@ -639,7 +632,7 @@ void FontResource::CreateBMPForASCII(const char * ascii)
 	CreateBMPForGlyphs(glyphs);
 }
 
-int FontResource::LoadFromFile(const std::string& file)
+int FontAsset::LoadFromFile(const std::string& file)
 {
 	if (file.empty())
 	{
@@ -792,7 +785,7 @@ int FontResource::LoadFromFile(const std::string& file)
 	return RESOURCE_ERROR_NO_ERROR;
 }
 
-int FontResource::SaveToFile(const std::string & file)
+int FontAsset::SaveToFile(const std::string & file)
 {
 	// TODO: Save and load pxRange
 
@@ -902,15 +895,14 @@ int FontResource::SaveToFile(const std::string & file)
 
 }
 
-void FontResource::DestroyResource()
+void FontAsset::DestroyResource()
 {
 	if (_data)delete _data;
-	if(fontTexture)tManager->DestroyTexture(fontTexture);
 }
 
-const char * FontResource::GetResourceDescription()const
+const char * FontAsset::GetResourceDescription()const
 {
-	return "FontResource - Wrapper for a loaded font that includes texture for rendering font and map of uv coords to each glyph";
+	return "FontAsset - Wrapper for a loaded font that includes texture for rendering font and map of uv coords to each glyph";
 }
 
 Glyph GlyphForShape(const Shape& shape, uint32_t uni, int resolution, double advance, float uvAdvance, Vector2 &translate, Vector2 &scale)

@@ -7,9 +7,9 @@
 #include <ZGI/Widgets/ZGIButton.h>
 #include <ZGI/Core/ZGIBrush.h>
 
-#include <ZGI/Windows/ZGIVirtualWindow.h>
+#include <Resources/ResourceManager.h>
 
-#include <Rendering/TextureManager.h>
+#include <ZGI/Windows/ZGIVirtualWindow.h>
 
 ZGITreePanel::ZGITreePanel(float treeSocketIndent, ZGIVirtualWindow* owningWindow) : 
 	treeSocketHeight(30), rootSocket(false, 0, treeSocketIndent, "root", 0, owningWindow), ZGIPanel(owningWindow)
@@ -118,9 +118,9 @@ isCollapsed(true), isCollapsible(isCollapsible), indentPosition(indentPosition),
 	headerButton = owningWindow->SpawnWidget<ZGIButton>();
 	headerButton->SetButtonReleasedFunction([this](ZGIButton*)
 	{this->SetIsCollapsed(!this->isCollapsed); });
-	collapsedImage = tManager->TextureForFilePath("right-arrow.png", Render_Data_Type_RGBA_32, Render_Data_Format_Float);
-	openImage = tManager->TextureForFilePath("down-arrow.png", Render_Data_Type_RGBA_32, Render_Data_Format_Float);
-	emptyImage = tManager->TextureForFilePath("black_circle.png", Render_Data_Type_RGBA_32, Render_Data_Format_Float);
+	collapsedImage = RM->ImageForPath("right-arrow.png");
+	openImage = RM->ImageForPath("down-arrow.png");
+	emptyImage = RM->ImageForPath("black_circle.png");
 	headerButton->GetBrush()->SetBackgroudImage(emptyImage);
 
 	if (isCollapsible)
@@ -144,9 +144,9 @@ isCollapsed(true), indentPosition(indentPosition), labelContent(0), content(0), 
 	headerButton = owningWindow->SpawnWidget<ZGIButton>();
 	headerButton->SetButtonReleasedFunction([this](ZGIButton*)
 	{this->SetIsCollapsed(!this->isCollapsed); });
-	collapsedImage = tManager->TextureForFilePath("right-arrow.png", Render_Data_Type_RGBA_32, Render_Data_Format_Float);
-	openImage = tManager->TextureForFilePath("down-arrow.png", Render_Data_Type_RGBA_32, Render_Data_Format_Float);
-	emptyImage = tManager->TextureForFilePath("black_circle.png", Render_Data_Type_RGBA_32, Render_Data_Format_Float);
+	collapsedImage = RM->ImageForPath("right-arrow.png");
+	openImage = RM->ImageForPath("down-arrow.png");
+	emptyImage = RM->ImageForPath("black_circle.png");
 	headerButton->GetBrush()->SetBackgroudImage(emptyImage);
 
 	if (isCollapsible)
