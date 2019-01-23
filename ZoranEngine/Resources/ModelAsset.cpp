@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "ModelAsset.h"
 
+#include <Resources/ResourceErrors.h>
 
 ModelAsset::ModelAsset()
 {
@@ -11,18 +12,19 @@ ModelAsset::~ModelAsset()
 {
 }
 
+int ModelAsset::MakeFromFile(const std::string & file)
+{
+	return RESOURCE_ERROR_NOT_SUPPORTED;
+}
+
 int ModelAsset::LoadFromFile(const std::string & file)
 {
-	return 0;
+	return RESOURCE_ERROR_NOT_SUPPORTED;
 }
 
 int ModelAsset::SaveToFile(const std::string & file)
 {
-	return 0;
-}
-
-void ModelAsset::DestroyAsset()
-{
+	return RESOURCE_ERROR_NOT_SUPPORTED;
 }
 
 const char * ModelAsset::GetAssetDescription() const

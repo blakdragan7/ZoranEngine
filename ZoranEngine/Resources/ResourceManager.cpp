@@ -24,7 +24,7 @@ ResourceManager::~ResourceManager()
 FontResource ResourceManager::MakeFontForPath(const std::string& ttf, const std::string& resourcePath, uint32_t resolution, float pxRange, unsigned sdfType)
 {
 	FontResource font = FontResource(resolution, pxRange, (FontSDFType)sdfType);
-	int error = font->LoadFromFile(ttf);
+	int error = font->MakeFromFile(ttf);
 	if (error != RESOURCE_ERROR_NO_ERROR)
 	{
 		Log(LogLevel_Error, "Error Loading Font from %s with error %s", ttf.c_str(), StringForResourceError(error));
@@ -42,17 +42,27 @@ FontResource ResourceManager::MakeFontForPath(const std::string& ttf, const std:
 	return font;
 }
 
-FontResource ResourceManager::FontForPath(const std::string& zft)
+FontResource ResourceManager::FontForPath(const std::string& resourcePath)
 {
-	auto itr = fontMap->find(zft);
+	auto itr = fontMap->find(resourcePath);
 	if (itr != fontMap->end())
 	{
 		return itr->second;
 	}
 
-	Log(LogLevel_Info, "No Font Found For Path %s, call MakeFontForPath first", zft.c_str());
+	FontResource font;
+	font.DefaultConstruct();
 
-	return FontResource::Invalid;
+	int err = font->LoadFromFile(resourcePath);
+	if (err != RESOURCE_ERROR_NO_ERROR)
+	{
+		Log(LogLevel_Error, "Could not load font %s iwth error %s", resourcePath.c_str(), StringForResourceError(err));
+		return FontResource::Invalid;
+	}
+
+	fontMap->insert({ resourcePath,font });
+
+	return font;
 }
 
 ImageResource ResourceManager::MakeImageForPath(const std::string & source, const std::string & resourcePath, RenderDataType type, RenderDataFormat format)
@@ -60,7 +70,7 @@ ImageResource ResourceManager::MakeImageForPath(const std::string & source, cons
 	ImageResource image;
 	image.DefaultConstruct();
 
-	int error = image->LoadFromFile(source, type, format);
+	int error = image->MakeFromFile(source, type, format);
 	if (error != RESOURCE_ERROR_NO_ERROR)
 	{
 		Log(LogLevel_Error, "Error Loading image from %s with error %s", source.c_str(), StringForResourceError(error));
@@ -86,9 +96,16 @@ ImageResource ResourceManager::ImageForPath(const std::string & path)
 		return itr->second;
 	}
 
-	Log(LogLevel_Info, "No Font Found For Path %s, call MakeFontForPath first", path.c_str());
+	ImageResource image;
+	image.DefaultConstruct();
 
-	return ImageResource::Invalid;
+	int err = image->LoadFromFile(path);
+	if (err != RESOURCE_ERROR_NO_ERROR)
+	{
+		Log(LogLevel_Info, "Error loading Image for path %s with error %s", path.c_str(), StringForResourceError(err));
+		return ImageResource::Invalid;
+	}
+	return image;
 }
 
 SoundResource ResourceManager::MakeSoundForPath(const std::string & source, const std::string & resourcePath)
@@ -96,7 +113,7 @@ SoundResource ResourceManager::MakeSoundForPath(const std::string & source, cons
 	SoundResource sound;
 	sound.DefaultConstruct();
 
-	int error = sound->LoadFromFile(source);
+	int error = sound->MakeFromFile(source);
 	if (error != RESOURCE_ERROR_NO_ERROR)
 	{
 		Log(LogLevel_Error, "Error Loading sound from %s with error %s", source.c_str(), StringForResourceError(error));
@@ -122,9 +139,16 @@ SoundResource ResourceManager::SoundForPath(const std::string & path)
 		return itr->second;
 	}
 
-	Log(LogLevel_Info, "No Font Found For Path %s, call MakeFontForPath first", path.c_str());
+	SoundResource sound;
+	sound.DefaultConstruct();
 
-	return SoundResource::Invalid;
+	int err = sound->LoadFromFile(path);
+	if (err != RESOURCE_ERROR_NO_ERROR)
+	{
+		Log(LogLevel_Info, "Error loading sound for path %s with error %s", path.c_str(), StringForResourceError(err));
+		return SoundResource::Invalid;
+	}
+	return sound;
 }
 
 ModelResource ResourceManager::MakeModelForPath(const std::string & source, const std::string & resourcePath)
@@ -132,7 +156,7 @@ ModelResource ResourceManager::MakeModelForPath(const std::string & source, cons
 	ModelResource model;
 	model.DefaultConstruct();
 
-	int error = model->LoadFromFile(source);
+	int error = model->MakeFromFile(source);
 	if (error != RESOURCE_ERROR_NO_ERROR)
 	{
 		Log(LogLevel_Error, "Error Loading model from %s with error %s", source.c_str(), StringForResourceError(error));
@@ -158,9 +182,16 @@ ModelResource ResourceManager::ModelForPath(const std::string & path)
 		return itr->second;
 	}
 
-	Log(LogLevel_Info, "No Font Found For Path %s, call MakeFontForPath first", path.c_str());
+	ModelResource model;
+	model.DefaultConstruct();
 
-	return ModelResource::Invalid;
+	int err = model->LoadFromFile(path);
+	if (err != RESOURCE_ERROR_NO_ERROR)
+	{
+		Log(LogLevel_Info, "Error loading sound for path %s with error %s", path.c_str(), StringForResourceError(err));
+		return ModelResource::Invalid;
+	}
+	return model;
 }
 
 void ResourceManager::CleanupResources()

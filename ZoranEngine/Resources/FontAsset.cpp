@@ -88,13 +88,13 @@ void FontAsset::GenerateFromSDF(const std::vector<uint32_t>& glyphs)
 {
 	if (isLoaded == false)
 	{
-		Log(LogLevel_Error, "Trying to create BMP glyph for not loaded font. \n");
+		Log(LogLevel_Error, "Trying to create BMP glyph for not loaded font.");
 		return;
 	}
 
 	if (glyphs.size() == 0)
 	{
-		Log(LogLevel_Error, "Can not Create 0 Glyphs For Font !\n");
+		Log(LogLevel_Error, "Can not Create 0 Glyphs For Font !");
 		return;
 	}
 
@@ -168,7 +168,7 @@ void FontAsset::GenerateFromSDF(const std::vector<uint32_t>& glyphs)
 		}
 		else
 		{
-			Log(LogLevel_Warning, "Failed to load Glyph %i for Font %s\n", uni, sourcePath);
+			Log(LogLevel_Warning, "Failed to load Glyph %i for Font %s", uni, sourcePath->c_str());
 		}
 	}
 
@@ -241,13 +241,13 @@ void FontAsset::GenerateFromPSDF(const std::vector<uint32_t>& glyphs)
 {
 	if (isLoaded == false)
 	{
-		Log(LogLevel_Error, "Trying to create BMP glyph for not loaded font. \n");
+		Log(LogLevel_Error, "Trying to create BMP glyph for not loaded font.");
 		return;
 	}
 
 	if (glyphs.size() == 0)
 	{
-		Log(LogLevel_Error, "Can not Create 0 Glyphs For Font !\n");
+		Log(LogLevel_Error, "Can not Create 0 Glyphs For Font !");
 		return;
 	}
 
@@ -321,7 +321,7 @@ void FontAsset::GenerateFromPSDF(const std::vector<uint32_t>& glyphs)
 		}
 		else
 		{
-			Log(LogLevel_Warning, "Failed to load Glyph %i for Font %s\n", uni, sourcePath);
+			Log(LogLevel_Warning, "Failed to load Glyph %i for Font %s", uni, sourcePath->c_str());
 		}
 	}
 
@@ -394,13 +394,13 @@ void FontAsset::GenerateFromMSDF(const std::vector<uint32_t>& glyphs)
 {
 	if (isLoaded == false)
 	{
-		Log(LogLevel_Error, "Trying to create BMP glyph for not loaded font. \n");
+		Log(LogLevel_Error, "Trying to create BMP glyph for not loaded font.");
 		return;
 	}
 
 	if (glyphs.size() == 0)
 	{
-		Log(LogLevel_Error, "Can not Create 0 Glyphs For Font !\n");
+		Log(LogLevel_Error, "Can not Create 0 Glyphs For Font !");
 		return;
 	}
 
@@ -474,7 +474,7 @@ void FontAsset::GenerateFromMSDF(const std::vector<uint32_t>& glyphs)
 		}
 		else
 		{
-			Log(LogLevel_Warning, "Failed to load Glyph %i for Font %s\n", uni, sourcePath);
+			Log(LogLevel_Warning, "Failed to load Glyph %i for Font %s", uni, sourcePath->c_str());
 		}
 	}
 
@@ -573,7 +573,7 @@ FontAsset::~FontAsset()
 {
 	if (isLoaded)
 	{
-		DestroyResource();
+		if (_data)delete _data;
 		isLoaded = false;
 	}
 
@@ -591,7 +591,7 @@ const Glyph& FontAsset::GlyphForUnicode(uint32_t uni)
 	}
 	else
 	{
-		Log(LogLevel_Error, "Trying to access glyph %i but doesn't exists in font !\n", uni);
+		Log(LogLevel_Error, "Trying to access glyph %i but doesn't exists in font !", uni);
 		return glyphMap->begin()->second;
 	}
 }
@@ -617,7 +617,7 @@ void FontAsset::CreateBMPForASCII(const char * ascii)
 {
 	if (ascii == 0)
 	{
-		Log(LogLevel_Error, "Font Resource Can not create ascii BMP from null pointer \n");
+		Log(LogLevel_Error, "Font Resource Can not create ascii BMP from null pointer");
 		return;
 	}
 
@@ -632,152 +632,164 @@ void FontAsset::CreateBMPForASCII(const char * ascii)
 	CreateBMPForGlyphs(glyphs);
 }
 
-int FontAsset::LoadFromFile(const std::string& file)
+int FontAsset::MakeFromFile(const std::string & file)
 {
 	if (file.empty())
 	{
-		Log(LogLevel_Error, "Trying to load Empty TTF File ! \n");
+		Log(LogLevel_Error, "Trying to load Empty TTF File !");
 		return RESOURCE_ERROR_INCORRECT_FILE_TYPE;
 	}
 
 	std::string fileType = StringToLower(GetStringFileType(file));
 
-	if (fileType != "ttf" && fileType != "zft")
+	if (fileType != "ttf")
 	{
-		Log(LogLevel_Error, "Trying to load Incorrect File Type For Font ! \n Type was %s \n", fileType.c_str());
+		Log(LogLevel_Error, "Trying to load Incorrect File Type For Font ! \n Type was %s", fileType.c_str());
 		return RESOURCE_ERROR_INCORRECT_FILE_TYPE;
 	}
 
-	// we are loading a ttf file so we must generate the bmp for it
-	if (fileType == "ttf")
+	*sourcePath = file.c_str();
+	FreetypeHandle* ft = initializeFreetype();
+	if (ft)
 	{
-		*sourcePath = file.c_str();
-		FreetypeHandle* ft = initializeFreetype();
-		if (ft) 
+		FontHandle *font = loadFont(ft, file.c_str());
+		if (font)
 		{
-			FontHandle *font = loadFont(ft, file.c_str());
-			if (font) 
-			{
-				_data->ft = ft;
-				_data->font = font;
-			}
-			else
-			{
-				deinitializeFreetype(ft);
-				return RESOURCE_ERROR_ERROR_LOADING_FILE;
-			}
+			_data->ft = ft;
+			_data->font = font;
 		}
-	}
-	// load already paresed fft file
-	else if (fileType == "zft")
-	{
-		*zSourcePath = file.c_str();
-
-		std::fstream fileS(file, std::ios::in | std::ios::binary);
-
-		std::string currentHeader;
-		std::getline(fileS, currentHeader, '\n');
-
-		if (currentHeader != zftHeader)
+		else
 		{
-			Log(LogLevel_Error, "File %s Does not Contain Correct Header !!\n",file);
-			zSourcePath->clear();
-
+			deinitializeFreetype(ft);
 			return RESOURCE_ERROR_ERROR_LOADING_FILE;
 		}
+	}
 
-		unsigned foundHeaders = 0;
+	return RESOURCE_ERROR_NO_ERROR;
+}
 
-		while (fileS.eof() == false)
+int FontAsset::LoadFromFile(const std::string& file)
+{
+	if (file.empty())
+	{
+		Log(LogLevel_Error, "Trying to load Empty TTF File !");
+		return RESOURCE_ERROR_INCORRECT_FILE_TYPE;
+	}
+
+	std::string fileType = StringToLower(GetStringFileType(file));
+
+	if (fileType != "zft")
+	{
+		Log(LogLevel_Error, "Trying to load Incorrect File Type For Font ! \n Type was %s", fileType.c_str());
+		return RESOURCE_ERROR_INCORRECT_FILE_TYPE;
+	}
+
+	*zSourcePath = file.c_str();
+
+	std::fstream fileS(file, std::ios::in | std::ios::binary);
+
+	std::string currentHeader;
+	std::getline(fileS, currentHeader, '\n');
+
+	if (currentHeader != zftHeader)
+	{
+		Log(LogLevel_Error, "File %s Does not Contain Correct Header !!",file.c_str());
+		zSourcePath->clear();
+
+		return RESOURCE_ERROR_ERROR_LOADING_FILE;
+	}
+
+	unsigned foundHeaders = 0;
+
+	while (fileS.eof() == false)
+	{
+		currentHeader.clear();
+		std::getline(fileS, currentHeader);
+
+		if (currentHeader == bmpHeader)
 		{
-			currentHeader.clear();
-			std::getline(fileS, currentHeader);
+			fileS.read((char*)&type, sizeof(type));
 
-			if (currentHeader == bmpHeader)
+			size_t size = 0;
+			fileS.read((char*)&size, sizeof(size_t));
+			char* cData = new char[size];
+			fileS.read(cData, size);
+
+			unsigned char* decoded = 0;
+			unsigned int w, h;
+
+			lodepng_decode_memory(&decoded, &w, &h, (unsigned char*)cData, size, LCT_RGB, 8);
+			switch (type)
 			{
-				fileS.read((char*)&type, sizeof(type));
-
-				size_t size = 0;
-				fileS.read((char*)&size, sizeof(size_t));
-				char* cData = new char[size];
-				fileS.read(cData, size);
-
-				unsigned char* decoded = 0;
-				unsigned int w, h;
-
-				lodepng_decode_memory(&decoded, &w, &h, (unsigned char*)cData, size, LCT_RGB, 8);
-				switch (type)
-				{
-				case Font_SDF_Type_SDF:
-					_data->sdfData = FloatBitmapFromMemory(decoded, w, h);
-					break;
-				case Font_SDF_Type_PSDF:
-					_data->psdfData = FloatBitmapFromMemory(decoded, w, h);
-					break;
-				case Font_SDF_Type_MSDF:
-					_data->msdfData = BitmapFromMemory(decoded, w, h);
-					break;
-				}
-				fontTexture = rEngine->CreateTexture((void*)decoded, Render_Data_Type_RGB_24, Render_Data_Format_Unsigned_Byte, { (int)w,(int)h });
-
-				delete cData;
-				delete decoded;
+			case Font_SDF_Type_SDF:
+				_data->sdfData = FloatBitmapFromMemory(decoded, w, h);
+				break;
+			case Font_SDF_Type_PSDF:
+				_data->psdfData = FloatBitmapFromMemory(decoded, w, h);
+				break;
+			case Font_SDF_Type_MSDF:
+				_data->msdfData = BitmapFromMemory(decoded, w, h);
+				break;
 			}
-			else if (currentHeader == uvHeader)
-			{
-				size_t size = 0;
-				fileS.read((char*)&size, sizeof(size_t));
+			fontTexture = rEngine->CreateTexture((void*)decoded, Render_Data_Type_RGB_24, Render_Data_Format_Unsigned_Byte, { (int)w,(int)h });
 
-				for (size_t i=0; i < size; i++)
-				{
-					Glyph glyph;
-					fileS.read((char*)&glyph, sizeof(Glyph));
-					glyphMap->insert({ glyph.glyph,glyph });
-				}
-			}
-			else if (currentHeader == sourceHeader)
-			{
-				std::getline(fileS, *sourcePath);
-			}
-			else if (currentHeader == resolutionHeader)
-			{
-				fileS.read((char*)&bmpResolution, sizeof(bmpResolution));
-			}
-			else if (currentHeader == rangeHeader)
-			{
-				fileS.read((char*)&pxRange, sizeof(pxRange));
-			}
-			else if (currentHeader.empty())
-			{
-				continue;
-			}
-			else
-			{
-				Log(LogLevel_Error, "Invalid Line Loading %s\n", file);
-
-				zSourcePath->clear();
-				sourcePath->clear();
-				glyphMap->clear();
-
-				return RESOURCE_ERROR_ERROR_LOADING_FILE;
-			}
-
-			foundHeaders++;
+			delete cData;
+			delete decoded;
 		}
-
-		if (foundHeaders != numHeaders)
+		else if (currentHeader == uvHeader)
 		{
-			Log(LogLevel_Error, "Didn't find all sections of file %s\n", file);
+			size_t size = 0;
+			fileS.read((char*)&size, sizeof(size_t));
+
+			for (size_t i=0; i < size; i++)
+			{
+				Glyph glyph;
+				fileS.read((char*)&glyph, sizeof(Glyph));
+				glyphMap->insert({ glyph.glyph,glyph });
+			}
+		}
+		else if (currentHeader == sourceHeader)
+		{
+			std::getline(fileS, *sourcePath);
+		}
+		else if (currentHeader == resolutionHeader)
+		{
+			fileS.read((char*)&bmpResolution, sizeof(bmpResolution));
+		}
+		else if (currentHeader == rangeHeader)
+		{
+			fileS.read((char*)&pxRange, sizeof(pxRange));
+		}
+		else if (currentHeader.empty())
+		{
+			continue;
+		}
+		else
+		{
+			Log(LogLevel_Error, "Invalid Line Loading %s", file.c_str());
 
 			zSourcePath->clear();
 			sourcePath->clear();
 			glyphMap->clear();
-			if (_data->sdfData)delete _data->sdfData;
-			if (_data->psdfData)delete _data->psdfData;
-			if (_data->msdfData)delete _data->msdfData;
 
 			return RESOURCE_ERROR_ERROR_LOADING_FILE;
 		}
+
+		foundHeaders++;
+	}
+
+	if (foundHeaders != numHeaders)
+	{
+		Log(LogLevel_Error, "Didn't find all sections of file %s\n", file.c_str());
+
+		zSourcePath->clear();
+		sourcePath->clear();
+		glyphMap->clear();
+		if (_data->sdfData)delete _data->sdfData;
+		if (_data->psdfData)delete _data->psdfData;
+		if (_data->msdfData)delete _data->msdfData;
+
+		return RESOURCE_ERROR_ERROR_LOADING_FILE;
 	}
 
 	isLoaded = true;
@@ -791,8 +803,8 @@ int FontAsset::SaveToFile(const std::string & file)
 
 	if (isLoaded == false)
 	{
-		Log(LogLevel_Warning, "Trying to save unloaded font !\n");
-		return RESOURCE_ERROR_ERROR_SAVING_FILE;
+		Log(LogLevel_Error, "Trying to save unloaded font !\n");
+		return RESOURCE_ERROR_NOT_LOADED;
 	}
 
 	std::string filePath = file;
@@ -893,11 +905,6 @@ int FontAsset::SaveToFile(const std::string & file)
 
 	return RESOURCE_ERROR_NO_ERROR;
 
-}
-
-void FontAsset::DestroyResource()
-{
-	if (_data)delete _data;
 }
 
 const char * FontAsset::GetResourceDescription()const

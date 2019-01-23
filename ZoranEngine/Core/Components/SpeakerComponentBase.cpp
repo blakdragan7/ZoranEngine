@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "SpeakerComponentBase.h"
 
-#include <Core/Audio/AudioEngineBase.h>
-#include <Core/Audio/AudioListener.h>
+#include <Audio/AudioEngineBase.h>
+#include <Audio/AudioListener.h>
 
 SpeakerComponentBase::SpeakerComponentBase()
 {

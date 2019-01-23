@@ -5,7 +5,7 @@
 #include <ThirdParty/AL/alut.h>
 #include <iostream>
 
-#include <Core/Audio/Common.h>
+#include <Audio/Common.h>
 #include "OALImplementations.h"
 
 #include <Core/2D/SceneObject2D.h>

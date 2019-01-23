@@ -8,9 +8,9 @@ public:
 	ModelAsset();
 	~ModelAsset();
 
+	int MakeFromFile(const std::string& file);
 	int LoadFromFile(const std::string& file);
 	int SaveToFile(const std::string& file);
-	void DestroyAsset();
 
 	const char* GetAssetDescription()const;
 };

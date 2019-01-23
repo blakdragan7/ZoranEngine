@@ -1,5 +1,5 @@
 #pragma once
-#include <Core/Audio/AudioDevice.h>
+#include <Audio/AudioDevice.h>
 #include <ThirdParty/AL/alc.h>
 
 class OALAudioDevice : public AudioDevice

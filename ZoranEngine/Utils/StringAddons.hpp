@@ -49,7 +49,6 @@ static std::string GetStringFileType(const std::string & filePath)
 	
 	if (split.size() != 2)
 	{
-		Log(LogLevel_Error,"Trying To Get File Path Ending of Non File Path !!\n");
 		return std::string();
 	}
 

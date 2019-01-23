@@ -9,8 +9,6 @@
 
 OpenGLTexture::OpenGLTexture(OpenGLContext* OGL, RenderDataType type_, RenderDataFormat format_) : OGL(OGL), TextureBase(0,0,type_,format_)
 {
-	glEnable(GL_TEXTURE_2D);
-
 	glGenTextures(1, &gl_texture);
 	OGL->CheckErrors("OpenGLTexture");
 }
@@ -84,7 +82,33 @@ unsigned OpenGLTexture::GetTextureID()const
 	return gl_texture;
 }
 
-unsigned OpenGLTexture::GLTypeFromRenderDataType(RenderDataType type)
+bool OpenGLTexture::GetTextureData(char ** data, size_t &size) const
+{
+	
+
+	// TODO: maybe improve this later with PBOs
+	glBindTexture(GL_TEXTURE_2D, gl_texture);
+	if (OGL->CheckErrors("GetTextureData - glBindTexture"))
+	{
+		return false;
+	}
+
+	size = width * height * GetNumComponents() * GetComponentSize();
+	*data = (char*)malloc(size);
+	 
+	glBindBuffer(GL_PIXEL_PACK_BUFFER, 0);
+	glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE,*data);
+
+	if (OGL->CheckErrors("GetTextureData - glGetTexImage"))
+	{
+		free(*data);
+		return false;
+	}
+
+	return true;
+}
+
+unsigned OpenGLTexture::GLTypeFromRenderDataType(RenderDataType type)const
 {
 	switch (type)
 	{
@@ -113,7 +137,7 @@ unsigned OpenGLTexture::GLTypeFromRenderDataType(RenderDataType type)
 	}
 }
 
-unsigned OpenGLTexture::GLFormatFromRenderDataFormat(RenderDataFormat format)
+unsigned OpenGLTexture::GLFormatFromRenderDataFormat(RenderDataFormat format)const
 {
 	switch (format)
 	{

@@ -18,6 +18,7 @@ void ConsoleLogger::LogString(ELogLevel logLevel, const char * format, ...)
 
 	va_start(arg, format);
 	vfprintf(stdout, format, arg);
+	fprintf(stdout, "\n");
 	fflush(stdout);
 	va_end(arg);
 

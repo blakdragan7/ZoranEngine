@@ -2,7 +2,7 @@
 
 #include <Interfaces/ITickableObject.h>
 
-#include <Core/Audio/Common.h>
+#include <Audio/Common.h>
 
 class AudioListener;
 class ZoranEngine_EXPORT SpeakerComponentBase : public ITickableObject

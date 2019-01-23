@@ -5,9 +5,11 @@
 class ZoranEngine_EXPORT ImageAsset
 {
 private:
-	TextureBase* renderAsset;
 
 	bool isLoaded;
+
+	std::string* sourceFile;
+	TextureBase* renderAsset;
 
 public:
 	ImageAsset();
@@ -16,10 +18,9 @@ public:
 
 	inline TextureBase* GetRenderAsset()const { return renderAsset; }
 
-	int LoadFromFile(const std::string& file, RenderDataType type, RenderDataFormat format);
+	int MakeFromFile(const std::string& file, RenderDataType type, RenderDataFormat format);
 	int LoadFromFile(const std::string& file);
 	int SaveToFile(const std::string& file);
-	void DestroyAsset();
 
 	const char* GetAssetDescription()const;
 
@@ -31,11 +32,11 @@ public:
 	bool GetContainsData()const { return renderAsset->GetContainsData(); }
 
 	/* data argument is available in case d3d needs something to be passed to use OpenGL Textures just use this argument as an int*/
-	virtual void UseTexture(unsigned long data)const { renderAsset->UseTexture(data); };
-	virtual void StopUsingTexture(unsigned long  data)const { renderAsset->StopUsingTexture(data); };
+	void UseTexture(unsigned long data)const { renderAsset->UseTexture(data); };
+	void StopUsingTexture(unsigned long  data)const { renderAsset->StopUsingTexture(data); };
 
 	/* returns the render engine specific id */
-	virtual unsigned GetTextureID()const { return renderAsset->GetTextureID(); };
+	unsigned GetTextureID()const { return renderAsset->GetTextureID(); };
 
 	inline Vector2I GetSize()const { return renderAsset->GetSize(); };
 };

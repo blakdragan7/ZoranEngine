@@ -12,14 +12,14 @@ ManagedResource<t> ManagedResource<t>::Invalid = ManagedResource<t>();
 template<typename t>
 void ManagedResource<t>::Retain()
 {
-	if(pointer != 0)
+	if(pointer != 0 && retainCount != 0)
 		++(*retainCount);
 }
 
 template<typename t>
 void ManagedResource<t>::Release()
 {
-	if (pointer != 0)
+	if (pointer != 0 && retainCount != 0)
 	{
 		--(*retainCount);
 		if ((*retainCount) <= 0)
@@ -31,7 +31,7 @@ void ManagedResource<t>::Release()
 }
 
 template<typename t>
-inline ManagedResource<t>::ManagedResource() : pointer(0), retainCount(new int(0))
+inline ManagedResource<t>::ManagedResource() : pointer(0), retainCount(0)
 {
 }
 
@@ -88,7 +88,7 @@ void ManagedResource<t>::DefaultConstruct()
 	}
 
 	pointer = new t;
-	(*retainCount) = 1;
+	retainCount = new int(1);
 }
 
 template class ManagedResource<FontAsset>;

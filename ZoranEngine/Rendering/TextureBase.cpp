@@ -18,6 +18,39 @@ TextureBase::~TextureBase()
 {
 }
 
+int TextureBase::GetNumComponents()const
+{
+	switch (type)
+	{
+	case Render_Data_Type_R_8:
+		return 1;
+	case Render_Data_Type_RG_16:
+	case Render_Data_Type_RA_16:
+		return 2;
+	case Render_Data_Type_RGB_24:
+		return 3;
+	case Render_Data_Type_RGBA_32:
+	case Render_Data_Type_BGRA_32:
+		return 4;
+	default:
+		return 1;
+	}
+}
+
+int TextureBase::GetComponentSize()const
+{
+	switch (format)
+	{
+	case Render_Data_Format_Byte:
+	case Render_Data_Format_Unsigned_Byte:
+		return sizeof(char);
+	case Render_Data_Format_Float:
+		return sizeof(float);
+	default:
+		return 1;
+	}
+}
+
 int TextureBase::LoadFromPath(const char * texture_path, RenderDataType type, RenderDataFormat format)
 {
 	int w, h, c;

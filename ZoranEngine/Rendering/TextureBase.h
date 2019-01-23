@@ -32,6 +32,8 @@ public:
 	
 	bool GetContainsData()const { return containsData; }
 
+	int GetNumComponents()const;
+	int GetComponentSize()const;
 	/* 
 	* in bot LoadFromPath and Memory the type and format represent the passed datas type and memory so in the internal type is GL_BGRA 
 	* and the passed data is RGBA then the data will be internally converted to BGRA 
@@ -52,5 +54,9 @@ public:
 
 	inline Vector2I GetSize()const { return Vector2I(width, height); }
 
+	// this call may take a bit of time, essentialy it reads the texture data from the gpu and hands it back to the cpu
+	// returns true if succed or false and writes to the log
+	// *data must be freed if function succeds;
+	virtual bool GetTextureData(char** data, size_t &size)const = 0;
 };
 

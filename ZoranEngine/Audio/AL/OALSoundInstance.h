@@ -1,5 +1,5 @@
 #pragma once
-#include <Core/Audio/SoundInstance.h>
+#include <Audio/SoundInstance.h>
 #include <ThirdParty/AL/al.h>
 
 class OALAudioEngine;

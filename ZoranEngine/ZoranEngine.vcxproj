@@ -63,6 +63,10 @@
     <None Include="ThirdParty\assimp\vector3.inl" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Audio\AL\OALAudioEngine.cpp" />
+    <ClCompile Include="Audio\AL\OALAudioListener.cpp" />
+    <ClCompile Include="Audio\AL\OALSoundInstance.cpp" />
+    <ClCompile Include="Audio\AudioEngineBase.cpp" />
     <ClCompile Include="Core\2D\Camera2D.cpp" />
     <ClCompile Include="Core\2D\Components\AASquareCollisionComponent.cpp" />
     <ClCompile Include="Core\2D\Components\CircleCollisionComponent.cpp" />
@@ -90,10 +94,6 @@
     <ClCompile Include="Core\3D\PerspectiveCamera.cpp" />
     <ClCompile Include="Core\3D\SceneObject3D.cpp" />
     <ClCompile Include="Core\3D\StaticModelSceneObj.cpp" />
-    <ClCompile Include="Core\Audio\AL\OALAudioEngine.cpp" />
-    <ClCompile Include="Core\Audio\AL\OALAudioListener.cpp" />
-    <ClCompile Include="Core\Audio\AL\OALSoundInstance.cpp" />
-    <ClCompile Include="Core\Audio\AudioEngineBase.cpp" />
     <ClCompile Include="Core\CameraBase.cpp" />
     <ClCompile Include="Core\Components\CollisionComponentBase.cpp" />
     <ClCompile Include="Core\Components\ComponentBase.cpp" />
@@ -290,6 +290,16 @@
     <ClCompile Include="ZGI\Windows\ZGIVirtualWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Audio\AL\OALAudioDevice.h" />
+    <ClInclude Include="Audio\AL\OALAudioEngine.h" />
+    <ClInclude Include="Audio\AL\OALAudioListener.h" />
+    <ClInclude Include="Audio\AL\OALImplementations.h" />
+    <ClInclude Include="Audio\AL\OALSoundInstance.h" />
+    <ClInclude Include="Audio\AudioDevice.h" />
+    <ClInclude Include="Audio\AudioEngineBase.h" />
+    <ClInclude Include="Audio\AudioListener.h" />
+    <ClInclude Include="Audio\Common.h" />
+    <ClInclude Include="Audio\SoundInstance.h" />
     <ClInclude Include="Core\2D\Camera2D.h" />
     <ClInclude Include="Core\2D\Components\AASquareCollisionComponent.h" />
     <ClInclude Include="Core\2D\Components\CircleCollisionComponent.h" />
@@ -317,16 +327,6 @@
     <ClInclude Include="Core\3D\PerspectiveCamera.h" />
     <ClInclude Include="Core\3D\SceneObject3D.h" />
     <ClInclude Include="Core\3D\StaticModelSceneObj.h" />
-    <ClInclude Include="Core\Audio\AL\OALAudioDevice.h" />
-    <ClInclude Include="Core\Audio\AL\OALAudioEngine.h" />
-    <ClInclude Include="Core\Audio\AL\OALAudioListener.h" />
-    <ClInclude Include="Core\Audio\AL\OALImplementations.h" />
-    <ClInclude Include="Core\Audio\AL\OALSoundInstance.h" />
-    <ClInclude Include="Core\Audio\AudioDevice.h" />
-    <ClInclude Include="Core\Audio\AudioEngineBase.h" />
-    <ClInclude Include="Core\Audio\AudioListener.h" />
-    <ClInclude Include="Core\Audio\Common.h" />
-    <ClInclude Include="Core\Audio\SoundInstance.h" />
     <ClInclude Include="Core\CameraBase.h" />
     <ClInclude Include="Core\CommomTypes.h" />
     <ClInclude Include="Core\Components\CollisionComponentBase.h" />

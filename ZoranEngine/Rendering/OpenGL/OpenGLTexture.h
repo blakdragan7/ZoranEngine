@@ -12,8 +12,8 @@ private:
 	static bool glTextureIsEnabled;
 
 private:
-	unsigned GLTypeFromRenderDataType(RenderDataType type);
-	unsigned GLFormatFromRenderDataFormat(RenderDataFormat format);
+	unsigned GLTypeFromRenderDataType(RenderDataType type)const;
+	unsigned GLFormatFromRenderDataFormat(RenderDataFormat format)const;
 
 public:
 	OpenGLTexture(OpenGLContext* OGL, RenderDataType type = Render_Data_Type_BGRA_32, RenderDataFormat format = Render_Data_Format_Unsigned_Byte);
@@ -30,4 +30,5 @@ public:
 	virtual void StopUsingTexture(unsigned long  data)const override;
 
 	virtual unsigned GetTextureID()const override;
+	virtual bool GetTextureData(char** data, size_t &size)const override;
 };

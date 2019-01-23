@@ -45,9 +45,7 @@
 
 #include <Core/3D/StaticModelSceneObj.h>
 
-#include <Core/Audio/AudioEngineBase.h>
-#include <Core/Audio/common.h>
-
+#include <Resources/SoundAsset.h>
 #include <Core/ThreadBase.h>
 
 #include <string>
@@ -58,6 +56,7 @@ void Test2DSceneStuff();
 void Test3DSceneStuff();
 void TestGUIStuff();
 void TestAudio();
+void TestResourceStuff();
 
 static const unsigned TestNum = 1000;
 static const unsigned SquareToSpawn = 100;
@@ -68,7 +67,8 @@ int main(int argc, char* argv[])
 {
 	//Test2DSceneStuff();
 	//Test3DSceneStuff();
-	TestGUIStuff();
+	//TestGUIStuff();
+	TestResourceStuff();
 }
 
 void Test2DSceneStuff()
@@ -208,16 +208,25 @@ void TestGUIStuff()
 
 void TestAudio()
 {
-	Named2DSceneObject * audioObj = new Named2DSceneObject("audio tester");
+	/*Named2DSceneObject * audioObj = new Named2DSceneObject("audio tester");
 	AudioListener* listener = 0;
 	SoundInstance* instance = 0;
 
 	aEngine->CreateAudioListener(audioObj, &listener);
 	aEngine->CreateSoundFromFile("test.wav",AFT_WAV,&instance);
 
-	aEngine->PlaySoundInstance(instance);
+	aEngine->PlaySoundInstance(instance);*/
 
 	//ThreadBase::Sleep(0.5);
 
 	//aEngine->StopSound(instance);
+}
+
+void TestResourceStuff()
+{
+	ZoranEngine engine;
+	engine.Init();
+	engine.Setup2DScene(0, 0, 2000, 2000);
+
+	auto image = RM->ImageForPath("test");
 }

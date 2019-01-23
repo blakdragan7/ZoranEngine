@@ -9,6 +9,7 @@
 #include "OpenGLShaderProgramBase.h"
 
 #include <GL\glew.h>
+#include <GL\wglew.h>
 #include <Core/SceneObject.h>
 
 #include "OpenGLFrameBuffer.h"
@@ -31,6 +32,27 @@
 #include <Physics/2D/Collision/CollisionBucket2DBase.h>
 
 #include <Utils/Statistics.h>
+
+static void debugMessage(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length,
+	const GLchar *message, const void *userParam)
+{
+	switch (severity)
+	{
+	case GL_DEBUG_SEVERITY_NOTIFICATION:
+		Log(LogLevel_Info, "GL Info Message: %s", message);
+		break;
+	case GL_DEBUG_SEVERITY_LOW:
+		Log(LogLevel_Debug, "GL Debug Message: %s", message);
+		break;
+	case GL_DEBUG_SEVERITY_MEDIUM:
+		Log(LogLevel_Warning, "GL Warning Message: %s", message);
+		break;
+	case GL_DEBUG_SEVERITY_HIGH:
+		Log(LogLevel_Error, "GL Error Message: %s", message);
+		break;
+	}
+	// Print, log, whatever based on the enums and message
+}
 
 OpenGLContext::OpenGLContext(WindowHandle handle) : alphaEnabled(false)
 {
@@ -72,7 +94,6 @@ OpenGLContext::OpenGLContext(WindowHandle handle) : alphaEnabled(false)
 	SetPixelFormat(dc, pixelFormat, &pfd);
 
 	HGLRC context = wglCreateContext(dc);
-
 	wglMakeCurrent(dc, context);
 
 	GLenum res = glewInit();
@@ -81,6 +102,29 @@ OpenGLContext::OpenGLContext(WindowHandle handle) : alphaEnabled(false)
 		std::cerr << "Could not Init Glew ! " << res << std::endl;
 		exit(0);
 	}
+
+#ifdef _DEBUG
+	HGLRC hRC = 0;
+
+	int attribs[] =
+	{
+		WGL_CONTEXT_MAJOR_VERSION_ARB, 4,
+		WGL_CONTEXT_MINOR_VERSION_ARB, 4,
+		WGL_CONTEXT_FLAGS_ARB,
+		WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB | WGL_CONTEXT_DEBUG_BIT_ARB,
+		WGL_CONTEXT_PROFILE_MASK_ARB, WGL_CONTEXT_CORE_PROFILE_BIT_ARB,
+		0
+	};
+
+	if (wglCreateContextAttribsARB != NULL)
+		hRC = wglCreateContextAttribsARB(dc, 0, attribs);
+	
+	wglMakeCurrent(dc, hRC);
+	wglDeleteContext(context);
+	context = hRC;
+
+#endif
+	glDebugMessageCallback(debugMessage, 0);
 
 #endif
 }
@@ -176,7 +220,7 @@ bool OpenGLContext::CheckErrors(const char* text)
 			const GLubyte* errorS = gluErrorString(error);
 			if (!errorS)
 				errorS = (const GLubyte*)" ";
-			Log(LogLevel_Error,"%s GL Error %s\n",text,errorS);
+			Log(LogLevel_Error,"%s GL Error %s",text,errorS);
 			hasError = true;
 		}
 

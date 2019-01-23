@@ -1,5 +1,5 @@
 #pragma once
-#include <Core/Audio/AudioListener.h>
+#include <Audio/AudioListener.h>
 #include <ThirdParty/AL/alc.h>
 class OALAudioEngine;
 class OALAudioListener : public AudioListener

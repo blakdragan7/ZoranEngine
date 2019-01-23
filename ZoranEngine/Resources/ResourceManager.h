@@ -28,7 +28,7 @@ public:
 	FontResource MakeFontForPath(const std::string& ttfSource, const std::string& resourcePath,uint32_t resolution, float pxRange, unsigned sdfType);
 	FontResource FontForPath(const std::string& path);
 
-	ImageResource MakeImageForPath(const std::string& source, const std::string& resourcePath, RenderDataType type, RenderDataFormat format);
+	ImageResource MakeImageForPath(const std::string& source, const std::string& resourcePath, RenderDataType type = Render_Data_Type_RGBA_32, RenderDataFormat format = Render_Data_Format_Unsigned_Byte);
 	ImageResource ImageForPath(const std::string& path);
 				 
 	SoundResource MakeSoundForPath(const std::string& source, const std::string& resourcePath);

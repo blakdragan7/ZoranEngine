@@ -17,6 +17,10 @@ const char * StringForResourceError(int error)
 		return "Error Saving File";
 	case RESOURCE_ERROR_UNKOWN_ERROR:
 		return "Unkown Error";
+	case RESOURCE_ERROR_NOT_LOADED:
+		return "Resource not initialized";
+	case RESOURCE_ERROR_ALREADY_LOADED:
+		return "Resource Already initialized";
 	default:
 		return 0;
 	}

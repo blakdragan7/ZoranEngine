@@ -71,9 +71,9 @@ public:
 	void CreateBMPForGlyphs(const std::vector<uint32_t>& glyphs);
 	void CreateBMPForASCII(const char* ascii);
 
+	int MakeFromFile(const std::string& file);
 	int LoadFromFile(const std::string& file);
 	int SaveToFile(const std::string& file);
-	void DestroyResource();
 
 	const char* GetResourceDescription()const;
 

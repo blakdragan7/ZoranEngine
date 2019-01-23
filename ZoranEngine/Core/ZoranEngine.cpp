@@ -43,7 +43,7 @@
 
 #include <Utils/Statistics.h>
 
-#include <Core/Audio/AL/OALAudioEngine.h>
+#include <Audio/AL/OALAudioEngine.h>
 
 #include <Core/PlayerInstanceBase.h>
 #include <Core/DebugPlayerInstance.h>

@@ -227,7 +227,14 @@ static LRESULT CALLBACK wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 		}
 		if (uMsg == WM_KEYDOWN)
 		{
-			if (pThis->rootVirtualWindow->RawKeyEvent(KeyEventType_Key_Down, pThis->ConvertWPARAMToKey(wParam)) == false)
+			if (pThis->rootVirtualWindow)
+			{
+				if (pThis->rootVirtualWindow->RawKeyEvent(KeyEventType_Key_Down, pThis->ConvertWPARAMToKey(wParam)) == false)
+				{
+					zEngine->KeyEvent(KeyEventType_Key_Down, pThis->ConvertWPARAMToKey(wParam));
+				}
+			}
+			else
 			{
 				zEngine->KeyEvent(KeyEventType_Key_Down, pThis->ConvertWPARAMToKey(wParam));
 			}
@@ -237,12 +244,20 @@ static LRESULT CALLBACK wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 			unsigned uni = static_cast<unsigned>(wParam);
 			if (!pThis->UniIsChar(uni))return FALSE;
 
-			pThis->rootVirtualWindow->CharEvent(uni);
+			if (pThis->rootVirtualWindow)
+				pThis->rootVirtualWindow->CharEvent(uni);
 			return TRUE;
 		}
 		if (uMsg == WM_KEYUP)
 		{
-			if (pThis->rootVirtualWindow->RawKeyEvent(KeyEventType_Key_Up, pThis->ConvertWPARAMToKey(wParam)) == false)
+			if (pThis->rootVirtualWindow)
+			{
+				if (pThis->rootVirtualWindow->RawKeyEvent(KeyEventType_Key_Up, pThis->ConvertWPARAMToKey(wParam)) == false)
+				{
+					zEngine->KeyEvent(KeyEventType_Key_Up, pThis->ConvertWPARAMToKey(wParam));
+				}
+			}
+			else
 			{
 				zEngine->KeyEvent(KeyEventType_Key_Up, pThis->ConvertWPARAMToKey(wParam));
 			}
@@ -251,25 +266,29 @@ static LRESULT CALLBACK wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 		{
 			zEngine->MouseEvent(MouseEventType_L_Down, 0);
 			pThis->m->SetLeftMouseIsPressed(true);
-			pThis->rootVirtualWindow->MouseDown(*pThis->m);
+			if (pThis->rootVirtualWindow)
+				pThis->rootVirtualWindow->MouseDown(*pThis->m);
 		}
 		if (uMsg == WM_RBUTTONDOWN)
 		{
 			zEngine->MouseEvent(MouseEventType_R_Down, 0);
 			pThis->m->SetRightMouseIsPressed(true);
-			pThis->rootVirtualWindow->MouseDown(*pThis->m);
+			if (pThis->rootVirtualWindow)
+				pThis->rootVirtualWindow->MouseDown(*pThis->m);
 		}
 		if (uMsg == WM_LBUTTONUP)
 		{
 			zEngine->MouseEvent(MouseEventType_L_Up, 0);
 			pThis->m->SetLeftMouseIsPressed(false);
-			pThis->rootVirtualWindow->MouseUp(*pThis->m);
+			if (pThis->rootVirtualWindow)
+				pThis->rootVirtualWindow->MouseUp(*pThis->m);
 		}
 		if (uMsg == WM_RBUTTONUP)
 		{
 			zEngine->MouseEvent(MouseEventType_R_Up, 0);
 			pThis->m->SetRightMouseIsPressed(false);
-			pThis->rootVirtualWindow->MouseUp(*pThis->m);
+			if (pThis->rootVirtualWindow)
+				pThis->rootVirtualWindow->MouseUp(*pThis->m);
 		}
 		if (uMsg == WM_MOUSEMOVE)
 		{
@@ -278,7 +297,8 @@ static LRESULT CALLBACK wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 			float y = pThis->GetSize().h - static_cast<float>(GET_Y_LPARAM(lParam));
 			zEngine->MouseMove(x,y);
 			pThis->m->SetPosition({ x, y});
-			pThis->rootVirtualWindow->MouseMove(*pThis->m);
+			if (pThis->rootVirtualWindow)
+				pThis->rootVirtualWindow->MouseMove(*pThis->m);
 		}
 		if (uMsg == WM_MOUSEWHEEL)
 		{
@@ -288,7 +308,8 @@ static LRESULT CALLBACK wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 			float y = pThis->GetSize().h - static_cast<float>(GET_Y_LPARAM(lParam));
 			pThis->m->SetPosition({ x, y });
 
-			pThis->rootVirtualWindow->MouseScroll(*pThis->m, (float)val);
+			if(pThis->rootVirtualWindow)
+				pThis->rootVirtualWindow->MouseScroll(*pThis->m, (float)val);
 		}
 	}
 

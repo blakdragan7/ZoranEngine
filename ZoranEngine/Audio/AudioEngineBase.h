@@ -2,7 +2,7 @@
 #include <initializer_list>
 #include <list>
 
-#include <Core/Audio/Common.h>
+#include <Audio/Common.h>
 
 class Vector2D;
 class Vector3D;
