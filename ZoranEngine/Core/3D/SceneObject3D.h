@@ -18,9 +18,6 @@ public:
 	SceneObject3D(Component3DBase * root3DComponent,std::string);
 	virtual ~SceneObject3D();
 
-	// Destroys this object removeing it from any part of the engine that it needs to
-	virtual void Destroy()override;
-
 	// Getter / Setter
 
 	void SetRotation(const Vector3D& eulor);

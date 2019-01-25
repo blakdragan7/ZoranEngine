@@ -36,7 +36,6 @@ TexturedSprite::TexturedSprite(unsigned renderLayer, std::string name, const cha
 
 TexturedSprite::~TexturedSprite()
 {
-	if (rootComponent)delete rootComponent;
 }
 
 void TexturedSprite::SetTexture(const char* path)

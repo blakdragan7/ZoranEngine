@@ -13,6 +13,9 @@ class ComponentBase;
 
 class ZoranEngine_EXPORT SceneObject : public ITickableObject
 {
+private:
+	bool isValidFlag;
+
 protected:
 	ComponentBase * rootComponent;
 
@@ -37,15 +40,18 @@ public:
 	SceneObject(ComponentBase* component, std::string);
 	virtual ~SceneObject();
 
+	inline void MarkInvalid() { isValidFlag = false; }
+	inline bool GetIsValid()const { return isValidFlag; }
+
 	// Destroys this object removeing it from any part of the engine that it needs to
-	virtual void Destroy();
+	void Destroy();
 
 	// default impl
 	virtual void Tick(float deltaTime)override {}
 
 	virtual void PreCaclModel() = 0;
-
-    // Getter / Setter
+    
+	// Getter / Setter
 
 	void SetRootComponent(ComponentBase* component);
 

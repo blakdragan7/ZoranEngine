@@ -22,6 +22,8 @@ protected:
 	Vector2I size;
 	PlatformMouseBase* m;
 
+	bool canReceiveEvents;
+
 private:
 	void SetRootVirtualWindow(ZGIVirtualWindow* window);
 
@@ -35,6 +37,9 @@ protected:
 public:
 	WindowBase(ZoranEngine* zoranEngine);
 	virtual ~WindowBase();
+
+	inline void StopEvents() { canReceiveEvents = false; }
+	inline void StartEvents() { canReceiveEvents = true; }
 
 	void SetPosition(Vec2I position);
 	void SetSize(Vec2I size);

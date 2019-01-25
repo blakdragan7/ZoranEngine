@@ -15,7 +15,7 @@ TestCircleObject::TestCircleObject(std::string name) : TexturedSprite(100, name)
 
 	CircleCollisionComponent* circleComponent = root2DComponent->AddSubComponent<CircleCollisionComponent>(root2DComponent);
 
-	SetTexture("circle.png");
+	SetTexture("circle");
 	
 	rigidBody = root2DComponent->AddSubComponent<RigidBody2DComponent>(root2DComponent);
 

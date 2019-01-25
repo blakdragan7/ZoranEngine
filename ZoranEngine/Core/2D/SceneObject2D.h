@@ -54,6 +54,5 @@ public:
 
 	virtual void PreCaclModel()override;
 	virtual Matrix44 GetScaleMatrix4x4()override;
-	virtual void Destroy()override;
 };
 

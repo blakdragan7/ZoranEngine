@@ -25,7 +25,7 @@ TestSceneObject::TestSceneObject(std::string name) : TexturedSprite(100, name)
 
 	target = 0;
 
-	SetTexture("test.png");
+	SetTexture("test");
 }
 
 

@@ -146,8 +146,3 @@ Matrix44 SceneObject2D::GetScaleMatrix4x4()
 	}
 	else return Matrix44();
 }
-
-void SceneObject2D::Destroy()
-{
-	SceneObject::Destroy();
-}

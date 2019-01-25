@@ -65,10 +65,10 @@ static const float scale = 40.0f;
 
 int main(int argc, char* argv[])
 {
-	//Test2DSceneStuff();
+	Test2DSceneStuff();
 	//Test3DSceneStuff();
 	//TestGUIStuff();
-	TestResourceStuff();
+	//TestResourceStuff();
 }
 
 void Test2DSceneStuff()
@@ -79,6 +79,11 @@ void Test2DSceneStuff()
 	engine.CreateGameModeWindows(false);
 
 	std::string name_base = "TestSceneObject-";
+
+	/*TestSceneObject* test = engine.SpawnSceneObjectAtLocation<TestSceneObject>("scene",Vector2D(0,0), Vector2D(scale, -scale));
+	TestCircleObject* circle = engine.SpawnSceneObjectAtLocation<TestCircleObject>("circle",Vector2D(0,0), Vector2D(scale, -scale));
+	test->GetPhysics()->StartSimulation();
+	circle->GetPhysics()->StartSimulation();*/
 
 	Vector2D CollisionPoint(0,0);
 	for (int i = 0; i < SquareToSpawn; i++)
@@ -123,8 +128,8 @@ void Test2DSceneStuff()
 
 	engine.SpawnSceneObjectAtLocation<TestPlatformObject>("Ground", Vector2D(0, -500), Vector2D(1000, -50));
 	engine.SpawnSceneObjectAtLocation<TestPlatformObject>("Ceiling", Vector2D(0, 500), Vector2D(1000, -50));
-	engine.SpawnSceneObjectAtLocation<TestPlatformObject>("Left Wall", Vector2D(-950, 0), Vector2D(1000, -50));
-	engine.SpawnSceneObjectAtLocation<TestPlatformObject>("Right Wall", Vector2D(950, 0), Vector2D(1000, -50));
+	engine.SpawnSceneObjectAtLocation<TestPlatformObject>("Left Wall", Vector2D(-950, 0), Vector2D(50, -1000));
+	engine.SpawnSceneObjectAtLocation<TestPlatformObject>("Right Wall", Vector2D(950, 0), Vector2D(50, -1000));
 
 	//TestAudio();
 
@@ -228,5 +233,6 @@ void TestResourceStuff()
 	engine.Init();
 	engine.Setup2DScene(0, 0, 2000, 2000);
 
-	auto image = RM->ImageForPath("test");
+	auto test = RM->MakeImageForPath("test.png","test");
+	auto circle = RM->MakeImageForPath("circle.png", "circle");
 }

@@ -38,10 +38,12 @@ class AllocatorBase;
 class AudioEngineBase;
 class ResourceManager;
 class ZGIDebugWindow;
+class ZGIGameVirtualWindow;
 class ZoranEngine_EXPORT ZoranEngine
 {
 private:
 	ZGIDebugWindow * debugWindow;
+	ZGIGameVirtualWindow* gameWindow;
 	WindowBase* mainWindow;
 	RenderEngine2DBase* main2DRenderEngine;
 	RenderEngine3DBase* main3DRenderEngine;
@@ -70,6 +72,8 @@ private:
 	
 	// add this scene object to the scene and updates it
 	void AddSceneObject(SceneObject* object);
+	// cleanup all invalid scene objects
+	void CleanObjects();
 
 public:
 	ZoranEngine();

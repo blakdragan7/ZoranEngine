@@ -2268,5 +2268,6 @@
     <None Include="Shaders\GUI\guiColoredRect.vert">
       <Filter>ZoranEngine\Shaders\GUI</Filter>
     </None>
+    <None Include="..\README.md" />
   </ItemGroup>
 </Project>

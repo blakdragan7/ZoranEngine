@@ -66,7 +66,7 @@ bool QuadTreeCollisionBucket::AddObject(CollisionObject2DBase * object)
 			collisionObjects.push_back(object);
 			wasAdded = true;
 
-			Log(LogLevel_Debug,"Object %s Add To Bucket %s\n", object->GetAffectedComponent()->GetSceneName(), sceneObject->readableName->c_str());
+			Log(LogLevel_Debug,"Object %s Add To Bucket %s", object->GetAffectedComponent()->GetSceneName(), sceneObject->readableName->c_str());
 		}
 	}
 	else 

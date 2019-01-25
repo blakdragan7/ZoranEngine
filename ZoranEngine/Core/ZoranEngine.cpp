@@ -72,21 +72,27 @@ ZoranEngine::ZoranEngine()
 	isPaused = false;
 	logger = new ConsoleLogger();
 	//logger = new FileLogger("output.log");
+#ifdef _DEBUG
 	logger->SetLogLevel(LogLevel_Debug);
+#else
+	logger->SetLogLevel(LogLevel_Error);
+#endif
 	step = false;
 
-	allSceneObjects = new std::vector<SceneObject*>();
-	allTickables = new std::vector<ITickableObject*>();
+	allSceneObjects = new std::vector<SceneObject*>;
+	allTickables = new std::vector<ITickableObject*>;
 }
 
 ZoranEngine::~ZoranEngine()
 {
+	mainWindow->StopEvents();
+
 	if (audioEngine)delete audioEngine;
 	audioEngine = 0;
 
 	for (auto object : *allSceneObjects)
 	{
-		object->Destroy();
+		delete object;
 	}
 
 	delete allSceneObjects;
@@ -125,8 +131,10 @@ int ZoranEngine::MainLoop()
 
 		double deltaTime = (cl.GetDiffSeconds());
 		float dt = static_cast<float>(deltaTime);
-		deltaTime = min(1.0f / 60.0f , deltaTime);
 		
+		gameWindow->SetFPS(1.0 / deltaTime);
+		deltaTime = min(1.0f / 60.0f, deltaTime);
+
 		cl.TakeClock();
 
 		while (PeekMessageW(&msg, NULL, 0, 0, PM_REMOVE))
@@ -179,8 +187,8 @@ bool ZoranEngine::Init()
 
 void ZoranEngine::CreateGameModeWindows(bool is3D)
 {
-	ZGIGameVirtualWindow* vWindow = mainWindow->SetRootVirtualWindow<ZGIGameVirtualWindow>(Vector2D(0,0), mainWindow->GetSize(), mainWindow->GetSize(),is3D);
-	vWindow->SetPlayerInstance(mainPlayer);
+	gameWindow = mainWindow->SetRootVirtualWindow<ZGIGameVirtualWindow>(Vector2D(0,0), mainWindow->GetSize(), mainWindow->GetSize(),is3D);
+	gameWindow->SetPlayerInstance(mainPlayer);
 
 	//debugWindow = vWindow->AddSubWindow<ZGIDebugWindow>(Vector2D(600,0), Vector2D(600,900), mainWindow->GetSize());
 }
@@ -261,8 +269,6 @@ void ZoranEngine::DrawStep()
 
 void ZoranEngine::KeyEvent(KeyEventType type, unsigned key)
 {
-	return;
-
 	switch (type)
 	{
 	case KeyEventType_Key_Down:
@@ -319,11 +325,27 @@ void ZoranEngine::AddSceneObject(SceneObject * object)
 		AddTickableObject(object);
 }
 
+void ZoranEngine::CleanObjects()
+{
+	for (size_t i = 0; i < allSceneObjects->size();)
+	{
+		auto object = (*allSceneObjects)[i];
+		if (object->GetIsValid() == false)
+		{
+			delete object;
+			allSceneObjects->erase(allSceneObjects->begin() + i);
+		}
+		else
+		{
+			++i;
+		}
+	}
+}
+
 void ZoranEngine::DestroySceneObject(SceneObject * object)
 {
-	remove(*allSceneObjects, object);
 	RemoveTickableObject(object);
-	delete object;
+	object->MarkInvalid();
 }
 
 void ZoranEngine::RemoveTickableObject(ITickableObject * object)

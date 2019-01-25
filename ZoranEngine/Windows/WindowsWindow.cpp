@@ -192,7 +192,7 @@ static LRESULT CALLBACK wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 		pThis = reinterpret_cast<WindowsWindow*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
 	}
 
-	if (pThis)
+	if (pThis && pThis->canReceiveEvents)
 	{
 
 		if (uMsg == WM_CREATE)

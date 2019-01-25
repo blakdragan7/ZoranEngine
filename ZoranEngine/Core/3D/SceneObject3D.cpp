@@ -18,11 +18,6 @@ SceneObject3D::~SceneObject3D()
 {
 }
 
-void SceneObject3D::Destroy()
-{
-	zEngine->DestroySceneObject(this);
-}
-
 void SceneObject3D::SetRotation(const Vector3D& euler)
 {
 	WaitForMutex();

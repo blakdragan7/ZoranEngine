@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "ZGIGameVirtualWindow.h"
 
+#include <ZGI/Panels/ZGIGridPanel.h>
+#include <ZGI/Widgets/ZGILabel.h>
 #include <ZGI/Core/ZGIVirtualViewport.h>
 #include <Core/CameraBase.h>
 #include <Rendering/RenderEngineBase.h>
@@ -15,12 +17,27 @@ ZGIGameVirtualWindow::ZGIGameVirtualWindow(Vec2D pos, Vec2D size, Vec2I OSWindow
 	fullScreenProgram = rEngine->CreateShaderProgram<StandardShader2D>();
 	fullScreenRenderer = rEngine->CreateTriangleStripRenderer();
 	fullScreenRenderer->MakeFullScreenQuad();
+
+	auto p = SpawnWidget<ZGIGridPanel>(20,20);
+	fpsLabel = SpawnWidget<ZGILabel>();
+
+	fpsLabel->SetText("FPS: ");
+	fpsLabel->SetFontColor(Color::Red);
+
+	p->AddWidget(fpsLabel, 0, 19, 4, 1);
+
+	SetRootContent(p);
 }
 
 ZGIGameVirtualWindow::~ZGIGameVirtualWindow()
 {
 	if (player)delete player;
 	delete fullScreenRenderer;
+}
+
+void ZGIGameVirtualWindow::SetFPS(double fps)
+{
+	fpsLabel->SetText("FPS: " + std::to_string(fps));
 }
 
 void ZGIGameVirtualWindow::RenderWindow(Vec2D globalOffset)

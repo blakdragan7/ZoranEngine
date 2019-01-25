@@ -5,13 +5,9 @@
 #include <Rendering/RenderEngineBase.h>
 #include <Core/PlatformMouseBase.h>
 
-WindowBase::WindowBase(ZoranEngine* zoranEngine)
+WindowBase::WindowBase(ZoranEngine* zoranEngine) : canReceiveEvents(true), isFullScreen(false), 
+isMaximized(false), rootVirtualWindow(0), windowHandle(0)
 {
-	isFullScreen = false;
-	isMaximized = false;
-	windowHandle = 0;
-	rootVirtualWindow = 0;
-	m = 0;
 }
 
 WindowBase::~WindowBase()

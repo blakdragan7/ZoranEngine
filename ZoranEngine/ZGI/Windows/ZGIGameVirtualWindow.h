@@ -10,18 +10,22 @@
 class TriangleStripRenderer;
 class PlayerInstanceBase;
 class ShaderProgramBase;
+class ZGILabel;
 class ZoranEngine_EXPORT ZGIGameVirtualWindow : public ZGIVirtualWindow
 {
 private:
 	PlayerInstanceBase * player;
 	TriangleStripRenderer* fullScreenRenderer;
 	ShaderProgramBase* fullScreenProgram;
+	ZGILabel* fpsLabel;
 
 	bool is3DCache;
 
 public:
 	ZGIGameVirtualWindow(Vec2D pos, Vec2D size, Vec2I OSWindowSize, bool is3D=false, ZGIVirtualWindow* parent = 0);
 	~ZGIGameVirtualWindow();
+
+	void SetFPS(double fps);
 
 	virtual void RenderWindow(Vec2D globalOffset)override;
 	virtual void OSWindowWasResized(Vec2I newSize)override;

@@ -22,7 +22,7 @@ void SceneObject::UnlockMutex()
 	mutex->unlock();
 }
 
-SceneObject::SceneObject(std::string name) : rootComponent(0) , willEverTick(false), hasCollision(false)
+SceneObject::SceneObject(std::string name) : isValidFlag(true), rootComponent(0) , willEverTick(false), hasCollision(false)
 {
 	this->ID = NextID++;
 
@@ -30,7 +30,7 @@ SceneObject::SceneObject(std::string name) : rootComponent(0) , willEverTick(fal
 	this->readableName = new std::string(name);
 }
 
-SceneObject::SceneObject(ComponentBase* rootComponent,std::string name) : rootComponent(rootComponent), willEverTick(false), hasCollision(false)
+SceneObject::SceneObject(ComponentBase* rootComponent,std::string name) : isValidFlag(true), rootComponent(rootComponent), willEverTick(false), hasCollision(false)
 {
 	this->ID = NextID++;
 
