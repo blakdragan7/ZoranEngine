@@ -105,6 +105,9 @@ ImageResource ResourceManager::ImageForPath(const std::string & path)
 		Log(LogLevel_Info, "Error loading Image for path %s with error %s", path.c_str(), StringForResourceError(err));
 		return ImageResource::Invalid;
 	}
+
+	imageMap->insert({ path,image });
+
 	return image;
 }
 
@@ -148,6 +151,9 @@ SoundResource ResourceManager::SoundForPath(const std::string & path)
 		Log(LogLevel_Info, "Error loading sound for path %s with error %s", path.c_str(), StringForResourceError(err));
 		return SoundResource::Invalid;
 	}
+
+	soundMap->insert({ path,sound });
+
 	return sound;
 }
 
@@ -191,6 +197,9 @@ ModelResource ResourceManager::ModelForPath(const std::string & path)
 		Log(LogLevel_Info, "Error loading sound for path %s with error %s", path.c_str(), StringForResourceError(err));
 		return ModelResource::Invalid;
 	}
+
+	modelMap->insert({ path, model });
+
 	return model;
 }
 

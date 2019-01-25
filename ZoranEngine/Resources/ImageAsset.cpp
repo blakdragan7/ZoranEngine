@@ -6,6 +6,8 @@
 #include <Rendering/TextureBase.h>
 #include <Utils/StringAddons.hpp>
 
+#include <ThirdParty/loadpng/lodepng.h>
+
 #include <iostream>
 #include <fstream>
 
@@ -27,6 +29,7 @@ ImageAsset::ImageAsset(TextureBase * renderAsset) : renderAsset(renderAsset)
 ImageAsset::~ImageAsset()
 {
 	if(renderAsset)delete renderAsset;
+	delete sourceFile;
 }
 
 int ImageAsset::MakeFromFile(const std::string & file, RenderDataType type, RenderDataFormat format)
@@ -88,22 +91,26 @@ int ImageAsset::LoadFromFile(const std::string & file)
 			{
 				RenderDataFormat format;
 				RenderDataType type;
-				Vector2I size;
 				size_t dataSize = 0;
-				char* data = 0;
+				char* encodedData = 0;
+				unsigned char* data = 0;
 
 				fileS.read((char*)&format, sizeof(RenderDataFormat));
 				fileS.read((char*)&type, sizeof(RenderDataType));
-				fileS.read((char*)&size, sizeof(Vector2I));
 				fileS.read((char*)&dataSize, sizeof(dataSize));
 
-				data = (char*)malloc(dataSize);
+				encodedData = (char*)malloc(dataSize);
 
-				fileS.read(data, dataSize);
+				fileS.read(encodedData, dataSize);
 
-				renderAsset = rEngine->CreateTexture(data, type, format, size);
+				unsigned width,height;
+
+				lodepng_decode_memory(&data, &width, &height, (const unsigned char*)encodedData, dataSize, LodePNGColorType::LCT_RGBA, 8);
+
+				renderAsset = rEngine->CreateTexture(data, type, format, { (int)width, (int)height });
 
 				free(data);
+				free(encodedData);
 			}
 			if (currentHeader == sourceHeader)
 			{
@@ -176,12 +183,16 @@ int ImageAsset::SaveToFile(const std::string & file)
 
 		data.append((char*)&format, sizeof(RenderDataFormat));
 		data.append((char*)&type, sizeof(RenderDataType));
-		data.append((char*)&size, sizeof(Vector2I));
+
+		unsigned char*  encodedData = 0;
+		size_t encodedSize = 0;
+
+		lodepng_encode_memory(&encodedData, &encodedSize, (unsigned char*)tData, (unsigned)size.w, (unsigned)size.h, LCT_RGBA, 8);
 
 		//TODO: encode somehow instead of raw data
 
 		data.append((const char*)&dataSize, sizeof(dataSize));
-		data.append(tData, dataSize);
+		data.append((const char*)encodedData, encodedSize);
 
 		free(tData);
 
