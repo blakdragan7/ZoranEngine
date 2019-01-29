@@ -45,3 +45,13 @@ AudioError SpeakerComponentBase::SetOrientation(float upx, float upy, float upz,
 {
 	return internalListener->SetOrientation(upx, upy, upz, forwardx, forwardy, forwardz);
 }
+
+void SpeakerComponentBase::PlayAudio()
+{
+	sound->Play(this->internalListener);
+}
+
+void SpeakerComponentBase::StopAudio()
+{
+	sound->Stop(this->internalListener);
+}
