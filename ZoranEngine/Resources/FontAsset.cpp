@@ -661,7 +661,7 @@ int FontAsset::MakeFromFile(const std::string & file)
 		else
 		{
 			deinitializeFreetype(ft);
-			return RESOURCE_ERROR_ERROR_LOADING_FILE;
+			return RESOURCE_ERROR_LOADING_FILE;
 		}
 	}
 
@@ -684,7 +684,7 @@ int FontAsset::LoadFromFile(const std::string& file)
 		return RESOURCE_ERROR_INCORRECT_FILE_TYPE;
 	}
 
-	*zSourcePath = file.c_str();
+	*zSourcePath = file;
 
 	std::fstream fileS(file, std::ios::in | std::ios::binary);
 
@@ -696,7 +696,7 @@ int FontAsset::LoadFromFile(const std::string& file)
 		Log(LogLevel_Error, "File %s Does not Contain Correct Header !!",file.c_str());
 		zSourcePath->clear();
 
-		return RESOURCE_ERROR_ERROR_LOADING_FILE;
+		return RESOURCE_ERROR_LOADING_FILE;
 	}
 
 	unsigned foundHeaders = 0;
@@ -772,7 +772,7 @@ int FontAsset::LoadFromFile(const std::string& file)
 			sourcePath->clear();
 			glyphMap->clear();
 
-			return RESOURCE_ERROR_ERROR_LOADING_FILE;
+			return RESOURCE_ERROR_LOADING_FILE;
 		}
 
 		foundHeaders++;
@@ -789,7 +789,7 @@ int FontAsset::LoadFromFile(const std::string& file)
 		if (_data->psdfData)delete _data->psdfData;
 		if (_data->msdfData)delete _data->msdfData;
 
-		return RESOURCE_ERROR_ERROR_LOADING_FILE;
+		return RESOURCE_ERROR_LOADING_FILE;
 	}
 
 	isLoaded = true;
@@ -857,7 +857,7 @@ int FontAsset::SaveToFile(const std::string & file)
 			if (_data->sdfData == 0)
 			{
 				Log(LogLevel_Error, "Trying to save font without butmap data !!. \n");
-				return RESOURCE_ERROR_ERROR_SAVING_FILE;
+				return RESOURCE_ERROR_SAVING_FILE;
 			}
 
 			encodePng(&bdata, &outSize, *_data->sdfData);
@@ -866,7 +866,7 @@ int FontAsset::SaveToFile(const std::string & file)
 			if (_data->psdfData == 0)
 			{
 				Log(LogLevel_Error, "Trying to save font without butmap data !!. \n");
-				return RESOURCE_ERROR_ERROR_SAVING_FILE;
+				return RESOURCE_ERROR_SAVING_FILE;
 			}
 
 			encodePng(&bdata, &outSize, *_data->psdfData);
@@ -875,7 +875,7 @@ int FontAsset::SaveToFile(const std::string & file)
 			if (_data->msdfData == 0)
 			{
 				Log(LogLevel_Error, "Trying to save font without butmap data !!. \n");
-				return RESOURCE_ERROR_ERROR_SAVING_FILE;
+				return RESOURCE_ERROR_SAVING_FILE;
 			}
 
 			encodePng(&bdata, &outSize, *_data->msdfData);

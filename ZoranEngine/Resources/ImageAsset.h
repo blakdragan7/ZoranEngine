@@ -9,6 +9,7 @@ private:
 	bool isLoaded;
 
 	std::string* sourceFile;
+	std::string* zSourcePath;
 	TextureBase* renderAsset;
 
 public:

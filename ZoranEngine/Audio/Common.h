@@ -56,3 +56,5 @@ enum AEImplementation
 };
 
 typedef unsigned AudioError;
+
+extern const char* StringForAudioError(AudioError error);

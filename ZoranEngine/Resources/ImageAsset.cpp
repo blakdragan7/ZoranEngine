@@ -19,17 +19,20 @@ const std::string typeHeader = "zia_image_type";
 ImageAsset::ImageAsset(): renderAsset(0)
 {
 	sourceFile = new std::string;
+	zSourcePath = new std::string;
 }
 
 ImageAsset::ImageAsset(TextureBase * renderAsset) : renderAsset(renderAsset)
 {
 	sourceFile = new std::string;
+	zSourcePath = new std::string;
 }
 
 ImageAsset::~ImageAsset()
 {
 	if(renderAsset)delete renderAsset;
 	delete sourceFile;
+	delete zSourcePath;
 }
 
 int ImageAsset::MakeFromFile(const std::string & file, RenderDataType type, RenderDataFormat format)
@@ -74,7 +77,7 @@ int ImageAsset::LoadFromFile(const std::string & file)
 		{
 			Log(LogLevel_Error, "File %s Does not Contain Correct Header !!", filePath.c_str());
 
-			return RESOURCE_ERROR_ERROR_LOADING_FILE;
+			return RESOURCE_ERROR_LOADING_FILE;
 		}
 
 		unsigned foundHeaders = 0;
@@ -123,7 +126,7 @@ int ImageAsset::LoadFromFile(const std::string & file)
 		if (foundHeaders !=2)
 		{
 			Log(LogLevel_Error, "Malformed asset file while loading %s", filePath.c_str());
-			return RESOURCE_ERROR_ERROR_LOADING_FILE;
+			return RESOURCE_ERROR_LOADING_FILE;
 		}
 
 		fileS.close();
@@ -133,11 +136,12 @@ int ImageAsset::LoadFromFile(const std::string & file)
 		char message[256] = { 0 };
 		strerror_s(message, errno);
 		Log(LogLevel_Error, "Could not open file for reading, %s, error %s", filePath.c_str(), message);
-		return RESOURCE_ERROR_ERROR_LOADING_FILE;
+		return RESOURCE_ERROR_LOADING_FILE;
 	}
 
 	isLoaded = true;
 
+	*zSourcePath = filePath;
 	return RESOURCE_ERROR_NO_ERROR;
 }
 
@@ -155,7 +159,7 @@ int ImageAsset::SaveToFile(const std::string & file)
 		filePath += ".zia";
 	}
 
-	std::fstream fileS(filePath, std::ios::out | std::ios::binary);
+	std::fstream fileS(filePath, std::ios::out | std::ios::binary | std::ios::trunc);
 
 	if (fileS.good())
 	{
@@ -174,7 +178,7 @@ int ImageAsset::SaveToFile(const std::string & file)
 		{
 			fileS.close();
 			Log(LogLevel_Error, "Could not read data from texture !");
-			return RESOURCE_ERROR_ERROR_SAVING_FILE;
+			return RESOURCE_ERROR_SAVING_FILE;
 		}
 		
 		RenderDataFormat format = renderAsset->GetRenderDataFormat();
@@ -205,7 +209,7 @@ int ImageAsset::SaveToFile(const std::string & file)
 		strerror_s(message,errno);
 		Log(LogLevel_Error, "Could not open file for writing, %s, error %s", filePath.c_str(), message);
 
-		return RESOURCE_ERROR_ERROR_SAVING_FILE;
+		return RESOURCE_ERROR_SAVING_FILE;
 	}
 
 	return RESOURCE_ERROR_NO_ERROR;

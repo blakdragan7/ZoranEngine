@@ -717,6 +717,9 @@
     <ClCompile Include="Audio\AudioEngineBase.cpp">
       <Filter>ZoranEngine\Audio</Filter>
     </ClCompile>
+    <ClCompile Include="Audio\Common.cpp">
+      <Filter>ZoranEngine\Audio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">

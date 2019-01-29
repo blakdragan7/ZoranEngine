@@ -67,6 +67,7 @@
     <ClCompile Include="Audio\AL\OALAudioListener.cpp" />
     <ClCompile Include="Audio\AL\OALSoundInstance.cpp" />
     <ClCompile Include="Audio\AudioEngineBase.cpp" />
+    <ClCompile Include="Audio\Common.cpp" />
     <ClCompile Include="Core\2D\Camera2D.cpp" />
     <ClCompile Include="Core\2D\Components\AASquareCollisionComponent.cpp" />
     <ClCompile Include="Core\2D\Components\CircleCollisionComponent.cpp" />

@@ -111,12 +111,12 @@ ImageResource ResourceManager::ImageForPath(const std::string & path)
 	return image;
 }
 
-SoundResource ResourceManager::MakeSoundForPath(const std::string & source, const std::string & resourcePath)
+SoundResource ResourceManager::MakeSoundForPath(const std::string & source, const std::string & resourcePath, AudioListener* listener)
 {
 	SoundResource sound;
 	sound.DefaultConstruct();
 
-	int error = sound->MakeFromFile(source);
+	int error = sound->MakeFromFile(source, listener);
 	if (error != RESOURCE_ERROR_NO_ERROR)
 	{
 		Log(LogLevel_Error, "Error Loading sound from %s with error %s", source.c_str(), StringForResourceError(error));
@@ -134,7 +134,7 @@ SoundResource ResourceManager::MakeSoundForPath(const std::string & source, cons
 	return sound;
 }
 
-SoundResource ResourceManager::SoundForPath(const std::string & path)
+SoundResource ResourceManager::SoundForPath(const std::string & path, AudioListener* listener)
 {
 	auto itr = soundMap->find(path);
 	if (itr != soundMap->end())
@@ -145,7 +145,7 @@ SoundResource ResourceManager::SoundForPath(const std::string & path)
 	SoundResource sound;
 	sound.DefaultConstruct();
 
-	int err = sound->LoadFromFile(path);
+	int err = sound->LoadFromFile(path, listener);
 	if (err != RESOURCE_ERROR_NO_ERROR)
 	{
 		Log(LogLevel_Info, "Error loading sound for path %s with error %s", path.c_str(), StringForResourceError(err));
