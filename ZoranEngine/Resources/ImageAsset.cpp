@@ -193,8 +193,6 @@ int ImageAsset::SaveToFile(const std::string & file)
 
 		lodepng_encode_memory(&encodedData, &encodedSize, (unsigned char*)tData, (unsigned)size.w, (unsigned)size.h, LCT_RGBA, 8);
 
-		//TODO: encode somehow instead of raw data
-
 		data.append((const char*)&dataSize, sizeof(dataSize));
 		data.append((const char*)encodedData, encodedSize);
 

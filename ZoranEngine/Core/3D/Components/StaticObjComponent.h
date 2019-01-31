@@ -1,17 +1,19 @@
 #pragma once
 #include <Core\3D\Components\Visible3DComponent.h>
 
-class ModelRenderer;
+#include <Resources/ModelResource.h>
+
 class TriangleStripRenderer;
 class StaticObjComponent : public Visible3DComponent
 {
 private:
-	ModelRenderer * modelRenderer;
+	ModelResource model;
 	TriangleStripRenderer* test;
 
 public:
 	StaticObjComponent();
 	StaticObjComponent(const char* file);
+	StaticObjComponent(ModelResource model);
 	~StaticObjComponent();
 
 	void LoadFile(const char* file);

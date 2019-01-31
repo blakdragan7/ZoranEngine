@@ -3,44 +3,89 @@
 
 #include <ThirdParty/assimp/scene.h>
 #include <ThirdParty/assimp/Importer.hpp>
+#include <ThirdParty/assimp/Exporter.hpp>
 
 ModelRenderer::ModelRenderer(PrimitiveType pt, DrawType dt) : scene(0), hasLoadedFile(false), RenderedObjectBase(pt, VT_Float, dt)
 {
-	importer = new Assimp::Importer();
 }
 
-ModelRenderer::ModelRenderer(const char* file, PrimitiveType pt, DrawType dt) : RenderedObjectBase(pt, VT_Float, dt)
+ModelRenderer::ModelRenderer(const char* file, PrimitiveType pt, DrawType dt) : scene(0), hasLoadedFile(false), RenderedObjectBase(pt, VT_Float, dt)
 {
 	LoadFile(file);
 }
 
 ModelRenderer::~ModelRenderer()
 {
-	
+	if(scene)delete scene;
 }
 
-void ModelRenderer::LoadFile(const char* file)
+bool ModelRenderer::GetModelAsFBX(std::string & stream)
 {
-	if (hasLoadedFile)
+	Assimp::Exporter exporter;
+
+	auto blob = exporter.ExportToBlob(scene, "fbx");
+
+	if (blob == 0)
 	{
-		Log(LogLevel_Error,"Could Not Load Model %s Because a Different Model Was Already Loaded !!\n",file);
-		return;
+		Log(LogLevel_Error, "Could not get exported blob for model with error %s", exporter.GetErrorString());
+		return false;
 	}
 
-	scene = importer->ReadFile(file, 0);
+	stream.append((char*)blob->data, blob->size);
 
-	//scene = importer.GetOrphanedScene();
-	//Log(LogLevel_Warning, "Using GetOrpganedScene From Assimp Importer which is warned to be an issue on platforms other then windows !! \n");
+	return true;
+}
+
+bool ModelRenderer::LoadFileFromMemory(char * data, size_t length)
+{
+	Assimp::Importer importer;
+
+	if (hasLoadedFile)
+	{
+		Log(LogLevel_Error, "Could Not Load Model From Memory Because a Different Model Was Already Loaded");
+		return false;
+	}
+
+	importer.ReadFileFromMemory(data, length, 0);
+	scene = importer.GetOrphanedScene();
+
+	if (scene == 0)
+	{
+		Log(LogLevel_Error, "Could not Load Model FromMemory : %s", importer.GetErrorString());
+		return false;
+	}
+
+
+	hasLoadedFile = true;
+	NewModelLoaded();
+
+	return true;
+}
+
+bool ModelRenderer::LoadFile(const char* file)
+{
+	Assimp::Importer importer;
+
+	if (hasLoadedFile)
+	{
+		Log(LogLevel_Error,"Could Not Load Model %s Because a Different Model Was Already Loaded",file);
+		return false;
+	}
+
+	importer.ReadFile(file, 0);
+	scene = importer.GetOrphanedScene();
 
 	if (scene)
 	{
 		hasLoadedFile = true;
 
 		NewModelLoaded();
+		return true;
 	}
 	else
 	{
-		Log(LogLevel_Error,"Could not Load Model %s : %s \n",file,importer->GetErrorString());
+		Log(LogLevel_Error,"Could not Load Model %s : %s",file,importer.GetErrorString());
+		return false;
 	}
 }
 
@@ -55,7 +100,7 @@ void ModelRenderer::ReleaseLoadedModel()
 		}
 		else
 		{
-			Log(LogLevel_Warning,"ModelRenderer In Inconsistent State !!\n");
+			Log(LogLevel_Warning,"ModelRenderer In Inconsistent State !!");
 		}
 
 		hasLoadedFile = false;

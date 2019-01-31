@@ -182,8 +182,8 @@ OALAudioEngine::OALAudioEngine() : activeListener(0), currentDevice(0)
 		const char* device = devices;
 		size_t len = 0;
 		while (device && *device != '\0') {
-			std::cout << device << std::endl;
-			
+			Log(LogLevel_Verbose, "Found Audio Device: %s", device);
+
 			OALAudioDevice* aDevice = new OALAudioDevice(device);
 			audioDevices.push_back(aDevice);
 

@@ -1,17 +1,12 @@
 #pragma once
 #include <Rendering/RenderedObjectBase.h>
 
-namespace Assimp
-{
-	class Importer;
-}
 
 struct aiScene;
 class ZoranEngine_EXPORT ModelRenderer : public RenderedObjectBase
 {
 private:
 	bool hasLoadedFile;
-	Assimp::Importer* importer;
 
 protected:
 	const aiScene* scene;
@@ -25,7 +20,10 @@ public:
 
 	~ModelRenderer();
 
-	void LoadFile(const char* file);
+	bool GetModelAsFBX(std::string& stream);
+
+	bool LoadFileFromMemory(char* data, size_t length);
+	bool LoadFile(const char* file);
 	void ReleaseLoadedModel();
 
 	inline bool GetHasLoadedFile() { return hasLoadedFile; }

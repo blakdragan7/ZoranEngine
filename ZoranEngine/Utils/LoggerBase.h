@@ -1,8 +1,8 @@
 #pragma once
 enum ELogLevel {
 	LogLevel_Verbose = 0,
-	LogLevel_Debug = 1,
-	LogLevel_Info = 2,
+	LogLevel_Info = 1,
+	LogLevel_Debug = 2,
 	LogLevel_Warning = 3,
 	LogLevel_Error = 4,
 	LogLevel_None = 5

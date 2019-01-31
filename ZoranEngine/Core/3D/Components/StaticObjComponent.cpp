@@ -8,10 +8,10 @@
 #include <Rendering/OpenGL/3D/StandardShader3D.h>
 #include <Rendering/OpenGL/3D/StandardNoTextureShader.h>
 
+#include <Resources/ResourceManager.h>
+
 StaticObjComponent::StaticObjComponent()
 {
-	modelRenderer = rEngine->CreateModelRenderer();
-
 	test = rEngine->CreateTriangleStripRenderer();
 
 	test->MakeFullScreenQuad();
@@ -23,8 +23,6 @@ StaticObjComponent::StaticObjComponent()
 
 StaticObjComponent::StaticObjComponent(const char * file)
 {
-	modelRenderer = rEngine->CreateModelRenderer();
-
 	test = rEngine->CreateTriangleStripRenderer();
 
 	test->MakeFullScreenQuad();
@@ -36,14 +34,24 @@ StaticObjComponent::StaticObjComponent(const char * file)
 	LoadFile(file);
 }
 
+StaticObjComponent::StaticObjComponent(ModelResource model)
+{
+	test->MakeFullScreenQuad();
+
+	ShaderProgramBase* program = rEngine->CreateShaderProgram<StandardShader3D>();
+
+	SetShaderProgram(program);
+
+	this->model = model;
+}
+
 StaticObjComponent::~StaticObjComponent()
 {
-	delete modelRenderer;
 }
 
 void StaticObjComponent::LoadFile(const char * file)
 {
-	modelRenderer->LoadFile(file);
+	model = RM->ModelForPath(file);
 }
 
 void StaticObjComponent::PreRender()
@@ -57,5 +65,5 @@ void StaticObjComponent::Render(const Matrix44& cameraMatrix)
 {
 	program->SetMatricies(cameraMatrix, GetWorldMatrix());
 	//test->RenderObject();
-	modelRenderer->RenderObject(cameraMatrix);
+	model->RenderObject(cameraMatrix);
 }
