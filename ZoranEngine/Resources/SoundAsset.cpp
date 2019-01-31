@@ -277,9 +277,13 @@ int SoundAsset::LoadFromFile(const std::string & file, AudioListener* listener)
 	}
 	else
 	{
-		Log(LogLevel_Error, "Error Loading Sound Asset, Could Not Open %s for Reading", filePath.c_str());
+		char errorStr[256] = { 0 };
+		strerror_s(errorStr, errno);
+		Log(LogLevel_Error, "Error opening file %s : %s", file.c_str(), errorStr);
 		return RESOURCE_ERROR_LOADING_FILE;
 	}
+
+	isLoaded = true;
 
 	fileS.close();
 
@@ -320,7 +324,9 @@ int SoundAsset::SaveToFile(const std::string & file)
 		}
 		else
 		{
-			Log(LogLevel_Debug, "Source File %s can not be opend, trying to read from zSourceFile Instead", sourceFile->c_str());
+			char errorStr[256] = { 0 };
+			strerror_s(errorStr, errno);
+			Log(LogLevel_Info, "Source File %s can not be opend {%s} , trying to read from zSourceFile Instead", sourceFile->c_str(), errorStr);
 
 			goto zSourceRead;
 		}
@@ -335,14 +341,24 @@ int SoundAsset::SaveToFile(const std::string & file)
 			std::string line;
 			while (std::getline(file, line))
 			{
-				sourceData += line;
+				if (line == audioHeader)
+				{
+					size_t dataSize = 0;
+					file.read((char*)&dataSize, sizeof(size_t));
+					char* buff = (char*)malloc(dataSize);
+					file.read(buff, dataSize);
+					sourceData.append(buff, dataSize);
+					free(buff);
+				}
 				line.clear();
 			}
 			file.close();
 		}
 		else
 		{
-			Log(LogLevel_Error, "Error Saving Sound Asset, Source File (%s) and ZSourceFile (%s) Could not be Opened !", sourceFile->c_str(), zSourcePath->c_str());
+			char errorStr[256] = { 0 };
+			strerror_s(errorStr, errno);
+			Log(LogLevel_Error, "Error Saving Sound Asset, Source File (%s) and ZSourceFile (%s) Could not be Opened ! %s", sourceFile->c_str(), zSourcePath->c_str(), errorStr);
 
 			return RESOURCE_ERROR_SAVING_FILE;
 		}
@@ -375,11 +391,13 @@ int SoundAsset::SaveToFile(const std::string & file)
 	}
 	else
 	{
-		Log(LogLevel_Error, "Error Saving Sound Asset, %s Can't Be Opened for Writing!", filePath.c_str());
+		char errorStr[256] = { 0 };
+		strerror_s(errorStr, errno);
+		Log(LogLevel_Error, "Error Saving Sound Asset, %s Can't Be Opened for Writing! %s", filePath.c_str(), errorStr);
 		return RESOURCE_ERROR_SAVING_FILE;
 	}
 
-	return RESOURCE_ERROR_NOT_SUPPORTED;
+	return RESOURCE_ERROR_NO_ERROR;
 }
 
 const char * SoundAsset::GetAssetDescription() const

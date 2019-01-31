@@ -15,6 +15,8 @@ ResourceManager::ResourceManager()
 
 ResourceManager::~ResourceManager()
 {
+	CleanupResources();
+
 	delete fontMap;
 	delete imageMap;
 	delete modelMap;

@@ -129,7 +129,9 @@ int ModelAsset::LoadFromFile(const std::string & file)
 	}
 	else
 	{
-		Log(LogLevel_Error, "Error Loading Model Asset, Could Not Open %s for Reading", filePath.c_str());
+		char errorStr[256] = { 0 };
+		strerror_s(errorStr, errno);
+		Log(LogLevel_Error, "Error Loading Model Asset, Could Not Open %s for Reading: %s", filePath.c_str(), errorStr);
 		return RESOURCE_ERROR_LOADING_FILE;
 	}
 

@@ -648,7 +648,6 @@ int FontAsset::MakeFromFile(const std::string & file)
 		return RESOURCE_ERROR_INCORRECT_FILE_TYPE;
 	}
 
-	*sourcePath = file.c_str();
 	FreetypeHandle* ft = initializeFreetype();
 	if (ft)
 	{
@@ -657,6 +656,7 @@ int FontAsset::MakeFromFile(const std::string & file)
 		{
 			_data->ft = ft;
 			_data->font = font;
+			*sourcePath = file.c_str();
 		}
 		else
 		{
@@ -684,9 +684,18 @@ int FontAsset::LoadFromFile(const std::string& file)
 		return RESOURCE_ERROR_INCORRECT_FILE_TYPE;
 	}
 
-	*zSourcePath = file;
 
 	std::fstream fileS(file, std::ios::in | std::ios::binary);
+
+	if (fileS.good() == false)
+	{
+		char errorStr[256] = { 0 };
+		strerror_s(errorStr, errno);
+		Log(LogLevel_Error, "Error opening file %s : %s", file.c_str(), errorStr);
+		return RESOURCE_ERROR_LOADING_FILE;
+	}
+
+	*zSourcePath = file;
 
 	std::string currentHeader;
 	std::getline(fileS, currentHeader, '\n');
@@ -814,12 +823,22 @@ int FontAsset::SaveToFile(const std::string & file)
 		filePath += ".zft";
 	}
 
-	std::string data = zftHeader + "\n";
+	std::fstream fileS(*zSourcePath, std::ios::out | std::ios::trunc | std::ios::binary);
 
-	data += uvHeader + "\n";
+	if (fileS.good() == false)
+	{
+		char errorStr[256] = { 0 };
+		strerror_s(errorStr, errno);
+		Log(LogLevel_Error, "Error opening file %s : %s", filePath.c_str(), errorStr);
+		return RESOURCE_ERROR_SAVING_FILE;
+	}
+
+	fileS << zftHeader + "\n";
+
+	fileS << uvHeader + "\n";
 	{
 		size_t size = glyphMap->size();
-		data.append((const char*)&size, sizeof(size_t));
+		fileS.write((const char*)&size, sizeof(size_t));
 		// for efficeicny
 		char bytes[sizeof(Glyph)];
 
@@ -828,28 +847,28 @@ int FontAsset::SaveToFile(const std::string & file)
 			Glyph glyph = iter.second;
 
 			memcpy(bytes, &glyph, sizeof(glyph));
-			data.append((char*)&glyph,sizeof(glyph));
+			fileS.write((char*)&glyph,sizeof(glyph));
 		}
 	}
 
-	data += resolutionHeader + "\n";
+	fileS << resolutionHeader + "\n";
 	{
-		data.append((char*)&bmpResolution,sizeof(bmpResolution));
-		data += "\n";
+		fileS.write((char*)&bmpResolution,sizeof(bmpResolution));
+		fileS << "\n";
 	}
 
-	data += rangeHeader + "\n";
+	fileS << rangeHeader + "\n";
 	{
-		data.append((char*)&pxRange, sizeof(pxRange));
-		data += "\n";
+		fileS.write((char*)&pxRange, sizeof(pxRange));
+		fileS << "\n";
 	}
 
-	data += bmpHeader + "\n";
+	fileS << bmpHeader + "\n";
 	{
 		size_t outSize = 0;
 		unsigned char* bdata = 0;
 
-		data.append((char*)&type, sizeof(type));
+		fileS.write((char*)&type, sizeof(type));
 
 		switch (type)
 		{
@@ -882,26 +901,22 @@ int FontAsset::SaveToFile(const std::string & file)
 			break;
 		}
 
-		data.append((const char*)&outSize, sizeof(outSize));
-		data.append(bdata, bdata + outSize);
+		fileS.write((const char*)&outSize, sizeof(outSize));
+		fileS.write((const char*)bdata, outSize);
 
-		data += "\n";
+		fileS << "\n";
 
 		delete bdata;
 	}
 
-	data += sourceHeader + "\n";
+	fileS << sourceHeader + "\n";
 	{
-		data += *sourcePath + "\n";
+		fileS << *sourcePath + "\n";
 	}
 
 	*zSourcePath = filePath;
 
-	std::fstream files(*zSourcePath,std::ios::out | std::ios::trunc | std::ios::binary);
-
-	files.write(data.c_str(), data.size());
-
-	files.close();
+	fileS.close();
 
 	return RESOURCE_ERROR_NO_ERROR;
 

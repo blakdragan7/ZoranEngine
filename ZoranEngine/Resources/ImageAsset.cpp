@@ -47,7 +47,7 @@ int ImageAsset::MakeFromFile(const std::string & file, RenderDataType type, Rend
 
 	isLoaded = true;
 
-	sourceFile = new std::string(file);
+	*sourceFile = file;
 
 	return RESOURCE_ERROR_NO_ERROR;
 }
@@ -163,14 +163,12 @@ int ImageAsset::SaveToFile(const std::string & file)
 
 	if (fileS.good())
 	{
-		std::string data;
-
-		data = ziaHeader + "\n";
+		fileS << ziaHeader + "\n";
 		
-		data += sourceHeader + "\n";
-		data += *sourceFile + "\n";
+		fileS << sourceHeader + "\n";
+		fileS << *sourceFile + "\n";
 
-		data += imageHeader + "\n";
+		fileS << imageHeader + "\n";
 		
 		size_t dataSize;
 		char* tData = 0;
@@ -185,20 +183,19 @@ int ImageAsset::SaveToFile(const std::string & file)
 		RenderDataType type = renderAsset->GetRenderDataType();
 		Vector2I size = renderAsset->GetSize();
 
-		data.append((char*)&format, sizeof(RenderDataFormat));
-		data.append((char*)&type, sizeof(RenderDataType));
+		fileS.write((char*)&format, sizeof(RenderDataFormat));
+		fileS.write((char*)&type, sizeof(RenderDataType));
 
 		unsigned char*  encodedData = 0;
 		size_t encodedSize = 0;
 
 		lodepng_encode_memory(&encodedData, &encodedSize, (unsigned char*)tData, (unsigned)size.w, (unsigned)size.h, LCT_RGBA, 8);
 
-		data.append((const char*)&dataSize, sizeof(dataSize));
-		data.append((const char*)encodedData, encodedSize);
+		fileS.write((const char*)&dataSize, sizeof(dataSize));
+		fileS.write((const char*)encodedData, encodedSize);
 
 		free(tData);
 
-		fileS.write(data.c_str(), data.size());
 		fileS.close();
 	}
 	else
