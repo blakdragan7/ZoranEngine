@@ -34,6 +34,7 @@ public:
 	int MakeFromFile(const std::string& file, AudioListener* listener = 0);
 	int LoadFromFile(const std::string& file, AudioListener* listener = 0);
 	int SaveToFile(const std::string& file);
+	int Save();
 
 	const char* GetAssetDescription()const ;
 };

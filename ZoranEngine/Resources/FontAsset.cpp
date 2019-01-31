@@ -922,6 +922,22 @@ int FontAsset::SaveToFile(const std::string & file)
 
 }
 
+int FontAsset::Save()
+{
+	if (isLoaded == false)
+	{
+		return RESOURCE_ERROR_NOT_LOADED;
+	}
+
+	if (zSourcePath->empty())
+	{
+		Log(LogLevel_Error, "Could not re-save file without original");
+		return RESOURCE_ERROR_SAVING_FILE;
+	}
+
+	return SaveToFile(*zSourcePath);
+}
+
 const char * FontAsset::GetResourceDescription()const
 {
 	return "FontAsset - Wrapper for a loaded font that includes texture for rendering font and map of uv coords to each glyph";

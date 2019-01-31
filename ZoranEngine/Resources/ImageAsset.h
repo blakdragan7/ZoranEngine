@@ -22,6 +22,7 @@ public:
 	int MakeFromFile(const std::string& file, RenderDataType type, RenderDataFormat format);
 	int LoadFromFile(const std::string& file);
 	int SaveToFile(const std::string& file);
+	int Save();
 
 	const char* GetAssetDescription()const;
 

@@ -400,6 +400,22 @@ int SoundAsset::SaveToFile(const std::string & file)
 	return RESOURCE_ERROR_NO_ERROR;
 }
 
+int SoundAsset::Save()
+{
+	if (isLoaded == false)
+	{
+		return RESOURCE_ERROR_NOT_LOADED;
+	}
+
+	if (zSourcePath->empty())
+	{
+		Log(LogLevel_Error, "Could not re-save file without original");
+		return RESOURCE_ERROR_SAVING_FILE;
+	}
+
+	return SaveToFile(*zSourcePath);
+}
+
 const char * SoundAsset::GetAssetDescription() const
 {
 	return "SoundAsset - represents a loaded sound asset (like .wav) that can be played";
