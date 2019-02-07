@@ -14,7 +14,10 @@ ZFunction::~ZFunction()
 std::string ZFunction::Stringify() const
 {
 	std::string s = returnType.Stringify();
-	s += " " + name + "(";
+	if (s.empty())
+		s += name + "(";
+	else
+		s += " " + name + "(";
 	for (auto p : parameters)
 	{
 		s += p.Stringify() + ",";

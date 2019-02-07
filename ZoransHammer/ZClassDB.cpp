@@ -163,9 +163,10 @@ void ZClassDB::ParseSourceFile(const char * file)
 			}
 
 			std::string line;
-			while (GetLine(inFile, line, ":;"))
+			while (GetLineVar(inFile, line, { ": ", ";", ":\n", ":\t"}))
 			{
 				FlattenString(line, "\n\t");
+				if (line.empty())continue;
 				if (line == "private" || line == "public" || line == "protected")continue;
 				if (line.find("}") != string::npos)break;
 				if (line.find("(") != string::npos)

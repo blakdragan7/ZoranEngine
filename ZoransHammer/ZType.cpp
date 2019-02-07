@@ -12,5 +12,7 @@ ZType::~ZType()
 
 std::string ZType::Stringify() const
 {
-	return typeName + ":" + memberName;
+	if(typeName.empty() == false || memberName.empty() == false)
+		return typeName + " " + memberName;
+	return "";
 }

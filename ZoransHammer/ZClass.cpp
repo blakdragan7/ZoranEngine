@@ -21,15 +21,14 @@ std::string ZClass::Stringify() const
 
 	for (auto m : members)
 	{
-		s += "\n";
-		s += m.Stringify();
+		s += "\n\t"+ m.Stringify();
 	}
 
 	s += "\nfunctions:";
 
 	for (auto f : functions)
 	{
-		s += "\n" + f.Stringify();
+		s += "\n\t" + f.Stringify();
 	}
 
 	return s;
