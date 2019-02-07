@@ -847,11 +847,11 @@
     <LibraryPath>libs;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(ProjectDir);GL;ThirdParty/msdfgen;ThirdParty;$(IncludePath)</IncludePath>
+    <IncludePath>D:\git\ZoranEngine\Shared;D:\git\ZoranEngine\Shared;$(ProjectDir);GL;ThirdParty/msdfgen;ThirdParty;$(IncludePath)</IncludePath>
     <LibraryPath>libs;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(ProjectDir);GL;ThirdParty/msdfgen;ThirdParty;$(IncludePath)</IncludePath>
+    <IncludePath>D:\git\ZoranEngine\Shared;$(ProjectDir);GL;ThirdParty/msdfgen;ThirdParty;$(IncludePath)</IncludePath>
     <LibraryPath>libs;$(LibraryPath)</LibraryPath>
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>

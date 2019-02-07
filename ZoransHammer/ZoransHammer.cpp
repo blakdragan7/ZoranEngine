@@ -6,6 +6,9 @@
 
 #include "ZClassDB.h"
 
+// header library
+#include <ThirdParty/cxxopts/cxxopts.hpp>
+
 int main()
 {
 	ZClassDB db;

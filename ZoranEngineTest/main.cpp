@@ -65,10 +65,10 @@ static const float scale = 40.0f;
 
 int main(int argc, char* argv[])
 {
-	Test2DSceneStuff();
+	//Test2DSceneStuff();
 	//Test3DSceneStuff();
 	//TestGUIStuff();
-	//TestResourceStuff();
+	TestResourceStuff();
 }
 
 void Test2DSceneStuff()
@@ -147,7 +147,7 @@ void Test3DSceneStuff()
 	std::string name_base = "TestSceneObject-";
 
 	StaticModelSceneObj* test = engine.SpawnSceneObjectAtLocation<StaticModelSceneObj>(name_base + "1", Vector3D(0,0,20), Vector3D(1.0f,1.0f,1.0f));
-	test->SetMesh("teapot.obj");
+	test->SetMesh("teapot.zma");
 
 	engine.MainLoop();
 }
@@ -233,6 +233,10 @@ void TestResourceStuff()
 	engine.Init();
 	engine.Setup2DScene(0, 0, 2000, 2000);
 
-	auto test = RM->MakeImageForPath("test.png","test");
-	auto circle = RM->MakeImageForPath("circle.png", "circle");
+	//auto test = RM->MakeImageForPath("test.png","test");
+	//auto circle = RM->MakeImageForPath("circle.png", "circle");
+
+	//auto s = RM->MakeSoundForPath("test.wav", "test");
+	auto s = RM->SoundForPath("test");
+	s->SaveToFile("test");
 }
