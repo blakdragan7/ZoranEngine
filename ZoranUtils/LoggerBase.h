@@ -1,4 +1,6 @@
 #pragma once
+#include "PlatoformTypes.h"
+
 enum ELogLevel {
 	LogLevel_Verbose = 0,
 	LogLevel_Info = 1,
@@ -8,7 +10,7 @@ enum ELogLevel {
 	LogLevel_None = 5
 };
 
-class LoggerBase
+class DLL_EXPORT LoggerBase
 {
 protected:
 	ELogLevel logLevel;

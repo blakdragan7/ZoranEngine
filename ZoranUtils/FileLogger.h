@@ -1,10 +1,13 @@
 #pragma once
-#include <Utils\LoggerBase.h>
+#include "LoggerBase.h"
+#include "PlatoformTypes.h"
 
-class FileLogger : public LoggerBase
+#include <fstream>
+
+class DLL_EXPORT FileLogger : public LoggerBase
 {
 	std::fstream* file_;
-	std::string path;
+	std::string* path;
 	bool isGood;
 
 public:

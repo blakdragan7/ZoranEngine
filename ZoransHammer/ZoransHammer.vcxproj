@@ -154,9 +154,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="FileUtils.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="StringUtils.h" />
     <ClInclude Include="TestClass.h" />
     <ClInclude Include="ZClass.h" />
     <ClInclude Include="ZClassDB.h" />
@@ -164,20 +162,23 @@
     <ClInclude Include="ZType.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="FileUtils.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="StringUtils.cpp" />
     <ClCompile Include="TestClass.cpp" />
     <ClCompile Include="ZClass.cpp" />
     <ClCompile Include="ZClassDB.cpp" />
     <ClCompile Include="ZFunction.cpp" />
     <ClCompile Include="ZoransHammer.cpp" />
     <ClCompile Include="ZType.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ZoranUtils\ZoranUtils.vcxproj">
+      <Project>{32f29f42-9bee-466e-b373-587def5d3cd0}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

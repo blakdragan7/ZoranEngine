@@ -9,7 +9,7 @@
 #include <ThirdParty/loadpng/lodepng.h>
 
 #include <Rendering/TextureBase.h>
-#include <Utils/StringAddons.hpp>
+#include <Utils/StringUtils.h>
 #include <Utils/BitmapAddons.hpp>
 
 #include <Rendering/RenderEngineBase.h>

@@ -1,6 +1,7 @@
 #pragma once
 #include "LoggerBase.h"
-class ConsoleLogger : public LoggerBase
+#include "PlatoformTypes.h"
+class DLL_EXPORT ConsoleLogger : public LoggerBase
 {
 public:
 	ConsoleLogger();

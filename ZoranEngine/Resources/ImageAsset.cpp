@@ -4,7 +4,7 @@
 
 #include <Rendering/RenderEngineBase.h>
 #include <Rendering/TextureBase.h>
-#include <Utils/StringAddons.hpp>
+#include <Utils/StringUtils.h>
 
 #include <ThirdParty/loadpng/lodepng.h>
 

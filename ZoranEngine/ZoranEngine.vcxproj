@@ -249,10 +249,6 @@
     <ClCompile Include="ThirdParty\tinyxml2\tinyxml2.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Utils\ConsoleLogger.cpp" />
-    <ClCompile Include="Utils\FileLogger.cpp" />
-    <ClCompile Include="Utils\LoggerBase.cpp" />
-    <ClCompile Include="Utils\Random.cpp" />
     <ClCompile Include="Utils\Statistics.cpp" />
     <ClCompile Include="Windows\WindowsMouse.cpp" />
     <ClCompile Include="Windows\WindowsThread.cpp" />
@@ -736,16 +732,7 @@
     <ClInclude Include="ThirdParty\unicode\uvernum.h" />
     <ClInclude Include="ThirdParty\unicode\uversion.h" />
     <ClInclude Include="ThirdParty\unicode\vtzone.h" />
-    <ClInclude Include="Utils\BitmapAddons.hpp" />
-    <ClInclude Include="Utils\ConsoleLogger.h" />
-    <ClInclude Include="Utils\FileLogger.h" />
-    <ClInclude Include="Utils\HighPrecisionClock.h" />
-    <ClInclude Include="Utils\ListAddons.hpp" />
-    <ClInclude Include="Utils\LoggerBase.h" />
-    <ClInclude Include="Utils\Random.h" />
     <ClInclude Include="Utils\Statistics.h" />
-    <ClInclude Include="Utils\StringAddons.hpp" />
-    <ClInclude Include="Utils\VectorAddons.hpp" />
     <ClInclude Include="Version.h" />
     <ClInclude Include="Windows\WindowsMouse.h" />
     <ClInclude Include="Windows\WindowsThread.h" />
@@ -785,6 +772,11 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ZoranEngine.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ZoranUtils\ZoranUtils.vcxproj">
+      <Project>{32f29f42-9bee-466e-b373-587def5d3cd0}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

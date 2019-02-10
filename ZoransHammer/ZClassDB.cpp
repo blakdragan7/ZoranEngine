@@ -8,8 +8,8 @@
 #include <algorithm>
 #include <sstream>
 
-#include "FileUtils.h"
-#include "StringUtils.h"
+#include <Utils/FileUtils.h>
+#include <Utils/StringUtils.h>
 
 std::string modifiers[] =
 {
@@ -31,7 +31,7 @@ void ZClassDB::LoadFromClassDBFile(const char * file)
 
 ZType ZClassDB::ParseType(std::string& info)
 {
-	auto splitStr = Split(info, " "); // split string by whitespace
+	auto splitStr = SplitString(info, " "); // split string by whitespace
 
 	ZType type;
 
@@ -57,11 +57,11 @@ ZFunction ZClassDB::ParseFunction(std::string& info)
 
 	std::string typeInfo;
 
-	auto fStrings = Split(info, "(");
+	auto fStrings = SplitString(info, "(");
 
 	ZFunction function;
 
-	auto _Fstrings = Split(fStrings[0], " ");
+	auto _Fstrings = SplitString(fStrings[0], " ");
 
 	function.name = _Fstrings.back();
 
@@ -93,7 +93,7 @@ ZFunction ZClassDB::ParseFunction(std::string& info)
 		function.returnType.memberName = "function_return";
 	}
 
-	 auto _vs = Split(fStrings[1], ")");
+	 auto _vs = SplitString(fStrings[1], ")");
 	
 	 FlattenString(_vs[1], " ");
 
@@ -106,7 +106,7 @@ ZFunction ZClassDB::ParseFunction(std::string& info)
 	else
 	{
 		// function does have params
-		auto _Pstrings = Split(_vs[0], ",");
+		auto _Pstrings = SplitString(_vs[0], ",");
 
 		for (auto s : _Pstrings)
 		{

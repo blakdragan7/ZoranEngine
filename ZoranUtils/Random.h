@@ -1,7 +1,7 @@
 #pragma once
-#include "Core/PlatformTypes.h"
+#include "PlatoformTypes.h"
 
-class ZoranEngine_EXPORT Random
+class DLL_EXPORT Random
 {
 public:
 	static void Init();

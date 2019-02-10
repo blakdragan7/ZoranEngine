@@ -4,7 +4,7 @@
 
 #include "GL\glew.h"
 
-#include <Utils/StringAddons.hpp>
+#include <Utils/StringUtils.h>
 #include <ThirdParty/loadbmp/loadbmp.hpp>
 
 OpenGLTexture::OpenGLTexture(OpenGLContext* OGL, RenderDataType type_, RenderDataFormat format_) : OGL(OGL), TextureBase(0,0,type_,format_)

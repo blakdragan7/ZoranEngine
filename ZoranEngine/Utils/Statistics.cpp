@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Statistics.h"
+
 #include <string>
 #include <assert.h>
 

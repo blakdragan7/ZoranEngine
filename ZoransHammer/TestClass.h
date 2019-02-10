@@ -13,4 +13,9 @@ public:
 	TestClass();
 	~TestClass();
 
+	static float GetAFloat();
+	double GetADouble()const;
+
+	void FunctionWithParams(float x, float y);
+
 };

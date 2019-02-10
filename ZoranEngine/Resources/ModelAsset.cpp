@@ -3,7 +3,7 @@
 
 #include <fstream>
 
-#include <Utils/StringAddons.hpp>
+#include <Utils/StringUtils.h>
 
 #include <Resources/ResourceErrors.h>
 

@@ -3,11 +3,13 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
 
 #define file (*file_)
 
-FileLogger::FileLogger(std::string filePath) : path(filePath)
+FileLogger::FileLogger(std::string filePath)
 {
+	path = new std::string(filePath);
 	file_ = new std::fstream;
 	file_->open(filePath, std::ios::out);
 	if (file_->is_open() == false)
@@ -28,6 +30,8 @@ FileLogger::~FileLogger()
 		file_->close();
 		delete file_;
 	}
+
+	delete path;
 }
 
 void FileLogger::LogString(ELogLevel logLevel, const char * format, ...)
@@ -62,6 +66,6 @@ void FileLogger::LogString(ELogLevel logLevel, const char * format, ...)
 	}
 	else
 	{
-		std::cout << "Can write log when isGood = false !\n";
+		std::cout << "Error: Trying To Write To Log File when it wasn't opened !\n";
 	}
 }

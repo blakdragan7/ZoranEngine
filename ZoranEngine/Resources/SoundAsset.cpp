@@ -6,7 +6,7 @@
 
 #include <Resources/ResourceErrors.h>
 
-#include <Utils/StringAddons.hpp>
+#include <Utils/StringUtils.h>
 
 #include <iostream>
 #include <fstream>
