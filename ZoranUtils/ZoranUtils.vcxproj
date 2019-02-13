@@ -44,6 +44,9 @@
     <ClCompile Include="StringUtils.cpp" />
     <ClCompile Include="ZoranUtils.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{32F29F42-9BEE-466E-B373-587DEF5D3CD0}</ProjectGuid>

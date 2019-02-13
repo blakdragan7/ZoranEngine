@@ -7,6 +7,8 @@
 
 #include "ZClassDB.h"
 
+#include <Utils/FileUtils.h>
+
 // header library
 #include <ThirdParty/cxxopts/cxxopts.hpp>
 
@@ -15,17 +17,16 @@ int main(int argc, char* argv[])
 
 	bool shouldRecurse = false;
 	std::string directory;
-	std::string fileMask;
+	std::string fileMask = "*.h";
 
 	cxxopts::Options options("ZoransHammer, Build Reflection Information for c++ classes");
 
 	try
 	{
-
 		options.add_options()
 			("r,recursive", "If Set, will parse files recursivly in directory", cxxopts::value<bool>()->default_value("false"))
-			("d,directory", "Set Directory For Parsing", cxxopts::value<std::string>())
-			("m,mask", "The file Mask ex cpp", cxxopts::value<std::string>()->default_value("cpp"))
+			("d,directory", "Set Directory For Parsing, This is required.", cxxopts::value<std::string>())
+			("m,mask", "The file Mask ex cpp", cxxopts::value<std::string>()->default_value("*.h"))
 			("h,help", "Print help");
 
 		auto result = options.parse(argc, argv);
@@ -49,13 +50,13 @@ int main(int argc, char* argv[])
 	}
 	catch (const cxxopts::OptionParseException& e)
 	{
-		std::cout << "error parsing options: " << e.what() << std::endl;
+		std::cout << "error parsing Arguments: " << e.what() << std::endl;
 		std::cout << options.help({ "" });
 		return 1;
 	}
 	catch (cxxopts::OptionSpecException& e)
 	{
-		std::cout << "Incorrect Argument " << e.what() << std::endl;
+		std::cout << "Incorrect Arguments " << e.what() << std::endl;
 		std::cout << options.help({""});
 		return 1;
 	}
@@ -65,10 +66,19 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 
+	if (directory.empty())
+	{
+		std::cout << "Directory Option Required ! try -h | --help for more information\n";
+		return 0;
+	}
+
 	ZClassDB db;
 	
-	db.ParseSourceFile("TestClass.h");
-
+	GetFilesInDir(directory, fileMask, shouldRecurse, [&db](std::string filename, std::string filepath) {
+		if (filename == "pch.h")return;
+		if (filename == "stdafx.h")return;
+		db.ParseSourceFile(filepath.c_str());
+	});
 
 	db.PrintAllClasses();
 	std::cin.get();

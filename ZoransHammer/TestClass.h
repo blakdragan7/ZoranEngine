@@ -10,9 +10,9 @@ private:
 	std::string aString;
 
 public:
-	TestClass();
+	TestClass(); // this is a comment
 	~TestClass();
-
+	
 	static float GetAFloat();
 	double GetADouble()const;
 

@@ -12,8 +12,6 @@ private:
 
 private:
 	void LoadFromClassDBFile(const char* file);
-	ZType ParseType(std::string& info);
-	ZFunction ParseFunction(std::string& info);
 
 public:
 	// file is a database file of previously loaded class definitions

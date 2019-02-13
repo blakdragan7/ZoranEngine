@@ -66,3 +66,42 @@ bool GetLineVar(std::fstream & inFile, std::string & line, std::vector<std::stri
 
 	return false;
 }
+
+bool GetFilesInDir(std::string inDir, std::string fileMask, bool recurse, std::function<void(std::string, std::string)> callback)
+{
+#ifdef _WIN32 // is windows
+
+	HANDLE hFind;
+	WIN32_FIND_DATA data;
+
+	std::string path = inDir + "/" + fileMask;
+
+	hFind = FindFirstFile(path.c_str(), &data);
+	if (hFind != INVALID_HANDLE_VALUE) {
+		do {
+			if (strcmp(data.cFileName, ".") == 0)continue;
+			else if (strcmp(data.cFileName, "..") == 0)continue;
+
+			else if (data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+			{
+				if (recurse)
+				{
+					GetFilesInDir(inDir + "/" + data.cFileName, fileMask, recurse, callback);
+				}
+				else continue;
+			}
+			else
+			{
+				callback(data.cFileName, inDir + "/" + data.cFileName);
+			}
+		} while (FindNextFile(hFind, &data));
+		FindClose(hFind);
+	}
+
+#else // is not windows
+
+#endif // end if Windows
+
+
+	return true;
+}

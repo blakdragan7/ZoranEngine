@@ -4,6 +4,7 @@
 
 #include <string>
 #include <vector>
+
 struct ZClass
 {
 	std::vector<ZType> members;
