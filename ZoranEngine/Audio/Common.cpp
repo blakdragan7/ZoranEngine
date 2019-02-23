@@ -30,4 +30,6 @@ const char * StringForAudioError(AudioError error)
 	case AE_NO_DEVICE:
 		return "No Audio Device";
 	}
+
+	return "Unsuported Audo Error Enumn";
 }

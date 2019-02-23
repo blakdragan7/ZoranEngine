@@ -8,5 +8,6 @@ public:
 	~ConsoleLogger();
 
 	virtual void LogString(ELogLevel logLevel, const char* format,...)override;
+	virtual void WriteString(std::string string)override;
 };
 

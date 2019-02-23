@@ -9,7 +9,13 @@
 #define r3Engine zEngine->GetRenderer3D()
 #define aEngine zEngine->GetAudioEngine()
 #define DebugWindow zEngine->GetDebugWindow()
-#define Log(...) ZoranEngine::Instance()->logger->LogString(__VA_ARGS__);
+#define Log(...) zEngine->logger->LogString(__VA_ARGS__);
+
+#define LOG_ERROR zEngine->logger->WrapperForLevel(LogLevel_Error)
+#define LOG_WARNING zEngine->logger->WrapperForLevel(LogLevel_Warning)
+#define LOG_DEBUG zEngine->logger->WrapperForLevel(LogLevel_Debug)
+#define LOG_INFO zEngine->logger->WrapperForLevel(LogLevel_Info)
+#define LOG_VERBOSE zEngine->logger->WrapperForLevel(LogLevel_Verbose)
 
 #include <Utils/LoggerBase.h>
 #include "PlatformTypes.h"

@@ -4,6 +4,8 @@
 #include <Utils/StringUtils.h>
 #include <Utils/FileUtils.h>
 
+#include <algorithm>
+
 #include <iostream>
 
 const std::string modifiers[] =
@@ -19,101 +21,129 @@ bool IsModifier(std::string s)
 	return false;
 }
 
-ZType SourceParser::ParseType(std::string & info)
+void SourceParser::RemoveEmptyStrings(std::vector<std::string>& vector)
 {
-	auto splitStr = SplitString(info, " "); // split string by whitespace
-
-	ZType type;
-
-	type.isStatic = splitStr[0] == "static";
-
-	type.memberName = splitStr.back();
-	splitStr.pop_back();
-
-	for (auto s : splitStr)
-	{
-		if (s.empty())continue;
-
-		if (type.typeName.empty() == false)
-			type.typeName += " ";
-		type.typeName += s;
-	}
-
-	return type;
+	vector.erase(std::remove_if(vector.begin(), vector.end(), [](std::string& s) {return s.empty(); }), vector.end());
 }
 
-ZFunction SourceParser::ParseFunction(std::string & info)
+std::vector<std::string> SourceParser::SplitAtFirst(std::string & string, const char delim)
 {
-	std::string typeInfo;
+	std::vector<std::string> ret;
 
-	auto fStrings = SplitString(info, "(");
+	std::string first;
+	bool firstB = true;
 
-	ZFunction function;
-
-	auto _Fstrings = SplitString(fStrings[0], " ");
-
-	function.name = _Fstrings.back();
-
-	if (_Fstrings.size() > 1)
+	for (auto c : string)
 	{
-		_Fstrings.pop_back();
-
-		if (_Fstrings[0] == "static")
+		if (c == delim && firstB)
 		{
-			function.isStatic = true;
-			_Fstrings.erase(_Fstrings.begin());
+			ret.push_back(first);
+			first.clear();
+			firstB = false;
 		}
+		else
+			first.push_back(c);
+	}
 
-		if (_Fstrings[0] == "virtual")
-		{
-			function.isVirtual = true;
-			_Fstrings.erase(_Fstrings.begin());
-		}
+	ret.push_back(first);
 
-		for (auto s : _Fstrings)
+	return ret;
+}
+
+bool SourceParser::SkipTemplate(std::fstream & inFile)
+{
+	char test[3] = { 0 };
+
+	bool isInComment = false;
+	char commentType = 0;
+
+	int depth = 0;
+
+	while (inFile.eof() == false)
+	{
+		test[0] = test[1]; // move second position back one
+
+		char g = inFile.get();
+		test[1] = g;
+
+		// list of if chains for each delim
+		// faster then using std::string
+		if (isInComment)
 		{
-			if (IsModifier(s))continue;
-			else
+			switch (commentType)
 			{
-				function.returnType.typeName += s;
+			case '/':
+				// '//' comments only end at newline which is standardized by fstream to \n
+				if (test[1] == '\n')
+				{
+					isInComment = false;
+					commentType = 0;
+					test[0] = 0;
+					test[1] = 0;
+				}
+				break;
+			case '*':
+				// '/*' comments are only ended with */ charecters
+				if (strcmp(test, "*/") == 0)
+				{
+					isInComment = false;
+					commentType = 0;
+					test[0] = 0;
+					test[1] = 0;
+				}
+				break;
+			default:
+				LOG_ERROR << "SourceParser Incorrect Comment State for GetLine\n";
+				break;
+			}
+
+			continue;
+		}
+		else
+		{
+			if (test[1] == '{')
+			{
+				++depth;
+				test[0] = 0;
+				test[1] = 0;
+				continue;
+			}
+			else if (test[1] == '}')
+			{
+				--depth;
+				if (depth < 1)
+					return true;
+				continue;
+			}
+			else if (test[1] == ';')
+			{
+				// this is a template class declaration
+				return true;
+			}
+			else if (strcmp(test, "//") == 0) // start comment with type /
+			{
+				isInComment = true;
+				commentType = '/';
+				test[0] = 0;
+				test[1] = 0;
+				continue;
+			}
+			else if (strcmp(test, "/*") == 0) // start comment with type *
+			{
+				isInComment = true;
+				commentType = '*';
+				test[0] = 0;
+				test[1] = 0;
+				continue;
 			}
 		}
-
-		function.returnType.memberName = "function_return";
 	}
 
-	auto _vs = SplitString(fStrings[1], ")");
-
-	FlattenString(_vs[1], " ");
-
-	bool isConst = _vs[1] == "const";
-
-	if (_vs[0].empty())
-	{
-		// function has no params
-	}
-	else
-	{
-		// function does have params
-		auto _Pstrings = SplitString(_vs[0], ",");
-
-		for (auto s : _Pstrings)
-		{
-			if (s.empty())continue;
-			ZType type = ParseType(s);
-			function.parameters.push_back(type);
-		}
-	}
-
-	return function;
+	return false;
 }
 
-bool SourceParser::GetLine(std::fstream & inFile, std::string & line)
+bool SourceParser::MoveOutOfImplementation(std::fstream & inFile, int & depth)
 {
-	size_t maxStringSize = 2;
-
-	line.clear();
-	
 	char test[3] = { 0 };
 
 	bool isInComment = false;
@@ -153,7 +183,269 @@ bool SourceParser::GetLine(std::fstream & inFile, std::string & line)
 				}
 				break;
 			default:
-				std::cout << "SourceParser Incorrect Comment State for GetLine\n";
+				LOG_ERROR << "SourceParser Incorrect Comment State for GetLine\n";
+				break;
+			}
+
+			continue;
+		}
+		else
+		{
+			if (test[1] == '{')
+			{
+				++depth;
+				test[0] = 0;
+				test[1] = 0;
+				continue;
+			}
+			else if (test[1] == '}')
+			{
+				--depth;
+				if (depth < 1)
+					return true;
+				continue;
+			}
+			else if (strcmp(test, "//") == 0) // start comment with type /
+			{
+				isInComment = true;
+				commentType = '/';
+				test[0] = 0;
+				test[1] = 0;
+				continue;
+			}
+			else if (strcmp(test, "/*") == 0) // start comment with type *
+			{
+				isInComment = true;
+				commentType = '*';
+				test[0] = 0;
+				test[1] = 0;
+				continue;
+			}
+		}
+	}
+
+	return false;
+}
+
+int SourceParser::GoToEndOfClassDec(std::fstream& inFile, std::string & line)
+{
+	while (inFile.eof() == false)
+	{
+		char test[2] = { 0 };
+		test[0] = inFile.get();
+		if (test[0] == ';')
+		{
+			return 2;
+		}
+		else if (test[0] == '{')
+		{
+			return 1;
+		}
+		else
+		{
+			line.append(1, test[0]);
+			continue;
+		}
+	}
+
+	return 0;
+}
+
+ZType SourceParser::ParseType(std::string & info)
+{
+	auto splitStr = SplitString(info, " "); // split string by whitespace
+
+	ZType type;
+
+	type.isStatic = splitStr[0] == "static";
+
+	type.memberName = splitStr.back();
+	splitStr.pop_back();
+
+	for (auto s : splitStr)
+	{
+		if (s.empty())continue;
+
+		if (type.typeName.empty() == false)
+			type.typeName += " ";
+		type.typeName += s;
+	}
+
+	return type;
+}
+
+bool SourceParser::ParseFunction(std::string & info, ZFunction& function)
+{
+	std::string typeInfo;
+
+	auto fStrings = SplitAtFirst(info, '(');
+
+	auto _Fstrings = SplitString(fStrings[0], " ");
+
+	function.name = _Fstrings.back();
+
+	if (_Fstrings.size() > 1)
+	{
+		_Fstrings.pop_back();
+
+		if (_Fstrings[0] == "static")
+		{
+			function.isStatic = true;
+			_Fstrings.erase(_Fstrings.begin());
+		}
+
+		if (_Fstrings[0] == "virtual")
+		{
+			function.isVirtual = true;
+			_Fstrings.erase(_Fstrings.begin());
+		}
+
+		for (auto s : _Fstrings)
+		{
+			if (IsModifier(s))continue;
+			else
+			{
+				function.returnType.typeName += s;
+			}
+		}
+
+		function.returnType.memberName = "function_return";
+	}
+
+	auto _vs = SplitString(fStrings[1], ")");
+
+	if (_vs.size() != 2)
+	{
+		LOG_ERROR << "Malformed Function Info " << info << std::endl;
+		return false;
+	}
+
+	FlattenString(_vs[1], " ");
+
+	bool isConst = _vs[1] == "const";
+
+	if (_vs[0].empty())
+	{
+		// function has no params
+	}
+	else
+	{
+		// function does have params
+		auto _Pstrings = SplitString(_vs[0], ",");
+
+		for (auto s : _Pstrings)
+		{
+			if (s.empty())continue;
+			ZType type = ParseType(s);
+			function.parameters.push_back(type);
+		}
+	}
+
+	return true;
+}
+
+int SourceParser::ParseClassDeclaration(ZClass & theClass, std::string info)
+{
+	using namespace std;
+
+	string copy = info;
+	FlattenString(copy, " \n\t");
+	if (copy.empty())return 2;
+
+	vector<std::string> cDefs = SplitString(info, ":");
+
+	RemoveEmptyStrings(cDefs);
+
+	if (cDefs.size() == 2) // has a parent class
+	{
+		string classString = cDefs[0];
+		auto words = SplitString(classString, " \t");
+		RemoveEmptyStrings(words);
+		theClass.name = words.back();
+
+		auto parents = SplitString(cDefs[1], ",");
+		for (auto parentString : parents)
+		{
+			auto parts = SplitString(parentString, " \t");
+			RemoveEmptyStrings(parts);
+			theClass.parents.push_back(parts.back());
+		}
+	}
+	else if (cDefs.size() != 1)
+	{
+		return 1;
+	}
+	else
+	{
+		FlattenString(info, "\n");
+		auto words = SplitString(info, " \t");
+		RemoveEmptyStrings(words);
+		theClass.name = words.back();
+	}
+
+	return 0;
+}
+
+bool SourceParser::GetLine(std::fstream & inFile, std::string & line)
+{
+	size_t maxStringSize = 2;
+
+	line.clear();
+	
+	char test[3] = { 0 };
+
+	bool isInImplementation = false;
+	bool isInComment = false;
+	char commentType = 0;
+
+	while (inFile.eof() == false)
+	{
+		test[0] = test[1]; // move second position back one
+
+		char g = inFile.get();
+		test[1] = g;
+
+		if(g == '\n')currentLine++;
+
+		if (isInImplementation)
+		{
+			if (g == '}')
+			{
+				isInImplementation = false;
+				return true;
+			}
+
+			continue;
+		}
+
+		// list of if chains for each delim
+		// faster then using std::string
+		if (isInComment)
+		{
+			switch (commentType)
+			{
+			case '/':
+				// '//' comments only end at newline which is standardized by fstream to \n
+				if (test[1] == '\n')
+				{
+					isInComment = false;
+					commentType = 0;
+					test[0] = 0;
+					test[1] = 0;
+				}
+				break;
+			case '*':
+				// '/*' comments are only ended with */ charecters
+				if (strcmp(test, "*/") == 0)
+				{
+					isInComment = false;
+					commentType = 0;
+					test[0] = 0;
+					test[1] = 0;
+				}
+				break;
+			default:
+				LOG_ERROR << "SourceParser Incorrect Comment State for GetLine\n";
 				break;
 			}
 
@@ -164,6 +456,13 @@ bool SourceParser::GetLine(std::fstream & inFile, std::string & line)
 			if (test[1] == ';')
 			{
 				return true;
+			}
+			else if (test[1] == '{')
+			{
+				isInImplementation = true;
+				test[0] = 0;
+				test[1] = 0;
+				continue;
 			}
 			else if (strcmp(test, ": ") == 0)
 			{
@@ -214,46 +513,155 @@ SourceParser::~SourceParser()
 {
 }
 
-bool SourceParser::ParseFile(std::string file)
+bool SourceParser::ParseFile(std::string& file, std::string &dir)
 {
 	using namespace std;
+	currentLine = 0;
 	fstream inFile;
 	inFile.open(file, ios::in);
 
 	if (inFile.good() == false)
 	{
-		cout << "Could not open File !\n";
+		LOG_ERROR << "Could not open File !\n";
 		return false;
 	}
+
+	/*std::string dir;
+#ifdef _WIN32
+	char sep = '\\';
+#else
+	char sep = '/';
+#endif
+	size_t l = file.rfind(sep, dir.size());
+	if (l != string::npos)
+		dir = file.substr(0, l);
+	else
+		dir = "./";*/
 
 	while (inFile.eof() == false)
 	{
 		string word;
 		inFile >> word;
-		if (word == "struct")
-		{
-			cout << "No Struct support currently\n";
-			return false;
-		}
 		if (word == "//") // is this a comment
 		{
 			MoveToChar(inFile, '\n');// skip line
 			continue;
 		}
-		if (word == "class")
+		else if (word == "/*")
 		{
-			ZClass theClass;
-
-			inFile >> theClass.name;
-
-			if (MoveToChar(inFile, '{') == false)
+			bool found = false;
+			char test[3] = { 0 };
+			while (inFile.eof() == false)
 			{
-				cout << "Malformed Class File " << file << " !" << endl;
+				test[0] = test[1];
+				test[1] = inFile.get();
+
+				if (strcmp(test, "*/") == 0)
+				{
+					// we found end of comment
+					found = true;
+					break;
+				}
+			}
+
+			if (found == false)
+			{
+				LOG_ERROR << "Malformed Header file ! Could not Move Out Of /* comment !\n";
 				inFile.close();
 				return false;
 			}
 
+			continue;
+		}
+		else if (word == "extern")
+		{
+			inFile >> word;
+			if (word.find("\n") != string::npos)currentLine++;
+			if (word == "\"C\"")
+			{
+				// we are in c code
+
+				int depth = 0;
+				if (MoveToChar(inFile, '{'))
+				{
+					depth = 1;
+
+					if (MoveOutOfImplementation(inFile, depth) == false)
+					{
+						LOG_ERROR << "Malformed Header file ! Could not Move Out Of Extern C !\n";
+						inFile.close();
+						return false;
+					}
+
+					continue;
+				}
+				else
+				{
+					LOG_ERROR << "Malformed Header file ! Extern C without {\n";
+					inFile.close();
+					return false;
+				}
+			}
+		}
+		else if (word == "union")
+		{
+			int depth = 0;
+			if (MoveToChar(inFile, '{'))
+			{
+				depth = 1;
+
+				if (MoveOutOfImplementation(inFile, depth) == false)
+				{
+					LOG_ERROR << "Malformed Header file ! Could not Move Out Of union !\n";
+					inFile.close();
+					return false;
+				}
+
+				continue;
+			}
+		}
+		else if (word == "class" || word == "struct")
+		{
+			bool isClass = word == "class";
+			ZClass theClass;
+
+			theClass.sourceFile = file;
+			theClass.sourceDir = dir;
+
 			std::string line;
+			int res = GoToEndOfClassDec(inFile, line);
+			if (res == 0)
+			{
+				LOG_ERROR << "Malformed Class File " << file << " could not find end of class decl" << endl;
+				inFile.close();
+				return false;
+			}
+			if (res == 2)
+			{
+				continue;
+			}
+
+			if (int err = ParseClassDeclaration(theClass, line))
+			{
+				switch (err)
+				{
+				case 1:
+					LOG_ERROR << "Malformed Class File " << file << " incorrect : count" << endl;
+					break;
+				case 2:
+					// ignore because no declaration
+					continue;
+					break;
+				default:
+					LOG_ERROR << "Malformed Class File " << file << " Unkown ParseClassDeclaration error" << endl;
+					break;
+				}
+				inFile.close();
+				return false;
+			}
+
+			line.clear();
+
 			while (GetLine(inFile, line))
 			{
 				FlattenString(line, "\n\t");
@@ -262,8 +670,11 @@ bool SourceParser::ParseFile(std::string file)
 				if (line.find("}") != string::npos)break;
 				if (line.find("(") != string::npos)
 				{
-					ZFunction function = ParseFunction(line);
-					theClass.functions.push_back(function);
+					ZFunction function;
+					if (ParseFunction(line, function))
+					{
+						theClass.functions.push_back(function);
+					}
 				}
 				else
 				{
@@ -273,6 +684,17 @@ bool SourceParser::ParseFile(std::string file)
 			}
 
 			generated.push_back(theClass);
+		}
+		else if (word.find("template") != string::npos)
+		{
+			if(SkipTemplate(inFile) == false)
+			{
+				LOG_ERROR << "Malformed Class File " << file << " could not skip template" << endl;
+				inFile.close();
+				return false;
+			}
+
+			continue;
 		}
 	}
 

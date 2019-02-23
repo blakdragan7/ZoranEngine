@@ -3,7 +3,9 @@
 #include <vector>
 #include <string>
 
-class TestClass
+#include "BaseTestClass.h"
+
+class TestClass : public BaseTestClass
 {
 private: 
 	std::vector<std::string> stringArray; 

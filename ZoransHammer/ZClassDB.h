@@ -20,11 +20,16 @@ public:
 	~ZClassDB();
 
 	// Parse the source file and add the class to the database or update the class if it's already added
-	void ParseSourceFile(const char* file);
+	void ParseSourceFile(std::string &file, std::string & dir);
 
 	ZClass* ClassForName(const char* name);
 	void InsertClass(ZClass& newClass);
 
 	void PrintAllClasses()const;
+
+	// iteration functions
+
+	inline std::map<std::string, ZClass>::iterator begin() { return classMap.begin(); }
+	inline std::map<std::string, ZClass>::iterator end() { return classMap.end(); }
 };
 

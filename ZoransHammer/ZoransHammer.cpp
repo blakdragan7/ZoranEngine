@@ -6,18 +6,25 @@
 #include <filesystem>
 
 #include "ZClassDB.h"
+#include "SourceGenerator.h"
 
 #include <Utils/FileUtils.h>
 
 // header library
 #include <ThirdParty/cxxopts/cxxopts.hpp>
 
+#include <Utils/FileLogger.h>
+
+LoggerBase* logger = 0;
+
 int main(int argc, char* argv[])
 {
 
+	logger = new FileLogger("error.log");
+
 	bool shouldRecurse = false;
 	std::string directory;
-	std::string fileMask = "*.h";
+	std::string fileMask = ".h";
 
 	cxxopts::Options options("ZoransHammer, Build Reflection Information for c++ classes");
 
@@ -26,14 +33,14 @@ int main(int argc, char* argv[])
 		options.add_options()
 			("r,recursive", "If Set, will parse files recursivly in directory", cxxopts::value<bool>()->default_value("false"))
 			("d,directory", "Set Directory For Parsing, This is required.", cxxopts::value<std::string>())
-			("m,mask", "The file Mask ex cpp", cxxopts::value<std::string>()->default_value("*.h"))
+			("m,mask", "The file Mask ex cpp", cxxopts::value<std::string>()->default_value(".h"))
 			("h,help", "Print help");
 
 		auto result = options.parse(argc, argv);
 
 		if (result.count("help") > 0)
 		{
-			std::cout << options.help({ "" }) << std::endl;
+			LOG_ALL << options.help({ "" }) << std::endl;
 		}
 		if (result.count("recursive") > 0)
 		{
@@ -50,38 +57,51 @@ int main(int argc, char* argv[])
 	}
 	catch (const cxxopts::OptionParseException& e)
 	{
-		std::cout << "error parsing Arguments: " << e.what() << std::endl;
-		std::cout << options.help({ "" });
+		LOG_ALL << "error parsing Arguments: " << e.what() << std::endl;
+		LOG_ALL << options.help({ "" });
 		return 1;
 	}
 	catch (cxxopts::OptionSpecException& e)
 	{
-		std::cout << "Incorrect Arguments " << e.what() << std::endl;
-		std::cout << options.help({""});
+		LOG_ALL << "Incorrect Arguments " << e.what() << std::endl;
+		LOG_ALL << options.help({""});
 		return 1;
 	}
 	catch (std::exception& e)
 	{
-		std::cout << "General Error " << e.what() << std::endl;
+		LOG_ALL << "General Error " << e.what() << std::endl;
 		return 1;
 	}
 
 	if (directory.empty())
 	{
-		std::cout << "Directory Option Required ! try -h | --help for more information\n";
+		LOG_ALL << "Directory Option Required ! try -h | --help for more information\n";
 		return 0;
 	}
 
 	ZClassDB db;
 	
-	GetFilesInDir(directory, fileMask, shouldRecurse, [&db](std::string filename, std::string filepath) {
+	int error = GetFilesInDir(directory, fileMask, shouldRecurse, [&db](std::string filename, std::string filepath) {
 		if (filename == "pch.h")return;
 		if (filename == "stdafx.h")return;
-		db.ParseSourceFile(filepath.c_str());
+		std::string fullPath = filepath + filename;
+		db.ParseSourceFile(fullPath, filepath);
 	});
 
-	db.PrintAllClasses();
-	std::cin.get();
+	if (error)
+	{
+		LOG_ERROR << "Error Opening Directory " << directory << " with error " << error << std::endl;
+	}
+	else
+	{
+		for (auto& c : db)
+		{
+			if (SourceGenerator::GenerateSourceToDir(c.second, "generated") == false)
+			{
+				LOG_ERROR << "Failed Generating Source For " << c.second.name << std::endl;
+			}
+		}
+	}
 
 	return 0;
 }

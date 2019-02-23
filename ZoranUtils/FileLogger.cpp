@@ -38,6 +38,8 @@ void FileLogger::LogString(ELogLevel logLevel, const char * format, ...)
 {
 	if (isGood)
 	{
+		WaitForMutex();
+
 		if (this->logLevel > logLevel)return;
 
 		// initialize use of the variable argument array
@@ -63,6 +65,22 @@ void FileLogger::LogString(ELogLevel logLevel, const char * format, ...)
 		std::string formatedString(zc.data(), zc.size());
 
 		file_->write(formatedString.c_str(),formatedString.size());
+
+		m->unlock();
+	}
+	else
+	{
+		std::cout << "Error: Trying To Write To Log File when it wasn't opened !\n";
+	}
+}
+
+void FileLogger::WriteString(std::string string)
+{
+	if (isGood)
+	{
+		WaitForMutex();
+		file_->write(string.c_str(), string.size());
+		m->unlock();
 	}
 	else
 	{

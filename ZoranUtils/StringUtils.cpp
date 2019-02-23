@@ -24,6 +24,33 @@ void FlattenString(std::string & string, const std::string toRemove)
 	}
 }
 
+void RemoveStringFromString(std::string & string, const std::string toRemove)
+{
+	size_t size = toRemove.size();
+	
+	char* buff = new char[size+1];
+	memset(buff, 0, size+1);
+
+	for (size_t i = 0; i < string.size(); )
+	{
+		char c = string[i];
+
+		for (size_t l = 1; l < size ; ++l)
+		{
+			buff[l - 1] = buff[l];
+		}
+
+		buff[size - 1] = c;
+
+		if (strcmp(buff, toRemove.c_str()) == 0)
+			string.erase(string.begin() + i - size, string.begin() + i);
+		else
+			++i;
+	}
+
+	delete buff;
+}
+
 size_t FindAny(const std::string & string, const std::string toFind)
 {
 	for (size_t i = 0; i < string.size(); i++)

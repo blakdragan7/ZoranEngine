@@ -39,6 +39,18 @@
     <ClInclude Include="SourceParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BaseTestClass.h">
+      <Filter>Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceInHeader.h">
+      <Filter>Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="Log.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceGenerator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -63,6 +75,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SourceParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceGenerator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

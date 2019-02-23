@@ -13,6 +13,8 @@ DLL_EXPORT std::string StringToLower(const std::string & source);
 DLL_EXPORT std::string GetStringFileType(const std::string & filePath);
 // removes all of toRmove (each char individually) from string
 DLL_EXPORT void FlattenString(std::string& string, const std::string toRemove = " \t\n");
+// removes all of toRmove (the entire string) from string
+DLL_EXPORT void RemoveStringFromString(std::string& string, const std::string toRemove);
 // returns position of first char from toFind found in string
 DLL_EXPORT size_t FindAny(const std::string& string, const std::string toFind);
 // splits the string using any char in delims at the delim

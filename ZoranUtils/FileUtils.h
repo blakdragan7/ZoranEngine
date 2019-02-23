@@ -19,4 +19,4 @@ DLL_EXPORT bool GetLineVar(std::fstream& inFile, std::string& line, std::vector<
 // fileMask is the mask for the file to get using * as a wild card so *.* means everything *.h is only .h files etc..
 // return true if inDir is found and can be opened and false otherwise
 // the callback decl is this void Callback(std::string fileName, std::string filePath)
-DLL_EXPORT bool GetFilesInDir(std::string inDir, std::string fileMask,bool recurse, std::function<void(std::string, std::string)> callback);
+DLL_EXPORT int GetFilesInDir(std::string inDir, std::string fileMask,bool recurse, std::function<void(std::string, std::string)> callback);

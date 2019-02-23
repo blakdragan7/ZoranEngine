@@ -2,7 +2,7 @@
 #include "ZClass.h"
 
 
-ZClass::ZClass() : superClass(0), isInterface(false), isStruct(false)
+ZClass::ZClass() : isInterface(false), isStruct(false)
 {
 }
 
@@ -17,18 +17,33 @@ std::string ZClass::Stringify() const
 
 	s += name;
 
-	s += "\nmembers:";
-
-	for (auto m : members)
+	if (parents.size())
 	{
-		s += "\n\t"+ m.Stringify();
+		s += "\n superClass(es): ";
+		for (auto& p : parents)
+		{
+			s += "\n  " + p;
+		}
 	}
 
-	s += "\nfunctions:";
-
-	for (auto f : functions)
+	if (members.size())
 	{
-		s += "\n\t" + f.Stringify();
+		s += "\n member(s):";
+
+		for (auto m : members)
+		{
+			s += "\n  " + m.Stringify();
+		}
+	}
+
+	if (functions.size())
+	{
+		s += "\n function(s):";
+
+		for (auto f : functions)
+		{
+			s += "\n  " + f.Stringify();
+		}
 	}
 
 	return s;

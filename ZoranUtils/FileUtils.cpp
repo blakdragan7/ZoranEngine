@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "FileUtils.h"
+#include "StringUtils.h"
+
 #include <string>
 #include <algorithm>
 
@@ -67,14 +69,14 @@ bool GetLineVar(std::fstream & inFile, std::string & line, std::vector<std::stri
 	return false;
 }
 
-bool GetFilesInDir(std::string inDir, std::string fileMask, bool recurse, std::function<void(std::string, std::string)> callback)
+int GetFilesInDir(std::string inDir, std::string fileMask, bool recurse, std::function<void(std::string, std::string)> callback)
 {
 #ifdef _WIN32 // is windows
 
 	HANDLE hFind;
 	WIN32_FIND_DATA data;
 
-	std::string path = inDir + "/" + fileMask;
+	std::string path = inDir + "/*.*";
 
 	hFind = FindFirstFile(path.c_str(), &data);
 	if (hFind != INVALID_HANDLE_VALUE) {
@@ -92,10 +94,16 @@ bool GetFilesInDir(std::string inDir, std::string fileMask, bool recurse, std::f
 			}
 			else
 			{
-				callback(data.cFileName, inDir + "/" + data.cFileName);
+				std::string filename(data.cFileName);
+				if(filename.find(fileMask) != std::string::npos)
+					callback(filename, inDir + "/");
 			}
 		} while (FindNextFile(hFind, &data));
 		FindClose(hFind);
+	}
+	else
+	{
+		return GetLastError();
 	}
 
 #else // is not windows
@@ -103,5 +111,5 @@ bool GetFilesInDir(std::string inDir, std::string fileMask, bool recurse, std::f
 #endif // end if Windows
 
 
-	return true;
+	return 0;
 }

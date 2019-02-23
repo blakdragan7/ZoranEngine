@@ -30,11 +30,11 @@ ZClassDB::~ZClassDB()
 {
 }
 
-void ZClassDB::ParseSourceFile(const char * file)
+void ZClassDB::ParseSourceFile(std::string & file, std::string &dir)
 {
 	SourceParser parser;
 
-	if (parser.ParseFile(file))
+	if (parser.ParseFile(file, dir))
 	{
 		auto classArray = parser.GetGeneratedClass();
 
@@ -63,8 +63,7 @@ void ZClassDB::PrintAllClasses() const
 {
 	for (auto c : classMap)
 	{
-		std::cout << "Begin Class\n";
-		std::cout << c.second.Stringify();
-		std::cout << "\nEnd Class\n";
+		LOG_ALL << "\nClass Source: " << c.second.sourceFile;
+		LOG_ALL << "\n" << c.second.Stringify() << "\n";
 	}
 }

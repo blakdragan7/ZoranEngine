@@ -1,0 +1,65 @@
+Malformed Class File ./generated/ZoranEngine/Audio/AL/OALAudioDevice.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/Core/Components/ComponentBase.generated.h could not skip template
+Malformed Class File ./generated/ZoranEngine/Core/PlatformMouseBase.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/Core/SceneObject.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/Core/WindowBase.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/Core/ZoranEngine.generated.h could not skip template
+Malformed Class File ./generated/ZoranEngine/Math/MathLib.generated.h could not skip template
+Malformed Class File ./generated/ZoranEngine/Physics/2D/Collision/AABBSquareCollisionObject.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/Physics/2D/Collision/Accumulated2DVelocities.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/Physics/2D/Collision/Collision2D.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/Physics/2D/Collision/CollisionBucket2DBase.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/Physics/2D/Collision/CollisionObject2DBase.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/Physics/3D/Collision/AABBoxCollisionObject.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/Physics/3D/Collision/CollisionBucket3DBase.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/Physics/3D/Collision/CollisionResponse3D.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/Physics/3D/PhysicsObject3DBase.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/Physics/Collision/CollisionObjectBase.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/Physics/PhysicsObjectBase.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/Rendering/OpenGL/Renderers/OpenGLFontRenderer.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/Rendering/RenderEngineBase.generated.h could not skip template
+Malformed Class File ./generated/ZoranEngine/Rendering/Renderers/FontRenderer.generated.h could not skip template
+Malformed Class File ./generated/ZoranEngine/Resources/FontAsset.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/ThirdParty/assimp/aiMaterial#endif.generated.h could not skip template
+Malformed Class File ./generated/ZoranEngine/ThirdParty/assimp/Assimp.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/ThirdParty/assimp/BaseImporter.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/ThirdParty/assimp/Bitmap.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/ThirdParty/assimp/BlobIOSystem.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/ThirdParty/assimp/DefaultIOStream.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/ThirdParty/assimp/Exporter.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/ThirdParty/assimp/SGSpatialSort.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/ThirdParty/assimp/SkeletonMeshBuilder.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/ThirdParty/assimp/SpatialSort.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/ThirdParty/msdfgen/core/EdgeSegment.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/AlphabeticIndex.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/BytesTrie.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/BytesTrieBuilder.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/Calendar.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/ChoiceFormat.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/CollationKey.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/Collator.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/CurrencyPrecision.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/DateFormat.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/DateIntervalFormat.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/DecimalFormat.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/FieldPositionIterator.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/FormattedNumber.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/FractionPrecision.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/GenderInfo.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/Grouper.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/ImmutableIndex.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/IncrementPrecision.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/MessageFormat.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/MessagePattern.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/NumberFormat.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/PluralRules.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/RuleBasedNumberFormat.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/ScientificNumberFormatter.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/SelectFormat.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/SimpleDateFormat.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/StringTrieBuilder.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/TimeUnitFormat.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/UCharsTrie.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/UCharsTrieBuilder.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/ZGI/Panels/TreeSocket.generated.h could not find end of class decl
+Malformed Class File ./generated/ZoranEngine/ZGI/Windows/ZGIVirtualWindow.generated.h could not skip template

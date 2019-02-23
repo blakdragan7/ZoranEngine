@@ -21,8 +21,8 @@ void WindowsThread::StartThread()
 	threadHandle = CreateThread(NULL, 0, WindowsThreadFunc, this, 0, &threadID);
 	if (threadHandle == NULL)
 	{
-		// maybe through exception here, not sure yet
-		std::cerr << "WindowsThread::StartThread() Could Not Creat Thread !\n";
+		// maybe throw exception here, not sure yet
+		Log(LogLevel_Error, "WindowsThread::StartThread() Could Not Creat Thread !\n");
 	}
 }
 
