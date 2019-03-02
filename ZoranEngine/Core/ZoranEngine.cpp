@@ -190,7 +190,7 @@ void ZoranEngine::CreateGameModeWindows(bool is3D)
 	gameWindow = mainWindow->SetRootVirtualWindow<ZGIGameVirtualWindow>(Vector2D(0,0), mainWindow->GetSize(), mainWindow->GetSize(),is3D);
 	gameWindow->SetPlayerInstance(mainPlayer);
 
-	//debugWindow = vWindow->AddSubWindow<ZGIDebugWindow>(Vector2D(600,0), Vector2D(600,900), mainWindow->GetSize());
+	//debugWindow = gameWindow->AddSubWindow<ZGIDebugWindow>(Vector2D(600,0), Vector2D(600,900), mainWindow->GetSize());
 }
 
 void ZoranEngine::Setup2DScene(float centerx, float centery, float width, float height)
@@ -269,6 +269,7 @@ void ZoranEngine::DrawStep()
 
 void ZoranEngine::KeyEvent(KeyEventType type, unsigned key)
 {
+	return;
 	switch (type)
 	{
 	case KeyEventType_Key_Down:

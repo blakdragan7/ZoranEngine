@@ -21,8 +21,8 @@ ZGICheckBox::ZGICheckBox(ZGIVirtualWindow* owningWindow) : handler(0),  content(
 {
 	panel = new ZGIHorizontalBoxPanel(owningWindow);
 	image = new ZGIImage(owningWindow);
-	image->SetImage("emptyBox.png");
-	checkImage = RM->ImageForPath("checkImage.png");
+	image->SetImage("emptyBox");
+	checkImage = RM->ImageForPath("checkImage");
 
 	hoverHue.r = 0.6f;
 	hoverHue.g = 0.6f;

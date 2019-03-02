@@ -358,7 +358,7 @@ void FontRenderer::UpdateRender()
 				Vector2D bearing = glyph.bearing;
 
 				float x = startX + (bearing.x * scale);
-				float y = startY - (bearing.y * scale);
+				float y = startY + (bearing.y * scale);
 
 				float w = glyph.size.w * scale;
 				float h = glyph.size.h * scale;

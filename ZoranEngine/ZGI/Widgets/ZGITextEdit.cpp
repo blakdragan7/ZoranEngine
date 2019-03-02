@@ -34,15 +34,31 @@ void ZGITextEdit::UpdateCursorFromPos()
 			}
 			else
 			{
-				const UniLine& line = renderer->GetLines()[lineIndex + 1];
-				if (line.words.size() > 0 && line.words.begin()->glyphs.size() > 0)
+				if (renderer->GetLines().size() > lineIndex + 1)
 				{
-					glyph = renderer->GetLines()[lineIndex + 1].words.begin()->glyphs[0];
-					cursor->SetPosition(glyph.baseline);
+					const UniLine& line = renderer->GetLines()[lineIndex + 1];
+					if (line.words.size() > 0 && line.words.begin()->glyphs.size() > 0)
+					{
+						glyph = renderer->GetLines()[lineIndex + 1].words.begin()->glyphs[0];
+						cursor->SetPosition(glyph.baseline);
+					}
+					else
+					{
+						cursor->SetPosition(line.renderStart);
+					}
 				}
 				else
 				{
-					cursor->SetPosition(line.renderStart);
+					const UniLine& line = renderer->GetLines()[lineIndex];
+					if (line.words.size() > 0 && line.words.begin()->glyphs.size() > 0)
+					{
+						glyph = renderer->GetLines()[lineIndex].words.begin()->glyphs[0];
+						cursor->SetPosition(glyph.baseline);
+					}
+					else
+					{
+						cursor->SetPosition(line.renderStart);
+					}
 				}
 			}
 		}

@@ -49,8 +49,15 @@ void ZGIImage::SetForegroundImage(ImageResource image)
 void ZGIImage::SetImage(const char * imagePath)
 {
 	auto image = RM->ImageForPath(imagePath);
-	widgetBrush->SetBackgroudImage(image);
-	bounds = image->GetSize();
+	if (image.IsValid())
+	{
+		widgetBrush->SetBackgroudImage(image);
+		bounds = image->GetSize();
+	}
+	else
+	{
+		LOG_ERROR << "Set Image, Image not valid !\n";
+	}
 }
 
 void ZGIImage::SetImage(ImageResource image)
