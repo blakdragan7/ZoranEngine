@@ -167,8 +167,10 @@
     <ClInclude Include="PClassDB.h" />
     <ClInclude Include="PFunction.h" />
     <ClInclude Include="PType.h" />
+    <ClInclude Include="ZClassManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BaseTestClass.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -181,6 +183,8 @@
     <ClCompile Include="PClass.cpp" />
     <ClCompile Include="PClassDB.cpp" />
     <ClCompile Include="PFunction.cpp" />
+    <ClCompile Include="ZClass.cpp" />
+    <ClCompile Include="ZClassManager.cpp" />
     <ClCompile Include="ZoransHammer.cpp" />
     <ClCompile Include="PType.cpp" />
   </ItemGroup>

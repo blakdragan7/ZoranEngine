@@ -2,10 +2,12 @@
 #include "TestClass.h"
 #include ".generated/TestClass.generated.cpp"
 
+#include <iostream>
+
 TestClass::TestClass()
 {
+	f = 1;
 }
-
 
 TestClass::~TestClass()
 {
@@ -23,4 +25,9 @@ double TestClass::GetADouble() const
 
 void TestClass::FunctionWithParams(float x, float y)
 {
+}
+
+void TestClass::DoAThing()
+{
+	std::cout << "Did A Thing" << std::endl;
 }

@@ -18,11 +18,16 @@
 
 LoggerBase* logger = 0;
 
-#include "TestClass.h"
+#include "BaseTestClass.h"
+#include "ZClassManager.h"
 
 int main(int argc, char* argv[])
 {
-	
+
+	//BaseTestClass* Spawned = CM->SpawnClass<BaseTestClass>("TestClass");
+
+	//Spawned->DoAThing();
+
 	//logger = new FileLogger("error.log");
 	logger = new ConsoleLogger();
 

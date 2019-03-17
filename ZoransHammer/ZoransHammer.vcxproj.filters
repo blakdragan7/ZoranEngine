@@ -57,6 +57,9 @@
     <ClInclude Include="PClassDB.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ZClassManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -84,6 +87,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PClassDB.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ZClassManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ZClass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseTestClass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

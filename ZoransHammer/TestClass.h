@@ -24,4 +24,5 @@ public:
 
 	void FunctionWithParams(float x, float y);
 
+	void DoAThing()override;
 };

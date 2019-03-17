@@ -113,8 +113,8 @@ bool SourceGenerator::GenerateSourceToDir(const PClass & theClass, std::string h
 		}
 
 		file << "}) {}\n";
-
-		file << "\tvoid* " << "SpawnDynamic()const override;\n";
+		if(theClass.isInterface == false)
+			file << "\tvoid* " << "SpawnDynamic()const override;\n";
 		file << "};\n";
 
 
@@ -153,9 +153,11 @@ bool SourceGenerator::GenerateSourceToDir(const PClass & theClass, std::string h
 		file << "#include \"" << theClass.sourceFile << "\"\n\n";
 
 		file << "const " << GenClassName << " " << theClass.name << "::Class;\n";
-
-		file << "void* " << GenClassName << "::" << "SpawnDynamic()const\n";
-		file << "{\n\treturn (void*)(new " << theClass.name << ");\n}\n";
+		if (theClass.isInterface == false)
+		{
+			file << "void* " << GenClassName << "::" << "SpawnDynamic()const\n";
+			file << "{\n\treturn (void*)(new " << theClass.name << ");\n}\n";
+		}
 
 		file.close();
 

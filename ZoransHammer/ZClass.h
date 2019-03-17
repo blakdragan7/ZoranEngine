@@ -9,23 +9,12 @@ public:
 	std::string ClassName;
 	std::vector<std::string> Parents;
 
-	ZClass(std::string ClassName, std::vector<std::string> Parents) : ClassName(ClassName), Parents(Parents) {}
+	ZClass(std::string ClassName, std::vector<std::string> Parents);
 
-	virtual void* SpawnDynamic()const = 0;
+	// default returns 0, therfore anything useing this must check the result is not 0
+	virtual void* SpawnDynamic()const;
 
-	bool IsSubclassOf(std::string parent)const
-	{
-		return std::find(Parents.begin(), Parents.end(), parent) != Parents.end();
-	}
+	bool IsSubclassOf(std::string parent)const;
 
-	template<typename BaseClass>
-	static BaseClass* SpawnClass(const ZClass* derived)
-	{
-		return (BaseClass*)derived->SpawnDynamic();
-	}
-
-	bool operator ==(const std::string& name)
-	{
-		return ClassName == name;
-	}
+	bool operator ==(const std::string& name);
 };

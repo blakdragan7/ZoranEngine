@@ -340,6 +340,11 @@ bool SourceParser::ParseFunction(std::string & info, PFunction& function)
 			function.parameters.push_back(type);
 		}
 	}
+	if (_vs[1] == "=0")
+	{
+		function.isAbstract = true;
+		function.isVirtual = false;
+	}
 
 	return true;
 }
@@ -674,6 +679,10 @@ bool SourceParser::ParseFile(std::string& file, std::string &dir)
 					if (ParseFunction(line, function))
 					{
 						theClass.functions.push_back(function);
+						if (function.isAbstract)
+						{
+							theClass.isInterface = true;
+						}
 					}
 					else
 						return false; // try to avoid parsing unwanted files
