@@ -1,15 +1,15 @@
 #pragma once
 
-#include "ZType.h"
+#include "PType.h"
 
 #include <string>
 #include <vector>
-struct ZFunction
+struct PFunction
 {
 	// pointer to return type, NULL means return type is void
-	ZType returnType;
+	PType returnType;
 	// array of pointers to types that represent the parameters
-	std::vector<ZType> parameters;
+	std::vector<PType> parameters;
 	// the name of this function
 	std::string name;
 	// if this is a pure virtual function (i.e. virtual fType function(...)=0)
@@ -18,8 +18,8 @@ struct ZFunction
 	bool isVirtual;
 	// wether this is a class or member function
 	bool isStatic;
-	ZFunction();
-	~ZFunction();
+	PFunction();
+	~PFunction();
 
 	std::string Stringify()const;
 };

@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "ZClassDB.h"
+#include "PClassDB.h"
 
 #include <fstream>
 #include <string>
@@ -13,12 +13,12 @@
 
 #include "SourceParser.h"
 
-void ZClassDB::LoadFromClassDBFile(const char * file)
+void PClassDB::LoadFromClassDBFile(const char * file)
 {
 	// currently does nothing
 }
 
-ZClassDB::ZClassDB(const char* file)
+PClassDB::PClassDB(const char* file)
 {
 	if (file)
 	{
@@ -26,11 +26,11 @@ ZClassDB::ZClassDB(const char* file)
 	}
 }
 
-ZClassDB::~ZClassDB()
+PClassDB::~PClassDB()
 {
 }
 
-void ZClassDB::ParseSourceFile(std::string & file, std::string &dir)
+void PClassDB::ParseSourceFile(std::string & file, std::string &dir)
 {
 	SourceParser parser;
 
@@ -45,7 +45,7 @@ void ZClassDB::ParseSourceFile(std::string & file, std::string &dir)
 	}
 }
 
-ZClass * ZClassDB::ClassForName(const char * name)
+PClass * PClassDB::ClassForName(const char * name)
 {
 	auto itr = classMap.find(name);
 	if (itr != classMap.end())
@@ -54,12 +54,12 @@ ZClass * ZClassDB::ClassForName(const char * name)
 	return nullptr;
 }
 
-void ZClassDB::InsertClass(ZClass& newClass)
+void PClassDB::InsertClass(PClass& newClass)
 {
 	classMap.insert({ newClass.name, newClass });
 }
 
-void ZClassDB::PrintAllClasses() const
+void PClassDB::PrintAllClasses() const
 {
 	for (auto c : classMap)
 	{

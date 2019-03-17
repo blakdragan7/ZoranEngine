@@ -1,65 +1,90 @@
-Malformed Class File ./generated/ZoranEngine/Audio/AL/OALAudioDevice.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/Core/Components/ComponentBase.generated.h could not skip template
-Malformed Class File ./generated/ZoranEngine/Core/PlatformMouseBase.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/Core/SceneObject.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/Core/WindowBase.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/Core/ZoranEngine.generated.h could not skip template
-Malformed Class File ./generated/ZoranEngine/Math/MathLib.generated.h could not skip template
-Malformed Class File ./generated/ZoranEngine/Physics/2D/Collision/AABBSquareCollisionObject.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/Physics/2D/Collision/Accumulated2DVelocities.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/Physics/2D/Collision/Collision2D.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/Physics/2D/Collision/CollisionBucket2DBase.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/Physics/2D/Collision/CollisionObject2DBase.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/Physics/3D/Collision/AABBoxCollisionObject.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/Physics/3D/Collision/CollisionBucket3DBase.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/Physics/3D/Collision/CollisionResponse3D.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/Physics/3D/PhysicsObject3DBase.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/Physics/Collision/CollisionObjectBase.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/Physics/PhysicsObjectBase.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/Rendering/OpenGL/Renderers/OpenGLFontRenderer.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/Rendering/RenderEngineBase.generated.h could not skip template
-Malformed Class File ./generated/ZoranEngine/Rendering/Renderers/FontRenderer.generated.h could not skip template
-Malformed Class File ./generated/ZoranEngine/Resources/FontAsset.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/ThirdParty/assimp/aiMaterial#endif.generated.h could not skip template
-Malformed Class File ./generated/ZoranEngine/ThirdParty/assimp/Assimp.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/ThirdParty/assimp/BaseImporter.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/ThirdParty/assimp/Bitmap.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/ThirdParty/assimp/BlobIOSystem.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/ThirdParty/assimp/DefaultIOStream.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/ThirdParty/assimp/Exporter.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/ThirdParty/assimp/SGSpatialSort.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/ThirdParty/assimp/SkeletonMeshBuilder.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/ThirdParty/assimp/SpatialSort.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/ThirdParty/msdfgen/core/EdgeSegment.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/AlphabeticIndex.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/BytesTrie.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/BytesTrieBuilder.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/Calendar.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/ChoiceFormat.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/CollationKey.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/Collator.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/CurrencyPrecision.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/DateFormat.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/DateIntervalFormat.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/DecimalFormat.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/FieldPositionIterator.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/FormattedNumber.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/FractionPrecision.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/GenderInfo.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/Grouper.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/ImmutableIndex.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/IncrementPrecision.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/MessageFormat.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/MessagePattern.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/NumberFormat.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/PluralRules.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/RuleBasedNumberFormat.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/ScientificNumberFormatter.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/SelectFormat.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/SimpleDateFormat.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/StringTrieBuilder.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/TimeUnitFormat.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/UCharsTrie.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/ThirdParty/unicode/UCharsTrieBuilder.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/ZGI/Panels/TreeSocket.generated.h could not find end of class decl
-Malformed Class File ./generated/ZoranEngine/ZGI/Windows/ZGIVirtualWindow.generated.h could not skip template
+Malformed Function Info AudioDevice(name), oalDevice(0) 
+Malformed Function Info AudioListener(), engine(engine), isListening(false), context(0) 
+Malformed Function Info engine(engine) ,bufferSize(0), buffer(0), source(0) 
+Malformed Function Info deviceDescription(name), type(AEI_INVALID) 
+Malformed Function Info const float& operator()(int row, int col)const
+Malformed Function Info #pragma warning(push)#pragma warning(disable:4251)std::vector<class CollisionObject2DBase*> collisionObjects
+Malformed Function Info #pragma warning(push)#pragma warning(disable:4251)std::vector<class CollisionObject3DBase*> collisionObjects
+Malformed Function Info #pragma warning(push)#pragma warning(disable:4251)std::mutex mutex
+Malformed Function Info r(0), g(0), b(0), a(0) 
+Malformed Function Info glyph(glyph), advance(advance) 
+Malformed Function Info             void operator () (T& out,const T& a, const T& b, ai_real d) const 
+Malformed Function Info buffer()        , cur_size()        , file_size()        , cursor()        , initial(initial)        , file(file)        , creator(creator)    
+Malformed Function Info         typedef void (*fpExportFunc)(const char*, IOSystem*, const aiScene*, const ExportProperties*)
+Malformed Function Info             const aiMatrix4x4 GetPropertyMatrix(const char* szName,        const aiMatrix4x4& sErrorReturn = aiMatrix4x4()) const
+Malformed Class File ../ZoranEngine/ThirdParty/assimp/IOStream.hpp incorrect : count
+Malformed Class File ../ZoranEngine/ThirdParty/assimp/irrXMLWrapper.h incorrect : count
+Malformed Function Info mIdx(0), mCur(), mStream(stream), mSwallow(), mSkip_empty_lines(skip_empty_lines), mTrim(trim) 
+Malformed Function Info buffer (buff)        , length(len)        , pos((size_t)0)        , own(own)    
+Malformed Header file ! Extern C without {
+Malformed Function Info mNumProperties(0)    , mKeys(nullptr)    , mValues(nullptr) 
+Malformed Function Info         ASSIMP_LOG_DEBUG((format("END   `"),region,"`, dt= ", elapsedSeconds.count()," s"))
+Malformed Function Info   scene           (NULL)        ,   attachToNode    (NULL)    
+Malformed Function Info             mIndex( pIndex),            mPosition( pPosition),            mSmoothGroups (pSG),            mDistance( pDistance)            
+Malformed Function Info mIndices(),        iSmoothGroup(0)    
+Malformed Function Info mIndex( pIndex), mPosition( pPosition), mDistance( pDistance) 
+Malformed Function Info     static aiMesh* MakeMesh ( unsigned int (*GenerateFunc)        (std::vector<aiVector3D>&))
+Malformed Function Info stream(std::shared_ptr<IOStream>(stream))        , le(le)    
+Malformed Function Info stream(stream)        , le(le)        , cursor()    
+Malformed Function Info         void *operator new    ( size_t num_bytes, const std::nothrow_t& ) throw()
+Malformed Function Info         if (msh->HasTangentsAndBitangents()) 
+Malformed Function Info      unsigned (*custom_zlib)(unsigned char**, size_t*,                          const unsigned char*, size_t,                          const LodePNGDecompressSettings*)
+Malformed Header file ! Extern C without {
+Malformed Class File ../ZoranEngine/ThirdParty/nlohmann/json.hpp incorrect : count
+Malformed Class File ../ZoranEngine/ThirdParty/sparsehash/internal/densehashtable.h incorrect : count
+Malformed Class File ../ZoranEngine/ThirdParty/sparsehash/internal/sparsehashtable.h incorrect : count
+Malformed Function Info _flags( 0 ), _start( 0 ), _end( 0 ) 
+Malformed Function Info buckets_(bucketList), collatorPrimaryOnly_(collatorPrimaryOnly) 
+Malformed Class File ../ZoranEngine/ThirdParty/unicode/brkiter.h incorrect : count
+Malformed Function Info ownedArray_(NULL), bytes_(static_cast<const uint8_t *>(trieBytes)),              pos_(bytes_), remainingMatchLength_(-1) 
+Malformed Class File ../ZoranEngine/ThirdParty/unicode/caniter.h incorrect : count
+Malformed Function Info #endif#if U_SIZEOF_WCHAR_T==2 || defined(U_IN_DOXYGEN)        inline Char16Ptr(wchar_t *p)
+Malformed Class File ../ZoranEngine/ThirdParty/unicode/chariter.h incorrect : count
+Malformed Class File ../ZoranEngine/ThirdParty/unicode/currpinf.h incorrect : count
+Malformed Function Info         static DateFormat* U_EXPORT2 createTimeInstance(EStyle style = kDefault,                                          const Locale& aLocale = Locale::getDefault())
+Malformed Class File ../ZoranEngine/ThirdParty/unicode/docmain.h could not find end of class decl
+Malformed Class File ../ZoranEngine/ThirdParty/unicode/dtptngen.h incorrect : count
+Malformed Function Info             array(stackArray), capacity(STACK_CAPACITY), length(0), delta(0), numChanges(0),            errorCode_(U_ZERO_ERROR) 
+Malformed Class File ../ZoranEngine/ThirdParty/unicode/errorcode.h incorrect : count
+Malformed Class File ../ZoranEngine/ThirdParty/unicode/fieldpos.h incorrect : count
+Malformed Class File ../ZoranEngine/ThirdParty/unicode/idna.h incorrect : count
+Malformed Function Info       twoPattern(two), startPattern(start), middlePattern(middle), endPattern(end) 
+Malformed Class File ../ZoranEngine/ThirdParty/unicode/locid.h incorrect : count
+Malformed Function Info fTypeId(typeId), fSubTypeId(subTypeId) 
+Malformed Class File ../ZoranEngine/ThirdParty/unicode/normalizer2.h incorrect : count
+Malformed Class File ../ZoranEngine/ThirdParty/unicode/normlzr.h incorrect : count
+Malformed Function Info fMagnitude(0), fArbitrary(nullptr), fError(error) 
+Malformed Function Info UObject(),        index(0),        errorIndex(-1)      
+Malformed Class File ../ZoranEngine/ThirdParty/unicode/rbbi.h incorrect : count
+Malformed Function Info       virtual UnicodeString getRuleSetDisplayName(int32_t index,                          const Locale& locale = Locale::getDefault())
+Malformed Class File ../ZoranEngine/ThirdParty/unicode/region.h incorrect : count
+Malformed Class File ../ZoranEngine/ThirdParty/unicode/resbund.h incorrect : count
+Malformed Function Info compiledPattern((char16_t)0) 
+Malformed Function Info ptr_(NULL), length_(0) 
+Malformed Function Info Node(0x111111u*37u+v), value(v) 
+Malformed Class File ../ZoranEngine/ThirdParty/unicode/tblcoll.h incorrect : count
+Malformed Class File ../ZoranEngine/ThirdParty/unicode/timezone.h incorrect : count
+Malformed Function Info #endif          typedef Transliterator* (U_EXPORT2 *Factory)(const UnicodeString& ID, Token context)
+Malformed Class File ../ZoranEngine/ThirdParty/unicode/tznames.h incorrect : count
+Malformed Class File ../ZoranEngine/ThirdParty/unicode/uchar.h incorrect : count
+Malformed Function Info ownedArray_(NULL), uchars_(trieUChars),              pos_(uchars_), remainingMatchLength_(-1) 
+Malformed Class File ../ZoranEngine/ThirdParty/unicode/uniset.h incorrect : count
+Malformed Class File ../ZoranEngine/ThirdParty/unicode/unistr.h incorrect : count
+Malformed Function Info  * \def U_NO_THROW *         Define this to define the throw() specification so *                 certain functions do not throw any exceptions * *         UMemory operator new methods should have the throw() specification  *         appended to them, so that the compiler adds the additional NULL check  *         before calling constructors. Without, if <code>operator new</code> returns NULL the  *         constructor is still called, and if the constructor references member  *         data, (which it typically does), the result is a segmentation violation. * * @stable ICU 4.2 */#ifndef U_NO_THROW#define U_NO_THROW throw()#endiftypedef void* UClassID
+Malformed Function Info         int32_t (*length)(const UReplaceable* rep)
+Malformed Class File ../ZoranEngine/ThirdParty/unicode/vtzone.h incorrect : count
+Malformed Function Info BenchStatChain() :nanoseconds(0) 
+Malformed Function Info gridPosition(pos), gridSize(size), alignment(alignment), widget(widget)
+Malformed Function Info #pragma warning(push)#pragma warning(disable:4251)std::function<void(ZGIButton*)> ButtonPressedFunction
+Error Opening File For Ouput generated/ZoranEngine/ThirdParty/unicode/*.generated.hpp error: Invalid argument
+Failed Generating Source For *
+Error Opening File For Ouput generated/ZoranEngine/ThirdParty/unicode/*/enum.generated.hpp error: Invalid argument
+Failed Generating Source For */enum
+Error Opening File For Ouput generated/ZoranEngine/ThirdParty/assimp/DeadlyImportError
+.generated.hpp error: Invalid argument
+Failed Generating Source For DeadlyImportError
+
+Error Opening File For Ouput generated/ZoranEngine/ThirdParty/assimp/NullLogger
+.generated.hpp error: Invalid argument
+Failed Generating Source For NullLogger
+

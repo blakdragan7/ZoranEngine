@@ -2,14 +2,14 @@
 #include <string>
 #include <vector>
 
-#include "ZClass.h"
-#include "ZType.h"
-#include "ZFunction.h"
+#include "PClass.h"
+#include "PType.h"
+#include "PFunction.h"
 
 class SourceParser
 {
 private:
-	std::vector<ZClass> generated;
+	std::vector<PClass> generated;
 	int currentLine;
 
 private:
@@ -23,9 +23,9 @@ private:
 	// return 0 if coudln't find end of class dec, return 1 if found and it's an implementation and 2 if it's a decleration only
 	int GoToEndOfClassDec(std::fstream& inFile, std::string& line);
 
-	ZType ParseType(std::string& info);
-	bool ParseFunction(std::string& info, ZFunction& function);
-	int ParseClassDeclaration(ZClass& theClass, std::string info);
+	PType ParseType(std::string& info);
+	bool ParseFunction(std::string& info, PFunction& function);
+	int ParseClassDeclaration(PClass& theClass, std::string info);
 
 	// ignores comments (/* */ and //) and gets everthing between ':\',':\r',';' and ': '
 	bool GetLine(std::fstream& inFile, std::string& line);
@@ -36,7 +36,7 @@ public:
 
 	bool ParseFile(std::string& file, std::string& dir);
 
-	/* possibly change to a move if copying zclass becomes expensive or the zclass destructor becomes expensive*/
-	inline std::vector<ZClass> GetGeneratedClass() { return generated; }
+	/* possibly change to a move if copying PClass becomes expensive or the PClass destructor becomes expensive*/
+	inline std::vector<PClass> GetGeneratedClass() { return generated; }
 };
 

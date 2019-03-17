@@ -72,7 +72,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>D:\git\ZoranEngine\Shared;$(IncludePath)</IncludePath>
+    <IncludePath>D:\git\ZoranEngine\Shared;$(ProjectDir);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
@@ -82,7 +82,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>D:\git\ZoranEngine\Shared;$(IncludePath)</IncludePath>
+    <IncludePath>D:\git\ZoranEngine\Shared;$(ProjectDir);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -155,16 +155,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BaseTestClass.h" />
+    <ClInclude Include="ZClass.h" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Reflection.h" />
     <ClInclude Include="SourceGenerator.h" />
     <ClInclude Include="SourceInHeader.h" />
     <ClInclude Include="SourceParser.h" />
     <ClInclude Include="TestClass.h" />
-    <ClInclude Include="ZClass.h" />
-    <ClInclude Include="ZClassDB.h" />
-    <ClInclude Include="ZFunction.h" />
-    <ClInclude Include="ZType.h" />
+    <ClInclude Include="PClass.h" />
+    <ClInclude Include="PClassDB.h" />
+    <ClInclude Include="PFunction.h" />
+    <ClInclude Include="PType.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -176,11 +178,11 @@
     <ClCompile Include="SourceGenerator.cpp" />
     <ClCompile Include="SourceParser.cpp" />
     <ClCompile Include="TestClass.cpp" />
-    <ClCompile Include="ZClass.cpp" />
-    <ClCompile Include="ZClassDB.cpp" />
-    <ClCompile Include="ZFunction.cpp" />
+    <ClCompile Include="PClass.cpp" />
+    <ClCompile Include="PClassDB.cpp" />
+    <ClCompile Include="PFunction.cpp" />
     <ClCompile Include="ZoransHammer.cpp" />
-    <ClCompile Include="ZType.cpp" />
+    <ClCompile Include="PType.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ZoranUtils\ZoranUtils.vcxproj">

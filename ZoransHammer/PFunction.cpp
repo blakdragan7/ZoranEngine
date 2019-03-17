@@ -1,17 +1,17 @@
 #include "pch.h"
-#include "ZFunction.h"
+#include "PFunction.h"
 
 
-ZFunction::ZFunction():isAbstract(false), isVirtual(false), isStatic(false)
+PFunction::PFunction():isAbstract(false), isVirtual(false), isStatic(false)
 {
 }
 
 
-ZFunction::~ZFunction()
+PFunction::~PFunction()
 {
 }
 
-std::string ZFunction::Stringify() const
+std::string PFunction::Stringify() const
 {
 	std::string s = returnType.Stringify();
 	if (s.empty())

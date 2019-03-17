@@ -1,27 +1,31 @@
 #pragma once
 
-#include "ZFunction.h"
-
 #include <string>
 #include <vector>
 
-struct ZClass
+class ZClass
 {
-	std::string sourceFile;
-	std::string sourceDir;
+public:
+	std::string ClassName;
+	std::vector<std::string> Parents;
 
-	std::vector<ZType> members;
-	std::vector<ZFunction> functions;
-	// this is the name of the class
-	std::string name;
-	// parentClass, can be NULL if not a child class
-	std::vector <std::string> parents;
-	// determines if this class is an interface or not (parsed by guessing as all abstract functions)
-	bool isInterface;
-	// if a class only contains a constructor, destructor and memer variables, it is considered a struct and this will return true
-	bool isStruct;
-	ZClass();
-	~ZClass();
+	ZClass(std::string ClassName, std::vector<std::string> Parents) : ClassName(ClassName), Parents(Parents) {}
 
-	std::string Stringify()const;
+	virtual void* SpawnDynamic()const = 0;
+
+	bool IsSubclassOf(std::string parent)const
+	{
+		return std::find(Parents.begin(), Parents.end(), parent) != Parents.end();
+	}
+
+	template<typename BaseClass>
+	static BaseClass* SpawnClass(const ZClass* derived)
+	{
+		return (BaseClass*)derived->SpawnDynamic();
+	}
+
+	bool operator ==(const std::string& name)
+	{
+		return ClassName == name;
+	}
 };

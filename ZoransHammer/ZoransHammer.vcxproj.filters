@@ -24,18 +24,6 @@
     <ClInclude Include="TestClass.h">
       <Filter>Tests</Filter>
     </ClInclude>
-    <ClInclude Include="ZClass.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ZType.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ZFunction.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ZClassDB.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SourceParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -51,6 +39,24 @@
     <ClInclude Include="SourceGenerator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Reflection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PClass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PFunction.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ZClass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PClassDB.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -62,22 +68,22 @@
     <ClCompile Include="TestClass.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
-    <ClCompile Include="ZClass.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ZType.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ZFunction.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ZClassDB.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SourceParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SourceGenerator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PClass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PFunction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PClassDB.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

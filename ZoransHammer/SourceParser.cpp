@@ -251,11 +251,11 @@ int SourceParser::GoToEndOfClassDec(std::fstream& inFile, std::string & line)
 	return 0;
 }
 
-ZType SourceParser::ParseType(std::string & info)
+PType SourceParser::ParseType(std::string & info)
 {
 	auto splitStr = SplitString(info, " "); // split string by whitespace
 
-	ZType type;
+	PType type;
 
 	type.isStatic = splitStr[0] == "static";
 
@@ -274,7 +274,7 @@ ZType SourceParser::ParseType(std::string & info)
 	return type;
 }
 
-bool SourceParser::ParseFunction(std::string & info, ZFunction& function)
+bool SourceParser::ParseFunction(std::string & info, PFunction& function)
 {
 	std::string typeInfo;
 
@@ -336,7 +336,7 @@ bool SourceParser::ParseFunction(std::string & info, ZFunction& function)
 		for (auto s : _Pstrings)
 		{
 			if (s.empty())continue;
-			ZType type = ParseType(s);
+			PType type = ParseType(s);
 			function.parameters.push_back(type);
 		}
 	}
@@ -344,7 +344,7 @@ bool SourceParser::ParseFunction(std::string & info, ZFunction& function)
 	return true;
 }
 
-int SourceParser::ParseClassDeclaration(ZClass & theClass, std::string info)
+int SourceParser::ParseClassDeclaration(PClass & theClass, std::string info)
 {
 	using namespace std;
 
@@ -623,7 +623,7 @@ bool SourceParser::ParseFile(std::string& file, std::string &dir)
 		else if (word == "class" || word == "struct")
 		{
 			bool isClass = word == "class";
-			ZClass theClass;
+			PClass theClass;
 
 			theClass.sourceFile = file;
 			theClass.sourceDir = dir;
@@ -670,15 +670,17 @@ bool SourceParser::ParseFile(std::string& file, std::string &dir)
 				if (line.find("}") != string::npos)break;
 				if (line.find("(") != string::npos)
 				{
-					ZFunction function;
+					PFunction function;
 					if (ParseFunction(line, function))
 					{
 						theClass.functions.push_back(function);
 					}
+					else
+						return false; // try to avoid parsing unwanted files
 				}
 				else
 				{
-					ZType type = ParseType(line);
+					PType type = ParseType(line);
 					theClass.members.push_back(type);
 				}
 			}

@@ -12,6 +12,13 @@
 #define PATH_MAX 2046
 #endif
 
+const char* SourceHeader_Header =
+"/* Generated For Reflection Information With Zoran'shammer */\n#pragma once\n\n";
+
+
+const char* SourceSource_Header =
+"/* Generated For Reflection Information With Zoran'shammer */\n\n";
+
 int mkdir_p(const char *path)
 {
 	/* Adapted from http://stackoverflow.com/a/2336245/119527 */
@@ -51,10 +58,10 @@ int mkdir_p(const char *path)
 	return 0;
 }
 
-bool SourceGenerator::GenerateSourceToDir(const ZClass & theClass, std::string dir)
+bool SourceGenerator::GenerateSourceToDir(const PClass & theClass, std::string headerDir)
 {
 
-	std::string fullPath = dir + "/" + theClass.sourceDir;
+	std::string fullPath = headerDir + "/" + theClass.sourceDir;
 
 	RemoveStringFromString(fullPath, "../");
 
@@ -69,17 +76,94 @@ bool SourceGenerator::GenerateSourceToDir(const ZClass & theClass, std::string d
 		return false;
 	}
 
-	fullPath += theClass.name + ".generated.h";
+	std::string headerPath = fullPath + theClass.name + ".generated.h";
 
 	std::fstream file;
 
-	file.open(fullPath, std::ios::out | std::ios::trunc);
+	LOG_INFO << "Generating Header" << std::endl;
+
+	file.open(headerPath, std::ios::out | std::ios::trunc);
+
+	std::string GenClassName = theClass.name + "Class";
 
 	if (file.good())
 	{
-		std::string classString = theClass.Stringify();
-		file.write(classString.c_str(), classString.size());
+		file << SourceHeader_Header;
+
+		file << "#include <ZClass.h>\n\n";
+		file << "class " << GenClassName << " : public ZClass\n";
+
+		file << "{\n";
+
+		file << "public:\n";
+
+		file << "\t" << GenClassName << "() : ZClass(\"" << theClass.name << "\", {";
+
+		if (theClass.parents.size())
+		{
+			for (int i=0;i<theClass.parents.size();i++)
+			{
+				std::string parent = theClass.parents[i];
+				FlattenString(parent);
+				auto c = parent;
+				file << "\"" << c << "\"";
+				if (i != theClass.parents.size() - 1)
+					file << ", ";
+			}
+		}
+
+		file << "}) {}\n";
+
+		file << "\tvoid* " << "SpawnDynamic()const override;\n";
+		file << "};\n";
+
+
+		file << "#undef GENERATED_ZCLASS\n";
+		file << "#define GENERATED_ZCLASS ";
+		file << "static const " << GenClassName << " Class; \\\n";
+		file << "static const ZClass* GetStaticClass() {return &Class;}\n";
+
 		file.close();
+
+		/*"\t{ \n\t\treturn(void*)(new " << theClass.name << "); \n\t }\n";
+		file << "#include \"" << theClass.sourceFile << "\"\n\n";
+
+		*/
+
+	}
+	else
+	{
+		char errorS[256] = { 0 };
+		strerror_s(errorS, errno);
+		LOG_ERROR << "Error Opening File For Ouput " << fullPath << " error: " << errorS << std::endl;
+		return false;
+	}
+
+	LOG_INFO << "Generating Source" << std::endl;
+
+	std::string sourcePath = fullPath + theClass.name + ".generated.cpp";
+
+	file.open(sourcePath, std::ios::out | std::ios::trunc);
+
+	if (file.good())
+	{
+		file << SourceSource_Header;
+
+		file << "#include \"" << (theClass.name + ".generated.h") << "\"\n\n";
+		file << "#include \"" << theClass.sourceFile << "\"\n\n";
+
+		file << "const " << GenClassName << " " << theClass.name << "::Class;\n";
+
+		file << "void* " << GenClassName << "::" << "SpawnDynamic()const\n";
+		file << "{\n\treturn (void*)(new " << theClass.name << ");\n}\n";
+
+		file.close();
+
+		/*"\t{ \n\t\treturn(void*)(new " << theClass.name << "); \n\t }\n";
+		file << "#include \"" << theClass.sourceFile << "\"\n\n";
+
+		*/
+
 	}
 	else
 	{

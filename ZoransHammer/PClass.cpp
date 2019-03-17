@@ -1,17 +1,17 @@
 #include "pch.h"
-#include "ZClass.h"
+#include "PClass.h"
 
 
-ZClass::ZClass() : isInterface(false), isStruct(false)
+PClass::PClass() : isInterface(false), isStruct(false)
 {
 }
 
 
-ZClass::~ZClass()
+PClass::~PClass()
 {
 }
 
-std::string ZClass::Stringify() const
+std::string PClass::Stringify() const
 {
 	std::string s;
 

@@ -1,16 +1,16 @@
 #include "pch.h"
-#include "ZType.h"
+#include "PType.h"
 
 
-ZType::ZType() : isStatic(false)
+PType::PType() : isStatic(false)
 {
 }
 
-ZType::~ZType()
+PType::~PType()
 {
 }
 
-std::string ZType::Stringify() const
+std::string PType::Stringify() const
 {
 	if(typeName.empty() == false || memberName.empty() == false)
 		return typeName + " " + memberName;

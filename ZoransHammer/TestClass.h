@@ -5,6 +5,8 @@
 
 #include "BaseTestClass.h"
 
+#include ".generated/TestClass.generated.h"
+
 class TestClass : public BaseTestClass
 {
 private: 
@@ -15,6 +17,8 @@ public:
 	TestClass(); // this is a comment
 	~TestClass();
 	
+	GENERATED_ZCLASS
+
 	static float GetAFloat();
 	double GetADouble()const;
 

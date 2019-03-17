@@ -2,7 +2,7 @@
 
 #include <string>
 
-struct ZType
+struct PType
 {
 	// string representation of this type (e.x. int)
 	std::string typeName;
@@ -12,8 +12,8 @@ struct ZType
 	// wether this is a class or member variable
 	bool isStatic;
 
-	ZType();
-	~ZType();
+	PType();
+	~PType();
 
 	std::string Stringify()const;
 };

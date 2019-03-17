@@ -5,7 +5,7 @@
 #include <iostream>
 #include <filesystem>
 
-#include "ZClassDB.h"
+#include "PClassDB.h"
 #include "SourceGenerator.h"
 
 #include <Utils/FileUtils.h>
@@ -14,13 +14,17 @@
 #include <ThirdParty/cxxopts/cxxopts.hpp>
 
 #include <Utils/FileLogger.h>
+#include <Utils/ConsoleLogger.h>
 
 LoggerBase* logger = 0;
 
+#include "TestClass.h"
+
 int main(int argc, char* argv[])
 {
-
-	logger = new FileLogger("error.log");
+	
+	//logger = new FileLogger("error.log");
+	logger = new ConsoleLogger();
 
 	bool shouldRecurse = false;
 	std::string directory;
@@ -79,11 +83,14 @@ int main(int argc, char* argv[])
 		return 0;
 	}
 
-	ZClassDB db;
+	PClassDB db;
 	
-	int error = GetFilesInDir(directory, fileMask, shouldRecurse, [&db](std::string filename, std::string filepath) {
+	std::string GeneratedSourceDir = ".generated";
+
+	int error = GetFilesInDir(directory, fileMask, shouldRecurse, [&db, GeneratedSourceDir](std::string filename, std::string filepath) {
 		if (filename == "pch.h")return;
 		if (filename == "stdafx.h")return;
+		if (filename.find(GeneratedSourceDir) != std::string::npos)return;
 		std::string fullPath = filepath + filename;
 		db.ParseSourceFile(fullPath, filepath);
 	});
@@ -96,12 +103,11 @@ int main(int argc, char* argv[])
 	{
 		for (auto& c : db)
 		{
-			if (SourceGenerator::GenerateSourceToDir(c.second, "generated") == false)
+			if (SourceGenerator::GenerateSourceToDir(c.second, GeneratedSourceDir) == false)
 			{
 				LOG_ERROR << "Failed Generating Source For " << c.second.name << std::endl;
 			}
 		}
 	}
-
 	return 0;
 }
