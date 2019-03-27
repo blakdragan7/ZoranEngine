@@ -1,5 +1,5 @@
 #pragma once
-#include "PlatoformTypes.h"
+#include <Core/PlatformTypes.h>
 
 #include <sstream>
 #include <mutex>
@@ -13,7 +13,7 @@ enum ELogLevel {
 	LogLevel_None = 5
 };
 class LogWrapper;
-class DLL_EXPORT LoggerBase
+class ZoranEngine_EXPORT LoggerBase
 {
 protected:
 	ELogLevel logLevel;

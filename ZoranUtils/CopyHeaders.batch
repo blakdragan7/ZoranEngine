@@ -1,1 +1,0 @@
-for /R  %%f in (*.xml) do copy %%f x:\destination\

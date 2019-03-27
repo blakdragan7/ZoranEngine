@@ -249,7 +249,13 @@
     <ClCompile Include="ThirdParty\tinyxml2\tinyxml2.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Utils\ConsoleLogger.cpp" />
+    <ClCompile Include="Utils\FileLogger.cpp" />
+    <ClCompile Include="Utils\FileUtils.cpp" />
+    <ClCompile Include="Utils\LoggerBase.cpp" />
+    <ClCompile Include="Utils\Random.cpp" />
     <ClCompile Include="Utils\Statistics.cpp" />
+    <ClCompile Include="Utils\StringUtils.cpp" />
     <ClCompile Include="Windows\WindowsMouse.cpp" />
     <ClCompile Include="Windows\WindowsThread.cpp" />
     <ClCompile Include="Windows\WindowsWindow.cpp" />
@@ -266,6 +272,8 @@
     <ClCompile Include="ZGI\Panels\ZGIPanel.cpp" />
     <ClCompile Include="ZGI\Panels\ZGIScrollPanel.cpp" />
     <ClCompile Include="ZGI\Panels\ZGISwitcherPanel.cpp" />
+    <ClCompile Include="ZGI\Panels\ZGITabHeaderPanel.cpp" />
+    <ClCompile Include="ZGI\Panels\ZGITabPanel.cpp" />
     <ClCompile Include="ZGI\Panels\ZGITreePanel.cpp" />
     <ClCompile Include="ZGI\Panels\ZGIUniformScalePanel.cpp" />
     <ClCompile Include="ZGI\Panels\ZGIVerticalBoxPanel.cpp" />
@@ -276,10 +284,12 @@
     <ClCompile Include="ZGI\Widgets\ZGICursor.cpp" />
     <ClCompile Include="ZGI\Widgets\ZGIImage.cpp" />
     <ClCompile Include="ZGI\Widgets\ZGILabel.cpp" />
+    <ClCompile Include="ZGI\Widgets\ZGILabelButton.cpp" />
     <ClCompile Include="ZGI\Widgets\ZGIProgressBar.cpp" />
     <ClCompile Include="ZGI\Widgets\ZGIScrollBar.cpp" />
     <ClCompile Include="ZGI\Widgets\ZGISpacer.cpp" />
     <ClCompile Include="ZGI\Widgets\ZGISpinBox.cpp" />
+    <ClCompile Include="ZGI\Widgets\ZGITabHeader.cpp" />
     <ClCompile Include="ZGI\Widgets\ZGITextEdit.cpp" />
     <ClCompile Include="ZGI\Widgets\ZGIWidget.cpp" />
     <ClCompile Include="ZGI\Windows\ZGIDebugWindow.cpp" />
@@ -732,7 +742,17 @@
     <ClInclude Include="ThirdParty\unicode\uvernum.h" />
     <ClInclude Include="ThirdParty\unicode\uversion.h" />
     <ClInclude Include="ThirdParty\unicode\vtzone.h" />
+    <ClInclude Include="Utils\BitmapAddons.hpp" />
+    <ClInclude Include="Utils\ConsoleLogger.h" />
+    <ClInclude Include="Utils\FileLogger.h" />
+    <ClInclude Include="Utils\FileUtils.h" />
+    <ClInclude Include="Utils\HighPrecisionClock.h" />
+    <ClInclude Include="Utils\ListAddons.hpp" />
+    <ClInclude Include="Utils\LoggerBase.h" />
+    <ClInclude Include="Utils\Random.h" />
     <ClInclude Include="Utils\Statistics.h" />
+    <ClInclude Include="Utils\StringUtils.h" />
+    <ClInclude Include="Utils\VectorAddons.hpp" />
     <ClInclude Include="Version.h" />
     <ClInclude Include="Windows\WindowsMouse.h" />
     <ClInclude Include="Windows\WindowsThread.h" />
@@ -750,6 +770,8 @@
     <ClInclude Include="ZGI\Panels\ZGIPanel.h" />
     <ClInclude Include="ZGI\Panels\ZGIScrollPanel.h" />
     <ClInclude Include="ZGI\Panels\ZGISwitcherPanel.h" />
+    <ClInclude Include="ZGI\Panels\ZGITabHeaderPanel.h" />
+    <ClInclude Include="ZGI\Panels\ZGITabPanel.h" />
     <ClInclude Include="ZGI\Panels\ZGITreePanel.h" />
     <ClInclude Include="ZGI\Panels\ZGIUniformScalePanel.h" />
     <ClInclude Include="ZGI\Panels\ZGIVerticalBoxPanel.h" />
@@ -760,10 +782,12 @@
     <ClInclude Include="ZGI\Widgets\ZGICursor.h" />
     <ClInclude Include="ZGI\Widgets\ZGIImage.h" />
     <ClInclude Include="ZGI\Widgets\ZGILabel.h" />
+    <ClInclude Include="ZGI\Widgets\ZGILabelButton.h" />
     <ClInclude Include="ZGI\Widgets\ZGIProgressBar.h" />
     <ClInclude Include="ZGI\Widgets\ZGIScrollBar.h" />
     <ClInclude Include="ZGI\Widgets\ZGISpacer.h" />
     <ClInclude Include="ZGI\Widgets\ZGISpinBox.h" />
+    <ClInclude Include="ZGI\Widgets\ZGITabHeader.h" />
     <ClInclude Include="ZGI\Widgets\ZGITextEdit.h" />
     <ClInclude Include="ZGI\Widgets\ZGIWidget.h" />
     <ClInclude Include="ZGI\Windows\ZGIDebugWindow.h" />
@@ -772,11 +796,6 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ZoranEngine.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ZoranUtils\ZoranUtils.vcxproj">
-      <Project>{32f29f42-9bee-466e-b373-587def5d3cd0}</Project>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -839,11 +858,11 @@
     <LibraryPath>libs;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>D:\git\ZoranEngine\Shared;D:\git\ZoranEngine\Shared;$(ProjectDir);GL;ThirdParty/msdfgen;ThirdParty;$(IncludePath)</IncludePath>
+    <IncludePath>D:\git\ZoranEngine\Shared;$(ProjectDir);GL;ThirdParty/msdfgen;ThirdParty;$(IncludePath)</IncludePath>
     <LibraryPath>libs;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>D:\git\ZoranEngine\Shared;$(ProjectDir);GL;ThirdParty/msdfgen;ThirdParty;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);GL;ThirdParty/msdfgen;ThirdParty;$(IncludePath)</IncludePath>
     <LibraryPath>libs;$(LibraryPath)</LibraryPath>
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>

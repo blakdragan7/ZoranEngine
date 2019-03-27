@@ -1,10 +1,10 @@
 #pragma once
 #include "LoggerBase.h"
-#include "PlatoformTypes.h"
+#include <Core/PlatformTypes.h>
 
 #include <fstream>
 
-class DLL_EXPORT FileLogger : public LoggerBase
+class ZoranEngine_EXPORT FileLogger : public LoggerBase
 {
 	std::fstream* file_;
 	std::string* path;

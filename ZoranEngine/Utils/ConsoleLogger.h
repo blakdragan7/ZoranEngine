@@ -1,7 +1,8 @@
 #pragma once
 #include "LoggerBase.h"
-#include "PlatoformTypes.h"
-class DLL_EXPORT ConsoleLogger : public LoggerBase
+#include <Core/PlatformTypes.h>
+
+class ZoranEngine_EXPORT ConsoleLogger : public LoggerBase
 {
 public:
 	ConsoleLogger();

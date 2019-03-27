@@ -72,7 +72,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>D:\git\ZoranEngine\Shared;$(ProjectDir);$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);../ZoranEngine;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
@@ -82,7 +82,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>D:\git\ZoranEngine\Shared;$(ProjectDir);$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);../ZoranEngine;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -189,8 +189,8 @@
     <ClCompile Include="PType.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ZoranUtils\ZoranUtils.vcxproj">
-      <Project>{32f29f42-9bee-466e-b373-587def5d3cd0}</Project>
+    <ProjectReference Include="..\ZoranEngine\ZoranEngine.vcxproj">
+      <Project>{8fbcd129-6520-4ba5-b9d8-372599490db9}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

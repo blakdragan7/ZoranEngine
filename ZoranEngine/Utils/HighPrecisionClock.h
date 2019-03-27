@@ -1,5 +1,5 @@
 #pragma once
-#include "PlatoformTypes.h"
+
 #include <chrono>
 
 #define NANOSECONDS_PER_SECONDS 1e+9
