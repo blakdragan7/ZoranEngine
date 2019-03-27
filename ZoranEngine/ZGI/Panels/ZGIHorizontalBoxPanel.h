@@ -11,6 +11,7 @@ private:
 private:
 	void UpdateSocketPositions();
 
+
 public:
 	ZGIHorizontalBoxPanel(ZGIVirtualWindow* owningWindow);
 	~ZGIHorizontalBoxPanel();
@@ -18,13 +19,14 @@ public:
 	void MoveWidgetRight(ZGIWidget* widget);
 	void MoveWidgetLeft(ZGIWidget* widget);
 
-	void AddWidget(ZGIWidget* widget, float size = 1.0f);
+	void AddWidget(ZGIWidget* widget, float size = 1.0f, int index = -1);
 	void RemoveWidget(ZGIWidget* widget);
+	ZGIWidget* RemoveWidget(int index);
 	void SetSizeForWidget(float size, ZGIWidget* widget);
-	void SetSizeForPosition(float size, int position);
+	void SetSizeForIndex(float size, int index);
 	void CommitSizes();
 
-	const ZGIBasicSocket* SocketForPosition(int position)const;
+	const ZGIBasicSocket* SocketForIndex(int index)const;
 
 	/* Panel Override */
 

@@ -85,15 +85,15 @@ void ZGIHorizontalBoxPanel::SetSizeForWidget(float percentage, ZGIWidget * widge
 	needsSocketsSized = true;
 }
 
-void ZGIHorizontalBoxPanel::SetSizeForPosition(float percentage, int position)
+void ZGIHorizontalBoxPanel::SetSizeForIndex(float percentage, int index)
 {
-	if (sockets->size() <= position)
+	if (sockets->size() <= index)
 	{
 		Log(LogLevel_Warning, "Trying to set Percentage for Invalid Position !\n");
 		return;
 	}
 
-	auto& socket = (*sockets)[position];
+	auto& socket = (*sockets)[index];
 
 	socket.width = percentage;
 	needsSocketsSized = true;
@@ -114,10 +114,14 @@ void ZGIHorizontalBoxPanel::CommitSizes()
 	}
 }
 
-void ZGIHorizontalBoxPanel::AddWidget(ZGIWidget * widget, float size)
+void ZGIHorizontalBoxPanel::AddWidget(ZGIWidget * widget, float size, int index)
 {
 	widget->SetParent(this);
-	sockets->push_back({ size, 1.0f, widget,this });
+	if (index == -1 || index >= sockets->size())
+		sockets->push_back({ size, 1.0f, widget,this });
+	else
+		sockets->insert(sockets->begin() + index, { size, 1.0f, widget, this });
+	
 	needsSocketsSized = true;
 }
 
@@ -131,10 +135,25 @@ void ZGIHorizontalBoxPanel::RemoveWidget(ZGIWidget * widget)
 	}
 }
 
-const ZGIBasicSocket * ZGIHorizontalBoxPanel::SocketForPosition(int position)const
+ZGIWidget* ZGIHorizontalBoxPanel::RemoveWidget(int index)
 {
-	if (sockets->size() > position)
-		return &((*sockets)[position]);
+	if (index >= sockets->size() || index < 0)
+	{
+		LOG_ERROR << "ZGIHorizontalBoxPanel::RemoveWidget Index out of bounds for socket !\n";
+		return 0;
+	}
+
+	ZGIWidget* widget = (*sockets)[index].content;
+	widget->SetParent(0);
+
+	sockets->erase(sockets->begin() + index);
+	return widget;
+}
+
+const ZGIBasicSocket * ZGIHorizontalBoxPanel::SocketForIndex(int index)const
+{
+	if (sockets->size() > index)
+		return &((*sockets)[index]);
 
 	return nullptr;
 }

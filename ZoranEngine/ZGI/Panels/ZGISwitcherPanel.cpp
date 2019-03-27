@@ -44,7 +44,7 @@ void ZGISwitcherPanel::SetWidgetActive(ZGIWidget * widget)
 		if ((*widgets)[i] == widget)
 		{
 			activeWidget = static_cast<int>(i);
-			break;
+			return;
 		}
 	}
 
@@ -53,8 +53,11 @@ void ZGISwitcherPanel::SetWidgetActive(ZGIWidget * widget)
 
 void ZGISwitcherPanel::SetIndexActive(int index)
 {
-	if((int)widgets->size() > index)
+	if ((int)widgets->size() > index)
+	{
 		Log(LogLevel_Warning, "Invalid index to set active\n");
+		return;
+	}
 	activeWidget = index;
 }
 

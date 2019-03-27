@@ -27,7 +27,7 @@ public:
 	Vector3D(const Vector2D& other, float z);
 	Vector3D(const Color& other);
 	Vector3D(float x_, float y_, float z_);
-	Vector3D::~Vector3D(void);
+	~Vector3D(void);
 
 	bool operator ==(const Vector3D& other)const;
 	bool operator !=(const Vector3D& other)const;

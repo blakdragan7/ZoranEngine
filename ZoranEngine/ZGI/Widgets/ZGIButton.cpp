@@ -10,12 +10,23 @@
 ZGIButton::ZGIButton(ZGIVirtualWindow* owningWindow) : ButtonStopedHoveredFunction(0), ButtonHoveredFunction(0), ButtonPressedFunction(0), ButtonReleasedFunction(0),
 	currentState(Button_State_None), eventHandler(0), ZGIWidget(owningWindow)
 {
-	widgetBrush->SetBackgroudHue({ 0.7f,0.7f,0.7f,0.0f });
+	standardColor = { 0.6f,0.6f,0.6f,0.6f };
+	hoveredColor = { 0.8f,0.8f,0.8f,0.8f };
+	pressedColor = { 0.4f,0.4f,0.4f,0.4f };
+
+	widgetBrush->SetBackgroudHue(standardColor);
 	shouldDrawBrush = true;
+
+	setColorOnHover = true;
 }
 
 ZGIButton::~ZGIButton()
 {
+}
+
+void ZGIButton::SetColorOnMouseEvent(bool shouldSetColor)
+{
+	setColorOnHover = shouldSetColor;
 }
 
 void ZGIButton::ContainerResized(Vec2D newSize, Vec2D oldSize)
@@ -25,7 +36,7 @@ void ZGIButton::ContainerResized(Vec2D newSize, Vec2D oldSize)
 
 bool ZGIButton::MouseDown(const PlatformMouseBase & mouse)
 {
-	widgetBrush->SetBackgroudHue({ 0.3f,0.3f,0.3f,0.0f });
+	if (setColorOnHover)widgetBrush->SetBackgroudHue(pressedColor);
 
 	if (currentState != Button_State_Pressed)
 	{
@@ -39,7 +50,7 @@ bool ZGIButton::MouseDown(const PlatformMouseBase & mouse)
 
 bool ZGIButton::MouseUp(const PlatformMouseBase & mouse)
 {
-	widgetBrush->SetBackgroudHue({ 0.7f,0.7f,0.7f,0.0f });
+	if(setColorOnHover)widgetBrush->SetBackgroudHue(standardColor);
 	
 	currentState = Button_State_None;
 	if (eventHandler)eventHandler->ButtonReleased(this);
@@ -51,7 +62,7 @@ bool ZGIButton::MouseUp(const PlatformMouseBase & mouse)
 
 bool ZGIButton::MouseEnterd(const PlatformMouseBase & mouse)
 {
-	widgetBrush->SetBackgroudHue({ 0.9f,0.9f,0.9f,0.0f });
+	if (setColorOnHover)widgetBrush->SetBackgroudHue(hoveredColor);
 	if (currentState != Button_State_Hovered)
 	{
 		currentState = Button_State_Hovered;
@@ -64,7 +75,7 @@ bool ZGIButton::MouseEnterd(const PlatformMouseBase & mouse)
 
 bool ZGIButton::MouseLeft(const PlatformMouseBase & mouse)
 {
-	widgetBrush->SetBackgroudHue({ 0.7f,0.7f,0.7f,0.0f });
+	if (setColorOnHover)widgetBrush->SetBackgroudHue(standardColor);
 	
 	currentState = Button_State_None;
 	if (eventHandler)eventHandler->ButtonStopedBeingHovered(this);

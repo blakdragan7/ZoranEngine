@@ -260,6 +260,14 @@ void ZoranEngine::Setup3DScene(Vector3D center, Vector3D size, float fov, float 
 	mainPlayer->SetCameraSceneBuffer(frameBuffer);
 }
 
+void ZoranEngine::SetRootWindow(ZGIVirtualWindow * rootWindow)
+{
+	if (mainWindow)
+	{
+		mainWindow->SetRootVirtualWindow(rootWindow);
+	}
+}
+
 void ZoranEngine::DrawStep()
 {
 	DEBUG_TAKE_BENCH;

@@ -1,6 +1,8 @@
 #pragma once
 #include <ZGI/Widgets/ZGIWidget.h>
 #include <functional>
+#include <Rendering/Primitives.h>
+
 /*
 *	This is a generic button class for ZGI
 *	It can be given and interface or be subclassed to implement 
@@ -24,6 +26,12 @@ private:
 
 protected:
 	IZGIButtonEventHandler * eventHandler;
+	Color hoveredColor;
+	Color pressedColor;
+	Color standardColor;
+
+	bool setColorOnHover;
+
 	// TODO: test this in multi platform setting to make sure that it works
 #pragma warning(push)
 #pragma warning(disable:4251)
@@ -41,6 +49,12 @@ protected:
 public:
 	ZGIButton(ZGIVirtualWindow* owningWindow);
 	~ZGIButton();
+
+	void SetColorOnMouseEvent(bool shouldSetColor);
+
+	inline void SetStandardColor(const Color& color) { standardColor = color; }
+	inline void SetHoverColor(const Color& color) { hoveredColor = color; }
+	inline void SetPressedColor(const Color& color) { pressedColor = color; }
 
 	inline void SetEventHandler(IZGIButtonEventHandler* handler) { eventHandler = handler; }
 	inline ZGIButtonState GetState() { return currentState; }

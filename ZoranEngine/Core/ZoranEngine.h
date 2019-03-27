@@ -18,12 +18,14 @@
 #define LOG_VERBOSE zEngine->logger->WrapperForLevel(LogLevel_Verbose)
 
 #include <Utils/LoggerBase.h>
-#include "PlatformTypes.h"
-#include "CommomTypes.h"
+#include <Core/WindowBase.h>
+#include <Core/PlatformTypes.h>
+#include <Core/CommomTypes.h>
 #include <Math/Vector3.h>
 #include <Math/Vector2.h>
 #include <vector>
 #include <Core/ZoranEngine.h>
+
 enum SpawnCollisionBehaviour
 {
 	Spawn_Collision_Behaviour_Ignore_Collision, // spawn regardless of collision
@@ -32,7 +34,6 @@ enum SpawnCollisionBehaviour
 };
 
 class ThreadBase;
-class WindowBase;
 class RenderEngineBase;
 class RenderEngine2DBase;
 class RenderEngine3DBase;
@@ -44,6 +45,7 @@ class AllocatorBase;
 class AudioEngineBase;
 class ResourceManager;
 class ZGIDebugWindow;
+class ZGIVirtualWindow;
 class ZGIGameVirtualWindow;
 class ZoranEngine_EXPORT ZoranEngine
 {
@@ -104,6 +106,19 @@ public:
 	void Setup2DScene(float centerx, float centery, float width, float height); // in meters
 	void Setup2DScene(Vector2D center, Vector2D size); // in meters
 	void Setup3DScene(Vector3D center, Vector3D size, float fov,float nearp,float farp); // in meters
+
+	template<typename WindowClass>
+	WindowClass* SetRootWindow()
+	{
+		if (mainWindow)
+		{
+			return mainWindow->SetRootVirtualWindow<WindowClass>(Vector2D(0,0), mainWindow->GetSize(), mainWindow->GetSize());
+		}
+
+		return nullptr;
+	}
+
+	void SetRootWindow(ZGIVirtualWindow* rootWindow);
 
 	void DrawStep();
 

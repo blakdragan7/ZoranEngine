@@ -67,8 +67,8 @@ int main(int argc, char* argv[])
 {
 	//Test2DSceneStuff();
 	//Test3DSceneStuff();
-	//TestGUIStuff();
-	TestResourceStuff();
+	TestGUIStuff();
+	//TestResourceStuff();
 }
 
 void Test2DSceneStuff()
@@ -157,6 +157,9 @@ void TestGUIStuff()
 	ZoranEngine engine;
 	engine.Init();
 	engine.Setup2DScene(0, 0, 2000, 2000);
+
+	/*RM->MakeImageForPath("emptyBox.png", "emptyBox");
+	RM->MakeImageForPath("checkimage.png","checkimage");*/
 
 	/*FontResource* r = ResourceManager::man()->FontForTTF("C:/Windows/Fonts/arial.ttf",64,4,Font_SDF_Type_MSDF);
 	r->CreateBMPForASCII(ASCII);

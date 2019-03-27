@@ -708,6 +708,36 @@
     <ClCompile Include="Utils\Statistics.cpp">
       <Filter>ZoranEngine\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="Utils\ConsoleLogger.cpp">
+      <Filter>ZoranEngine\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\FileLogger.cpp">
+      <Filter>ZoranEngine\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\FileUtils.cpp">
+      <Filter>ZoranEngine\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\LoggerBase.cpp">
+      <Filter>ZoranEngine\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\Random.cpp">
+      <Filter>ZoranEngine\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\StringUtils.cpp">
+      <Filter>ZoranEngine\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="ZGI\Panels\ZGITabHeaderPanel.cpp">
+      <Filter>ZoranEngine\ZGI\Panels</Filter>
+    </ClCompile>
+    <ClCompile Include="ZGI\Panels\ZGITabPanel.cpp">
+      <Filter>ZoranEngine\ZGI\Panels</Filter>
+    </ClCompile>
+    <ClCompile Include="ZGI\Widgets\ZGILabelButton.cpp">
+      <Filter>ZoranEngine\ZGI\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="ZGI\Widgets\ZGITabHeader.cpp">
+      <Filter>ZoranEngine\ZGI\Widgets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -2155,6 +2185,48 @@
     </ClInclude>
     <ClInclude Include="Utils\Statistics.h">
       <Filter>ZoranEngine\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\ConsoleLogger.h">
+      <Filter>ZoranEngine\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\FileLogger.h">
+      <Filter>ZoranEngine\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\FileUtils.h">
+      <Filter>ZoranEngine\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\HighPrecisionClock.h">
+      <Filter>ZoranEngine\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\LoggerBase.h">
+      <Filter>ZoranEngine\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\Random.h">
+      <Filter>ZoranEngine\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\StringUtils.h">
+      <Filter>ZoranEngine\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\BitmapAddons.hpp">
+      <Filter>ZoranEngine\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\ListAddons.hpp">
+      <Filter>ZoranEngine\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\VectorAddons.hpp">
+      <Filter>ZoranEngine\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="ZGI\Panels\ZGITabHeaderPanel.h">
+      <Filter>ZoranEngine\ZGI\Panels</Filter>
+    </ClInclude>
+    <ClInclude Include="ZGI\Panels\ZGITabPanel.h">
+      <Filter>ZoranEngine\ZGI\Panels</Filter>
+    </ClInclude>
+    <ClInclude Include="ZGI\Widgets\ZGILabelButton.h">
+      <Filter>ZoranEngine\ZGI\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="ZGI\Widgets\ZGITabHeader.h">
+      <Filter>ZoranEngine\ZGI\Widgets</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
