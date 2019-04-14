@@ -1,11 +1,13 @@
 #pragma once
 #include <ZGI/Windows/ZGIVirtualWindow.h>
 
-class ZGIVirtualGameWindow;
+class ZGITabPanel;
+class ZGIGameView;
 class ZoranEditorMainWindow : public ZGIVirtualWindow
 {
 private:
-	ZGIVirtualGameWindow* GameView;
+	ZGITabPanel* mainPanel;
+	ZGIGameView* GameView;
 
 public:
 	ZoranEditorMainWindow(Vec2D pos, Vec2D size, Vec2I OSWindowSize, ZGIVirtualWindow* parent = 0);

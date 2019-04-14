@@ -1,18 +1,30 @@
+#include <string>
 #include <memory>
-#include <Core/ZoranEngine.h>
-#include <Physics/PhysicsEngine.h>
+#include <algorithm>
+
 #include "TestSceneObject.h"
 #include "TestPlatformObject.h"
 #include "TestCircleObject.h"
+
+#include <Rendering/Primitives.h>
 #include <Rendering/RenderEngineBase.h>
+
+#include <Physics/PhysicsEngine.h>
 #include <Physics/2D/PhysicsObject2DBase.h>
-#include <Core/2D/Components/RigidBody2DComponent.h>
-#include <Core/2D/Named2DSceneObject.h>
+
 #include <Utils/Random.h>
 #include <Utils/HighPrecisionClock.h>
-#include <algorithm>
 
+#include <Core/ThreadBase.h>
 #include <Core/WindowBase.h>
+#include <Core/ZoranEngine.h>
+#include <Core/2D/OrthoCamera.h>
+#include <Core/2D/TexturedSprite.h>
+#include <Core/DebugPlayerInstance.h>
+#include <Core/3D/PerspectiveCamera.h>
+#include <Core/2D/Named2DSceneObject.h>
+#include <Core/3D/StaticModelSceneObj.h>
+#include <Core/2D/Components/RigidBody2DComponent.h>
 
 #include <ZGI/Windows/ZGIGameVirtualWindow.h>
 #include <ZGI/Windows/ZGIDebugWindow.h>
@@ -26,6 +38,7 @@
 #include <ZGI/Panels/ZGIScrollPanel.h>
 #include <ZGI/Panels/ZGIOverlayPanel.h>
 
+#include <ZGI/Widgets/ZGIGameView.h>
 #include <ZGI/Widgets/ZGIProgressBar.h>
 #include <ZGI/Widgets/ZGISpinBox.h>
 #include <ZGI/Widgets/ZGIComboBox.h>
@@ -38,19 +51,9 @@
 
 #include <ZGI/Core/ZGIBrush.h>
 
+#include <Resources/SoundAsset.h>
 #include <Resources/FontResource.h>
 #include <Resources/ResourceManager.h>
-
-#include <Core/2D/TexturedSprite.h>
-
-#include <Core/3D/StaticModelSceneObj.h>
-
-#include <Resources/SoundAsset.h>
-#include <Core/ThreadBase.h>
-
-#include <string>
-
-#include <Rendering/Primitives.h>
 
 void Test2DSceneStuff();
 void Test3DSceneStuff();
@@ -65,9 +68,9 @@ static const float scale = 40.0f;
 
 int main(int argc, char* argv[])
 {
-	//Test2DSceneStuff();
+	Test2DSceneStuff();
 	//Test3DSceneStuff();
-	TestGUIStuff();
+	//TestGUIStuff();
 	//TestResourceStuff();
 }
 
@@ -75,9 +78,13 @@ void Test2DSceneStuff()
 {
 	ZoranEngine engine;
 	engine.Init();
-	engine.Setup2DScene(0, 0, 2000, 2000);
-	engine.CreateGameModeWindows(false);
 
+	ZGIGameVirtualWindow* window = engine.SetRootWindow<ZGIGameVirtualWindow>();
+
+	OrthoCamera *orthoCamera = new OrthoCamera("OrthoCamera", window->GetWindowSize().w, window->GetWindowSize().h, (float)window->GetWindowSize().w / (float)window->GetWindowSize().h);
+
+	window->GetGameView()->SetPlayer(new DebugPlayerInstance(orthoCamera));
+		
 	std::string name_base = "TestSceneObject-";
 
 	/*TestSceneObject* test = engine.SpawnSceneObjectAtLocation<TestSceneObject>("scene",Vector2D(0,0), Vector2D(scale, -scale));
@@ -141,8 +148,6 @@ void Test3DSceneStuff()
 {
 	ZoranEngine engine;
 	engine.Init();
-	engine.Setup3DScene({}, { 1,1,1 }, 90, 1, 100);
-	engine.CreateGameModeWindows(true);
 
 	std::string name_base = "TestSceneObject-";
 
@@ -156,7 +161,6 @@ void TestGUIStuff()
 {
 	ZoranEngine engine;
 	engine.Init();
-	engine.Setup2DScene(0, 0, 2000, 2000);
 
 	/*RM->MakeImageForPath("emptyBox.png", "emptyBox");
 	RM->MakeImageForPath("checkimage.png","checkimage");*/
@@ -166,9 +170,7 @@ void TestGUIStuff()
 	r->NormalizeGlyphs();
 	r->SaveToFile("arial-msdf.zft");*/
 
-	engine.CreateGameModeWindows(false);
-
-	auto window = engine.GetMainWindow()->GetRootVirtualWindow();
+	auto window = engine.GetMainWindow()->SetRootVirtualWindow<ZGIVirtualWindow>();
 
 	//auto w = window->SpawnWidget<ZGIWrapBoxPanel>(Vector2D(300,150));
 	//auto p = window->SpawnWidget<ZGISwitcherPanel>();
@@ -234,7 +236,6 @@ void TestResourceStuff()
 {
 	ZoranEngine engine;
 	engine.Init();
-	engine.Setup2DScene(0, 0, 2000, 2000);
 
 	//auto test = RM->MakeImageForPath("test.png","test");
 	//auto circle = RM->MakeImageForPath("circle.png", "circle");

@@ -10,6 +10,7 @@
 int main()
 {
 	ZoranEngine engine;
+	engine.Init();
 
 	ZoranEditorMainWindow* rootWindow = engine.SetRootWindow<ZoranEditorMainWindow>();
 
