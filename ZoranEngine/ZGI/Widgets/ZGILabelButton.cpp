@@ -21,12 +21,18 @@ ZGILabelButton::~ZGILabelButton()
 	delete label;
 }
 
-void ZGILabelButton::SetText(std::string & text)
+void ZGILabelButton::SetText(const std::string & text)
 {
 	label->SetText(text);
+	stringCopy = text;
 }
 
 void ZGILabelButton::SetAlignment(Alignment textAligment)
 {
 	label->SetAlignment(textAligment);
+}
+
+const std::string & ZGILabelButton::GetText()
+{
+	return stringCopy;
 }

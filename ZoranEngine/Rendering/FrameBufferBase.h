@@ -4,6 +4,8 @@
 #include <Math/Vector2.h>
 #include <functional>
 
+#include <Resources/ImageResource.h>
+
 /*
 * This represents an abstraction to off screen rendering. You must subclass the render specific implementation of this class for custom behavior
 * For example, subclass OpenGLFrameBuffer for a custom frame buffer implemented with opengl
@@ -19,7 +21,7 @@ private:
 	RenderedObjectBase* renderObject;
 
 protected:
-	TextureBase * targetTexture;
+	ImageResource targetTexture;
 	Vector2I renderSize;
 	bool ownsRenderObject;
 
@@ -33,7 +35,7 @@ public:
 	/* Render To Buffer via renderFunction, If a render object was previously set it removed */
 	void SetRenderFunction(RenderFunction renderFunction);
 
-	inline TextureBase* GetTargetTexture()const { return targetTexture; }
+	inline ImageResource GetTargetTexture()const { return targetTexture; }
 
 	RenderDataFormat GetRenderDataFormat();
 	RenderDataType GetRenderDataType();

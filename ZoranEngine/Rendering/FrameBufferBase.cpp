@@ -3,7 +3,7 @@
 #include "TextureBase.h"
 #include "RenderEngineBase.h"
 
-FrameBufferBase::FrameBufferBase(Vector2I renderSize, RenderDataType renderType, RenderDataFormat format) : renderFunction(0), targetTexture(0), renderObject(0),ownsRenderObject(false)
+FrameBufferBase::FrameBufferBase(Vector2I renderSize, RenderDataType renderType, RenderDataFormat format) : renderFunction(0), renderObject(0),ownsRenderObject(false)
 {
 	targetTexture = rEngine->CreateTexture(0, renderType,format,renderSize);
 }
@@ -14,7 +14,6 @@ FrameBufferBase::FrameBufferBase(TextureBase* targetTexture) : renderFunction(0)
 
 FrameBufferBase::~FrameBufferBase()
 {
-	delete targetTexture;
 	if (ownsRenderObject && renderObject)delete renderObject;
 }
 

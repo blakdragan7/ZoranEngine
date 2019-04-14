@@ -6,6 +6,7 @@
 #include <string>
 
 class TreeSocket;
+class ZGITreePanel;
 struct BenchStatChain
 {
 	HighPrecisionClock clock;
@@ -51,7 +52,7 @@ public:
 	inline long long GetTotalNanoSeconds() { return rootChain.nanoseconds; }
 	float GetOneOverTotalSeconds();
 
-	void DebugDraw();
+	void DebugDraw(ZGITreePanel* tree);
 
 	inline static BenchMarker* Singleton()
 	{
@@ -73,7 +74,7 @@ extern std::ostream& operator<<(std::ostream& os, const BenchMarker& b);
 #define DEBUG_BENCH_START_TRACK(...) BenchMarker::Singleton()->StartStatWithDepth({__VA_ARGS__});
 #define DEBUG_TRACK_TAKE_BENCH(...) BenchMarker::Singleton()->TakeStatWithDepth({__VA_ARGS__});
 #define DEBUG_TRACK_ACCUM_STAT(...) BenchMarker::Singleton()->AccumStatWithDepth({__VA_ARGS__});
-#define DEBUG_DRAW BenchMarker::Singleton()->DebugDraw();
+#define DEBUG_DRAW(tree) BenchMarker::Singleton()->DebugDraw(tree);
 #elif defined(_FPSBENCHONLY)
 #define DEBUG_BENCH_START BenchMarker::Singleton()->StartBench();
 #define DEBUG_TAKE_BENCH BenchMarker::Singleton()->TakeBench();

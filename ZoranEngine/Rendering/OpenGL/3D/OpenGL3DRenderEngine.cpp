@@ -65,11 +65,6 @@ void OpenGL3DRenderEngine::DrawScene(const Matrix44& cameraMatrix)
 
 }
 
-void OpenGL3DRenderEngine::DrawDebugGUI()
-{
-	DEBUG_DRAW;
-}
-
 void OpenGL3DRenderEngine::AddComponent(Visible3DComponent * component)
 {
 	ShaderProgramBase* program = component->GetShaderProgram();
@@ -200,7 +195,7 @@ TextureBase* OpenGL3DRenderEngine::CreateTexture(void* data, RenderDataType buff
 	}
 }
 
-bool OpenGL3DRenderEngine::CreateFrameBuffer(FrameBufferBase** outBuffer, TextureBase** outTexture, Vec2I size, RenderDataType bufferType, RenderDataFormat bufferFormat)
+bool OpenGL3DRenderEngine::CreateFrameBuffer(FrameBufferBase** outBuffer, ImageResource* outTexture, Vec2I size, RenderDataType bufferType, RenderDataFormat bufferFormat)
 {
 	return context->CreateFrameBuffer(outBuffer, outTexture, bufferType, bufferFormat, size);
 }

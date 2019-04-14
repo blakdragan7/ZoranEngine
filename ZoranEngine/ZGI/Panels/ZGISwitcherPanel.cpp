@@ -37,6 +37,18 @@ void ZGISwitcherPanel::RemoveWidget(ZGIWidget * widget)
 	}
 }
 
+void ZGISwitcherPanel::RemoveWidget(int index)
+{
+	if (index >= widgets->size() || index < 0)
+	{
+		LOG_ERROR << "ZGISwitcherPanel::RemoveWidget Invalid Index to Remove: " << index;
+	}
+	else
+	{
+		widgets->erase(widgets->begin() + index);
+	}
+}
+
 void ZGISwitcherPanel::SetWidgetActive(ZGIWidget * widget)
 {
 	for (size_t i = 0; i < widgets->size(); i++)
@@ -53,12 +65,24 @@ void ZGISwitcherPanel::SetWidgetActive(ZGIWidget * widget)
 
 void ZGISwitcherPanel::SetIndexActive(int index)
 {
-	if ((int)widgets->size() > index)
+	if ((int)widgets->size() < index)
 	{
 		Log(LogLevel_Warning, "Invalid index to set active\n");
 		return;
 	}
 	activeWidget = index;
+}
+
+int ZGISwitcherPanel::IndexForWidget(ZGIWidget * widget) const
+{
+	auto itr = std::find(widgets->begin(), widgets->end(), widget);
+	if (itr == widgets->end())
+	{
+		LOG_ERROR << "ZGISwitcherPanel::IndexForWidget Widget not contains by switcher" << std::endl;
+		return -1;
+	}
+
+	return (int)(itr - widgets->begin());
 }
 
 void ZGISwitcherPanel::AnimateAllWidgets(float dt)

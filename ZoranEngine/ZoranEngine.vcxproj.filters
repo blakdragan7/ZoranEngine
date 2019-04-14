@@ -163,6 +163,9 @@
     <Filter Include="ZoranEngine\Utils">
       <UniqueIdentifier>{e48e1b4e-8cb0-4175-bfb6-41ecc4416b59}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ZoranEngine\Reflection">
+      <UniqueIdentifier>{efe877d4-faa8-437b-85fa-420c6e3e014a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -736,6 +739,18 @@
       <Filter>ZoranEngine\ZGI\Widgets</Filter>
     </ClCompile>
     <ClCompile Include="ZGI\Widgets\ZGITabHeader.cpp">
+      <Filter>ZoranEngine\ZGI\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="Resources\MapAsset.cpp">
+      <Filter>ZoranEngine\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Reflection\ZClassManager.cpp">
+      <Filter>ZoranEngine\Reflection</Filter>
+    </ClCompile>
+    <ClCompile Include="Reflection\ZClass.cpp">
+      <Filter>ZoranEngine\Reflection</Filter>
+    </ClCompile>
+    <ClCompile Include="ZGI\Widgets\ZGIGameView.cpp">
       <Filter>ZoranEngine\ZGI\Widgets</Filter>
     </ClCompile>
   </ItemGroup>
@@ -2226,6 +2241,21 @@
       <Filter>ZoranEngine\ZGI\Widgets</Filter>
     </ClInclude>
     <ClInclude Include="ZGI\Widgets\ZGITabHeader.h">
+      <Filter>ZoranEngine\ZGI\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\MapAsset.h">
+      <Filter>ZoranEngine\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Reflection\ZClassManager.h">
+      <Filter>ZoranEngine\Reflection</Filter>
+    </ClInclude>
+    <ClInclude Include="Reflection\ZClass.h">
+      <Filter>ZoranEngine\Reflection</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\MapResource.h">
+      <Filter>ZoranEngine\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="ZGI\Widgets\ZGIGameView.h">
       <Filter>ZoranEngine\ZGI\Widgets</Filter>
     </ClInclude>
   </ItemGroup>

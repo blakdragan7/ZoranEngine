@@ -132,7 +132,6 @@ int ZoranEngine::MainLoop()
 		double deltaTime = (cl.GetDiffSeconds());
 		float dt = static_cast<float>(deltaTime);
 		
-		gameWindow->SetFPS(1.0 / deltaTime);
 		deltaTime = min(1.0f / 60.0f, deltaTime);
 
 		cl.TakeClock();
@@ -182,82 +181,9 @@ bool ZoranEngine::Init()
 	audioEngine = new OALAudioEngine();
 	audioEngine->Init(NULL);
 
+
+
 	return true;
-}
-
-void ZoranEngine::CreateGameModeWindows(bool is3D)
-{
-	gameWindow = mainWindow->SetRootVirtualWindow<ZGIGameVirtualWindow>(Vector2D(0,0), mainWindow->GetSize(), mainWindow->GetSize(),is3D);
-	gameWindow->SetPlayerInstance(mainPlayer);
-
-	//debugWindow = gameWindow->AddSubWindow<ZGIDebugWindow>(Vector2D(600,0), Vector2D(600,900), mainWindow->GetSize());
-}
-
-void ZoranEngine::Setup2DScene(float centerx, float centery, float width, float height)
-{
-	main2DRenderEngine = new OpenGL2DRenderEngine();
-	main2DRenderEngine->InitEngine(mainWindow->GetHandle());
-
-	physicsEngine->SetupFor2D({ centerx, centery }, { width, height });
-
-	mainPlayer = new DebugPlayerInstance(new OrthoCamera("camera", width, height, 0));
-	mainPlayer->TranslateView(Vector2D(centerx, centery));
-	mainPlayer->WindowResizedView(mainWindow->GetSize());
-
-	FrameBufferBase* frameBuffer;
-	TextureBase* texture;
-	main2DRenderEngine->CreateFrameBuffer(&frameBuffer,&texture,mainWindow->GetSize());
-
-	frameBuffer->SetRenderFunction([](const Matrix44& cameraMatrix){
-		rEngine->DrawScene(cameraMatrix);
-	});
-
-	mainPlayer->SetCameraSceneBuffer(frameBuffer);
-}
-
-void ZoranEngine::Setup2DScene(Vector2D center, Vector2D size)
-{
-	main2DRenderEngine = new OpenGL2DRenderEngine();
-	main2DRenderEngine->InitEngine(mainWindow->GetHandle());
-
-	physicsEngine->SetupFor2D(center, size);
-
-	mainPlayer = new DebugPlayerInstance(new OrthoCamera("camera", size.w, size.h, 0));
-	mainPlayer->TranslateView(center);
-	mainPlayer->WindowResizedView(mainWindow->GetSize());
-
-	FrameBufferBase* frameBuffer;
-	TextureBase* texture;
-	main2DRenderEngine->CreateFrameBuffer(&frameBuffer, &texture, mainWindow->GetSize());
-
-	frameBuffer->SetRenderFunction([](const Matrix44& cameraMatrix) {
-		rEngine->DrawScene(cameraMatrix);
-	});
-
-	mainPlayer->SetCameraSceneBuffer(frameBuffer);
-}
-
-void ZoranEngine::Setup3DScene(Vector3D center, Vector3D size, float fov, float nearp, float farp)
-{
-	main3DRenderEngine = new OpenGL3DRenderEngine();
-	main3DRenderEngine->InitEngine(mainWindow->GetHandle());
-	is3D = true;
-
-	physicsEngine->SetupFor3D(center, size);
-	
-	mainPlayer = new DebugPlayerInstance(new PerspectiveCamera("camera", fov, size.x / size.y, nearp, farp));
-	mainPlayer->TranslateView(center);
-	mainPlayer->WindowResizedView(mainWindow->GetSize());
-
-	FrameBufferBase* frameBuffer;
-	TextureBase* texture;
-	main3DRenderEngine->CreateFrameBuffer(&frameBuffer, &texture, { 1920,1080 });
-
-	frameBuffer->SetRenderFunction([](const Matrix44& cameraMatrix) {
-		rEngine->DrawScene(cameraMatrix);
-	});
-
-	mainPlayer->SetCameraSceneBuffer(frameBuffer);
 }
 
 void ZoranEngine::SetRootWindow(ZGIVirtualWindow * rootWindow)
@@ -266,13 +192,15 @@ void ZoranEngine::SetRootWindow(ZGIVirtualWindow * rootWindow)
 	{
 		mainWindow->SetRootVirtualWindow(rootWindow);
 	}
+	else
+	{
+		LOG_ERROR << "Can not set root window because platform window mainWindow NULL\n";
+	}
 }
 
 void ZoranEngine::DrawStep()
 {
 	DEBUG_TAKE_BENCH;
-
-	GetRenderer()->DrawDebugGUI();
 }
 
 void ZoranEngine::KeyEvent(KeyEventType type, unsigned key)
@@ -288,20 +216,6 @@ void ZoranEngine::KeyEvent(KeyEventType type, unsigned key)
 				isPaused = !isPaused;
 				break;
 			}
-			case Key_Esc:
-				shouldRun = false;
-				break;
-			case 'P':
-				debugWindow->GetTree()->Print(0);
-				//if (physicsEngine)physicsEngine->GetCollisionBucketRoot()->PrintAllContents();
-				//if (physicsEngine)physicsEngine->GetCollisionBucketRoot()->PrintAllCollisions();
-				break;
-			case 'S':
-				if (isPaused)step = true;
-				break;
-			case 'B':
-				std::cout << *BenchMarker::Singleton() << std::endl;
-				break;
 		}
 		break;
 	case KeyEventType_Key_Up:

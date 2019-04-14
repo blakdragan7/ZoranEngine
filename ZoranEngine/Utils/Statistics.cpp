@@ -30,13 +30,8 @@ float BenchMarker::GetOneOverTotalSeconds()
 	return 1.0f / (float)(rootChain.nanoseconds / NANOSECONDS_PER_SECONDS);
 }
 
-void BenchMarker::DebugDraw()
+void BenchMarker::DebugDraw(ZGITreePanel* tree)
 {
-	return;
-	DebugWindow->SetFPS(1.0f / ((double)rootChain.nanoseconds / (double)NANOSECONDS_PER_SECONDS));
-
-	ZGITreePanel* tree = DebugWindow->GetTree();
-
 	TreeSocket& socket = tree->GetRootSocket();
 
 	std::stringstream ss;

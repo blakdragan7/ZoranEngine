@@ -70,11 +70,6 @@ void OpenGL2DRenderEngine::DrawScene(const Matrix44& cameraMatrix)
 	DEBUG_TRACK_TAKE_BENCH("OpenGLRenderEngine");
 }
 
-void OpenGL2DRenderEngine::DrawDebugGUI()
-{
-	DEBUG_DRAW;
-}
-
 void OpenGL2DRenderEngine::AddComponent(Visible2DComponent* component)
 {
 	
@@ -248,7 +243,7 @@ TextureBase* OpenGL2DRenderEngine::CreateTexture(void* data, RenderDataType buff
 	}
 }
 
-bool OpenGL2DRenderEngine::CreateFrameBuffer(FrameBufferBase** outBuffer, TextureBase** outTexture, Vec2I size, RenderDataType bufferType , RenderDataFormat bufferFormat )
+bool OpenGL2DRenderEngine::CreateFrameBuffer(FrameBufferBase** outBuffer, ImageResource* outTexture, Vec2I size, RenderDataType bufferType , RenderDataFormat bufferFormat )
 {
 	return context->CreateFrameBuffer(outBuffer, outTexture, bufferType, bufferFormat, size);
 }

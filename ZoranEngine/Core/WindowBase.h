@@ -60,7 +60,7 @@ public:
 	template<class WindowClass,typename ... Args>
 	WindowClass* SetRootVirtualWindow(Args ... args)
 	{
-		WindowClass* window = new WindowClass(args ...);
+		WindowClass* window = new WindowClass(args ..., Vector2D::Zero, GetSize(), GetSize());
 		SetRootVirtualWindow(window);
 		return window;
 	}

@@ -134,6 +134,8 @@
     <ClCompile Include="Physics\Collision\CollisionObjectBase.cpp" />
     <ClCompile Include="Physics\PhysicsEngine.cpp" />
     <ClCompile Include="Physics\PhysicsObjectBase.cpp" />
+    <ClCompile Include="Reflection\ZClass.cpp" />
+    <ClCompile Include="Reflection\ZClassManager.cpp" />
     <ClCompile Include="Rendering\FrameBufferBase.cpp" />
     <ClCompile Include="Rendering\OpenGL\2D\DebugShader2D.cpp" />
     <ClCompile Include="Rendering\OpenGL\2D\OpenGL2DRenderEngine.cpp" />
@@ -185,6 +187,7 @@
     <ClCompile Include="Resources\FontAsset.cpp" />
     <ClCompile Include="Resources\ImageAsset.cpp" />
     <ClCompile Include="Resources\ManagedResource.cpp" />
+    <ClCompile Include="Resources\MapAsset.cpp" />
     <ClCompile Include="Resources\ModelAsset.cpp" />
     <ClCompile Include="Resources\ResourceErrors.cpp" />
     <ClCompile Include="Resources\ResourceManager.cpp" />
@@ -282,6 +285,7 @@
     <ClCompile Include="ZGI\Widgets\ZGICheckBox.cpp" />
     <ClCompile Include="ZGI\Widgets\ZGIComboBox.cpp" />
     <ClCompile Include="ZGI\Widgets\ZGICursor.cpp" />
+    <ClCompile Include="ZGI\Widgets\ZGIGameView.cpp" />
     <ClCompile Include="ZGI\Widgets\ZGIImage.cpp" />
     <ClCompile Include="ZGI\Widgets\ZGILabel.cpp" />
     <ClCompile Include="ZGI\Widgets\ZGILabelButton.cpp" />
@@ -391,6 +395,8 @@
     <ClInclude Include="Physics\Collision\CollisionObjectBase.h" />
     <ClInclude Include="Physics\PhysicsEngine.h" />
     <ClInclude Include="Physics\PhysicsObjectBase.h" />
+    <ClInclude Include="Reflection\ZClass.h" />
+    <ClInclude Include="Reflection\ZClassManager.h" />
     <ClInclude Include="Rendering\FrameBufferBase.h" />
     <ClInclude Include="Rendering\OpenGL\2D\DebugShader2D.h" />
     <ClInclude Include="Rendering\OpenGL\2D\OpenGL2DRenderEngine.h" />
@@ -445,6 +451,8 @@
     <ClInclude Include="Resources\FontResource.h" />
     <ClInclude Include="Resources\ImageAsset.h" />
     <ClInclude Include="Resources\ImageResource.h" />
+    <ClInclude Include="Resources\MapAsset.h" />
+    <ClInclude Include="Resources\MapResource.h" />
     <ClInclude Include="Resources\ModelAsset.h" />
     <ClInclude Include="Resources\ManagedResource.h" />
     <ClInclude Include="Resources\ModelResource.h" />
@@ -780,6 +788,7 @@
     <ClInclude Include="ZGI\Widgets\ZGICheckBox.h" />
     <ClInclude Include="ZGI\Widgets\ZGIComboBox.h" />
     <ClInclude Include="ZGI\Widgets\ZGICursor.h" />
+    <ClInclude Include="ZGI\Widgets\ZGIGameView.h" />
     <ClInclude Include="ZGI\Widgets\ZGIImage.h" />
     <ClInclude Include="ZGI\Widgets\ZGILabel.h" />
     <ClInclude Include="ZGI\Widgets\ZGILabelButton.h" />

@@ -17,7 +17,7 @@ ZGITabHeaderPanel::~ZGITabHeaderPanel()
 {
 	// delete everything owned by innerPannel
 
-	int size = headers->size();
+	int size = (int)headers->size();
 
 	for (int i = 0; i < size; i++)
 	{
@@ -30,21 +30,28 @@ ZGITabHeaderPanel::~ZGITabHeaderPanel()
 
 void ZGITabHeaderPanel::AddHeader(ZGITabHeader * header)
 {
-
+	headers->push_back(header);
 }
 
 void ZGITabHeaderPanel::AddHeader(ZGITabHeader * header, int index)
 {
+	if (index < headers->size() && index >= 0)
+		headers->insert(headers->begin() + index, header);
+	else
+	{
+		LOG_ERROR << "ZGITabHeaderPanel::AddHeader index: " << index << " out of range. Appending to end instead !" << std::endl;
+		headers->push_back(header);
+	}
 }
 
-void ZGITabHeaderPanel::AddHeader(std::string & header)
+void ZGITabHeaderPanel::AddHeader(const std::string & header)
 {
 	ZGITabHeader* aheader = new ZGITabHeader(header, owningWindow);
 
 	AddHeader(aheader);
 }
 
-void ZGITabHeaderPanel::InsertHeader(int index, std::string & header)
+void ZGITabHeaderPanel::InsertHeader(int index, const std::string & header)
 {
 	ZGITabHeader* aheader = new ZGITabHeader(header, owningWindow);
 
@@ -53,7 +60,7 @@ void ZGITabHeaderPanel::InsertHeader(int index, std::string & header)
 
 void ZGITabHeaderPanel::SetHeaderActive(int index)
 {
-	if (headers->size() >= index)
+	if (headers->size() < index)
 	{
 		LOG_ERROR << "ZGITabHeaderPanel::SetHeaderActive: Index out of bounds" << std::endl;
 
@@ -101,6 +108,18 @@ void ZGITabHeaderPanel::RemoveHeaderNoDelete(ZGITabHeader* header)
 	headers->erase(itr);
 }
 
+int ZGITabHeaderPanel::IndexForName(const std::string & name) const
+{
+	auto itr = std::find(headers->begin(), headers->end(), name);
+	if (itr == headers->end())
+	{
+		LOG_ERROR << "ZGITabHeaderPanel::IndexForName Could Not Find Header for Name: " << name << std::endl;
+		return -1;
+	}
+
+	return (int)(itr - headers->begin());
+}
+
 ZGITabHeader * ZGITabHeaderPanel::RemoveHeaderNoDelete(int index)
 {
 	auto itr = headers->begin() + index;
@@ -128,9 +147,18 @@ bool ZGITabHeaderPanel::CanAddWidget(ZGIWidget * widget) const
 	return ContainsWidget(widget);
 }
 
+void ZGITabHeaderPanel::RemoveWidget(ZGIWidget * widget)
+{
+	auto itr = std::find(headers->begin(), headers->end(), widget);
+	if (itr != headers->end())
+	{
+		headers->erase(itr);
+	}
+}
+
 int ZGITabHeaderPanel::GetNumberOfWidgets() const
 {
-	return headers->size();
+	return (int)headers->size();
 }
 
 int ZGITabHeaderPanel::GetMaxNumberOfWidgets() const
@@ -155,6 +183,16 @@ void ZGITabHeaderPanel::ContainerResized(Vec2D newSize, Vec2D oldSize)
 
 void ZGITabHeaderPanel::Render(const Matrix44 & projection)
 {
+	if (isDirty)
+	{
+		for (size_t i=0;i<headers->size();i++)
+		{
+			ZGITabHeader* w = (*headers)[i];
+			w->SetSize({size.x / 6.0f, size.y});
+			w->SetPosition({position.x + (i * size.x / 6.0f), position.y});
+		}
+	}
+
 	for (auto w : *headers)
 	{
 		w->Render(projection);

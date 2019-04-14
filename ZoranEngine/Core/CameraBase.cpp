@@ -19,7 +19,7 @@ void CameraBase::SetSceneBuffer(FrameBufferBase * _sceneBuffer)
 	sceneBuffer = _sceneBuffer;
 }
 
-const TextureBase * CameraBase::GetCameraTexture()const
+const ImageResource CameraBase::GetCameraTexture()const
 {
 	if (sceneBuffer)return sceneBuffer->GetTargetTexture();
 	return nullptr;

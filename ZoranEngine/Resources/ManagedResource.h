@@ -29,7 +29,9 @@ public:
 
 	void operator=(const ManagedResource& other);
 	t &operator*();
+	const t &operator*()const;
 	t* operator->();
+	const t* operator->()const;
 
 	inline bool operator== (const ManagedResource& other)const
 	{return pointer == pointer;}

@@ -13,9 +13,12 @@ public:
 	
 	void AddWidget(ZGIWidget* widget);
 	void RemoveWidget(ZGIWidget* widget);
+	void RemoveWidget(int index);
 
 	void SetWidgetActive(ZGIWidget* widget);
 	void SetIndexActive(int index);
+
+	int IndexForWidget(ZGIWidget* widget)const;
 
 	/* Panel Override */
 

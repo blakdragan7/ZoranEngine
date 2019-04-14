@@ -11,7 +11,7 @@ void ZGIWidget::RecalculateModelCache()
 	modelCache = translate * scale  * rotation;
 }
 
-ZGIWidget::ZGIWidget(ZGIVirtualWindow* owningWindow) : parent(0), shouldDrawBrush(false), isDirty(false), mouseHasEntered(false), owningWindow(owningWindow)
+ZGIWidget::ZGIWidget(ZGIVirtualWindow* owningWindow) : parent(0), shouldDrawBrush(true), isDirty(false), mouseHasEntered(false), owningWindow(owningWindow)
 {
 	modelCache.makeIdentity();
 	translate.makeIdentity();

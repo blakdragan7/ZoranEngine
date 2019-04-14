@@ -90,7 +90,10 @@ void ZGIVirtualWindow::OSWindowWasResized(Vec2I newSize)
 
 void ZGIVirtualWindow::SetRootContent(ZGIWidget * widget)
 {
-	if (rootContent)delete rootContent;
+	if (rootContent)
+	{
+		DestroyWidget(rootContent);
+	}
 
 	rootContent = widget;
 	rootContent->SetSize(viewport->GetSize());

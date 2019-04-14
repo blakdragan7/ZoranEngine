@@ -4,6 +4,8 @@
 #include <Math/Vector2.h>
 #include <string>
 
+#include <Resources/ImageResource.h>
+
 class SceneObject;
 class FrameBufferBase;
 class TextureBase;
@@ -40,7 +42,7 @@ public:
 	virtual void ScreenResized(Vec2D Size) = 0;
 
 	virtual void CalculateModelCache() = 0;
-	virtual const TextureBase* GetCameraTexture()const;
+	virtual const ImageResource GetCameraTexture()const;
 
 	virtual void Render();
 };

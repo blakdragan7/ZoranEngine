@@ -197,7 +197,7 @@ OpenGLTexture * OpenGLContext::CreateTexture(void * data, RenderDataType bufferT
 	return texture;
 }
 
-bool OpenGLContext::CreateFrameBuffer(FrameBufferBase ** outBuffer, TextureBase ** outTexture, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2I size)
+bool OpenGLContext::CreateFrameBuffer(FrameBufferBase ** outBuffer, ImageResource * outTexture, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2I size)
 {
 	OpenGLFrameBuffer* frameBuffer = new OpenGLFrameBuffer(size, bufferType, bufferFormat, this);
 	*outBuffer = frameBuffer;

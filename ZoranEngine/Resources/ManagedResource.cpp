@@ -67,7 +67,19 @@ t &ManagedResource<t>::operator *()
 }
 
 template<typename t>
+const t & ManagedResource<t>::operator*() const
+{
+	return *pointer;
+}
+
+template<typename t>
 t * ManagedResource<t>::operator->()
+{
+	return pointer;
+}
+
+template<typename t>
+const t * ManagedResource<t>::operator->() const
 {
 	return pointer;
 }

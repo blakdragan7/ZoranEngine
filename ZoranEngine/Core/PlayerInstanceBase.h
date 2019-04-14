@@ -13,7 +13,7 @@ class Vector2D;
 class Vector3D;
 class Vector2I;
 class FrameBufferBase;
-class PlayerInstanceBase
+class ZoranEngine_EXPORT PlayerInstanceBase
 {
 protected:
 	CameraBase * playerCamera;

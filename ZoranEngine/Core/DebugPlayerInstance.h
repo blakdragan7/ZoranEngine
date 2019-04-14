@@ -1,7 +1,7 @@
 #pragma once
 #include <Core\PlayerInstanceBase.h>
 
-class DebugPlayerInstance : public PlayerInstanceBase
+class ZoranEngine_EXPORT DebugPlayerInstance : public PlayerInstanceBase
 {
 protected:
 	virtual void ViewWasResized(float w, float y)override;

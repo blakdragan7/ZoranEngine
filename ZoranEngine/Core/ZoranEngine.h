@@ -8,7 +8,6 @@
 #define r2Engine zEngine->GetRenderer2D()
 #define r3Engine zEngine->GetRenderer3D()
 #define aEngine zEngine->GetAudioEngine()
-#define DebugWindow zEngine->GetDebugWindow()
 #define Log(...) zEngine->logger->LogString(__VA_ARGS__);
 
 #define LOG_ERROR zEngine->logger->WrapperForLevel(LogLevel_Error)
@@ -29,8 +28,8 @@
 enum SpawnCollisionBehaviour
 {
 	Spawn_Collision_Behaviour_Ignore_Collision, // spawn regardless of collision
-	Spawn_Collision_Behaviour_Dont_Spawn, // don't sawn if colliding
-	Spawn_Collision_Behaviour_Adjust, // try to adjust the position of spawned object before spawning
+	Spawn_Collision_Behaviour_Dont_Spawn, // don't spawn if colliding
+	Spawn_Collision_Behaviour_Adjust, // try to adjust the position of spawned object before spawning if colliding
 };
 
 class ThreadBase;
@@ -50,12 +49,9 @@ class ZGIGameVirtualWindow;
 class ZoranEngine_EXPORT ZoranEngine
 {
 private:
-	ZGIDebugWindow * debugWindow;
-	ZGIGameVirtualWindow* gameWindow;
 	WindowBase* mainWindow;
 	RenderEngine2DBase* main2DRenderEngine;
 	RenderEngine3DBase* main3DRenderEngine;
-	PlayerInstanceBase* mainPlayer;
 
 	static ZoranEngine* instance;
 	bool shouldRun;
@@ -91,7 +87,6 @@ public:
 
 	int MainLoop();
 	bool Init();
-	void CreateGameModeWindows(bool is3D);
 	/* 
 	* All Input Events are converted to a common format, normall 'A' on OSx is not the same as 'A' on Windows
 	* so we convert them first in there respective WindowBase Implementations therefore, 
@@ -102,17 +97,13 @@ public:
 	void MouseEvent(MouseEventType,float value);
 	void MouseMove(float x,float y);
 	void ScreenResized(float width, float height);
-	// TODO: Eventually, these well be removed with a more custom way of choosing how the level is loaded
-	void Setup2DScene(float centerx, float centery, float width, float height); // in meters
-	void Setup2DScene(Vector2D center, Vector2D size); // in meters
-	void Setup3DScene(Vector3D center, Vector3D size, float fov,float nearp,float farp); // in meters
 
 	template<typename WindowClass>
 	WindowClass* SetRootWindow()
 	{
 		if (mainWindow)
 		{
-			return mainWindow->SetRootVirtualWindow<WindowClass>(Vector2D(0,0), mainWindow->GetSize(), mainWindow->GetSize());
+			return mainWindow->SetRootVirtualWindow<WindowClass>();
 		}
 
 		return nullptr;
@@ -128,7 +119,7 @@ public:
 		// TODO: collision test
 		if (false)
 		{
-			Log(LogLevel_Info, "Spawn Scene Object found collision");
+			LOG_INFO << "Spawn Scene Object " << name << " found collision" << std::endl;
 			return  nullptr;
 		}
 
@@ -146,7 +137,11 @@ public:
 	SceneObjectClass* SpawnSceneObjectAtLocation(std::string name, Vec3D position, Vec3D size, SpawnCollisionBehaviour=Spawn_Collision_Behaviour_Dont_Spawn)
 	{
 		// TODO: collision test
-		if (false)return  nullptr;
+		if (false)
+		{
+			LOG_INFO << "Spawn Scene Object " << name << " found collision" << std::endl;
+			return  nullptr;
+		}
 
 		SceneObjectClass* sceneObject = new SceneObjectClass(name);
 		sceneObject->SetPosition(position);
@@ -173,7 +168,6 @@ public:
 	inline AudioEngineBase* GetAudioEngine()const { return audioEngine; }
 	inline WindowBase* GetMainWindow()const { return mainWindow; }
 
-	inline ZGIDebugWindow* GetDebugWindow() { return debugWindow; };
 	static inline ZoranEngine* Instance() { return instance; }
 
 	inline void SetPaused(bool paused) { isPaused = paused; }

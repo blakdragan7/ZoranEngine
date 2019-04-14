@@ -38,7 +38,7 @@ public:
 	OpenGLTexture* CreateTexture(const char* path, RenderDataType bufferType, RenderDataFormat bufferFormat, int* error);
 	OpenGLTexture* CreateTexture(void* data, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2I size);
 
-	bool CreateFrameBuffer(FrameBufferBase** outBuffer, TextureBase** outTexture, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2I size);
+	bool CreateFrameBuffer(FrameBufferBase** outBuffer, ImageResource* outTexture, RenderDataType bufferType, RenderDataFormat bufferFormat, Vec2I size);
 
 	void SetLineWidth(float width);
 
