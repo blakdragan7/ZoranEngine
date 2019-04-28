@@ -1,13 +1,12 @@
 #include "stdafx.h"
 #include "FileLogger.h"
+#include "ConsoleLogger.h"
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <vector>
 
-#define file (*file_)
-
-FileLogger::FileLogger(std::string filePath)
+FileLogger::FileLogger(std::string filePath, bool logToConsole) : console(0)
 {
 	path = new std::string(filePath);
 	file_ = new std::fstream;
@@ -20,6 +19,13 @@ FileLogger::FileLogger(std::string filePath)
 	else
 	{
 		isGood = true;
+		(*file_) << "======= New Log Instance =======\n";
+	}
+
+	if (logToConsole)
+	{
+		console = new ConsoleLogger;
+		console->SetLogLevel(LogLevel_Info);
 	}
 }
 
@@ -31,16 +37,26 @@ FileLogger::~FileLogger()
 		delete file_;
 	}
 
+	if (console)delete console;
+
 	delete path;
 }
 
 void FileLogger::LogString(ELogLevel logLevel, const char * format, ...)
 {
+	if (this->logLevel > logLevel)return;
+
+	if (console)
+	{
+		va_list args;
+		va_start(args, format);
+		console->LogString(logLevel, format, args);
+		va_end(args);
+	}
+
 	if (isGood)
 	{
 		WaitForMutex();
-
-		if (this->logLevel > logLevel)return;
 
 		// initialize use of the variable argument array
 		va_list vaArgs;
@@ -85,5 +101,10 @@ void FileLogger::WriteString(std::string string)
 	else
 	{
 		std::cout << "Error: Trying To Write To Log File when it wasn't opened !\n";
+	}
+
+	if (console)
+	{
+		console->WriteString(string);
 	}
 }
