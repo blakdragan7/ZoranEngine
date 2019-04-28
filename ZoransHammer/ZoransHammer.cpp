@@ -34,6 +34,7 @@ int main(int argc, char* argv[])
 	bool shouldRecurse = false;
 	std::string directory;
 	std::string fileMask = ".h";
+	std::vector<std::string> filters;
 
 	cxxopts::Options options("ZoransHammer, Build Reflection Information for c++ classes");
 
@@ -42,6 +43,7 @@ int main(int argc, char* argv[])
 		options.add_options()
 			("r,recursive", "If Set, will parse files recursivly in directory", cxxopts::value<bool>()->default_value("false"))
 			("d,directory", "Set Directory For Parsing, This is required.", cxxopts::value<std::string>())
+			("i,ignore", "Set Filter for what to ignore, including files and directories.", cxxopts::value<std::string>())
 			("m,mask", "The file Mask ex cpp", cxxopts::value<std::string>()->default_value(".h"))
 			("h,help", "Print help");
 
@@ -58,6 +60,16 @@ int main(int argc, char* argv[])
 		if (result.count("directory") > 0)
 		{
 			directory = result["directory"].as<std::string>();
+		}
+		if (result.count("ignore") > 0)
+		{
+			if (result.count("ignore") == 1)
+			{
+				std::string filter = result["ignore"].as<std::string>();
+				filters.push_back(filter);
+			}
+			else
+				filters = result["ignore"].as<std::vector<std::string>>();
 		}
 		if (result.count("mask") > 0)
 		{
@@ -90,12 +102,24 @@ int main(int argc, char* argv[])
 
 	PClassDB db;
 	
-	std::string GeneratedSourceDir = ".generated";
+	std::string GeneratedSourceDir;
+	std::string generatedDir = ".generated";
+	if(directory.back() == '/')
+		GeneratedSourceDir = directory + generatedDir;
+	else
+		GeneratedSourceDir = directory + "/" + generatedDir;
 
-	int error = GetFilesInDir(directory, fileMask, shouldRecurse, [&db, GeneratedSourceDir](std::string filename, std::string filepath) {
+	int error = GetFilesInDir(directory, fileMask, shouldRecurse, [&db, generatedDir, filters](std::string filename, std::string filepath) {
 		if (filename == "pch.h")return;
 		if (filename == "stdafx.h")return;
-		if (filename.find(GeneratedSourceDir) != std::string::npos)return;
+		if (filename.find(generatedDir) != std::string::npos)return;
+		for (std::string filter : filters)
+		{
+			if (filepath.find(filter) != std::string::npos || filename.find(filter) != std::string::npos)
+			{
+				return;
+			}
+		}
 		std::string fullPath = filepath + filename;
 		db.ParseSourceFile(fullPath, filepath);
 	});
@@ -108,10 +132,10 @@ int main(int argc, char* argv[])
 	{
 		for (auto& c : db)
 		{
-			if (SourceGenerator::GenerateSourceToDir(c.second, GeneratedSourceDir) == false)
+			/*if (SourceGenerator::GenerateSourceToDir(c.second, GeneratedSourceDir) == false)
 			{
 				LOG_ERROR << "Failed Generating Source For " << c.second.name << std::endl;
-			}
+			}*/
 		}
 	}
 	return 0;

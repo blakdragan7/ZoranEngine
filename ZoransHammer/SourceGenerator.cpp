@@ -61,9 +61,7 @@ int mkdir_p(const char *path)
 bool SourceGenerator::GenerateSourceToDir(const PClass & theClass, std::string headerDir)
 {
 
-	std::string fullPath = headerDir + "/" + theClass.sourceDir;
-
-	RemoveStringFromString(fullPath, "../");
+	std::string fullPath = headerDir;
 
 	LOG_INFO << "Making Dir " << fullPath << std::endl;
 
@@ -76,7 +74,12 @@ bool SourceGenerator::GenerateSourceToDir(const PClass & theClass, std::string h
 		return false;
 	}
 
-	std::string headerPath = fullPath + theClass.name + ".generated.h";
+	std::string headerPath;
+
+	if(fullPath.back() == '/')
+		headerPath = fullPath + theClass.name + ".generated.h";
+	else
+		headerPath = fullPath + "/" + theClass.name + ".generated.h";
 
 	std::fstream file;
 
@@ -90,7 +93,7 @@ bool SourceGenerator::GenerateSourceToDir(const PClass & theClass, std::string h
 	{
 		file << SourceHeader_Header;
 
-		file << "#include <ZClass.h>\n\n";
+		file << "#include <Reflection/ZClass.h>\n\n";
 		file << "class " << GenClassName << " : public ZClass\n";
 
 		file << "{\n";
@@ -141,7 +144,12 @@ bool SourceGenerator::GenerateSourceToDir(const PClass & theClass, std::string h
 
 	LOG_INFO << "Generating Source" << std::endl;
 
-	std::string sourcePath = fullPath + theClass.name + ".generated.cpp";
+	std::string sourcePath;
+
+	if (fullPath.back() == '/')
+		sourcePath = fullPath + theClass.name + ".generated.cpp";
+	else
+		sourcePath = fullPath + "/" + theClass.name + ".generated.cpp";
 
 	file.open(sourcePath, std::ios::out | std::ios::trunc);
 
@@ -149,8 +157,8 @@ bool SourceGenerator::GenerateSourceToDir(const PClass & theClass, std::string h
 	{
 		file << SourceSource_Header;
 
-		file << "#include \"" << (theClass.name + ".generated.h") << "\"\n\n";
-		file << "#include \"" << theClass.sourceFile << "\"\n\n";
+		//file << "#include \"" << (theClass.name + ".generated.h") << "\"\n\n";
+		//file << "#include \"" << theClass.sourceFile << "\"\n\n";
 
 		file << "const " << GenClassName << " " << theClass.name << "::Class;\n";
 		if (theClass.isInterface == false)

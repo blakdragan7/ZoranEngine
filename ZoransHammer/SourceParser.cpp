@@ -401,6 +401,7 @@ bool SourceParser::GetLine(std::fstream & inFile, std::string & line)
 
 	bool isInImplementation = false;
 	bool isInComment = false;
+	bool isFunction = false;
 	char commentType = 0;
 
 	while (inFile.eof() == false)
@@ -469,10 +470,10 @@ bool SourceParser::GetLine(std::fstream & inFile, std::string & line)
 				test[1] = 0;
 				continue;
 			}
-			else if (strcmp(test, ": ") == 0)
+			else if (test[1] == ')')
 			{
-				line.pop_back(); // just remove last one since we know max size is 2
-				return true;
+				// using ')' instead of '(' because params could have : charecter 
+				isFunction = true;
 			}
 			else if (strcmp(test, ":\n") == 0)
 			{
@@ -482,6 +483,27 @@ bool SourceParser::GetLine(std::fstream & inFile, std::string & line)
 			else if (strcmp(test, ":\r") == 0)
 			{
 				line.pop_back(); // just remove last one since we know max size is 2
+				return true;
+			}
+			else if (strcmp(test, ": ") == 0 || (isFunction == true && test[0] == ':'))
+			{
+				line.pop_back(); // just remove last one since we know max size is 2
+
+				if (isFunction) // this is a function so skip impplementation marked by : for constructor
+				{
+					LOG_INFO << "Skipping inline function definition" << std::endl;
+
+					while (g != '}' && inFile.eof() == false)g = inFile.get();
+					{
+						if (g != '}')
+						{
+							LOG_ERROR << "Error Getting End Of function Implementation !" << std::endl;
+							return false;
+						}
+					}
+
+				}
+
 				return true;
 			}
 			else if (strcmp(test, "//") == 0) // start comment with type /
