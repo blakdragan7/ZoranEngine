@@ -28,8 +28,10 @@ int main(int argc, char* argv[])
 
 	//Spawned->DoAThing();
 
-	//logger = new FileLogger("error.log");
-	logger = new ConsoleLogger();
+	logger = new FileLogger("info.log");
+	//logger = new ConsoleLogger();
+
+	logger->SetLogLevel(LogLevel_Info);
 
 	bool shouldRecurse = false;
 	std::string directory;

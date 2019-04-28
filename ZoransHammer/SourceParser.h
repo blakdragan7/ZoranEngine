@@ -16,6 +16,7 @@ private:
 	void RemoveEmptyStrings(std::vector<std::string>& vector);
 
 	std::vector<std::string> SplitAtFirst(std::string& string, const char delim);
+	std::vector<std::string> SplitAtLast(std::string& string, const char delim);
 
 	bool SkipTemplate(std::fstream& inFile);
 

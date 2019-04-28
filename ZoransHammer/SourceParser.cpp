@@ -33,19 +33,45 @@ std::vector<std::string> SourceParser::SplitAtFirst(std::string & string, const 
 	std::string first;
 	bool firstB = true;
 
-	for (auto c : string)
+	size_t pos = string.find_first_of(delim);
+
+	if (pos != std::string::npos)
 	{
-		if (c == delim && firstB)
-		{
-			ret.push_back(first);
-			first.clear();
-			firstB = false;
-		}
-		else
-			first.push_back(c);
+		std::string first(string.begin(), string.begin() + pos);
+		std::string second(string.begin() + pos + 1, string.end());
+
+		ret.push_back(first);
+		ret.push_back(second);
+	}
+	else
+	{
+		ret.push_back(string);
 	}
 
-	ret.push_back(first);
+	return ret;
+}
+
+std::vector<std::string> SourceParser::SplitAtLast(std::string& string, const char delim)
+{
+	std::vector<std::string> ret;
+
+	std::string first;
+	bool firstB = true;
+
+	size_t pos = string.find_last_of(delim);
+
+	if (pos != std::string::npos)
+	{
+		std::string first(string.begin(), string.begin() + pos);
+		std::string second(string.begin() + pos, string.end());
+
+		ret.push_back(first);
+		ret.push_back(second);
+	}
+	else
+	{
+		ret.push_back(string);
+	}
 
 	return ret;
 }
@@ -253,6 +279,8 @@ int SourceParser::GoToEndOfClassDec(std::fstream& inFile, std::string & line)
 
 PType SourceParser::ParseType(std::string & info)
 {
+	LOG_INFO << "Parsing Type Info " << info << std::endl;
+
 	auto splitStr = SplitString(info, " "); // split string by whitespace
 
 	PType type;
@@ -276,29 +304,65 @@ PType SourceParser::ParseType(std::string & info)
 
 bool SourceParser::ParseFunction(std::string & info, PFunction& function)
 {
+	LOG_INFO << "Parsing Function info " << info << std::endl;
+
 	std::string typeInfo;
 
-	auto fStrings = SplitAtFirst(info, '(');
+	std::vector<std::string> fStrings;
+	std::vector<std::string> _Fstrings;
 
-	auto _Fstrings = SplitString(fStrings[0], " ");
+	size_t pos = std::string::npos;
 
-	function.name = _Fstrings.back();
+	if (( pos = info.find("operator()")) != std::string::npos)
+	{
+		info.erase(pos, 10);
 
+		fStrings = SplitAtFirst(info, '(');
+
+		_Fstrings = SplitString(fStrings[0], " ");
+
+		function.name = "operator()";
+	}
+	else
+	{
+		fStrings = SplitAtFirst(info, '(');
+
+		_Fstrings = SplitString(fStrings[0], " ");
+
+		function.name = _Fstrings.back();
+	}
+
+	
 	if (_Fstrings.size() > 1)
 	{
-		_Fstrings.pop_back();
+		if (_Fstrings.back() == "")
+			_Fstrings.pop_back();
 
-		if (_Fstrings[0] == "static")
-		{
-			function.isStatic = true;
-			_Fstrings.erase(_Fstrings.begin());
-		}
+		bool shouldCycle = false;
 
-		if (_Fstrings[0] == "virtual")
+		do
 		{
-			function.isVirtual = true;
-			_Fstrings.erase(_Fstrings.begin());
-		}
+			if (_Fstrings[0] == "static")
+			{
+				function.isStatic = true;
+				_Fstrings.erase(_Fstrings.begin());
+				shouldCycle = true;
+			}
+			else if (_Fstrings[0] == "virtual")
+			{
+				function.isVirtual = true;
+				_Fstrings.erase(_Fstrings.begin());
+				shouldCycle = true;
+			}
+			else if (_Fstrings[0] == "inline")
+			{
+				_Fstrings.erase(_Fstrings.begin());
+				shouldCycle = true;
+			}
+			else
+				shouldCycle = false;
+
+		} while (shouldCycle);
 
 		for (auto s : _Fstrings)
 		{
@@ -312,7 +376,7 @@ bool SourceParser::ParseFunction(std::string & info, PFunction& function)
 		function.returnType.memberName = "function_return";
 	}
 
-	auto _vs = SplitString(fStrings[1], ")");
+	auto _vs = SplitAtLast(fStrings[1], ')');
 
 	if (_vs.size() != 2)
 	{
@@ -351,6 +415,8 @@ bool SourceParser::ParseFunction(std::string & info, PFunction& function)
 
 int SourceParser::ParseClassDeclaration(PClass & theClass, std::string info)
 {
+	LOG_INFO << "Parsing Class Info " << info << std::endl;
+
 	using namespace std;
 
 	string copy = info;
@@ -402,6 +468,7 @@ bool SourceParser::GetLine(std::fstream & inFile, std::string & line)
 	bool isInImplementation = false;
 	bool isInComment = false;
 	bool isFunction = false;
+	bool isPreProccessor = false;
 	char commentType = 0;
 
 	while (inFile.eof() == false)
@@ -457,6 +524,18 @@ bool SourceParser::GetLine(std::fstream & inFile, std::string & line)
 
 			continue;
 		}
+		else if (isPreProccessor)
+		{
+			LOG_INFO << "Skipping Pre-processor Macro " << std::endl;
+
+			while (g != '\n' && inFile.eof() == false)g = inFile.get(); // go to end of line
+			if (g != '\n')
+			{
+				// this is just a warning because the preprocccesor macro could simply be the last line of the file
+				LOG_WARNING << "Could not find end of PreProcessor Macro !!\n";
+				return false;
+			}
+		}
 		else
 		{
 			if (test[1] == ';')
@@ -478,11 +557,43 @@ bool SourceParser::GetLine(std::fstream & inFile, std::string & line)
 			else if (strcmp(test, ":\n") == 0)
 			{
 				line.pop_back(); // just remove last one since we know max size is 2
+
+				if (isFunction) // this is a function so skip impplementation marked by : for constructor
+				{
+					LOG_INFO << "Skipping inline function definition" << std::endl;
+
+					while (g != '}' && inFile.eof() == false)g = inFile.get();
+					{
+						if (g != '}')
+						{
+							LOG_ERROR << "Error Getting End Of function Implementation !" << std::endl;
+							return false;
+						}
+					}
+
+				}
+
 				return true;
 			}
 			else if (strcmp(test, ":\r") == 0)
 			{
 				line.pop_back(); // just remove last one since we know max size is 2
+
+				if (isFunction) // this is a function so skip impplementation marked by : for constructor
+				{
+					LOG_INFO << "Skipping inline function definition" << std::endl;
+
+					while (g != '}' && inFile.eof() == false)g = inFile.get();
+					{
+						if (g != '}')
+						{
+							LOG_ERROR << "Error Getting End Of function Implementation !" << std::endl;
+							return false;
+						}
+					}
+
+				}
+
 				return true;
 			}
 			else if (strcmp(test, ": ") == 0 || (isFunction == true && test[0] == ':'))
@@ -522,6 +633,11 @@ bool SourceParser::GetLine(std::fstream & inFile, std::string & line)
 				commentType = '*';
 				test[0] = 0;
 				test[1] = 0;
+				continue;
+			}
+			else if (test[1] == '#')
+			{
+				isPreProccessor = true;
 				continue;
 			}
 
@@ -574,7 +690,7 @@ bool SourceParser::ParseFile(std::string& file, std::string &dir)
 			MoveToChar(inFile, '\n');// skip line
 			continue;
 		}
-		else if (word == "/*")
+		else if (word.find("/*") != std::string::npos)
 		{
 			bool found = false;
 			char test[3] = { 0 };
