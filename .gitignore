@@ -1,6 +1,9 @@
 # Prerequisites
 *.d
 
+# ZoransHammer Generated Files
+*.generated.*
+
 # Compiled Object files
 *.slo
 *.lo
