@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="Entry" Bounds="-199.066718012492,-24.0000004577637,50,25.96" UseManualLocation="True" />
+    <Node Id="LoadAllEngineSpecificConfigData" Category="Comment" Bounds="-170.410731119047,-289.633396773764,211.773333333333,25.96" Label="Load All Engine Specific Config Data" UseManualLocation="True" />
+    <Node Id="LoadAllPlatformSpecificData" Category="Comment" Bounds="-22.8160156366615,-228.201366658274,182.703333333333,25.96" Label="Load All Platform Specific Data" UseManualLocation="True" />
+    <Node Id="LoadConfigFiles" Bounds="-119.066718012492,-24.0393748092651,103.876666666667,25.96" UseManualLocation="True" />
+    <Node Id="LoadGameInstance" Bounds="16.2149479166666,-24.5396875,120.666666666667,25.96" UseManualLocation="True" />
+    <Node Id="LoadLevel" Bounds="173.975026228114,-21.9766681846383,72.71,25.96" UseManualLocation="True" />
+    <Node Id="LoadLevelFile" Category="Comment" Bounds="98.0379803916795,-164.033371485038,221.55,25.96" Label="Load Level File And Start Default Level" UseManualLocation="True" />
+    <Node Id="RunLevelTick" Bounds="284.802696331422,-20.1190029179274,88.3133333333333,25.96" UseManualLocation="True" />
+    <Node Id="TheEntryPointToTheEngine" Category="Comment" Bounds="-337.624238688151,-109.269952365112,177.163333333333,25.96" Label="The Entry Point To The Engine" UseManualLocation="True" />
+  </Nodes>
+  <Links>
+    <Link Source="Entry" Target="LoadConfigFiles" Bounds="-149.066718012492,-11.0369375105176,21.0000006100599,0.0077321329010509" />
+    <Link Source="LoadAllEngineSpecificConfigData" Target="LoadConfigFiles" Bounds="-66.9128608830629,-263.673396773764,2.26151918139215,230.634454611177" />
+    <Link Source="LoadAllPlatformSpecificData" Target="LoadGameInstance" Bounds="69.0463211800567,-202.241366658274,6.63747801936287,168.708636450767" />
+    <Link Source="LoadConfigFiles" Target="LoadGameInstance" Bounds="-15.190051345825,-11.3182542858214,22.4050538281148,0.0780191598566979" />
+    <Link Source="LoadGameInstance" Target="LoadLevel" Bounds="136.881614583334,-10.4038085815512,28.0950628575088,0.538251229881" />
+    <Link Source="LoadLevel" Target="RunLevelTick" Bounds="246.685026228114,-8.42737038183403,29.1187733772678,0.45598277276947" />
+    <Link Source="LoadLevelFile" Target="LoadLevel" Bounds="208.951595849447,-138.073371485038,1.14370798803597,107.097216456282" />
+    <Link Source="TheEntryPointToTheEngine" Target="Entry" Bounds="-237.629564704509,-83.309952365112,46.2069451764335,52.5511052199205" />
+  </Links>
+  <Categories>
+    <Category Id="Comment" Label="Comment" Description="Represents a user defined comment on the diagram" CanBeDataDriven="True" IsProviderRoot="False" NavigationActionLabel="Comments" />
+  </Categories>
+  <Properties>
+    <Property Id="Bounds" DataType="System.Windows.Rect" />
+    <Property Id="CanBeDataDriven" Label="CanBeDataDriven" Description="CanBeDataDriven" DataType="System.Boolean" />
+    <Property Id="Expression" DataType="System.String" />
+    <Property Id="GroupLabel" DataType="System.String" />
+    <Property Id="IsEnabled" DataType="System.Boolean" />
+    <Property Id="IsProviderRoot" Label="IsProviderRoot" Description="IsProviderRoot" DataType="System.Boolean" />
+    <Property Id="Label" Label="Label" Description="Displayable label of an Annotatable object" DataType="System.String" />
+    <Property Id="NavigationActionLabel" Label="NavigationActionLabel" Description="NavigationActionLabel" DataType="System.String" />
+    <Property Id="TargetType" DataType="System.Type" />
+    <Property Id="UseManualLocation" DataType="System.Boolean" />
+    <Property Id="Value" DataType="System.String" />
+    <Property Id="ValueLabel" DataType="System.String" />
+  </Properties>
+  <Styles>
+    <Style TargetType="Node" GroupLabel="Comment" ValueLabel="Has comment">
+      <Condition Expression="HasCategory('Comment')" />
+      <Setter Property="Background" Value="#FFFFFACD" />
+      <Setter Property="Stroke" Value="#FFE5C365" />
+      <Setter Property="StrokeThickness" Value="1" />
+      <Setter Property="NodeRadius" Value="2" />
+      <Setter Property="MaxWidth" Value="250" />
+    </Style>
+  </Styles>
+</DirectedGraph>
