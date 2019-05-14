@@ -75,6 +75,7 @@ struct  ZoranEngine_EXPORT CollisionPoint
 		massNormal = 0;
 		massTangent = 0;
 		bias = 0;
+		edges = {0,0,0,0};
 	}
 };
 
