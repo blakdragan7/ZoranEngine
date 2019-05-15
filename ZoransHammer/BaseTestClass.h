@@ -14,6 +14,7 @@ public:
 
 	BaseTestClass();
 	virtual void DoAThing() = 0;
+	virtual void DoAnotherThing();
 
 };
 

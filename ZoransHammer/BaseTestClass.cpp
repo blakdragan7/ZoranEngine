@@ -6,3 +6,7 @@ BaseTestClass::BaseTestClass() : f(10)
 {
 }
 
+void BaseTestClass::DoAnotherThing()
+{
+}
+
