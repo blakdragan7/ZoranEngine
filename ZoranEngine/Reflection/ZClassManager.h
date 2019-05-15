@@ -5,7 +5,7 @@
 
 #include "ZClass.h"
 
-class ZClassManager
+class ZoranEngine_EXPORT ZClassManager
 {
 private:
 	static ZClassManager* TheManager;
