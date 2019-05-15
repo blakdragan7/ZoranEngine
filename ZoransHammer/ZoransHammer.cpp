@@ -19,7 +19,7 @@
 LoggerBase* logger = 0;
 
 #include "BaseTestClass.h"
-#include "ZClassManager.h"
+#include <Reflection/ZClassManager.h>
 
 int main(int argc, char* argv[])
 {
@@ -29,9 +29,8 @@ int main(int argc, char* argv[])
 	//Spawned->DoAThing();
 
 	logger = new FileLogger("info.log");
-	//logger = new ConsoleLogger();
 
-	logger->SetLogLevel(LogLevel_Info);
+	logger->SetLogLevel(LogLevel_Error);
 
 	bool shouldRecurse = false;
 	std::string directory;
@@ -47,6 +46,7 @@ int main(int argc, char* argv[])
 			("d,directory", "Set Directory For Parsing, This is required.", cxxopts::value<std::string>())
 			("i,ignore", "Set Filter for what to ignore, including files and directories.", cxxopts::value<std::string>())
 			("m,mask", "The file Mask ex cpp", cxxopts::value<std::string>()->default_value(".h"))
+			("l,logLevel", "The log level", cxxopts::value<std::string>()->default_value("error"))
 			("h,help", "Print help");
 
 		auto result = options.parse(argc, argv);
@@ -76,6 +76,19 @@ int main(int argc, char* argv[])
 		if (result.count("mask") > 0)
 		{
 			fileMask = result["mask"].as<std::string>();
+		}
+		if (result.count("logLevel") > 0)
+		{
+			std::string logLevel = result["logLevel"].as<std::string>();
+		
+			if (logger->SetLogLevel(logLevel) == false)
+			{
+				std::cout << "Invalid LogLevel: " << logLevel << std::endl;
+				std::cout << "Use -h for more info" << std::endl;
+				std::cout << "Using default log level of \"error\" " << std::endl;
+
+				logger->SetLogLevel(LogLevel_Error);
+			}
 		}
 	}
 	catch (const cxxopts::OptionParseException& e)
@@ -134,10 +147,10 @@ int main(int argc, char* argv[])
 	{
 		for (auto& c : db)
 		{
-			/*if (SourceGenerator::GenerateSourceToDir(c.second, GeneratedSourceDir) == false)
+			if (SourceGenerator::GenerateSourceToDir(c.second, GeneratedSourceDir) == false)
 			{
 				LOG_ERROR << "Failed Generating Source For " << c.second.name << std::endl;
-			}*/
+			}
 		}
 	}
 	return 0;
