@@ -8,7 +8,7 @@ ZClass::ZClass(std::string ClassName, std::vector<std::string> Parents) : ClassN
 	CM->RegisterClassForName(ClassName, this); 
 }
 
-void * ZClass::SpawnDynamic() const
+void* ZClass::SpawnDynamic() const
 {
 	return nullptr;
 }
