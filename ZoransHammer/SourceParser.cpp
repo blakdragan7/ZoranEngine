@@ -332,7 +332,6 @@ bool SourceParser::ParseFunction(std::string & info, PFunction& function)
 		function.name = _Fstrings.back();
 	}
 
-	
 	if (_Fstrings.size() > 1)
 	{
 		if (_Fstrings.back() == "")
@@ -351,6 +350,15 @@ bool SourceParser::ParseFunction(std::string & info, PFunction& function)
 			else if (_Fstrings[0] == "virtual")
 			{
 				function.isVirtual = true;
+				if (fStrings.size() > 1)
+				{
+					if (fStrings[1].find('=') != std::string::npos && fStrings[1].find('0') != std::string::npos)
+					{
+						LOG_VERBOSE << "Found Virtual Function !" << std::endl;
+						function.isAbstract = true;
+					}
+				}
+
 				_Fstrings.erase(_Fstrings.begin());
 				shouldCycle = true;
 			}
@@ -612,7 +620,6 @@ bool SourceParser::GetLine(std::fstream & inFile, std::string & line)
 							return false;
 						}
 					}
-
 				}
 
 				return true;
