@@ -13,7 +13,7 @@
 #endif
 
 const char* SourceHeader_Header =
-"/* Generated For Reflection Information With Zoran'shammer */\n#pragma once\n\n";
+"/* Generated For Reflection Information With Zoran's Hammer */\n#pragma once\n\n";
 
 
 const char* SourceSource_Header =
@@ -60,7 +60,6 @@ int mkdir_p(const char *path)
 
 bool SourceGenerator::GenerateSourceToDir(const PClass & theClass, std::string headerDir)
 {
-
 	std::string fullPath = headerDir;
 
 	LOG_INFO << "Making Dir " << fullPath << std::endl;
@@ -123,8 +122,8 @@ bool SourceGenerator::GenerateSourceToDir(const PClass & theClass, std::string h
 
 		file << "#undef GENERATED_ZCLASS\n";
 		file << "#define GENERATED_ZCLASS ";
-		file << "static const " << GenClassName << " Class; \\\n";
-		file << "static const ZClass* GetStaticClass() {return &Class;}\n";
+		file << "static const " << GenClassName << " i" << GenClassName << "; \\\n";
+		file << "static const ZClass* GetStaticClass() {return &i"<< GenClassName << ";}\n";
 
 		file.close();
 
@@ -160,11 +159,14 @@ bool SourceGenerator::GenerateSourceToDir(const PClass & theClass, std::string h
 		//file << "#include \"" << (theClass.name + ".generated.h") << "\"\n\n";
 		//file << "#include \"" << theClass.sourceFile << "\"\n\n";
 
-		file << "const " << GenClassName << " " << theClass.name << "::Class;\n";
+		file << "const " << GenClassName << " " << theClass.name << "::i" << GenClassName << ";\n";
 		if (theClass.isInterface == false)
 		{
 			file << "void* " << GenClassName << "::" << "SpawnDynamic()const\n";
-			file << "{\n\treturn (void*)(new " << theClass.name << ");\n}\n";
+			if (theClass.isInterface == false)
+				file << "{\n\treturn (void*)(new " << theClass.name << ");\n}\n";
+			else
+				file << "{\n\treturn 0;\n}\n";
 		}
 
 		file.close();
