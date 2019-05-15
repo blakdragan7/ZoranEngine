@@ -155,7 +155,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BaseTestClass.h" />
-    <ClInclude Include="ZClass.h" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Reflection.h" />
@@ -167,7 +166,6 @@
     <ClInclude Include="PClassDB.h" />
     <ClInclude Include="PFunction.h" />
     <ClInclude Include="PType.h" />
-    <ClInclude Include="ZClassManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseTestClass.cpp" />
@@ -183,8 +181,6 @@
     <ClCompile Include="PClass.cpp" />
     <ClCompile Include="PClassDB.cpp" />
     <ClCompile Include="PFunction.cpp" />
-    <ClCompile Include="ZClass.cpp" />
-    <ClCompile Include="ZClassManager.cpp" />
     <ClCompile Include="ZoransHammer.cpp" />
     <ClCompile Include="PType.cpp" />
   </ItemGroup>
