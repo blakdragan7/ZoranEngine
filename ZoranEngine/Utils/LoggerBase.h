@@ -29,6 +29,7 @@ public:
 	LogWrapper WrapperForLevel(ELogLevel logLevel);
 
 	void SetLogLevel(ELogLevel logLevel);
+	bool SetLogLevel(const std::string& logLevel);
 	virtual void LogString(ELogLevel logLevel, const char* log, ...) = 0;
 	virtual void WriteString(std::string string) = 0;
 
@@ -70,3 +71,5 @@ public:
 		return *this;
 	}
 };
+
+extern bool LogLevelFromString(const std::string& string, ELogLevel& logLevel);
