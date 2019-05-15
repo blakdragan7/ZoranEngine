@@ -747,11 +747,11 @@
     <ClCompile Include="Reflection\ZClassManager.cpp">
       <Filter>ZoranEngine\Reflection</Filter>
     </ClCompile>
-    <ClCompile Include="Reflection\ZClass.cpp">
-      <Filter>ZoranEngine\Reflection</Filter>
-    </ClCompile>
     <ClCompile Include="ZGI\Widgets\ZGIGameView.cpp">
       <Filter>ZoranEngine\ZGI\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="Reflection\ZClass.cpp">
+      <Filter>ZoranEngine\Reflection</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
