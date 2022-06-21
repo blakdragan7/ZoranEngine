@@ -2,7 +2,7 @@
 	path = submodules/assimp
 	url = https://github.com/assimp/assimp
 [submodule "submodules\\msdfgen"]
-	path = submodules\\msdfgen
+	path = submodules/msdfgen
 	url = https://github.com/Chlumsky/msdfgen
 [submodule "submodules/icu"]
 	path = submodules/icu
